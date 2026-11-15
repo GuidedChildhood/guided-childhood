@@ -76,6 +76,16 @@ const DOCS: Doc[] = [
     body: 'One staff meeting that starts the scheme: how a lesson runs, the print room, the flagged modules, disclosures, and the no pupil data ground rule. Run it from the projector.',
   },
   {
+    href: '/hub/subject-lead', icon: 'compass', disc: 'teal', accent: 'var(--green-dark)',
+    title: 'The subject lead kit',
+    body: 'Deep dive questions with the page that answers each one, a pupil voice sheet done by a show of hands, a staff confidence audit, and why every lesson has the same shape. Three pages to print.',
+  },
+  {
+    href: '/languages/fr', icon: 'compass', disc: 'coral', accent: 'var(--terracotta-dark)',
+    title: 'Included: KS2 French',
+    body: 'French for Years 3 and 4, in your licence at no extra cost. Slides with audio, songs, sheets in three versions with answers, and an assessment map. It opens with your school code and grows each half term.',
+  },
+  {
     href: '/hub/progression', icon: 'compass', disc: 'pink', accent: 'var(--green-dark)',
     title: 'The progression map',
     body: 'What each year teaches, from Reception to Year 13, with the earlier lessons each one builds on and the later ones it leads to. The page for the question a subject lead is asked first.',

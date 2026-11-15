@@ -264,3 +264,7 @@ The sync could not open its own pull request (the repository setting is still of
 - Reason: the daily minutes are our own steer set under the published guidance. WHO 2020 gives no screen number for ages 5 to 17, so "healthy" claimed more than we can show. The three emails now say "set under what the WHO, AAP, Canadian guidelines and RCPCH say", not "drawn straight from".
 - The area name "Healthy balance" (passport, lessons) is a title, not a claim about a number, and stays.
 - Board tasks due 21 November (walkthrough campaign, one family's first day, first paying family, Fable 5.2 compare) snoozed a week at his word.
+
+## 15 November 2026: French is in every school's licence, and the gaps against the paid schemes
+
+Justin: "all schools get french", the author agreed, under our branding. A school's scheme code now opens French with no second code: the proxy mints the French cookie from the scheme cookie, French only, rechecked against the scheme list on every request. It is on the pricing list and the Hub. From the review of Oak, Kapow, Jigsaw, Project Evolve, Twinkl and Language Angels: a subject lead kit (deep dive questions with the page that answers each, a pupil voice sheet, a staff audit, how the lessons are designed), an end of year "can say" list per year on the year plan from each lesson's own outcome, In short on nine long Hub pages, and the SEND page corrected. Not built: adapted versions of the printable sheets (each needs writing), pupil voice recorded online (needs a legal version), songs and a home practice site. PR 1557.

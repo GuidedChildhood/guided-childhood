@@ -3,7 +3,7 @@ import { ACCESS_COOKIE, isOpenPath, tokenAccess } from '@/lib/access'
 import { FREE_LESSON_COOKIE, isTasterPath, standaloneModuleOf } from '@/lib/taster'
 import { isPilotPath } from '@/lib/pilot'
 import {
-  LANGUAGES_COOKIE, LANGUAGES_DOOR, isLanguagesPath, langOfPath, languagesLive, languagesTokenAccess,
+  LANGUAGES_COOKIE, LANGUAGES_DOOR, isLanguagesPath, issueSchemeLanguagesToken, langOfPath, languagesLive, languagesTokenAccess,
 } from '@/lib/languages-access'
 
 // The outer door of the schools site (Next 16 calls this file proxy.ts; it is
@@ -85,6 +85,19 @@ async function languagesGate(request: NextRequest) {
   // A code for the other language goes back to the languages home, which only
   // lists what the code opens.
   if (access && lang) return NextResponse.redirect(new URL('/languages', request.url))
+
+  // French is in every school's licence: a school with a valid scheme cookie
+  // is given the French cookie here, once, and sent on to the page it asked
+  // for. No second code to find or type.
+  const schemeToken = request.cookies.get(ACCESS_COOKIE)?.value
+  if (!access && schemeToken && (await tokenAccess(schemeToken))) {
+    const res = NextResponse.redirect(pathname === LANGUAGES_DOOR ? new URL('/languages', request.url) : request.nextUrl)
+    res.cookies.set(LANGUAGES_COOKIE, await issueSchemeLanguagesToken(schemeToken.split('|')[0] ?? ''), {
+      httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: 180 * 24 * 60 * 60,
+    })
+    res.headers.set('X-Robots-Tag', 'noindex, nofollow')
+    return res
+  }
 
   if (pathname === LANGUAGES_DOOR) return pass()
 
