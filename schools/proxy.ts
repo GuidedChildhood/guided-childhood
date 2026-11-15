@@ -3,7 +3,7 @@ import { ACCESS_COOKIE, isOpenPath, tokenAccess } from '@/lib/access'
 import { FREE_LESSON_COOKIE, isTasterPath, standaloneModuleOf } from '@/lib/taster'
 import { isPilotPath } from '@/lib/pilot'
 import {
-  LANGUAGES_COOKIE, LANGUAGES_DOOR, isLanguagesPath, issueSchemeLanguagesToken, langOfPath, languagesLive, languagesTokenAccess,
+  LANGUAGES_COOKIE, LANGUAGES_DOOR, isFrenchTasterPath, isLanguagesPath, issueSchemeLanguagesToken, langOfPath, languagesLive, languagesTokenAccess,
 } from '@/lib/languages-access'
 
 // The outer door of the schools site (Next 16 calls this file proxy.ts; it is
@@ -100,6 +100,9 @@ async function languagesGate(request: NextRequest) {
   }
 
   if (pathname === LANGUAGES_DOOR) return pass()
+
+  // The free taster: one French lesson and its teach screen, open to anyone.
+  if (isFrenchTasterPath(pathname)) return pass()
 
   // Hidden: until LANGUAGES_LIVE is on, a stranger meets a plain 404, never
   // the door, so nothing tells them the area exists.
