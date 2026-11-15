@@ -1,8 +1,8 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { sessionUser } from '@/lib/supabase/session'
 import BackTo from '@/components/nav/BackTo'
-import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
 import NoPhoneButton from '@/components/quests/NoPhoneButton'
 import ShareQrButton from '@/components/quests/ShareQrButton'
@@ -19,15 +19,57 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { getBoardStatus, type BoardStatus } from '@/lib/quests/board-status'
 
-// Family Quests: the whole deal on one page now. The board leads (it moved
-// here from Home when the daily screen narrowed): the approve queue, every
-// child's day at a glance, the goal bars and the tick anything list. Then
-// the manager: set the quests, the stars, the goal, send the kid their link
-// or print the sheet. Sending a lesson to the child moved to the Lessons tab
-// (its one home now), so this page points there rather than duplicating it.
+// Family Quests: the day, and nothing else.
+//
+// Justin, 15 November 2026, with a screenshot of this page: "seems way too
+// much, needs to look tidy, easy to use". Measured on a phone with a two child
+// family it was 17 screens long with 124 things to tap, and three components
+// each fetching the same board. The first screen and a half was the day. The
+// other fifteen were the setup manager, most of which already had a page of
+// its own (add a job, the timer, the deal, the printables).
+//
+// So the page keeps one job (THE-STORY, section 11) and runs in the order a
+// parent works:
+//
+//   1. What is waiting on me, answered right there.
+//   2. How each child is doing today.
+//   3. Two actions: add a job, the screen timer.
+//   4. Give a star.
+//   5. One quiet list of the other places.
+//   6. The guide for their age and the homework notes, folded.
+//
+// The manager moved whole to /dashboard/quests/setup. Nothing in it changed,
+// so every call it makes to the child's app is the call it always made.
+//
+// What the research said about the shape (15 November, sources in the pull
+// request): show first only what needs the parent every visit and put the
+// rest one level down (Nielsen on progressive disclosure, guidance rather
+// than a trial); keep the one red badge for the thing with a person waiting.
+// And what it said to leave OFF this page: no guideline body gives a screen
+// to outdoor ratio or a balance score, so the page shows none, and the age
+// guide is worded as our steer, never as a limit.
 
-export default async function QuestsPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
-  const { from: from_ } = await searchParams
+// The two folds at the foot of the page. Reading, not doing, so they stay shut
+// until a parent wants them, and they are quieter than the cards above: no
+// ledge, because a ledge says press me and these are only there to be read.
+const FOLD: React.CSSProperties = {
+  background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
+  padding: '4px 16px 12px', marginTop: '12px',
+}
+const FOLD_SUMMARY: React.CSSProperties = {
+  cursor: 'pointer', padding: '11px 0',
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
+}
+
+export default async function QuestsPage({ searchParams }: { searchParams: Promise<{ from?: string; tab?: string; add_child?: string }> }) {
+  const { from: from_, tab, add_child } = await searchParams
+  // Old doors into the manager, sent on to where it lives now. Emails, pushes
+  // and DiGi's add a child offer all hold /dashboard/quests?tab=share or
+  // ?add_child= and some of those are already in inboxes, so the address has
+  // to keep working rather than every caller being chased. The manager reads
+  // both params itself on the far side. A fixed list, never the raw query.
+  if (tab === 'share' || tab === 'rewards' || tab === 'games' || tab === 'manage') redirect(`/dashboard/quests/setup?tab=${tab}`)
+  if (add_child !== undefined) redirect('/dashboard/quests/setup?add_child=')
   // The handover moment: a child in the 8 to 10 band or older can run their
   // own side of the quests. While no kid link exists for them, one warm
   // prompt at the top points at the QR handover, then it steps back for good.
@@ -209,7 +251,10 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
           August, where it blocked three one minute jobs with the only task in
           the product that needs the child in the room. It asks here instead,
           at the first moment a parent is actually setting a rule. */}
-      {offerAgreement && <AgreementOffer childName={offerChildName} />}
+      {/* One ask at a time. While the handover prompt below is up, this waits:
+          two cards asking for two different things above the board was half
+          of what made the top of this page feel like a queue. */}
+      {offerAgreement && !(handoverName && handoverId) && <AgreementOffer childName={offerChildName} />}
       {/* The log a week card that used to sit here moved to the Printables page,
           under the star chart builder that makes the chart, so build, print and
           log the week live together. */}
@@ -279,7 +324,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
           actually works: answer the timer request, agree what is done, then set
           what comes next. The id is the anchor the approve links land on. */}
       <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
-        <QuestBoard />
+        <QuestBoard foldQueue />
       </div>
 
       {/* Screen time is not on this page at all now.
@@ -325,10 +370,9 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
           the balance where the evidence points. This names the numbers and
           the one adjustment when the board runs light or rich. */}
       {tuning.length > 0 && (
-        <div style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '15px 17px', marginTop: '14px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '8px' }}>
-            The deal, tuned to their age
-          </div>
+        <details style={FOLD}>
+          <summary style={FOLD_SUMMARY}>Is the deal about right for their age?</summary>
+          <div style={{ height: 10 }} />
           {tuning.map(t => (
             <div key={t.id} style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{t.name}:</span>
@@ -345,7 +389,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
                 </span>
               ) : (
                 <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-                  a good {t.dayLabel} earns up to <strong style={{ color: 'var(--ink)' }}>{t.earnMins} min</strong> · the healthy ceiling for their age is <strong style={{ color: 'var(--ink)' }}>{t.guideMins} min</strong> ·{' '}
+                  a good {t.dayLabel} earns up to <strong style={{ color: 'var(--ink)' }}>{t.earnMins} min</strong> · our guide for their age is about <strong style={{ color: 'var(--ink)' }}>{t.guideMins} min</strong> ·{' '}
                   {t.tone === 'tuned' && <span style={{ color: '#1F7A54', fontWeight: 700 }}>inside the guide, which is exactly right</span>}
                   {t.tone === 'rich' && <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>earns past the guide, the extras bank rather than stretch the day</span>}
                 </span>
@@ -353,7 +397,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
             </div>
           ))}
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '4px 0 0' }}>
-            1 star is {STAR_MINUTES} minutes. The guide is a ceiling, not a target: a child who earns plenty and watches less is the balance working at its best.
+            1 star is {STAR_MINUTES} minutes. The guide is our steer, set under the published guidance, and it is a ceiling, not a target: a child who earns plenty and watches less is the balance working at its best.
           </p>
           {/* Planet Friends missions pay on the planet, never in stars, and
               every one has a printed twin (slice 2b). One line, one door. */}
@@ -361,15 +405,14 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
             🪐 Their Planet Friends missions pay on the planet, not in stars. Every mission has a sheet to print, and the Comet card hides a code made for your child:{' '}
             <Link href="/dashboard/printables" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>print the missions</Link>
           </p>
-        </div>
+        </details>
       )}
 
       {/* What they wrote in the Homework step, exactly as they wrote it. */}
       {homeworkNotes.length > 0 && (
-        <div style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '15px 17px', marginTop: '14px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
-            Homework, in their words
-          </div>
+        <details style={FOLD}>
+          <summary style={FOLD_SUMMARY}>Homework, in their words ({homeworkNotes.length})</summary>
+          <div style={{ height: 10 }} />
           {homeworkNotes.map(n => (
             <div key={`${n.childName}-${n.day}`} style={{ marginBottom: '12px' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: '2px' }}>
@@ -386,19 +429,11 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '2px 0 0' }}>
             Kept word for word, so you can hold it against what school actually set.
           </p>
-        </div>
+        </details>
       )}
 
-      <div id="quest-manager" style={{ scrollMarginTop: '80px' }}>
-        <QuestManager />
-      </div>
-
-
-      {/* The Lessons signpost that used to close this page is gone. It was a
-          card explaining that lessons had moved elsewhere, sitting below the
-          fold, duplicating the Lessons tile at the very top of this same page
-          and a permanent bottom tab. The page both opened and closed on the
-          same destination. */}
+      {/* The manager is not on this page any more. It is the first row of the
+          list above, Stars, rewards and sharing, at /dashboard/quests/setup. */}
     </div>
   )
 }

@@ -114,11 +114,18 @@ export default function QuestStatusBoard() {
 
   useEffect(() => {
     let alive = true
-    fetch('/api/quests')
+    const read = (first: boolean) => fetch('/api/quests')
       .then(r => r.json())
       .then(d => { if (alive) setData({ children: d.children ?? [], quests: d.quests ?? [], ticks: d.ticks ?? [], links: d.links ?? [] }) })
-      .catch(() => { if (alive) setData({ children: [], quests: [], ticks: [], links: [] }) })
-    return () => { alive = false }
+      // Only the first read may empty the board. A refresh that fails leaves
+      // what was there, rather than blanking a board the parent is reading.
+      .catch(() => { if (alive && first) setData({ children: [], quests: [], ticks: [], links: [] }) })
+    read(true)
+    // The board below this one approved or turned down a tick. Without this
+    // the row stayed here, still offering a Yes, until the page was reloaded.
+    const changed = () => { read(false) }
+    window.addEventListener('gc:quests-changed', changed)
+    return () => { alive = false; window.removeEventListener('gc:quests-changed', changed) }
   }, [])
 
   // "Ticked 2026-08-03" is a database talking to a parent (Justin's
@@ -231,11 +238,20 @@ export default function QuestStatusBoard() {
     } catch { return false }
   }
 
+  // Tell the rest of the page the stars moved, so the children's card under
+  // this one counts them now rather than at its next poll.
+  function announce() {
+    try {
+      window.dispatchEvent(new Event('gc:quests-changed'))
+      window.dispatchEvent(new Event('gc:notifs-changed'))
+    } catch { /* SSR */ }
+  }
+
   async function sayYes(id: string, kind: 'tick' | 'quest', childId?: string | null) {
     if (busyKey || allBusy) return
     setBusyKey(id); setFailed(null)
     const ok = await approve(id, kind, childId)
-    if (ok) setAgreed(prev => new Set(prev).add(id))
+    if (ok) { setAgreed(prev => new Set(prev).add(id)); announce() }
     else setFailed('That did not save. Try again.')
     setBusyKey(null)
   }
@@ -250,7 +266,7 @@ export default function QuestStatusBoard() {
     for (const id of ids) {
       if (await approve(id, 'tick')) done.push(id)
     }
-    if (done.length > 0) setAgreed(prev => new Set([...prev, ...done]))
+    if (done.length > 0) { setAgreed(prev => new Set([...prev, ...done])); announce() }
     // Named, not swallowed. A partial failure used to be indistinguishable from
     // a full success because neither said anything.
     if (done.length < ids.length) {
@@ -603,11 +619,16 @@ export default function QuestStatusBoard() {
               turn one of these down, which this panel deliberately cannot do:
               a reject is a conversation and should never be one tap away from
               an approve on a list you are working through quickly. */}
+          {/* Named for what it is for. "One at a time" was written when the
+              rows had no Yes of their own; they do now, so it read as a second
+              way to do the same thing. It opens the queue on the card below,
+              which stays folded until asked for (QuestBoard, foldQueue). */}
           <a
             href="#quest-board"
-            style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none' }}
+            onClick={() => { try { window.dispatchEvent(new Event('gc:quest-queue-open')) } catch { /* SSR */ } }}
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', minHeight: 44, display: 'inline-flex', alignItems: 'center' }}
           >
-            One at a time ›
+            Turn one down ›
           </a>
         </div>
       )}

@@ -180,7 +180,7 @@ export default function TodayCard({
       key: 'childapp', icon: 'phonebed',
       title: name ? `${name} has a side of this too` : 'Your child has a side of this too',
       line: 'Share the code, or choose the paper chart',
-      href: '/dashboard/quests?tab=share',
+      href: '/dashboard/quests/setup?tab=share',
       // No away state on purpose: the fold never gone rule. What retires it
       // is the child opening their app, or the paper choice on the far side.
     })
@@ -192,7 +192,7 @@ export default function TodayCard({
       key: 'deal', icon: 'deal',
       title: 'Does the deal still fit?',
       line: `Nothing has changed for ${weeks === 1 ? 'a week' : `${weeks} weeks`}`,
-      href: '/dashboard/quests#quest-manager',
+      href: '/dashboard/quests/setup',
       putAwayLabel: 'Ask again in a fortnight',
       putAway: () => {
         try { localStorage.setItem(DEAL_SNOOZE_KEY, String(Date.now())) } catch { /* private mode */ }
