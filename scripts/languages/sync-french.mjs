@@ -198,6 +198,11 @@ function everyClassOf(src) {
 
 /** The pupil games sites she links from her menu, one per year, and the sheet
  *  of QR codes that opens them on the class tablets. */
+/** Rows of three strings, or null if the value is anything else. */
+function rows3(v) {
+  return Array.isArray(v) && v.length > 0 && v.every(r => Array.isArray(r) && r.length === 3 && r.every(x => typeof x === 'string')) ? v : null
+}
+
 function pupilGamesOf(src) {
   const sites = [...src.matchAll(/\["(https:\/\/lets-play-french-y(\d)\.pages\.dev\/)",\s*"[^"]*"\]/g)]
     .map(m => ({ year: Number(m[2]), url: m[1] }))
@@ -208,11 +213,13 @@ function pupilGamesOf(src) {
 
 const handbook = {
   think: or('her reasons', lifted(bank, 'const THINK = '), before.handbook?.think),
-  // How each statement grows used to be a short table in her script (GROW).
-  // Since 13 November it is the end of year statements, worked out from
-  // page.formalAssessment, so a missing GROW is the new normal and is not
-  // carried forward from an old sync.
-  grow: lifted(bank, 'const GROW = '),
+  // HOW LEARNING BUILDS (15 November 2026). Her GROW table used to map each
+  // code to a note. It is now one sentence growing half term by half term
+  // ([unit, sentence, what it adds]), and UNIT is the same inside one unit,
+  // lesson by lesson. The old code to note shape is no longer read: the
+  // end of year statements on the assessment page replaced it.
+  sentenceGrows: or('one sentence grows', rows3(lifted(bank, 'const GROW = ')), before.handbook?.sentenceGrows),
+  unitGrows: or('inside one unit', rows3(lifted(bank, 'const UNIT = ')), before.handbook?.unitGrows),
   everyClass: or('the sheets for every class', everyClassOf(bank), before.handbook?.everyClass),
   pupilGames: or('the pupil games', pupilGamesOf(bank), before.handbook?.pupilGames),
   marie: or('Marie and Pierre', lifted(bank, 'const R = ', 'function marie()'), before.handbook?.marie),
@@ -283,14 +290,14 @@ function shapeProblems(d) {
   // A file name reaches a URL, so it has to be a plain name.
   const plain = f => typeof f === 'string' && /^[A-Za-z0-9_-]+\.(pdf|zip)$/.test(f)
   for (const [slug, u] of Object.entries(d.units ?? {})) {
-    for (const k of ['extras', 'displays']) if (u[k] !== undefined && (!Array.isArray(u[k]) || u[k].some(x => !plain(x.f) || typeof x.t !== 'string'))) out.push(`${slug}: ${k} is not a list of named files`)
+    for (const k of ['extras', 'displays', 'phonicsMats']) if (u[k] !== undefined && (!Array.isArray(u[k]) || u[k].some(x => !plain(x.f) || typeof x.t !== 'string'))) out.push(`${slug}: ${k} is not a list of named files`)
     for (const l of u.lessons ?? []) for (const x of l.files ?? []) if (x.ans !== undefined && !plain(x.ans)) out.push(`${slug}: an answer sheet has an unsafe name`)
   }
   const hb = d.handbook ?? {}
   if (hb.everyClass && hb.everyClass.some(g => typeof g.label !== 'string' || g.files.some(x => !plain(x.f)))) out.push('handbook.everyClass is not groups of named files')
   if (hb.pupilGames && hb.pupilGames.sites.some(x => !/^https:\/\/lets-play-french-y\d\.pages\.dev\/$/.test(x.url))) out.push('handbook.pupilGames has an address that is not a pupil games site')
   for (const k of ['think', 'marie', 'levels', 'progressShows']) if (hb[k] && !pairs(hb[k])) out.push(`handbook.${k} is not a list of rows`)
-  if (hb.grow && (typeof hb.grow !== 'object' || Object.values(hb.grow).some(v => typeof v !== 'string'))) out.push('handbook.grow is not code to text')
+  for (const k of ['sentenceGrows', 'unitGrows']) if (hb[k] && !rows3(hb[k])) out.push(`handbook.${k} is not rows of three`)
   return out
 }
 const problems = shapeProblems(data)

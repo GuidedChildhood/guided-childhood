@@ -85,6 +85,8 @@ type DeckUnit = {
   // the scheme's shared extras folder, not the unit's own: see extrasUrl().
   extras?: SheetFile[]
   displays?: SheetFile[]
+  // A support mat for the half term's sound, in the unit's own print folder.
+  phonicsMats?: SheetFile[]
   songs?: Song[]
 }
 
@@ -131,7 +133,8 @@ export type FormalAssessment = {
  *  statement grows from Year 3 to Year 4, the two class toys, the four levels. */
 export type FrenchHandbook = {
   think?: Row2[] | null
-  grow?: Record<string, string> | null
+  sentenceGrows?: [string, string, string][] | null
+  unitGrows?: [string, string, string][] | null
   marie?: Row2[] | null
   levels?: Row2[] | null
   progressShows?: Row2[] | null

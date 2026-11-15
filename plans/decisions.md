@@ -254,3 +254,7 @@ The one tap stage check (PR 1541) lets a parent join without a name or a birth m
 - Two: play and outside jobs still lead every list but earn what any job their size earns (defaults 2, was 3 to 5). An expected reward for something a child already enjoys can lower their own interest; specific praise raises it (Deci, Koestner and Ryan 1999). So every yes now prompts the parent to say what they saw.
 - New jobs only. A family's existing jobs keep their stars; no migration. Homepage, guide and child copy changed from "pays the most" to "leads the list".
 - Not done, for Justin: "healthy guide" wording is still in about twenty other places (pace card, timer push, DiGi, lessons).
+
+## 15 November 2026: French sync issue 1537 closed by hand, and her new progression tables
+
+The sync could not open its own pull request (the repository setting is still off), so it left issue 1537. Her data is brought in here instead. Her site also changed its "grow" table into one sentence growing half term by half term, plus a lesson by lesson table for one unit; the old shape check would have turned tonight's run red, so the sync now reads both as rows of three and the curriculum page shows them. The unit page links the new phonics mat. PR to follow.

@@ -102,6 +102,11 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
                     <div lang="fr" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1.1 }}>{p.sound}</div>
                     {p.soundHint && <div style={small}>{p.soundHint}</div>}
                     {p.soundSays && <div style={{ ...small, color: 'var(--ink)' }}>Say it {p.soundSays}</div>}
+                    {u.slug && (d?.phonicsMats ?? []).map(m => (
+                      <a key={m.f} href={mediaUrl(u.slug!, m.f, 'sheet')} target="_blank" rel="noopener" style={{ ...small, display: 'flex', alignItems: 'center', minHeight: 44, color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+                        {m.t}
+                      </a>
+                    ))}
                     {d?.phonics && u.slug && (
                       <a href={mediaUrl(u.slug, d.phonics, 'deck')} target="_blank" rel="noopener" style={{ ...small, display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'var(--terracotta-dark)', fontWeight: 700 }}>
                         Open the phonics slides
