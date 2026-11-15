@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { PAGE } from '@gc/shared/page-scale'
 import { eyebrow } from '@/components/ui'
 import {
-  EVERY_CLASS, extrasUrl, FRENCH_UNITS, LEVEL_LABEL, lessonLabel, lessonsOf, mediaUrl, PUPIL_GAMES_QR, pupilGames, sheetList,
+  EVERY_CLASS, extrasUrl, PHONICS_CHECK_URL, FRENCH_UNITS, LEVEL_LABEL, lessonLabel, lessonsOf, mediaUrl, PUPIL_GAMES_QR, pupilGames, sheetList,
   type FrenchUnit, type Level, type SheetFile,
 } from '@/lib/languages/french'
 import { body, card, langEyebrow, small } from '../_ui'
@@ -184,6 +184,8 @@ export default async function FrenchPrintRoom({ searchParams }: { searchParams: 
               <p style={{ ...small, margin: '0 0 var(--space-2)' }}>The author&apos;s own games site: practice at home, or for a group on the class tablets, with only what each class has learnt.</p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', alignItems: 'center' }}>
                 {gameYears.map(([y, url]) => <a key={y} href={url} target="_blank" rel="noopener" className="btn btn-outline">Year {y} games</a>)}
+                {gameYears.map(([y]) => pupilGames(y, true)).map((url, i) => url ? <a key={url} href={url} target="_blank" rel="noopener" className="btn btn-outline">Inclusion games, Year {gameYears[i][0]}</a> : null)}
+                {PHONICS_CHECK_URL && <a href={PHONICS_CHECK_URL} target="_blank" rel="noopener" className="btn btn-outline">Phonics checks on a tablet</a>}
                 {PUPIL_GAMES_QR && <a href={extrasUrl(PUPIL_GAMES_QR)} target="_blank" rel="noopener" style={{ ...small, display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'var(--terracotta-dark)', fontWeight: 700 }}>QR codes for the tablets, to print</a>}
               </div>
             </div>

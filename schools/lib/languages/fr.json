@@ -6524,6 +6524,17 @@
     "earlier units come back too"
    ]
   ],
+  "overload": {
+   "steps": [
+    "We avoid overloading pupils. New language comes in small steps, with clear modelling and the same routines every lesson, so pupils can put their effort into the French. At the start of each lesson, pupils colour the title of that lesson's box on their word mat (quick, so little time is lost), so they know exactly which words to focus on today, while the earlier boxes show what they already know.",
+    "Pictures and actions do some of the remembering for them. New words and phrases are learnt with a picture and an action: pupils see it, hear it, say it and do it. The movement helps them remember the meaning, join in with confidence and recall the word later without going through English. Phonics works the same way, with an action for each sound.",
+    "When pupils write, picture prompts help them recall the words, organise their ideas and build their sentences, so they can write more on their own.",
+    "<b>Picture prompts are for every pupil, not only on the Adapted and Inclusion sheets.</b> They are part of normal class teaching wherever they help pupils write more independently.",
+    "Pictures are chosen with care: clear and uncluttered, never decoration. This draws on cognitive load theory and dual coding."
+   ],
+   "worksheets": "Worksheets follow the same idea. Often the worksheet is simply a picture that prompts the writing: pupils do not have to decide what to write about, so all their thinking goes into the French. They are clear, not easy: one task, a calm layout, the question at the top and instructions in English, so pupils' effort goes on the French, not on working out what to do. Familiar formats (cut and stick, joining columns, ordering sentences) come back across units, and a Challenge comes at the end.",
+   "slides": "The slides are just as clear. Each one shows clear instructions and expectations, so every child knows what they are doing at all times. Together with the same lesson shape every time, this gives pupils a feeling of safety and an established routine."
+  },
   "everyClass": [
    {
     "label": "Pupil mats",
@@ -6569,14 +6580,27 @@
    "sites": [
     {
      "year": 3,
-     "url": "https://lets-play-french-y3.pages.dev/"
+     "url": "https://lets-play-french-y3.pages.dev/",
+     "inclusion": false
     },
     {
      "year": 4,
-     "url": "https://lets-play-french-y4.pages.dev/"
+     "url": "https://lets-play-french-y4.pages.dev/",
+     "inclusion": false
+    },
+    {
+     "year": 3,
+     "url": "https://lets-play-french-y3-plus.pages.dev/",
+     "inclusion": true
+    },
+    {
+     "year": 4,
+     "url": "https://lets-play-french-y4-plus.pages.dev/",
+     "inclusion": true
     }
    ],
-   "qr": "KS2_Lets_play_French_QR_codes.pdf"
+   "qr": "KS2_Lets_play_French_QR_codes.pdf",
+   "phonicsCheck": "https://french-phonics-check.pages.dev/"
   },
   "marie": [
    [

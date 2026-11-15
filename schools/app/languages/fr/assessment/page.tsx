@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { PAGE } from '@gc/shared/page-scale'
 import PrintButton from '@/components/PrintButton'
 import { eyebrow } from '@/components/ui'
-import { ANNUAL_L2, assessedCodes, CODE_ORDER, FR_HANDBOOK, FR_PAGE, formalTasks, FRENCH_UNITS, FRENCH_YEARS, PHONICS_CHECKS, SKILL_LABEL, soloName } from '@/lib/languages/french'
+import { ANNUAL_L2, assessedCodes, CODE_ORDER, END_OF_YEAR, FR_HANDBOOK, FR_PAGE, formalTasks, FRENCH_UNITS, FRENCH_YEARS, PHONICS_CHECK_URL, PHONICS_CHECKS, SKILL_LABEL, soloName } from '@/lib/languages/french'
 import { body, Callout, card, Cards, Crumbs, InShort, langEyebrow, Part, small } from '../_ui'
 
 // /languages/fr/assessment: HOW PROGRESS SHOWS FROM YEAR 3 TO YEAR 4 (11 November 2026).
@@ -128,27 +128,34 @@ export default function FrenchAssessmentExplained() {
         <Cards rows={FR_HANDBOOK.progressShows} />
       </Part>
 
-      {years.length > 1 && second !== undefined && (
-        <Part title="End of year statements: the expected standard for each code">
+      {END_OF_YEAR.length > 0 && (
+        <Part title="End of year statements, by strand">
           <p style={{ ...small, margin: 0 }}>
-            This is the SOLO 4 descriptor for each code&apos;s checkpoint task. Pupils at SOLO 5 go beyond it, and pupils below SOLO 4 are working towards it.
+            What a pupil should be able to do by the end of each year, for each code, and the half term it is judged in. This is the expected standard: SOLO 4.
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-            {codes.map(c => (
-              <article key={c} className="gc-fr-grow" style={card}>
-                <p style={{ ...langEyebrow, margin: 0 }}>{c} · {SKILL_LABEL[c[0]] ?? 'Statement'}</p>
-                {wording(c) && <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.25, margin: 'var(--space-1) 0 var(--space-3)' }}>{wording(c)}</h3>}
-                <div className="gc-fr-grow-cols">
-                  {[first, second].map(y => (
-                    <div key={y}>
-                      <span style={{ ...eyebrow, display: 'block', marginBottom: 'var(--space-1)' }}>Year {y}{at(y, c) ? ` · ${at(y, c)!.checkpoint}` : ''}</span>
-                      <p style={{ ...small, margin: 0, color: 'var(--ink-soft)' }}>{at(y, c)?.descriptor?.solo4 ?? 'Not formally judged this year.'}</p>
-                    </div>
+          {[...new Set(END_OF_YEAR.flatMap(y => y.strands.map(s => s.strand)))].map(strand => (
+            <div key={strand} style={{ ...card, padding: 0, overflowX: 'auto' }}>
+              <table className="gc-fr-ticks gc-fr-eoy">
+                <thead>
+                  <tr>
+                    <th scope="col">{strand}</th>
+                    {END_OF_YEAR.map(y => <th key={y.year} scope="col">Year {y.year}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...new Set(END_OF_YEAR.flatMap(y => y.strands.find(s => s.strand === strand)?.items.map(i => i.code) ?? []))].map(code => (
+                    <tr key={code}>
+                      <th scope="row"><span className="gc-fr-code">{code}</span></th>
+                      {END_OF_YEAR.map(y => {
+                        const it = y.strands.find(s => s.strand === strand)?.items.find(i => i.code === code)
+                        return <td key={y.year}>{it ? <>{it.term && <span className="gc-fr-code" style={{ display: 'block' }}>{it.term}</span>}{it.statement}</> : null}</td>
+                      })}
+                    </tr>
                   ))}
-                </div>
-              </article>
-            ))}
-          </div>
+                </tbody>
+              </table>
+            </div>
+          ))}
         </Part>
       )}
 
@@ -158,6 +165,12 @@ export default function FrenchAssessmentExplained() {
             The progress checks show how pupils&apos; phonics is developing. They are not extra judgements: L2 is still
             judged once a year.
           </p>
+          {PHONICS_CHECK_URL && (
+            <p style={{ ...small, margin: 0 }}>
+              Pupils can do the checks on a tablet: an adult ticks the reading aloud, and nothing is saved online.{' '}
+              <a href={PHONICS_CHECK_URL} target="_blank" rel="noopener" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Open the phonics checks</a> (the author&apos;s site).
+            </p>
+          )}
           <div style={{ ...card, padding: 0, overflowX: 'auto' }}>
             <table className="gc-fr-ticks">
               <tbody>
@@ -206,6 +219,7 @@ export default function FrenchAssessmentExplained() {
         .gc-fr-cp-levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin: 0; padding: var(--space-3) var(--space-4) var(--space-4); }
         .gc-fr-cp-levels > div { border: 1px solid var(--border); border-radius: var(--radius-tile); padding: var(--space-3); background: var(--white); }
         .gc-fr-cp-levels > div[data-expected] { background: var(--butter-lt); border-color: var(--terracotta); }
+        .gc-fr-eoy { min-width: 560px; } .gc-fr-eoy td { width: 44%; }
         .gc-fr-grow-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); border-top: 1px solid var(--border); padding-top: var(--space-3); }
         @media (max-width: 640px) {
           .gc-fr-grow-cols, .gc-fr-cp-levels { grid-template-columns: 1fr; gap: var(--space-2); }
