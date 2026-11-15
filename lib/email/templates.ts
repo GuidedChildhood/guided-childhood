@@ -2077,3 +2077,62 @@ export function lessonHeadsUpEmail(params: {
     ),
   }
 }
+
+// ── THE PARENT WHO SIGNED UP AND STOPPED ───────────────────────────────────
+//
+// Justin, 15 November 2026: the one live family made an account and never
+// came back, and nothing asked her why. Three short asks, each a different
+// angle, then silence (lib/asks/stalled.ts holds the spacing). Every one opens
+// the same page, where question one is a single tap.
+//
+// freeUntil is passed only when the free days are genuinely still open, so
+// the line is never a promise the paywall then breaks.
+export function stalledAskEmail(params: {
+  step: 'ask-1' | 'ask-2' | 'ask-3'
+  parentName: string | null
+  childName: string
+  askUrl: string
+  freeUntil: string | null
+  unsubscribe: string
+}): EmailContent {
+  const { step, parentName, childName, askUrl, freeUntil, unsubscribe } = params
+  const hello = parentName ? `Hi ${parentName}, it is Justin.` : 'Hi, it is Justin.'
+  const open = freeUntil ? p(`Your free days are open until ${freeUntil}, no card needed.`) : ''
+  if (step === 'ask-1') {
+    return {
+      subject: 'Can I ask what stopped you?',
+      html: wrapper(
+        heading('One tap would help me a lot.') +
+        p(`${hello} You made an account for ${childName} and then life got in the way, which is completely fair.`) +
+        p(`You are one of our very first families, so what stopped you is the most useful thing I can learn this week. It is one tap, and there are five short questions after it only if you have a minute.`) +
+        button('Tell me what stopped you', askUrl) +
+        open +
+        p(`If you do come back: ten minutes gets you the words for the next screen row, and a way for ${childName} to earn screen time with jobs and time outside, so you are not the one saying no.`),
+        unsubscribe
+      ),
+    }
+  }
+  if (step === 'ask-2') {
+    return {
+      subject: 'What would you want to see first?',
+      html: wrapper(
+        heading('What should the first two minutes show you?') +
+        p(`${hello} I asked last week what stopped you, and I know inboxes are busy.`) +
+        p(`A different question this time. When you open something like this for ${childName}, what do you want to see in the first two minutes to know it is worth your evening? One line is plenty, and I read every answer myself.`) +
+        button('Answer in one line', askUrl) +
+        open,
+        unsubscribe
+      ),
+    }
+  }
+  return {
+    subject: 'Last one from me on this',
+    html: wrapper(
+      heading('I will stop asking after this.') +
+      p(`${hello} This is the last time I will ask, and then I will leave you in peace.`) +
+      p(`If Guided Childhood was not right for your family, I would like to know why, so I can make it right for the next parent. One tap tells me.`) +
+      button('One tap, then I am done', askUrl),
+      unsubscribe
+    ),
+  }
+}

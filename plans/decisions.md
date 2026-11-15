@@ -269,3 +269,9 @@ The one tap stage check (PR 1541) lets a parent join without a name or a birth m
 - Reason: the daily minutes are our own steer set under the published guidance. WHO 2020 gives no screen number for ages 5 to 17, so "healthy" claimed more than we can show. The three emails now say "set under what the WHO, AAP, Canadian guidelines and RCPCH say", not "drawn straight from".
 - The area name "Healthy balance" (passport, lessons) is a title, not a claim about a number, and stays.
 - Board tasks due 21 November (walkthrough campaign, one family's first day, first paying family, Fable 5.2 compare) snoozed a week at his word.
+
+## 15 November 2026: ask the parent who stopped
+
+- Justin: capture the questions, keep nudging if unanswered, alert him on his phone. `/tell-us` opens from a signed email link with no sign in; question one is one tap. Answers go to `parent_answers` (migration 397, applied live), push to Justin's phone and show at the top of the founder asks page.
+- Three emails, then silence: day three, four days later, a week after that. Any answer, a first check in or a finished day stops them. Accounts under 45 days old only. They ride the one programme email a week floor.
+- Plan in `plans/2026-11-15-ask-the-parent-who-stopped.md`. PR 1558.
