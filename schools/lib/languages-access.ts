@@ -154,6 +154,21 @@ export function isLanguagesPath(pathname: string): boolean {
   return pathname === '/languages' || pathname.startsWith('/languages/')
 }
 
+// THE FREE FRENCH TASTER (Justin, 15 November 2026: yes to one French lesson
+// anyone can open without a code). One lesson and its slides, and nothing
+// else: its unit, the print room and every other lesson still need a code.
+// The same idea as the digital sample lesson: a head sees the quality before
+// asking for anything. Named here, in the import free file, so the proxy and
+// the guard read one list.
+export const FRENCH_TASTER = { unit: 'y3-ht2', lesson: 1 } as const
+export const FRENCH_TASTER_PATH = `/languages/fr/${FRENCH_TASTER.unit}/${FRENCH_TASTER.lesson}`
+
+/** The taster lesson page and its teach screen. Exact paths, never a prefix. */
+export function isFrenchTasterPath(pathname: string): boolean {
+  const clean = pathname.replace(/\/$/, '')
+  return clean === FRENCH_TASTER_PATH || clean === `${FRENCH_TASTER_PATH}/teach`
+}
+
 /** The door itself. Reachable without a code, or nobody could ever type one. */
 export const LANGUAGES_DOOR = '/languages/unlock'
 

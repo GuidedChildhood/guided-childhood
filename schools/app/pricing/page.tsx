@@ -4,6 +4,7 @@ import { PRICING_BANDS, LICENCE_INCLUDES, FOUNDING } from '@/lib/pricing'
 import { foundingPlacesLeft } from '@/lib/founding-places'
 import { VAT_LINE } from '@gc/shared/legal'
 import InvoiceForm from './InvoiceForm'
+import { FRENCH_TASTER_PATH } from '@/lib/languages-access'
 import { pilotPrefill } from '@/lib/pilot-prefill'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
@@ -174,7 +175,9 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }}>
                 <strong>Not sure yet?</strong> You do not need a licence to try it. The whole{' '}
                 <Link href="/curriculum" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>curriculum catalogue</Link>{' '}
-                is open to read. Ask for a pilot code and teach two lessons matched to your phase this term, then decide.
+                is open to read, and so is{' '}
+                <Link href={FRENCH_TASTER_PATH} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>one French lesson</Link>.{' '}
+                Ask for a pilot code and teach two lessons matched to your phase this term, then decide.
               </p>
             </div>
           </div>
