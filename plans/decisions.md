@@ -247,3 +247,10 @@ The one tap stage check (PR 1541) lets a parent join without a name or a birth m
 - Waiting ticks showed twice on a busy day. The lower queue now stays folded until Turn one down is tapped, and the two cards tell each other when a tick is answered.
 - Research (sources in the PR): no body gives a screen to outdoor ratio or a balance score, so this page shows none, and the age guide is worded as our steer. `weekBalance()`'s 0 to 100 figure and the "healthy ceiling" wording elsewhere are for Justin to decide.
 - No migration, no API change, child app untouched. PR 1551.
+
+## 15 November 2026: no balance score, and play pays the same with praise
+
+- Justin's two answers after the Quests research. One: the 0 to 100 weekly balance figure goes; the round up shows two plain tallies (minutes on screens, minutes earned by jobs and play) and holds screens against "our guide". No health body gives a ratio, and it broke "no composite scores".
+- Two: play and outside jobs still lead every list but earn what any job their size earns (defaults 2, was 3 to 5). An expected reward for something a child already enjoys can lower their own interest; specific praise raises it (Deci, Koestner and Ryan 1999). So every yes now prompts the parent to say what they saw.
+- New jobs only. A family's existing jobs keep their stars; no migration. Homepage, guide and child copy changed from "pays the most" to "leads the list".
+- Not done, for Justin: "healthy guide" wording is still in about twenty other places (pace card, timer push, DiGi, lessons).

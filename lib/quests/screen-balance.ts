@@ -274,18 +274,26 @@ export type BalanceInsight = {
 // design: the point is the shape, not a precise clock.
 export const WAKING_DAY_MINS = 13 * 60
 
-// The week's balance as one honest number, for the Friday round up. It reads
-// the family's actual screen minutes against the evidence based healthy guide
-// for their children's ages (recommended daily minutes times seven), and lands
-// a 0 to 100 balance score: 100 when screen sat inside the healthy range, less
-// the further it ran over. Earning screen from real quests softens the drop,
-// because a child earning their time is the balance working. Never a hard cap,
-// always a calibrated read.
+// The week, as two plain tallies: screen minutes used, and minutes earned by
+// real jobs and play. No score.
+//
+// This used to return a 0 to 100 "balance" figure: 100 inside the guide, less
+// the further over, softened by a 0.4 cushion for minutes that were earned.
+// Justin, 15 November 2026, chose two plain tallies instead. The figure was
+// ours alone. No guideline body gives a screen to real world ratio (WHO 2020
+// declined even a screen threshold for ages 5 to 17), the review most often
+// quoted for one calls the idea that green time buffers screen time
+// "preliminary" (Oswald et al 2020), and THE-STORY rules out composite scores
+// because a parent asking where a number came from deserves an answer.
+//
+// The tone is still read, and is deliberately simple: inside our guide, or
+// past it. Earning never moves it, because nothing we can cite says it should.
+// The guide itself is our own steer set under the published guidance, which
+// is why the lines below say "our guide" and never "healthy".
 export type WeekBalance = {
   screenMins: number
   earnedMins: number
   guideMins: number
-  balancePct: number
   tone: 'healthy' | 'watch' | 'quiet'
   line: string
 }
@@ -296,26 +304,17 @@ export function weekBalance(opts: { screenMins: number; earnedMins: number; ageB
   const screenMins = Math.max(0, Math.round(opts.screenMins))
   const earnedMins = Math.max(0, Math.round(opts.earnedMins))
 
-  let balancePct: number
-  if (screenMins === 0 || guideMins <= 0 || screenMins <= guideMins) {
-    balancePct = 100
-  } else {
-    const base = Math.round((guideMins / screenMins) * 100) // below 100 once over the guide
-    const earnedCushion = Math.min(1, earnedMins / screenMins) // 1 when fully earned back
-    balancePct = Math.max(30, Math.min(100, Math.round(base + (100 - base) * 0.4 * earnedCushion)))
-  }
-
   const tone: WeekBalance['tone'] =
     screenMins === 0 && earnedMins === 0 ? 'quiet'
-    : balancePct >= 80 ? 'healthy'
+    : guideMins <= 0 || screenMins <= guideMins ? 'healthy'
     : 'watch'
 
   const line =
-    tone === 'quiet' ? 'A quiet week on the numbers, which is completely fine. The balance builds itself again as the quests start flowing.'
-    : tone === 'healthy' ? 'Screen time sat comfortably inside the healthy range for your children this week, with real world time earning it. That is the balance the evidence points to.'
-    : 'Screen ran a little ahead of the healthy guide this week. No alarm, just worth a glance, since what screens crowd out matters more than the clock itself.'
+    tone === 'quiet' ? 'A quiet week on the numbers, which is completely fine. They fill in again as the quests start flowing.'
+    : tone === 'healthy' ? 'Screen time sat inside our guide for your children this week. What matters more than the clock is what the week had room for: sleep, moving about and time together.'
+    : 'Screen ran a little ahead of our guide this week. No alarm, just worth a glance, since what screens crowd out matters more than the clock itself.'
 
-  return { screenMins, earnedMins, guideMins, balancePct, tone, line }
+  return { screenMins, earnedMins, guideMins, tone, line }
 }
 
 // One expert grounded line for the week, chosen by the family's own week so it

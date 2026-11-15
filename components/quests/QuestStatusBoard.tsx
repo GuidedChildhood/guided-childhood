@@ -111,6 +111,16 @@ export default function QuestStatusBoard() {
   // could remind Teo or Alma but never both.
   const [reminded, setReminded] = useState<Set<string>>(new Set())
   const [remindFailed, setRemindFailed] = useState<string | null>(null)
+  // Who to say something to, straight after a yes.
+  //
+  // Justin, 15 November 2026, chose "same stars, lead with praise". The stars
+  // are the smaller half of a yes. The evidence on rewards (Deci, Koestner and
+  // Ryan 1999) is that specific praise raises a child's own interest in a
+  // thing where an expected reward on its own can lower it, so the moment a
+  // parent agrees a job is the moment to be told: now say what you saw. Said
+  // out loud by the parent, never sent by us, because the words are the point
+  // and a push notification reading "well done" is the opposite of specific.
+  const [praise, setPraise] = useState<{ who: string | null; title: string | null } | null>(null)
 
   useEffect(() => {
     let alive = true
@@ -251,7 +261,11 @@ export default function QuestStatusBoard() {
     if (busyKey || allBusy) return
     setBusyKey(id); setFailed(null)
     const ok = await approve(id, kind, childId)
-    if (ok) { setAgreed(prev => new Set(prev).add(id)); announce() }
+    if (ok) {
+      setAgreed(prev => new Set(prev).add(id)); announce()
+      const row = [...buckets.waiting, ...buckets.withyou].find(r => r.key === id)
+      setPraise({ who: row && row.who !== 'Your child' && row.who !== 'Anyone' ? row.who : null, title: row?.title ?? null })
+    }
     else setFailed('That did not save. Try again.')
     setBusyKey(null)
   }
@@ -266,7 +280,12 @@ export default function QuestStatusBoard() {
     for (const id of ids) {
       if (await approve(id, 'tick')) done.push(id)
     }
-    if (done.length > 0) { setAgreed(prev => new Set([...prev, ...done])); announce() }
+    if (done.length > 0) {
+      setAgreed(prev => new Set([...prev, ...done])); announce()
+      const names = new Set(buckets.waiting.filter(r => done.includes(r.key)).map(r => r.who))
+      const only = names.size === 1 ? [...names][0] : null
+      setPraise({ who: only && only !== 'Your child' ? only : null, title: null })
+    }
     // Named, not swallowed. A partial failure used to be indistinguishable from
     // a full success because neither said anything.
     if (done.length < ids.length) {
@@ -338,6 +357,18 @@ export default function QuestStatusBoard() {
   // Both piles a parent settles from here. Waiting agrees to a child's claim,
   // To do with you records one nobody could claim.
   const canMark = shown === 'waiting' || shown === 'withyou'
+
+  const praiseNote = praise && (
+    <p role="status" style={{
+      fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '12px 0 0',
+      background: 'var(--tint-butter)', border: '1px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '10px 12px',
+    }}>
+      <strong>Now tell {praise.who ?? 'them'} what you saw.</strong>{' '}
+      {praise.title
+        ? <>One thing you noticed about {praise.title.charAt(0).toLowerCase() + praise.title.slice(1)} does more than the stars.</>
+        : <>One thing you noticed does more than the stars.</>}
+    </p>
+  )
 
   // Caught up, so say it in a line rather than a card.
   //
@@ -421,6 +452,9 @@ export default function QuestStatusBoard() {
             )}
           </div>
         )}
+        {/* Agreeing the last waiting job collapses the board to this strip,
+            which is exactly when the note has to still be on the screen. */}
+        {praiseNote}
       </div>
     )
   }
@@ -632,6 +666,8 @@ export default function QuestStatusBoard() {
           </a>
         </div>
       )}
+
+      {praiseNote}
 
       {failed && (
         <p role="status" style={{ fontSize: 'var(--text-base)', color: '#B93B3F', fontWeight: 600, margin: '9px 0 0' }}>

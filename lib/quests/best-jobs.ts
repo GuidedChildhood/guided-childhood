@@ -10,7 +10,8 @@
 // child's growing up, not what it pays. The routine that removes the morning
 // fight comes first, then the habits that keep screens in their place, then
 // real help around the house, then the growing up skills, with play in the
-// mix because play still pays the top stars on purpose. The ranking follows
+// mix because play is what the screen crowds out (it pays the same as any
+// job its size since 15 November 2026, see lib/quests/templates.ts). The ranking follows
 // what the developmental literature agrees on: chores from small (the
 // Minnesota Rossmann study), independence in age sized steps (Montessori),
 // screens out of bedrooms at every age (the sleep evidence), and one real
@@ -64,7 +65,7 @@ export const BEST_JOBS: Record<StageKey, BestJob[]> = {
     { title: 'Dressed and ready on time',        emoji: '👕', stars: 1, schedule: 'weekdays', band: 'morning',      kind: 'routine', why: 'Clothes on and out of the door without the fight.' },
     { title: 'Toys tidied before bed',           emoji: '🧸', stars: 1, schedule: 'daily',    band: 'evening',      kind: 'home',    why: 'Their room, their job. Five minutes, then the story.' },
     { title: 'Shoes away in the hallway',        emoji: '👟', stars: 1, schedule: 'daily',    band: 'after_school', kind: 'home',    why: 'One place for shoes, and tomorrow morning finds them.' },
-    { title: 'One hour of outside play',         emoji: '🌳', stars: 4, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'The best thing a small body can do. Pays the top stars on purpose.' },
+    { title: 'One hour of outside play',         emoji: '🌳', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'The best thing a small body can do, so it leads the list.' },
     { title: 'Table laid or cleared',            emoji: '🍽️', stars: 1, schedule: 'daily',    band: 'after_school', kind: 'home',    why: 'Real help at dinner, and they feel part of it.' },
     { title: 'A book shared for ten minutes',    emoji: '📚', stars: 2, schedule: 'daily',    band: 'evening',      kind: 'school',  why: 'A book with a grown up every day is the whole reading race.' },
     { title: 'Feed or walk the pet',             emoji: '🐾', stars: 1, schedule: 'daily',    band: 'after_school', kind: 'home',    why: 'A living thing that needs them. Responsibility they can feel.' },
@@ -78,13 +79,13 @@ export const BEST_JOBS: Record<StageKey, BestJob[]> = {
     { title: 'Homework before screens',          emoji: '✏️', stars: 2, schedule: 'weekdays', band: 'after_school', kind: 'school',  why: 'The order matters more than the minutes. Work, then play.' },
     { title: 'Device on charge downstairs',      emoji: '🔌', stars: 1, schedule: 'daily',    band: 'evening',      kind: 'grow',    why: 'Screens sleep outside bedrooms. The rule the sleep evidence is loudest about.' },
     { title: 'Dressed and ready on time',        emoji: '👕', stars: 1, schedule: 'weekdays', band: 'morning',      kind: 'routine', why: 'Out of the door on time without a single reminder.' },
-    { title: 'Twenty minutes lost in a book',    emoji: '📚', stars: 3, schedule: 'daily',    band: 'after_school', kind: 'school',  why: 'Deep attention practised every day. Pays well on purpose.' },
+    { title: 'Twenty minutes lost in a book',    emoji: '📚', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'school',  why: 'Deep attention practised every day. Pays well on purpose.' },
     { title: 'Empty or load the dishwasher',     emoji: '🫧', stars: 1, schedule: 'daily',    band: 'after_school', kind: 'home',    why: 'A proper job the house needs, not a pretend one.' },
     { title: 'Room tidy before bed',             emoji: '🛏️', stars: 1, schedule: 'daily',    band: 'evening',      kind: 'home',    why: 'Floor clear, clothes away. Five minutes, every night.' },
-    { title: 'One hour of outside play',         emoji: '🌳', stars: 4, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'Movement and mates. Screen time earned outside has already done its job.' },
+    { title: 'One hour of outside play',         emoji: '🌳', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'Movement and mates. Screen time earned outside has already done its job.' },
     { title: 'Put your washing away',            emoji: '🧺', stars: 1, schedule: 'weekdays', band: 'after_school', kind: 'home',    why: 'Their clothes, their drawers. Independence in small folds.' },
     { title: 'Help make dinner',                 emoji: '🍳', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'grow',    why: 'Chopping, stirring, laying out. A cook by twelve starts here.' },
-    { title: 'Bike, scoot or run about',         emoji: '🚲', stars: 3, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'Out of breath once a day. The body grows on it.' },
+    { title: 'Bike, scoot or run about',         emoji: '🚲', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'Out of breath once a day. The body grows on it.' },
     { title: 'Spellings or times tables practised', emoji: '✖️', stars: 2, schedule: 'weekdays', band: 'after_school', kind: 'school', why: 'Ten minutes of the boring bit, done before it becomes a battle.' },
     { title: 'Help a brother or sister',         emoji: '🤝', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'kind',    why: 'Reading with them, a game, a hand with shoes. Noticed and paid.' },
     { title: 'Bins out without being asked',     emoji: '🗑️', stars: 2, schedule: 'once',     band: 'evening',      kind: 'home',    why: 'Without being asked is the whole job. Set the day once it is in.' },
@@ -94,9 +95,9 @@ export const BEST_JOBS: Record<StageKey, BestJob[]> = {
     { title: 'Homework before screens',          emoji: '✏️', stars: 2, schedule: 'weekdays', band: 'after_school', kind: 'school',  why: 'Work first, then the feed. The order is the habit.' },
     { title: 'School bag packed tonight',        emoji: '🎒', stars: 1, schedule: 'weekdays', band: 'evening',      kind: 'routine', why: 'Kit, books, homework, checked the night before.' },
     { title: 'Cook one family meal a week',      emoji: '🍳', stars: 4, schedule: 'weekend',  band: 'after_school', kind: 'grow',    why: 'A real meal, start to finish. The most useful thing they will leave home with.' },
-    { title: 'Twenty minutes lost in a book',    emoji: '📚', stars: 3, schedule: 'daily',    band: 'after_school', kind: 'school',  why: 'The deepest screen free attention there is. Pays well on purpose.' },
+    { title: 'Twenty minutes lost in a book',    emoji: '📚', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'school',  why: 'The deepest screen free attention there is. Pays well on purpose.' },
     { title: 'Own laundry, start to finish',     emoji: '🧺', stars: 3, schedule: 'weekend',  band: 'after_school', kind: 'grow',    why: 'Load, dry, fold, away. Theirs to run every week.' },
-    { title: 'An hour outside: bike, run or sport', emoji: '🚲', stars: 3, schedule: 'daily', band: 'after_school', kind: 'play',    why: 'Movement every day, phone left at home.' },
+    { title: 'An hour outside: bike, run or sport', emoji: '🚲', stars: 2, schedule: 'daily', band: 'after_school', kind: 'play',    why: 'Movement every day, phone left at home.' },
     { title: 'Empty or load the dishwasher',     emoji: '🫧', stars: 1, schedule: 'daily',    band: 'after_school', kind: 'home',    why: 'Daily, expected, no fuss. Part of living here.' },
     { title: 'Tidy the kitchen after dinner',    emoji: '🧽', stars: 2, schedule: 'daily',    band: 'evening',      kind: 'home',    why: 'Surfaces wiped, table cleared. Everyone gets their evening back.' },
     { title: 'Bins out without being asked',     emoji: '🗑️', stars: 2, schedule: 'once',     band: 'evening',      kind: 'home',    why: 'Remembering the day is the job. Set the day once it is in.' },
@@ -110,10 +111,10 @@ export const BEST_JOBS: Record<StageKey, BestJob[]> = {
     { title: 'Cook one family meal a week',      emoji: '🍳', stars: 4, schedule: 'weekend',  band: 'after_school', kind: 'grow',    why: 'Their night on the rota. Plan it, cook it, serve it.' },
     { title: 'Own laundry, start to finish',     emoji: '🧺', stars: 3, schedule: 'weekend',  band: 'after_school', kind: 'grow',    why: 'Nobody else touches their washing. Leaving home ready.' },
     { title: 'Weekly room reset',                emoji: '🧹', stars: 3, schedule: 'weekend',  band: 'after_school', kind: 'home',    why: 'Floor clear, bed changed, bin out. Their space, kept.' },
-    { title: 'Thirty minutes of real exercise',  emoji: '🏃', stars: 3, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'Sport, gym, a run. Body before feed.' },
+    { title: 'Thirty minutes of real exercise',  emoji: '🏃', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'Sport, gym, a run. Body before feed.' },
     { title: 'Screen free hour before bed',      emoji: '🌙', stars: 2, schedule: 'daily',    band: 'evening',      kind: 'grow',    why: 'Shower, book, music. The hour that makes the morning.' },
     { title: 'Tidy the kitchen after dinner',    emoji: '🧽', stars: 2, schedule: 'daily',    band: 'evening',      kind: 'home',    why: 'A grown up job done to a grown up standard.' },
-    { title: 'Twenty minutes lost in a book',    emoji: '📚', stars: 3, schedule: 'daily',    band: 'after_school', kind: 'school',  why: 'Reading for pleasure at this age predicts more than most things schools measure.' },
+    { title: 'Twenty minutes lost in a book',    emoji: '📚', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'school',  why: 'Reading for pleasure at this age predicts more than most things schools measure.' },
     { title: 'Look after a younger sibling for an hour', emoji: '🤝', stars: 3, schedule: 'weekend', band: 'after_school', kind: 'kind', why: 'Real responsibility, real trust, and worth real stars.' },
     { title: 'Food shop with the list',          emoji: '🛒', stars: 3, schedule: 'weekend',  band: 'after_school', kind: 'grow',    why: 'Budget, list, checkout. The maths that actually matters.' },
     { title: 'Revision block, phone in another room', emoji: '📖', stars: 3, schedule: 'weekdays', band: 'after_school', kind: 'school', why: 'One focused block beats three distracted ones.' },
@@ -126,7 +127,7 @@ export const BEST_JOBS: Record<StageKey, BestJob[]> = {
     { title: 'Weekly food shop and budget',      emoji: '🛒', stars: 4, schedule: 'weekend',  band: 'after_school', kind: 'grow',    why: 'A budget they set and hit. The money skill that lasts.' },
     { title: 'Revision block, phone in another room', emoji: '📖', stars: 3, schedule: 'weekdays', band: 'after_school', kind: 'school', why: 'Deep work, on purpose, with the phone out of reach.' },
     { title: 'Weekly room and bathroom clean',   emoji: '🧹', stars: 3, schedule: 'weekend',  band: 'after_school', kind: 'home',    why: 'The whole space, bathroom included. Flat ready.' },
-    { title: 'Real exercise, their choice',      emoji: '🏋️', stars: 3, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'Their sport, their schedule, most days of the week.' },
+    { title: 'Real exercise, their choice',      emoji: '🏋️', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'Their sport, their schedule, most days of the week.' },
     { title: 'Take a sibling to their club',     emoji: '🚌', stars: 2, schedule: 'once',     band: 'after_school', kind: 'kind',    why: 'Being the one who can be relied on.' },
     { title: 'Car washed or the garden done',    emoji: '🚿', stars: 3, schedule: 'weekend',  band: 'after_school', kind: 'home',    why: 'The jobs a household would otherwise pay for.' },
     { title: 'Screen free hour before bed',      emoji: '🌙', stars: 2, schedule: 'daily',    band: 'evening',      kind: 'grow',    why: 'Sleep is the study aid nobody sells.' },
