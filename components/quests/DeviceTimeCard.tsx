@@ -399,7 +399,7 @@ export default function DeviceTimeCard({
         fired = true
         soundAlarm()
         say(capsAtGuide
-          ? 'That is the healthy amount for today. Time for offline fun!'
+          ? 'That is the guide for today. Time for offline fun!'
           : 'Time for offline fun!')
         setEndedByGuide(capsAtGuide)
         setPhase('up')
@@ -581,7 +581,7 @@ export default function DeviceTimeCard({
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '4px' }}>Time for offline fun!</div>
           <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
             {endedByGuide
-              ? 'That is the healthy amount for today. Your stars are safe for tomorrow.'
+              ? 'That is the guide for today. Your stars are safe for tomorrow.'
               : `Great play! Your ${deviceLabel(session?.device ?? 'phone')} time is done for now. Earn more stars to unlock more.`}
           </p>
           {/* The jobs still waiting, named, with what they are worth. Not a
@@ -808,12 +808,12 @@ export default function DeviceTimeCard({
             )}
           </div>
         )}
-        {/* An ask past today's healthy amount is allowed, just named: the
+        {/* An ask past today's guide is allowed, just named: the
             grown up decides, and the good offline stuff sits right there. */}
         {asksFirst && exceedsGuide && (
           <div style={{ background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '11px 13px', marginBottom: '12px' }}>
             <p style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, margin: '0 0 10px' }}>
-              🌱 This goes past the healthy amount for today, your grown up decides.
+              🌱 This goes past the guide for today, your grown up decides.
             </p>
             <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />
           </div>
@@ -849,7 +849,7 @@ export default function DeviceTimeCard({
     )
   }
 
-  // ── Idle: the invite to spend, with today's healthy amount in view ──
+  // ── Idle: the invite to spend, with today's guide in view ──
   // Holiday minutes count as something to spend, otherwise a child in August
   // with a full bank and an empty week is shown the "do a job first" door while
   // the card above it says their minutes are ready now.
@@ -915,8 +915,8 @@ export default function DeviceTimeCard({
           {!reachedGuide && (
             <p data-guide-line style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
               {guidePct >= 75
-                ? `Nearly at today's healthy amount: ${recToday - usedToday} minutes left.`
-                : `${recToday - usedToday} minutes of today's healthy amount left.`}
+                ? `Nearly at today's guide: ${recToday - usedToday} minutes left.`
+                : `${recToday - usedToday} minutes of today's guide left.`}
               {outstandingMinutes > 0 && ` Jobs still to do could earn ${outstandingMinutes} more.`}
             </p>
           )}

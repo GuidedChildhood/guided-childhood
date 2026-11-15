@@ -19,7 +19,7 @@ import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 // Four beats, one screen each, tap to move on, in the order he named:
 //
 //   1. DONE     the tick landed, confetti, the streak.
-//   2. BALANCE  the healthy guide for this child's age, what to set (with
+//   2. BALANCE  our guide for this child's age, what to set (with
 //               the settings sweep when one is due), how the child app keeps
 //               the balance with them, and the offline nudge.
 //   3. QUESTS   say yes to what is waiting, or set the first job.
@@ -102,7 +102,7 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
       icon: 'balance' as HappyIconName,
       title: 'The balance, kept simple',
       body: facts?.guide_mins
-        ? `For ages ${facts.band_label}, around ${facts.guide_mins} minutes of fun screen a day is a healthy guide. ${kid}'s app checks this balance with them, so the settings do the holding, not you. The best trade is always the offline one: a kickabout, a board game, anything together.`
+        ? `For ages ${facts.band_label}, around ${facts.guide_mins} minutes of fun screen a day is our guide. ${kid}'s app checks this balance with them, so the settings do the holding, not you. The best trade is always the offline one: a kickabout, a board game, anything together.`
         : `${kid}'s app checks the screen balance with them, so the settings do the holding, not you. The best trade is always the offline one: a kickabout, a board game, anything together.`,
       action: sweepDue
         ? { label: 'A quick settings check is due', href: withChild('/dashboard/devices') }
