@@ -80,7 +80,7 @@ const mkStamps = (mode: 'mixed' | 'full' | 'empty'): Stamp[] => [1, 2, 3, 4, 5].
       pct: mode === 'full' ? 100 : mode === 'empty' ? 0 : id === 3 ? 50 : 0,
       detail: mode === 'full' ? 'On track' : id === 3 && mode === 'mixed' ? 'A bit over' : 'Later',
       href: '/dashboard/stats',
-      help: 'Goes green when the week averages at or under the healthy amount.',
+      help: 'Goes green when the week averages at or under our guide.',
       ongoing: true,
     },
   ],

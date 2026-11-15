@@ -1165,7 +1165,7 @@ export function balanceTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string
     subject: 'An hour a day, is that ok?',
     html: wrapper(
       heading('The number, settled by the science.') +
-      p(`Every parent asks it and no one gives a straight answer. Guided Childhood does. It shows the healthy amount of recreational screen for your child's exact age, per day and per week, drawn straight from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
+      p(`Every parent asks it and no one gives a straight answer. Guided Childhood does. It shows our guide for recreational screen at your child's exact age, per day and per week, set under what the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH say.`) +
       p(`Then it sets your child's real usage against it, so you can see at a glance where an hour a day actually sits. A calm steer for their age, never a hard cap.`) +
       starterButton(cta, reader),
       unsubscribe
@@ -1265,8 +1265,8 @@ export function balanceRevealEmail(params: { childName: string; unsubscribe: str
     subject: `Where ${childName}'s screen time actually sits`,
     html: wrapper(
       heading('The balance, by the science.') +
-      p(`Your balance and stats now show the healthy amount of recreational screen for ${childName}'s age, per day and per week, drawn from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
-      p(`It sets ${childName}'s real usage against that guide, so you can see in one glance whether a day sits inside the healthy range. A steer for their age, never a hard cap.`) +
+      p(`Your balance and stats now show our guide for recreational screen at ${childName}'s age, per day and per week, set under what the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH say.`) +
+      p(`It sets ${childName}'s real usage against that guide, so you can see in one glance whether a day sits inside it. A steer for their age, never a hard cap.`) +
       button('See the balance', `${APP}/dashboard/quests`),
       unsubscribe
     ),
@@ -1984,7 +1984,7 @@ export function paidTheNumbersEmail(params: {
     subject: 'Where the screen time number comes from',
     html: wrapper(
       heading('Nobody made that number up.') +
-      p(`The healthy range you see against ${childName}'s usage is drawn from the World Health Organization, the American Academy of Pediatrics, the Canadian movement guidelines and the Royal College of Paediatrics and Child Health. Four bodies, not one opinion.`) +
+      p(`The guide you see against ${childName}'s usage is ours, set under the guidance of the World Health Organization, the American Academy of Pediatrics, the Canadian movement guidelines and the Royal College of Paediatrics and Child Health. Four bodies, not one opinion.`) +
       p(`Here is the part most apps leave out. Those bodies do not agree with each other on a single magic number, and the RCPCH in particular is careful to say the evidence does not support one. What the research actually supports is a different question: not how many hours, but what the hours are displacing. Sleep, moving about, being with people, the stuff a childhood is made of.`) +
       p(`Which is why it is drawn as a range and called a steer, and why nothing here ever hard stops a child at a number. A cap tells you when to have a fight. A range tells you whether the shape of the week is right, and that is the thing you can actually act on.`) +
       button('See the balance', `${APP}/dashboard/quests`) +

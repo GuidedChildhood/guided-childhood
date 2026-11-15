@@ -254,3 +254,10 @@ The one tap stage check (PR 1541) lets a parent join without a name or a birth m
 - Two: play and outside jobs still lead every list but earn what any job their size earns (defaults 2, was 3 to 5). An expected reward for something a child already enjoys can lower their own interest; specific praise raises it (Deci, Koestner and Ryan 1999). So every yes now prompts the parent to say what they saw.
 - New jobs only. A family's existing jobs keep their stars; no migration. Homepage, guide and child copy changed from "pays the most" to "leads the list".
 - Not done, for Justin: "healthy guide" wording is still in about twenty other places (pace card, timer push, DiGi, lessons).
+
+## 15 November 2026: "our guide", never "healthy", across the app
+
+- Justin said yes to finishing the wording. About 45 lines in 23 files (timer, pushes, pace card, parent report, DiGi's context, the child's timer card, three emails, one quiz option) now say "our guide" or "today's guide" where they said healthy guide, amount, level or range.
+- Reason: the daily minutes are our own steer set under the published guidance. WHO 2020 gives no screen number for ages 5 to 17, so "healthy" claimed more than we can show. The three emails now say "set under what the WHO, AAP, Canadian guidelines and RCPCH say", not "drawn straight from".
+- The area name "Healthy balance" (passport, lessons) is a title, not a claim about a number, and stays.
+- Board tasks due 21 November (walkthrough campaign, one family's first day, first paying family, Fable 5.2 compare) snoozed a week at his word.
