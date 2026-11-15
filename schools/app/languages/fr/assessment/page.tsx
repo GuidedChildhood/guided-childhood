@@ -168,7 +168,7 @@ export default function FrenchAssessmentExplained() {
           {PHONICS_CHECK_URL && (
             <p style={{ ...small, margin: 0 }}>
               Pupils can do the checks on a tablet: an adult ticks the reading aloud, and nothing is saved online.{' '}
-              <a href={PHONICS_CHECK_URL} target="_blank" rel="noopener" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Open the phonics checks</a> (the author&apos;s site).
+              <a href={PHONICS_CHECK_URL} target="_blank" rel="noopener" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Open the phonics checks</a>{' '}(the author's site).
             </p>
           )}
           <div style={{ ...card, padding: 0, overflowX: 'auto' }}>
