@@ -8,7 +8,7 @@ import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 // remembers", the choose screen and the upgrade page never mentioned a chatbot
 // at all, and WhatYouAreBuying is a parts list.
 //
-// So four lines, the same four everywhere, in the words a parent would use at
+// So five lines (four until 14 November 2026), the same everywhere, in the words a parent would use at
 // the school gate rather than ours. No model is named and no competitor is
 // named: the point is what a general chatbot cannot be, not who makes one.
 //
@@ -29,6 +29,20 @@ import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 //                            on script_completions.worked that DiGi reads back
 //                            (lib/digi/rating-loop.ts), and the fridge card
 //                            (components/rightnow/ScriptFridgeCard.tsx)
+//   guardrails, not fear     Justin, 14 November 2026: "we need to add a point
+//                            that we have guardrails based on our philosophy
+//                            and removing risky advice, the philosophy is
+//                            based on research, not scare." The proof:
+//                            the precedence order in DiGi's standing
+//                            instructions (safety, the family's agreement,
+//                            research, fit; never allow or deny), the crisis
+//                            and safeguarding openers put first in code
+//                            (app/api/digi/route.ts, lib/digi/safety.ts),
+//                            and the verifier that checks every finished
+//                            reply against those rules and logs anything it
+//                            catches (digi_safety_flags). It does not rewrite
+//                            a reply after it is sent, so the line says
+//                            "checked", not "removed".
 //
 // ONE COMPONENT, TWO SIZES. 'section' is the home page block, a whole band of
 // its own so another lane can rework the sections around it without touching
@@ -57,6 +71,11 @@ export const CHATBOT_CANNOT: Line[] = [
     icon: 'print',
     said: 'The words are ready, and you can print them.',
     why: 'Scripts written in advance from the research, not made up on the spot. Say whether one worked and DiGi remembers that too.',
+  },
+  {
+    icon: 'shield',
+    said: 'It has guardrails, and it never tries to scare you.',
+    why: 'Every answer follows our rules: safety first, the research before opinion, never a flat yes or no, and a worrying message gets the helpline before anything else. Each reply is checked against those rules.',
   },
 ]
 
@@ -89,12 +108,12 @@ export default function WhatAChatbotCannot({ variant = 'card' }: { variant?: 'ca
             Why not just ask a chatbot?
           </p>
           <h2 style={{ textAlign: 'center', margin: '0 auto 12px', maxWidth: '640px' }}>
-            Four things a free chatbot cannot do for your family
+            Five things a free chatbot cannot do for your family
           </h2>
           <p style={{ textAlign: 'center', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 auto 36px', maxWidth: '560px' }}>
             A chatbot waits for your next question. This is built around one family, and it checks back in with you.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(196px, 100%), 1fr))', gap: '14px' }}>
             {CHATBOT_CANNOT.map(l => (
               <div key={l.icon} style={{
                 background: 'var(--white)', border: 'var(--edge)', boxShadow: 'var(--lift)',
