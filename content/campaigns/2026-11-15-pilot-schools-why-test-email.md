@@ -1,13 +1,23 @@
 # Email to every school signed up for the pilot
 
-Drafted 15 November 2026 for Justin to send. One email, in his voice. Every
-claim in it is something a school can open today: the two pilot lessons, the
-one tap record, the class progress page, the subject lead kit, French in the
-licence and the free French lesson.
+Drafted 15 November 2026 for Justin. Three emails, in his voice, for the
+school funnel in Mailchimp (his answers the same day: two emails for pilot
+schools, an invitation with the free lesson for the contact list).
 
-Before sending: fill in the two bracketed gaps, and check each school has its
-code. The five questions are the feedback ask. They are short on purpose, so
-a teacher can answer by replying.
+1. Pilot email 1, sent when a school gets the tag "School pilot": why test,
+   and the five questions.
+2. Pilot email 2, a week later: the French bonus.
+3. The invitation, for schools on the contact list that have not asked for
+   the pilot. One email, once.
+
+Every claim is something a school can open today: the two pilot lessons, the
+one tap record, the class progress page, the subject lead kit, French in the
+licence and the free French lesson. In Mailchimp, [first name] is *|FNAME|*
+and [school] is the school merge field. Mailchimp adds the unsubscribe line.
+
+---
+
+# Pilot email 1: on sign up
 
 ---
 
@@ -44,16 +54,6 @@ Two lessons matched to the phase you teach, for a term, with:
    data protection pack, and a new kit for the subject lead with deep dive
    questions, a pupil voice sheet and a staff confidence audit.
 
-**A bonus: KS2 French is included**
-
-Every school now gets our KS2 French for Years 3 and 4 as part of the scheme,
-at no extra cost. It was written by a practising primary teacher and it comes
-with slides and audio, songs, sheets in three versions with answers, and an
-assessment map. Your school code opens it, with nothing else to type.
-
-You can try one French lesson now, before anything else:
-https://schools.guidedchildhood.com/languages/fr/y3-ht2/1
-
 **The five questions**
 
 After you have taught a lesson, reply to this email with a line on each. That
@@ -88,12 +88,69 @@ Guided Childhood
 
 ---
 
+# Pilot email 2: a week later
+
+**Subject:** One more thing in your pilot: KS2 French, included
+
+Hello [first name],
+
+A short one. Every school on the scheme now gets our KS2 French for Years 3
+and 4 as part of it, at no extra cost, and that includes [school].
+
+It was written by a practising primary teacher. Each lesson comes with slides
+and audio, songs, sheets in three versions with answers, and an assessment
+map that shows what is judged and when. Your school code opens it, with
+nothing else to type.
+
+You can try one lesson now, with no code at all:
+https://schools.guidedchildhood.com/languages/fr/y3-ht2/1
+
+If you have a colleague who leads languages, please pass this on to them.
+
+And if you have taught one of your two pilot lessons, the five questions from
+my last email are still the most useful thing you could send me. A line on
+each is plenty.
+
+Justin
+
+Justin Phillips
+Guided Childhood
+
+---
+
+# The invitation: schools on the contact list
+
+**Subject:** A free French lesson for Year 3, and a pilot if you want one
+
+Hello [first name],
+
+I am Justin, and I run Guided Childhood. We make a scheme for the digital
+side of RSHE for primary and secondary schools: the lesson, the words to say
+on every slide, the sheets, and a record of what each class has been taught.
+
+I would rather show you than tell you, so here is a whole lesson to open now.
+It is from the KS2 French that comes with the scheme. No code, no sign up:
+https://schools.guidedchildhood.com/languages/fr/y3-ht2/1
+
+If you would like to try the digital lessons with your own classes, the pilot
+is free for a term: two lessons matched to the phase you teach, every
+printable, and the Hub for your subject lead. There are five places, so it
+goes to the first five schools that ask.
+https://schools.guidedchildhood.com/pilot
+
+If this is not for you, there is nothing to do, and I will not write again.
+
+Justin
+
+Justin Phillips
+Guided Childhood
+
+---
+
 ## Notes for Justin
 
-- Sending: from your own Gmail, one email per school with the name and school
-  filled in. That keeps it a personal note. Tell me if you want me to put the
-  drafts in Gmail for you.
+- Pilot schools get emails 1 and 2 from the journey that starts on the tag
+  "School pilot". The contact list gets the invitation only, once.
 - The French taster link only works for a stranger if the live site lets it
-  through. Open it logged out once before you send.
-- If you would rather the French sit in a second, shorter email a week later,
-  the French section lifts out whole and the rest still reads properly.
+  through. Open it logged out once before anything is switched on.
+- Open and click tracking off in Mailchimp, as the schools privacy page says.
