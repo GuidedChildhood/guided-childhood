@@ -32,21 +32,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
 | `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-22 | 128 |
-| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-12 | 80 |
+| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-13 | 89 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-10-15 · 15 October 2026: The Planet Post downloads now carry the better version · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: every stage check start is counted, by source · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: the board prints one line of real behaviour, and says unknown when it cannot read it · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: Digital Parenting Week planned as two date free pieces · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: every named worry has an exact script shelf, and the first phone is a plan · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: the child rule is "never chats", with one fixed card, and the guard is wired · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: our link in copy is guidedchildhood.com, and a guard holds it · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: The nightly evening push stops after seven unanswered nights · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: The Planet Post, clearer after a nine year old tried it · `plans/decisions-archive/2026-10.md`
 - 2026-10-16 · 16 October 2026: thumb sized buttons, route shaped loaders, a hex ratchet · `plans/decisions-archive/2026-10.md`
 - 2026-10-16 · 16 October 2026: The live Pathway Session line comes off the paid screens · `plans/decisions-archive/2026-10.md`
 - 2026-10-16 · 16 October 2026: The ask names what the family keeps, and repeats after the first look · `plans/decisions-archive/2026-10.md`
@@ -158,64 +149,24 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-11-12 · 12 November 2026: a simple version of mid match joins the paid test · `plans/decisions-archive/2026-11.md`
 - 2026-11-12 · 12 November 2026: the ad system takes a brand: The Social Billboard and Schools join · `plans/decisions-archive/2026-11.md`
 - 2026-11-12 · 12 November 2026: The Social Billboard's first ad round, built · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: creator radar brief, plan before build · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: ChatGPT's feedback on the visual report, weighed · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: Roblox pilot, the verified research pack · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: collecting from one creator's Instagram is allowed, for analysis · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: Family IT Guy may be named in the Roblox story · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: the French sync stops going red, and her checkpoint model is ours · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: Free Saturday, a free printable a week built to be claimed, and the download no longer signs anyone up · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: a five day email series for anyone who asks, daily, outside the weekly floor · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: creator radar pilots 2 and 3, draft packs · `plans/decisions-archive/2026-11.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
 
-## 13 November 2026: creator radar brief, plan before build
-
-- Justin pasted a fifteen phase brief for a creator research radar and a unified LinkedIn, Reels and YouTube engine.
-- Verdict through the feedback filter: most of it extends the existing research register. No second database, no scraping (decided 14 October, PR 1293), Roblox pilot first.
-- Six decisions wait on him, the main one being whether named clinicians may be challenged in public, which the house rule forbids.
-- Plan: `plans/week-of-2026-11-09-creator-radar-and-unified-engine-plan.md`. Nothing is built until he says go.
-
-## 13 November 2026: ChatGPT's feedback on the visual report, weighed
-
-Twelve points, through the feedback filter (`plans/2026-11-13-chatgpt-visual-feedback-weighed.md`). Adopted: the two post Australia comparison is an association, not a test, and the report now says so; any figure card carries what the figure counts and its source; every proposed visual stays optional until reviewed. Parked for Justin: the look for evidence posts, a handwritten GDC-056, the 12 November screenshot we do not hold, and whether the Manchester post was a newsletter. No pack, handoff or schedule changed.
-
-## 13 November 2026: Roblox pilot, the verified research pack
-
-- Justin said go on the Roblox pilot. Six lenses, then 33 sources checked against their primary: 21 confirmed, 12 corrected, none demoted.
-- Position the evidence supports: not ban, not shrug. Who can message my child, where does it go next, will they tell me. No trial backs a staged path over a ban, and the pack says so.
-- Dr Becky Kennedy has no sourced Roblox position. Catherine Knibbs has one descriptive statement, no view on banning. Family IT Guy says skip it. No named person goes into copy until Justin decides.
-- Nothing written from it yet and no GDC number claimed. `briefings/2026-11-13-roblox-predators-ban-v2.html`.
-
-## 13 November 2026: collecting from one creator's Instagram is allowed, for analysis
-
-- Justin said scraping is fine to get the information and analyse it, for the Family IT Guy Instagram account, from his own logged in browser.
-- This is an exception to the 14 October no scraping decision (PR 1293), for analysis of one named public account. It is not a general change.
-- Still holds: nothing collected is republished, no video is reposted or reused, no person is named in copy until he decides, and a post that could not be seen is logged as not seen.
-
-## 13 November 2026: Family IT Guy may be named in the Roblox story
-
-- Justin said to name him. He is not a clinician, so the rule about clinicians is untouched.
-- He is named for his published advice to skip Roblox and for the Mike Tyson comparison. The first is sourced. The second is on Justin's word until we hold the video link and his exact words, and nothing attributing it goes out before then.
-- The copy says what he gets right before it disagrees.
-
-## 13 November 2026: the French sync stops going red, and her checkpoint model is ours
-
-Three nights of `languages-sync` failed because the repository refuses a job's pull request; the changes were already on the sync branch. The job now leaves one issue with the link and passes. Her site moved to one formal judgement per code per year at a checkpoint, with task descriptors, so the French assessment page is rebuilt around that map and the unit, lesson and progress pages label formal against formative. Also brought in: answer sheets beside every sheet, wall displays, sheets for every class, her pupil games (linked, not embedded). Her "In short" box is now a shared component and opens the digital class progress page too. Declined: her twenty link menu and her colours. Verdicts and the digital principles not yet built are in `plans/2026-11-13-french-scheme-review-plan.md`. PR 1532.
-
-## 13 November 2026: Free Saturday, a free printable a week built to be claimed, and the download no longer signs anyone up
-
-Justin: carousels that offer a free resource each week and get followers to leave an email or sign in for the free downloads. Researched (`content/packs/2026-11-28-free-saturday/research.md`), then built: one schedule (`content/printables/free-saturdays.json`), one link that never changes (`/free/this-week`, the Saturday's taster until the next), a seven card format (`content/brand-story/free-saturday.md`) and the first deck, the Christmas countdown for Saturday 28 November (14 November was already booked with The Planet Post). Found on the way and fixed: under PECR a free download cannot be conditional on marketing email, so the gate has an optional unticked box and the lead programmes skip a no (migration 396). Comment keyword DMs, the strongest tactic found, stay off: the 6 November fix pack bans them, so it is Justin's call. PR 1535.
-
-## 13 November 2026: a five day email series for anyone who asks, daily, outside the weekly floor
-
-Justin passed on a talk arguing a PDF alone goes unread and a short email a day works better; weighed in `plans/2026-11-13-email-series-advice-weighed.md` (adopted, adapted to five days, the 30 day version declined). Then, asked about the clash with "one email a week from all systems": "Yes, daily for the series". So a tick on a free taster page now brings page 1, 2 and 3 in the email with a tip each, the stage check, then the rest of the pack, one a day as a new email kind, `series`: no floor for its days, unsubscribes still win, sends recorded so the weekly programme counts on from the last. `check-email-guard` holds it to exactly five emails, one send site, ticked boxes only. The countdown carousel is booked for Saturday 28 November at 10:00 (Instagram carousel, Facebook card one): 14 November already held The Planet Post. PR 1535.
-
-## 13 November 2026: creator radar pilots 2 and 3, draft packs
-
-- Justin said start. Two draft packs: boundaries (kind and firm when the tablet goes off) and disclosure (what to say when a child tells you something scary happened online).
-- No person is named in any copy. The 29 July rule held: the clinicians' public work is cited only in each pack's `sources.md`, and the copy stands on independent evidence and on NSPCC, CEOP and Ofcom.
-- Found on the way: the August cybertrauma series credited "fewer than one in five told a trusted adult" to Internet Matters, and the report does not say it (it measures reporting to the platform, 36 percent). Justin said fix it: the live LinkedIn post was edited and a correction comment added, and the pack and briefing were corrected. The newsletter had never been sent.
-- Three house lines in `digi/07` and `digi/02` outrun the evidence. Listed in the boundaries sheet, not changed.
-- Nothing posted, no GDC number claimed. PR 1533.
-
 ## 14 November 2026: round 1 paused; the stage check opens on one tap
 
 Round 1 reached 9,210 parents, 216 clicks, 136 page loads, £10.64, and no stage check was begun; the counter was proved working. Question one asked a stranger for the child's name and birth month and year before anything, with no button. Justin: "Pause and fix it". Campaign paused. Question one is now the child's age, one tap (4 to 16); the birth month moves to the save screen, where with the age it gives the exact year; "Not you? Start fresh" shows only to a real returning visit. Left out was the clear winner on clicks (117 of 216). `plans/2026-11-14-stage-check-one-tap.md`.
+
 ## 14 November 2026: the parent problem sweep, first ranked log
 
 - Prompt B of the answer series plan, run on open pages only. 15 problems ranked in `content/parent-problem-log.md`, beside the radar log. No usernames stored, nothing published.
@@ -258,6 +209,7 @@ Round 1 reached 9,210 parents, 216 clicks, 136 page loads, £10.64, and no stage
 - None is ready for YouTube or the family account: landscape only, no stage check ending, and each closes on a promise about the child.
 - Not reached: the languages films, the music video, Drive beyond one search, the channels.
 - `content/child-films/2026-11-14-inventory-and-release-list.md`. Nothing uploaded or published.
+
 ## 14 November 2026: the first WhatsApp group pack, and the August briefing no longer stands alone
 
 - Topic production for the first WhatsApp group, Prompt C. The August briefing was re checked first: of 37 lines, 12 confirmed, 17 corrected, 7 removed, 1 not reached. `content/packs/2026-11-14-first-whatsapp-group/recheck.md`.
@@ -277,11 +229,21 @@ success rate), the rest as labels. The time number, its evidence and the
 "we do not read the device" note moved one tap in under the stars. The intro
 before the questions is unchanged; an earlier pass on it was reverted the same
 day because it was the wrong page. PR 1546.
+
 ## 14 November 2026: Tell us about your child, asked after joining
 
 The one tap stage check (PR 1541) lets a parent join without a name or a birth month. Audited: nothing breaks, but a child with no birthday never ages up (the age up cron reads only children with one) and a skipped name shows as "Your child". Justin: ask for it after they join, to avoid blocks. So finish-setup keeps the age tapped and the day (onboarding_answers.ageYears, ageOn) and marks the family (askAbout) when either is missing; that family's Setup Quest leads with "Tell us about your child": the name and the birth month, the year worked out from the age. Saving writes the birthday and re-derives the band and stage, so the age up takes over. Shown only to marked families, so step numbers never shift. Round 1 adverts back on the same day at Justin's word.
+
 ## 14 November 2026: child films, Justin's four answers and the 1.3 test
 
 - The first five go out in the look they have now. The closing promise to the grown up is cut from public versions. Remakes wait until the five are out, 1.6 first.
 - Film 1.3 built in both public shapes as the test: YouTube 3:58 with the stage check end card, a 1:23 vertical cut with full captions, a thumbnail and subtitles.
 - Not listened to by ear. Nothing uploaded. `content/child-films/1.3-release-test/`. PR 1547.
+
+## 15 November 2026: the Quests page is the day, and setup has its own page
+
+- Justin, with a screenshot: "seems way too much". Measured on a phone with a two child family: 17 screens, 124 things to tap. Now 2 screens and 16 on a quiet day.
+- The page keeps one job: what is waiting on me, each child today, add a job, the timer, give a star, then one quiet list. QuestManager moved whole to `/dashboard/quests/setup`; old `?tab=` and `?add_child=` links are sent on.
+- Waiting ticks showed twice on a busy day. The lower queue now stays folded until Turn one down is tapped, and the two cards tell each other when a tick is answered.
+- Research (sources in the PR): no body gives a screen to outdoor ratio or a balance score, so this page shows none, and the age guide is worded as our steer. `weekBalance()`'s 0 to 100 figure and the "healthy ceiling" wording elsewhere are for Justin to decide.
+- No migration, no API change, child app untouched. PR 1551.
