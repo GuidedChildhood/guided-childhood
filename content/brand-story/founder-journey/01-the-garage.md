@@ -2,6 +2,14 @@
 
 **Privacy: GREEN.** Names Guided Childhood: no. Proposed: Sunday 15 November.
 
+**Scheduled 15 November 2026, 19:00, on the brand accounts** (The Guided
+Childhood Facebook Page and @guidedchildhood), Justin's call, because Business
+Suite cannot reach his personal Instagram. The carousel is
+`images/01-slide1-porsche-plated.jpg` followed by `01-slide2-guitar-plated.jpg`,
+with the caption below word for word. Business Suite has no AI label switch, so
+the plate on each image is the label. The rest of the series still assumes his
+personal account, so decide where posts 2b to 10 go before Wednesday.
+
 **The scene:** `founder-context.md`, "The Porsche in the garage". His dad bought
 a damaged Porsche with a partner because the family could not afford one
 outright, and rebuilt it at home. Justin, about seven, passed tools and looked
