@@ -261,6 +261,7 @@ The one tap stage check (PR 1541) lets a parent join without a name or a birth m
 - The reminder prompt said three a day while the cap is two. It now reads the number from `DAILY_NUDGE_CAP`, setup says "at most two", and `check-nudge-cap` fails if they drift.
 - Setup's child step says "Send them their own link. It opens their app, nothing to download, no password", held by the new `check-child-link-open`.
 - "You just follow the path" on a family's first day on Home and in the welcome email. The price card and upgrade page say the four free days carry DiGi a few times a day and the starter scripts.
+- Later the same day: Rachael (her spelling) signed in once on 10 November and never chose a plan, so the choose screen is the last thing she saw and she never reached Home. Her free days were reset to 19 November on Justin's yes. Whether the choice moves later is Justin's to decide.
 - Justin kept school, French and Etsy builds going (no pause). Five questions for Rachel in `plans/2026-11-15-rachel-five-questions.md`.
 ## 15 November 2026: "our guide", never "healthy", across the app
 
