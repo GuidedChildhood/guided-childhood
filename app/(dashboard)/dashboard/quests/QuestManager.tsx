@@ -959,7 +959,7 @@ export default function QuestManager() {
             <Plate name="balance" size={48} icon={36} tint="var(--terracotta-lt)" radius={14} />
             <span style={{ flex: 1, minWidth: 0 }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>Balance and stats</span>
-              <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>See {child.name}&apos;s screen time by type this week, the healthy level, and the off screen wins.</span>
+              <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>See {child.name}&apos;s screen time by type this week, our guide, and the off screen wins.</span>
             </span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>›</span>
           </Link>

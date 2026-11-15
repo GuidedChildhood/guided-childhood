@@ -101,7 +101,7 @@ else if (!/<ChildRow[^>]*deal=\{deal\}/.test(parentCard) || !/<PendingAskBox[\s\
 else ok.push("D: the parent's yes box shows the deal, and points to making one")
 
 // ── E: both told about the guide ────────────────────────────────────────────
-if (!/Nearly at today's healthy amount/.test(kidCard) || !/minutes of today's healthy amount left/.test(kidCard) || !/Jobs still to do could earn/.test(kidCard)) problems.push("E: the child's card does not speak under the guide")
+if (!/Nearly at today's guide/.test(kidCard) || !/minutes of today's guide left/.test(kidCard) || !/Jobs still to do could earn/.test(kidCard)) problems.push("E: the child's card does not speak under the guide")
 else ok.push("E: the child's card says what is left, nearly there, and what jobs could earn")
 if (!/Nearly at today's guide/.test(parentCard) || !/min of today's guide left/.test(parentCard) || !/still to do could earn more/.test(parentCard) || !/jobsLeft=\{kid\.jobsLeft\?\.count/.test(parentCard)) problems.push("E: the parent's guide line does not speak under the guide")
 else ok.push("E: the parent's guide line says what is left, nearly there, and the jobs that could earn more")

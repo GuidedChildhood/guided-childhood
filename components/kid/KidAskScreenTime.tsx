@@ -206,7 +206,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
             </p>
             {recommendedMinutes > 0 && (
               <p data-guide style={{ margin: '4px 0 0', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-                {guideLeft > 0 ? `${guideLeft} min of today's healthy amount left` : 'Today\'s healthy amount is used up'}
+                {guideLeft > 0 ? `${guideLeft} min of today's guide left` : 'Today\'s guide is used up'}
               </p>
             )}
           </div>
@@ -298,7 +298,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
                 : costStars === 0
                   ? 'That is free time, no stars needed.'
                   : `That is ${costStars} star${costStars === 1 ? '' : 's'} of your ${balanceStars}.`}
-              {pastGuide && ' It goes past today\'s healthy amount, so it is your grown up\'s call.'}
+              {pastGuide && ' It goes past today\'s guide, so it is your grown up\'s call.'}
             </p>
             {note && <p style={{ margin: '0 0 12px', fontSize: 'var(--text-base)', fontWeight: 700, color: '#B93B3F' }}>{note}</p>}
             <button type="button" onClick={send} disabled={busy || needsActivity} style={bigBtn(!busy && !needsActivity)}>

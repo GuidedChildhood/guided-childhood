@@ -342,7 +342,7 @@ export async function POST(req: NextRequest) {
             : protectedReason
             ? `${mins} minutes on ${onScreen}. ${PROTECTED_PARENT_LINE[protectedReason]}${jobsLine} Yes runs it anyway, your call.`
             : overDayLine
-            ? `${mins} more minutes on ${onScreen} would take today well past the healthy amount for their age.${jobsLine} Yes runs it as a treat, or say not today.`
+            ? `${mins} more minutes on ${onScreen} would take today well past our guide for their age.${jobsLine} Yes runs it as a treat, or say not today.`
             : `${mins} minutes on ${onScreen}, that is ${stars} star${stars === 1 ? '' : 's'}.${jobsLine} Tap to say yes on your board.`,
           url: '/dashboard/quests',
         })
@@ -490,7 +490,7 @@ export async function POST(req: NextRequest) {
       await sendPush({
           userId: link.user_id,
           title: `${childName} ran their own call today ⏱️`,
-          body: `${mins} minutes on ${onScreen}, past the healthy guide for today. At their age the balance is theirs to practise. One for the weekly review, not for now.`,
+          body: `${mins} minutes on ${onScreen}, past our guide for today. At their age the balance is theirs to practise. One for the weekly review, not for now.`,
           url: '/dashboard/quests',
         })
     } catch { /* best effort */ }

@@ -31,8 +31,8 @@ const FIXTURES = [
     childId: 'fixture-child-3',
     childName: 'Maya',
     device: null,
-    question: 'Screen ran ahead of the healthy amount for Maya this week. Want to look at it together?',
-    chatMessage: "Maya's screen time ran ahead of the healthy guide for her age this week.",
+    question: 'Screen ran ahead of our guide for Maya this week. Want to look at it together?',
+    chatMessage: "Maya's screen time ran ahead of our guide for her age this week.",
     pathway: { label: 'Write the deal down together', href: '/dashboard/agreement' },
   },
 ]
