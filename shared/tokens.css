@@ -36,6 +36,14 @@
   --passport-cover-hi: #6B2333;
   --passport-cover:    #571C2A;
   --passport-cover-lo: #4A1723;
+  /* The foil on the cover, at the alphas it is used at (15 November 2026). */
+  --passport-foil:      rgba(237,195,95,0.85);
+  --passport-foil-rule: rgba(237,195,95,0.55);
+  --passport-foil-soft: rgba(237,195,95,0.45);
+  --passport-foil-text: rgba(237,195,95,0.65);
+  --passport-foil-wash: rgba(237,195,95,0.18);
+  --passport-foil-line: rgba(237,195,95,0.14);
+  --passport-foil-fill: rgba(237,195,95,0.10);
   --terracotta-dark:   #C99A28;
   /* The one red in the system, used sparingly and never decoratively: the
      last check in ring on the concern dial. Added 8 Aug on Justin's ask for

@@ -91,7 +91,7 @@ export const STEPS: SetupStep[] = [
   {
     key: 'homeScreen',
     title: 'Put us on your home screen, and turn on reminders',
-    what: 'One tap away instead of a tab you have to find, and a few gentle nudges at the hours screens turn up in your house.',
+    what: 'One tap away instead of a tab you have to find, and at most two reminders a day, at the hours screens turn up in your house, easing off if you go quiet.',
     href: '/dashboard/setup#home-screen',
   },
   {
@@ -127,7 +127,7 @@ export const STEPS: SetupStep[] = [
     // search.
     key: 'childLink',
     title: "Share the app with your child",
-    what: 'Their side, for ticking off jobs and seeing what they have earned. Show them the code and it lands on their phone, nothing to install. No phone yet? Say so and we keep the whole thing on paper instead.',
+    what: 'Their side, for ticking off jobs and seeing what they have earned. Send them their own link. It opens their app, nothing to download, no password. No phone yet? Say so and we keep the whole thing on paper instead.',
     href: '/dashboard/setup#share',
   },
 ]

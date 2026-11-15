@@ -70,6 +70,17 @@ Anything you could not reach (sign in wall, broken page, no test data), so a
 gap in the walkthrough is never read as a pass.
 ```
 
+## Pages walked every week
+
+Besides the live product and every `/ref-*` fixture, walk these at 390 and
+1280 on a local dev server (`npm run dev`), tapping every button:
+
+- `/starter-pack?preview=result`, the pathway is ready page after the three
+  questions (Justin, 15 November 2026). It is a dev only preview with a test
+  family (Ava, 11 to 13), so it never shows on the live site. Check the
+  passport cover, the three fixes, DiGi's loop, the price card, the share card,
+  and that the save bar appears once you scroll past the first card.
+
 ## Rules that carry over
 
 - Findings are sorted into exactly three buckets, as `review.md` says. A must

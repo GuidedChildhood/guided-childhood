@@ -78,6 +78,10 @@
       "schedule": "30 8 * * *"
     },
     {
+      "path": "/api/cron/stalled-ask",
+      "schedule": "45 8 * * *"
+    },
+    {
       "path": "/api/email/digest",
       "schedule": "20 8 * * *"
     },

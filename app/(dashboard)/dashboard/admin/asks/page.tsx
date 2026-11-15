@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ONBOARDING_TO_SLUG } from '@/lib/concerns/baseline'
+import { ASK_QUESTIONS } from '@/lib/asks/stalled'
 
 // Founder only. What are parents actually asking us for that we do not have?
 //
@@ -76,6 +77,28 @@ export default async function AsksPage() {
     admin.from('concerns').select('slug, label, times_flagged, created_at'),
   ])
 
+  // 0. What a parent who stopped told us (15 November 2026). Read on its own
+  //    and allowed to fail quietly, so a database without migration 397 still
+  //    shows the rest of the page. Newest parent first, their answers together.
+  const { data: answerRows } = await admin
+    .from('parent_answers')
+    .select('user_id, question, answer, updated_at')
+    .order('updated_at', { ascending: false })
+    .limit(200)
+  const labelOf = new Map(ASK_QUESTIONS.map(q => [q.key, q.label]))
+  const whoIds = [...new Set((answerRows ?? []).map(a => a.user_id as string))]
+  const { data: whoRows } = whoIds.length
+    ? await admin.from('profiles').select('id, full_name').in('id', whoIds)
+    : { data: [] as { id: string; full_name: string | null }[] }
+  const nameOf = new Map((whoRows ?? []).map(w => [w.id as string, String(w.full_name ?? '').split(' ')[0] || 'A parent']))
+  const stopped = whoIds.map(id => ({
+    id,
+    name: nameOf.get(id) ?? 'A parent',
+    answers: ASK_QUESTIONS
+      .map(q => (answerRows ?? []).find(a => a.user_id === id && a.question === q.key))
+      .filter((a): a is NonNullable<typeof a> => Boolean(a)),
+  }))
+
   // 1. Typed at the quiz, when none of the nine fitted.
   const typed = (profiles ?? [])
     .map(p => ({
@@ -111,6 +134,24 @@ export default async function AsksPage() {
         The worries families raised that no tile covers. This is the list the tenth
         worry should be chosen from.
       </p>
+
+      {stopped.length > 0 && (
+        <>
+          <p style={{ ...MONO, margin: '0 0 10px' }}>Parents who stopped, in their words</p>
+          {stopped.map(parent => (
+            <Card key={parent.id}>
+              <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 8px' }}>{parent.name}</p>
+              {parent.answers.map(a => (
+                <p key={a.question as string} style={{ fontSize: 'var(--text-md)', lineHeight: 1.5, color: 'var(--ink)', margin: '0 0 8px' }}>
+                  <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>{labelOf.get(a.question as string) ?? a.question}</span>
+                  {a.answer as string}
+                </p>
+              ))}
+            </Card>
+          ))}
+          <div style={{ height: 18 }} />
+        </>
+      )}
 
       {/* ── TYPED AT THE QUIZ ─────────────────────────────────────────────── */}
       <div style={{ ...MONO, marginBottom: 10 }}>
