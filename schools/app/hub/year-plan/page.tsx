@@ -1,6 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import InShort from '@/components/InShort'
 import PrintButton from '@/components/PrintButton'
 import { KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 import { lessonsForYear, yearName, YEARS_OF } from '@gc/shared/schools-progression'
@@ -36,6 +37,16 @@ export default async function YearPlanPage() {
           timetable loses nothing except that look back.
         </p>
 
+        <div style={{ marginBottom: '22px' }}>
+          <InShort points={[
+            <>A <b>suggested</b> year and term for every lesson, Reception to Year 13.</>,
+            <>Every lesson stands alone, so <b>reorder freely</b>. Only the starter&apos;s look back changes.</>,
+            <>What each lesson builds on and leads to is on the <Link href="/hub/progression">progression map</Link>.</>,
+            <>Under each year: what a pupil <b>can say by the end of it</b>, one statement for each lesson.</>,
+            <>What each class has actually had is on <Link href="/hub/progress">class progress</Link>.</>,
+          ]} />
+        </div>
+
         {KEY_STAGE_ORDER.map(ks => {
           const meta = KEY_STAGE_META[ks]
           return (
@@ -68,6 +79,20 @@ export default async function YearPlanPage() {
                         </div>
                       ))}
                     </div>
+                    {/* BY THE END OF THE YEAR (15 November 2026). The French scheme
+                        states, for each year, what a pupil should be able to do
+                        by the end of it. Ours is each lesson's own outcome, the
+                        one "I can" it was written to, for the lessons suggested
+                        for that year. Nothing is added: a year with no new
+                        lesson has no statement. */}
+                    {lessons.length > 0 && (
+                      <div className="gc-yp-end" style={{ marginTop: 'var(--space-2)', borderLeft: '4px solid var(--green)', background: 'var(--butter-lt)', borderRadius: 'var(--radius-tile)', padding: 'var(--space-2) var(--space-3)' }}>
+                        <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: 'var(--space-1)' }}>By the end of {yearName(year)}, a pupil can say</div>
+                        <ul style={{ ...body, margin: 0, paddingLeft: 'var(--space-4)' }}>
+                          {lessons.map(m => <li key={m.moduleId}>{m.outcome}</li>)}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 )
               })}

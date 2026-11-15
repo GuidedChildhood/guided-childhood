@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import InShort from '@/components/InShort'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, positionCode } from '@gc/shared/schools-curriculum'
 import { COMPUTING_POS, COMPUTING_POS_COUNTS, COMPUTING_POS_SOURCE, COMPUTING_KEY_STAGES, type ComputingStatement, type ComputingVerdict } from '@gc/shared/schools-computing-pos'
@@ -113,6 +114,15 @@ export default function ComputingMappingPage() {
           scheme. Below is every statement of its subject content, in the document&rsquo;s own words, with
           what this scheme does about each one.
         </p>
+
+        <div style={{ margin: '0 0 22px' }}>
+          <InShort points={[
+            <>Every statement of the computing national curriculum, in its own words.</>,
+            <>This is an online safety and digital literacy scheme, <b>not a computing scheme</b>: it claims only the safety and literacy statements it teaches.</>,
+            <>Each claim is held to words that must appear in the lesson&apos;s slides.</>,
+            <>Programming, networks and data stay with your computing scheme.</>,
+          ]} />
+        </div>
         <p style={{ ...body, color: 'var(--ink-muted)', marginBottom: '24px', maxWidth: '640px' }}>
           Honesty note: this is a digital literacy and online safety scheme, not a computing scheme. A
           statement is marked as taught only where a named lesson substantively teaches it, and every one of

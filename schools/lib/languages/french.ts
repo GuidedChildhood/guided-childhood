@@ -85,6 +85,8 @@ type DeckUnit = {
   // the scheme's shared extras folder, not the unit's own: see extrasUrl().
   extras?: SheetFile[]
   displays?: SheetFile[]
+  // A support mat for the half term's sound, in the unit's own print folder.
+  phonicsMats?: SheetFile[]
   songs?: Song[]
 }
 
@@ -112,7 +114,13 @@ export type FrenchPage = {
   directAssociation?: Row2[]
   pupilResources?: Row2[]
   formalAssessment?: FormalAssessment
+  endOfYear?: EndOfYear[]
 }
+
+/** Her end of year statements (15 November 2026): for each year, each strand,
+ *  each code, the statement a pupil should meet by the end of the year and the
+ *  half term it is judged in. */
+export type EndOfYear = { year: number; strands: { strand: string; items: { code: string; term?: string; statement: string; tracker?: string }[] }[] }
 
 /** THE CHECKPOINT MAP (13 November 2026). The author settled how the scheme is
  *  formally assessed: each code gets one judgement a year, in a named half
@@ -131,7 +139,8 @@ export type FormalAssessment = {
  *  statement grows from Year 3 to Year 4, the two class toys, the four levels. */
 export type FrenchHandbook = {
   think?: Row2[] | null
-  grow?: Record<string, string> | null
+  sentenceGrows?: [string, string, string][] | null
+  unitGrows?: [string, string, string][] | null
   marie?: Row2[] | null
   levels?: Row2[] | null
   progressShows?: Row2[] | null
@@ -139,7 +148,8 @@ export type FrenchHandbook = {
   believe?: string | null
   goodGame?: string | null
   everyClass?: { label: string; files: SheetFile[] }[] | null
-  pupilGames?: { sites: { year: number; url: string }[]; qr: string | null } | null
+  pupilGames?: { sites: { year: number; url: string; inclusion?: boolean }[]; qr: string | null; phonicsCheck?: string | null } | null
+  overload?: { steps: string[]; worksheets: string; slides: string } | null
 }
 
 type Raw = {
@@ -306,10 +316,13 @@ export function extrasUrl(file: string): string {
 
 /** The author's pupil games site for one year, if she has one. Pupils play at
  *  home with only the units their class has met. It is her site, not ours. */
-export function pupilGames(year: number): string | null {
-  const url = data.handbook?.pupilGames?.sites.find(s => s.year === year)?.url
-  return url && /^https:\/\/lets-play-french-y\d\.pages\.dev\/$/.test(url) ? url : null
+export function pupilGames(year: number, inclusion = false): string | null {
+  const url = data.handbook?.pupilGames?.sites.find(s => s.year === year && !!s.inclusion === inclusion)?.url
+  return url && /^https:\/\/lets-play-french-y\d(-plus)?\.pages\.dev\/$/.test(url) ? url : null
 }
+/** Her phonics check app: pupils do the phonics progress checks on a tablet, an adult ticks, nothing is saved online. */
+export const PHONICS_CHECK_URL: string | null = data.handbook?.pupilGames?.phonicsCheck === 'https://french-phonics-check.pages.dev/' ? data.handbook.pupilGames.phonicsCheck : null
+export const END_OF_YEAR: EndOfYear[] = data.page?.endOfYear ?? []
 export const PUPIL_GAMES_QR: string | null = data.handbook?.pupilGames?.qr ?? null
 export const EVERY_CLASS = data.handbook?.everyClass ?? []
 

@@ -1,4 +1,5 @@
 import { Fragment } from 'react'
+import InShort from '@/components/InShort'
 import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
@@ -141,6 +142,15 @@ export default async function RsheMappingPage() {
           online requirement it contains, in the guidance&rsquo;s own words, with what this scheme does
           about each one.
         </p>
+
+        <div style={{ margin: '0 0 22px' }}>
+          <InShort points={[
+            <>Every digital and online requirement in the RSHE guidance in force from <b>1 September 2026</b>, in its own words.</>,
+            <>For each one: <b>taught</b>, <b>part taught</b> (with the missing clause named) or <b>not covered</b>.</>,
+            <>A claim of taught is held to words that must appear in the lesson&apos;s slides, so it cannot drift.</>,
+            <>What your school has actually delivered is on the <Link href="/hub/coverage">coverage page</Link>.</>,
+          ]} />
+        </div>
         <p style={{ ...body, color: 'var(--ink-muted)', marginBottom: '24px', maxWidth: '640px' }}>
           Honesty note: a requirement is marked as taught only where a named module substantively teaches
           it, and every one of those claims is held to phrases that must appear in that module&rsquo;s slides.

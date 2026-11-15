@@ -98,6 +98,33 @@ export function matchLanguagesCode(input: string): string | null {
   return [...languageCodes().keys()].find(c => c === tidy) ?? null
 }
 
+// FRENCH IS IN EVERY SCHOOL'S LICENCE (Justin, 15 November 2026: "all schools
+// get french"). A school with a digital scheme code no longer needs a second
+// code. The proxy mints a languages cookie from the scheme cookie the first
+// time that school opens a languages page, against a code written as
+// scheme~<their code>. It opens French only (Spanish is still by its own
+// code), it is checked against the CURRENT scheme list on every request, so
+// pulling a school's scheme code closes French too, and because the code is
+// part of the cookie the school's French record stays its own.
+const SCHEME_PREFIX = 'scheme~'
+
+/** Is this still a scheme code, licence or pilot? Read from the same two env
+ *  lists lib/access.ts reads. Repeated here in six lines, not imported: this
+ *  file is loaded as it stands by scripts/check-languages-door.mjs, which
+ *  cannot resolve an extension free import. */
+function schemeCodeLive(code: string): boolean {
+  const tidy = (c: string) => c.trim().toLowerCase().replace(/\s+/g, '')
+  const licence = (process.env.SCHOOLS_ACCESS_CODES || '').split(',').map(tidy)
+  const pilot = (process.env.SCHOOLS_PILOT_CODES || '').split(',').map(e => tidy(e.split(':')[0] ?? ''))
+  const want = tidy(code)
+  return want.length > 0 && [...licence, ...pilot].includes(want)
+}
+
+/** Mint the French cookie for a school that holds a valid scheme code. */
+export async function issueSchemeLanguagesToken(schemeCode: string): Promise<string> {
+  return issueLanguagesToken(`${SCHEME_PREFIX}${schemeCode.trim().toLowerCase()}`)
+}
+
 /** Mint a cookie value for a code that has already been checked. */
 export async function issueLanguagesToken(code: string): Promise<string> {
   const expires = Date.now() + TTL_DAYS * 24 * 60 * 60 * 1000
@@ -116,7 +143,9 @@ export async function languagesTokenAccess(token: string | undefined): Promise<L
   const [, code, expires, signature] = parts
   const expiry = Number(expires)
   if (!Number.isFinite(expiry) || expiry < Date.now()) return null
-  const langs = languageCodes().get(code)
+  const langs = code.startsWith(SCHEME_PREFIX)
+    ? (schemeCodeLive(code.slice(SCHEME_PREFIX.length)) ? (['fr'] as Lang[]) : undefined)
+    : languageCodes().get(code)
   if (!langs) return null
   return sameSignature(await sign(`lang|${code}|${expires}`), signature) ? { langs } : null
 }

@@ -51,6 +51,7 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
   const extras = d?.extras ?? []
   const displays = d?.displays ?? []
   const games = d ? pupilGames(u.year) : null
+  const inclusionGames = d ? pupilGames(u.year, true) : null
   const formal = checkpointTasks(u)
   const formalCodes = new Set(formal.map(t => t.code))
   const about = [p.sound && 'the sound', p.grammar && 'the grammar', p.culture && 'the culture', p.ican?.length && 'what pupils can do by the end'].filter(Boolean) as string[]
@@ -102,6 +103,11 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
                     <div lang="fr" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1.1 }}>{p.sound}</div>
                     {p.soundHint && <div style={small}>{p.soundHint}</div>}
                     {p.soundSays && <div style={{ ...small, color: 'var(--ink)' }}>Say it {p.soundSays}</div>}
+                    {u.slug && (d?.phonicsMats ?? []).map(m => (
+                      <a key={m.f} href={mediaUrl(u.slug!, m.f, 'sheet')} target="_blank" rel="noopener" style={{ ...small, display: 'flex', alignItems: 'center', minHeight: 44, color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+                        {m.t}
+                      </a>
+                    ))}
                     {d?.phonics && u.slug && (
                       <a href={mediaUrl(u.slug, d.phonics, 'deck')} target="_blank" rel="noopener" style={{ ...small, display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'var(--terracotta-dark)', fontWeight: 700 }}>
                         Open the phonics slides
@@ -229,7 +235,10 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
                 Games, picture word mats and songs for Year {u.year}, on the scheme author&apos;s own site. It works on a
                 phone or a tablet, so it suits home practice and a group on the class tablets.
               </p>
-              <a href={games} target="_blank" rel="noopener" className="btn btn-outline" style={{ marginTop: 'var(--space-3)' }}>Open the Year {u.year} games</a>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'var(--space-3)' }}>
+                <a href={games} target="_blank" rel="noopener" className="btn btn-outline">Open the Year {u.year} games</a>
+                {inclusionGames && <a href={inclusionGames} target="_blank" rel="noopener" className="btn btn-outline">Inclusion games, Year {u.year}</a>}
+              </div>
               <p style={{ ...small, margin: 'var(--space-2) 0 0' }}>Opens in a new tab on the author&apos;s site. No login, and nothing about a pupil is asked for.</p>
             </Fold>
           )}

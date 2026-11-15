@@ -87,6 +87,23 @@ export default function FrenchCurriculum() {
             <Flow steps={flowSteps(P.audience)} />
           </div>
         )}
+        {([
+          ['One sentence grows, Year 3 to Year 4', 'The same kind of sentence gets longer and more personal as each half term adds a structure. Pupils keep using what they learnt before.', FR_HANDBOOK.sentenceGrows, 'Half term'],
+          ['Inside one unit: Les couleurs', 'Each lesson adds one small step, and earlier lessons come back as retrieval before they are used in something new.', FR_HANDBOOK.unitGrows, 'Lesson'],
+        ] as const).map(([title, lead, rows, first]) => rows && rows.length > 0 ? (
+          <div key={title}>
+            <h3 style={{ ...eyebrow, margin: '0 0 var(--space-1)' }}>{title}</h3>
+            <p style={{ ...small, margin: '0 0 var(--space-2)' }}>{lead}</p>
+            <div style={{ ...card, padding: 0, overflowX: 'auto' }}>
+              <table className="gc-fr-ph">
+                <thead><tr><th scope="col">{first}</th><th scope="col">What pupils say</th><th scope="col">What it adds</th></tr></thead>
+                <tbody>
+                  {rows.map(r => <tr key={r[0]}><th scope="row">{r[0]}</th><td lang="fr">{r[1]}</td><td>{r[2]}</td></tr>)}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : null)}
         {FRENCH_YEARS.map(y => (P.grammar?.[yk(y)] ? (
           <div key={`g${y}`}>
             <h3 style={{ ...eyebrow, margin: '0 0 var(--space-2)' }}>Grammar, Year {y}</h3>
