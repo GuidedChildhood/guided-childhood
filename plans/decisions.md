@@ -297,6 +297,12 @@ Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach scree
 - Justin's yes. A new parent now goes straight in free and lands on setup, whose first step is the home screen and reminders. The founder or free choice is owed only after their first check in (`needsPlanChoice`). It reverses the 14 August placement at the end of sign up, because the one live family left at that screen before seeing the product.
 - Still its own route behind the middleware, so once owed it cannot be skipped. A parent who never checks in meets the upgrade page when the free days end.
 - Homepage line and THE STORY section 9 changed to match. No migration.
+
+## 16 November 2026: the worry question asks what parents want help with
+
+- Justin, with the stage check grid: match it to what parents raise most, make it clear we bring the solutions, and do not break the daily tracking. The grid is now the twelve the problem sweep ranked (Mumsnet log plus UK surveys and Ofcom; Reddit and Facebook groups unreadable, stated), each tile with one line of what we bring. Question: "What would you like help with?"
+- New: Who they talk to in games, Group chats, They get round the rules, Homework on screens, Endless YouTube, Spending in games. Folded, not deleted: Controller fights, Mood after screens, Morning TV, in RETIRED_WORRIES so families who picked them keep everything.
+- Every tile still becomes a concern, a check in row, a focus strip and a script filter (check-focus-labels). No migration. `plans/2026-11-16-worry-question-top-12.md`.
 ## 16 November 2026: DiGi's recorded voice is Tamsin, a little slower
 
 - Justin chose by ear from six samples of the same 1.3 passage: Tamsin (Higgsfield preset 9eb5a147, seed_audio, speech rate minus 10, about 118 words a minute). Replaces Mabel (films) and Imogen (social) for every new recording.
@@ -333,3 +339,19 @@ Runs in the Monday radar sweep.
 - Justin chose it on 14 November. A child aged 10 to 12 (or an Explorer run saved before the age question) sees "The first group chat" on the result page: one email box, one button, "Start the seven emails". Day 1 goes at once, then one a morning from the email cron as kind `series`.
 - Asking is the consent: the button and the line under it name the seven emails and the odd note after, so the lead is marked `marketing_consent` true like a ticked box (396). No second box, because nothing else is given in exchange.
 - No migration. The start row in `lead_email_log` is the clock and its unique key stops a second press restarting the week. The copy lives in `lib/courses/registry.ts`, tested word for word against the checked pack, so the next topic is a new entry. PR 1573.
+## 16 November 2026: lesson films from what parents react to, the map and the 1.6 pair
+
+- The last 30 posts from Family IT Guy and the two clinicians, read for subject only and grouped: `content/child-films/parent-reaction-series/subjects-2026-11-16.md`. The cybertrauma account posts on LinkedIn, not Instagram, so her 30 came from there. 32 of 90 are not ours.
+- First three subjects, each with a film already: bedtime phones (1.6 remake), "is this real?" (1.5), seen something upsetting (1.4, the largest group). Roblox strangers is the first new film after them.
+- The 1.6 child and parent scripts are drafted in Tamsin's voice. Nothing generated: the pair is quoted at about 97 credits and waits on Justin.
+- The watch together booking is a plan with four questions for Justin, not built. Plan: `plans/week-of-2026-11-16-lesson-films-from-parent-reactions-plan.md`. PR 1576.
+## 16 November 2026: film 1.3 re-voiced in Tamsin, the cost measured
+
+- All 44 lines regenerated in DiGi's voice, pictures slowed to fit, both public cuts and the subtitles rebuilt. 20.9 credits for the film, measured from the balance. About 21 a film for the other four.
+- The generator pads lines with long silences and twice dropped a narration phrase; `revoice.py` trims the silences, and every line is transcribed against its words before the build.
+- `content/child-films/1.3-release-test/`. PR 1570. Nothing uploaded.
+
+## 16 November 2026: six tiles first, and this is just the start
+
+- Justin: do not overwhelm parents; reassure them we drive it and keep asking. The stage check shows the six most common worries, the other six one tap away ("See 6 more"); a ticked tile never folds away. The question asks for what is on their mind today, even just one.
+- Under the grid: we bring up the next ones for their age (age prompts, the age up cron) and anything they mention to DiGi is added and tracked (concerns written by DiGi, Moments, Right now). "Not sure yet?" starts them on Coming off screens, the most common.

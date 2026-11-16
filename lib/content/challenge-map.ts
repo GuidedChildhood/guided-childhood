@@ -43,6 +43,14 @@ export const CHALLENGE_TO_CATEGORY: Record<string, string> = {
   social_media: 'social-media',
   ai_chatbots: 'school-and-ai',
   seen_something: 'staying-safe',
+  // 16 November 2026: the six new tiles, each pointed at the category whose
+  // scripts already answer it.
+  game_chat: 'staying-safe',
+  group_chats: 'social-media',
+  getting_round: 'family-rules',
+  homework_screens: 'screen-time',
+  endless_youtube: 'screen-time',
+  game_spending: 'gaming',
   // something_else is deliberately absent. A parent who could not find their
   // worry in nine tiles has not told us a category, and guessing one is worse
   // than the unfiltered list they get by falling through.
