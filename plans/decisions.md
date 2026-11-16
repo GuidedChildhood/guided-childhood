@@ -363,3 +363,6 @@ Runs in the Monday radar sweep.
 
 - All four first release films now exist in DiGi's voice in both public shapes (YouTube with the stage check end card, a vertical cut for the family account), with subtitles and thumbnails. 99.4 credits for the four, measured from the balance.
 - The 1.3 scripts became one shared tool, `content/child-films/revoice/`, with each film's settings in its folder's `film.json`. Folders: `content/child-films/1.*-release/`. Nothing uploaded.
+## 16 November 2026: the child films go on the Guided Childhood YouTube channel
+
+- Justin named the channel for the five re-voiced films. Each upload still needs made for kids set, which turns off end screens and comments, so the stage check end card built into each film is the only call to action. Recorded in the inventory. PR 1588.
