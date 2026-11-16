@@ -63,8 +63,12 @@ judgement, "not a rule that every post needs an image".
 
 1. Read the newest report in `content/analytics/`. Then record the decision
    with `decideVisual` in `assets.mjs`: the choice and the reason in a
-   sentence. **Text only is the default while the evidence is silent**, and the
-   handoff's own formats still bind.
+   sentence. **An evidence post gets a research card by default** (Justin,
+   16 November 2026): a still and a 14 second motion card on plain paper,
+   made by the engine below, with a contrarian headline that stays inside
+   what the study shows. Text only is the choice only when the story has no
+   single clean finding to put on a card, and the reason says so. The aim is
+   one post ready for Justin every day; he picks which 3 or 4 to post.
 2. A film is made from code, in the house look, by the method in
    `.claude/skills/explainer-video` and `talking-head-video/motion-standard.md`.
    Only words the review cleared go on screen. No chart, no number that is not
