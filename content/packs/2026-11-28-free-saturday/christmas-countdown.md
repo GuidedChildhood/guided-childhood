@@ -36,12 +36,16 @@ All 24 doors and the sticker sheet are free in the Guided Childhood app for four
 
 What is the one December thing your family does every year?
 
-## The DM keyword (Justin, 13 November 2026: "Yes, set it up")
+## The DM keyword (Justin, 13 November 2026: "Yes, set it up"; live 16 November)
 
-Business Suite, Inbox, Automations, a keyword reply for Instagram messages. Keywords: COUNTDOWN, Countdown, countdown (Meta matches exactly). The reply:
+Business Suite on this account offers no keyword replies (only Auto reply, Away message and Identify unanswered messages), so on 16 November, with Justin's "Add to auto reply", the existing Auto reply carries the link. It answers the first message anyone sends, on Messenger and Instagram (the Instagram channel had been off and was switched on):
 
-Here are your free Christmas countdown pages: https://www.guidedchildhood.com/free/christmas-countdown?src=ig-dm&utm_source=instagram&utm_medium=dm&utm_campaign=1128-countdown
-Pop your email in and the tree poster and doors 1 to 6 come straight to your inbox.
+Thank you for messaging us! If you're after the free Christmas countdown pages, here they are: https://www.guidedchildhood.com/free/christmas-countdown?src=ig-dm&utm_source=instagram&utm_medium=dm&utm_campaign=1128-countdown
+For anything else, bear with us and we'll get back to you as soon as we can! 😊
+
+The old text, to put back after Christmas: "Thank you for messaging us! We are currently unavailable, but bear with us, we'll get back to you as soon as we can! 😊"
+
+Limits: only a first message gets it, and everyone who writes in sees the countdown line. For a reply to the word alone, connect ManyChat.
 
 ## Story (same evening, 19:00, link sticker)
 

@@ -406,3 +406,7 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 - Found on the way: the August cybertrauma series credited "fewer than one in five told a trusted adult" to Internet Matters, and the report does not say it (it measures reporting to the platform, 36 percent). Justin said fix it: the live LinkedIn post was edited and a correction comment added, and the pack and briefing were corrected. The newsletter had never been sent.
 - Three house lines in `digi/07` and `digi/02` outrun the evidence. Listed in the boundaries sheet, not changed.
 - Nothing posted, no GDC number claimed. PR 1533.
+
+## 16 November 2026: the COUNTDOWN link rides on the Business Suite auto reply
+
+After Justin completed Meta's identity check, Instagram messages joined the Business Suite inbox, but this account offers no keyword replies. Justin chose "Add to auto reply": the existing first message reply now carries the free countdown link (`src=ig-dm`), and its Instagram channel, which had been off, is on. The previous wording is kept in `content/packs/2026-11-28-free-saturday/christmas-countdown.md` to restore after Christmas. ManyChat stays the upgrade for a reply to the word alone. PR 1535.
