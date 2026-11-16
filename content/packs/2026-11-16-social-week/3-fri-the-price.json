@@ -1,0 +1,88 @@
+{
+  "name": "2026-11-16-fri-the-price",
+  "size": "portrait",
+  "lead": "bloop",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "hook",
+      "type": "hook",
+      "lead": "bloop",
+      "tag": "1 / 7",
+      "eyebrow": "Inside Guided Childhood",
+      "headline": "We stopped<br>arguing about<br><mark>screen time.</mark>",
+      "second": "We wrote down<br>the price."
+    },
+    {
+      "name": "problem",
+      "type": "big",
+      "eyebrow": "The problem",
+      "headline": "Screen time<br>gets taken,<br>not given.",
+      "body": "You never quite decided. You never quite said yes.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "screen",
+      "type": "screen",
+      "lead": null,
+      "tag": "3 / 7",
+      "eyebrow": "Inside Guided Childhood",
+      "steps": [
+        "Every evening is a fresh negotiation.",
+        "Jobs first. Ticked by them, agreed by you.",
+        "Stars become minutes, at <mark>a rate you set.</mark>"
+      ],
+      "image": "public/marketing/kid-page.png",
+      "caption": "A real screen, the child's page"
+    },
+    {
+      "name": "jobs",
+      "type": "list",
+      "eyebrow": "What a job can be",
+      "headline": "Jobs from the real list",
+      "items": [
+        "One hour of outside play",
+        "School bag packed tonight",
+        "Help make dinner",
+        "Twenty minutes lost in a book"
+      ]
+    },
+    {
+      "name": "not-for-sale",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "The part that holds",
+      "headline": "Some time<br>is not<br>for sale.",
+      "body": "Bedtime, mealtimes and school hours cannot be bought with stars.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "tonight",
+      "type": "script",
+      "eyebrow": "Say it tonight",
+      "headline": "Let the deal do the arguing",
+      "not": "Off. Now. Because I said so.",
+      "say": "You earned thirty minutes. When the timer ends, that is the deal we made."
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the next row about five more minutes.",
+      "send": "Send it to the parent who is tired of being the bad guy."
+    }
+  ],
+  "post": {
+    "date": "2026-11-20",
+    "day": "Friday 20 November",
+    "time": "10:00",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Send this to the parent who is tired of being the bad guy about screen time.\n\nScreen time tends to get taken, not given. You never quite decided, and you never quite said yes. So every evening turns into a fresh negotiation, and you are the one who has to end it.\n\nWe stopped negotiating about screen time. We wrote down the price instead.\n\nThat is Family Quests:\n\n1. You set real jobs. A packed school bag, an hour outside, helping with dinner.\n2. Your child ticks them off on their own page, and you agree each one.\n3. Every job pays stars, and stars become minutes at a rate you set.\n4. Bedtime, mealtimes and school hours are not for sale at any price.\n5. The minutes run on a timer you can both see.\n\nWhen the time runs out, it is the deal ending, not you being mean.\n\nWhat is the screen time argument you have most often at your house?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Send this to the parent who is tired of being the bad guy about screen time.\n\nScreen time tends to get taken, not given. You never quite decided, and you never quite said yes. So every evening turns into a fresh negotiation, and you are the one who has to end it.\n\nWe stopped negotiating about screen time. We wrote down the price instead.\n\nThat is Family Quests:\n\n1. You set real jobs. A packed school bag, an hour outside, helping with dinner.\n2. Your child ticks them off on their own page, and you agree each one.\n3. Every job pays stars, and stars become minutes at a rate you set.\n4. Bedtime, mealtimes and school hours are not for sale at any price.\n5. The minutes run on a timer you can both see.\n\nWhen the time runs out, it is the deal ending, not you being mean.\n\nWhat is the screen time argument you have most often at your house?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack",
+    "alt": "Card one of seven. A large headline says we stopped arguing about screen time, we wrote down the price, with the green planet friend Bloop beside it. The later cards show the child's real page in the app, jobs from the real list, the times that stars cannot buy, and words to say when the timer ends."
+  }
+}
