@@ -1,6 +1,6 @@
 import type { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { VIDEO_LINK_COOKIE, VIDEO_STARTED_COOKIE, VIDEO_LINK_MAX_AGE_SECONDS, normaliseLinkCode } from '@/lib/video/link'
+import { VIDEO_LINK_COOKIE, VIDEO_STARTED_COOKIE, VIDEO_LINK_MAX_AGE_SECONDS, normaliseLinkCode, type StageStep } from '@/lib/video/link'
 import { UTM_COOKIE, utmCookieValue, utmColumns, type Utm } from '@/lib/video/utm'
 import { hasUtm } from '@gc/shared/utm'
 
@@ -20,7 +20,7 @@ import { hasUtm } from '@gc/shared/utm'
 /** Insert an event row with its UTMs; on a database without 388, without them. */
 export async function insertLinkEvent(
   admin: ReturnType<typeof createAdminClient>,
-  row: { code: string; kind: 'opened' | 'started' },
+  row: { code: string; kind: 'opened' | 'started' | StageStep },
   utm?: Utm | null,
 ): Promise<boolean> {
   const cols = utmColumns(utm)

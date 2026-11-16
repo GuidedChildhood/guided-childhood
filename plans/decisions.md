@@ -234,6 +234,12 @@ day because it was the wrong page. PR 1546.
 
 The one tap stage check (PR 1541) lets a parent join without a name or a birth month. Audited: nothing breaks, but a child with no birthday never ages up (the age up cron reads only children with one) and a skipped name shows as "Your child". Justin: ask for it after they join, to avoid blocks. So finish-setup keeps the age tapped and the day (onboarding_answers.ageYears, ageOn) and marks the family (askAbout) when either is missing; that family's Setup Quest leads with "Tell us about your child": the name and the birth month, the year worked out from the age. Saving writes the birthday and re-derives the band and stage, so the age up takes over. Shown only to marked families, so step numbers never shift. Round 1 adverts back on the same day at Justin's word.
 
+## 16 November 2026: every printable on guidedchildhood.com/free
+
+- Justin: "all printables should be free", then "make them all available on a page at the link" (the first link in the Instagram bio). Asked which he meant; he chose a taster for the eight £1.99 mini packs (live on Etsy since 11 November), not the whole thing, and to keep the six held tasters off the index (retired characters, the under fives game, the teachers' pack). They still open by direct link.
+- The mini packs are three or four pages, so their taster is one page (two for the Routine Picture Cards): the headline page free, the rest on Etsy. The half rule still holds for every pack.
+- New in content/printables/free-tasters.json: partOf (the page links to the bigger pack's taster) and letterSource (a US Letter taster too). The email series leaves out page emails a short taster has no page for.
+- Not changed: the 27 live taster pages and files. A to Z Showdown, the Ice Cream Shop, the School Year Planner and Word Fishing are now live on Etsy but still say no-listing; flipping them is a follow up.
 ## 14 November 2026: child films, Justin's four answers and the 1.3 test
 
 - The first five go out in the look they have now. The closing promise to the grown up is cut from public versions. Remakes wait until the five are out, 1.6 first.
@@ -297,3 +303,33 @@ Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach scree
 - Justin, with the stage check grid: match it to what parents raise most, make it clear we bring the solutions, and do not break the daily tracking. The grid is now the twelve the problem sweep ranked (Mumsnet log plus UK surveys and Ofcom; Reddit and Facebook groups unreadable, stated), each tile with one line of what we bring. Question: "What would you like help with?"
 - New: Who they talk to in games, Group chats, They get round the rules, Homework on screens, Endless YouTube, Spending in games. Folded, not deleted: Controller fights, Mood after screens, Morning TV, in RETIRED_WORRIES so families who picked them keep everything.
 - Every tile still becomes a concern, a check in row, a focus strip and a script filter (check-focus-labels). No migration. `plans/2026-11-16-worry-question-top-12.md`.
+## 16 November 2026: DiGi's recorded voice is Tamsin, a little slower
+
+- Justin chose by ear from six samples of the same 1.3 passage: Tamsin (Higgsfield preset 9eb5a147, seed_audio, speech rate minus 10, about 118 words a minute). Replaces Mabel (films) and Imogen (social) for every new recording.
+- The name is written "Didgee" in spoken text, matching the app. The ten films say it three ways today.
+- The app's live speech (the phone's British voice) is unchanged. Samples and ids: `content/child-films/voice-test/`. PR 1570.
+
+## 16 November 2026: the advert funnel counts the pathway and the save screen
+
+- After the one tap first question, 8 of 119 advert visitors started the stage check and none made an account, with nothing to say where they stopped (PostHog is not on for the live site). Justin said yes to counting it.
+- `video_link_events` gains two kinds, `pathway` and `save` (migration 398), counted once per browser per follow against the code the start was counted against, so per link it reads opened, started, pathway, save, account. Existing counts filter by kind and are unchanged. PR 1569.
+## 16 November 2026: the premium motion engine for research cards
+
+- Justin asked for a Remotion engine making a PNG and a 14 second MP4 per approved story, 1080 by 1350, warm ivory, navy, restrained yellow. This brief settles the look for evidence posts, open since 12 November.
+- Built in `tools/motion-engine/` as its own package. HyperFrames films stay a separate lane.
+- Its gate refuses uncleared numbers, causal wording, a missing source or limitation and any record not Claude reviewed. It records files through `assets.mjs`; Drive, Metricool and the post register are unchanged.
+- No Higgsfield footage generated: that spends credits and waits on Justin.
+
+### 16 November 2026: the researcher watch and the parent problems map
+
+`npm run radar-people` (scripts/radar/people.mjs) lists new papers by Odgers,
+Haidt and Knibbs (Europe PMC, Crossref) and Haidt's After Babel feed into
+content/research-watch/, for a Claude review: SUPPORT, CHALLENGE, CONTEXT or
+SKIP, a challenge only on the evidence. LinkedIn likes and reposts cannot be
+read. Knibbs is not named beside our advice. parent-issues.md maps ten common
+parent problems to a radar stream, our belief and a real product surface.
+Runs in the Monday radar sweep.
+
+## 16 November 2026: four older games point to their Etsy listings
+
+- A to Z Showdown (4614794043), Ice Cream Shop (4614808978), School Year Planner (4614796575) and Word Fishing (4614809538) went live on Etsy around 11 to 14 November, so their free taster rows move from no-listing to live and the rebuilt taster bands now link to the listing.

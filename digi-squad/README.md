@@ -166,6 +166,7 @@ never pick a new one because the old one cannot be found.**
 
 | Friend | Voice id | Sample | Pronunciation |
 |---|---|---|---|
+| DiGi | Tamsin, preset 9eb5a147-c322-4f8a-8bc5-a30679dfaf5c, seed_audio, speech rate minus 10 (chosen 16 November 2026) | `content/child-films/voice-test/6-tamsin-slower.mp3` | Written "Didgee" in spoken text so it is said like the app says it |
 | Pebble | to be set | | |
 | Bloop | to be set | | |
 | Orbit | to be set | | |

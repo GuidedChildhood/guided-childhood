@@ -16,7 +16,8 @@
 //   3. renders a preview PNG of each taster page with pdftoppm, for the
 //      /free/<slug> page and the index.
 //
-// Out: public/printables/free/tasters/<slug>-taster-a4.pdf and
+// Out: public/printables/free/tasters/<slug>-taster-a4.pdf, a
+// <slug>-taster-letter.pdf where the row names a letterSource, and
 // <slug>-taster-p1.png to p3. Run it after changing pages or a listing:
 //
 //   node scripts/build-tasters.mjs            every taster
@@ -50,8 +51,11 @@ export function etsyUrl(listing) {
 }
 
 // The guard on the ruling. Exported so the test can hold every row to it.
+// One page is allowed (16 November 2026) for the mini packs, which are only
+// three or four pages long, so two pages would be most of the thing. The half
+// rule below still holds for every pack.
 export function tasterPagesAreFair(t) {
-  if (!Array.isArray(t.pages) || t.pages.length < 2 || t.pages.length > 3) return false
+  if (!Array.isArray(t.pages) || t.pages.length < 1 || t.pages.length > 3) return false
   if (new Set(t.pages).size !== t.pages.length) return false
   if (!t.pages.every(n => Number.isInteger(n) && n >= 1 && n <= t.pageCount)) return false
   return t.pages.length * 2 < t.pageCount
@@ -70,13 +74,32 @@ function addLink(pdf, page, x, y, w, h, url) {
 
 async function buildOne(t) {
   if (!tasterPagesAreFair(t)) throw new Error(`${t.slug}: pages ${JSON.stringify(t.pages)} are not a fair taster of ${t.pageCount}`)
-  const src = await PDFDocument.load(fs.readFileSync(path.join(ROOT, t.source)))
-  if (src.getPageCount() !== t.pageCount) throw new Error(`${t.slug}: source has ${src.getPageCount()} pages, the data says ${t.pageCount}`)
+  fs.mkdirSync(OUT, { recursive: true })
+  const pdfPath = path.join(OUT, `${t.slug}-taster-a4.pdf`)
+  fs.writeFileSync(pdfPath, await stamped(t, t.source))
+  // The US Letter taster (16 November 2026), the same pages of the Letter
+  // product PDF, where the pack has one. No previews: the A4 ones show it.
+  if (t.letterSource) fs.writeFileSync(path.join(OUT, `${t.slug}-taster-letter.pdf`), await stamped(t, t.letterSource))
+
+  // Previews at 740 pixels wide, the size the free pages already use.
+  for (let i = 1; i <= t.pages.length; i++) {
+    const base = path.join(OUT, `${t.slug}-taster-p${i}`)
+    execFileSync('pdftoppm', ['-png', '-singlefile', '-scale-to-x', '740', '-scale-to-y', '-1', '-f', String(i), '-l', String(i), pdfPath, base])
+  }
+  return { slug: t.slug, pages: t.pages.length, link: etsyUrl(t.etsyListing) ?? `${SITE}/free/${t.slug}`, letter: Boolean(t.letterSource) }
+}
+
+// The taster pages of one product PDF, each with the band along its foot.
+async function stamped(t, source) {
+  const src = await PDFDocument.load(fs.readFileSync(path.join(ROOT, source)))
+  if (src.getPageCount() !== t.pageCount) throw new Error(`${t.slug}: ${source} has ${src.getPageCount()} pages, the data says ${t.pageCount}`)
 
   const out = await PDFDocument.create()
   out.setTitle(`${t.title}: the free taster`)
   out.setAuthor('Guided Childhood')
-  out.setSubject('A free taster. The full pack is on Etsy and in the Guided Childhood app.')
+  out.setSubject(t.etsyListing && !t.inApp
+    ? 'A free taster. The full pack is on Etsy.'
+    : 'A free taster. The full pack is on Etsy and in the Guided Childhood app.')
   out.setCreator('scripts/build-tasters.mjs')
   const bold = await out.embedFont(StandardFonts.HelveticaBold)
   const regular = await out.embedFont(StandardFonts.Helvetica)
@@ -108,17 +131,7 @@ async function buildOne(t) {
     page.drawText(right, { x: width - rw - 16, y: y + 7.6, size, font: bold, color: INK })
     addLink(out, page, 0, y, width, h, link)
   }
-
-  fs.mkdirSync(OUT, { recursive: true })
-  const pdfPath = path.join(OUT, `${t.slug}-taster-a4.pdf`)
-  fs.writeFileSync(pdfPath, await out.save())
-
-  // Previews at 740 pixels wide, the size the free pages already use.
-  for (let i = 1; i <= t.pages.length; i++) {
-    const base = path.join(OUT, `${t.slug}-taster-p${i}`)
-    execFileSync('pdftoppm', ['-png', '-singlefile', '-scale-to-x', '740', '-scale-to-y', '-1', '-f', String(i), '-l', String(i), pdfPath, base])
-  }
-  return { slug: t.slug, pages: t.pages.length, link }
+  return out.save()
 }
 
 async function main() {
@@ -128,7 +141,7 @@ async function main() {
   if (only && rows.length === 0) throw new Error(`no taster called ${only}`)
   for (const t of rows) {
     const r = await buildOne(t)
-    console.log(`${r.slug}: ${r.pages} pages, band links to ${r.link}`)
+    console.log(`${r.slug}: ${r.pages} pages${r.letter ? ', A4 and US Letter' : ''}, band links to ${r.link}`)
   }
 }
 

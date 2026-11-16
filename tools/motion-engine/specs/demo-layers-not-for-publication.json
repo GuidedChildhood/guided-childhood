@@ -1,0 +1,17 @@
+{
+  "gdcPostNumber": null,
+  "researchId": null,
+  "notForPublication": true,
+  "eyebrow": "TECHNICAL DEMONSTRATION, LAYERS",
+  "headline": "Placeholder headline set in the house style for testing",
+  "finding": {
+    "figure": "00%",
+    "text": "Placeholder finding. This is not a real result."
+  },
+  "context": "Placeholder context explaining what was measured, in two lines.",
+  "source": "SOURCE  Placeholder Journal, 1 January 2026",
+  "limitation": "Placeholder limitation: what this study cannot tell us.",
+  "backgroundVideo": "plates/test-plate-not-for-publication.mp4",
+  "objectImage": "objects/digi-star-test.png",
+  "durationSeconds": 14
+}

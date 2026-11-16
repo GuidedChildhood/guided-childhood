@@ -14,7 +14,7 @@
 // Usage: node --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs scripts/check-stage-sources.mjs
 
 import { readFileSync } from 'node:fs'
-import { startCode, CHANNELS, LINK_CHANNELS, CHANNEL_LABEL, SHARE_CODE, NO_LINK_CODES } from '../lib/video/link.ts'
+import { startCode, stepCount, CHANNELS, LINK_CHANNELS, CHANNEL_LABEL, SHARE_CODE, NO_LINK_CODES } from '../lib/video/link.ts'
 
 let failures = 0
 const check = (name, ok, detail = '') => {
@@ -32,6 +32,14 @@ check('a reload is not a second start', startCode({ video: 'digi-hero', started:
   && startCode({ started: 'direct' }) === null)
 check('a new follow after a direct start is a new start', startCode({ video: 'digi-hero', started: 'direct' }) === 'digi-hero')
 check('a cookie that could not be a code counts as no link', startCode({ video: '../x' }) === 'direct')
+
+// The steps after the start (398): counted against the start's code, once each.
+check('no start counted, no step counted', stepCount({}, 'pathway') === null && stepCount({ steps: 'r1-left-out:pathway' }, 'save') === null)
+check('a step counts against the started code', stepCount({ started: 'r1-left-out' }, 'pathway')?.code === 'r1-left-out'
+  && stepCount({ started: 'r1-left-out' }, 'pathway')?.cookie === 'r1-left-out:pathway')
+check('a step already counted is not counted twice', stepCount({ started: 'r1-left-out', steps: 'r1-left-out:pathway' }, 'pathway') === null)
+check('the next step adds to the list', stepCount({ started: 'r1-left-out', steps: 'r1-left-out:pathway' }, 'save')?.cookie === 'r1-left-out:pathway,save')
+check('a start from a new link starts the list again', stepCount({ started: 'r1-mid-match', steps: 'r1-left-out:pathway,save' }, 'pathway')?.cookie === 'r1-mid-match:pathway')
 
 check('every channel has a label', CHANNELS.every(c => typeof CHANNEL_LABEL[c] === 'string' && CHANNEL_LABEL[c].length > 1))
 check('the no link rows are never offered as a link',
@@ -64,6 +72,11 @@ const started = read('app/api/video-link/started/route.ts')
 check('the start counter counts every visitor, not only film cookie holders',
   /startCode\(\{/.test(started) && /REF_COOKIE/.test(started) && /SCHOOL_LINK_COOKIE/.test(started))
 const pack = read('app/(marketing)/starter-pack/page.tsx')
+const stepRoute = read('app/api/video-link/step/route.ts')
+check('the pathway and the save screen are counted, after a counted start (398)',
+  /fetch\('\/api\/video-link\/step'/.test(pack) && /'pathway'/.test(pack) && /'save'/.test(pack)
+  && /stepCount\(\{/.test(stepRoute) && /VIDEO_STARTED_COOKIE/.test(stepRoute)
+  && /'opened', 'started', 'pathway', 'save'/.test(read('supabase/migrations/398_stage_check_steps.sql')))
 check('the stage check reads ?src= and hands it to the server',
   /params\.get\('src'\)/.test(pack) && /fetch\('\/api\/video-link\/follow'/.test(pack))
 check('and takes it out of the address bar, so a reload is not a second follow', /params\.delete\('src'\)/.test(pack))
