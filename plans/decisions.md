@@ -333,6 +333,18 @@ Runs in the Monday radar sweep.
 ## 16 November 2026: four older games point to their Etsy listings
 
 - A to Z Showdown (4614794043), Ice Cream Shop (4614808978), School Year Planner (4614796575) and Word Fishing (4614809538) went live on Etsy around 11 to 14 November, so their free taster rows move from no-listing to live and the rebuilt taster bands now link to the listing.
+
+## 16 November 2026: the topic email course is offered on the stage check result page
+
+- Justin chose it on 14 November. A child aged 10 to 12 (or an Explorer run saved before the age question) sees "The first group chat" on the result page: one email box, one button, "Start the seven emails". Day 1 goes at once, then one a morning from the email cron as kind `series`.
+- Asking is the consent: the button and the line under it name the seven emails and the odd note after, so the lead is marked `marketing_consent` true like a ticked box (396). No second box, because nothing else is given in exchange.
+- No migration. The start row in `lead_email_log` is the clock and its unique key stops a second press restarting the week. The copy lives in `lib/courses/registry.ts`, tested word for word against the checked pack, so the next topic is a new entry. PR 1573.
+## 16 November 2026: lesson films from what parents react to, the map and the 1.6 pair
+
+- The last 30 posts from Family IT Guy and the two clinicians, read for subject only and grouped: `content/child-films/parent-reaction-series/subjects-2026-11-16.md`. The cybertrauma account posts on LinkedIn, not Instagram, so her 30 came from there. 32 of 90 are not ours.
+- First three subjects, each with a film already: bedtime phones (1.6 remake), "is this real?" (1.5), seen something upsetting (1.4, the largest group). Roblox strangers is the first new film after them.
+- The 1.6 child and parent scripts are drafted in Tamsin's voice. Nothing generated: the pair is quoted at about 97 credits and waits on Justin.
+- The watch together booking is a plan with four questions for Justin, not built. Plan: `plans/week-of-2026-11-16-lesson-films-from-parent-reactions-plan.md`. PR 1576.
 ## 16 November 2026: film 1.3 re-voiced in Tamsin, the cost measured
 
 - All 44 lines regenerated in DiGi's voice, pictures slowed to fit, both public cuts and the subtitles rebuilt. 20.9 credits for the film, measured from the balance. About 21 a film for the other four.
@@ -342,3 +354,8 @@ Runs in the Monday radar sweep.
 
 - Justin asked for the 30 "A small favour, one parent" emails (drafted 6 November, never sent) to go. Sent from justin@thesocialbillboard.com, one each, with two fixes: the link was a Google redirect and is now plain guidedchildhood.com/v/warm-ring, and "a free tool" became "three questions, free" because the product itself has a trial, not a free tier. Old drafts deleted.
 - Count stage checks on the founder page under `warm-ring`. Some 2021 addresses will bounce.
+
+## 16 November 2026: six tiles first, and this is just the start
+
+- Justin: do not overwhelm parents; reassure them we drive it and keep asking. The stage check shows the six most common worries, the other six one tap away ("See 6 more"); a ticked tile never folds away. The question asks for what is on their mind today, even just one.
+- Under the grid: we bring up the next ones for their age (age prompts, the age up cron) and anything they mention to DiGi is added and tracked (concerns written by DiGi, Moments, Right now). "Not sure yet?" starts them on Coming off screens, the most common.

@@ -15,7 +15,7 @@
 // watch file by hand, under "Pasted by hand".
 //
 // What it does with what it finds: nothing public. It writes a digest to
-// content/research-watch/ for a Claude review, which decides per item: SUPPORT
+// content/research-watch/ built from the Claude reviews in reviews.json, which decides per item: SUPPORT
 // (it backs our approach), CHALLENGE (we disagree, and the evidence lets us
 // say why), CONTEXT (useful, no position) or SKIP. A CHALLENGE needs a real
 // evidential reason, never disagreement for its own sake. Nothing here goes
@@ -166,29 +166,47 @@ export async function watch({ days = 30, now = new Date() } = {}) {
   return { since, until, people }
 }
 
-function digest(w) {
+const REVIEWS = join(OUT, 'reviews.json')
+export function loadReviews(path = REVIEWS) {
+  try { return JSON.parse(readFileSync(path, 'utf8')) } catch { return {} }
+}
+const keyOf = (x) => x.doi || x.url
+
+/** The full watch, as plain text a person or ChatGPT can read in Drive. */
+export function digest(w, reviews = loadReviews()) {
   const L = [
-    `# Researcher watch, ${w.until}`,
+    `RESEARCHER WATCH, week to ${w.until}`,
     '',
-    `New work from ${w.since} to ${w.until}. Nothing here is cleared for content.`,
-    'A Claude review marks each item SUPPORT, CHALLENGE, CONTEXT or SKIP, with',
-    'the reason. A CHALLENGE needs an evidential reason, never disagreement for',
-    'its own sake. Anything worth posting goes into the radar as a candidate and',
-    'through the normal review. LinkedIn activity cannot be read automatically;',
-    'paste anything worth keeping under "Pasted by hand".',
+    `New work from ${w.since} to ${w.until} by Candice Odgers, Jonathan Haidt and Catherine Knibbs, and new After Babel posts.`,
+    'Each item has a Claude review: SUPPORT (backs our approach), CHALLENGE (we disagree and the evidence lets us say why), CONTEXT (useful, no position) or SKIP.',
+    'NOTHING HERE IS CLEARED FOR A POST. A promising item goes into the 08:00 CANDIDATES file and through the normal review. Only figures that review clears may be used.',
+    'A challenge is made on the evidence only, never disagreement for its own sake. Catherine Knibbs is never named beside our advice. Researchers may be named when their published work is cited accurately.',
+    'LinkedIn activity (likes, reposts) cannot be read automatically and is not included.',
     '',
   ]
+  const counts = {}
   for (const p of w.people) {
-    L.push(`## ${p.name} (${p.role})`, '', p.stance, '')
-    if (!p.mayName) L.push('Not named beside our advice.', '')
+    L.push(`== ${p.name.toUpperCase()} (${p.role}) ==`, p.stance, '')
     if (p.lost.length) L.push(`Sources that failed this run: ${p.lost.join('; ')}`, '')
     if (!p.items.length) L.push('Nothing new in the window.', '')
     for (const x of p.items) {
-      L.push(`- **${x.title}**`, `  ${x.kind}, ${x.venue || x.source}, ${x.date || 'undated'}${x.preprint ? ', PREPRINT' : ''}`, `  ${x.url || ''}`)
-      L.push('  Review: PENDING', '')
+      const r = reviews[keyOf(x)] || {}
+      const v = r.verdict || 'PENDING'
+      counts[v] = (counts[v] || 0) + 1
+      L.push(`${v}: ${x.title}`)
+      L.push(`  Type and date: ${x.kind === 'post' ? 'blog post' : x.preprint ? 'preprint' : 'paper'}, ${x.venue || x.source}, ${x.date || 'undated'}`)
+      L.push(`  Link: ${x.url || 'none'}`)
+      if (x.authors) L.push(`  Authors: ${x.authors.slice(0, 200)}`)
+      L.push(`  How much was read: ${r.read || 'not yet read'}`)
+      L.push(`  Study design: ${r.design || 'to be reviewed'}`)
+      L.push(`  Finding: ${r.finding || 'to be reviewed'}`)
+      L.push(`  Limitations: ${r.limitations || 'to be reviewed'}`)
+      L.push(`  Our position: ${r.reason || 'to be reviewed'}`)
+      L.push(`  Parent problem it speaks to: ${r.parentProblem || 'none'}`, '')
     }
   }
-  L.push('## Pasted by hand', '', '(LinkedIn posts, talks, interviews. Link and the words, with the date.)', '')
+  L.splice(7, 0, `This week: ${Object.entries(counts).map(([k, n]) => `${n} ${k}`).join(', ') || 'nothing new'}.`, '')
+  L.push('== PASTED BY HAND ==', 'LinkedIn posts, talks or interviews worth keeping: the link, the words and the date.', '')
   return L.join('\n')
 }
 
@@ -199,11 +217,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   mkdirSync(OUT, { recursive: true })
   const base = join(OUT, w.until)
   writeFileSync(`${base}.json`, JSON.stringify(w, null, 2) + '\n')
-  const md = `${base}.md`
-  if (existsSync(md) && /Review: (SUPPORT|CHALLENGE|CONTEXT|SKIP)/.test(readFileSync(md, 'utf8'))) {
-    console.log(`${md} already has reviews in it, left as it is. Fresh data is in ${base}.json`)
-  } else {
-    writeFileSync(md, digest(w))
-  }
+  // Reviews live in reviews.json, so the digest can always be rebuilt.
+  writeFileSync(`${base}.md`, digest(w))
   for (const p of w.people) console.log(`${p.name}: ${p.items.length} new${p.lost.length ? `, lost ${p.lost.length} source(s)` : ''}`)
 }

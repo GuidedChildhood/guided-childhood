@@ -38,7 +38,7 @@ import { resolveWorry } from '@/lib/concerns/normalise'
 // ticking a tile never nudges the grid under a thumb that is still choosing.
 
 export default function WorryPicker({
-  selected, onToggle, primary, other, onOther,
+  selected, onToggle, primary, other, onOther, initial,
 }: {
   selected: string[]
   onToggle: (id: string) => void
@@ -47,6 +47,15 @@ export default function WorryPicker({
   /** Their own words, when Something else is ticked. Omit both to hide it. */
   other?: string
   onOther?: (text: string) => void
+  /**
+   * How many tiles to show before "See more". Omit to show them all.
+   *
+   * Justin, 16 November 2026: twelve at once can overwhelm, and this is only
+   * the start; the platform raises the rest as the child grows and DiGi adds
+   * whatever comes up. So the stage check shows the six most common, the other
+   * six one tap away. A ticked tile is never hidden by folding.
+   */
+  initial?: number
 }) {
   const savedOther = (other ?? '').trim()
   const showOther = onOther !== undefined && selected.includes(CATCH_ALL_ID)
@@ -66,10 +75,18 @@ export default function WorryPicker({
   const [draft, setDraft] = useState(savedOther)
   const dirty = draft.trim() !== savedOther
   const commit = () => { if (draft.trim() !== savedOther) onOther?.(draft.trim()) }
+  const [open, setOpen] = useState(false)
+  const named = WORRIES.filter(w => w.id !== CATCH_ALL_ID)
+  const catchAll = WORRIES.filter(w => w.id === CATCH_ALL_ID)
+  const folds = initial !== undefined && !open && named.length > initial
+  const shown = folds
+    ? [...named.filter((w, i) => i < initial || selected.includes(w.id)), ...catchAll]
+    : WORRIES
+  const hiddenCount = named.length - shown.filter(w => w.id !== CATCH_ALL_ID).length
   return (
     <div>
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 9em), 1fr))', gap: '10px', alignItems: 'stretch' }}>
-      {WORRIES.map(w => {
+      {shown.map(w => {
         const on = selected.includes(w.id)
         const first = primary === w.id
         return (
@@ -163,6 +180,21 @@ export default function WorryPicker({
         )
       })}
     </div>
+
+    {folds && hiddenCount > 0 && (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        style={{
+          marginTop: 10, width: '100%', minHeight: 48, padding: '12px 16px',
+          background: 'none', border: '1.5px dashed var(--border)', borderRadius: 'var(--radius-tile)',
+          font: 'inherit', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
+          cursor: 'pointer',
+        }}
+      >
+        See {hiddenCount} more, from group chats to YouTube
+      </button>
+    )}
 
     {/* ── SOMETHING ELSE, IN THEIR OWN WORDS ────────────────────────────────
         Justin, 9 September 2026: "How do we deal with something else? Note

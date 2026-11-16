@@ -8,7 +8,7 @@ send people for its seven day course.
 
 On the stage check result page, a parent whose child is 10 to 12 (Builder at
 the top, Explorer) sees one offer: "The first group chat. Seven short emails,
-one a day." An email box and an unticked consent line. Ticking and sending
+one a day." An email box and one button that names the course. Asking
 starts the seven emails from `content/packs/2026-11-14-first-whatsapp-group/pack.md`,
 one a morning, on the existing daily series rails.
 
@@ -20,7 +20,7 @@ one a morning, on the existing daily series rails.
   a new entry and not new plumbing.
 - The email cron sends one a morning as kind `series` (no weekly floor; the
   stop link wins), the same way the taster series does.
-- No new table if the existing sent log and lead tags can carry it.
+- No new table and no migration: the start row in `lead_email_log` is the clock.
 
 ## Not in this PR
 

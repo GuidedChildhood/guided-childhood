@@ -1,0 +1,19 @@
+{
+ "style": "Soft 3D animated storybook style that matches the reference characters exactly: rounded clay like shapes, gentle warm lamplight, a cosy cream and butter yellow palette with soft green and coral accents, calm and safe for a four year old. Simple uncluttered background. No text, no letters, no numbers and no words anywhere in the picture. The main action sits in the centre of the frame, with nothing important near the left and right edges.",
+ "digi": "The gold star with a friendly face is DiGi, drawn exactly as in the first reference image, floating in the air.",
+ "pebble": "The small round yellow character with a curly sprout and a green leaf on top is Pebble, drawn exactly as in the second reference image.",
+ "pictures": {
+  "p01": ["dp", "16:9", "A cosy children's bedroom at dusk with cream walls, a window showing a soft orange sunset sky. DiGi floats in the middle of the room glowing warmly as if saying hello. Pebble peeks out happily from behind a large open picture book standing on the rug."],
+  "p02": ["dp", "16:9", "The same cosy bedroom, lamp lit. DiGi glows softly with a gentle halo of light. Pebble stands on the rug with eyes closed, cheeks puffed, slowly breathing out, calm and peaceful."],
+  "p03": ["p", "16:9", "Pebble stands in a cosy hallway looking up at a small framed child's crayon drawing of a paintbrush and a little house on the wall, smiling."],
+  "p04": ["", "16:9", "A small wooden wind up toy with a big gold winding key on its back, sitting on a cream table under warm lamplight, slowing down. Soft and cosy, plenty of plain space around it."],
+  "p05": ["p", "16:9", "Night time. Pebble stands by a bedroom window with a deep blue sky and small twinkling stars, giving an enormous sleepy yawn with arms stretched up."],
+  "p06": ["p", "16:9", "A tablet computer propped on a low table shows a bright, colourful, happy cartoon of balloons and a rainbow. Pebble sits in front of it with very wide awake eyes, excited, in a cosy evening living room. The tablet looks friendly and ordinary, not scary."],
+  "p07": ["dp", "16:9", "DiGi and Pebble sit side by side on a soft cushion, both looking thoughtful, as if wondering about a question. Warm evening light, lots of calm empty space above them."],
+  "p08": ["p", "16:9", "Pebble gently carries a tablet computer in both arms. The tablet screen shows only a calm crescent moon on dark blue. Soft evening light in a cosy room."],
+  "p09": ["p", "16:9", "A kitchen worktop at night with a small wicker basket lined with a soft cushion, the screens' bed. Pebble carefully tucks a tablet into the basket under a tiny knitted blanket. Beside it a grown up's mobile phone is already tucked in under its own little blanket."],
+  "p10": ["p", "16:9", "Pebble is trying to tuck a picture book into the small wicker basket on the kitchen worktop, holding the book upside down, looking puzzled. A tablet is already tucked in the basket."],
+  "p11": ["p", "16:9", "Pebble walks away from the kitchen holding a picture book the right way up against its chest, smiling happily."],
+  "p12": ["p", "16:9", "A cosy little bathroom. Pebble stands at a small sink holding a child's toothbrush, brushing teeth with a big foamy smile."]
+ }
+}
