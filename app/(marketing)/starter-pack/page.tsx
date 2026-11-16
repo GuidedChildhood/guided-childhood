@@ -760,6 +760,7 @@ export default function StarterPackPage() {
         email={email}
         needsConfirm={needsConfirm}
         childName={childName.trim()}
+        ageYears={ageYears}
       />
     )
   }
