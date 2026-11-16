@@ -276,7 +276,7 @@ export default function KidStickers({ token, stickers, celebrate, daily = null }
     {
       name: 'Off screen, on the timer',
       how: 'Time outside is the Move about step on your five a day. A job counts when your grown up approves it. The timer counts every day you use it for your screen time.',
-      note: 'Outside pays best. It always will',
+      note: 'Outside comes first. It always will',
       of: stickers.filter(s => s.rule.kind === 'outside' || s.rule.kind === 'jobs' || s.rule.kind === 'timer'),
     },
     {

@@ -1326,6 +1326,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {homeSlot === 'stickerNews' && <StickerNewsCard news={stickerNews} childName={child?.name ?? null} childId={child?.id ?? null} />}
       <ChildDayStrip state={childDay} childName={child?.name ?? null} onApp={hasKidLink} />
 
+      {/* THE PROMISE, SAID ONCE INSIDE THE APP (Justin, 15 November 2026: "clear
+          somewhere they just need to follow pathway and we drive it from
+          there"). It was only on the marketing page. Shown on the family's
+          first day only, right above the path it describes, then gone. */}
+      {firstRun && (
+        <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.4, margin: '0 0 12px' }}>
+          You just follow the path. Each day we bring the next step and the words for it.
+        </p>
+      )}
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} streakAliveToday={streak.aliveToday} bonus={friendToday} childId={child?.id ?? null} firstDay={firstDay} />
 
       {/* The fix of the week: the success help, one device problem for this

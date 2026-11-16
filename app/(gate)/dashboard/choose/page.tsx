@@ -26,7 +26,7 @@ export default async function ChoosePage({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status, trial_ends_at, plan_choice, onboarding_complete')
+    .select('subscription_status, trial_ends_at, plan_choice, onboarding_complete, first_checkin_at')
     .eq('id', user.id)
     .maybeSingle()
 

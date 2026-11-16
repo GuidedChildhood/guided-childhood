@@ -7,7 +7,7 @@ import { SITE_URL } from '@/lib/config/site'
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
-import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
+import { QUEST_TEMPLATES, PLAY_FIRST_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import JobBalance from '@/components/quests/JobBalance'
 import JobComposer from '@/components/quests/JobComposer'
@@ -959,7 +959,7 @@ export default function QuestManager() {
             <Plate name="balance" size={48} icon={36} tint="var(--terracotta-lt)" radius={14} />
             <span style={{ flex: 1, minWidth: 0 }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>Balance and stats</span>
-              <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>See {child.name}&apos;s screen time by type this week, the healthy level, and the off screen wins.</span>
+              <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>See {child.name}&apos;s screen time by type this week, our guide, and the off screen wins.</span>
             </span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>›</span>
           </Link>
@@ -1441,7 +1441,7 @@ export default function QuestManager() {
                 {/* Add a job means add a job, not only write one from scratch.
                     Most parents want a ready made one, and asking them to type
                     out "one hour of outside play" when we already have it is
-                    work we invented. Play first, because play pays the most
+                    work we invented. Play first, because play is what screens crowd out
                     stars and is the job families most often forget counts. */}
                 {/* Their own jobs first, before our ideas.
                     Removing a job only sets active false, so the app was
@@ -1888,14 +1888,14 @@ export default function QuestManager() {
             </div>
           </div>
 
-          {/* Templates: play and outside lead, and pay the most */}
+          {/* Templates: play and outside lead the list */}
           {templatesUnused.length > 0 && (
             <div id="all-ideas" style={{ ...card, scrollMarginTop: '80px' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
-                Play pays best
+                Play comes first
               </div>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-                {PLAY_PAYS_WHY}
+                {PLAY_FIRST_WHY}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '10px', marginBottom: '18px' }}>
                 {templatesUnused.filter(t => t.play).map(t => (

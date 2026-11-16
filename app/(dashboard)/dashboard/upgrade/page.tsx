@@ -315,6 +315,12 @@ export default async function UpgradePage(
                 Claim founder rate, £7.99 a month
               </button>
             </form>
+            {/* Where free stops (Justin, 15 November 2026): the four days carry
+                DiGi on a daily limit and the starter scripts (lib/access.ts
+                inStarterTrial), and the plan lifts both. */}
+            <p style={{ margin: '12px 0 0', fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5, textAlign: 'center' }}>
+              The four free days carry DiGi a few times a day and the starter scripts. The plan lifts both.
+            </p>
           </div>
         )}
 

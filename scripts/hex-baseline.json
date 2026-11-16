@@ -169,7 +169,7 @@
  },
  "app/(dashboard)/dashboard/quests/page.tsx": {
   "#1f7a54": 1,
-  "#fff": 3
+  "#fff": 1
  },
  "app/(dashboard)/dashboard/quests/play/page.tsx": {
   "#fff": 1
@@ -274,7 +274,7 @@
   "#fff": 14
  },
  "app/(marketing)/starter-pack/ResultScreen.tsx": {
-  "#fff": 5
+  "#fff": 2
  },
  "app/(marketing)/starter-pack/page.tsx": {
   "#2d5016": 1,
@@ -801,7 +801,7 @@
   "#fff": 1
  },
  "components/digi/WeeklyRoundup.tsx": {
-  "#fff": 7
+  "#fff": 6
  },
  "components/home/BackToToday.tsx": {
   "#fff": 1
@@ -1806,7 +1806,6 @@
   "#2f8f6b": 1,
   "#7a5cc0": 1,
   "#9cc3b4": 2,
-  "#a8475c": 1,
   "#a9c8e4": 1,
   "#b8860b": 1,
   "#c0603a": 1,
@@ -1946,7 +1945,7 @@
   "#fff": 1
  },
  "components/starter/WorryAnswers.tsx": {
-  "#fff": 3
+  "#fff": 1
  },
  "components/tools/ToolCard.tsx": {
   "#fff": 1

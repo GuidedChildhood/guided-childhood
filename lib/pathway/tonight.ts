@@ -116,7 +116,7 @@ export function tonightFor(input: {
         label: 'The timer',
         line: deviceTrust === 'ask' || !deviceTrust
           ? `Every screen goes through the timer tonight, and ${kid} asks you first. The stars decide how long, the timer decides when it ends.${before}`
-          : `Every screen goes through the timer tonight, and it winds up at the healthy amount for ${kid}'s age.${before}`,
+          : `Every screen goes through the timer tonight, and it winds up at our guide for ${kid}'s age.${before}`,
         href: timerHref,
         hrefLabel: 'Open the timer',
       }

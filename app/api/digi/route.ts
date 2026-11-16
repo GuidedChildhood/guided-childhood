@@ -790,7 +790,7 @@ IMPORTANT: this guide is the ONLY device the parent is asking about right now. I
   }
 
   // This family's actual screen life: the agreement, the trust level, the
-  // timer's own numbers and the healthy guide for the age. So when a parent
+  // timer's own numbers and our guide for the age. So when a parent
   // asks "should Teo have a Switch and for how long", DiGi answers from what
   // this family has actually set up, and gently points at the missing piece
   // (the family deal, the timer) instead of only giving good general advice.
@@ -798,7 +798,7 @@ IMPORTANT: this guide is the ONLY device the parent is asking about right now. I
   try {
     const agreement = agreementResult.data
     // THIS child's week, not the family's, because the line beneath it quotes
-    // the healthy guide for this child's AGE. A family total beside one
+    // our guide for this child's AGE. A family total beside one
     // child's guide read as one child over the limit when it was two children
     // sharing a telly. Legacy rows with no child still count.
     const byDevice = new Map<string, number>()
@@ -833,7 +833,7 @@ IMPORTANT: this guide is the ONLY device the parent is asking about right now. I
       : ''
     const trust = (child as { device_trust?: string } | null)?.device_trust ?? 'watch'
     screenLifeKnowledge = `\n\nTHIS FAMILY'S SCREEN LIFE (use whenever the question touches a device, a console like a Switch or Xbox, TV, gaming, or how long on screens):
-- Healthy daily guide for this child's age: about ${recommendedDailyMinutes(child?.age_band ?? null)} minutes of recreational screen a day. Always a calibrated guide, never a hard cap.
+- Our daily guide for this child's age: about ${recommendedDailyMinutes(child?.age_band ?? null)} minutes of recreational screen a day. Always a calibrated guide, never a hard cap.
 - Screen time through the family timer in the last 7 days: ${usageLine || 'none logged, which likely means screen time is happening without the timer'}.
 - Device trust level: ${trust} (ask means the child asks first, watch means they start freely and the parent gets a ping, trusted means a lighter touch).
 - ${agreementLine}
@@ -850,7 +850,7 @@ change a term, that is completely fine, but it is a change they make together
 at [our family deal](/dashboard/agreement), not something you overrule in a
 chat. If holding to a term is genuinely going wrong for them, say that too and
 point them at reviewing it, rather than quietly advising around it.` : ''}
-When a parent asks whether or for how long their child should use any device, do two things beyond the advice itself. First, ground the answer in this family's own numbers above rather than only general figures. Second, check what is missing and add ONE warm sentence for it: if the agreement is missing or unsigned, suggest writing the deal down together while it is topical and link it exactly as [our family deal](/dashboard/agreement); if the timer shows nothing for the device being discussed, remind them every screen session, TV and consoles included, can run through the star timer on [the quests board](/dashboard/quests) so the time is earned, visible to both of them, and winds up on its own at the healthy amount. Never both sentences if only one is missing, never either if both are in place, and never a lecture.`
+When a parent asks whether or for how long their child should use any device, do two things beyond the advice itself. First, ground the answer in this family's own numbers above rather than only general figures. Second, check what is missing and add ONE warm sentence for it: if the agreement is missing or unsigned, suggest writing the deal down together while it is topical and link it exactly as [our family deal](/dashboard/agreement); if the timer shows nothing for the device being discussed, remind them every screen session, TV and consoles included, can run through the star timer on [the quests board](/dashboard/quests) so the time is earned, visible to both of them, and winds up on its own at our guide for their age. Never both sentences if only one is missing, never either if both are in place, and never a lecture.`
   } catch { /* screen life context is a bonus, never blocks the reply */ }
 
   // Where this child actually is at school, but only when school is what the

@@ -2,6 +2,9 @@
 import { useState, useEffect } from 'react'
 import { enablePush, pushSupport } from '@/lib/push/enable'
 import { getDeviceId } from '@/lib/push/device-id'
+import { DAILY_NUDGE_CAP } from '@/lib/push/nudge-cap'
+
+const NUDGE_WORD: Record<number, string> = { 1: 'one', 2: 'two', 3: 'three' }
 
 interface Props {
   userId: string
@@ -569,7 +572,10 @@ export default function PushPrompt({ userId, stage }: Props) {
         lineHeight: 1.6,
         marginBottom: '10px',
       }}>
-        Three gentle nudges a day: morning, after school, bedtime. The moments your child faces screens, so you are ready with the words.
+        {/* The number is read from the cap itself (Justin, 15 November 2026: the
+            promise said three while the code allowed two). check-nudge-cap
+            fails if a written number comes back. */}
+        At most {NUDGE_WORD[DAILY_NUDGE_CAP] ?? DAILY_NUDGE_CAP} reminders a day, at the moments screens come up in your house, and they ease off if you go quiet.
       </p>
       <p style={{
         fontSize: '.72rem',

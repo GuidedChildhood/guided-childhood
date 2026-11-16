@@ -1,4 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import InShort from '@/components/InShort'
 import { FLAGGED_MODULES, MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -37,6 +38,15 @@ export default async function PolicyTextPage() {
           and available free of charge, and must be consulted on with parents before it is finalised:
           the parent pack in this Hub provides the sample materials for that consultation.
         </p>
+
+        <div style={{ margin: '0 0 22px' }}>
+          <InShort points={[
+            <>Paragraphs ready to paste into your published <b>RSE and online safety policy</b>.</>,
+            <>Adapt the names and details to your school.</>,
+            <>Your policy must be <b>published</b>, free to read, and <b>consulted on with parents</b> first.</>,
+            <>The <Link href="/hub/parents">parent pack</Link> is the material for that consultation.</>,
+          ]} />
+        </div>
 
         <div style={block}>
           <h2 style={h2}>The programme (for your curriculum section)</h2>

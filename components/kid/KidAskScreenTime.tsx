@@ -206,7 +206,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
             </p>
             {recommendedMinutes > 0 && (
               <p data-guide style={{ margin: '4px 0 0', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-                {guideLeft > 0 ? `${guideLeft} min of today's healthy amount left` : 'Today\'s healthy amount is used up'}
+                {guideLeft > 0 ? `${guideLeft} min of today's guide left` : 'Today\'s guide is used up'}
               </p>
             )}
           </div>
@@ -298,7 +298,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
                 : costStars === 0
                   ? 'That is free time, no stars needed.'
                   : `That is ${costStars} star${costStars === 1 ? '' : 's'} of your ${balanceStars}.`}
-              {pastGuide && ' It goes past today\'s healthy amount, so it is your grown up\'s call.'}
+              {pastGuide && ' It goes past today\'s guide, so it is your grown up\'s call.'}
             </p>
             {note && <p style={{ margin: '0 0 12px', fontSize: 'var(--text-base)', fontWeight: 700, color: '#B93B3F' }}>{note}</p>}
             <button type="button" onClick={send} disabled={busy || needsActivity} style={bigBtn(!busy && !needsActivity)}>
@@ -371,7 +371,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
                     <HappyIcon name="move" size={30} />
                     <span style={{ flex: 1, minWidth: 0 }}>
                       <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: HAPPY.ink }}>Your five a day: {fiveLeft.length} left</span>
-                      <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.35 }}>{fiveLeft.slice(0, 3).join(', ')}. Outside pays best, and {friend.name} loves it.</span>
+                      <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.35 }}>{fiveLeft.slice(0, 3).join(', ')}. Outside comes first, and {friend.name} loves it.</span>
                     </span>
                     <span aria-hidden style={{ fontWeight: 900 }}>›</span>
                   </a>

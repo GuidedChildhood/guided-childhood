@@ -1,8 +1,10 @@
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { PAGE } from '@gc/shared/page-scale'
 import { frLessonKey } from '@gc/shared/lesson-records'
 import RecordLesson from '@/components/records/RecordLesson'
+import { isFrenchTasterPath, LANGUAGES_COOKIE, languagesTokenAccess } from '@/lib/languages-access'
 import { eyebrow } from '@/components/ui'
 import {
   activitiesFor, assessedIn, checkpointTasks, codesToRecord, deckSequence, HAS_CHECKPOINTS, FR_PAGE, FRENCH_UNITS, frenchLesson, frenchUnit, lessonLabel, lessonsOf, mediaUrl,
@@ -71,6 +73,10 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
   const next = l.culture ? undefined : all.find(x => x.n === l.n + 1)
   const assess = l.culture ? [] : assessedIn(u, l.n)
   const toRecord = codesToRecord(u, l)
+  // The free taster is the one lesson a visitor with no code can open. They
+  // get a line saying what it is, and none of the links into gated pages.
+  const visitor = isFrenchTasterPath(`/languages/fr/${u.key}/${l.n}`)
+    && !(await languagesTokenAccess((await cookies()).get(LANGUAGES_COOKIE)?.value))?.langs.includes('fr')
   // The scheme judges each code formally once a year, at a checkpoint half
   // term. A count taken in any other half term is still worth having, and is
   // formative: say which this is, so nobody reads a practice count as the judgement.
@@ -90,12 +96,26 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
 
   return (
     <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-      <Crumbs trail={[
+      {visitor && (
+        <aside aria-label="Free taster" style={{ background: 'var(--butter-lt)', borderLeft: '4px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: 'var(--space-3) var(--space-4)' }}>
+          <p style={{ ...langEyebrow, margin: '0 0 var(--space-1)' }}>A free taster lesson</p>
+          <p style={{ ...body, margin: 0, color: 'var(--ink)' }}>
+            This is one lesson from our KS2 French for Years 3 and 4, open for anyone to teach. The slides play
+            with their audio and the song is below. The rest of the scheme, with its sheets, answers and
+            assessment, is included in every school licence at no extra cost.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'var(--space-3)' }}>
+            <Link href="/pricing" className="btn btn-gold">See what a licence includes</Link>
+            <Link href="/unlock" className="btn btn-outline">I have a school code</Link>
+          </div>
+        </aside>
+      )}
+      {!visitor && <Crumbs trail={[
         { href: '/languages', label: 'Languages' },
         { href: '/languages/fr', label: 'French' },
         { href: `/languages/fr/${u.key}`, label: u.fr },
         { label: lessonLabel(l) },
-      ]} />
+      ]} />}
 
       <div>
         <p style={{ ...langEyebrow, marginBottom: 'var(--space-2)' }}>Year {u.year} · {u.fr} · {l.culture ? `Culture · ${l.culture}` : `Lesson ${l.n} of ${all.length}`}</p>
@@ -228,6 +248,7 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
         )}
       </Step>
 
+      {!visitor && (
       <Step n={3} id="record" title="Record" lead="One tap when the lesson is done. It is saved for your school, on every laptop.">
         <RecordLesson
           subject="fr"
@@ -238,11 +259,14 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
           recordHref="/languages/fr/progress"
         />
       </Step>
+      )}
 
+      {!visitor && (
       <nav aria-label="Lessons in this unit" style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
         {prev ? <Link href={`/languages/fr/${u.key}/${prev.n}`} className="btn btn-outline">‹ Lesson {prev.n}</Link> : <span />}
         {next ? <Link href={`/languages/fr/${u.key}/${next.n}`} className="btn btn-outline">Lesson {next.n} ›</Link> : <Link href={`/languages/fr/${u.key}`} className="btn btn-outline">Back to the unit</Link>}
       </nav>
+      )}
 
       <FoldStyles />
       <style>{`

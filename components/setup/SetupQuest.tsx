@@ -556,15 +556,33 @@ function AboutChildStep({ childList, signupAge }: { childList: SetupChild[]; sig
     return age && f.month != null ? birthYearFromAge(age, f.month) : null
   }
 
+  // ── ASK ONLY WHAT IS MISSING (14 November 2026) ─────────────────────────
+  // Justin, with this card on his screen: "we ask twice for month, once
+  // before setting up login details then once in the platform for set up?"
+  // We did. The save screen takes the birth month and leaves the name
+  // optional, so a parent who skipped the name landed here and was asked the
+  // month again, already filled in. Now a child who has a birthday is asked
+  // only the name, and one who has a name is asked only the birthday.
+  const childOf = (id: string) => missing.find(c => c.id === id)
+  const needsName = (id: string) => { const c = childOf(id); return !c?.name || c.name.trim() === '' || c.name === 'Your child' }
+  const needsBirthday = (id: string) => !childOf(id)?.dob
+
   async function save(id: string) {
     const f = forms[id]
-    const year = yearOf(id)
-    if (!f || f.month == null || year == null || !f.name.trim()) return
+    if (!f) return
+    const askName = needsName(id)
+    const askBirthday = needsBirthday(id)
+    const year = askBirthday ? yearOf(id) : null
+    if (askName && !f.name.trim()) return
+    if (askBirthday && (f.month == null || year == null)) return
     setBusy(id); setFailed('')
-    const dob = dobFrom(f.month, year)
-    const band = bandFrom(f.month, year)
-    const update: Record<string, string> = { name: f.name.trim(), date_of_birth: dob! }
-    if (band) { update.age_band = band; update.stage_id = getStageFromAgeBand(band).name.toLowerCase() }
+    const update: Record<string, string> = {}
+    if (askName) update.name = f.name.trim()
+    if (askBirthday && f.month != null && year != null) {
+      update.date_of_birth = dobFrom(f.month, year)!
+      const band = bandFrom(f.month, year)
+      if (band) { update.age_band = band; update.stage_id = getStageFromAgeBand(band).name.toLowerCase() }
+    }
     const { error } = await createClient().from('children').update(update).eq('id', id)
     setBusy(null)
     if (error) { setFailed('That did not save. Try again in a moment.'); return }
@@ -582,10 +600,13 @@ function AboutChildStep({ childList, signupAge }: { childList: SetupChild[]; sig
         const f = forms[c.id] ?? { name: '', month: null, year: null }
         const age = ageFor(c.id)
         const year = yearOf(c.id)
-        const ready = f.month != null && year != null && f.name.trim() !== ''
+        const askName = needsName(c.id)
+        const askBirthday = needsBirthday(c.id)
+        const ready = (!askName || f.name.trim() !== '') && (!askBirthday || (f.month != null && year != null))
         const set = (patch: Partial<typeof f>) => setForms(prev => ({ ...prev, [c.id]: { ...f, ...patch } }))
         return (
           <div key={c.id} style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '14px' }}>
+            {askName && (<>
             <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
               Their first name
             </label>
@@ -596,9 +617,10 @@ function AboutChildStep({ childList, signupAge }: { childList: SetupChild[]; sig
               onChange={e => set({ name: e.target.value })}
               placeholder="First name"
               maxLength={40}
-              style={{ ...field, marginBottom: '12px' }}
+              style={{ ...field, marginBottom: askBirthday ? '12px' : 0 }}
             />
-            {age ? (
+            </>)}
+            {!askBirthday ? null : age ? (
               <>
                 <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
                   Which month were they born

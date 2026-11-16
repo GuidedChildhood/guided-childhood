@@ -159,7 +159,7 @@ export function welcomeEmail(params: {
       heading(parentName ? `Thank you for joining, ${parentName}.` : 'Thank you for joining.') +
       p(`You started before the next screen fight rather than after it, which is the hard part and you have done it.`) +
       p(`<strong>Here is where this goes.</strong> By sixteen, ${childName} ${verb(childName, 'is', 'are')} safe online and ready for social media, because they have been walked there a step at a time instead of handed a phone and hoped for.`) +
-      p(`<strong>It takes ten minutes a day.</strong> A small thing each day, matched to their stage. Not a course, not fifty pages, and nothing to catch up on if you miss a day.`) +
+      p(`<strong>You just follow the path.</strong> Each day we bring the next step and the words for it, matched to their stage. About ten minutes, not a course, and nothing to catch up on if you miss a day.`) +
       p(`What is waiting for you inside:`) +
       bullets([
         `<strong>Jobs and chores earn the screen time.</strong> They do something real, they earn stars, stars become minutes, and you set the rate. This is the part nobody else has.`,
@@ -1172,7 +1172,7 @@ export function balanceTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string
     subject: 'An hour a day, is that ok?',
     html: wrapper(
       heading('The number, settled by the science.') +
-      p(`Every parent asks it and no one gives a straight answer. Guided Childhood does. It shows the healthy amount of recreational screen for your child's exact age, per day and per week, drawn straight from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
+      p(`Every parent asks it and no one gives a straight answer. Guided Childhood does. It shows our guide for recreational screen at your child's exact age, per day and per week, set under what the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH say.`) +
       p(`Then it sets your child's real usage against it, so you can see at a glance where an hour a day actually sits. A calm steer for their age, never a hard cap.`) +
       starterButton(cta, reader),
       unsubscribe
@@ -1272,8 +1272,8 @@ export function balanceRevealEmail(params: { childName: string; unsubscribe: str
     subject: `Where ${childName}'s screen time actually sits`,
     html: wrapper(
       heading('The balance, by the science.') +
-      p(`Your balance and stats now show the healthy amount of recreational screen for ${childName}'s age, per day and per week, drawn from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
-      p(`It sets ${childName}'s real usage against that guide, so you can see in one glance whether a day sits inside the healthy range. A steer for their age, never a hard cap.`) +
+      p(`Your balance and stats now show our guide for recreational screen at ${childName}'s age, per day and per week, set under what the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH say.`) +
+      p(`It sets ${childName}'s real usage against that guide, so you can see in one glance whether a day sits inside it. A steer for their age, never a hard cap.`) +
       button('See the balance', `${APP}/dashboard/quests`),
       unsubscribe
     ),
@@ -1991,7 +1991,7 @@ export function paidTheNumbersEmail(params: {
     subject: 'Where the screen time number comes from',
     html: wrapper(
       heading('Nobody made that number up.') +
-      p(`The healthy range you see against ${childName}'s usage is drawn from the World Health Organization, the American Academy of Pediatrics, the Canadian movement guidelines and the Royal College of Paediatrics and Child Health. Four bodies, not one opinion.`) +
+      p(`The guide you see against ${childName}'s usage is ours, set under the guidance of the World Health Organization, the American Academy of Pediatrics, the Canadian movement guidelines and the Royal College of Paediatrics and Child Health. Four bodies, not one opinion.`) +
       p(`Here is the part most apps leave out. Those bodies do not agree with each other on a single magic number, and the RCPCH in particular is careful to say the evidence does not support one. What the research actually supports is a different question: not how many hours, but what the hours are displacing. Sleep, moving about, being with people, the stuff a childhood is made of.`) +
       p(`Which is why it is drawn as a range and called a steer, and why nothing here ever hard stops a child at a number. A cap tells you when to have a fight. A range tells you whether the shape of the week is right, and that is the thing you can actually act on.`) +
       button('See the balance', `${APP}/dashboard/quests`) +
@@ -2081,6 +2081,65 @@ export function lessonHeadsUpEmail(params: {
       p(`If anything comes up, stay calm and listen first. ${childName} can also call Childline free on 0800 1111, and their school's safeguarding lead is there to help too.`) +
       button('Read the note and tap Ready', readyUrl),
       '',
+    ),
+  }
+}
+
+// ── THE PARENT WHO SIGNED UP AND STOPPED ───────────────────────────────────
+//
+// Justin, 15 November 2026: the one live family made an account and never
+// came back, and nothing asked her why. Three short asks, each a different
+// angle, then silence (lib/asks/stalled.ts holds the spacing). Every one opens
+// the same page, where question one is a single tap.
+//
+// freeUntil is passed only when the free days are genuinely still open, so
+// the line is never a promise the paywall then breaks.
+export function stalledAskEmail(params: {
+  step: 'ask-1' | 'ask-2' | 'ask-3'
+  parentName: string | null
+  childName: string
+  askUrl: string
+  freeUntil: string | null
+  unsubscribe: string
+}): EmailContent {
+  const { step, parentName, childName, askUrl, freeUntil, unsubscribe } = params
+  const hello = parentName ? `Hi ${parentName}, it is Justin.` : 'Hi, it is Justin.'
+  const open = freeUntil ? p(`Your free days are open until ${freeUntil}, no card needed.`) : ''
+  if (step === 'ask-1') {
+    return {
+      subject: 'Can I ask what stopped you?',
+      html: wrapper(
+        heading('One tap would help me a lot.') +
+        p(`${hello} You made an account for ${childName} and then life got in the way, which is completely fair.`) +
+        p(`You are one of our very first families, so what stopped you is the most useful thing I can learn this week. It is one tap, and there are five short questions after it only if you have a minute.`) +
+        button('Tell me what stopped you', askUrl) +
+        open +
+        p(`If you do come back: ten minutes gets you the words for the next screen row, and a way for ${childName} to earn screen time with jobs and time outside, so you are not the one saying no.`),
+        unsubscribe
+      ),
+    }
+  }
+  if (step === 'ask-2') {
+    return {
+      subject: 'What would you want to see first?',
+      html: wrapper(
+        heading('What should the first two minutes show you?') +
+        p(`${hello} I asked last week what stopped you, and I know inboxes are busy.`) +
+        p(`A different question this time. When you open something like this for ${childName}, what do you want to see in the first two minutes to know it is worth your evening? One line is plenty, and I read every answer myself.`) +
+        button('Answer in one line', askUrl) +
+        open,
+        unsubscribe
+      ),
+    }
+  }
+  return {
+    subject: 'Last one from me on this',
+    html: wrapper(
+      heading('I will stop asking after this.') +
+      p(`${hello} This is the last time I will ask, and then I will leave you in peace.`) +
+      p(`If Guided Childhood was not right for your family, I would like to know why, so I can make it right for the next parent. One tap tells me.`) +
+      button('One tap, then I am done', askUrl),
+      unsubscribe
     ),
   }
 }

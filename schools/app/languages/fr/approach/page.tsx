@@ -62,6 +62,14 @@ export default function FrenchApproach() {
         </Part>
       )}
 
+      {H.overload && (
+        <Part id="overload" title="Avoiding overload">
+          <p style={{ ...body, margin: 0 }}>Pictures, actions, clear slides and clear worksheets.</p>
+          {H.overload.steps.map((t, i) => <p key={i} style={{ ...body, margin: 0, color: 'var(--ink)' }}>{t}</p>)}
+          <Cards rows={[['Clear worksheets', H.overload.worksheets], ['Clear slides', H.overload.slides]]} />
+        </Part>
+      )}
+
       {P.directAssociation && P.directAssociation.length > 0 && (
         <Part id="meaning" title="Meaning first, then the written word">
           <Cards rows={P.directAssociation} />

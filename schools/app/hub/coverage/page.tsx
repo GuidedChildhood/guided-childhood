@@ -6,6 +6,7 @@ import {
 import { COMPUTING_POS, type ComputingKeyStage } from '@gc/shared/schools-computing-pos'
 import { CURRICULUM } from '@gc/shared/schools-curriculum'
 import { RSHE_2026, RSHE_2026_SOURCE } from '@gc/shared/schools-rshe-2026'
+import InShort from '@/components/InShort'
 import PrintButton from '@/components/PrintButton'
 import { readDeliveries, recordYears } from '@/lib/records'
 
@@ -146,6 +147,13 @@ export default async function Coverage({ searchParams }: { searchParams: Promise
             each lesson as delivered. It joins the mapping to the Mark lesson delivered button, so nothing is typed here.
           </p>
         </header>
+
+        <InShort points={[
+          <>Each statutory requirement this scheme teaches, with the lessons that teach it.</>,
+          <>A requirement reads <b>started</b> when one of its lessons is delivered, and <b>all its lessons delivered</b> only when every one is. Never &quot;covered&quot; on a single lesson.</>,
+          <>It fills itself in from the <b>Mark lesson delivered</b> button. Nothing is typed here.</>,
+          <>Pick a class to see one class, or leave it on the whole school.</>,
+        ]} />
 
         <nav aria-label="Phase" className="no-print" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
           <Link href={here({ phase: 'primary' })} style={chip(phase === 'primary')} aria-current={phase === 'primary' ? 'true' : undefined}>Primary</Link>

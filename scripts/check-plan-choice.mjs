@@ -29,20 +29,27 @@ const agoDays = n => new Date(Date.now() - n * 86400000).toISOString()
 check('a parent still mid setup is never asked',
   needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), onboarding_complete: false }) === false)
 
-check('finishing setup is what opens the block',
-  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), onboarding_complete: true }) === true)
+// 15 November 2026: the offer waits for the first check in, so a new parent
+// sees the product before the price. See needsPlanChoice.
+check('finishing setup alone does not open the block',
+  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), onboarding_complete: true }) === false)
+
+const CHECKED_IN = new Date().toISOString()
+
+check('the first check in is what opens the block',
+  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), onboarding_complete: true, first_checkin_at: CHECKED_IN }) === true)
 
 check('having chosen the no card path clears it for good',
-  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), onboarding_complete: true, plan_choice: 'free' }) === false)
+  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), onboarding_complete: true, first_checkin_at: CHECKED_IN, plan_choice: 'free' }) === false)
 
 check('paying clears it without any write of ours',
-  needsPlanChoice({ subscription_status: 'active', trial_ends_at: inDays(4), onboarding_complete: true }) === false)
+  needsPlanChoice({ subscription_status: 'active', trial_ends_at: inDays(4), onboarding_complete: true, first_checkin_at: CHECKED_IN }) === false)
 
 // A bounced card is still a subscription everywhere else in this file, and it
 // must be here too. Meeting a "pick a plan" screen while Stripe is retrying a
 // renewal would read as the subscription having silently vanished.
 check('a card mid retry is not asked to choose again',
-  needsPlanChoice({ subscription_status: 'past_due', trial_ends_at: null, onboarding_complete: true }) === false)
+  needsPlanChoice({ subscription_status: 'past_due', trial_ends_at: null, onboarding_complete: true, first_checkin_at: CHECKED_IN }) === false)
 
 // A failed profile read must never conjure a payment screen in front of a
 // paying family. This is the same rule the onboarding init guard learned the

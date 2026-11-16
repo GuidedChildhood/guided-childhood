@@ -92,7 +92,7 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
         </div>
         {s.guideDailyMinutes ? (
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 6px' }}>
-            The healthy guide at this age is about {s.guideDailyMinutes >= 60
+            Our guide at this age is about {s.guideDailyMinutes >= 60
               ? `${Math.round(s.guideDailyMinutes / 60 * 10) / 10} hours`
               : `${s.guideDailyMinutes} minutes`} a day in total. Free time is the part that is always theirs; the rest is earned on top.
           </p>

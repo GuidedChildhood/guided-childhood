@@ -64,7 +64,7 @@ export type TypeGuide = {
 
 // The one glanceable state for the whole child, so a parent reads the level in
 // a second before any bars. Priority order, most worth their eye first: a young
-// child on the phone, then over the healthy guide, then a calm week with room
+// child on the phone, then over our guide, then a calm week with room
 // to make more, then in balance, then a quiet week.
 export type TopState = {
   key: 'phone' | 'over' | 'grow' | 'balanced' | 'quiet'
@@ -113,10 +113,10 @@ export type ParentReportInput = {
 function guidanceFor(status: ScreenStatus, busiest: BucketSummary | null, name: string): string {
   const who = name && name !== 'Your child' ? name : 'they'
   if (status === 'under') return `A light screen week for ${who}. Balance is looking healthy.`
-  if (status === 'healthy') return `A nicely balanced week. Screen time is inside the healthy level for this age.`
+  if (status === 'healthy') return `A nicely balanced week. Screen time is inside our guide for this age.`
   const b = busiest ? busiest.label.toLowerCase() : 'screen time'
-  if (status === 'over') return `Screen time is a little over the healthy level, with ${b} the busiest. One screen free evening brings the week back into the green.`
-  return `Screen time is well over the healthy level this week, mostly ${b}. A calmer plan for a few days will help ${who} find the balance again.`
+  if (status === 'over') return `Screen time is a little over our guide, with ${b} the busiest. One screen free evening brings the week back into the green.`
+  return `Screen time is well over our guide this week, mostly ${b}. A calmer plan for a few days will help ${who} find the balance again.`
 }
 
 // The one glanceable line for the child. Order matters: a young child on the
@@ -149,12 +149,12 @@ function deriveTopState(o: {
   }
   if (anyKeeperFlag || weekOver) {
     const b = o.busiest ? o.busiest.label.toLowerCase() : 'screen time'
-    return { key: 'over', tone: 'watch', label: 'Worth a look this week', sub: `Screen time ran ahead of the healthy guide, mostly ${b}. One swap for a real world thing brings the week back into balance.` }
+    return { key: 'over', tone: 'watch', label: 'Worth a look this week', sub: `Screen time ran ahead of our guide, mostly ${b}. One swap for a real world thing brings the week back into balance.` }
   }
   if (lowBuilder) {
     return { key: 'grow', tone: 'grow', label: 'In balance, room to make more', sub: `Screen time is healthy for ${o.bandLabel}. ${who} did little making or learning this week, so that is the easy thing to grow.` }
   }
-  return { key: 'balanced', tone: 'good', label: 'In balance', sub: `A nicely balanced week for ${who}, screen time inside the healthy level for their age with real world time around it.` }
+  return { key: 'balanced', tone: 'good', label: 'In balance', sub: `A nicely balanced week for ${who}, screen time inside our guide for their age with real world time around it.` }
 }
 
 export function buildParentReport(input: ParentReportInput): ParentReport {
