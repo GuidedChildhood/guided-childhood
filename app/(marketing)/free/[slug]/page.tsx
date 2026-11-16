@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import MagnetGate from '@/components/marketing/MagnetGate'
-import { TASTERS, getTaster, tasterMagnetSlug, tasterPreview, etsyUrl, fullPackLine } from '@/lib/magnets/tasters'
+import { TASTERS, getTaster, tasterMagnetSlug, tasterPreview, etsyUrl, fullPackLine, pagesWord, seriesDays } from '@/lib/magnets/tasters'
 
 // A FREE TASTER, one page per printable pack (11 November 2026).
 //
@@ -57,6 +57,9 @@ export default async function TasterPage({ params }: { params: Promise<{ slug: s
   const etsy = etsyUrl(t)
   const n = t.pages.length
   const src = tasterMagnetSlug(t.slug)
+  // A mini pack (16 November 2026) names the bigger pack its pages come from.
+  const parent = t.partOf ? getTaster(t.partOf) : null
+  const days = seriesDays(t)
 
   return (
     <div style={WRAP}>
@@ -64,10 +67,11 @@ export default async function TasterPage({ params }: { params: Promise<{ slug: s
       <h1 style={H1}>{t.title}</h1>
       <p style={P}>{t.blurb}</p>
       <p style={{ ...P, fontSize: 'var(--text-base)' }}>
-        Here are {n} of the {t.pageCount} pages, free to print tonight. {fullPackLine(t)}
+        {n === 1 ? 'Here is 1' : `Here are ${n}`} of the {t.pageCount} pages, free to print tonight. {fullPackLine(t)}
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 22, margin: '30px 0 34px' }}>
+      {/* A one page taster (the mini packs) stays the size of one page in a row, not the full width. */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 22, margin: '30px 0 34px', ...(n === 1 ? { maxWidth: 380 } : {}) }}>
         {t.pageNotes.map((pg, i) => (
           <figure key={pg.h} style={{ margin: 0 }}>
             <div style={{
@@ -96,8 +100,8 @@ export default async function TasterPage({ params }: { params: Promise<{ slug: s
       <MagnetGate
         slug={src}
         heading="Get the free taster"
-        sub={`${n} pages, A4, ready to print. We email it to you too.`}
-        consentLabel={`Also send me the 5 day series: one page a day with a tip for using it, then which stage your child is at. Optional, and every email has a stop link.`}
+        sub={`${pagesWord(n)}, ${t.letterSource ? 'A4 and US Letter' : 'A4'}, ready to print. We email it to you too.`}
+        consentLabel={`Also send me the ${days} day series: ${n === 1 ? 'the page with a tip for using it' : 'one page a day with a tip for using it'}, then which stage your child is at. Optional, and every email has a stop link.`}
       />
 
       {(etsy || t.inApp) && (
@@ -107,6 +111,7 @@ export default async function TasterPage({ params }: { params: Promise<{ slug: s
             {t.inApp
               ? <>All {t.pageCount} pages are free to print inside the Guided Childhood app, during the four free days and for members. No card needed to start.{etsy ? ' Or buy the pack on Etsy to keep.' : ''}</>
               : <>All {t.pageCount} pages are on Etsy, ready to print at home.</>}
+            {parent && <> These pages are also part of {parent.title}{parent.inApp ? ', which is free to print inside the Guided Childhood app' : ''}.</>}
           </p>
           {/* Free Saturday (13 November 2026): the second door Justin asked for,
               signing in for the free downloads. It goes through the stage check,
@@ -116,6 +121,11 @@ export default async function TasterPage({ params }: { params: Promise<{ slug: s
             {t.inApp && (
               <Link href={`/starter-pack?src=${src}-app`} className="btn btn-gold" style={{ padding: '13px 26px', fontSize: 'var(--text-md)' }}>
                 Get all {t.pageCount} pages free
+              </Link>
+            )}
+            {parent && (
+              <Link href={`/free/${parent.slug}`} className="btn" style={{ padding: '13px 26px', fontSize: 'var(--text-md)', border: '1.5px solid var(--border)' }}>
+                Free taster: {parent.title}
               </Link>
             )}
             {etsy && (
