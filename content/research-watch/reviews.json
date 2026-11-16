@@ -1,0 +1,93 @@
+{
+  "_about": "Claude reviews for the researcher watch, keyed by DOI or URL. The digest is built from these. read says how much was read: full, abstract, or title only. Nothing here is cleared for a post until it passes the radar's own review.",
+  "10.1001/jamanetworkopen.2026.40893": {
+    "verdict": "SUPPORT",
+    "read": "abstract",
+    "design": "Repeated cross sectional, difference in differences. 70 Icelandic schools across three waves of the Youth in Iceland survey (2016, 2018, 2023), 23,938 observations aged 13 to 15. 22 schools brought in a ban between 2018 and 2023.",
+    "finding": "Schoolwide phone bans were not associated with meaningful changes in depressive symptoms, anxiety, hostility or wellbeing, in either gender, or in peer support, screen use or bullying. The authors conclude bans implemented in isolation may be insufficient to improve mental health at the population level.",
+    "limitations": "Not causal. Self reported. Ban strength and timing vary. The depressive symptoms estimate sits just above zero (beta 0.65, CI 0.01 to 1.30), so say no meaningful improvement, never that bans made things worse.",
+    "reason": "Backs our line that removing the device is not the plan, preparing the child is. Odgers is a co author and may be named, cited accurately.",
+    "parentProblem": "The ban is coming, so is it sorted?"
+  },
+  "10.21203/rs.3.rs-9858820/v1": {
+    "verdict": "SUPPORT",
+    "read": "abstract",
+    "design": "Longitudinal cohort (Icelandic LIFECOURSE, 2,363 adolescents, ages 13 to 15), random intercept cross lagged panel models, separating social media, video watching and gaming.",
+    "finding": "Limited evidence that changes in screen use predicted later declines in mental health. Reciprocal pathways stronger but not significant. The authors report no evidence of screen use driving poorer mental health, and differences by sex and by active versus passive use.",
+    "limitations": "Preprint, not yet peer reviewed. One country. Self report. Two years of adolescence only.",
+    "reason": "Fits our thesis that hours alone are not the story and that what the child carries in matters. Use only once published, and never as proof that screens are harmless.",
+    "parentProblem": "They're anxious and always on their phone"
+  },
+  "https://www.afterbabel.com/p/parental-consent-social-media": {
+    "verdict": "CHALLENGE",
+    "read": "full",
+    "design": "Policy essay (first published in Tech Policy Press, 2 November 2026). Cites an American Economic Review study on the collective action trap, a 2025 Harris Poll, a JAMA cohort on reading scores, a Karolinska cohort on inattention, a 2026 Nature Human Behaviour study of Italian students, and PISA 2025.",
+    "finding": "Argues parental consent laws keep families in a collective action trap and do not protect children through puberty. Calls for enforced age minimums, safer design, and the burden moved from parents to companies.",
+    "limitations": "Advocacy, not a study. The brain plasticity passage is a mechanism asserted, not shown. The reading score and attention figures are correlational. The OECD names reading habits as one suspect among several for the PISA fall.",
+    "reason": "Mostly agree: the trap is real and companies should carry the burden. Challenge on the evidence only: a minimum closes one door, but the next app and the day it lifts still need a prepared child. The UK ban is already law for Spring 2027, so the consent debate is context for us. Haidt may be named and quoted accurately.",
+    "parentProblem": "Everyone else has one, so I gave in"
+  },
+  "10.1177/17456916261482033": {
+    "verdict": "CONTEXT",
+    "read": "abstract",
+    "design": "Methods commentary (Haidt and Rausch, Perspectives on Psychological Science).",
+    "finding": "Argues two practices understate harm: relying on correlation coefficients instead of risk elevations, and blending different exposures and outcomes in one analysis.",
+    "limitations": "A methods argument, not new data. The opposing side has published replies on the same points.",
+    "reason": "Partly fair and close to our own point that the average hides the vulnerable tail. Agreeing on the tail is the stronger move. Read the full paper before any reply.",
+    "parentProblem": "They're anxious and always on their phone"
+  },
+  "10.1001/jamapediatrics.2026.4692": {
+    "verdict": "CONTEXT",
+    "read": "abstract",
+    "design": "Cross sectional, nationally representative pilot survey of US adolescents aged 13 to 17 (Understanding America Study), February to December 2025, across 20 platforms.",
+    "finding": "Estimates how often teens report negative experiences online, offline and on each platform.",
+    "limitations": "Pilot. Self report. US only. Platform figures need the full paper before any use.",
+    "reason": "Useful for which platforms carry which harms. No figure used until read in full.",
+    "parentProblem": "I'm scared of who they're talking to on Roblox"
+  },
+  "https://www.afterbabel.com/p/the-many-lines-of-evidence-that-social": {
+    "verdict": "CONTEXT",
+    "read": "title and summary only",
+    "design": "Essay by the NYU Stern Tech and Society Lab team (Witkin, Lim, Rausch, Haidt), subtitled how to address those who still claim this is a moral panic.",
+    "finding": "Not yet read in full.",
+    "limitations": "Advocacy summary of the case for harm.",
+    "reason": "Worth a full read before we answer the moral panic framing, where our position sits between the two camps.",
+    "parentProblem": "They're anxious and always on their phone"
+  },
+  "https://www.afterbabel.com/p/thank-you-frances-haugen": {
+    "verdict": "SKIP",
+    "read": "title only",
+    "design": "Essay.",
+    "finding": "Not read.",
+    "limitations": "",
+    "reason": "Commentary on a person, no new evidence.",
+    "parentProblem": ""
+  },
+  "https://www.afterbabel.com/p/tech-and-society-lab": {
+    "verdict": "CONTEXT",
+    "read": "title only",
+    "design": "Announcement.",
+    "finding": "A new research lab at NYU Stern.",
+    "limitations": "",
+    "reason": "Worth knowing the lab exists, as its papers will turn up in the watch.",
+    "parentProblem": ""
+  },
+  "https://www.afterbabel.com/p/happiness-hypothesis": {
+    "verdict": "SKIP",
+    "read": "title only",
+    "design": "Book announcement.",
+    "finding": "Not read.",
+    "limitations": "",
+    "reason": "Off topic for us.",
+    "parentProblem": ""
+  },
+  "https://www.afterbabel.com/p/are-phone-free-schools-working": {
+    "verdict": "CONTEXT",
+    "read": "opening section",
+    "design": "Essay introducing an NYU Stern Tech and Society Lab working paper that reviews natural experiments where schools restricted phones.",
+    "finding": "Argues the PISA decline from the mid 2010s points to the shift of school life onto devices as a plausible contributor, and asks what happens when phones are removed. The authors themselves say none of this proves digital technology caused the decline.",
+    "limitations": "Working paper, not peer reviewed. Advocacy framing. Learning outcomes, not mental health.",
+    "reason": "Read beside the Iceland study: school bans may help focus and learning while doing little for mental health on their own. Either way the ban is not the whole plan. Read the working paper before citing any number.",
+    "parentProblem": "The ban is coming, so is it sorted?"
+  }
+}
