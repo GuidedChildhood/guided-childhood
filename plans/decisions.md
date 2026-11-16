@@ -291,3 +291,8 @@ Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach scree
 - Justin's yes. A new parent now goes straight in free and lands on setup, whose first step is the home screen and reminders. The founder or free choice is owed only after their first check in (`needsPlanChoice`). It reverses the 14 August placement at the end of sign up, because the one live family left at that screen before seeing the product.
 - Still its own route behind the middleware, so once owed it cannot be skipped. A parent who never checks in meets the upgrade page when the free days end.
 - Homepage line and THE STORY section 9 changed to match. No migration.
+
+## 16 November 2026: the advert funnel counts the pathway and the save screen
+
+- After the one tap first question, 8 of 119 advert visitors started the stage check and none made an account, with nothing to say where they stopped (PostHog is not on for the live site). Justin said yes to counting it.
+- `video_link_events` gains two kinds, `pathway` and `save` (migration 398), counted once per browser per follow against the code the start was counted against, so per link it reads opened, started, pathway, save, account. Existing counts filter by kind and are unchanged. PR 1569.
