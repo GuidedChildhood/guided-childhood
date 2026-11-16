@@ -1,0 +1,17 @@
+{
+  "draft": false,
+  "gdcPostNumber": "059",
+  "researchId": "GDC-RR-f0fb8386cd",
+  "notForPublication": false,
+  "eyebrow": "NEW RESEARCH",
+  "headline": "About three in four parents were not comfortable with an AI leading their child's therapy",
+  "finding": {
+    "figure": "47.2%",
+    "text": "not comfortable at all, of 572 parents."
+  },
+  "context": "Parents of children aged 5 to 17, asked about a hypothetical.",
+  "source": "SOURCE  JAMA Pediatrics, 2 November 2026",
+  "limitation": "A hypothetical, from an opt in US sample. Nothing causal.",
+  "backgroundVideo": "plates/linen-pebble-seedance-v1.mp4",
+  "durationSeconds": 17
+}

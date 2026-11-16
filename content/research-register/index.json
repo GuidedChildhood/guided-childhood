@@ -1763,11 +1763,11 @@
    "words": 21851,
    "fullTextPath": "/home/user/guided-childhood/content/research-register/documents/GDC-RR-86c1075a30.txt",
    "studyId": "GDC-RR-86c1075a30",
-   "version": 34,
+   "version": 35,
    "firstFound": "2026-11-10T09:23:10.230Z",
-   "lastChecked": "2026-11-12T12:46:16.873Z",
-   "changeReason": "ASSETS READY: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-16T12:59:45.953Z",
+   "changeReason": "visual decision: motion",
+   "changedBy": "radar:assets",
    "textSha256": "cdf32d71de3ac48e164229f65d11daccb016904eb2eb0ac1f9b7c61cf988895d",
    "textBytes": 137677,
    "dossier": {
@@ -2004,10 +2004,10 @@
     "reviewedAt": "2026-11-12T12:46:16.844Z"
    },
    "visualDecision": {
-    "choice": "text only",
-    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text.",
-    "decidedBy": "Claude Code, directed run",
-    "at": "2026-11-12T12:42:38.741Z"
+    "choice": "motion",
+    "reason": "Justin asked on 16 November for a still and a motion card on this post, to see complete drafts with media. The 11 November evidence is still too thin to say media helps, so this is his editorial call, and the card carries only cleared wording.",
+    "decidedBy": "Justin, via Claude Code",
+    "at": "2026-11-16T12:59:45.950Z"
    },
    "packDrive": {
     "verified": true,
@@ -5714,11 +5714,11 @@
    },
    "childIsTheSubject": true,
    "studyId": "GDC-RR-f0fb8386cd",
-   "version": 27,
+   "version": 28,
    "firstFound": "2026-11-12T14:45:32.751Z",
-   "lastChecked": "2026-11-13T15:38:23.763Z",
-   "changeReason": "ASSETS READY: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-16T12:59:45.823Z",
+   "changeReason": "visual decision: motion",
+   "changedBy": "radar:assets",
    "dossier": {
     "studyId": "GDC-RR-f0fb8386cd",
     "checkedAt": "2026-11-12T14:45:43.557Z",
@@ -5950,10 +5950,10 @@
     "at": "2026-11-13T15:38:23.630Z"
    },
    "visualDecision": {
-    "choice": "text only",
-    "reason": "The handoff asks for a LinkedIn post and nothing else. The visual report of 12 November ranks no format because every group is under five posts, and the best post of the last measured week carried no image, so the evidence is silent and text only is the default. ChatGPT proposed a static card with no figure on it. No approved brand asset is verified for one, so it is not made. No film: the optional film made for GDC-058 has not been posted, so there is still no motion reading on the account, and a second untested film would add work without adding evidence.",
-    "decidedBy": "Claude Code, directed run",
-    "at": "2026-11-13T15:38:23.591Z"
+    "choice": "motion",
+    "reason": "Justin asked on 16 November for a still and a motion card on this post, to see complete drafts with media. The 11 November evidence is still too thin to say media helps, so this is his editorial call, and the card carries only cleared wording.",
+    "decidedBy": "Justin, via Claude Code",
+    "at": "2026-11-16T12:59:45.441Z"
    }
   },
   "GDC-RR-45a302c73d": {

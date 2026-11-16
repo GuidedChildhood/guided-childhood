@@ -57,7 +57,11 @@ export function buildHandoff(studyId, { schedulePath = SCHEDULE } = {}) {
     checked: Boolean(a.verified), review: a.review?.verdict || 'none',
     driveLink: a.drive?.verified ? `https://drive.google.com/file/d/${a.drive.fileId}/view` : null,
     attach: a.role === 'required' ? 'yes' : 'only if Justin asks for it',
+    // A LinkedIn post carries one piece of media. The film is the media and
+    // the still is its cover, or the media if Justin chooses an image post.
+    use: a.kind === 'motion' ? 'the post media' : a.kind === 'still image' ? 'the cover for the film, or the media if Justin chooses an image post' : 'the post media',
   }))
+  const attachable = assets.filter((a) => a.attach === 'yes' && a.driveLink && a.checked && a.review === 'PASS')
   return {
     schema: SCHEMA,
     generatedAt: new Date().toISOString(),
@@ -81,10 +85,15 @@ export function buildHandoff(studyId, { schedulePath = SCHEDULE } = {}) {
       draftCreationPermitted: Boolean(pack) && ready && !slot,
       schedulingPermitted: Boolean(pack) && approved && !slot,
       autoPublishPermitted: false,
+      // Attaching media is part of preparing the draft: allowed exactly when a
+      // draft is, and only for checked, reviewed files with a verified Drive link.
+      mediaAttachPermitted: Boolean(pack) && ready && !slot && attachable.length > 0,
+      mediaToAttach: attachable.map((a) => ({ kind: a.kind, use: a.use, driveLink: a.driveLink, sha256: a.sha256 })),
       why: reasons,
       rules: [
         'Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.',
         'Do not create a second draft if one exists for this GDC number.',
+        'Media: if mediaAttachPermitted is true, attach the files in mediaToAttach to the existing draft for this GDC number, from the exact Drive links given, and change nothing else in it. Never a file from anywhere else, never a regenerated or edited version.',
         'Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.',
         'Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time.',
       ],
