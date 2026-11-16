@@ -75,10 +75,10 @@ Lead with this one in November and December.
 > Every answer I found was either ban it or give in, and neither felt like a
 > plan.
 >
-> So I built a short check for it. Three questions, and it tells you your
-> child's stage and what to say to them tonight. It's free and there's no sign
-> up.
+> So I built a short check for it. It tells you your child's stage and what to
+> say to them tonight, and it's free.
 >
+> What stage is your child? Three questions, no sign up.
 > guidedchildhood.com/v/grp-1
 >
 > I'm a dad round here, so if you try it I'd really like to hear what it got
