@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-16T13:49:17.306Z",
+  "checkedAt": "2026-11-16T14:11:41.035Z",
   "passed": true,
   "fails": [],
   "facts": {
@@ -11,7 +11,7 @@
       "pixfmt": "yuv420p",
       "frames": 420,
       "seconds": 14,
-      "bytes": 1769781
+      "bytes": 629627
     },
     "fullDecode": "clean",
     "boxOrder": "ftyp moov free mdat",
@@ -22,13 +22,13 @@
     },
     "motion": {
       "frames": 420,
-      "meanChangeWhileBuilding": 0.526,
-      "largestChangeAfterLanding": 0.523,
-      "meanChangeAfterLanding": 0.188,
+      "meanChangeWhileBuilding": 0.183,
+      "largestChangeAfterLanding": 0.228,
+      "meanChangeAfterLanding": 0.002,
       "stillSeconds": 8.9,
       "oneFrameJumps": []
     },
-    "stillMatchesLastFrame": 0.375,
+    "stillMatchesLastFrame": 0.172,
     "contrast": {
       "ink": 13.88,
       "inkSoft": 6.16,

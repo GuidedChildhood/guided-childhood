@@ -1,23 +1,23 @@
 {
   "engine": "gc-motion-engine 0.1.0",
-  "renderedAt": "2026-11-16T13:55:59.286Z",
-  "seconds": 401.7,
+  "renderedAt": "2026-11-16T14:16:09.878Z",
+  "seconds": 268.6,
   "spec": "../../content/motion/GDC-057/spec.json",
   "gdcPostNumber": "057",
   "researchId": "GDC-RR-86c1075a30",
   "notForPublication": false,
-  "wordsOnCard": 44,
+  "wordsOnCard": 43,
   "gateWarnings": [
     "the limitation is not word for word one of the record's limitations. Check it says the same thing"
   ],
   "mp4": {
     "file": "content/motion/GDC-057/gdc-057.mp4",
-    "bytes": 1733622,
-    "sha256": "fb16c3a1174b91aa3032b322de080e24a1df458412c65e3a37a5b922558fc54d"
+    "bytes": 660102,
+    "sha256": "3f9e1940998141f011193982947b1e3beae00746b3325a161192d86a525df152"
   },
   "png": {
     "file": "content/motion/GDC-057/gdc-057.png",
-    "bytes": 1742853,
-    "sha256": "0cab014c73fd39aaecf180a6ff101682d926778891c8b71b3f69cdd265ebda18"
+    "bytes": 1727863,
+    "sha256": "a424dbd2bf44c0ca3eaaedc07916fe42a7150ec8e0fddb151c34d37743958076"
   }
 }

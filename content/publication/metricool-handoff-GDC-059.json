@@ -1,7 +1,7 @@
 {
   "schema": "gdc.metricool-handoff/1.0",
-  "generatedAt": "2026-11-16T13:56:58.557Z",
-  "sourceCommit": "2732214dc9e14447ac26fdb6c0df2ea96e8edb5f",
+  "generatedAt": "2026-11-16T14:17:06.521Z",
+  "sourceCommit": "e43f696ecfa8cc5587b3383acb9528ed6c7f9d8a",
   "gdcPostNumber": "059",
   "researchId": "GDC-RR-f0fb8386cd",
   "title": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
@@ -21,13 +21,13 @@
       "kind": "motion",
       "role": "required",
       "file": "content/motion/GDC-059/gdc-059.mp4",
-      "sha256": "c1eeffe300308737a992457509fbb2875c6a304410922fb96a172f7e9694f51f",
+      "sha256": "d8e156f047a9dfd0516ace502f391b76c1b84342bb3deaf28caea1d5a27de0a2",
       "seconds": 14,
       "width": 1080,
       "height": 1350,
       "checked": true,
       "review": "PASS",
-      "driveLink": "https://drive.google.com/file/d/1Ci_g62Iss9j0fLDrO3I7opKzFdXf05Ww/view",
+      "driveLink": "https://drive.google.com/file/d/1FZel_CMm0IE0uX36V4S15rV6LtD5GM3L/view",
       "attach": "yes",
       "use": "the post media"
     },
@@ -35,13 +35,13 @@
       "kind": "still image",
       "role": "required",
       "file": "content/motion/GDC-059/gdc-059.png",
-      "sha256": "c3bd55854acaa170bc8db5c9d688a7dda86aeccdc674d68c9e8888ed70806787",
+      "sha256": "aecade582682896dc293ce9d7e0688bf4b50a42395bf936e14a5905dc8816fd1",
       "seconds": null,
       "width": null,
       "height": null,
       "checked": true,
       "review": "PASS",
-      "driveLink": "https://drive.google.com/file/d/1uTID4mdDYRAI_DUp6qaUCEVdGRJmIz_G/view",
+      "driveLink": "https://drive.google.com/file/d/1i8kdNQQuoh75uQqBThCdCx3x8idLcl3S/view",
       "attach": "yes",
       "use": "the cover for the film, or the media if Justin chooses an image post"
     }
@@ -61,14 +61,14 @@
       {
         "kind": "motion",
         "use": "the post media",
-        "driveLink": "https://drive.google.com/file/d/1Ci_g62Iss9j0fLDrO3I7opKzFdXf05Ww/view",
-        "sha256": "c1eeffe300308737a992457509fbb2875c6a304410922fb96a172f7e9694f51f"
+        "driveLink": "https://drive.google.com/file/d/1FZel_CMm0IE0uX36V4S15rV6LtD5GM3L/view",
+        "sha256": "d8e156f047a9dfd0516ace502f391b76c1b84342bb3deaf28caea1d5a27de0a2"
       },
       {
         "kind": "still image",
         "use": "the cover for the film, or the media if Justin chooses an image post",
-        "driveLink": "https://drive.google.com/file/d/1uTID4mdDYRAI_DUp6qaUCEVdGRJmIz_G/view",
-        "sha256": "c3bd55854acaa170bc8db5c9d688a7dda86aeccdc674d68c9e8888ed70806787"
+        "driveLink": "https://drive.google.com/file/d/1i8kdNQQuoh75uQqBThCdCx3x8idLcl3S/view",
+        "sha256": "aecade582682896dc293ce9d7e0688bf4b50a42395bf936e14a5905dc8816fd1"
       }
     ],
     "why": [],

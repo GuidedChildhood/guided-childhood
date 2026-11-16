@@ -1763,9 +1763,9 @@
    "words": 21851,
    "fullTextPath": "/home/user/guided-childhood/content/research-register/documents/GDC-RR-86c1075a30.txt",
    "studyId": "GDC-RR-86c1075a30",
-   "version": 41,
+   "version": 45,
    "firstFound": "2026-11-10T09:23:10.230Z",
-   "lastChecked": "2026-11-16T13:56:58.480Z",
+   "lastChecked": "2026-11-16T14:17:05.961Z",
    "changeReason": "asset copy in Drive verified",
    "changedBy": "radar:assets",
    "textSha256": "cdf32d71de3ac48e164229f65d11daccb016904eb2eb0ac1f9b7c61cf988895d",
@@ -2025,10 +2025,10 @@
      "kind": "motion",
      "role": "required",
      "file": "content/motion/GDC-057/gdc-057.mp4",
-     "sha256": "fb16c3a1174b91aa3032b322de080e24a1df458412c65e3a37a5b922558fc54d",
+     "sha256": "3f9e1940998141f011193982947b1e3beae00746b3325a161192d86a525df152",
      "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-057/spec.json",
      "facts": {
-      "bytes": 1733622,
+      "bytes": 660102,
       "seconds": 14,
       "width": 1080,
       "height": 1350,
@@ -2042,44 +2042,44 @@
      "problems": [],
      "review": {
       "verdict": "PASS",
-      "notes": "Looked at frames across the film: RESEARCH FROM 2022 label, headline that parents often knew children dodged age checks and some helped, 18 families with most children having got round one or knowing someone who had, home visits and 8 focus groups, source ICO and Ofcom on GOV.UK October 2022, limitation qualitative and before the Online Safety Act. No percentage shown, as the study gives none. Linen and pebble plate faint behind an ivory wash. All words still from 5.1 seconds.",
+      "notes": "Looked at frames across the film: RESEARCH FROM 2022 label, headline We blame the apps. Some parents were helping., 18 families with most children having got round one or knowing someone who had, home visits and 8 focus groups, source ICO and Ofcom on GOV.UK October 2022, limitation qualitative and before the Online Safety Act. No percentage. Plain ivory paper. All words still from 5.1 seconds.",
       "reviewedBy": "Claude Code, motion engine",
-      "at": "2026-11-16T13:56:23.025Z"
+      "at": "2026-11-16T14:16:49.141Z"
      },
      "drive": {
-      "fileId": "1oQoLL_D3MpBpTVpZXS7epvc2kGQ26aKr",
+      "fileId": "12P3XHb4jum7Lhkx7cNuoGeg8fxUywXv2",
       "verified": true,
       "level": "SIZE MATCHES",
-      "bytesInDrive": 1733622,
-      "at": "2026-11-16T13:56:58.466Z"
+      "bytesInDrive": 660102,
+      "at": "2026-11-16T14:17:05.952Z"
      },
-     "at": "2026-11-16T13:56:23.029Z"
+     "at": "2026-11-16T14:16:49.142Z"
     },
     {
      "kind": "still image",
      "role": "required",
      "file": "content/motion/GDC-057/gdc-057.png",
-     "sha256": "0cab014c73fd39aaecf180a6ff101682d926778891c8b71b3f69cdd265ebda18",
+     "sha256": "a424dbd2bf44c0ca3eaaedc07916fe42a7150ec8e0fddb151c34d37743958076",
      "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-057/spec.json",
      "facts": {
-      "bytes": 1742853
+      "bytes": 1727863
      },
      "verified": true,
      "problems": [],
      "review": {
       "verdict": "PASS",
-      "notes": "Looked at frames across the film: RESEARCH FROM 2022 label, headline that parents often knew children dodged age checks and some helped, 18 families with most children having got round one or knowing someone who had, home visits and 8 focus groups, source ICO and Ofcom on GOV.UK October 2022, limitation qualitative and before the Online Safety Act. No percentage shown, as the study gives none. Linen and pebble plate faint behind an ivory wash. All words still from 5.1 seconds.",
+      "notes": "Looked at frames across the film: RESEARCH FROM 2022 label, headline We blame the apps. Some parents were helping., 18 families with most children having got round one or knowing someone who had, home visits and 8 focus groups, source ICO and Ofcom on GOV.UK October 2022, limitation qualitative and before the Online Safety Act. No percentage. Plain ivory paper. All words still from 5.1 seconds.",
       "reviewedBy": "Claude Code, motion engine",
-      "at": "2026-11-16T13:56:23.041Z"
+      "at": "2026-11-16T14:16:49.153Z"
      },
      "drive": {
-      "fileId": "16yz8LmcEGLS0ceOlx2oiEKnyRtcGAkPM",
+      "fileId": "1lUa4CRKiuqo2mY_G-3T3OvThrA5RXZ9r",
       "verified": true,
       "level": "SIZE MATCHES",
-      "bytesInDrive": 1742853,
-      "at": "2026-11-16T13:56:58.478Z"
+      "bytesInDrive": 1727863,
+      "at": "2026-11-16T14:17:05.960Z"
      },
-     "at": "2026-11-16T13:56:23.043Z"
+     "at": "2026-11-16T14:16:49.155Z"
     }
    ]
   },
@@ -5781,9 +5781,9 @@
    },
    "childIsTheSubject": true,
    "studyId": "GDC-RR-f0fb8386cd",
-   "version": 34,
+   "version": 38,
    "firstFound": "2026-11-12T14:45:32.751Z",
-   "lastChecked": "2026-11-16T13:56:58.458Z",
+   "lastChecked": "2026-11-16T14:17:05.946Z",
    "changeReason": "asset copy in Drive verified",
    "changedBy": "radar:assets",
    "dossier": {
@@ -6032,10 +6032,10 @@
      "kind": "motion",
      "role": "required",
      "file": "content/motion/GDC-059/gdc-059.mp4",
-     "sha256": "c1eeffe300308737a992457509fbb2875c6a304410922fb96a172f7e9694f51f",
+     "sha256": "d8e156f047a9dfd0516ace502f391b76c1b84342bb3deaf28caea1d5a27de0a2",
      "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-059/spec.json",
      "facts": {
-      "bytes": 1769781,
+      "bytes": 629627,
       "seconds": 14,
       "width": 1080,
       "height": 1350,
@@ -6049,44 +6049,44 @@
      "problems": [],
      "review": {
       "verdict": "PASS",
-      "notes": "Looked at frames across the film: NEW RESEARCH label, headline about three in four parents not comfortable with AI leading their child's therapy, 47.2% figure with gold rule, 572 parents, hypothetical aged 5 to 17, source JAMA Pediatrics 2 November 2026, limitation opt in US sample, not causal. Linen and pebble plate behind an ivory wash, faint, never behind words that matter. All words still from 5.1 seconds. Every figure is a cleared figure.",
+      "notes": "Looked at frames across the film: NEW RESEARCH label, headline This is not a story about parents fearing AI, 47.2% with gold rule, not comfortable at all of 572 parents, a hypothetical question with children aged 5 to 17, source JAMA Pediatrics 2 November 2026, limitation opt in US sample, not causal. Plain ivory paper, only the light drifts. All words still from 5.1 seconds.",
       "reviewedBy": "Claude Code, motion engine",
-      "at": "2026-11-16T13:56:22.182Z"
+      "at": "2026-11-16T14:16:48.550Z"
      },
      "drive": {
-      "fileId": "1Ci_g62Iss9j0fLDrO3I7opKzFdXf05Ww",
+      "fileId": "1FZel_CMm0IE0uX36V4S15rV6LtD5GM3L",
       "verified": true,
       "level": "SIZE MATCHES",
-      "bytesInDrive": 1769781,
-      "at": "2026-11-16T13:56:58.444Z"
+      "bytesInDrive": 629627,
+      "at": "2026-11-16T14:17:05.933Z"
      },
-     "at": "2026-11-16T13:56:22.185Z"
+     "at": "2026-11-16T14:16:48.552Z"
     },
     {
      "kind": "still image",
      "role": "required",
      "file": "content/motion/GDC-059/gdc-059.png",
-     "sha256": "c3bd55854acaa170bc8db5c9d688a7dda86aeccdc674d68c9e8888ed70806787",
+     "sha256": "aecade582682896dc293ce9d7e0688bf4b50a42395bf936e14a5905dc8816fd1",
      "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-059/spec.json",
      "facts": {
-      "bytes": 1724991
+      "bytes": 1700057
      },
      "verified": true,
      "problems": [],
      "review": {
       "verdict": "PASS",
-      "notes": "Looked at frames across the film: NEW RESEARCH label, headline about three in four parents not comfortable with AI leading their child's therapy, 47.2% figure with gold rule, 572 parents, hypothetical aged 5 to 17, source JAMA Pediatrics 2 November 2026, limitation opt in US sample, not causal. Linen and pebble plate behind an ivory wash, faint, never behind words that matter. All words still from 5.1 seconds. Every figure is a cleared figure.",
+      "notes": "Looked at frames across the film: NEW RESEARCH label, headline This is not a story about parents fearing AI, 47.2% with gold rule, not comfortable at all of 572 parents, a hypothetical question with children aged 5 to 17, source JAMA Pediatrics 2 November 2026, limitation opt in US sample, not causal. Plain ivory paper, only the light drifts. All words still from 5.1 seconds.",
       "reviewedBy": "Claude Code, motion engine",
-      "at": "2026-11-16T13:56:22.197Z"
+      "at": "2026-11-16T14:16:48.563Z"
      },
      "drive": {
-      "fileId": "1uTID4mdDYRAI_DUp6qaUCEVdGRJmIz_G",
+      "fileId": "1i8kdNQQuoh75uQqBThCdCx3x8idLcl3S",
       "verified": true,
       "level": "SIZE MATCHES",
-      "bytesInDrive": 1724991,
-      "at": "2026-11-16T13:56:58.456Z"
+      "bytesInDrive": 1700057,
+      "at": "2026-11-16T14:17:05.944Z"
      },
-     "at": "2026-11-16T13:56:22.199Z"
+     "at": "2026-11-16T14:16:48.565Z"
     }
    ]
   },
