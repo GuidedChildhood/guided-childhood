@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-11-16T14:45:31.686Z",
+  "passed": true,
+  "fails": [],
+  "facts": {
+    "video": {
+      "codec": "h264",
+      "width": 1080,
+      "height": 1350,
+      "fps": "30/1",
+      "pixfmt": "yuv420p",
+      "frames": 420,
+      "seconds": 14,
+      "bytes": 711617
+    },
+    "fullDecode": "clean",
+    "boxOrder": "ftyp moov free mdat",
+    "png": {
+      "codec": "png",
+      "width": 1080,
+      "height": 1350
+    },
+    "motion": {
+      "frames": 420,
+      "meanChangeWhileBuilding": 0.232,
+      "largestChangeAfterLanding": 0.253,
+      "meanChangeAfterLanding": 0.002,
+      "stillSeconds": 8.9,
+      "oneFrameJumps": []
+    },
+    "stillMatchesLastFrame": 0.183,
+    "contrast": {
+      "ink": 13.88,
+      "inkSoft": 6.16,
+      "goldInk": 5.19
+    }
+  }
+}

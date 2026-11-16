@@ -90,7 +90,7 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     '(What the card shows. Approved brand assets only.)',
     '',
     '=== CARD TEXT ===',
-    '(Evidence posts only, when the card is a still or motion. Five lines: HEADLINE: under 110 characters. FINDING: under 110, the figure exactly as cleared. CONTEXT: under 140. SOURCE: journal and date. LIMITATION: one line, in the record\'s own words. Under 45 words in all. Otherwise NOT RECOMMENDED.)',
+    '(Every evidence post has a card by default. Five lines. HEADLINE is contrarian: it turns the obvious reading round and stays inside what the study shows. Lines: HEADLINE: under 110 characters. FINDING: under 110, the figure exactly as cleared. CONTEXT: under 140. SOURCE: journal and date. LIMITATION: one line, in the record\'s own words. Under 45 words in all. Write NOT RECOMMENDED only when the story has no single clean finding, and say why.)',
     '',
     '=== ASSETS USED ===',
     '(One approved asset per line, or NONE if the post goes out as text only.)',

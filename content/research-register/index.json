@@ -812,11 +812,11 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-e923851b08",
-   "version": 27,
+   "version": 32,
    "firstFound": "2026-11-09T14:11:15.659Z",
-   "lastChecked": "2026-11-12T12:43:10.919Z",
-   "changeReason": "ASSETS READY: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-16T14:46:23.309Z",
+   "changeReason": "asset copy in Drive verified",
+   "changedBy": "radar:assets",
    "dossier": {
     "studyId": "GDC-RR-e923851b08",
     "checkedAt": "2026-11-09T14:35:35.769Z",
@@ -1025,17 +1025,79 @@
     "reviewedAt": "2026-11-12T12:42:38.713Z"
    },
    "visualDecision": {
-    "choice": "text only",
-    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text.",
+    "choice": "motion",
+    "reason": "Card by default for evidence posts, Justin 16 November 2026: a still and a 14 second motion card on plain paper with a contrarian headline inside what the study shows.",
     "decidedBy": "Claude Code, directed run",
-    "at": "2026-11-12T12:42:38.704Z"
+    "at": "2026-11-16T14:46:02.856Z"
    },
    "packDrive": {
     "verified": true,
     "fileId": "1fV6m2cw04TBKC0JD568QKkaXUIuHG_A-PZgycXbFPE4",
     "level": "TEXT IDENTICAL",
     "at": "2026-11-12T12:43:10.896Z"
-   }
+   },
+   "assets": [
+    {
+     "kind": "motion",
+     "role": "required",
+     "file": "content/motion/GDC-056/gdc-056.mp4",
+     "sha256": "4efd30b5fccd1920013fe28b10a936132968f47b0872590be05281b4f6e215aa",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-056/spec.json",
+     "facts": {
+      "bytes": 711617,
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "fps": "30/1",
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audio": "none, silent",
+      "playsThrough": true
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Frames read: NEW RESEARCH label, headline Parents thought they knew. Their teenagers' answers said otherwise., 522 parent and teen pairs, parents generally overestimated what they knew, each answered separately, source Public Health Reports 6 November 2026, limitation one point in time and both sides self report. No percentage. Plain paper.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-16T14:46:04.134Z"
+     },
+     "drive": {
+      "fileId": "1-Mf6CLVVLeXEm9gDQrkt8pb9xugirsGm",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 711617,
+      "at": "2026-11-16T14:46:23.301Z"
+     },
+     "at": "2026-11-16T14:46:04.136Z"
+    },
+    {
+     "kind": "still image",
+     "role": "required",
+     "file": "content/motion/GDC-056/gdc-056.png",
+     "sha256": "05846d5dfc98cca29f62e73765d737dbf03e7816807977132f95cca96b0c42eb",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-056/spec.json",
+     "facts": {
+      "bytes": 1722168
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Frames read: NEW RESEARCH label, headline Parents thought they knew. Their teenagers' answers said otherwise., 522 parent and teen pairs, parents generally overestimated what they knew, each answered separately, source Public Health Reports 6 November 2026, limitation one point in time and both sides self report. No percentage. Plain paper.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-16T14:46:04.148Z"
+     },
+     "drive": {
+      "fileId": "1HqeuI1inAWuKP-PdRu-YfFht7OFIqHA_",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 1722168,
+      "at": "2026-11-16T14:46:23.307Z"
+     },
+     "at": "2026-11-16T14:46:04.150Z"
+    }
+   ]
   },
   "GDC-RR-30c990ff8f": {
    "title": "Understanding Primary Care Provider Decisions Regarding Referral to Early Intervention for Children with Developmental Delays.",
@@ -1453,11 +1515,11 @@
    "words": 118865,
    "fullTextPath": "/home/user/guided-childhood/content/research-register/documents/GDC-RR-e22bd17322.txt",
    "studyId": "GDC-RR-e22bd17322",
-   "version": 30,
+   "version": 35,
    "firstFound": "2026-11-10T09:19:14.418Z",
-   "lastChecked": "2026-11-12T12:43:11.029Z",
-   "changeReason": "ASSETS READY: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-16T14:46:23.295Z",
+   "changeReason": "asset copy in Drive verified",
+   "changedBy": "radar:assets",
    "textSha256": "98287ac5599431f45dbc4ffb7c4e12f4713b15d0a0660565d885b37e20e3c740",
    "textBytes": 854953,
    "dossier": {
@@ -1706,17 +1768,79 @@
     "reviewedAt": "2026-11-12T12:42:38.731Z"
    },
    "visualDecision": {
-    "choice": "text only",
-    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text.",
+    "choice": "motion",
+    "reason": "Card by default for evidence posts, Justin 16 November 2026: a still and a 14 second motion card on plain paper with a contrarian headline inside what the study shows.",
     "decidedBy": "Claude Code, directed run",
-    "at": "2026-11-12T12:42:38.726Z"
+    "at": "2026-11-16T14:46:02.840Z"
    },
    "packDrive": {
     "verified": true,
     "fileId": "1Zeoh9Y1P4clbEqeHbsnWoue0Kdu0FmJUNwYrBgxTdAY",
     "level": "TEXT IDENTICAL",
     "at": "2026-11-12T12:43:11.007Z"
-   }
+   },
+   "assets": [
+    {
+     "kind": "motion",
+     "role": "required",
+     "file": "content/motion/GDC-055/gdc-055.mp4",
+     "sha256": "da976bb6a7c558f765f7ea6556fcf90af754d7c2621365888caf1c1458d38896",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-055/spec.json",
+     "facts": {
+      "bytes": 664666,
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "fps": "30/1",
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audio": "none, silent",
+      "playsThrough": true
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Frames read: GOVERNMENT REVIEW 2025 label, headline A small link. Low certainty. No trial in healthy teenagers yet., 1 in 7 reviews rated high quality and six critically low, 14 UK academics, source DSIT on GOV.UK 20 January 2026, limitation a review of reviews with no new data. Plain paper, words still from 5.1 seconds.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-16T14:46:03.472Z"
+     },
+     "drive": {
+      "fileId": "1GT6mqJdjG52JYOqaFhO1XHJeknRXsKaN",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 664666,
+      "at": "2026-11-16T14:46:23.282Z"
+     },
+     "at": "2026-11-16T14:46:03.474Z"
+    },
+    {
+     "kind": "still image",
+     "role": "required",
+     "file": "content/motion/GDC-055/gdc-055.png",
+     "sha256": "7fb7d0595398c7ff7e0ce8c17eaf93504c5fdcf77dbbd36d486442cb4a67625a",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-055/spec.json",
+     "facts": {
+      "bytes": 1713922
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Frames read: GOVERNMENT REVIEW 2025 label, headline A small link. Low certainty. No trial in healthy teenagers yet., 1 in 7 reviews rated high quality and six critically low, 14 UK academics, source DSIT on GOV.UK 20 January 2026, limitation a review of reviews with no new data. Plain paper, words still from 5.1 seconds.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-16T14:46:03.487Z"
+     },
+     "drive": {
+      "fileId": "1fuXtEpo8gsYZgmRw5HkzL2e1u5LLdiPS",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 1713922,
+      "at": "2026-11-16T14:46:23.293Z"
+     },
+     "at": "2026-11-16T14:46:03.489Z"
+    }
+   ]
   },
   "GDC-RR-86c1075a30": {
    "title": "Families’ attitudes towards age assurance: research commissioned by the ICO and Ofcom",
