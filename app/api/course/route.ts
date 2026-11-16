@@ -47,8 +47,12 @@ export async function POST(req: NextRequest) {
       { email, updated_at: now, ...(existing?.stage_id || !stageId ? {} : { stage_id: stageId }), ...(existing ? {} : { source: `course:${course.slug}` }) },
       { onConflict: 'email' },
     )
+    // Two writes, not one: until migration 396 is applied the consent columns
+    // are missing, and a single update naming them would fail whole and leave
+    // an old stop in place on a lead who has just asked again.
+    await supabase.from('starter_leads').update({ unsubscribed_at: null }).eq('email', email)
     await supabase.from('starter_leads')
-      .update({ marketing_consent: true, marketing_consent_at: now, unsubscribed_at: null })
+      .update({ marketing_consent: true, marketing_consent_at: now })
       .eq('email', email)
 
     const { error: startErr } = await supabase.from('lead_email_log').insert({ email, email_key: courseStartKey(course.slug) })

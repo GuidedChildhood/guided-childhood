@@ -818,8 +818,13 @@ async function handler(req: NextRequest) {
       const emails = [...new Set(rows.map(r => r.email as string))]
       const [{ data: sentLog }, { data: leadRows }] = await Promise.all([
         supabase.from('lead_email_log').select('email, email_key').in('email', emails).like('email_key', 'course:%'),
-        supabase.from('starter_leads').select('email, unsubscribed_at, marketing_consent').in('email', emails),
+        // '*', not named columns: until migration 396 is applied, naming
+        // marketing_consent errors the read, and an empty read would let a
+        // lead who clicked stop keep getting the course.
+        supabase.from('starter_leads').select('*').in('email', emails),
       ])
+      // No read at all means no way to honour a stop, so send nothing today.
+      if (!leadRows) rows.length = 0
       const stopped = new Set((leadRows ?? []).filter(l => l.unsubscribed_at || l.marketing_consent === false).map(l => (l.email as string).toLowerCase()))
       const sentByEmail = new Map<string, Set<string>>()
       for (const l of sentLog ?? []) {
