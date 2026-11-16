@@ -15,6 +15,8 @@ import { Passport, Fixes, DigiLearns, AlsoInside } from '@/components/starter/In
 import KnownProblems from '@/components/starter/KnownProblems'
 import BiggerThanThis from '@/components/starter/BiggerThanThis'
 import ShareStage from '@/components/starter/ShareStage'
+import CourseOffer from '@/components/starter/CourseOffer'
+import { courseForAge } from '@/lib/courses/registry'
 import { needsHelpFirst } from '@/lib/concerns/risk'
 import MethodIcon, { METHOD, type MethodId } from '@/components/starter/MethodIcon'
 import { termTimeDailyMinutes, termTimeBaseMinutes } from '@/lib/quests/screen-balance'
@@ -82,6 +84,10 @@ type Props = {
    */
   onJoin?: () => void
   childName?: string
+  /** The child's age in whole years, from question one. Decides the topic
+   *  course offered (lib/courses/registry.ts). A run saved before the age
+   *  question has none, and falls back to the stage's youngest age. */
+  ageYears?: number | null
 }
 
 const WRAP: React.CSSProperties = { maxWidth: 640, margin: '0 auto', padding: '0 20px' }
@@ -214,7 +220,10 @@ function Point({ icon, title, children }: { icon: MethodId; title: string; child
   )
 }
 
-export default function ResultScreen({ stage, accent, challenge, worry, worries, worryOther, email, needsConfirm, childName, onJoin }: Props) {
+export default function ResultScreen({ stage, accent, challenge, worry, worries, worryOther, email, needsConfirm, childName, onJoin, ageYears }: Props) {
+  // The topic course for this age, if there is one. No age at all (a run saved
+  // before question one asked it) reads Explorer as 11, its youngest year.
+  const course = courseForAge(ageYears ?? (stage.ageBand === '11-13' ? 11 : null))
   // The account exists from the first screen, so stepping in opens setup,
   // which starts on the check in that becomes the baseline. Only a pending
   // email confirmation goes by the login door first.
@@ -479,6 +488,15 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             three kinds of time and the "we do not read the device" disclosure
             all sit one tap in, under the stars, because a parent paying for
             the star system should be able to read them before they do. */}
+        {/* ── THE TOPIC COURSE (16 November 2026) ──────────────────────────
+            A week of short emails on the moment this age is heading into, for
+            a parent who wants it. After the answers to their own worries and
+            before the platform, so it reads as help, and never above the help
+            a parent whose typed worry tripped the risk gate needs first. */}
+        {course && !helpFirst && (
+          <div style={SECTION}><CourseOffer course={course} stageId={stage.id} email={email} kid={kid} /></div>
+        )}
+
         <div style={SECTION}><Passport here={stage.id} kid={kid} /></div>
 
         <div style={SECTION}>

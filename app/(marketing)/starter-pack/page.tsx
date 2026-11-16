@@ -760,6 +760,7 @@ export default function StarterPackPage() {
         email={email}
         needsConfirm={needsConfirm}
         childName={childName.trim()}
+        ageYears={ageYears}
       />
     )
   }
@@ -1210,7 +1211,7 @@ export default function StarterPackPage() {
                 going wrong. It now asks what they would like help with, and
                 says what each tick brings before they tick anything. */}
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '20px', lineHeight: 1.55 }}>
-              Tap any that sound like your house. For each one you get the words to say, something to try tonight, and a plan that keeps going.
+              Pick what is on your mind today, even just one. For each you get the words to say, something to try tonight, and a plan that keeps going.
             </p>
 
             {/* ── THE ONE QUESTION, ASKED HERE ──────────────────────────────
@@ -1220,7 +1221,7 @@ export default function StarterPackPage() {
                 looking at on 9 September 2026 when he asked why the nine had
                 not arrived. There is one copy now: answer it here, and setup
                 shows it back rather than asking again. */}
-            <WorryPicker selected={picks} onToggle={toggleChallenge} primary={picks[0] ?? null} other={worryOther} onOther={setWorryOther} />
+            <WorryPicker selected={picks} onToggle={toggleChallenge} primary={picks[0] ?? null} other={worryOther} onOther={setWorryOther} initial={6} />
 
             {/* What the marker on the first tile means, in words, once. */}
             {picks.length > 1 && (
@@ -1241,7 +1242,12 @@ export default function StarterPackPage() {
                 DiGi and Right now all raise a new worry the day it happens, so
                 nothing here has to be right first time. */}
             <p style={{ marginTop: picks.length > 1 ? '10px' : '14px', color: 'var(--ink-muted)', fontSize: 'var(--text-sm)', lineHeight: 1.55 }}>
-              We keep asking as things come up, so this does not have to be right first time.
+              {/* Justin, 16 November 2026: this is only the start. Both halves
+                  are real: the age prompts (lib/push/flashpoint-heads-up.ts,
+                  the age up cron) raise the next ones, and DiGi, Moments and
+                  Right now write any new worry as a concern the day it comes
+                  up. */}
+              This is just the start. As your child grows we bring up the next ones for their age, like the first phone or group chats, and anything you mention to DiGi is added and tracked too.
             </p>
 
             {/* Parent wellbeing: the quiet reminder that this is about them too,
@@ -1299,6 +1305,17 @@ export default function StarterPackPage() {
                 </>
               )}
             </button>
+            {/* Not sure is a real answer (16 November 2026). We start on the
+                one most families pick, and the journey asks again. */}
+            {picks.length === 0 && (
+              <button
+                type="button"
+                onClick={() => { setPicks(['wont_put_down']); setStep('q4') }}
+                style={{ marginTop: '10px', width: '100%', minHeight: 44, background: 'none', border: 'none', cursor: 'pointer', font: 'inherit', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: 3 }}
+              >
+                Not sure yet? We will start on the most common one
+              </button>
+            )}
             <button onClick={() => setStep('q1')} style={{ marginTop: '12px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
             </button>

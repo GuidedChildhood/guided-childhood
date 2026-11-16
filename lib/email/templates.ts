@@ -1094,6 +1094,38 @@ export function tasterStageEmail(params: {
   }
 }
 
+// One day of a topic email course (lib/courses/registry.ts, 16 November 2026).
+// The copy is the checked pack's, word for word; this only lays it out. The
+// preview line is hidden text first in the body, which is what most inboxes
+// show beside the subject. Tonight's one thing is set apart so a tired parent
+// who reads nothing else still sees it.
+export function courseDayEmail(params: {
+  courseTitle: string
+  day: number
+  days: number
+  subject: string
+  preview: string
+  paragraphs: string[]
+  tonight: string
+  link: { label: string; url: string } | null
+  unsubscribe: string
+}): EmailContent {
+  const { courseTitle, day, days, subject, preview, paragraphs, tonight, link, unsubscribe } = params
+  return {
+    subject,
+    html: wrapper(
+      `<div style="display:none;max-height:0;overflow:hidden;opacity:0">${preview}</div>` +
+      `<div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${BUTTER_DARK};margin:0 0 10px">${courseTitle} · day ${day} of ${days}</div>` +
+      heading(subject) +
+      p('Hello,') +
+      paragraphs.map(t => p(t)).join('') +
+      `<div style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:16px 18px;margin:8px 0 4px"><strong>Tonight:</strong> ${tonight}</div>` +
+      (link ? button(link.label, link.url) : ''),
+      unsubscribe
+    ),
+  }
+}
+
 // The one email for the under 4 list (lib/starter/turns-four.ts): the month
 // the child turns 4, and never before.
 export function turnsFourEmail(params: { unsubscribe: string; cta: string }): EmailContent {

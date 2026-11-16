@@ -55,6 +55,9 @@ const SECTIONS = {
   'REEL SCRIPT': ['reel', 'script'],
   'EVIDENCE NOTES': ['evidence', 'notes'],
   'VISUAL BRIEF': ['visual', 'brief'],
+  // The five lines a research card is built from (tools/motion-engine).
+  // Optional: only an evidence post whose visual is a still or motion has one.
+  'CARD TEXT': ['card', 'text'],
   'ASSETS USED': ['visual', 'assetsUsed'],
   'SOURCES': ['sources', null],
 }
@@ -85,6 +88,9 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     '',
     '=== VISUAL BRIEF ===',
     '(What the card shows. Approved brand assets only.)',
+    '',
+    '=== CARD TEXT ===',
+    '(Evidence posts only, when the card is a still or motion. Five lines: HEADLINE: under 110 characters. FINDING: under 110, the figure exactly as cleared. CONTEXT: under 140. SOURCE: journal and date. LIMITATION: one line, in the record\'s own words. Under 45 words in all. Otherwise NOT RECOMMENDED.)',
     '',
     '=== ASSETS USED ===',
     '(One approved asset per line, or NONE if the post goes out as text only.)',
@@ -155,6 +161,16 @@ export function parsePackText(text) {
     buf.push(raw.replace(/\s+$/, ''))
   }
   flush()
+
+  // CARD TEXT arrives as five labelled lines. Read them into fields so the
+  // pack checks can put them through the same gate the engine uses.
+  if (pack.card?.text) {
+    const want = { HEADLINE: 'headline', FINDING: 'finding', CONTEXT: 'context', SOURCE: 'source', LIMITATION: 'limitation' }
+    for (const l of pack.card.text.split('\n')) {
+      const m = l.replace(/^[-*•\s]+/, '').match(/^([A-Z]+)\s*:\s*(.+)$/)
+      if (m && want[m[1]]) pack.card[want[m[1]]] = m[2].trim()
+    }
+  }
 
   if (pack.gdcPostNumber) {
     const n = String(pack.gdcPostNumber).match(/\d{2,3}/)
