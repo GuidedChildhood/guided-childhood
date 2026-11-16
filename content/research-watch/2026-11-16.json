@@ -1,0 +1,155 @@
+{
+  "since": "2026-09-17",
+  "until": "2026-11-16",
+  "people": [
+    {
+      "id": "odgers",
+      "name": "Candice Odgers",
+      "role": "researcher",
+      "stance": "Ally. Small average effects, risk concentrated in vulnerable children, against moral panic. Closest to our thesis.",
+      "mayName": true,
+      "items": [
+        {
+          "kind": "paper",
+          "source": "europepmc",
+          "title": "School Phone Bans and Adolescent Mental Health in Iceland.",
+          "doi": "10.1001/jamanetworkopen.2026.40893",
+          "url": "https://doi.org/10.1001/jamanetworkopen.2026.40893",
+          "venue": "JAMA network open",
+          "date": "2026-10-01",
+          "authors": "Bonilla Aparicio E, Sigmarsdottir B, Haskell E, Sirotina U, Sveinbjornsdottir B, Asgeirsdottir BB, Valdimarsdottir HB, Odgers CL, Sigfusdottir ID, Allegrante JP, Halldorsdottir T.",
+          "preprint": false,
+          "summary": "<h4>Importance</h4>Concerns about adolescent smartphone use and mental health have prompted many schools to implement mobile phone bans, but evidence of their effects remains mixed.<h4>Objective</h4>To examine whether schoolwide mobile phone bans were associated with changes in mental health and associated social and behavioral outcomes among adolescents in Iceland.<h4>Design, setting, and participants</h4>This repeated cross-sectional study used difference-in-differences analyses of data from 70 schools across 3 waves of the nationwide Youth in Iceland school survey. The surveys were administ"
+        },
+        {
+          "kind": "paper",
+          "source": "europepmc",
+          "title": "Sex-specific relationships between adolescent digital media activities and mental health outcomes",
+          "doi": "10.21203/rs.3.rs-9858820/v1",
+          "url": "https://doi.org/10.21203/rs.3.rs-9858820/v1",
+          "venue": "",
+          "date": "2026-09-24",
+          "authors": "Haskell E, Valdimarsdottir H, Ásgeirsdóttir BB, Odgers C, Allegrante J, Sigfusdottir I, Halldorsdottir T.",
+          "preprint": true,
+          "summary": "<title>Abstract</title> <p>Recent increases in adolescent mental health issues and antisocial behaviours have been correlated with rising social media use (SMU). However, bi-directional, longitudinal evidence remains scarce. Using the Icelandic LIFECOURSE cohort (n = 2,363; 49.6% female), this study examined longitudinal relationships between SMU, video watching (VW), gaming (VG), and mental health (depressive symptoms, hostility, and conduct problems) from ages 13–15 using Random-Intercept Cross-Lagged Panel Models. We found limited evidence that screen use changes predicted subsequent declin"
+        }
+      ],
+      "lost": []
+    },
+    {
+      "id": "haidt",
+      "name": "Jonathan Haidt",
+      "role": "researcher",
+      "stance": "Respected opponent on mechanism. Agrees the worry is real; we differ on cause (screen time versus what the child carries in and what the feed does with it). Challenge only where the evidence lets us.",
+      "mayName": true,
+      "items": [
+        {
+          "kind": "post",
+          "source": "After Babel (Substack)",
+          "venue": "After Babel (Substack)",
+          "doi": null,
+          "preprint": false,
+          "title": "Why Parental Consent Policies for Social Media Do Not Help Families",
+          "url": "https://www.afterbabel.com/p/parental-consent-social-media",
+          "date": "2026-11-09",
+          "authors": "Jon Haidt",
+          "summary": "This sensible-sounding idea fails parents by putting them back into a collective action trap. Platforms often propose it because they know it won&#8217;t work."
+        },
+        {
+          "kind": "paper",
+          "source": "europepmc",
+          "title": "Two Practices That Understate the Mental Health Risks Associated With Adolescent Social-Media Use.",
+          "doi": "10.1177/17456916261482033",
+          "url": "https://doi.org/10.1177/17456916261482033",
+          "venue": "Perspectives on psychological science : a journal of the Association for Psychological Science",
+          "date": "2026-10-20",
+          "authors": "Haidt J, Rausch Z.",
+          "preprint": false,
+          "summary": "Why do researchers analyzing the same body of evidence reach different conclusions about whether social-media use poses risks to adolescent mental health? We offer a partial explanation: Two common practices can lead researchers to underestimate harm and reach divergent conclusions. First, studies often do not account for risk elevations, relying instead only on correlation coefficients, which are more prone to misinterpretation. Second, researchers often rely on highly blended analyses that combine heterogeneous exposures (e.g., multiple digital activities, including \"TV watching\"), outcomes "
+        },
+        {
+          "kind": "post",
+          "source": "After Babel (Substack)",
+          "venue": "After Babel (Substack)",
+          "doi": null,
+          "preprint": false,
+          "title": "Ancient Wisdom Is Needed Today More Than Ever. Here Is My Book About It.",
+          "url": "https://www.afterbabel.com/p/happiness-hypothesis",
+          "date": "2026-10-13",
+          "authors": "Jon Haidt",
+          "summary": "Hachette is re-issuing my first book, The Happiness Hypothesis. Here&#8217;s the new preface."
+        },
+        {
+          "kind": "post",
+          "source": "After Babel (Substack)",
+          "venue": "After Babel (Substack)",
+          "doi": null,
+          "preprint": false,
+          "title": "Thank You, Frances Haugen",
+          "url": "https://www.afterbabel.com/p/thank-you-frances-haugen",
+          "date": "2026-10-11",
+          "authors": "Jon Haidt",
+          "summary": "To celebrate &#8220;The Social Reckoning&#8221; and the five-year anniversary of Frances Haugen&#8217;s testimony, we link to eight essays we ran on After Babel that draw on whistleblower information"
+        },
+        {
+          "kind": "post",
+          "source": "After Babel (Substack)",
+          "venue": "After Babel (Substack)",
+          "doi": null,
+          "preprint": false,
+          "title": "Introducing the Tech & Society Lab at NYU Stern",
+          "url": "https://www.afterbabel.com/p/tech-and-society-lab",
+          "date": "2026-10-05",
+          "authors": "Zach Rausch",
+          "summary": "Building a research program that keeps pace with technology as it changes childhood and society"
+        },
+        {
+          "kind": "post",
+          "source": "After Babel (Substack)",
+          "venue": "After Babel (Substack)",
+          "doi": null,
+          "preprint": false,
+          "title": "The Many Lines of Evidence That Social Media is Not Safe For Teens",
+          "url": "https://www.afterbabel.com/p/the-many-lines-of-evidence-that-social",
+          "date": "2026-09-23",
+          "authors": "Nathan Witkin",
+          "summary": "How to address those who still claim that this is all just a moral panic."
+        },
+        {
+          "kind": "paper",
+          "source": "europepmc",
+          "title": "Adolescents' Experiences of Online Harms by Platform.",
+          "doi": "10.1001/jamapediatrics.2026.4692",
+          "url": "https://doi.org/10.1001/jamapediatrics.2026.4692",
+          "venue": "JAMA pediatrics",
+          "date": "2026-09-18",
+          "authors": "Lee AY, Lim CHJ, Liu SX, Jin RKX, Buffone A, Iyer R, Rausch Z, Haidt J, Fast NJ, Hancock JT, Linos E.",
+          "preprint": false,
+          "summary": "<h4>Importance</h4>Concerns about the risks adolescents face online are rising, and existing research on online harms rarely examines platform-level differences.<h4>Objective</h4>To estimate the prevalence of negative experiences reported by US adolescents online, offline, and across 20 different online platforms using a national survey.<h4>Design, setting, and participants</h4>This was a cross-sectional, nationally representative, pilot survey of US adolescents aged 13 to 17 years conducted from February to December 2025 through the probability-based Understanding America Study panel. Self-re"
+        },
+        {
+          "kind": "post",
+          "source": "After Babel (Substack)",
+          "venue": "After Babel (Substack)",
+          "doi": null,
+          "preprint": false,
+          "title": "Are Phone-Free Schools Working?",
+          "url": "https://www.afterbabel.com/p/are-phone-free-schools-working",
+          "date": "2026-09-17",
+          "authors": "Carmen Lim",
+          "summary": "Here is the evidence on all sides, across multiple outcomes."
+        }
+      ],
+      "lost": []
+    },
+    {
+      "id": "knibbs",
+      "name": "Catherine Knibbs",
+      "role": "clinician",
+      "stance": "Ally. Child online harm and trauma clinician. Never named beside our advice; her published work may inform it.",
+      "mayName": false,
+      "items": [],
+      "lost": []
+    }
+  ]
+}
