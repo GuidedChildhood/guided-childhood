@@ -166,7 +166,7 @@ never pick a new one because the old one cannot be found.**
 
 | Friend | Voice id | Sample | Pronunciation |
 |---|---|---|---|
-| DiGi | Tamsin, preset 9eb5a147-c322-4f8a-8bc5-a30679dfaf5c, seed_audio, speech rate minus 10 (chosen 16 November 2026) | `content/child-films/voice-test/6-tamsin-slower.mp3` | Written "Didgee" in spoken text so it is said like the app says it |
+| DiGi | Isla on ElevenLabs (Higgsfield text2speech_v2, variant elevenlabs, preset 7367e919-3069-5a0b-939e-dfb1c0fd91b4), chosen by Justin by ear 16 November 2026, replacing Tamsin on Seed Audio | `content/child-films/voice-test-2/5-elevenlabs-isla.mp3` | Written "Didgee" in spoken text so it is said like the app says it |
 | Pebble | to be set | | |
 | Bloop | to be set | | |
 | Orbit | to be set | | |
