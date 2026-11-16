@@ -50,6 +50,10 @@
       "schedule": "* * * * *"
     },
     {
+      "path": "/api/cron/watch-bookings",
+      "schedule": "*/5 * * * *"
+    },
+    {
       "path": "/api/push/cron",
       "schedule": "*/30 * * * *"
     },

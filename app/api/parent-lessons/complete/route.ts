@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { FIRST_COMPLETION_STARS, REDO_STARS } from '@/lib/lessons/parent-lessons'
 import { STAGES } from '@/lib/content/stages'
 import { sendPush } from '@/lib/push/send'
+import { markWatched, afterPromptFor } from '@/lib/lessons/watch-bookings-server'
 
 // A watch together lesson finished: segment C ended and the quiz cards
 // answered. Two callers share this endpoint, exactly like the star
@@ -156,10 +157,17 @@ export async function POST(req: NextRequest) {
     passportAwarded = !error
   }
 
+  // ── A booked Watch together time for this film is now watched ──
+  // (migration 400). Best effort and tolerant: before the migration is applied
+  // this logs and does nothing, and no completion ever waits on it.
+  await markWatched(admin, childId, lessonCode)
+
   // ── The parent push: the good news moment ──
   // Only when the child finished it on their own link; a parent pressing
-  // finish on their own dashboard was in the room for it.
+  // finish on their own dashboard was in the room for it, and saw the
+  // Tonight card on the finish screen instead.
   if (viaKidLink) {
+    const afterPrompt = await afterPromptFor(admin, lessonCode)
     const stageName = STAGES.find(s => s.id === lesson.stage_id)?.name ?? `Stage ${lesson.stage_id}`
     await notifyParent(
       req,
@@ -168,7 +176,7 @@ export async function POST(req: NextRequest) {
       passportAwarded ? 'earned a stage passport 🌟' : firstCompletion ? 'finished a lesson together 🎬' : 'rewatched a lesson 🎬',
       passportAwarded
         ? `Every ${stageName} lesson is complete. The ${stageName} passport just landed, ${starsThisTime} stars with it.`
-        : `${lesson.title}. ${starsThisTime} star${starsThisTime === 1 ? '' : 's'} landed in their bank.`,
+        : `${lesson.title}. ${starsThisTime} star${starsThisTime === 1 ? '' : 's'} landed in their bank.${afterPrompt ? ` Tonight: ${afterPrompt}` : ''}`,
     )
   }
 

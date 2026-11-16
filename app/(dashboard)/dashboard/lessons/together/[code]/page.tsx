@@ -6,6 +6,11 @@ import { getParentLessonByCode, getCompletionsForChild } from '@/lib/lessons/par
 import { getChildren } from '@/lib/children/server'
 import { STAGES } from '@/lib/content/stages'
 import ParentLessonPlayer from '@/components/lessons/ParentLessonPlayer'
+import WatchBookingPanel from '@/components/lessons/WatchBookingPanel'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { bookingFor, afterPromptFor } from '@/lib/lessons/watch-bookings-server'
+import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { SITE_URL } from '@/lib/config/site'
 
 // One watch together lesson, played from the parent's side of the sofa. The
 // completion writes against the SELECTED child, so the tick, the stars and any
@@ -44,14 +49,26 @@ export default async function WatchTogetherLessonPage({
   if (!user) redirect('/login')
 
   const [{ child }, lessonData] = await Promise.all([
-    getChildren<{ id: string; name: string | null; is_primary: boolean | null }>(
-      supabase, user.id, childParam, 'id, name'),
+    getChildren<{ id: string; name: string | null; is_primary: boolean | null; age_band: string | null }>(
+      supabase, user.id, childParam, 'id, name, age_band'),
     getParentLessonByCode(supabase, code),
   ])
   if (!lessonData) notFound()
   const { lesson, segments, cards } = lessonData
 
-  const completions = child ? await getCompletionsForChild(supabase, child.id) : new Map()
+  // Watch together booking (migration 400). The booking and the after prompt
+  // are read through the service role, and both answer "nothing" if the
+  // migration is not applied yet, so this page is unchanged until it is.
+  const admin = createAdminClient()
+  const [completions, booking, afterPrompt] = await Promise.all([
+    child ? getCompletionsForChild(supabase, child.id) : Promise.resolve(new Map()),
+    child ? bookingFor(admin, child.id, lesson.lesson_code) : Promise.resolve(null),
+    afterPromptFor(admin, lesson.lesson_code),
+  ])
+  // A film above the child's stage is not offered for booking, the same gate
+  // their own page uses for adventures. The film still plays here as before.
+  const childStage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
+  const canBook = Boolean(child) && lesson.stage_id <= childStage
   const completion = completions.get(lesson.lesson_code)
   const stageName = STAGES.find(s => s.id === lesson.stage_id)?.name ?? `Stage ${lesson.stage_id}`
   // The way back keeps the child that was watched with, so the hub does not
@@ -90,8 +107,20 @@ export default async function WatchTogetherLessonPage({
         )}
       </div>
 
+      {child && canBook && (
+        <WatchBookingPanel
+          childId={child.id}
+          childName={child.name}
+          lessonCode={lesson.lesson_code}
+          title={lesson.title}
+          initial={booking ? { id: booking.id, starts_at: booking.starts_at, buzz_child: booking.buzz_child } : null}
+          filmUrl={`${SITE_URL}/dashboard/lessons/together/${lesson.lesson_code}`}
+        />
+      )}
+
       {child ? (
         <ParentLessonPlayer
+          afterPrompt={afterPrompt}
           lesson={lesson}
           segments={segments}
           cards={cards}
