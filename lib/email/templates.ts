@@ -2175,3 +2175,38 @@ export function stalledAskEmail(params: {
     ),
   }
 }
+
+// The two asks to a stage check visitor who never made an account (16 November
+// 2026, lib/asks/stalled.ts). Shorter than the account asks, because they gave
+// us less, and honest that this is the last of two.
+export function leadAskEmail(params: {
+  step: 'lead-ask-1' | 'lead-ask-2'
+  childName: string
+  askUrl: string
+  unsubscribe: string
+}): EmailContent {
+  const { step, childName, askUrl, unsubscribe } = params
+  if (step === 'lead-ask-1') {
+    return {
+      subject: 'Can I ask what stopped you?',
+      html: wrapper(
+        heading('One tap would help me a lot.') +
+        p(`Hi, it is Justin. You did the stage check for ${childName} and saw where they are. Thank you for that.`) +
+        p(`You did not go on to save the pathway, which is completely fine. I would like to know why, because it is the most useful thing I can learn this week. It is one tap, and there are two short questions after it only if you have a minute.`) +
+        button('Tell me what stopped you', askUrl) +
+        p(`There is nothing to sign up for, and I read every answer myself.`),
+        unsubscribe
+      ),
+    }
+  }
+  return {
+    subject: 'Last one from me on this',
+    html: wrapper(
+      heading('I will stop asking after this.') +
+      p(`Hi, it is Justin. I asked a few days ago what stopped you saving ${childName === 'your child' ? 'the' : `${childName}'s`} pathway after the stage check. This is the last time I will ask.`) +
+      p(`If it was not right for your family, one tap tells me why, so I can make it right for the next parent.`) +
+      button('One tap, then I am done', askUrl),
+      unsubscribe
+    ),
+  }
+}

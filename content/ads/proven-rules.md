@@ -67,7 +67,7 @@ they are advice we agree with rather than evidence. Weighed in
 ## Not proven
 
 - **Generated families** (Kairoo's whole campaign, 5 to 11 days old). It may
-  work. Nobody can say yet. Look again on 2 December.
+  work. Nobody can say yet. Look again on 2 December. On 16 November Kairoo had no active adverts in the UK at all: none of the generated family cards reached 30 days.
 - **Polish.** Nothing past 180 days is polished.
 
 ## What we take and what we leave

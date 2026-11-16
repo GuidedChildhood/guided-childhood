@@ -110,17 +110,15 @@ buttons, cards and tokens.
 - **A missed booking is never a failure in front of the child.** No streak, no
   "you missed it", no star lost.
 
-## Questions for Justin
+## Justin's answers, 16 November
 
-1. **Times**: three suggestions plus "another time" (recommended), or a free
-   time picker only?
-2. **Before the time**: the child sees nothing until the time (recommended), or
-   "Film time, Thursday at 5" shown ahead?
-3. **Evening slots**: allowed and silent after 19:00 (recommended), or bookings
-   stop at 19:00?
-4. **Calendar file**: include it (recommended), or not now?
-5. **Buzz the child at the time** (daytime only): on by default, or off unless
-   the parent ticks it? Recommendation: on by default.
+1. **Times**: three suggestions plus "another time".
+2. **Before the time**: the child sees nothing until the time.
+3. **Evening slots**: allowed, and silent on the child's phone after 19:00.
+4. **Calendar file**: yes, with no child's name in it.
+5. **Buzz the child at the time**: on by default, daytime only, the parent can untick it.
+
+Building waits for Justin's go ahead on the plan as a whole.
 
 ## Not in this plan
 

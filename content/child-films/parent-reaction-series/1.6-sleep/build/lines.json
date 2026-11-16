@@ -1,0 +1,318 @@
+{
+ "voice": {
+  "model": "seed_audio",
+  "voice_type": "preset",
+  "voice_id": "9eb5a147-c322-4f8a-8bc5-a30679dfaf5c",
+  "speech_rate": -10
+ },
+ "child": [
+  {
+   "id": "c01",
+   "seg": "A",
+   "pics": [
+    "p01"
+   ],
+   "text": "Hello, it's Didgee. And here's Pebble."
+  },
+  {
+   "id": "c02",
+   "seg": "A",
+   "pics": [
+    "p01"
+   ],
+   "text": "Grown up, come and sit close. This one is about bedtime, and it is a cosy one."
+  },
+  {
+   "id": "c03",
+   "seg": "A",
+   "pics": [
+    "p02"
+   ],
+   "text": "Let's breathe together. Breathe in, and blow out slowly, like cooling a cup of warm milk."
+  },
+  {
+   "id": "c04",
+   "seg": "A",
+   "pics": [
+    "p02"
+   ],
+   "text": "One more. In. And out. Lovely."
+  },
+  {
+   "id": "c05",
+   "seg": "A",
+   "pics": [
+    "p03"
+   ],
+   "product_only": true,
+   "text": "Last time, we learned that someone made everything on a screen. Today, it's something everybody does, every single night."
+  },
+  {
+   "id": "c06",
+   "seg": "A",
+   "pics": [
+    "p04"
+   ],
+   "word": "WIND DOWN",
+   "text": "Today's special words are wind down."
+  },
+  {
+   "id": "c07",
+   "seg": "A",
+   "pics": [
+    "p04"
+   ],
+   "word": "WIND DOWN",
+   "text": "Winding down is the slow, quiet bit before sleep. Like a toy that slows down, and slows down, and stops."
+  },
+  {
+   "id": "c08",
+   "seg": "A",
+   "pics": [
+    "p05"
+   ],
+   "text": "When you sleep, your body gets the rest it needs."
+  },
+  {
+   "id": "c09",
+   "seg": "A",
+   "pics": [
+    "p05"
+   ],
+   "text": "That is why everybody needs sleep. Grown ups too. And Pebble. Pebble needs a lot."
+  },
+  {
+   "id": "c10",
+   "seg": "A",
+   "pics": [
+    "p06"
+   ],
+   "text": "Screens are fun. They are bright, and busy, and exciting."
+  },
+  {
+   "id": "c11",
+   "seg": "A",
+   "pics": [
+    "p06"
+   ],
+   "text": "And exciting things make it hard for your brain to wind down. Even when you are really tired."
+  },
+  {
+   "id": "c12",
+   "seg": "A",
+   "pics": [
+    "p07"
+   ],
+   "card": "ask1",
+   "text": "Pause me here, and ask each other the question. I'll wait."
+  },
+  {
+   "id": "c13",
+   "seg": "B",
+   "pics": [
+    "p08"
+   ],
+   "text": "So here is our bedtime rule. Ready?"
+  },
+  {
+   "id": "c14",
+   "seg": "B",
+   "pics": [
+    "p08"
+   ],
+   "word": "Screens go to bed first.",
+   "text": "Screens go to bed first."
+  },
+  {
+   "id": "c15",
+   "seg": "B",
+   "pics": [
+    "p09"
+   ],
+   "text": "The tablet goes to its own bed. Not in your bedroom. In its special spot."
+  },
+  {
+   "id": "c16",
+   "seg": "B",
+   "pics": [
+    "p09"
+   ],
+   "text": "And look. The grown up's phone goes to bed too. Screens go to bed first. Everybody's."
+  },
+  {
+   "id": "c17",
+   "seg": "B",
+   "pics": [
+    "p10"
+   ],
+   "text": "Oh, Pebble. The book does not go to bed."
+  },
+  {
+   "id": "c18",
+   "seg": "B",
+   "pics": [
+    "p11"
+   ],
+   "text": "The book comes with us. Books are for bedtime."
+  },
+  {
+   "id": "c19",
+   "seg": "B",
+   "pics": [
+    "p12",
+    "p13",
+    "p14"
+   ],
+   "text": "Then it's time for three cosy things. Teeth. Story. Cuddle."
+  },
+  {
+   "id": "c20",
+   "seg": "B",
+   "pics": [
+    "p15"
+   ],
+   "text": "Your three cosy things might be different. A song, a bath, a chat about your day. You and your grown up can pick."
+  },
+  {
+   "id": "c21",
+   "seg": "B",
+   "pics": [
+    "p07"
+   ],
+   "card": "ask2",
+   "text": "Pause me here, and choose your three together. Take your time."
+  },
+  {
+   "id": "c22",
+   "seg": "C",
+   "pics": [
+    "p16"
+   ],
+   "text": "Sometimes, at bedtime, something you saw on a screen gets stuck in your head."
+  },
+  {
+   "id": "c23",
+   "seg": "C",
+   "pics": [
+    "p16"
+   ],
+   "text": "If that happens, you can always tell your grown up. Even in the night."
+  },
+  {
+   "id": "c24",
+   "seg": "C",
+   "pics": [
+    "p17"
+   ],
+   "text": "You will never be in trouble for telling."
+  },
+  {
+   "id": "c25",
+   "seg": "C",
+   "pics": [
+    "p18"
+   ],
+   "text": "Let's practise. Grown up, you say: it's nearly bedtime."
+  },
+  {
+   "id": "c26",
+   "seg": "C",
+   "pics": [
+    "p18"
+   ],
+   "text": "And then the little one answers: screens go to bed first."
+  },
+  {
+   "id": "c27",
+   "seg": "C",
+   "pics": [
+    "p18"
+   ],
+   "text": "Let's try it now. Pause me if you need to."
+  },
+  {
+   "id": "c28",
+   "seg": "C",
+   "pics": [
+    "p04",
+    "p21",
+    "p13"
+   ],
+   "text": "So. We wind down before sleep. Screens go to bed first. Then, three cosy things."
+  },
+  {
+   "id": "c29",
+   "seg": "C",
+   "pics": [
+    "p21"
+   ],
+   "text": "Tonight, put the tablet to bed in its spot, and do your three cosy things."
+  },
+  {
+   "id": "c30",
+   "seg": "C",
+   "pics": [
+    "p20"
+   ],
+   "text": "Goodnight, Pebble. Goodbye from Didgee. See you next time."
+  }
+ ],
+ "parent": [
+  {
+   "id": "a01",
+   "pics": [
+    "pp1"
+   ],
+   "text": "It's ten o'clock, and the light under the door is still on."
+  },
+  {
+   "id": "a02",
+   "pics": [
+    "pp2"
+   ],
+   "text": "The trouble is, nothing on a screen ever finishes."
+  },
+  {
+   "id": "a03",
+   "pics": [
+    "pp3"
+   ],
+   "text": "The next episode starts on its own. The game wants one more go. A tired child against that isn't a fair fight."
+  },
+  {
+   "id": "a04",
+   "pics": [
+    "p09"
+   ],
+   "text": "So take the fight away. Tonight, pick one spot outside the bedroom where every screen sleeps. Yours too."
+  },
+  {
+   "id": "a05",
+   "pics": [
+    "screen"
+   ],
+   "text": "In Guided Childhood, bedtime is protected time. No star can buy it. And if they ask anyway, the ask comes to you, not a flat no."
+  },
+  {
+   "id": "a06",
+   "pics": [
+    "words"
+   ],
+   "text": "Here are the words to say. Phones go to bed first in our house. Mine too."
+  },
+  {
+   "id": "a07",
+   "pics": [
+    "p22@0.9"
+   ],
+   "text": "Then watch the bedtime film together. It only takes a few minutes, and your child hears the same rule in their own way."
+  },
+  {
+   "id": "a08",
+   "pics": [
+    "thanks"
+   ],
+   "text": "And if they ever tell you something from a screen is stuck in their head, thank them for telling you. That is the night it matters most."
+  }
+ ]
+}
