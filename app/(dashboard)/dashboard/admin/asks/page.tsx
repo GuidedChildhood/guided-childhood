@@ -4,7 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ONBOARDING_TO_SLUG } from '@/lib/concerns/baseline'
-import { ASK_QUESTIONS } from '@/lib/asks/stalled'
+import { ASK_QUESTIONS, LEAD_ASK_QUESTIONS } from '@/lib/asks/stalled'
 
 // Founder only. What are parents actually asking us for that we do not have?
 //
@@ -82,11 +82,20 @@ export default async function AsksPage() {
   //    shows the rest of the page. Newest parent first, their answers together.
   const { data: answerRows } = await admin
     .from('parent_answers')
-    .select('user_id, question, answer, updated_at')
+    .select('*') // every column, so the read works before and after migration 399 adds lead_id
     .order('updated_at', { ascending: false })
     .limit(200)
   const labelOf = new Map(ASK_QUESTIONS.map(q => [q.key, q.label]))
-  const whoIds = [...new Set((answerRows ?? []).map(a => a.user_id as string))]
+  const leadLabelOf = new Map(LEAD_ASK_QUESTIONS.map(q => [q.key, q.label]))
+  const whoIds = [...new Set((answerRows ?? []).filter(a => a.user_id).map(a => a.user_id as string))]
+  // Stage check visitors with no account (migration 399): no name to show.
+  const leadIds = [...new Set((answerRows ?? []).filter(a => !a.user_id && a.lead_id).map(a => a.lead_id as string))]
+  const leadsStopped = leadIds.map(id => ({
+    id,
+    answers: LEAD_ASK_QUESTIONS
+      .map(q => (answerRows ?? []).find(a => a.lead_id === id && a.question === q.key))
+      .filter((a): a is NonNullable<typeof a> => Boolean(a)),
+  }))
   const { data: whoRows } = whoIds.length
     ? await admin.from('profiles').select('id, full_name').in('id', whoIds)
     : { data: [] as { id: string; full_name: string | null }[] }
@@ -144,6 +153,23 @@ export default async function AsksPage() {
               {parent.answers.map(a => (
                 <p key={a.question as string} style={{ fontSize: 'var(--text-md)', lineHeight: 1.5, color: 'var(--ink)', margin: '0 0 8px' }}>
                   <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>{labelOf.get(a.question as string) ?? a.question}</span>
+                  {a.answer as string}
+                </p>
+              ))}
+            </Card>
+          ))}
+          <div style={{ height: 18 }} />
+        </>
+      )}
+
+      {leadsStopped.length > 0 && (
+        <>
+          <p style={{ ...MONO, margin: '0 0 10px' }}>Did the stage check, never made an account</p>
+          {leadsStopped.map(lead => (
+            <Card key={lead.id}>
+              {lead.answers.map(a => (
+                <p key={a.question as string} style={{ fontSize: 'var(--text-md)', lineHeight: 1.5, color: 'var(--ink)', margin: '0 0 8px' }}>
+                  <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>{leadLabelOf.get(a.question as string) ?? a.question}</span>
                   {a.answer as string}
                 </p>
               ))}

@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { ASK_QUESTIONS } from '@/lib/asks/stalled'
+import { ASK_QUESTIONS, LEAD_ASK_QUESTIONS } from '@/lib/asks/stalled'
 
 // One tap first, words second. Each answer saves on its own the moment it is
 // given (a tap, or leaving a box), so a parent who answers one question and
@@ -10,7 +10,11 @@ import { ASK_QUESTIONS } from '@/lib/asks/stalled'
 
 type Saved = Record<string, 'saving' | 'saved' | 'failed'>
 
-export default function TellUsForm({ u, k }: { u: string; k: string }) {
+export default function TellUsForm({ who, k }: { who: { u: string } | { l: string }; k: string }) {
+  // A lead (no account) gets its own shorter list and is sent back to the
+  // stage check, not into an app it has no account for.
+  const isLead = 'l' in who
+  const questions = isLead ? LEAD_ASK_QUESTIONS : ASK_QUESTIONS
   const [picked, setPicked] = useState<string | null>(null)
   const [text, setText] = useState<Record<string, string>>({})
   const [state, setState] = useState<Saved>({})
@@ -24,7 +28,7 @@ export default function TellUsForm({ u, k }: { u: string; k: string }) {
       const res = await fetch('/api/asks/answer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ u, k, question, answer: clean }),
+        body: JSON.stringify({ ...who, k, question, answer: clean }),
       })
       setState(s => ({ ...s, [question]: res.ok ? 'saved' : 'failed' }))
     } catch {
@@ -32,7 +36,7 @@ export default function TellUsForm({ u, k }: { u: string; k: string }) {
     }
   }
 
-  const [first, ...rest] = ASK_QUESTIONS
+  const [first, ...rest] = questions
   const note = (q: string) => state[q] === 'saved' ? 'Saved, thank you' : state[q] === 'failed' ? 'That did not save. Tap or type again.' : state[q] === 'saving' ? 'Saving' : ''
 
   if (done) {
@@ -40,7 +44,7 @@ export default function TellUsForm({ u, k }: { u: string; k: string }) {
       <div>
         <h1 style={H1}>Thank you. Justin has it.</h1>
         <p style={LEAD}>Every answer goes straight to him, and it shapes what we build next.</p>
-        <Link href="/dashboard" className="btn btn-gold" style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>Open Guided Childhood</Link>
+        <Link href={isLead ? '/starter-pack' : '/dashboard'} className="btn btn-gold" style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>{isLead ? 'Back to the stage check' : 'Open Guided Childhood'}</Link>
       </div>
     )
   }

@@ -480,3 +480,10 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 After Justin completed Meta's identity check, Instagram messages joined the Business Suite inbox, but this account offers no keyword replies. Justin chose "Add to auto reply": the existing first message reply now carries the free countdown link (`src=ig-dm`), and its Instagram channel, which had been off, is on. The previous wording is kept in `content/packs/2026-11-28-free-saturday/christmas-countdown.md` to restore after Christmas. ManyChat stays the upgrade for a reply to the word alone. PR 1535.
 - Justin: do not overwhelm parents; reassure them we drive it and keep asking. The stage check shows the six most common worries, the other six one tap away ("See 6 more"); a ticked tile never folds away. The question asks for what is on their mind today, even just one.
 - Under the grid: we bring up the next ones for their age (age prompts, the age up cron) and anything they mention to DiGi is added and tracked (concerns written by DiGi, Moments, Right now). "Not sure yet?" starts them on Coming off screens, the most common.
+
+## 16 November 2026: the drop off asks skip the weekly floor and reach stage check visitors
+
+- The three "what stopped you" emails (PR 1558) ran for the first time this morning and held both due asks on the one a week floor, Rachael's among them. Justin: "skip the rule". They now send as a new kind, `ask`: no floor, a stop still holds, three per account ever.
+- Justin: "Yes, two short emails". A stage check visitor who never made an account is asked on day 2 and four days later, three short questions, one tap first, answers on the founder's asks page and a push to his phone. Not sent to anyone running a topic course.
+- Migration 399 lets parent_answers hold a lead. Until it is applied no lead link goes out, because its answer could not be saved.
+- Found on the way: migration 396 (consent) is not applied on the live database. The course and the lead asks read every column so they work either way. PRs 1584 and this one.
