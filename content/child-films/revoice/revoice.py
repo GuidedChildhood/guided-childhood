@@ -28,7 +28,12 @@ film.json:
   still        seconds into the original film for the thumbnail picture
   thumb_title, thumb_sub, hook   words for cards.mjs
 """
-import json, sys, subprocess, pathlib
+import json, os, sys, subprocess, pathlib
+
+# Which recorded voice: 'tamsin' (Seed Audio, the first re-voice) or 'isla'
+# (ElevenLabs Isla, chosen by Justin by ear on 16 November 2026). Lines live in
+# work/<voice>/NN.mp3 and are recorded in <voice>-ledger.tsv.
+V = os.environ.get('VOICE', 'tamsin')
 
 def cfg(folder):
     d = pathlib.Path(folder).resolve()
@@ -46,7 +51,7 @@ def lines(c):
     c['work'].mkdir(exist_ok=True)
     txt = json.dumps(out, indent=1)
     (c['work'] / 'revoice-lines.json').write_text(txt)
-    (c['dir'] / 'tamsin-lines.json').write_text(txt)
+    (c['dir'] / f'{V}-lines.json').write_text(txt)
     print(len(out), 'lines,', sum(len(x['text'].split()) for x in out), 'words')
 
 def dur(p):
@@ -85,10 +90,10 @@ def build(c, src):
     for x, (start, end) in zip(ls, windows(c, ls, dur(src))):
         lead = x['s'] - start                          # silence before the line
         gap = max(0.35, min(1.6, end - x['e']))        # the pause after the line
-        a = tighten(W / 'tamsin' / f"{x['i']:02d}.mp3")
+        a = tighten(W / V / f"{x['i']:02d}.mp3")
         new_len = lead + dur(a) + gap
         f = new_len / (end - start)                    # how much this picture is slowed
-        seg = W / 'tamsin' / f"seg{x['i']:02d}.mp4"
+        seg = W / V / f"seg{x['i']:02d}.mp4"
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{start}', '-t', f'{end - start}', '-i', str(src), '-i', str(a),
             '-filter_complex',
             f"[0:v]setpts={f:.5f}*(PTS-STARTPTS),fps=30,format=yuv420p,tpad=stop_mode=clone:stop_duration=1,trim=0:{new_len:.3f}[v];"
@@ -96,7 +101,7 @@ def build(c, src):
             '-map', '[v]', '-map', '[a]', '-c:v', 'libx264', '-crf', '20', '-preset', 'fast', '-r', '30',
             '-c:a', 'aac', '-b:a', '160k', '-ar', '48000', str(seg)], check=True)
         parts.append(seg)
-    lst = W / 'tamsin' / 'list.txt'
+    lst = W / V / 'list.txt'
     lst.write_text(''.join(f"file '{p.name}'\n" for p in parts))
     out = W / c.get('work_film', 'revoiced.mp4')
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c', 'copy', str(out)], check=True)
@@ -111,9 +116,9 @@ def finish(c):
     t, spans = 0.0, []                 # where each line now starts and ends
     for x, (start, _) in zip(ls, windows(c, ls, 1e9)):
         lead = x['s'] - start
-        speech = dur(W / 'tamsin' / f"{x['i']:02d}-tight.wav")
+        speech = dur(W / V / f"{x['i']:02d}-tight.wav")
         spans.append((t + lead, t + lead + speech))
-        t += dur(W / 'tamsin' / f"seg{x['i']:02d}.mp4")
+        t += dur(W / V / f"seg{x['i']:02d}.mp4")
     caps = []
     for (s, e), line in zip(spans, c['lines']):
         tot = sum(len(k) for k in line['caps']); c0 = s
