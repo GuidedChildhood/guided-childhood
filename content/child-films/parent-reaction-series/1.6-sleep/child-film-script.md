@@ -2,7 +2,7 @@
 
 Child lesson film, Stage 1 (ages 4 to 7), watched with a grown up.
 Subject group C in `../subjects-2026-11-16.md` (sleep and the phone at night).
-Draft 1, 16 November 2026. NOT RECORDED. Nothing generated.
+16 November 2026. Recorded and built: see README.md. The spoken words as recorded are in build/lines.json.
 
 ## What changes from the film live today
 
@@ -131,13 +131,14 @@ DIDGEE: Pause me here and choose your three together. Take your time.
 **9. If it's stuck in your head** (3:10)
 PICTURE: Pebble in bed, eyes open, a small thought cloud with a muddled scribble in it. A door opens a crack and warm light comes in.
 DIDGEE: Sometimes, at bedtime, something you saw on a screen gets stuck in your head.
-DIDGEE: If that happens, you can always go and tell your grown up. Even in the night. You will never be in trouble for telling.
+DIDGEE: If that happens, you can always tell your grown up. Even in the night.
+DIDGEE: You will never be in trouble for telling.
 PICTURE: The scribble cloud floats away. Pebble snuggles down.
 
 **10. Practise** (3:35)
 PICTURE: DiGi beside a small drawn sign that says SCREENS GO TO BED FIRST with a sleeping tablet on it.
 DIDGEE: Let's practise. Grown up, you say: it's nearly bedtime.
-DIDGEE: And the little one says: screens go to bed first.
+DIDGEE: And then the little one answers: screens go to bed first.
 DIDGEE: Let's try it now. Pause me if you need to.
 
 **11. Recap** (3:55)
