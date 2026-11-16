@@ -20,6 +20,7 @@ export type Job = {
 // its path, so a new cron shows up unnamed rather than not at all.
 const LABELS: Record<string, string> = {
   '/api/cron/device-time': 'Device time sync',
+  '/api/cron/watch-bookings': 'Watch together bookings',
   '/api/push/cron': 'Push queue',
   '/api/push/reengage': 'Re engage push',
   '/api/school/remind': 'School reminders',

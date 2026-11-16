@@ -118,7 +118,17 @@ buttons, cards and tokens.
 4. **Calendar file**: yes, with no child's name in it.
 5. **Buzz the child at the time**: on by default, daytime only, the parent can untick it.
 
-Building waits for Justin's go ahead on the plan as a whole.
+Justin said "Yes, build it" the same day.
+
+## Built, 16 November (PR 1589)
+
+As planned, with one change: the parent's reminder on Home is its own small
+card (`components/home/WatchBookingCard.tsx`), not a turn in `next-up.ts`,
+because next up only draws after the day's habit is ticked and a 5pm reminder
+that waits for the habit is no reminder.
+
+Not done: migration 400 is not applied and nothing is deployed. Until it is
+applied every read answers "no booking", so families see no change.
 
 ## Not in this plan
 

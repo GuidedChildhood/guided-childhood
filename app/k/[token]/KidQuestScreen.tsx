@@ -98,6 +98,7 @@ import KidPrintables from '@/components/kid/KidPrintables'
 import { tickPrintableStep } from '@/lib/kid/print-anywhere'
 import { printPack } from '@/lib/kid/print-sheet'
 import type { Stamp as KidBookStamp } from '@/components/pathway/PassportStamps'
+import WatchTimeCard, { type WatchTime } from '@/components/kid/WatchTimeCard'
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
@@ -113,10 +114,12 @@ export default function KidQuestScreen({
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
   fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null,
   dailyStickers = null,
-  sinceItems = [], lastSeenAt = null, grownUpLabel = null,
+  sinceItems = [], lastSeenAt = null, grownUpLabel = null, watchTime = null,
 }: {
   /** What this child calls the grown up, set in Settings (migration 376). */
   grownUpLabel?: string | null
+  /** A booked Watch together film, sent only from its time until the day ends (migration 400). */
+  watchTime?: WatchTime | null
   /** The yeses of the last two days, for Since you last looked (lib/kid/grown-up-link.ts). */
   sinceItems?: SinceItem[]
   /** The link's last activity: a yes before it was seen when it happened. */
@@ -2368,6 +2371,11 @@ export default function KidQuestScreen({
             looking at the top of the home screen.
             The bar is a control now, not a position. This is the position. */}
         <div id="kid-tab-content" aria-hidden style={{ width: '100%', scrollMarginTop: 12 }} />
+
+        {/* Film time: a Watch together film a grown up booked for now. On
+            every tab, like a running timer, because it is the thing to do
+            right now. The server sends it only from the booked time. */}
+        {watchTime && <WatchTimeCard token={token} watch={watchTime} grownUp={grownUp} />}
 
         {tab === 'quests' && !focusDay && (<>
         {/* THE BALANCE DIAL IS NOT HERE ANY MORE (14 September 2026).

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { ukToday } from '@/lib/kid/five-a-day'
 import type { DrawnKey } from '@/components/printables/drawn'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { liveBookingForChild } from '@/lib/lessons/watch-bookings-server'
 import { readKidJobs } from '@/lib/kid/jobs-read'
 import { kidNotes } from '@/lib/kid/note-text'
 import { getStarBanks } from '@/lib/quests/bank'
@@ -667,6 +668,16 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       }
     })
 
+  // Film time (migration 400): a Watch together film a grown up booked, from
+  // its time until the end of that day, while unwatched. Never before the
+  // time, and never a film above this child's stage. Reads nothing (and so
+  // changes nothing) until the migration is applied.
+  const liveBooking = await liveBookingForChild(supabase, link.child_id)
+  const bookedLesson = liveBooking ? adventureLessons.find(l => l.lesson_code === liveBooking.lesson_code && l.stage_id <= stageId) : undefined
+  const watchTime = bookedLesson
+    ? { code: bookedLesson.lesson_code, title: bookedLesson.title, posterUrl: bookedLesson.poster_url ?? null }
+    : null
+
   const printablesUnlocked = hasFullAccess(
     parentProfileRes.data as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
     (parentProfileRes.data as { email?: string | null } | null)?.email,
@@ -1033,6 +1044,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       hasReminders={hasReminders}
       sinceItems={sinceItems}
       grownUpLabel={callsGrownUp}
+      watchTime={watchTime}
       lastSeenAt={(link as { last_seen_at?: string | null }).last_seen_at ?? null}
       />
     </>

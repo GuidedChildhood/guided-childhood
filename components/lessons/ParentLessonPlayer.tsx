@@ -233,6 +233,7 @@ export default function ParentLessonPlayer({
   token,
   kidMode = false,
   timesCompleted = 0,
+  afterPrompt = null,
 }: {
   lesson: Pick<ParentLesson, 'lesson_code' | 'title' | 'catchphrase' | 'keyword' | 'poster_url'>
   segments: ParentLessonSegment[]
@@ -246,6 +247,8 @@ export default function ParentLessonPlayer({
   token?: string
   kidMode?: boolean
   timesCompleted?: number
+  /** One short thing to do or ask after watching (migration 400). Parent side only. */
+  afterPrompt?: string | null
 }) {
   // The beat sheet: A, the ask, B, the say, C, then the quiz cards.
   // Cards slot by position (1 after A, 2 after B, 3 and up after C),
@@ -372,6 +375,16 @@ export default function ParentLessonPlayer({
         }}>
           ⭐ {stars} star{stars === 1 ? '' : 's'} {kidMode ? 'in your bank!' : 'earned'}
         </div>
+        {/* After watching: one practical thing for tonight (migration 400).
+            Parent side only, and only when the film has one. */}
+        {!kidMode && afterPrompt && (
+          <div style={{ textAlign: 'left', maxWidth: '420px', margin: '4px auto 18px', background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)', padding: '14px 18px' }}>
+            <div style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '6px' }}>Tonight</div>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
+              {afterPrompt}
+            </p>
+          </div>
+        )}
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto 20px' }}>
           {kidMode
             ? 'Watching again with your grown up earns more stars any time you like.'
