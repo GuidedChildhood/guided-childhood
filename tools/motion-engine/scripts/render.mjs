@@ -67,6 +67,8 @@ console.log(`Rendering ${composition.width} by ${composition.height}, ${composit
 let last = -10
 await renderMedia({
   serveUrl, composition, inputProps, browserExecutable,
+  // MOTION_FRAMES=0-60 renders part of a card, for testing a fix quickly.
+  ...(process.env.MOTION_FRAMES ? { frameRange: process.env.MOTION_FRAMES.split("-").map(Number) } : {}),
   codec: 'h264', crf: CRF, pixelFormat: 'yuv420p', x264Preset: 'slow', muted: true,
   // Lossless frames: JPEG frames soften the edges of type before the encoder
   // ever sees them, and come out as full range video some phones will not play.

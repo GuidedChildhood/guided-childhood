@@ -7378,6 +7378,87 @@
    "lastChecked": "2026-11-13T09:20:45.349Z",
    "changeReason": "discovery run, streams 19,22",
    "changedBy": "radar:discover"
+  },
+  "GDC-RR-29a4765c83": {
+   "title": "Meta discussed attacking Jonathan Haidt, now even his haters are annoyed",
+   "url": "https://www.theverge.com/policy/1032645/jonathan-haidt-critics-response-meta",
+   "journal": "The Verge (Lauren Feiner), and Andrew Gelman's blog Statistical Modeling, Causal Inference, and Social Science",
+   "published": "2026-11-13",
+   "authors": "Feiner L; Gelman A",
+   "abstract": "Unredacted court documents, as reported, show Meta staff in a March 2023 meeting discussing how to get academics to turn against Jonathan Haidt, including an idea to get 'Gellman' to write a take-down piece. Andrew Gelman, a statistician who has criticised Haidt's methods, says he was never contacted, and told The Verge it was horrible for Haidt that this happened to him. Other critics, including Chris Ferguson of Stetson University, also condemned it. Meeting notes from 8 March 2023 asked how to get the academic community to disavow Haidt, according to unredacted court documents as reported. Meta staff discussed an idea to 'Get Gellman to write a take-down piece'; The Verge says possibly a reference to Andrew Gelman, though the spelling differs. Gelman wrote that he has never been contacted by anyone at Facebook or Meta regarding Haidt or his work. Gelman, who has criticised Haidt's methods, told The Verge: 'I think it's horrible for Haidt that this happened to him.' The Verge reports it is unclear whether Meta ever acted on the strategy, and that Meta declined to comment.",
+   "isPreprint": false,
+   "peerReviewed": false,
+   "isOfficial": false,
+   "streams": [
+    "inbox"
+   ],
+   "foundBy": [
+    "chatgpt-inbox"
+   ],
+   "status": "DISCOVERED",
+   "candidate": {
+    "candidateId": "C-2026-11-16-GELMAN",
+    "batchId": "2026-11-16-claude-directed-justin",
+    "sentBy": "claude-code-directed, idea from Justin and ChatGPT, sources read by Claude",
+    "sentAt": "2026-11-16T13:50:00Z",
+    "sourceType": "news-report",
+    "otherUrls": [
+     "https://statmodeling.stat.columbia.edu/2026/10/27/we-interrupt-our-usual-programming-to-inform-you-that-i-was-never-hired-by-facebook-to-do-a-hit-job-on-jonathan-haidt/"
+    ],
+    "claims": [
+     {
+      "claim": "Meeting notes from 8 March 2023 asked how to get the academic community to disavow Haidt, according to unredacted court documents as reported.",
+      "figure": null,
+      "whereInSource": "Gelman blog, quoting press reports of the filing; The Verge"
+     },
+     {
+      "claim": "Meta staff discussed an idea to 'Get Gellman to write a take-down piece'; The Verge says possibly a reference to Andrew Gelman, though the spelling differs.",
+      "figure": null,
+      "whereInSource": "The Verge"
+     },
+     {
+      "claim": "Gelman wrote that he has never been contacted by anyone at Facebook or Meta regarding Haidt or his work.",
+      "figure": null,
+      "whereInSource": "Gelman blog, 27 October 2026"
+     },
+     {
+      "claim": "Gelman, who has criticised Haidt's methods, told The Verge: 'I think it's horrible for Haidt that this happened to him.'",
+      "figure": null,
+      "whereInSource": "The Verge interview"
+     },
+     {
+      "claim": "The Verge reports it is unclear whether Meta ever acted on the strategy, and that Meta declined to comment.",
+      "figure": null,
+      "whereInSource": "The Verge"
+     }
+    ],
+    "limitations": [
+     "Internal meeting notes in a court filing, as reported by the press. Not proof that any campaign was carried out; The Verge says it is unclear if Meta acted on it.",
+     "Gelman defended Haidt against Meta's tactics, not Haidt's findings. He still critiques the methods.",
+     "Not research about children. It is about how the evidence debate is conducted."
+    ],
+    "whyItMatters": "The debate parents hear about screens should be settled by evidence in the open, not by a company's PR. Critics and supporters of Haidt agree on that, which is our honest middle position.",
+    "ukRelevance": "A US case and US company documents. The point about open evidence carries to the UK debate ahead of the under 16 ban.",
+    "suggestedFormats": [
+     "linkedin"
+    ],
+    "standing": "UNVERIFIED. These are the sender's claims about the source. None may be quoted until the directed review has checked it against the source itself."
+   },
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "childIsTheSubject": false,
+   "studyId": "GDC-RR-29a4765c83",
+   "version": 1,
+   "firstFound": "2026-11-16T13:42:42.965Z",
+   "lastChecked": "2026-11-16T13:42:42.965Z",
+   "changeReason": "candidate C-2026-11-16-GELMAN from claude-code-directed, idea from Justin and ChatGPT, sources read by Claude, batch 2026-11-16-claude-directed-justin",
+   "changedBy": "radar:inbox"
   }
  },
  "keys": {
@@ -7621,6 +7702,8 @@
   "title:from algorithmic reliance to cash centered resistance divergent digital survival strategies of older adults": "GDC-RR-10826d696b",
   "pmcid:PMC13752684": "GDC-RR-2e20d0facc",
   "url:www.ncbi.nlm.nih.gov/pmc/articles/pmc13752684": "GDC-RR-2e20d0facc",
-  "title:correction an online randomised controlled trial to evaluate the effectiveness of an online intervention": "GDC-RR-2e20d0facc"
+  "title:correction an online randomised controlled trial to evaluate the effectiveness of an online intervention": "GDC-RR-2e20d0facc",
+  "url:www.theverge.com/policy/1032645/jonathan-haidt-critics-response-meta": "GDC-RR-29a4765c83",
+  "title:meta discussed attacking jonathan haidt now even his haters are annoyed": "GDC-RR-29a4765c83"
  }
 }
