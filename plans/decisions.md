@@ -514,3 +514,12 @@ After Justin completed Meta's identity check, Instagram messages joined the Busi
 
 - Justin: leave "They'll remember it forever." in 1.4, and leave the dashed labels inside the old drawings for now.
 - Tamsin on Seed Audio does not sound real enough to him. Nine samples of the same 1.3 opening on ElevenLabs and MiniMax wait for his ear in `content/child-films/voice-test-2/`, at about 0.15 credits each. A real recorded voice is the other option. PR 1588.
+
+### 16 November 2026: one post ready a day, research card by default
+
+Justin: aim for one post ready every day; he posts 3 or 4 a week and picks
+which. Every evidence post now gets a research card by default (still plus
+14 second motion, plain paper, contrarian headline inside what the study
+shows); text only only when there is no single clean finding. Media is
+attached to the existing Metricool draft through mediaToAttach, never
+scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
