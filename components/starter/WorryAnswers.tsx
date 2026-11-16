@@ -1,7 +1,7 @@
 'use client'
 
 import WorryIcon from '@/components/onboarding/WorryIcon'
-import { WORRIES, CATCH_ALL_ID, type Worry } from '@/lib/onboarding/worries'
+import { WORRIES, ALL_WORRIES, CATCH_ALL_ID, type Worry } from '@/lib/onboarding/worries'
 import { ANSWERS, scriptsForWorry } from '@/lib/content/proof'
 import MethodIcon, { METHOD, type MethodId } from '@/components/starter/MethodIcon'
 import Fold from './Fold'
@@ -38,7 +38,7 @@ import Fold from './Fold'
 // else falls back to the three most houses recognise, so the section is never
 // empty.
 
-const FALLBACK = ['wont_put_down', 'mood_after_screens', 'asking_for_phone']
+const FALLBACK = ['wont_put_down', 'asking_for_phone', 'game_chat']
 
 export default function WorryAnswers({ worryIds, own, tonight, yourPhone, helpFirst = false }: {
   worryIds: string[]
@@ -86,7 +86,7 @@ export default function WorryAnswers({ worryIds, own, tonight, yourPhone, helpFi
   return (
     <div>
       {chosen.map((id, i) => {
-        const worry = WORRIES.find(w => w.id === id) as Worry
+        const worry = ALL_WORRIES.find(w => w.id === id) as Worry
         const isOwn = id === CATCH_ALL_ID
         // ── THE CARD FOR A WORRY WE DID NOT WRITE ──────────────────────────
         //

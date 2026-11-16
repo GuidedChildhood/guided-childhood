@@ -11,7 +11,7 @@ import { enablePush } from '@/lib/push/enable'
 import { TRIAL_DAYS } from '@/lib/access'
 import WelcomeWalkthrough from '@/components/onboarding/WelcomeWalkthrough'
 import WorryPicker from '@/components/onboarding/WorryPicker'
-import { WORRIES, WORRIES_KEY, namedWorries, toWorryIds, challengeFor } from '@/lib/onboarding/worries'
+import { WORRIES, ALL_WORRIES, WORRIES_KEY, namedWorries, toWorryIds, challengeFor } from '@/lib/onboarding/worries'
 import type { TimeCommitmentId } from '@/lib/content/stages'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 import { getDeviceId } from '@/lib/push/device-id'
@@ -273,7 +273,7 @@ export default function OnboardingPage() {
         const kept = localStorage.getItem(WORRIES_KEY)
         if (kept) {
           const ids = JSON.parse(kept) as string[]
-          const known = Array.isArray(ids) ? ids.filter(id => WORRIES.some(w => w.id === id)) : []
+          const known = Array.isArray(ids) ? ids.filter(id => ALL_WORRIES.some(w => w.id === id)) : []
           if (known.length) setChallenges(prev => (prev.length ? prev : known))
         }
       } catch {}

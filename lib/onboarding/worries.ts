@@ -38,20 +38,51 @@ export type Worry = {
   icon: WorryIconName
   /** The pastel behind the drawing. Plate colour only, never the card fill. */
   tint: string
+  /**
+   * What we bring for it, in five or six words, under the label.
+   *
+   * Justin, 16 November 2026: make it clear we drive the solutions and the
+   * advice, and that the question is not off putting. A grid of problems on
+   * its own reads as a list of things going wrong in your house. Each tile now
+   * says the problem in the parent's words and, under it, what changes. Every
+   * line is the short form of that worry's answer in lib/content/proof.ts, so
+   * nothing here promises more than the result page then delivers.
+   */
+  promise: string
 }
 
 export const WORRIES: Worry[] = [
-  { id: 'wont_put_down', label: 'Coming off screens', icon: 'wont_put_down', tint: 'var(--stage-3-bold)' },
-  { id: 'bedtime_screens', label: 'Bedtime screens', icon: 'bedtime_screens', tint: 'var(--stage-5-bold)' },
-  { id: 'mood_after_screens', label: 'Mood after screens', icon: 'mood_after_screens', tint: 'var(--stage-1-bold)' },
-  { id: 'controller_fights', label: 'Controller fights', icon: 'controller_fights', tint: 'var(--stage-2-bold)' },
-  { id: 'morning_tv', label: 'Morning TV', icon: 'morning_tv', tint: 'var(--stage-1-bold)' },
-  { id: 'asking_for_phone', label: 'Asking for a phone', icon: 'asking_for_phone', tint: 'var(--stage-2-bold)' },
-  { id: 'social_media', label: 'Social media', icon: 'social_media', tint: 'var(--stage-4-bold)' },
-  { id: 'ai_chatbots', label: 'AI chatbots', icon: 'ai_chatbots', tint: 'var(--stage-5-bold)' },
-  { id: 'seen_something', label: 'What they come across online', icon: 'seen_something', tint: 'var(--stage-3-bold)' },
-  { id: 'something_else', label: 'Something else', icon: 'something_else', tint: 'var(--tint-sage)' },
+  { id: 'wont_put_down', label: 'Coming off screens', icon: 'wont_put_down', tint: 'var(--stage-3-bold)', promise: 'A calm ending, not a nightly row' },
+  { id: 'asking_for_phone', label: 'Asking for a phone', icon: 'asking_for_phone', tint: 'var(--stage-2-bold)', promise: 'Know when they are truly ready' },
+  { id: 'game_chat', label: 'Who they talk to in games', icon: 'game_chat', tint: 'var(--stage-2-bold)', promise: 'Safe friends lists, set together' },
+  { id: 'seen_something', label: 'What they come across online', icon: 'seen_something', tint: 'var(--stage-3-bold)', promise: 'The words if they see something' },
+  { id: 'social_media', label: 'Social media', icon: 'social_media', tint: 'var(--stage-4-bold)', promise: 'Ready for the feed before it arrives' },
+  { id: 'bedtime_screens', label: 'Bedtime screens', icon: 'bedtime_screens', tint: 'var(--stage-5-bold)', promise: 'Screens out of bedrooms, no war' },
+  { id: 'group_chats', label: 'Group chats', icon: 'group_chats', tint: 'var(--stage-1-bold)', promise: 'Calm rules for WhatsApp and groups' },
+  { id: 'getting_round', label: 'They get round the rules', icon: 'getting_round', tint: 'var(--stage-4-bold)', promise: 'A plan they help write, so it holds' },
+  { id: 'homework_screens', label: 'Homework on screens', icon: 'homework_screens', tint: 'var(--stage-1-bold)', promise: 'School work and free time kept apart' },
+  { id: 'endless_youtube', label: 'Endless YouTube', icon: 'endless_youtube', tint: 'var(--stage-3-bold)', promise: 'Autoplay off, and a clear finish' },
+  { id: 'game_spending', label: 'Spending in games', icon: 'game_spending', tint: 'var(--stage-2-bold)', promise: 'Pocket money rules that stick' },
+  { id: 'ai_chatbots', label: 'AI chatbots', icon: 'ai_chatbots', tint: 'var(--stage-5-bold)', promise: 'Safe, smart use, by age' },
+  { id: 'something_else', label: 'Something else', icon: 'something_else', tint: 'var(--tint-sage)', promise: 'Tell us, and we cover it too' },
 ]
+
+// ── FOLDED, NOT DELETED (16 November 2026) ──────────────────────────────────
+//
+// The grid now follows what UK parents raise most (plans/2026-11-16-worry-
+// question-top-12.md). These three are no longer offered: parents describe
+// controller fights and the mood after as the switch off fight itself, and
+// morning TV only bites at 4 to 7 with parents split on it. Every family who
+// already picked one keeps it: the label, slug, answer, check in row and focus
+// strip all still resolve, because every lookup below reads ALL_WORRIES.
+export const RETIRED_WORRIES: Worry[] = [
+  { id: 'mood_after_screens', label: 'Mood after screens', icon: 'mood_after_screens', tint: 'var(--stage-1-bold)', promise: 'See the pattern, not a hunch' },
+  { id: 'controller_fights', label: 'Controller fights', icon: 'controller_fights', tint: 'var(--stage-2-bold)', promise: 'The timer calls time, not you' },
+  { id: 'morning_tv', label: 'Morning TV', icon: 'morning_tv', tint: 'var(--stage-1-bold)', promise: 'Out of the door without the telly' },
+]
+
+/** Offered and retired together: what any saved answer can resolve to. */
+export const ALL_WORRIES: Worry[] = [...WORRIES, ...RETIRED_WORRIES]
 
 /** The picker, not a worry: it has no slug, so it is never handed back as one. */
 export const CATCH_ALL_ID = 'something_else'
@@ -62,7 +93,7 @@ export const WORRIES_KEY = 'gc_setup_challenges'
 /** The ticked ones, in the order they were ticked, minus the catch all. */
 export function namedWorries(ids: string[]): Worry[] {
   return ids
-    .map(id => WORRIES.find(w => w.id === id))
+    .map(id => ALL_WORRIES.find(w => w.id === id))
     .filter((w): w is Worry => w !== undefined && w.id !== CATCH_ALL_ID)
 }
 
@@ -96,6 +127,12 @@ export const WORRY_TO_CHALLENGE: Record<string, ChallengeId> = {
   social_media: 'asking_for_phone',
   ai_chatbots: 'online_safety',
   seen_something: 'online_safety',
+  game_chat: 'online_safety',
+  group_chats: 'asking_for_phone',
+  getting_round: 'start_conversation',
+  homework_screens: 'screens_takeover',
+  endless_youtube: 'screens_takeover',
+  game_spending: 'gaming',
   something_else: 'start_conversation',
 }
 
@@ -107,7 +144,7 @@ export function challengeFor(worryId: string | null | undefined): ChallengeId | 
 
 /** The parent's own words for one worry, for reading back to them. */
 export function worryLabel(worryId: string): string {
-  return WORRIES.find(w => w.id === worryId)?.label ?? ''
+  return ALL_WORRIES.find(w => w.id === worryId)?.label ?? ''
 }
 
 // ── THE SIX IDS THE QUIZ USED TO ASK IN ─────────────────────────────────────
@@ -132,7 +169,7 @@ export const LEGACY_TO_WORRY: Record<string, string> = {
 
 /** Ticks from either generation of the question, as live worry ids, deduped. */
 export function toWorryIds(ids: string[]): string[] {
-  const known = new Set(WORRIES.map(w => w.id))
+  const known = new Set(ALL_WORRIES.map(w => w.id))
   const out: string[] = []
   for (const id of ids) {
     const worry = known.has(id) ? id : LEGACY_TO_WORRY[id]

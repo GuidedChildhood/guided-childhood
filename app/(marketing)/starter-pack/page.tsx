@@ -1202,10 +1202,15 @@ export default function StarterPackPage() {
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px',
             }}>
-              What are you dealing with right now?
+              What would you like help with?
             </h1>
+            {/* Justin, 16 November 2026: not off putting, and clear that we
+                bring the solutions. The question used to ask what the family
+                was dealing with, which a parent answers with a list of what is
+                going wrong. It now asks what they would like help with, and
+                says what each tick brings before they tick anything. */}
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '20px', lineHeight: 1.55 }}>
-              Pick as many or as few as you like. We cover them all, and more as we go.
+              Tap any that sound like your house. For each one you get the words to say, something to try tonight, and a plan that keeps going.
             </p>
 
             {/* ── THE ONE QUESTION, ASKED HERE ──────────────────────────────
