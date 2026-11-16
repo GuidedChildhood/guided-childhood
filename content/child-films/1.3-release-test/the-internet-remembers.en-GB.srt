@@ -1,299 +1,299 @@
 1
-00:00:00,000 --> 00:00:03,855
+00:00:00,000 --> 00:00:05,300
 Hello, I'm DiGi. This one's for you and your grown up.
 
 2
-00:00:03,855 --> 00:00:05,880
+00:00:05,300 --> 00:00:07,807
 Snuggle up. Ready?
 
 3
-00:00:05,880 --> 00:00:09,510
+00:00:07,807 --> 00:00:11,643
 Before we start, let's do our big breath.
 
 4
-00:00:09,510 --> 00:00:12,040
+00:00:11,643 --> 00:00:14,275
 Breathe in, and out.
 
 5
-00:00:12,040 --> 00:00:13,600
+00:00:14,275 --> 00:00:15,887
 Lovely.
 
 6
-00:00:13,600 --> 00:00:17,974
+00:00:15,887 --> 00:00:21,025
 Now, remember last time we learned about the uh oh feeling?
 
 7
-00:00:17,974 --> 00:00:20,940
+00:00:21,025 --> 00:00:24,859
 If a screen gives you the uh oh feeling,
 
 8
-00:00:20,940 --> 00:00:23,760
+00:00:24,859 --> 00:00:28,759
 what do we do? Tell your grown up.
 
 9
-00:00:23,760 --> 00:00:26,875
+00:00:28,759 --> 00:00:32,355
 That's right. Turn it over. Go and tell.
 
 10
-00:00:26,875 --> 00:00:30,000
+00:00:32,355 --> 00:00:35,692
 You remembered. Brilliant.
 
 11
-00:00:30,000 --> 00:00:31,966
+00:00:35,792 --> 00:00:38,530
 Today we learn one big thing.
 
 12
-00:00:31,966 --> 00:00:35,220
+00:00:38,530 --> 00:00:43,426
 The internet remembers. Things we send can stay.
 
 13
-00:00:35,220 --> 00:00:38,994
+00:00:43,426 --> 00:00:48,580
 So before we share, we stop and ask a grown up.
 
 14
-00:00:38,994 --> 00:00:41,320
+00:00:48,580 --> 00:00:51,526
 Say our special word.
 
 15
-00:00:41,320 --> 00:00:42,068
+00:00:51,526 --> 00:00:52,401
 Remember.
 
 16
-00:00:42,068 --> 00:00:44,809
+00:00:52,401 --> 00:00:55,610
 I've brought a friend to help us.
 
 17
-00:00:44,809 --> 00:00:47,800
+00:00:55,610 --> 00:00:59,461
 This is Ellie. Ellie is an elephant.
 
 18
-00:00:47,800 --> 00:00:51,320
+00:00:59,461 --> 00:01:02,542
 Do you know the special thing about elephants?
 
 19
-00:00:51,320 --> 00:00:53,342
+00:01:02,542 --> 00:01:04,552
 Elephants never, ever forget.
 
 20
-00:00:53,342 --> 00:00:55,225
+00:01:04,552 --> 00:01:06,423
 Ellie remembers everything.
 
 21
-00:00:55,225 --> 00:00:59,200
+00:01:06,423 --> 00:01:10,724
 She remembers her breakfast. She remembers your birthday.
 
 22
-00:00:59,200 --> 00:01:03,175
+00:01:10,724 --> 00:01:16,270
 She even remembers a picture you drew a long, long time ago.
 
 23
-00:01:03,175 --> 00:01:05,560
+00:01:16,270 --> 00:01:19,957
 Now, here is a big, friendly secret.
 
 24
-00:01:05,560 --> 00:01:09,660
+00:01:19,957 --> 00:01:25,624
 The phones and the games and the video calls.
 
 25
-00:01:09,660 --> 00:01:14,186
+00:01:25,624 --> 00:01:30,337
 The internet is a little bit like Ellie. It remembers too.
 
 26
-00:01:14,186 --> 00:01:19,260
+00:01:30,337 --> 00:01:35,590
 When you send a picture or a message or a funny video,
 
 27
-00:01:19,260 --> 00:01:21,840
+00:01:35,590 --> 00:01:37,757
 it doesn't just float away.
 
 28
-00:01:21,840 --> 00:01:25,520
+00:01:37,757 --> 00:01:41,790
 Things we send can stay, and they could be copied.
 
 29
-00:01:25,520 --> 00:01:27,981
+00:01:41,790 --> 00:01:44,448
 Watch. Send. There it goes.
 
 30
-00:01:27,981 --> 00:01:32,720
+00:01:44,448 --> 00:01:49,924
 Ellie caught it, and she will never, ever forget it.
 
 31
-00:01:32,720 --> 00:01:36,260
+00:01:49,924 --> 00:01:55,428
 Even when the app is closed. Even when the screen goes dark.
 
 32
-00:01:36,260 --> 00:01:38,363
+00:01:55,428 --> 00:01:58,318
 The picture doesn't disappear.
 
 33
-00:01:38,363 --> 00:01:41,168
+00:01:58,318 --> 00:02:02,171
 The internet remembers, just like Ellie.
 
 34
-00:01:41,168 --> 00:01:42,360
+00:02:02,171 --> 00:02:04,161
 That's not scary.
 
 35
-00:01:42,360 --> 00:01:44,215
+00:02:04,161 --> 00:02:06,133
 It's just good to know.
 
 36
-00:01:44,215 --> 00:01:47,440
+00:02:06,133 --> 00:02:09,928
 The internet has a big, friendly memory.
 
 37
-00:01:47,440 --> 00:01:50,640
+00:02:09,928 --> 00:02:13,228
 So a picture you send today,
 
 38
-00:01:50,640 --> 00:01:52,691
+00:02:13,228 --> 00:02:15,851
 someone might see it another day.
 
 39
-00:01:52,691 --> 00:01:55,520
+00:02:15,851 --> 00:02:19,461
 Maybe tomorrow. Maybe when you're bigger.
 
 40
-00:01:55,520 --> 00:01:58,854
+00:02:19,461 --> 00:02:23,082
 Pause me here. Grown up, ask your little one:
 
 41
-00:01:58,854 --> 00:02:02,520
+00:02:23,082 --> 00:02:27,028
 what is something you have sent to someone?
 
 42
-00:02:02,520 --> 00:02:06,160
+00:02:27,028 --> 00:02:32,161
 A photo? A voice message? A drawing?
 
 43
-00:02:06,160 --> 00:02:07,942
+00:02:32,161 --> 00:02:34,580
 Where do you think it is now?
 
 44
-00:02:07,942 --> 00:02:10,440
+00:02:34,580 --> 00:02:37,661
 Take your time. I'll wait.
 
 45
-00:02:10,440 --> 00:02:14,445
+00:02:37,661 --> 00:02:42,157
 Because the internet remembers, we have one little rule.
 
 46
-00:02:14,445 --> 00:02:18,020
+00:02:42,157 --> 00:02:46,528
 It is small and it is easy, and it keeps us happy.
 
 47
-00:02:18,020 --> 00:02:22,800
+00:02:46,528 --> 00:02:52,761
 Here it is. Stop. Ask a grown up. Then share.
 
 48
-00:02:22,800 --> 00:02:26,122
+00:02:52,761 --> 00:02:56,291
 Let's hear how that sounds. A child might say,
 
 49
-00:02:26,122 --> 00:02:29,660
+00:02:56,291 --> 00:03:00,400
 "I want to send this picture to someone we love."
 
 50
-00:02:29,660 --> 00:02:32,240
+00:03:00,400 --> 00:03:07,333
 And the grown up says, "Ooh, lovely. Let's do our rule first."
 
 51
-00:02:32,240 --> 00:02:35,910
+00:03:07,333 --> 00:03:12,192
 "Stop and ask me. Shall we send it together?"
 
 52
-00:02:35,910 --> 00:02:38,520
-And the child says, "Stop. Ask."
+00:03:12,192 --> 00:03:16,867
+Now the little one answers. "Stop. Ask."
 
 53
-00:02:38,520 --> 00:02:42,498
+00:03:16,867 --> 00:03:21,316
 "Then share." See? Not scary. Just kind.
 
 54
-00:02:42,498 --> 00:02:45,680
+00:03:21,316 --> 00:03:25,233
 And look, Ellie loves that rule.
 
 55
-00:02:45,680 --> 00:02:49,131
+00:03:25,233 --> 00:03:29,792
 Asking a grown up is a clever, kind thing to do.
 
 56
-00:02:49,131 --> 00:02:53,660
+00:03:29,792 --> 00:03:36,133
 Your turn. Pause me and say it with your grown up, three times,
 
 57
-00:02:53,660 --> 00:02:56,580
+00:03:36,133 --> 00:03:42,000
 like a little song. Stop. Ask. Then share.
 
 58
-00:02:56,580 --> 00:02:57,536
+00:03:42,000 --> 00:03:43,335
 I'll wait.
 
 59
-00:02:57,536 --> 00:03:02,317
+00:03:43,335 --> 00:03:50,010
 Now our special sentence, three times. Big voices!
 
 60
-00:03:02,317 --> 00:03:04,420
+00:03:50,010 --> 00:03:53,300
 Stop. Ask. Then share!
 
 61
-00:03:04,420 --> 00:03:07,220
+00:03:53,300 --> 00:03:56,607
 Stop. Ask. Then share!
 
 62
-00:03:07,220 --> 00:03:10,600
+00:03:56,607 --> 00:04:00,500
 Stop. Ask. Then share!
 
 63
-00:03:10,600 --> 00:03:14,360
+00:04:00,500 --> 00:04:05,649
 Tonight, here's your job. A fun one.
 
 64
-00:03:14,360 --> 00:03:17,860
+00:04:05,649 --> 00:04:10,582
 Together, make a little ask first sign.
 
 65
-00:03:17,860 --> 00:03:20,012
+00:04:10,582 --> 00:04:13,574
 Look, Ellie's got hers.
 
 66
-00:03:20,012 --> 00:03:23,100
+00:04:13,574 --> 00:04:18,217
 Draw a big hand. That means stop.
 
 67
-00:03:23,100 --> 00:03:28,520
+00:04:18,217 --> 00:04:23,795
 Colour it in, then pop it near where you use the phone or tablet.
 
 68
-00:03:28,520 --> 00:03:32,606
+00:04:23,795 --> 00:04:29,726
 Whenever you see it, you'll remember our rule.
 
 69
-00:03:32,606 --> 00:03:35,440
+00:04:29,726 --> 00:04:33,442
 Stop. Ask. Then share.
 
 70
-00:03:35,440 --> 00:03:40,400
+00:04:33,442 --> 00:04:38,490
 Before I go, show your grown up one thing you remember from today.
 
 71
-00:03:40,400 --> 00:03:43,340
+00:04:38,490 --> 00:04:41,890
 Anything at all. Got it?
 
 72
-00:03:43,340 --> 00:03:46,384
+00:04:41,890 --> 00:04:45,237
 Brilliant. Ellie remembered it too.
 
 73
-00:03:46,384 --> 00:03:47,950
+00:04:45,237 --> 00:04:47,574
 Of course she did.
 
 74
-00:03:48,200 --> 00:03:50,969
+00:04:47,574 --> 00:04:51,435
 Remember, screens are better together.
 
 75
-00:03:50,969 --> 00:03:52,280
+00:04:51,435 --> 00:04:53,264
 See you next time.
