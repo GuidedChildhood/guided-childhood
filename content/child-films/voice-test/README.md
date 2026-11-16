@@ -2,8 +2,12 @@
 
 The same 25 seconds of film 1.3, read by three British voices on Higgsfield
 (Seed Audio 1.0), each at normal pace and slower (speech rate minus 10). The
-name is written "Didgee" so it is said the way the app says it. Not yet
-chosen: Justin picks by ear.
+name is written "Didgee" so it is said the way the app says it.
+
+**Chosen 16 November 2026 by Justin, by ear: sample 6, Tamsin at speech rate
+minus 10.** Preset id 9eb5a147-c322-4f8a-8bc5-a30679dfaf5c, voice type preset,
+model seed_audio, about 118 words a minute. This is DiGi's recorded voice from
+now on: new child films, social videos and any recorded DiGi line.
 
 | File | Voice | Preset id | Words a minute |
 | --- | --- | --- | --- |
@@ -16,8 +20,9 @@ chosen: Justin picks by ear.
 
 `all-six-in-order.mp3` plays them one after another.
 
-Why: DiGi has three voices today (Mabel in the films, Imogen on social, Skye,
-an American voice, for the app's script lines), and the films say the name
-three ways. Recommendation: Imogen at the slower pace, everywhere DiGi speaks.
+Why: DiGi had two recorded voices (Mabel in the ten films, Imogen on social),
+and the films say the name three ways ("DG", "Dee Dee", "DiGi"). The app
+speaks DiGi's lines live in the phone's own British voice, which this does not
+change. The recommendation was Imogen slower; Justin chose Tamsin slower.
 About 120 words a minute is the practitioner figure for young children; no
 study sets a best pace for 4 to 7 year olds.
