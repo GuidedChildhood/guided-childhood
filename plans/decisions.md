@@ -510,3 +510,7 @@ After Justin completed Meta's identity check, Instagram messages joined the Busi
 - Round 1 (live 12 to 16 November, £19.96, 16,542 reached): left out began 8 stage checks from 6,438 reached, 1.2 per thousand at £1.78 a check, every one after the one tap question one went in on 14 November. The other five began none and are retired. No signups yet from the 8, so the next leak sits after the check.
 - Round 2 is left out three times with only the school year changed (Year 5, 6, 7; proven rule 10), left out itself as the control. Gate passed, the old hallway scene reused, no Higgsfield credits spent. Not loaded: the three link codes must be made on the founder links page first, and loading is Justin's word.
 - Competitors: Kairoo has no live UK adverts (its generated families never reached 30 days). Four Qustodio adverts past 80 days logged. Nobody says what left out says.
+## 16 November 2026: 1.4 keeps its line, old labels stay, and a second voice test
+
+- Justin: leave "They'll remember it forever." in 1.4, and leave the dashed labels inside the old drawings for now.
+- Tamsin on Seed Audio does not sound real enough to him. Nine samples of the same 1.3 opening on ElevenLabs and MiniMax wait for his ear in `content/child-films/voice-test-2/`, at about 0.15 credits each. A real recorded voice is the other option. PR 1588.
