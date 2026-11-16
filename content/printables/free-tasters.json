@@ -1,5 +1,5 @@
 {
-  "about": "The free tasters (11 November 2026). Justin, 9 November: tasters free, full on Etsy. Each row is two or three pages of a paid pack, given for an email on guidedchildhood.com/free/<slug>; the full pack stays on Etsy and free inside the app. The Saturday post engine (Carousels, gc-weekly-promise) reads slug, title, ages, url and status, and rotates the live rows in this order. The site and scripts/build-tasters.mjs read the rest. status: live means the page and an Etsy listing are both live; no-listing means the page is live and the full pack is only in the app so far; hold means the page works by direct link but is not promoted: not on the /free index, not in the sitemap, not indexed, and not for the Saturday post (holdReason says why). inApp says the full pack is also free to print inside the app, so the emails and pages only offer that where it is true. Rebuild the PDFs with node scripts/build-tasters.mjs after changing pages or a listing.",
+  "about": "The free tasters (11 November 2026). Justin, 9 November: tasters free, full on Etsy. Each row is two or three pages of a paid pack (one page of the mini packs, which are only three or four pages long), given for an email on guidedchildhood.com/free/<slug>; the full pack stays on Etsy and free inside the app. The Saturday post engine (Carousels, gc-weekly-promise) reads slug, title, ages, url and status, and rotates the live rows in this order. The site and scripts/build-tasters.mjs read the rest. status: live means the page and an Etsy listing are both live; no-listing means the page is live and the full pack is only in the app so far; hold means the page works by direct link but is not promoted: not on the /free index, not in the sitemap, not indexed, and not for the Saturday post (holdReason says why). inApp says the full pack is also free to print inside the app, so the emails and pages only offer that where it is true. partOf names the bigger pack a mini pack was cut from (content/printables/cut-pack.mjs), and the page links to its taster; letterSource, where set, adds a US Letter taster of the same pages. Rebuild the PDFs with node scripts/build-tasters.mjs after changing pages or a listing.",
   "tasters": [
     {
       "slug": "christmas-countdown",
@@ -655,6 +655,192 @@
         { "h": "The cover", "b": "Six fishbowls and lots of little fish." },
         { "h": "How to play", "b": "Pop the fish out and find the bowl of the same colour." },
         { "h": "Line up the bowls", "b": "Red, orange and yellow, set out where your child can reach." }
+      ]
+    },
+    {
+      "slug": "star-breathing-poster",
+      "title": "The Star Breathing Poster",
+      "ages": "4 to 9", "agesMin": 4, "agesMax": 9,
+      "url": "https://www.guidedchildhood.com/free/star-breathing-poster",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4614788389",
+      "inApp": false,
+      "partOf": "calm-down-kit",
+      "service": "S19",
+      "source": "content/printables/star-breathing-poster/product/star-breathing-poster-A4.pdf",
+      "letterSource": "content/printables/star-breathing-poster/product/star-breathing-poster-USLetter.pdf",
+      "pages": [2],
+      "pageCount": 3,
+      "blurb": "A star to trace with one finger: breathe in up one side, hold at the point, breathe out down the other. The taster is the poster itself.",
+      "series": [
+        { "subject": "Practise the star on a calm day", "tip": "Stick the poster at your child's finger height and try it together once when nobody is upset, like a game. Then it is already familiar on the day a feeling is big." }
+      ],
+      "pageNotes": [
+        { "h": "Star breathing", "b": "Finger on the green dot, trace slowly round the star, and touch one of the five little stars after each round." }
+      ]
+    },
+    {
+      "slug": "feelings-cards",
+      "title": "Feelings Cards",
+      "ages": "4 to 9", "agesMin": 4, "agesMax": 9,
+      "url": "https://www.guidedchildhood.com/free/feelings-cards",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4614789267",
+      "inApp": false,
+      "partOf": "calm-down-kit",
+      "service": "S19",
+      "source": "content/printables/feelings-cards/product/feelings-cards-A4.pdf",
+      "letterSource": "content/printables/feelings-cards/product/feelings-cards-USLetter.pdf",
+      "pages": [1],
+      "pageCount": 3,
+      "blurb": "Eight feelings to point to when the words will not come. The taster is the feelings cards; the twelve calm choice cards are in the full pack.",
+      "series": [
+        { "subject": "Point to a face", "tip": "Keep the cards where your child can reach them. Pointing to a face is a whole answer, and naming the feeling is enough for now. Try it first on an ordinary day, about something small." }
+      ],
+      "pageNotes": [
+        { "h": "How do you feel right now?", "b": "Happy, sad, angry, worried, frustrated, tired, excited and calm, to cut out and keep in a pot or on a ring." }
+      ]
+    },
+    {
+      "slug": "weekly-routine-chart",
+      "title": "The Weekly Routine Chart",
+      "ages": "4 to 10", "agesMin": 4, "agesMax": 10,
+      "url": "https://www.guidedchildhood.com/free/weekly-routine-chart",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4614790023",
+      "inApp": false,
+      "partOf": "planet-day-flip-chart",
+      "service": "S1",
+      "source": "content/printables/weekly-routine-chart/product/weekly-routine-chart-A4.pdf",
+      "letterSource": "content/printables/weekly-routine-chart/product/weekly-routine-chart-USLetter.pdf",
+      "pages": [1],
+      "pageCount": 3,
+      "blurb": "Morning, after school and bedtime on one page, ticked off from Monday to Sunday, with nothing to cut out. The taster is the chart for ages 4 to 7.",
+      "series": [
+        { "subject": "A missed tick is just a missed tick", "tip": "Let your child do the ticking, not you. If a day goes wrong, leave the boxes empty and start the next column tomorrow. The line at the foot is for their own screen time, and where screens rest." }
+      ],
+      "pageNotes": [
+        { "h": "Pebble's week, ages 4 to 7", "b": "Write their name on the top line, stick it on the fridge and let them tick each one as it is done." }
+      ]
+    },
+    {
+      "slug": "routine-picture-cards",
+      "title": "Routine Picture Cards",
+      "ages": "4 to 10", "agesMin": 4, "agesMax": 10,
+      "url": "https://www.guidedchildhood.com/free/routine-picture-cards",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4614790817",
+      "inApp": false,
+      "partOf": "planet-day-flip-chart",
+      "service": "S1",
+      "source": "content/printables/routine-picture-cards/product/routine-picture-cards-A4.pdf",
+      "letterSource": "content/printables/routine-picture-cards/product/routine-picture-cards-USLetter.pdf",
+      "pages": [1, 2],
+      "pageCount": 7,
+      "blurb": "One picture and two words on every card, so a child who is not reading yet can follow their own day. The taster is 24 of the 60 cards.",
+      "series": [
+        { "subject": "Line up tomorrow morning tonight", "tip": "Cut out the morning cards and let your child put them in order for tomorrow. Each one turns over when it is done, so they can see what comes next without being told." },
+        { "subject": "Home again", "tip": "The second page goes out of the door and back again. Put the after school cards up by the front door, where the bag and the coat land." }
+      ],
+      "pageNotes": [
+        { "h": "Morning cards", "b": "Wake up, wash my face, brush my teeth, get dressed, shoes on and the rest of a morning, one card each." },
+        { "h": "Out of the door and home again", "b": "Breakfast, pack my bag and walk to school, then coat up, bag unpacked and lunchbox to the kitchen." }
+      ]
+    },
+    {
+      "slug": "car-bingo",
+      "title": "Car Bingo",
+      "ages": "4 to 11", "agesMin": 4, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/car-bingo",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4614805036",
+      "inApp": false,
+      "partOf": "are-we-nearly-there",
+      "service": "S2",
+      "source": "content/printables/car-bingo/product/car-bingo-A4.pdf",
+      "letterSource": "content/printables/car-bingo/product/car-bingo-USLetter.pdf",
+      "pages": [1],
+      "pageCount": 4,
+      "blurb": "Eyes out of the window, not on a screen. The taster is the picture card for ages 4 to 7: sixteen things to spot, from a tractor to a wind turbine.",
+      "series": [
+        { "subject": "Before you set off", "tip": "Print a card for each child and bring a pencil each. An older child can play too, or be the one who checks the answers." }
+      ],
+      "pageNotes": [
+        { "h": "Car bingo, the picture card", "b": "Spot it out of the window, then colour it in or cross it off. A line of four is a star, and the whole card is three." }
+      ]
+    },
+    {
+      "slug": "devices-sleep-here-sign",
+      "title": "The Devices Sleep Here Sign",
+      "ages": "4 to 10", "agesMin": 4, "agesMax": 10,
+      "url": "https://www.guidedchildhood.com/free/devices-sleep-here-sign",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4614805594",
+      "inApp": false,
+      "partOf": "where-phones-sleep",
+      "service": "S10",
+      "source": "content/printables/devices-sleep-here-sign/product/devices-sleep-here-sign-A4.pdf",
+      "letterSource": "content/printables/devices-sleep-here-sign/product/devices-sleep-here-sign-USLetter.pdf",
+      "pages": [1],
+      "pageCount": 3,
+      "blurb": "One shelf in the kitchen, every device sleeps there, and yours goes first. The taster is the charging station poster.",
+      "series": [
+        { "subject": "Pick the shelf tonight", "tip": "Choose one shelf or tray by a socket in the kitchen, write the docking time on the line and put your own phone on it first. Then the answer to the bedtime question is on the wall." }
+      ],
+      "pageNotes": [
+        { "h": "Devices sleep here", "b": "The poster for the charging shelf, with a line for the time everyone docks by, grown ups too." }
+      ]
+    },
+    {
+      "slug": "family-tech-rules",
+      "title": "Family Tech Rules",
+      "ages": "4 to 16", "agesMin": 4, "agesMax": 16,
+      "url": "https://www.guidedchildhood.com/free/family-tech-rules",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4614792499",
+      "inApp": false,
+      "partOf": "where-phones-sleep",
+      "service": "S10",
+      "source": "content/printables/family-tech-rules/product/family-tech-rules-A4.pdf",
+      "letterSource": "content/printables/family-tech-rules/product/family-tech-rules-USLetter.pdf",
+      "pages": [1],
+      "pageCount": 3,
+      "blurb": "Six house rules for screens, on one page for the fridge. Keep a rule, cross one out or write your own, and everyone signs, grown ups too.",
+      "series": [
+        { "subject": "Write the rules together", "tip": "Sit down together and go through the six rules one at a time. Your child gets a say on every one, and the last rule is that grown ups keep them too. Put a date on the bottom line to look at them again." }
+      ],
+      "pageNotes": [
+        { "h": "Our family tech rules", "b": "Six rules to keep or cross out, two lines for your own, a line for everyone to sign and a date to look at them again." }
+      ]
+    },
+    {
+      "slug": "screen-time-tokens",
+      "title": "Screen Time Tokens",
+      "ages": "5 to 11", "agesMin": 5, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/screen-time-tokens",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4614806884",
+      "inApp": false,
+      "partOf": "earn-your-screen-time",
+      "service": "S2",
+      "source": "content/printables/screen-time-tokens/product/screen-time-tokens-A4.pdf",
+      "letterSource": "content/printables/screen-time-tokens/product/screen-time-tokens-USLetter.pdf",
+      "pages": [1],
+      "pageCount": 3,
+      "blurb": "Tokens for 5, 15 and 30 minutes, so the timer matches the token. The taster is the token sheet; the ending well cards are in the full pack.",
+      "series": [
+        { "subject": "A token handed over is a promise kept", "tip": "Cut the tokens out and keep them in a jar. When your child spends their stars, hand over the token that matches and set the timer to the same number." }
+      ],
+      "pageNotes": [
+        { "h": "Screen tokens", "b": "Five, fifteen and thirty minute tokens at one star for every five minutes, and three family swap tokens. Print on card if you can." }
       ]
     }
   ]

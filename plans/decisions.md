@@ -269,3 +269,10 @@ Round 1 reached 9,210 parents, 216 clicks, 136 page loads, £10.64, and no stage
 ## 14 November 2026: Tell us about your child, asked after joining
 
 The one tap stage check (PR 1541) lets a parent join without a name or a birth month. Audited: nothing breaks, but a child with no birthday never ages up (the age up cron reads only children with one) and a skipped name shows as "Your child". Justin: ask for it after they join, to avoid blocks. So finish-setup keeps the age tapped and the day (onboarding_answers.ageYears, ageOn) and marks the family (askAbout) when either is missing; that family's Setup Quest leads with "Tell us about your child": the name and the birth month, the year worked out from the age. Saving writes the birthday and re-derives the band and stage, so the age up takes over. Shown only to marked families, so step numbers never shift. Round 1 adverts back on the same day at Justin's word.
+
+## 16 November 2026: every printable on guidedchildhood.com/free
+
+- Justin: "all printables should be free", then "make them all available on a page at the link" (the first link in the Instagram bio). Asked which he meant; he chose a taster for the eight £1.99 mini packs (live on Etsy since 11 November), not the whole thing, and to keep the six held tasters off the index (retired characters, the under fives game, the teachers' pack). They still open by direct link.
+- The mini packs are three or four pages, so their taster is one page (two for the Routine Picture Cards): the headline page free, the rest on Etsy. The half rule still holds for every pack.
+- New in content/printables/free-tasters.json: partOf (the page links to the bigger pack's taster) and letterSource (a US Letter taster too). The email series leaves out page emails a short taster has no page for.
+- Not changed: the 27 live taster pages and files. A to Z Showdown, the Ice Cream Shop, the School Year Planner and Word Fishing are now live on Etsy but still say no-listing; flipping them is a follow up.

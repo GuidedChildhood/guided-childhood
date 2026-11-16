@@ -607,6 +607,8 @@ export function magnetEmail(params: {
   reader?: Reader
   /** They ticked the box for the five day series (13 November 2026): say what comes tomorrow. */
   seriesNext?: boolean
+  /** How many emails that series is: five for a three page taster, fewer for a mini pack's (16 November 2026). */
+  seriesDays?: number
 }): EmailContent {
   const { magnetTitle, downloadUrl } = params
   const reader = params.reader ?? 'lead'
@@ -621,7 +623,7 @@ export function magnetEmail(params: {
       heading('Here is your download.') +
       p(`Thanks for grabbing <strong>${magnetTitle}</strong>. ${blurb}`) +
       button('Download the printable', downloadUrl) +
-      (params.seriesNext ? p(`Tomorrow morning, page 1 comes to your inbox with one tip for using it. Five short emails, one a day, and the stop link is at the bottom of every one.`) : '') +
+      (params.seriesNext ? p(`Tomorrow morning, page 1 comes to your inbox with one tip for using it. ${seriesCount(params.seriesDays ?? 5)} short emails, one a day, and the stop link is at the bottom of every one.`) : '') +
       more +
       p(`If the button does not work, paste this into your browser: <a href="${downloadUrl}" style="color:${BUTTER_DARK}">${downloadUrl}</a>`) +
       (reader === 'member'
@@ -631,6 +633,11 @@ export function magnetEmail(params: {
       'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
     ),
   }
+}
+
+// The series length in words, for the line under the download.
+function seriesCount(n: number): string {
+  return ['Three', 'Four', 'Five'][n - 3] ?? String(n)
 }
 
 // Minutes to a short label for the weekly review stats block.
@@ -1123,9 +1130,9 @@ export function tasterFullPackEmail(params: {
   const when = params.when ?? 'Last week'
   const rest = pageCount - tasterPages
   const etsyBlock = etsyUrl
-    ? p(`${when} you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. If they earned their place on the fridge, the other ${rest} pages are in the full pack on Etsy, ready to print at home.`) +
+    ? p(`${when} you picked up ${tasterPages === 1 ? '1 page' : `${tasterPages} pages`} of <strong>${tasterTitle}</strong>. If ${tasterPages === 1 ? 'it' : 'they'} earned ${tasterPages === 1 ? 'its' : 'their'} place on the fridge, the other ${rest === 1 ? '1 page is' : `${rest} pages are`} in the full pack on Etsy, ready to print at home.`) +
       button('See the full pack on Etsy', etsyUrl)
-    : p(`${when} you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. I hope they earned their place on the fridge.`)
+    : p(`${when} you picked up ${tasterPages === 1 ? '1 page' : `${tasterPages} pages`} of <strong>${tasterTitle}</strong>. I hope ${tasterPages === 1 ? 'it' : 'they'} earned ${tasterPages === 1 ? 'its' : 'their'} place on the fridge.`)
   const appLine = inApp
     ? p(etsyUrl
       ? `Or print it free inside Guided Childhood. Every pack in the shop is in the app too, this one included, during the four free days and for members.`

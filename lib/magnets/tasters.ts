@@ -35,6 +35,17 @@ export type Taster = {
   blurb: string
   pageNotes: { h: string; b: string }[]
   /**
+   * The US Letter product PDF, when the pack has one (16 November 2026, the
+   * mini packs). Set, scripts/build-tasters.mjs also builds a Letter taster of
+   * the same pages and the gate offers it beside the A4.
+   */
+  letterSource?: string
+  /**
+   * The slug of the bigger pack these pages were cut from (a mini pack made by
+   * content/printables/cut-pack.mjs). The page links to that pack's taster.
+   */
+  partOf?: string
+  /**
    * The taster series (13 November 2026): one email per taster page, a subject
    * and one tip, written from the pack's own guide pages. Packs without it get
    * a plain version built from pageNotes, so every taster has a series.
@@ -68,6 +79,20 @@ export function etsyUrl(t: Pick<Taster, 'etsyListing'>): string | null {
 
 export function tasterPdf(slug: string): string {
   return `/printables/free/tasters/${slug}-taster-a4.pdf`
+}
+
+export function tasterLetterPdf(slug: string): string {
+  return `/printables/free/tasters/${slug}-taster-letter.pdf`
+}
+
+/** "1 page", "3 pages": the mini packs give a single page, so the count is not always plural. */
+export function pagesWord(n: number): string {
+  return n === 1 ? '1 page' : `${n} pages`
+}
+
+/** How many emails the series is for this taster: one per page, then the stage check and the pack. */
+export function seriesDays(t: Pick<Taster, 'pages'>): number {
+  return t.pages.length + 2
 }
 
 export function tasterPreview(slug: string, n: number): string {
@@ -121,8 +146,9 @@ export function tasterMagnet(t: Taster): Magnet {
     close: fullPackLine(t),
     filename: `${t.slug}-free-taster`,
     staticPdf: tasterPdf(t.slug),
+    ...(t.letterSource ? { files: [{ label: 'US Letter', href: tasterLetterPdf(t.slug) }] } : {}),
     emailBlurb: etsy
-      ? `It is ${n} pages from the ${t.pageCount} page pack, for ages ${t.ages}, to print tonight. No login needed. The full pack is on Etsy whenever you want the rest.`
-      : `It is ${n} pages from the ${t.pageCount} page pack, for ages ${t.ages}, to print tonight. No login needed.`,
+      ? `It is ${pagesWord(n)} from the ${t.pageCount} page pack, for ages ${t.ages}, to print tonight. No login needed. The full pack is on Etsy whenever you want the rest.`
+      : `It is ${pagesWord(n)} from the ${t.pageCount} page pack, for ages ${t.ages}, to print tonight. No login needed.`,
   }
 }
