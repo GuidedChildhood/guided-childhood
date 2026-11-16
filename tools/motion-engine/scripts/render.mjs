@@ -26,6 +26,10 @@ const ROOT = join(ENGINE, '..', '..')
 const HEADLESS_SHELL = '/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell'
 const browserExecutable = process.env.REMOTION_BROWSER || (existsSync(HEADLESS_SHELL) ? HEADLESS_SHELL : null)
 
+// Quality. 16 is near lossless. A story card for Drive and Metricool uses 21,
+// which looks the same at 1080 by 1350 and keeps the file under the 3 MB a
+// Drive upload from a session can carry. Set MOTION_CRF to change it.
+const CRF = Number(process.env.MOTION_CRF || 16)
 const specPath = process.argv[2]
 if (!specPath) { console.error('usage: node scripts/render.mjs <spec.json> [outDir]'); process.exit(2) }
 const spec = JSON.parse(readFileSync(resolve(specPath), 'utf8'))
@@ -34,6 +38,9 @@ let record = null
 if (!spec.notForPublication) {
   if (spec.draft) { console.error('HOLD: the spec is still a draft. A person shortens and checks it, then sets "draft": false.'); process.exit(1) }
   process.chdir(ROOT)
+  // The register finds its folder from the working directory. Point it at the
+  // repository's own, whichever folder this script was started from.
+  process.env.RADAR_REGISTER ||= join(ROOT, 'content/research-register')
   const reg = await import(join(ROOT, 'scripts/radar/register.mjs'))
   record = reg.get(spec.researchId)
 }
@@ -60,7 +67,9 @@ console.log(`Rendering ${composition.width} by ${composition.height}, ${composit
 let last = -10
 await renderMedia({
   serveUrl, composition, inputProps, browserExecutable,
-  codec: 'h264', crf: 16, pixelFormat: 'yuv420p', x264Preset: 'slow', muted: true,
+  // MOTION_FRAMES=0-60 renders part of a card, for testing a fix quickly.
+  ...(process.env.MOTION_FRAMES ? { frameRange: process.env.MOTION_FRAMES.split("-").map(Number) } : {}),
+  codec: 'h264', crf: CRF, pixelFormat: 'yuv420p', x264Preset: 'slow', muted: true,
   // Lossless frames: JPEG frames soften the edges of type before the encoder
   // ever sees them, and come out as full range video some phones will not play.
   imageFormat: 'png', colorSpace: 'bt709',

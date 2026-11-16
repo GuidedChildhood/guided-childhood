@@ -1734,7 +1734,7 @@
    "foundBy": [
     "manual-drop"
    ],
-   "status": "ASSETS READY",
+   "status": "APPROVED",
    "relevanceScore": 26,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -1763,11 +1763,11 @@
    "words": 21851,
    "fullTextPath": "/home/user/guided-childhood/content/research-register/documents/GDC-RR-86c1075a30.txt",
    "studyId": "GDC-RR-86c1075a30",
-   "version": 34,
+   "version": 45,
    "firstFound": "2026-11-10T09:23:10.230Z",
-   "lastChecked": "2026-11-12T12:46:16.873Z",
-   "changeReason": "ASSETS READY: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-16T14:17:05.961Z",
+   "changeReason": "asset copy in Drive verified",
+   "changedBy": "radar:assets",
    "textSha256": "cdf32d71de3ac48e164229f65d11daccb016904eb2eb0ac1f9b7c61cf988895d",
    "textBytes": 137677,
    "dossier": {
@@ -1967,9 +1967,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "ASSETS READY",
+    "stage": "APPROVAL",
     "reasons": [],
-    "at": "2026-11-12T12:46:16.872Z"
+    "at": "2026-11-16T13:18:47.533Z"
    },
    "gdcPostNumber": "057",
    "handoff": {
@@ -2004,17 +2004,84 @@
     "reviewedAt": "2026-11-12T12:46:16.844Z"
    },
    "visualDecision": {
-    "choice": "text only",
-    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text.",
-    "decidedBy": "Claude Code, directed run",
-    "at": "2026-11-12T12:42:38.741Z"
+    "choice": "motion",
+    "reason": "Justin asked on 16 November for a still and a motion card on this post, to see complete drafts with media. The 11 November evidence is still too thin to say media helps, so this is his editorial call, and the card carries only cleared wording.",
+    "decidedBy": "Justin, via Claude Code",
+    "at": "2026-11-16T12:59:45.950Z"
    },
    "packDrive": {
     "verified": true,
     "fileId": "1X0oFT713nKO4P5Jzmg7k_tLVd_mZVsFK-IraxJ3r_G4",
     "level": "TEXT IDENTICAL",
     "at": "2026-11-12T12:46:16.860Z"
-   }
+   },
+   "approval": {
+    "approvedBy": "Justin",
+    "instruction": "\"1 apprived  let me know when i can tell chat to go ahead\" (16 November 2026, answering point 1, that neither GDC 059 nor GDC 057 was approved yet)",
+    "approvedAt": "2026-11-16T13:18:47.521Z"
+   },
+   "assets": [
+    {
+     "kind": "motion",
+     "role": "required",
+     "file": "content/motion/GDC-057/gdc-057.mp4",
+     "sha256": "3f9e1940998141f011193982947b1e3beae00746b3325a161192d86a525df152",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-057/spec.json",
+     "facts": {
+      "bytes": 660102,
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "fps": "30/1",
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audio": "none, silent",
+      "playsThrough": true
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Looked at frames across the film: RESEARCH FROM 2022 label, headline We blame the apps. Some parents were helping., 18 families with most children having got round one or knowing someone who had, home visits and 8 focus groups, source ICO and Ofcom on GOV.UK October 2022, limitation qualitative and before the Online Safety Act. No percentage. Plain ivory paper. All words still from 5.1 seconds.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-16T14:16:49.141Z"
+     },
+     "drive": {
+      "fileId": "12P3XHb4jum7Lhkx7cNuoGeg8fxUywXv2",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 660102,
+      "at": "2026-11-16T14:17:05.952Z"
+     },
+     "at": "2026-11-16T14:16:49.142Z"
+    },
+    {
+     "kind": "still image",
+     "role": "required",
+     "file": "content/motion/GDC-057/gdc-057.png",
+     "sha256": "a424dbd2bf44c0ca3eaaedc07916fe42a7150ec8e0fddb151c34d37743958076",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-057/spec.json",
+     "facts": {
+      "bytes": 1727863
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Looked at frames across the film: RESEARCH FROM 2022 label, headline We blame the apps. Some parents were helping., 18 families with most children having got round one or knowing someone who had, home visits and 8 focus groups, source ICO and Ofcom on GOV.UK October 2022, limitation qualitative and before the Online Safety Act. No percentage. Plain ivory paper. All words still from 5.1 seconds.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-16T14:16:49.153Z"
+     },
+     "drive": {
+      "fileId": "1lUa4CRKiuqo2mY_G-3T3OvThrA5RXZ9r",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 1727863,
+      "at": "2026-11-16T14:17:05.960Z"
+     },
+     "at": "2026-11-16T14:16:49.155Z"
+    }
+   ]
   },
   "GDC-RR-3d31eb1683": {
    "title": "Commission preliminarily finds TikTok's For You feed in breach of Digital Services Act for harmful rabbit holes effect",
@@ -5660,7 +5727,7 @@
    "foundBy": [
     "chatgpt-inbox"
    ],
-   "status": "ASSETS READY",
+   "status": "APPROVED",
    "candidate": {
     "candidateId": "C-2026-11-12-02",
     "batchId": "2026-11-12-chatgpt-manual-1433",
@@ -5714,11 +5781,11 @@
    },
    "childIsTheSubject": true,
    "studyId": "GDC-RR-f0fb8386cd",
-   "version": 27,
+   "version": 38,
    "firstFound": "2026-11-12T14:45:32.751Z",
-   "lastChecked": "2026-11-13T15:38:23.763Z",
-   "changeReason": "ASSETS READY: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-16T14:17:05.946Z",
+   "changeReason": "asset copy in Drive verified",
+   "changedBy": "radar:assets",
    "dossier": {
     "studyId": "GDC-RR-f0fb8386cd",
     "checkedAt": "2026-11-12T14:45:43.557Z",
@@ -5907,9 +5974,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "ASSETS READY",
+    "stage": "APPROVAL",
     "reasons": [],
-    "at": "2026-11-13T15:38:23.759Z"
+    "at": "2026-11-16T13:18:47.510Z"
    },
    "gdcPostNumber": "059",
    "handoff": {
@@ -5950,11 +6017,78 @@
     "at": "2026-11-13T15:38:23.630Z"
    },
    "visualDecision": {
-    "choice": "text only",
-    "reason": "The handoff asks for a LinkedIn post and nothing else. The visual report of 12 November ranks no format because every group is under five posts, and the best post of the last measured week carried no image, so the evidence is silent and text only is the default. ChatGPT proposed a static card with no figure on it. No approved brand asset is verified for one, so it is not made. No film: the optional film made for GDC-058 has not been posted, so there is still no motion reading on the account, and a second untested film would add work without adding evidence.",
-    "decidedBy": "Claude Code, directed run",
-    "at": "2026-11-13T15:38:23.591Z"
-   }
+    "choice": "motion",
+    "reason": "Justin asked on 16 November for a still and a motion card on this post, to see complete drafts with media. The 11 November evidence is still too thin to say media helps, so this is his editorial call, and the card carries only cleared wording.",
+    "decidedBy": "Justin, via Claude Code",
+    "at": "2026-11-16T12:59:45.441Z"
+   },
+   "approval": {
+    "approvedBy": "Justin",
+    "instruction": "\"1 apprived  let me know when i can tell chat to go ahead\" (16 November 2026, answering point 1, that neither GDC 059 nor GDC 057 was approved yet)",
+    "approvedAt": "2026-11-16T13:18:47.498Z"
+   },
+   "assets": [
+    {
+     "kind": "motion",
+     "role": "required",
+     "file": "content/motion/GDC-059/gdc-059.mp4",
+     "sha256": "d8e156f047a9dfd0516ace502f391b76c1b84342bb3deaf28caea1d5a27de0a2",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-059/spec.json",
+     "facts": {
+      "bytes": 629627,
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "fps": "30/1",
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audio": "none, silent",
+      "playsThrough": true
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Looked at frames across the film: NEW RESEARCH label, headline This is not a story about parents fearing AI, 47.2% with gold rule, not comfortable at all of 572 parents, a hypothetical question with children aged 5 to 17, source JAMA Pediatrics 2 November 2026, limitation opt in US sample, not causal. Plain ivory paper, only the light drifts. All words still from 5.1 seconds.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-16T14:16:48.550Z"
+     },
+     "drive": {
+      "fileId": "1FZel_CMm0IE0uX36V4S15rV6LtD5GM3L",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 629627,
+      "at": "2026-11-16T14:17:05.933Z"
+     },
+     "at": "2026-11-16T14:16:48.552Z"
+    },
+    {
+     "kind": "still image",
+     "role": "required",
+     "file": "content/motion/GDC-059/gdc-059.png",
+     "sha256": "aecade582682896dc293ce9d7e0688bf4b50a42395bf936e14a5905dc8816fd1",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-059/spec.json",
+     "facts": {
+      "bytes": 1700057
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Looked at frames across the film: NEW RESEARCH label, headline This is not a story about parents fearing AI, 47.2% with gold rule, not comfortable at all of 572 parents, a hypothetical question with children aged 5 to 17, source JAMA Pediatrics 2 November 2026, limitation opt in US sample, not causal. Plain ivory paper, only the light drifts. All words still from 5.1 seconds.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-16T14:16:48.563Z"
+     },
+     "drive": {
+      "fileId": "1i8kdNQQuoh75uQqBThCdCx3x8idLcl3S",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 1700057,
+      "at": "2026-11-16T14:17:05.944Z"
+     },
+     "at": "2026-11-16T14:16:48.565Z"
+    }
+   ]
   },
   "GDC-RR-45a302c73d": {
    "title": "Growing up in the digital classroom: Experiences of AI and EdTech in UK schools",
@@ -7368,6 +7502,87 @@
    "lastChecked": "2026-11-13T09:20:45.349Z",
    "changeReason": "discovery run, streams 19,22",
    "changedBy": "radar:discover"
+  },
+  "GDC-RR-29a4765c83": {
+   "title": "Meta discussed attacking Jonathan Haidt, now even his haters are annoyed",
+   "url": "https://www.theverge.com/policy/1032645/jonathan-haidt-critics-response-meta",
+   "journal": "The Verge (Lauren Feiner), and Andrew Gelman's blog Statistical Modeling, Causal Inference, and Social Science",
+   "published": "2026-11-13",
+   "authors": "Feiner L; Gelman A",
+   "abstract": "Unredacted court documents, as reported, show Meta staff in a March 2023 meeting discussing how to get academics to turn against Jonathan Haidt, including an idea to get 'Gellman' to write a take-down piece. Andrew Gelman, a statistician who has criticised Haidt's methods, says he was never contacted, and told The Verge it was horrible for Haidt that this happened to him. Other critics, including Chris Ferguson of Stetson University, also condemned it. Meeting notes from 8 March 2023 asked how to get the academic community to disavow Haidt, according to unredacted court documents as reported. Meta staff discussed an idea to 'Get Gellman to write a take-down piece'; The Verge says possibly a reference to Andrew Gelman, though the spelling differs. Gelman wrote that he has never been contacted by anyone at Facebook or Meta regarding Haidt or his work. Gelman, who has criticised Haidt's methods, told The Verge: 'I think it's horrible for Haidt that this happened to him.' The Verge reports it is unclear whether Meta ever acted on the strategy, and that Meta declined to comment.",
+   "isPreprint": false,
+   "peerReviewed": false,
+   "isOfficial": false,
+   "streams": [
+    "inbox"
+   ],
+   "foundBy": [
+    "chatgpt-inbox"
+   ],
+   "status": "DISCOVERED",
+   "candidate": {
+    "candidateId": "C-2026-11-16-GELMAN",
+    "batchId": "2026-11-16-claude-directed-justin",
+    "sentBy": "claude-code-directed, idea from Justin and ChatGPT, sources read by Claude",
+    "sentAt": "2026-11-16T13:50:00Z",
+    "sourceType": "news-report",
+    "otherUrls": [
+     "https://statmodeling.stat.columbia.edu/2026/10/27/we-interrupt-our-usual-programming-to-inform-you-that-i-was-never-hired-by-facebook-to-do-a-hit-job-on-jonathan-haidt/"
+    ],
+    "claims": [
+     {
+      "claim": "Meeting notes from 8 March 2023 asked how to get the academic community to disavow Haidt, according to unredacted court documents as reported.",
+      "figure": null,
+      "whereInSource": "Gelman blog, quoting press reports of the filing; The Verge"
+     },
+     {
+      "claim": "Meta staff discussed an idea to 'Get Gellman to write a take-down piece'; The Verge says possibly a reference to Andrew Gelman, though the spelling differs.",
+      "figure": null,
+      "whereInSource": "The Verge"
+     },
+     {
+      "claim": "Gelman wrote that he has never been contacted by anyone at Facebook or Meta regarding Haidt or his work.",
+      "figure": null,
+      "whereInSource": "Gelman blog, 27 October 2026"
+     },
+     {
+      "claim": "Gelman, who has criticised Haidt's methods, told The Verge: 'I think it's horrible for Haidt that this happened to him.'",
+      "figure": null,
+      "whereInSource": "The Verge interview"
+     },
+     {
+      "claim": "The Verge reports it is unclear whether Meta ever acted on the strategy, and that Meta declined to comment.",
+      "figure": null,
+      "whereInSource": "The Verge"
+     }
+    ],
+    "limitations": [
+     "Internal meeting notes in a court filing, as reported by the press. Not proof that any campaign was carried out; The Verge says it is unclear if Meta acted on it.",
+     "Gelman defended Haidt against Meta's tactics, not Haidt's findings. He still critiques the methods.",
+     "Not research about children. It is about how the evidence debate is conducted."
+    ],
+    "whyItMatters": "The debate parents hear about screens should be settled by evidence in the open, not by a company's PR. Critics and supporters of Haidt agree on that, which is our honest middle position.",
+    "ukRelevance": "A US case and US company documents. The point about open evidence carries to the UK debate ahead of the under 16 ban.",
+    "suggestedFormats": [
+     "linkedin"
+    ],
+    "standing": "UNVERIFIED. These are the sender's claims about the source. None may be quoted until the directed review has checked it against the source itself."
+   },
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "childIsTheSubject": false,
+   "studyId": "GDC-RR-29a4765c83",
+   "version": 1,
+   "firstFound": "2026-11-16T13:42:42.965Z",
+   "lastChecked": "2026-11-16T13:42:42.965Z",
+   "changeReason": "candidate C-2026-11-16-GELMAN from claude-code-directed, idea from Justin and ChatGPT, sources read by Claude, batch 2026-11-16-claude-directed-justin",
+   "changedBy": "radar:inbox"
   }
  },
  "keys": {
@@ -7611,6 +7826,8 @@
   "title:from algorithmic reliance to cash centered resistance divergent digital survival strategies of older adults": "GDC-RR-10826d696b",
   "pmcid:PMC13752684": "GDC-RR-2e20d0facc",
   "url:www.ncbi.nlm.nih.gov/pmc/articles/pmc13752684": "GDC-RR-2e20d0facc",
-  "title:correction an online randomised controlled trial to evaluate the effectiveness of an online intervention": "GDC-RR-2e20d0facc"
+  "title:correction an online randomised controlled trial to evaluate the effectiveness of an online intervention": "GDC-RR-2e20d0facc",
+  "url:www.theverge.com/policy/1032645/jonathan-haidt-critics-response-meta": "GDC-RR-29a4765c83",
+  "title:meta discussed attacking jonathan haidt now even his haters are annoyed": "GDC-RR-29a4765c83"
  }
 }

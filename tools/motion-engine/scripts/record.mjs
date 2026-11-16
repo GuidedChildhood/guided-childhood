@@ -18,6 +18,10 @@ import { fileURLToPath } from 'node:url'
 const ENGINE = dirname(dirname(fileURLToPath(import.meta.url)))
 const ROOT = join(ENGINE, '..', '..')
 const args = process.argv.slice(2)
+// optional by default: offered as extra. required when Justin has asked for the
+// visual, so the Metricool handoff marks it to attach and Drive must hold it.
+const ROLE = args.includes('--role') ? args[args.indexOf('--role') + 1] : 'optional'
+if (!['optional', 'required'].includes(ROLE)) { console.error('--role must be optional or required'); process.exit(2) }
 const dir = resolve(args[0] || '')
 const flag = (k) => { const i = args.indexOf(k); return i > -1 ? args[i + 1] : null }
 const verdict = flag('--verdict')
@@ -36,10 +40,13 @@ if (!['PASS', 'HOLD'].includes(verdict) || String(notes || '').trim().length < 4
 }
 
 process.chdir(ROOT)
+// The register finds its folder from the working directory. Point it at the
+// repository's own, whichever folder this script was started from.
+process.env.RADAR_REGISTER ||= join(ROOT, 'content/research-register')
 const assets = await import(join(ROOT, 'scripts/radar/assets.mjs'))
 const review = { verdict, notes, reviewedBy: 'Claude Code, motion engine' }
 const source = `tools/motion-engine, ${report.engine}, from ${report.spec}`
 for (const [kind, file] of [['motion', report.mp4.file], ['still image', report.png.file]]) {
-  const r = assets.recordAsset(report.researchId, { kind, file: join(ROOT, file), role: 'optional', source, review })
+  const r = assets.recordAsset(report.researchId, { kind, file: join(ROOT, file), role: ROLE, source, review })
   console.log(`${r.verdict}  ${kind}  ${file}${r.reasons?.length ? `  ${r.reasons.join('; ')}` : ''}`)
 }

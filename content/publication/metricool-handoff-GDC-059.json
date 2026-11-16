@@ -1,7 +1,7 @@
 {
   "schema": "gdc.metricool-handoff/1.0",
-  "generatedAt": "2026-11-13T15:38:35.649Z",
-  "sourceCommit": "c7944ad751ea79c70a26b0df0b44e4565335f370",
+  "generatedAt": "2026-11-16T14:17:06.521Z",
+  "sourceCommit": "e43f696ecfa8cc5587b3383acb9528ed6c7f9d8a",
   "gdcPostNumber": "059",
   "researchId": "GDC-RR-f0fb8386cd",
   "title": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
@@ -13,11 +13,40 @@
   ],
   "reviewedCopy": "https://docs.google.com/document/d/1E4O9_utKmiCehiAwx-oj2l6ZL-Juxt_8dDTwvDoyyYY/edit",
   "visualDecision": {
-    "choice": "text only",
-    "reason": "The handoff asks for a LinkedIn post and nothing else. The visual report of 12 November ranks no format because every group is under five posts, and the best post of the last measured week carried no image, so the evidence is silent and text only is the default. ChatGPT proposed a static card with no figure on it. No approved brand asset is verified for one, so it is not made. No film: the optional film made for GDC-058 has not been posted, so there is still no motion reading on the account, and a second untested film would add work without adding evidence."
+    "choice": "motion",
+    "reason": "Justin asked on 16 November for a still and a motion card on this post, to see complete drafts with media. The 11 November evidence is still too thin to say media helps, so this is his editorial call, and the card carries only cleared wording."
   },
-  "assets": [],
-  "approvalStatus": "READY FOR JUSTIN",
+  "assets": [
+    {
+      "kind": "motion",
+      "role": "required",
+      "file": "content/motion/GDC-059/gdc-059.mp4",
+      "sha256": "d8e156f047a9dfd0516ace502f391b76c1b84342bb3deaf28caea1d5a27de0a2",
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/1FZel_CMm0IE0uX36V4S15rV6LtD5GM3L/view",
+      "attach": "yes",
+      "use": "the post media"
+    },
+    {
+      "kind": "still image",
+      "role": "required",
+      "file": "content/motion/GDC-059/gdc-059.png",
+      "sha256": "aecade582682896dc293ce9d7e0688bf4b50a42395bf936e14a5905dc8816fd1",
+      "seconds": null,
+      "width": null,
+      "height": null,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/1i8kdNQQuoh75uQqBThCdCx3x8idLcl3S/view",
+      "attach": "yes",
+      "use": "the cover for the film, or the media if Justin chooses an image post"
+    }
+  ],
+  "approvalStatus": "APPROVED",
   "duplicateCheck": {
     "result": "UNKNOWN",
     "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
@@ -25,14 +54,28 @@
   "linkedinNativeSchedule": null,
   "metricool": {
     "draftCreationPermitted": true,
-    "schedulingPermitted": false,
+    "schedulingPermitted": true,
     "autoPublishPermitted": false,
-    "why": [
-      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+    "mediaAttachPermitted": true,
+    "mediaToAttach": [
+      {
+        "kind": "motion",
+        "use": "the post media",
+        "driveLink": "https://drive.google.com/file/d/1FZel_CMm0IE0uX36V4S15rV6LtD5GM3L/view",
+        "sha256": "d8e156f047a9dfd0516ace502f391b76c1b84342bb3deaf28caea1d5a27de0a2"
+      },
+      {
+        "kind": "still image",
+        "use": "the cover for the film, or the media if Justin chooses an image post",
+        "driveLink": "https://drive.google.com/file/d/1i8kdNQQuoh75uQqBThCdCx3x8idLcl3S/view",
+        "sha256": "aecade582682896dc293ce9d7e0688bf4b50a42395bf936e14a5905dc8816fd1"
+      }
     ],
+    "why": [],
     "rules": [
       "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
       "Do not create a second draft if one exists for this GDC number.",
+      "Media: if mediaAttachPermitted is true, attach the files in mediaToAttach to the existing draft for this GDC number, from the exact Drive links given, and change nothing else in it. Never a file from anywhere else, never a regenerated or edited version.",
       "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
       "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
     ]

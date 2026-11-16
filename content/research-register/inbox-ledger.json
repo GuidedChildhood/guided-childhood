@@ -120,6 +120,29 @@
      "warnings": []
     }
    ]
+  },
+  "c6ac056d06848fab5397f4f6a4565e23511061eb9b830a4ba9cccca3eaf4d553": {
+   "batchId": "2026-11-16-claude-directed-justin",
+   "createdBy": "claude-code-directed, idea from Justin and ChatGPT, sources read by Claude",
+   "createdAt": "2026-11-16T13:50:00Z",
+   "readAs": "as sent",
+   "driveFileId": null,
+   "driveTitle": "Claude directed, Gelman and Meta, from Justin",
+   "ingestedAt": "2026-11-16T13:42:42.969Z",
+   "results": [
+    {
+     "candidateId": "C-2026-11-16-GELMAN",
+     "title": "Meta discussed attacking Jonathan Haidt, now even his haters are annoyed",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-29a4765c83",
+     "band": "PERIPHERAL",
+     "score": 0,
+     "reasons": [],
+     "warnings": [
+      "a news report is a pointer, not a source. The review will look for the primary document behind it."
+     ]
+    }
+   ]
   }
  },
  "candidates": {
@@ -225,6 +248,20 @@
    "warnings": [],
    "batchId": "2026-11-13-chatgpt-0800",
    "at": "2026-11-13T09:20:04.244Z"
+  },
+  "2026-11-16-claude-directed-justin/C-2026-11-16-GELMAN": {
+   "candidateId": "C-2026-11-16-GELMAN",
+   "title": "Meta discussed attacking Jonathan Haidt, now even his haters are annoyed",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-29a4765c83",
+   "band": "PERIPHERAL",
+   "score": 0,
+   "reasons": [],
+   "warnings": [
+    "a news report is a pointer, not a source. The review will look for the primary document behind it."
+   ],
+   "batchId": "2026-11-16-claude-directed-justin",
+   "at": "2026-11-16T13:42:42.969Z"
   }
  }
 }
