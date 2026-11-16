@@ -303,3 +303,14 @@ Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach scree
 - Built in `tools/motion-engine/` as its own package. HyperFrames films stay a separate lane.
 - Its gate refuses uncleared numbers, causal wording, a missing source or limitation and any record not Claude reviewed. It records files through `assets.mjs`; Drive, Metricool and the post register are unchanged.
 - No Higgsfield footage generated: that spends credits and waits on Justin.
+
+### 16 November 2026: the researcher watch and the parent problems map
+
+`npm run radar-people` (scripts/radar/people.mjs) lists new papers by Odgers,
+Haidt and Knibbs (Europe PMC, Crossref) and Haidt's After Babel feed into
+content/research-watch/, for a Claude review: SUPPORT, CHALLENGE, CONTEXT or
+SKIP, a challenge only on the evidence. LinkedIn likes and reposts cannot be
+read. Knibbs is not named beside our advice. parent-issues.md maps ten common
+parent problems to a radar stream, our belief and a real product surface.
+Runs in the Monday radar sweep.
+
