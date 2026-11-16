@@ -303,3 +303,7 @@ Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach scree
 - Built in `tools/motion-engine/` as its own package. HyperFrames films stay a separate lane.
 - Its gate refuses uncleared numbers, causal wording, a missing source or limitation and any record not Claude reviewed. It records files through `assets.mjs`; Drive, Metricool and the post register are unchanged.
 - No Higgsfield footage generated: that spends credits and waits on Justin.
+
+## 16 November 2026: four older games point to their Etsy listings
+
+- A to Z Showdown (4614794043), Ice Cream Shop (4614808978), School Year Planner (4614796575) and Word Fishing (4614809538) went live on Etsy around 11 to 14 November, so their free taster rows move from no-listing to live and the rebuilt taster bands now link to the listing.
