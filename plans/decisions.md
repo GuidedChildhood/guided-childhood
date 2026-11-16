@@ -297,3 +297,9 @@ Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach scree
 - Justin's yes. A new parent now goes straight in free and lands on setup, whose first step is the home screen and reminders. The founder or free choice is owed only after their first check in (`needsPlanChoice`). It reverses the 14 August placement at the end of sign up, because the one live family left at that screen before seeing the product.
 - Still its own route behind the middleware, so once owed it cannot be skipped. A parent who never checks in meets the upgrade page when the free days end.
 - Homepage line and THE STORY section 9 changed to match. No migration.
+## 16 November 2026: the premium motion engine for research cards
+
+- Justin asked for a Remotion engine making a PNG and a 14 second MP4 per approved story, 1080 by 1350, warm ivory, navy, restrained yellow. This brief settles the look for evidence posts, open since 12 November.
+- Built in `tools/motion-engine/` as its own package. HyperFrames films stay a separate lane.
+- Its gate refuses uncleared numbers, causal wording, a missing source or limitation and any record not Claude reviewed. It records files through `assets.mjs`; Drive, Metricool and the post register are unchanged.
+- No Higgsfield footage generated: that spends credits and waits on Justin.
