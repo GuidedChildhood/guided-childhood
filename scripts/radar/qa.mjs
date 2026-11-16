@@ -27,6 +27,7 @@
 // image, and cannot read LinkedIn. It checks a pack against the handoff and
 // the house rules. Truth is the dossier's job and the directed review's job.
 
+import { checkSpec as checkCard } from '../../tools/motion-engine/scripts/gate.mjs'
 import { readFileSync, existsSync, writeFileSync, mkdtempSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
@@ -406,6 +407,21 @@ export function checkPack(pack, { record = null, corpus = null, postRegisterPath
       'checked the brief wording')
   } else {
     add('a visual brief is present, or the pack says there is none', false, 'no visual section and no statement that the post is text only. Write the brief, or write NONE under ASSETS USED.')
+  }
+
+  // 8a. CARD TEXT, when the pack has one, goes through the research card
+  // engine's own gate: cleared figures only, no causal wording, a source and a
+  // limitation, no dash, the field lengths and the word count. A pack without
+  // one is fine; the card is optional.
+  if (pack?.card) {
+    const c = pack.card
+    const g = checkCard({
+      gdcPostNumber: pack.gdcPostNumber, researchId: pack.researchId, notForPublication: false,
+      eyebrow: 'NEW RESEARCH', headline: c.headline, finding: { text: c.finding },
+      context: c.context, source: c.source, limitation: c.limitation,
+    }, rec)
+    add('the CARD TEXT passes the research card gate', g.verdict === 'PASS',
+      g.verdict === 'PASS' ? `${g.words} words, every figure cleared` : g.reasons.join('; '))
   }
 
   // 9. Approval status. Nothing may claim approval it does not have.

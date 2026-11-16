@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendPush } from '@/lib/push/send'
 import { parentFirstName } from '@/lib/email/parent-name'
-import { ASK_KEYS, ASK_QUESTIONS, askTokenValid } from '@/lib/asks/stalled'
+import { ASK_QUESTIONS, askTokenValid, LEAD_ASK_QUESTIONS, leadAskTokenValid } from '@/lib/asks/stalled'
 
 // ONE ANSWER FROM A PARENT WHO STOPPED, saved and sent to Justin's phone.
 //
@@ -18,29 +18,47 @@ import { ASK_KEYS, ASK_QUESTIONS, askTokenValid } from '@/lib/asks/stalled'
 const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()
 
 export async function POST(req: Request) {
-  const body = await req.json().catch(() => null) as { u?: string; k?: string; question?: string; answer?: string } | null
-  if (!body || !askTokenValid(body.u, body.k)) return NextResponse.json({ error: 'This link has expired.' }, { status: 401 })
+  const body = await req.json().catch(() => null) as { u?: string; l?: string; k?: string; question?: string; answer?: string } | null
+  // Two kinds of link (16 November 2026): u, an account that stopped, and l, a
+  // stage check visitor who never made one. Each is signed under its own
+  // prefix, so neither can stand in for the other.
+  const isLead = !!body?.l
+  if (!body || !(isLead ? leadAskTokenValid(body.l, body.k) : askTokenValid(body.u, body.k))) {
+    return NextResponse.json({ error: 'This link has expired.' }, { status: 401 })
+  }
+  const questions = isLead ? LEAD_ASK_QUESTIONS : ASK_QUESTIONS
   const question = typeof body.question === 'string' ? body.question : ''
   const answer = typeof body.answer === 'string' ? body.answer.trim().slice(0, 2000) : ''
-  if (!ASK_KEYS.has(question) || !answer) return NextResponse.json({ error: 'Nothing to save.' }, { status: 400 })
-  const spec = ASK_QUESTIONS.find(q => q.key === question)!
+  const spec = questions.find(q => q.key === question)
+  if (!spec || !answer) return NextResponse.json({ error: 'Nothing to save.' }, { status: 400 })
   if (spec.options && !spec.options.includes(answer)) return NextResponse.json({ error: 'Nothing to save.' }, { status: 400 })
 
   const admin = createAdminClient()
-  const userId = body.u as string
-  const { data: parent } = await admin.from('profiles').select('id, full_name, email').eq('id', userId).maybeSingle()
-  if (!parent) return NextResponse.json({ error: 'This link has expired.' }, { status: 401 })
-
-  const { error } = await admin
-    .from('parent_answers')
-    .upsert({ user_id: userId, question, answer, updated_at: new Date().toISOString() }, { onConflict: 'user_id,question' })
-  if (error) return NextResponse.json({ error: 'That did not save. Please try again.' }, { status: 500 })
+  let who: string
+  if (isLead) {
+    const leadId = body.l as string
+    const { data: lead } = await admin.from('starter_leads').select('id').eq('id', leadId).maybeSingle()
+    if (!lead) return NextResponse.json({ error: 'This link has expired.' }, { status: 401 })
+    const { error } = await admin
+      .from('parent_answers')
+      .upsert({ lead_id: leadId, question, answer, updated_at: new Date().toISOString() }, { onConflict: 'lead_id,question' })
+    if (error) return NextResponse.json({ error: 'That did not save. Please try again.' }, { status: 500 })
+    who = 'A stage check visitor'
+  } else {
+    const userId = body.u as string
+    const { data: parent } = await admin.from('profiles').select('id, full_name, email').eq('id', userId).maybeSingle()
+    if (!parent) return NextResponse.json({ error: 'This link has expired.' }, { status: 401 })
+    const { error } = await admin
+      .from('parent_answers')
+      .upsert({ user_id: userId, question, answer, updated_at: new Date().toISOString() }, { onConflict: 'user_id,question' })
+    if (error) return NextResponse.json({ error: 'That did not save. Please try again.' }, { status: 500 })
+    who = parentFirstName(parent.full_name as string | null, parent.email as string | null) ?? 'A parent'
+  }
 
   // Tell Justin. Best effort: an answer is saved whether or not his phone hears.
   try {
     const { data: founder } = await admin.from('profiles').select('id').ilike('email', FOUNDER_EMAIL).limit(1).maybeSingle()
     if (founder?.id) {
-      const who = parentFirstName(parent.full_name as string | null, parent.email as string | null) ?? 'A parent'
       await sendPush({
         userId: founder.id as string,
         title: `${who} answered: ${spec.label}`,

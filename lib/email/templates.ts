@@ -1094,6 +1094,38 @@ export function tasterStageEmail(params: {
   }
 }
 
+// One day of a topic email course (lib/courses/registry.ts, 16 November 2026).
+// The copy is the checked pack's, word for word; this only lays it out. The
+// preview line is hidden text first in the body, which is what most inboxes
+// show beside the subject. Tonight's one thing is set apart so a tired parent
+// who reads nothing else still sees it.
+export function courseDayEmail(params: {
+  courseTitle: string
+  day: number
+  days: number
+  subject: string
+  preview: string
+  paragraphs: string[]
+  tonight: string
+  link: { label: string; url: string } | null
+  unsubscribe: string
+}): EmailContent {
+  const { courseTitle, day, days, subject, preview, paragraphs, tonight, link, unsubscribe } = params
+  return {
+    subject,
+    html: wrapper(
+      `<div style="display:none;max-height:0;overflow:hidden;opacity:0">${preview}</div>` +
+      `<div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${BUTTER_DARK};margin:0 0 10px">${courseTitle} · day ${day} of ${days}</div>` +
+      heading(subject) +
+      p('Hello,') +
+      paragraphs.map(t => p(t)).join('') +
+      `<div style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:16px 18px;margin:8px 0 4px"><strong>Tonight:</strong> ${tonight}</div>` +
+      (link ? button(link.label, link.url) : ''),
+      unsubscribe
+    ),
+  }
+}
+
 // The one email for the under 4 list (lib/starter/turns-four.ts): the month
 // the child turns 4, and never before.
 export function turnsFourEmail(params: { unsubscribe: string; cta: string }): EmailContent {
@@ -2138,6 +2170,41 @@ export function stalledAskEmail(params: {
       heading('I will stop asking after this.') +
       p(`${hello} This is the last time I will ask, and then I will leave you in peace.`) +
       p(`If Guided Childhood was not right for your family, I would like to know why, so I can make it right for the next parent. One tap tells me.`) +
+      button('One tap, then I am done', askUrl),
+      unsubscribe
+    ),
+  }
+}
+
+// The two asks to a stage check visitor who never made an account (16 November
+// 2026, lib/asks/stalled.ts). Shorter than the account asks, because they gave
+// us less, and honest that this is the last of two.
+export function leadAskEmail(params: {
+  step: 'lead-ask-1' | 'lead-ask-2'
+  childName: string
+  askUrl: string
+  unsubscribe: string
+}): EmailContent {
+  const { step, childName, askUrl, unsubscribe } = params
+  if (step === 'lead-ask-1') {
+    return {
+      subject: 'Can I ask what stopped you?',
+      html: wrapper(
+        heading('One tap would help me a lot.') +
+        p(`Hi, it is Justin. You did the stage check for ${childName} and saw where they are. Thank you for that.`) +
+        p(`You did not go on to save the pathway, which is completely fine. I would like to know why, because it is the most useful thing I can learn this week. It is one tap, and there are two short questions after it only if you have a minute.`) +
+        button('Tell me what stopped you', askUrl) +
+        p(`There is nothing to sign up for, and I read every answer myself.`),
+        unsubscribe
+      ),
+    }
+  }
+  return {
+    subject: 'Last one from me on this',
+    html: wrapper(
+      heading('I will stop asking after this.') +
+      p(`Hi, it is Justin. I asked a few days ago what stopped you saving ${childName === 'your child' ? 'the' : `${childName}'s`} pathway after the stage check. This is the last time I will ask.`) +
+      p(`If it was not right for your family, one tap tells me why, so I can make it right for the next parent.`) +
       button('One tap, then I am done', askUrl),
       unsubscribe
     ),

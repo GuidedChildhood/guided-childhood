@@ -44,6 +44,12 @@ never disagreement for its own sake. Knibbs is a clinician and is never named
 beside our advice. LinkedIn activity cannot be read. A survivor becomes a
 radar candidate like any other finding, and `parent-issues.md` in the same
 folder says which parent problem and product surface it lands on.
+Write each review into `content/research-watch/reviews.json` (verdict, how
+much was read, design, finding, limitations, our position, parent problem),
+rerun `npm run radar-people` so the digest is rebuilt from them, then copy the
+digest into the Stage 2 Drive folder as a Google Doc titled
+`RESEARCHER WATCH <date>, Claude reviewed, not cleared for posts`, and read it
+back. ChatGPT reads it there for the 08:00 candidates.
 
 **Record what you could not reach.** The proxy in this container blocks most
 publishers, Crossref, OpenAlex, Semantic Scholar, PubMed and doi.org. If a
