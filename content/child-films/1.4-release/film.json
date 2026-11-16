@@ -1,0 +1,410 @@
+{
+ "slug": "when-screens-make-you-sad",
+ "vertical": [
+  6,
+  18
+ ],
+ "still": 253,
+ "thumb_title": "The uh oh feeling",
+ "thumb_sub": "Turn it over. Go and tell",
+ "hook": "How to help a five year old tell you when a screen upsets them",
+ "lines": [
+  {
+   "s": 0.0,
+   "e": 7.9,
+   "caps": [
+    "Hello, I'm DiGi. This one's for you and your grown up.",
+    "Snuggle up. Ready?"
+   ]
+  },
+  {
+   "s": 9.0,
+   "e": 15.96,
+   "caps": [
+    "Before we start, let's do our big breath.",
+    "Breathe in, and out."
+   ]
+  },
+  {
+   "s": 16.9,
+   "e": 20.2,
+   "caps": [
+    "Lovely. Now, my memory question."
+   ],
+   "say": "... Lovely. Now, my memory question."
+  },
+  {
+   "s": 20.96,
+   "e": 28.75,
+   "caps": [
+    "Last time we learned something very important.",
+    "When a message pops up on a screen, who is on the other side?"
+   ]
+  },
+  {
+   "s": 29.4,
+   "e": 35.08,
+   "caps": [
+    "A real person. That's right.",
+    "A real person with real feelings."
+   ]
+  },
+  {
+   "s": 35.9,
+   "e": 40.92,
+   "caps": [
+    "And guess what? You have real feelings too.",
+    "That's what today is all about."
+   ]
+  },
+  {
+   "s": 41.98,
+   "e": 47.16,
+   "caps": [
+    "Today we learn one big thing.",
+    "Screens can give us big feelings."
+   ]
+  },
+  {
+   "s": 48.08,
+   "e": 52.58,
+   "caps": [
+    "And when a screen gives you a yucky feeling,",
+    "you'll know just what to do."
+   ]
+  },
+  {
+   "s": 53.2,
+   "e": 56.68,
+   "caps": [
+    "Say our special word. Feeling."
+   ]
+  },
+  {
+   "s": 58.44,
+   "e": 60.72,
+   "caps": [
+    "Screens can give us lots of feelings."
+   ]
+  },
+  {
+   "s": 61.62,
+   "e": 67.66,
+   "caps": [
+    "Sometimes we watch something funny and our tummy feels happy and giggly.",
+    "That's a lovely feeling."
+   ]
+  },
+  {
+   "s": 68.4,
+   "e": 73.96,
+   "caps": [
+    "But sometimes, not very often, a screen shows something",
+    "that makes our tummy feel yucky."
+   ]
+  },
+  {
+   "s": 74.7,
+   "e": 80.72,
+   "caps": [
+    "A bit wobbly. A bit sad. Or a bit worried.",
+    "Maybe a scary picture pops up."
+   ]
+  },
+  {
+   "s": 81.36,
+   "e": 87.66,
+   "caps": [
+    "Maybe someone says something unkind in a game.",
+    "Maybe a video just feels wrong."
+   ]
+  },
+  {
+   "s": 88.76,
+   "e": 91.16,
+   "caps": [
+    "I call that the uh oh feeling."
+   ]
+  },
+  {
+   "s": 92.1,
+   "e": 98.22,
+   "caps": [
+    "And here's a secret. Your body is very clever.",
+    "When something isn't right, your body tells you."
+   ]
+  },
+  {
+   "s": 98.84,
+   "e": 104.7,
+   "caps": [
+    "Your tummy might feel funny. Your heart might go fast.",
+    "You might want to look away."
+   ]
+  },
+  {
+   "s": 105.6,
+   "e": 110.36,
+   "caps": [
+    "That's not you being silly.",
+    "That's your body being a good helper."
+   ]
+  },
+  {
+   "s": 111.36,
+   "e": 117.7,
+   "caps": [
+    "And if your tummy does not say anything, but something still seems wrong,",
+    "you can still turn it over and tell."
+   ]
+  },
+  {
+   "s": 118.78,
+   "e": 124.72,
+   "caps": [
+    "Pause me here. And grown up, ask your little one:",
+    "where do you feel a wobbly feeling?"
+   ],
+   "say": "Pause me here. And grown up, ask your little one: Where do you feel a wobbly feeling?"
+  },
+  {
+   "s": 125.4,
+   "e": 128.41,
+   "caps": [
+    "Point to it. Point to where the feeling lives."
+   ]
+  },
+  {
+   "s": 129.28,
+   "e": 129.98,
+   "caps": [
+    "I'll wait."
+   ]
+  },
+  {
+   "s": 130.74,
+   "e": 133.53,
+   "caps": [
+    "So what do we do when the uh oh feeling comes?"
+   ]
+  },
+  {
+   "s": 134.42,
+   "e": 137.64,
+   "caps": [
+    "Just two little steps. Ready?"
+   ]
+  },
+  {
+   "s": 138.64,
+   "e": 142.46,
+   "caps": [
+    "Step one. Turn it over."
+   ]
+  },
+  {
+   "s": 143.7,
+   "e": 147.38,
+   "caps": [
+    "Turn the screen over so you can't see it."
+   ]
+  },
+  {
+   "s": 148.12,
+   "e": 154.38,
+   "caps": [
+    "Step two. Go and tell your grown up.",
+    "That's it."
+   ]
+  },
+  {
+   "s": 155.52,
+   "e": 161.8,
+   "caps": [
+    "You don't have to work out why the feeling came.",
+    "You don't have to fix it all by yourself."
+   ]
+  },
+  {
+   "s": 163.0,
+   "e": 171.24,
+   "caps": [
+    "Turning it over and telling.",
+    "That's the whole job, and you can do it."
+   ]
+  },
+  {
+   "s": 172.94,
+   "e": 177.24,
+   "caps": [
+    "Here's a lovely thing you might hear tonight.",
+    "A child might say,"
+   ]
+  },
+  {
+   "s": 178.66,
+   "e": 181.8,
+   "caps": [
+    "\"Something on the screen made me feel yucky.\""
+   ]
+  },
+  {
+   "s": 182.92,
+   "e": 189.82,
+   "caps": [
+    "And the grown up says, warm as anything,",
+    "\"Thank you for telling me."
+   ],
+   "say": "And the grown up says, warm as anything, Thank you for telling me."
+  },
+  {
+   "s": 190.82,
+   "e": 196.34,
+   "caps": [
+    "You are never in trouble for telling me.",
+    "I'm so glad you did.\""
+   ]
+  },
+  {
+   "s": 197.74,
+   "e": 202.9,
+   "caps": [
+    "Did you hear that?",
+    "Telling is never naughty."
+   ]
+  },
+  {
+   "s": 204.06,
+   "e": 212.04,
+   "caps": [
+    "A yucky feeling doesn't mean you did something wrong.",
+    "It means your clever body is asking for help."
+   ]
+  },
+  {
+   "s": 213.1,
+   "e": 218.3,
+   "caps": [
+    "And when you tell your grown up,",
+    "they can help you feel better."
+   ]
+  },
+  {
+   "s": 220.4,
+   "e": 225.58,
+   "caps": [
+    "Grown up, this one's yours to say.",
+    "Pause me and tell them,"
+   ]
+  },
+  {
+   "s": 226.38,
+   "e": 235.78,
+   "caps": [
+    "\"If a screen ever gives you the uh oh feeling,",
+    "you can always come to me.",
+    "You will never be in trouble.\""
+   ]
+  },
+  {
+   "s": 237.18,
+   "e": 241.56,
+   "caps": [
+    "Say it slowly, like you mean it.",
+    "They'll remember it forever."
+   ]
+  },
+  {
+   "s": 242.46,
+   "e": 247.44,
+   "caps": [
+    "Now our special sentence.",
+    "Three times, big voices!"
+   ]
+  },
+  {
+   "s": 248.6,
+   "e": 250.96,
+   "caps": [
+    "Turn it over. Go and tell."
+   ]
+  },
+  {
+   "s": 252.06,
+   "e": 254.9,
+   "caps": [
+    "Turn it over. Go and tell."
+   ]
+  },
+  {
+   "s": 256.6,
+   "e": 260.5,
+   "caps": [
+    "Turn it over. Go and tell."
+   ]
+  },
+  {
+   "s": 261.46,
+   "e": 266.28,
+   "caps": [
+    "Tonight, play the high five game.",
+    "Grown up, you call out, \"Uh oh feeling!\""
+   ]
+  },
+  {
+   "s": 267.14,
+   "e": 274.23,
+   "caps": [
+    "Little one, turn a screen face down.",
+    "Then run as fast as you can and give your grown up a great big high five."
+   ]
+  },
+  {
+   "s": 274.44,
+   "e": 281.78,
+   "caps": [
+    "Do it two or three times, giggling all the way.",
+    "Now your body knows exactly what to do without even thinking."
+   ]
+  },
+  {
+   "s": 283.06,
+   "e": 288.56,
+   "caps": [
+    "Before I go, show your grown up one thing you remember from today.",
+    "Anything at all."
+   ]
+  },
+  {
+   "s": 289.16,
+   "e": 290.68,
+   "caps": [
+    "Got it? Brilliant."
+   ]
+  },
+  {
+   "s": 291.44,
+   "e": 297.69,
+   "caps": [
+    "And grown up, every time they run to you instead of hiding,",
+    "that's your win. Keep the door open."
+   ]
+  },
+  {
+   "s": 298.29,
+   "e": 302.98,
+   "caps": [
+    "Remember, little one, all your feelings are okay.",
+    "Every single one."
+   ]
+  },
+  {
+   "s": 303.68,
+   "e": 307.42,
+   "caps": [
+    "And remember, screens are better together.",
+    "See you next time."
+   ]
+  }
+ ]
+}
