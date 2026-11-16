@@ -12,6 +12,12 @@ import { createHash } from 'crypto'
 // one tag. Mailchimp starts the school funnel journey from the tag, so the
 // journey is built and changed in Mailchimp, never in this code.
 //
+// THE SCHOOL GOES IN COMPANY (16 November 2026). The school funnel runs in the
+// one shared audience, where every school contact already carries its school
+// name in the Company field (*|COMPANY|*) and there is no SCHOOL field. The
+// three school emails name the school from *|COMPANY|*, so a pilot school is
+// written there too, or its emails would fall back to "your school".
+//
 // IDEMPOTENT. A member is written with PUT on the hash of the lower case
 // address, so a second call updates the same person rather than adding a
 // duplicate, and a tag already on a member is a no op.
@@ -73,10 +79,10 @@ export async function addSchoolToFunnel(contact: {
       body: JSON.stringify({
         email_address: contact.email.trim(),
         status_if_new: 'subscribed',
-        merge_fields: { FNAME: first, LNAME: last, SCHOOL: contact.schoolName.slice(0, 255) },
+        merge_fields: { FNAME: first, LNAME: last, COMPANY: contact.schoolName.slice(0, 255) },
       }),
     })
-    // An audience without a SCHOOL field refuses the whole write. Write it
+    // An audience without a COMPANY field refuses the whole write. Write it
     // again with the names alone rather than lose the contact.
     if (put.status === 400) {
       const retry = await fetch(base, {
