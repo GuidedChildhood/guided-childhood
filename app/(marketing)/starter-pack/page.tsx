@@ -495,6 +495,18 @@ export default function StarterPackPage() {
     fetch('/api/video-link/started', { method: 'POST', keepalive: true }).catch(() => {})
   }, [step])
 
+  // And the two steps after it (migration 398): their pathway reached, and the
+  // save screen opened. Round 1 of the paid adverts had 8 starts and no
+  // accounts, and this is what says where they stop. The server counts each
+  // once per browser per follow, and only after a counted start.
+  const stepsCounted = useRef<Set<string>>(new Set())
+  useEffect(() => {
+    const name = step === 'result' ? 'pathway' : step === 'account' ? 'save' : null
+    if (!name || accountMade || stepsCounted.current.has(name)) return
+    stepsCounted.current.add(name)
+    fetch('/api/video-link/step', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ step: name }) }).catch(() => {})
+  }, [step, accountMade])
+
   useEffect(() => {
     if (step === 'result' && ageBand && challenge && feeling && timeCommitment) {
       // `worries` is what the parent actually said and what setup reads back.
