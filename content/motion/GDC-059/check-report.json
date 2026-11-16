@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-11-16T13:08:12.196Z",
+  "passed": false,
+  "fails": [
+    "one frame jumps at frames 24, 27: a stutter or a flicker"
+  ],
+  "facts": {
+    "video": {
+      "codec": "h264",
+      "width": 1080,
+      "height": 1350,
+      "fps": "30/1",
+      "pixfmt": "yuv420p",
+      "frames": 510,
+      "seconds": 17,
+      "bytes": 2093859
+    },
+    "fullDecode": "clean",
+    "boxOrder": "ftyp moov free mdat",
+    "png": {
+      "codec": "png",
+      "width": 1080,
+      "height": 1350
+    },
+    "motion": {
+      "frames": 510,
+      "meanChangeWhileBuilding": 0.45,
+      "largestChangeAfterLanding": 0.592,
+      "meanChangeAfterLanding": 0.173,
+      "stillSeconds": 11.9,
+      "oneFrameJumps": [
+        24,
+        27
+      ]
+    },
+    "stillMatchesLastFrame": 0.369,
+    "contrast": {
+      "ink": 13.88,
+      "inkSoft": 6.16,
+      "goldInk": 5.19
+    }
+  }
+}
