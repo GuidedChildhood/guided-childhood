@@ -116,6 +116,8 @@ credits.
 
 ## Step 3, plan only: booking a watch together time
 
+Superseded by Justin's fuller brief the same day: `plans/2026-11-16-watch-together-booking-plan.md`. The notes below are the first sketch.
+
 Nothing is built until Justin says yes to this section.
 
 ### What exists already

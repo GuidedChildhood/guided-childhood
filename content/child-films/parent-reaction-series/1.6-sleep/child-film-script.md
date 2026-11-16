@@ -81,7 +81,7 @@ DIDGEE: Winding down is the slow, quiet bit before sleep. Like a toy that slows 
 
 **5. Teach** (0:58)
 PICTURE: Night outside the window. Pebble yawns a huge yawn and stretches. Small stars appear in the sky one by one.
-DIDGEE: When you sleep, your body rests, and your brain tidies away all the things you did today. CHECK
+DIDGEE: When you sleep, your body gets the rest it needs.
 DIDGEE: That is why everybody needs sleep. Grown ups too. And Pebble. Pebble needs a lot.
 
 PICTURE: A tablet on a table, showing a bright, busy, happy cartoon. Pebble's eyes are wide open, very awake. The tablet is drawn friendly, not scary.
@@ -165,13 +165,13 @@ lines.
 the middle square of each picture on cream, full captions under the picture so
 it reads with the sound off, the stage check card for the last five seconds.
 
-## CHECK before recording
+## The one line about the body
 
-Beat 5, "your body rests, and your brain tidies away all the things you did
-today". It is the one line that says what sleep does. It is held to the cleared
-list before Tamsin reads it. If no checked source covers it, it becomes "When
-you sleep, your body gets the rest it needs", which claims nothing beyond the
-obvious. Nothing else in the film states a fact about the body.
+Beat 5 first said that the brain "tidies away" the day during sleep. No cleared
+source in the register covers that for children of 4 to 7, so on 16 November it
+became the fallback, "When you sleep, your body gets the rest it needs", which
+claims nothing beyond the obvious. Nothing else in the film states a fact about
+the body.
 
 ## Parent note, for beside the film
 
