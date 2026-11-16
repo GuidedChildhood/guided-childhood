@@ -497,3 +497,9 @@ After Justin completed Meta's identity check, Instagram messages joined the Busi
 - Justin: "Yes, two short emails". A stage check visitor who never made an account is asked on day 2 and four days later, three short questions, one tap first, answers on the founder's asks page and a push to his phone. Not sent to anyone running a topic course.
 - Migration 399 lets parent_answers hold a lead. Until it is applied no lead link goes out, because its answer could not be saved.
 - Found on the way: migration 396 (consent) is not applied on the live database. The course and the lead asks read every column so they work either way. PRs 1584 and this one.
+
+## 16 November 2026: weekly ad loop, round 1 read, left out wins, round 2 is left out by school year
+
+- Round 1 (live 12 to 16 November, £19.96, 16,542 reached): left out began 8 stage checks from 6,438 reached, 1.2 per thousand at £1.78 a check, every one after the one tap question one went in on 14 November. The other five began none and are retired. No signups yet from the 8, so the next leak sits after the check.
+- Round 2 is left out three times with only the school year changed (Year 5, 6, 7; proven rule 10), left out itself as the control. Gate passed, the old hallway scene reused, no Higgsfield credits spent. Not loaded: the three link codes must be made on the founder links page first, and loading is Justin's word.
+- Competitors: Kairoo has no live UK adverts (its generated families never reached 30 days). Four Qustodio adverts past 80 days logged. Nobody says what left out says.
