@@ -72,7 +72,12 @@ for (const id of legacyIds) {
 // A key nothing writes is dead weight that reads as coverage. Both of the two
 // invented last time (bedtime, homework) looked entirely plausible sitting in
 // the map, which is exactly why they survived review.
-const known = new Set([...liveIds, ...legacyIds])
+// Folded tiles (16 November 2026) are still written by families who picked
+// them, so they still count, and still need a label.
+const retiredBlock = worriesFile.match(/const RETIRED_WORRIES\b[^=]*=\s*\[([\s\S]*?)\n\]/)
+const retiredIds = [...(retiredBlock?.[1] ?? '').matchAll(/id:\s*'([a-z_]+)'/g)].map(m => m[1])
+for (const id of retiredIds) check(`retired ${id} still resolves`, id in CHALLENGE_LABELS)
+const known = new Set([...liveIds, ...legacyIds, ...retiredIds])
 for (const id of Object.keys(CHALLENGE_LABELS)) {
   check(`${id} is an id something actually writes`, known.has(id))
 }

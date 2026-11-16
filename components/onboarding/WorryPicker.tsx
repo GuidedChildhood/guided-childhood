@@ -93,6 +93,10 @@ export default function WorryPicker({
               height: '100%',
               position: 'relative',
               transition: 'background 0.12s, box-shadow 0.12s',
+              // Something else spans the row: with twelve tiles above it, a
+              // lone card under one column read as a leftover rather than as
+              // the open door it is.
+              ...(w.id === CATCH_ALL_ID ? { gridColumn: '1 / -1', minHeight: 0 } : {}),
             }}
           >
             <span aria-hidden style={{
@@ -112,6 +116,15 @@ export default function WorryPicker({
                   then sees a tile still reading "Something else" has been
                   asked a question and shown our label back. */}
               {w.id === CATCH_ALL_ID && savedOther ? savedOther : w.label}
+            </span>
+            {/* What we bring for it (16 November 2026): the tile names the
+                problem and then what changes, so the grid reads as a menu of
+                help rather than a list of things going wrong at home. */}
+            <span style={{
+              fontSize: 'var(--text-sm)', fontWeight: 600, lineHeight: 1.35,
+              color: 'var(--ink-soft)', marginTop: -4,
+            }}>
+              {w.promise}
             </span>
             {primary !== undefined && (
               <span style={{ marginTop: 'auto', paddingTop: 6, minHeight: 19, display: 'block' }}>

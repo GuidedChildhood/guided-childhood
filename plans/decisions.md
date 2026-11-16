@@ -297,6 +297,12 @@ Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach scree
 - Justin's yes. A new parent now goes straight in free and lands on setup, whose first step is the home screen and reminders. The founder or free choice is owed only after their first check in (`needsPlanChoice`). It reverses the 14 August placement at the end of sign up, because the one live family left at that screen before seeing the product.
 - Still its own route behind the middleware, so once owed it cannot be skipped. A parent who never checks in meets the upgrade page when the free days end.
 - Homepage line and THE STORY section 9 changed to match. No migration.
+
+## 16 November 2026: the worry question asks what parents want help with
+
+- Justin, with the stage check grid: match it to what parents raise most, make it clear we bring the solutions, and do not break the daily tracking. The grid is now the twelve the problem sweep ranked (Mumsnet log plus UK surveys and Ofcom; Reddit and Facebook groups unreadable, stated), each tile with one line of what we bring. Question: "What would you like help with?"
+- New: Who they talk to in games, Group chats, They get round the rules, Homework on screens, Endless YouTube, Spending in games. Folded, not deleted: Controller fights, Mood after screens, Morning TV, in RETIRED_WORRIES so families who picked them keep everything.
+- Every tile still becomes a concern, a check in row, a focus strip and a script filter (check-focus-labels). No migration. `plans/2026-11-16-worry-question-top-12.md`.
 ## 16 November 2026: DiGi's recorded voice is Tamsin, a little slower
 
 - Justin chose by ear from six samples of the same 1.3 passage: Tamsin (Higgsfield preset 9eb5a147, seed_audio, speech rate minus 10, about 118 words a minute). Replaces Mabel (films) and Imogen (social) for every new recording.

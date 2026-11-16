@@ -161,7 +161,7 @@ export default async function AsksPage() {
         <Card>
           <p style={{ margin: 0, color: 'var(--ink-soft)', fontSize: 'var(--text-md)' }}>
             Nobody has typed one yet. Worth checking again in a fortnight rather than
-            concluding the nine are complete.
+            concluding the tiles are complete.
           </p>
         </Card>
       ) : (
@@ -187,7 +187,7 @@ export default async function AsksPage() {
       }}>
         {ranked.length === 0 && (
           <p style={{ margin: 0, padding: '14px 16px', color: 'var(--ink-soft)', fontSize: 'var(--text-md)' }}>
-            Nothing outside the nine yet.
+            Nothing outside the tiles yet.
           </p>
         )}
         {ranked.map(([slug, r], i) => (
