@@ -234,6 +234,12 @@ day because it was the wrong page. PR 1546.
 
 The one tap stage check (PR 1541) lets a parent join without a name or a birth month. Audited: nothing breaks, but a child with no birthday never ages up (the age up cron reads only children with one) and a skipped name shows as "Your child". Justin: ask for it after they join, to avoid blocks. So finish-setup keeps the age tapped and the day (onboarding_answers.ageYears, ageOn) and marks the family (askAbout) when either is missing; that family's Setup Quest leads with "Tell us about your child": the name and the birth month, the year worked out from the age. Saving writes the birthday and re-derives the band and stage, so the age up takes over. Shown only to marked families, so step numbers never shift. Round 1 adverts back on the same day at Justin's word.
 
+## 16 November 2026: every printable on guidedchildhood.com/free
+
+- Justin: "all printables should be free", then "make them all available on a page at the link" (the first link in the Instagram bio). Asked which he meant; he chose a taster for the eight £1.99 mini packs (live on Etsy since 11 November), not the whole thing, and to keep the six held tasters off the index (retired characters, the under fives game, the teachers' pack). They still open by direct link.
+- The mini packs are three or four pages, so their taster is one page (two for the Routine Picture Cards): the headline page free, the rest on Etsy. The half rule still holds for every pack.
+- New in content/printables/free-tasters.json: partOf (the page links to the bigger pack's taster) and letterSource (a US Letter taster too). The email series leaves out page emails a short taster has no page for.
+- Not changed: the 27 live taster pages and files. A to Z Showdown, the Ice Cream Shop, the School Year Planner and Word Fishing are now live on Etsy but still say no-listing; flipping them is a follow up.
 ## 14 November 2026: child films, Justin's four answers and the 1.3 test
 
 - The first five go out in the look they have now. The closing promise to the grown up is cut from public versions. Remakes wait until the five are out, 1.6 first.
@@ -296,3 +302,9 @@ Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach scree
 
 - After the one tap first question, 8 of 119 advert visitors started the stage check and none made an account, with nothing to say where they stopped (PostHog is not on for the live site). Justin said yes to counting it.
 - `video_link_events` gains two kinds, `pathway` and `save` (migration 398), counted once per browser per follow against the code the start was counted against, so per link it reads opened, started, pathway, save, account. Existing counts filter by kind and are unchanged. PR 1569.
+## 16 November 2026: the premium motion engine for research cards
+
+- Justin asked for a Remotion engine making a PNG and a 14 second MP4 per approved story, 1080 by 1350, warm ivory, navy, restrained yellow. This brief settles the look for evidence posts, open since 12 November.
+- Built in `tools/motion-engine/` as its own package. HyperFrames films stay a separate lane.
+- Its gate refuses uncleared numbers, causal wording, a missing source or limitation and any record not Claude reviewed. It records files through `assets.mjs`; Drive, Metricool and the post register are unchanged.
+- No Higgsfield footage generated: that spends credits and waits on Justin.

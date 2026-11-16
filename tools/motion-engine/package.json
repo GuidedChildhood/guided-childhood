@@ -1,0 +1,31 @@
+{
+  "name": "gc-motion-engine",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Guided Childhood research card motion engine. Remotion, React, TypeScript, FFmpeg.",
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "spec": "node scripts/build-spec.mjs",
+    "render": "node scripts/render.mjs",
+    "check": "node scripts/check.mjs",
+    "demo": "node scripts/render.mjs specs/demo-not-for-publication.json && node scripts/check.mjs out/demo-not-for-publication",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/test-gate.mjs",
+    "prepare-demo": "cp ../../public/digi-squad/DiGi-star.png public/objects/digi-star-test.png",
+    "demo:layers": "npm run prepare-demo && node scripts/render.mjs specs/demo-layers-not-for-publication.json && node scripts/check.mjs out/demo-layers-not-for-publication",
+    "record": "node scripts/record.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.539",
+    "@remotion/cli": "4.0.539",
+    "@remotion/renderer": "4.0.539",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "remotion": "4.0.539"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
+}

@@ -42,9 +42,11 @@ test('the old free pages keep their own routes', () => {
   for (const taken of ['planet-post', 'guided-times']) assert.ok(!rows.some(t => t.slug === taken), taken)
 })
 
-test('a taster is two or three pages and always fewer than half the pack', () => {
+test('a taster is one to three pages and always fewer than half the pack', () => {
   for (const t of rows) {
-    assert.ok(t.pages.length >= 2 && t.pages.length <= 3, `${t.slug}: ${t.pages.length} pages`)
+    // One page only for the mini packs (16 November 2026), three or four pages
+    // long, where two would be most of the thing. The half rule holds for all.
+    assert.ok(t.pages.length >= 1 && t.pages.length <= 3, `${t.slug}: ${t.pages.length} pages`)
     assert.ok(t.pages.length * 2 < t.pageCount, `${t.slug}: ${t.pages.length} of ${t.pageCount} is too much`)
     assert.equal(new Set(t.pages).size, t.pages.length, t.slug)
     assert.ok(t.pages.every(n => n >= 1 && n <= t.pageCount), t.slug)
@@ -53,9 +55,18 @@ test('a taster is two or three pages and always fewer than half the pack', () =>
 })
 
 test('every file a page or an email names is built and in public', () => {
-  for (const t of rows) {
+  for (const t of rows as (Row & { letterSource?: string; partOf?: string })[]) {
     assert.ok(existsSync(t.source), `${t.slug}: source ${t.source}`)
     assert.ok(existsSync(`public/printables/free/tasters/${t.slug}-taster-a4.pdf`), `${t.slug}: taster pdf`)
+    if (t.letterSource) {
+      assert.ok(existsSync(t.letterSource), `${t.slug}: letter source ${t.letterSource}`)
+      assert.ok(existsSync(`public/printables/free/tasters/${t.slug}-taster-letter.pdf`), `${t.slug}: letter taster pdf`)
+    }
+    // A mini pack points at the bigger pack it was cut from, which must be a promoted taster.
+    if (t.partOf) {
+      const parent = rows.find(r => r.slug === t.partOf)
+      assert.ok(parent && parent.status !== 'hold', `${t.slug}: partOf ${t.partOf} is not a promoted taster`)
+    }
     for (let i = 1; i <= t.pages.length; i++) {
       assert.ok(existsSync(`public/printables/free/tasters/${t.slug}-taster-p${i}.png`), `${t.slug}: preview ${i}`)
     }
