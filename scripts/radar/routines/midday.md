@@ -76,6 +76,12 @@ judgement, "not a rule that every post needs an image".
    It makes the PNG and the MP4 together and records them through
    `recordAsset` below, so nothing in this section changes. It never generates
    Higgsfield footage: that needs Justin's yes, because it spends credits.
+   A fresh container has no engine install: run `npm ci` in `tools/motion-engine`
+   once (about a minute), then follow its README. A render takes about four
+   minutes. If the pack carries a CARD TEXT section, build the spec from it;
+   otherwise from the record with `build-spec`. Either way the card gate runs
+   before a frame is drawn. If the install or render fails, record the failure
+   as step 4 says and the pack goes forward as text only.
 3. `recordAsset` runs `ffprobe` and a full decode, hashes the file and stores
    your review of the frames you looked at. An asset that does not verify, or
    was not looked at, holds the pack. Upload the file to the Founder Approval
