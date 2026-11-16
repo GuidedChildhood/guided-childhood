@@ -754,7 +754,7 @@ async function handler(req: NextRequest) {
         const onSeries = lead.marketing_consent === true
         const sentKeys = sentByEmail.get(email.toLowerCase()) ?? new Set<string>()
         const age = daysSince(lead.taster_at as string)
-        const due: string | null = onSeries ? seriesEmailDue(age, sentKeys) : tasterEmailDue(age, sentKeys)
+        const due: string | null = onSeries ? seriesEmailDue(age, sentKeys, taster.pages.length) : tasterEmailDue(age, sentKeys)
         if (!due) continue
 
         // The generic day 1 nudge says the same thing less well. Stamped

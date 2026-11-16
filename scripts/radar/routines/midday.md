@@ -69,6 +69,13 @@ judgement, "not a rule that every post needs an image".
    `.claude/skills/explainer-video` and `talking-head-video/motion-standard.md`.
    Only words the review cleared go on screen. No chart, no number that is not
    cleared, no platform logo, no invented screen, no person, no character.
+   **When the decision is a still image or motion for an evidence post**, use
+   the research card engine in `tools/motion-engine/` (its README has the five
+   steps). Its gate refuses any number that is not cleared, causal wording, a
+   missing source or limitation, and any record that is not Claude reviewed.
+   It makes the PNG and the MP4 together and records them through
+   `recordAsset` below, so nothing in this section changes. It never generates
+   Higgsfield footage: that needs Justin's yes, because it spends credits.
 3. `recordAsset` runs `ffprobe` and a full decode, hashes the file and stores
    your review of the frames you looked at. An asset that does not verify, or
    was not looked at, holds the pack. Upload the file to the Founder Approval

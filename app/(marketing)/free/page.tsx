@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { listedTasters, tasterPreview } from '@/lib/magnets/tasters'
+import { listedTasters, tasterPreview, pagesWord } from '@/lib/magnets/tasters'
 
 // The free printables, in one place (13 October 2026; every taster added 11
 // November 2026). The two free newspapers lead, whole things to print and do.
@@ -56,14 +56,14 @@ export default function FreePrintables() {
 
       <h2 style={H2}>A free taster of every pack</h2>
       <p style={LEAD}>
-        Two or three pages of each printable pack, free to print tonight. If it earns its place on the fridge, the full pack is on Etsy, and free inside the app for members.
+        One, two or three pages of each printable pack, free to print tonight. If it earns its place on the fridge, the full pack is on Etsy, and free inside the app for members.
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 150px), 1fr))', gap: 14 }}>
         {tasters.map(t => (
           <Link key={t.slug} href={`/free/${t.slug}`} style={TILE}>
             <Image src={tasterPreview(t.slug, 1)} alt="" width={740} height={1047} sizes="(max-width: 760px) 50vw, 220px" style={IMG} />
             <span style={{ ...TILE_TITLE, fontSize: 'var(--text-md)' }}>{t.title}</span>
-            <span style={TILE_SUB}>Ages {t.ages} · {t.pages.length} free pages</span>
+            <span style={TILE_SUB}>Ages {t.ages} · {pagesWord(t.pages.length)} free</span>
           </Link>
         ))}
       </div>
