@@ -1,395 +1,395 @@
 1
-00:00:00,000 --> 00:00:05,622
+00:00:00,000 --> 00:00:05,097
 Hello, I'm DiGi. This one's for you and your grown up.
 
 2
-00:00:05,622 --> 00:00:08,496
+00:00:05,097 --> 00:00:07,796
 Snuggle up. Ready?
 
 3
-00:00:08,636 --> 00:00:12,789
+00:00:07,936 --> 00:00:12,362
 Before we start, let's do our big breath.
 
 4
-00:00:12,789 --> 00:00:15,403
+00:00:12,362 --> 00:00:15,103
 Breathe in, and out.
 
 5
-00:00:15,403 --> 00:00:16,997
+00:00:15,103 --> 00:00:17,063
 Lovely.
 
 6
-00:00:17,017 --> 00:00:21,888
+00:00:17,083 --> 00:00:21,197
 Now, thinking caps on. Remember our last adventure?
 
 7
-00:00:21,888 --> 00:00:25,217
+00:00:21,197 --> 00:00:24,058
 Some screen things are pretend.
 
 8
-00:00:25,217 --> 00:00:29,303
+00:00:24,058 --> 00:00:27,399
 So when we're not sure if something on a screen is real,
 
 9
-00:00:29,303 --> 00:00:30,998
+00:00:27,399 --> 00:00:28,895
 what do we ask?
 
 10
-00:00:30,998 --> 00:00:35,491
+00:00:28,895 --> 00:00:32,302
 That's right. We ask, "Is this real?"
 
 11
-00:00:35,491 --> 00:00:37,298
+00:00:32,302 --> 00:00:33,776
 Clever you.
 
 12
-00:00:37,298 --> 00:00:42,719
+00:00:33,776 --> 00:00:37,258
 Well, today we find something on the screen
 
 13
-00:00:42,719 --> 00:00:47,298
+00:00:37,258 --> 00:00:40,476
 that is real. Very, very real.
 
 14
-00:00:47,298 --> 00:00:50,459
+00:00:40,476 --> 00:00:43,272
 Today we learn one big thing.
 
 15
-00:00:50,459 --> 00:00:57,436
+00:00:43,272 --> 00:00:49,442
 The words you send on a screen land on a real person's feelings.
 
 16
-00:00:57,436 --> 00:01:00,403
+00:00:49,442 --> 00:00:52,109
 So we choose kind words.
 
 17
-00:01:00,403 --> 00:01:03,427
+00:00:52,109 --> 00:00:55,919
 Say our special word. Kind.
 
 18
-00:01:03,427 --> 00:01:08,236
+00:00:55,919 --> 00:01:01,809
 Just four little letters. K, I, N, D.
 
 19
-00:01:08,236 --> 00:01:10,043
+00:01:01,809 --> 00:01:03,114
 Look at this phone.
 
 20
-00:01:10,043 --> 00:01:13,848
+00:01:03,114 --> 00:01:05,861
 The screen looks like glass, doesn't it?
 
 21
-00:01:13,848 --> 00:01:16,869
+00:01:05,861 --> 00:01:08,156
 But here's a little secret.
 
 22
-00:01:16,869 --> 00:01:20,105
+00:01:08,156 --> 00:01:10,931
 It isn't glass at all. It's a window.
 
 23
-00:01:20,105 --> 00:01:26,069
+00:01:10,931 --> 00:01:16,156
 And on the other side of the window, there's a real person.
 
 24
-00:01:26,069 --> 00:01:29,106
+00:01:16,156 --> 00:01:18,798
 A real friend with a real heart.
 
 25
-00:01:29,106 --> 00:01:31,569
+00:01:18,798 --> 00:01:20,991
 A friend who giggles.
 
 26
-00:01:31,569 --> 00:01:36,508
+00:01:20,991 --> 00:01:25,284
 Who gets happy and sad and everything in between.
 
 27
-00:01:36,508 --> 00:01:38,919
+00:01:25,284 --> 00:01:27,511
 Just like you.
 
 28
-00:01:38,938 --> 00:01:42,805
+00:01:27,531 --> 00:01:31,007
 Now watch what happens when you type a word.
 
 29
-00:01:42,805 --> 00:01:43,672
+00:01:31,007 --> 00:01:31,844
 Hi.
 
 30
-00:01:43,672 --> 00:01:47,948
+00:01:31,844 --> 00:01:35,411
 The word doesn't stay on the glass. Oh no.
 
 31
-00:01:47,948 --> 00:01:52,619
+00:01:35,411 --> 00:01:39,424
 It folds itself into a tiny paper plane
 
 32
-00:01:52,619 --> 00:01:54,802
+00:01:39,424 --> 00:01:41,504
 and it flies through the window
 
 33
-00:01:54,802 --> 00:01:57,719
+00:01:41,504 --> 00:01:44,304
 all the way to the real person.
 
 34
-00:01:57,719 --> 00:02:02,224
+00:01:44,304 --> 00:01:48,004
 And it lands right on their feelings.
 
 35
-00:02:02,224 --> 00:02:08,869
+00:01:48,004 --> 00:01:53,804
 Kind words land warm, like a hug, like sunshine.
 
 36
-00:02:08,924 --> 00:02:11,020
+00:01:53,844 --> 00:01:55,715
 Now, one more true thing,
 
 37
-00:02:11,020 --> 00:02:14,473
+00:01:55,715 --> 00:01:58,844
 because you're big enough to know it.
 
 38
-00:02:14,473 --> 00:02:18,528
+00:01:58,844 --> 00:02:02,349
 Most people on the other side of the window are kind.
 
 39
-00:02:18,528 --> 00:02:20,806
+00:02:02,349 --> 00:02:04,384
 Most planes land warm.
 
 40
-00:02:20,806 --> 00:02:23,097
+00:02:04,384 --> 00:02:06,848
 But some people send unkind words,
 
 41
-00:02:23,097 --> 00:02:27,074
+00:02:06,848 --> 00:02:11,084
 and some people pretend to be someone they are not.
 
 42
-00:02:27,074 --> 00:02:30,741
+00:02:11,084 --> 00:02:14,264
 A bit like dressing up, but not for fun.
 
 43
-00:02:30,741 --> 00:02:34,415
+00:02:14,264 --> 00:02:17,673
 If that ever happens, you don't have to fix it.
 
 44
-00:02:34,415 --> 00:02:37,185
+00:02:17,673 --> 00:02:20,297
 You just tell your grown up.
 
 45
-00:02:37,185 --> 00:02:45,090
+00:02:20,297 --> 00:02:26,090
 Telling is never naughty, and it is never, ever your fault.
 
 46
-00:02:45,330 --> 00:02:46,629
+00:02:26,331 --> 00:02:27,320
 Pause me here.
 
 47
-00:02:46,629 --> 00:02:50,096
+00:02:27,320 --> 00:02:30,131
 Grown up, ask your little one:
 
 48
-00:02:50,096 --> 00:02:52,666
+00:02:30,131 --> 00:02:32,431
 when someone says something kind to you,
 
 49
-00:02:52,666 --> 00:02:55,338
+00:02:32,431 --> 00:02:34,897
 how does it feel in your tummy?
 
 50
-00:02:55,338 --> 00:02:58,707
+00:02:34,897 --> 00:02:38,031
 Have a little chat. I'll wait.
 
 51
-00:02:58,707 --> 00:03:01,981
+00:02:38,031 --> 00:02:40,543
 Here's how a chat like this can sound.
 
 52
-00:03:01,981 --> 00:03:07,875
+00:02:40,543 --> 00:02:45,231
 A child might say, "I like it when my friend says well done."
 
 53
-00:03:07,875 --> 00:03:10,415
+00:02:45,231 --> 00:02:47,593
 And the grown up says, "Me too.
 
 54
-00:03:10,415 --> 00:03:13,875
+00:02:47,593 --> 00:02:50,841
 It makes me feel happy right here."
 
 55
-00:03:13,875 --> 00:03:15,229
+00:02:50,841 --> 00:02:51,917
 And guess what?
 
 56
-00:03:15,229 --> 00:03:19,288
+00:02:51,917 --> 00:02:55,148
 Your kind words do the same for other people,
 
 57
-00:03:19,288 --> 00:03:22,454
+00:02:55,148 --> 00:02:57,871
 even through the screen.
 
 58
-00:03:22,713 --> 00:03:24,841
+00:02:58,141 --> 00:02:59,990
 You have a superpower.
 
 59
-00:03:24,841 --> 00:03:28,419
+00:02:59,990 --> 00:03:03,100
 Every day you get to pick your words,
 
 60
-00:03:28,419 --> 00:03:30,953
+00:03:03,100 --> 00:03:05,381
 little paper planes,
 
 61
-00:03:30,953 --> 00:03:34,992
+00:03:05,381 --> 00:03:09,142
 flying from your heart to somebody else's.
 
 62
-00:03:34,992 --> 00:03:38,056
+00:03:09,142 --> 00:03:12,047
 So we pick the warm ones,
 
 63
-00:03:38,056 --> 00:03:42,670
+00:03:12,047 --> 00:03:17,047
 because a real person catches every single plane.
 
 64
-00:03:42,670 --> 00:03:44,899
+00:03:17,047 --> 00:03:18,870
 And here's the helper part.
 
 65
-00:03:44,899 --> 00:03:48,862
+00:03:18,870 --> 00:03:22,111
 If someone on a screen is unkind to your friend,
 
 66
-00:03:48,862 --> 00:03:51,170
+00:03:22,111 --> 00:03:24,081
 you can be the helper.
 
 67
-00:03:51,170 --> 00:03:54,354
+00:03:24,081 --> 00:03:26,932
 You don't join in. You tell a grown up,
 
 68
-00:03:54,354 --> 00:03:58,470
+00:03:26,932 --> 00:03:30,647
 and you send your friend something extra kind.
 
 69
-00:03:58,470 --> 00:04:02,327
+00:03:30,647 --> 00:03:34,087
 So the warm planes outnumber the cold ones.
 
 70
-00:04:02,327 --> 00:04:05,031
+00:03:34,087 --> 00:03:36,607
 Helpers are heroes.
 
 71
-00:04:05,404 --> 00:04:08,268
+00:03:36,981 --> 00:03:39,537
 Pause me again. Grown up, ask:
 
 72
-00:04:08,268 --> 00:04:13,204
+00:03:39,537 --> 00:03:44,014
 who could we send a kind message to right now?
 
 73
-00:04:13,204 --> 00:04:16,163
+00:03:44,014 --> 00:03:46,267
 Pick one person you both love.
 
 74
-00:04:16,163 --> 00:04:18,517
+00:03:46,267 --> 00:03:48,181
 I'll be right here.
 
 75
-00:04:18,517 --> 00:04:24,193
+00:03:48,181 --> 00:03:51,781
 So when we look at a screen, what do we remember?
 
 76
-00:04:24,193 --> 00:04:29,099
+00:03:51,781 --> 00:03:56,388
 Say it with me, three times. Big voices!
 
 77
-00:04:29,099 --> 00:04:31,548
+00:03:56,388 --> 00:03:58,828
 Real person on the other side.
 
 78
-00:04:31,548 --> 00:04:33,891
+00:03:58,828 --> 00:04:01,468
 Real person on the other side.
 
 79
-00:04:33,891 --> 00:04:36,757
+00:04:01,468 --> 00:04:04,234
 Real person on the other side.
 
 80
-00:04:36,757 --> 00:04:40,251
+00:04:04,234 --> 00:04:07,638
 And here's the little bit that goes with it.
 
 81
-00:04:40,251 --> 00:04:44,503
+00:04:07,638 --> 00:04:11,801
 If someone is unkind, that is never your fault.
 
 82
-00:04:44,503 --> 00:04:47,335
+00:04:11,801 --> 00:04:14,138
 Go and tell.
 
 83
-00:04:47,603 --> 00:04:50,607
+00:04:14,401 --> 00:04:17,049
 Tonight, here's the fun bit.
 
 84
-00:04:50,607 --> 00:04:54,770
+00:04:17,049 --> 00:04:20,801
 Together, send one kind message
 
 85
-00:04:54,770 --> 00:04:59,317
+00:04:20,801 --> 00:04:24,827
 to Grandad, to a cousin, to a friend.
 
 86
-00:04:59,617 --> 00:05:01,090
+00:04:25,134 --> 00:04:26,683
 It can be tiny.
 
 87
-00:05:01,090 --> 00:05:05,330
+00:04:26,683 --> 00:04:31,089
 "I love you." "You are the best."
 
 88
-00:05:05,784 --> 00:05:09,142
+00:04:31,534 --> 00:04:34,614
 Or just a big smiley face.
 
 89
-00:05:09,150 --> 00:05:14,687
+00:04:34,614 --> 00:04:38,841
 Send it from your grown up's phone, snuggled up together.
 
 90
-00:05:14,687 --> 00:05:17,997
+00:04:38,841 --> 00:04:41,614
 Then watch what happens.
 
 91
-00:05:17,997 --> 00:05:22,635
+00:04:41,614 --> 00:04:45,734
 Somewhere, a real person will smile,
 
 92
-00:05:22,635 --> 00:05:26,703
+00:04:45,748 --> 00:04:49,287
 because your kind word just flew through the window
 
 93
-00:05:26,703 --> 00:05:30,255
+00:04:49,287 --> 00:04:52,508
 and landed right on their heart.
 
 94
-00:05:30,869 --> 00:05:37,494
+00:04:53,114 --> 00:04:57,872
 Before I go, show your grown up one thing you remember from today.
 
 95
-00:05:37,494 --> 00:05:40,035
+00:04:57,872 --> 00:04:59,948
 Anything at all.
 
 96
-00:05:40,035 --> 00:05:43,593
+00:04:59,948 --> 00:05:03,021
 Got it? Brilliant.
 
 97
-00:05:44,169 --> 00:05:49,506
+00:05:03,582 --> 00:05:07,615
 And grown up, one kind message tonight.
 
 98
-00:05:49,506 --> 00:05:53,018
+00:05:07,615 --> 00:05:10,377
 Remember, screens are better together.
 
 99
-00:05:53,018 --> 00:05:54,682
+00:05:10,377 --> 00:05:11,685
 See you next time.
