@@ -336,3 +336,8 @@ After Justin completed Meta's identity check, Instagram messages joined the Busi
 
 - Justin: leave "They'll remember it forever." in 1.4, and leave the dashed labels inside the old drawings for now.
 - Tamsin on Seed Audio does not sound real enough to him. Nine samples of the same 1.3 opening on ElevenLabs and MiniMax wait for his ear in `content/child-films/voice-test-2/`, at about 0.15 credits each. A real recorded voice is the other option. PR 1588.
+## 16 November 2026: DiGi's films re-voiced in Isla
+
+- Justin heard Tamsin as not real enough and chose Isla on ElevenLabs by ear (sample 5 of nine). All five first release films (1.1, 1.2, 1.3, 1.4, 1.5) are now in Isla's voice in both public shapes, subtitles rebuilt. DiGi's voice row in `digi-squad/README.md` now names Isla.
+- Every line was transcribed against its words before the build; one 1.4 line ("Screens" heard as "Screams") was redone.
+- About 52 credits for the four, so roughly 0.25 a line, not the 0.15 quoted. Nothing uploaded. PR 1588 and its follow up.
