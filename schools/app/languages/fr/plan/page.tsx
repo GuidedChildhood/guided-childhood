@@ -53,7 +53,7 @@ export default function FrenchPlanRoom() {
         <h2 id="handbook" style={{ ...eyebrow, margin: '0 0 var(--space-2)' }}>For a head or a subject lead</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 'var(--space-3)' }}>
           {[
-            { href: '/languages/fr/assessment', title: 'How progress is assessed', line: 'Same statements in both years: where the progress shows, and how it is recorded' },
+            { href: '/languages/fr/assessment', title: 'How progress is assessed', line: 'The checkpoint map: each code judged once a year, on which task, and what each level looks like' },
             { href: '/languages/fr/curriculum', title: 'The curriculum', line: 'What it is for, the long term plan for each year, and how learning builds' },
             { href: '/languages/fr/approach', title: 'How the lessons work', line: 'The seven steps of every lesson, the thinking behind them, the activities' },
           ].map((t, i) => (

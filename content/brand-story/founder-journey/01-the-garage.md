@@ -2,6 +2,14 @@
 
 **Privacy: GREEN.** Names Guided Childhood: no. Proposed: Sunday 15 November.
 
+**Scheduled 15 November 2026, 19:00, on the brand accounts** (The Guided
+Childhood Facebook Page and @guidedchildhood), Justin's call, because Business
+Suite cannot reach his personal Instagram. The carousel is
+`images/01-slide1-porsche-plated.jpg` followed by `01-slide2-guitar-plated.jpg`,
+with the caption below word for word. Business Suite has no AI label switch, so
+the plate on each image is the label. The rest of the series still assumes his
+personal account, so decide where posts 2b to 10 go before Wednesday.
+
 **The scene:** `founder-context.md`, "The Porsche in the garage". His dad bought
 a damaged Porsche with a partner because the family could not afford one
 outright, and rebuilt it at home. Justin, about seven, passed tools and looked
@@ -57,7 +65,31 @@ to be on Instagram.
 Nunito 900, one butter `#EDC35F` underline: "My job was passing tools." Small
 IBM Plex Mono eyebrow: HOW I GOT HERE · 1 OF 10.
 
-Never a generated car, a generated garage or a generated photo of him or his dad.
+**Recreated images, Justin's call (14 November 2026).** He asked for AI
+recreations of two garage scenes, so the earlier "never generated" line no
+longer applies to this post. They are in `images/`, made on Higgsfield with
+GPT Image 2.6, styled as faded 1980s film prints, and no full face is shown in
+either:
+
+- `01-porsche-a.jpg` (first pick) and `01-porsche-b.jpg`: the white 1973 Carrera
+  RS with the blue script and blue wheel centres mid rebuild, his dad leaning
+  into the engine bay, the boy beside him handing up a spanner. The boy is
+  seven, matching the caption (Justin confirmed seven, 14 November).
+- `01-guitar-a.jpg` (first pick, the pinker red) and `01-guitar-b.jpg`: both
+  in paper masks, his dad spraying a Jaguar style guitar body in the original
+  pinky red. The colour came from Justin on 14 November; the context file only
+  says the guitar was sprayed.
+
+Two rules for using them:
+
+1. **Say they are recreations.** Tick Instagram's AI label, and put a small
+   plate on the image: "Recreated from memory with AI." Never let them read as
+   a real family photo.
+2. **The car is close, not exact.** The prompt asked for the RS ducktail, but
+   with the lid raised it still reads as a plain 911 engine lid. A Porsche
+   person may spot it.
+
+If an old real photo turns up, it wins and these go.
 
 ## Reel, 30 seconds, on camera
 

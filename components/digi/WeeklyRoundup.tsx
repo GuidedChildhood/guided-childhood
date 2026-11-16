@@ -9,8 +9,8 @@ import { weekBalance, expertWeekTip } from '@/lib/quests/screen-balance'
 import { readinessForAgeBand } from '@/lib/content/readiness'
 import type { AgeBand } from '@/lib/content/stages'
 
-// The full read of the family's own week: the balance score front and centre
-// (their screen time against the evidence based healthy guide), the week's wins
+// The full read of the family's own week: screen minutes and earned minutes as
+// two plain tallies (no score, see below), the week's wins
 // gathered in one glance, one line of guidance from the experts we stand on, and
 // a short worth a glance list where every item links to the thing it is about.
 // This is the dynamic round up. It lives on its own page now, reached from the
@@ -67,7 +67,7 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
   const tip = expertWeekTip({ balanceTone: bal.tone, activeDays, questsApproved: s.questsApproved ?? 0, momentsDone })
 
   const balAccent = bal.tone === 'healthy' ? 'var(--retro-green)' : bal.tone === 'watch' ? 'var(--stage-1-bold)' : 'var(--deep-teal)'
-  const balLabel = bal.tone === 'healthy' ? 'Healthy balance' : bal.tone === 'watch' ? 'Worth a glance' : 'A quiet week'
+  const balLabel = bal.tone === 'healthy' ? 'Inside our guide' : bal.tone === 'watch' ? 'Worth a glance' : 'A quiet week'
   const guidePct = bal.guideMins > 0 ? Math.min(160, Math.round((bal.screenMins / bal.guideMins) * 100)) : 0
 
   // The week's wins, gathered from the family's own numbers, best first.
@@ -81,7 +81,7 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
 
   // Worth a glance, each linking to the thing it is about.
   const glances: { text: string; href: string; cta: string }[] = []
-  if (bal.tone === 'watch') glances.push({ text: 'Screen ran ahead of the healthy guide. One offline quest tips it back.', href: '/dashboard/quests', cta: 'Open Quests' })
+  if (bal.tone === 'watch') glances.push({ text: 'Screen ran ahead of our guide this week. One more thing off screen is the easy move.', href: '/dashboard/quests', cta: 'Open Quests' })
   if ((s.schoolOpen ?? 0) > 0) glances.push({ text: `${s.schoolOpen} school reminder${s.schoolOpen === 1 ? '' : 's'} still open.`, href: '/dashboard/school', cta: 'See school' })
   if (review.watch_for) glances.push({ text: review.watch_for, href: '/dashboard/checkin', cta: 'Check in' })
   const topGlances = glances.slice(0, 2)
@@ -106,20 +106,36 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
         </span>
       </div>
 
-      {/* The balance score, front and centre: their screen time against the
-          evidence based healthy guide, as one clear number and a moving level. */}
+      {/* The week as two plain tallies, side by side, and no score.
+
+          This card used to lead with a percentage, "87% Healthy balance". The
+          number was ours alone: no health body gives a ratio of screen time to
+          real world time, and a parent asking where 87 came from had no answer
+          we could give (Justin, 15 November 2026: two plain tallies). So it
+          says the two things we actually counted, in minutes, and holds screen
+          time against our own guide in words and a bar. */}
       <div style={{ background: 'var(--cream)', border: 'var(--edge)', borderLeft: `6px solid ${balAccent}`, borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '16px' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '10px' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', lineHeight: 1, color: balAccent }}>{bal.balancePct}<span style={{ fontSize: 'var(--text-xl)' }}>%</span></span>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{balLabel}</span>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '10px' }}>{balLabel}</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '10px', marginBottom: '12px' }}>
+          {([
+            [bal.screenMins, 'on screens'],
+            [bal.earnedMins, 'earned by jobs and play'],
+          ] as const).map(([mins, label]) => (
+            <div key={label} style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 12px' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', lineHeight: 1.1, color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+                {mins}<span style={{ fontSize: 'var(--text-base)', fontWeight: 800 }}> min</span>
+              </span>
+              <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: 2 }}>{label}</span>
+            </div>
+          ))}
         </div>
-        {/* The level: how the week's screen time sits against the healthy guide.
-            Full and green when comfortably inside it, amber and over when not. */}
-        <div style={{ height: 14, borderRadius: 'var(--radius-pill)', background: '#fff', border: 'var(--edge)', overflow: 'hidden', marginBottom: '8px' }}>
+        {/* Screen time against our guide for their ages. Full when the week
+            reached it, and the colour says inside or past. */}
+        <div style={{ height: 14, borderRadius: 'var(--radius-pill)', background: 'var(--white)', border: 'var(--edge)', overflow: 'hidden', marginBottom: '8px' }}>
           <span style={{ display: 'block', height: '100%', width: `${Math.min(100, guidePct)}%`, background: balAccent, borderRadius: 'var(--radius-pill)', transition: 'width 0.6s ease' }} />
         </div>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: '8px' }}>
-          {bal.screenMins} min screen used · healthy guide about {bal.guideMins} min a week
+          Our guide for their ages is about {bal.guideMins} min of screen a week
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{bal.line}</p>
       </div>

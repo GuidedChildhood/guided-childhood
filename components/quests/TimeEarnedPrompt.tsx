@@ -49,6 +49,9 @@ export default function TimeEarnedPrompt({
       <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>⭐</span>
       <span style={{ flex: 1, minWidth: 170, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
         <strong>{minutes} minutes</strong> landed for {who === 'They' ? 'them' : who}, from {earned.stars} star{earned.stars === 1 ? '' : 's'}.
+        {/* The other half of a yes (15 November 2026): the stars are the
+            smaller part, the thing the parent says is the larger one. */}
+        {' '}Now tell {who === 'They' ? 'them' : who} what you saw. It does more than the stars.
       </span>
       <Link
         href="/dashboard/quests/timer"

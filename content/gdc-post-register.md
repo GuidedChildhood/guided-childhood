@@ -94,7 +94,9 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 059 | Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable. | **CLAIMED 12 Nov for the Research Radar handoff GDC-RR-f0fb8386cd.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json |
 
-**Next free number: 060.**
+| 060 | Europe's draft law allows a social media account at 13, capped at one hour a day (EU KIDS Act, feedback window) | **CLAIMED 16 Nov by the Monday LinkedIn pass.** v1, written fresh, not a rewrite of the retired 025. Recruit strangers, planned Mon 23 Nov, must go before 26 Nov. Not approved, not posted | content/packs/2026-11-16-linkedin-week/linkedin.md |
+
+**Next free number: 061.**
 
 **Why Claude claimed 054 rather than leaving it to ChatGPT.** The handoff tells
 Stage 2 to claim the next free number here before writing. ChatGPT cannot write

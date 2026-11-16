@@ -140,7 +140,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     key: 'balance',
     emoji: '⚖️',
     title: 'Online and offline, balanced',
-    line: 'The healthy amount for their age, and the offline hours that earn it.',
+    line: 'Our guide for their age, and the offline hours that earn it.',
     trust: 'Built on the measured research, Orben and Odgers at Cambridge, never on scare stories.',
     ask: 'How long should my child be on a screen each day?',
     does: '/dashboard/stats',

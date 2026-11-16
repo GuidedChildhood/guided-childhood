@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import InShort from '@/components/InShort'
 import PrintButton from '@/components/PrintButton'
 import { AREA_ORDER, AREAS, areaOf } from '@gc/shared/passport-areas'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
@@ -63,6 +64,13 @@ export default function ProgressionMap() {
             at the lesson named here.
           </p>
         </header>
+
+        <InShort points={[
+          <>Every lesson, with a <b>suggested year</b>, the earlier lessons it <b>builds on</b> and the later ones it <b>leads to</b>.</>,
+          <>The years are a suggestion. A mixed age class can move them; the starter moves with the lesson.</>,
+          <>Each lesson has three descriptors (secure, developing, needs revisiting) for the one optional class judgement after it.</>,
+          <>For a whole year at a glance, see the <Link href="/hub/year-plan">year plan</Link>.</>,
+        ]} />
 
         <nav aria-label="Key stage" className="no-print" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
           {KEY_STAGE_ORDER.map(ks => (

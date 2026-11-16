@@ -155,7 +155,7 @@ export default function JobPicker({
       .map(t => ({
         title: t.title, emoji: t.emoji, stars: t.stars, schedule: t.schedule,
         kind: t.play ? 'play' as const : kindForTitle(t.title),
-        why: t.play ? 'Play pays best on purpose.' : 'From the library.',
+        why: t.play ? 'Play comes first on purpose.' : 'From the library.',
         source: 'more' as const,
       })),
     [bestTitles, previous],

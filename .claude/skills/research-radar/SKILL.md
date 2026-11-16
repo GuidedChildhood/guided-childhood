@@ -35,6 +35,22 @@ Prefer, in this order: a named journal with a DOI, a government or regulator
 publication, a named research group's own release. A newspaper write up is a
 pointer to a paper, never the source.
 
+**The researcher watch** (Justin, 16 November 2026). Also run
+`npm run radar-people` each Monday. It lists new papers by Candice Odgers,
+Jonathan Haidt and Catherine Knibbs and new After Babel posts in
+`content/research-watch/<date>.md`. Review each item SUPPORT, CHALLENGE,
+CONTEXT or SKIP with the reason. A CHALLENGE needs an evidential reason,
+never disagreement for its own sake. Knibbs is a clinician and is never named
+beside our advice. LinkedIn activity cannot be read. A survivor becomes a
+radar candidate like any other finding, and `parent-issues.md` in the same
+folder says which parent problem and product surface it lands on.
+Write each review into `content/research-watch/reviews.json` (verdict, how
+much was read, design, finding, limitations, our position, parent problem),
+rerun `npm run radar-people` so the digest is rebuilt from them, then copy the
+digest into the Stage 2 Drive folder as a Google Doc titled
+`RESEARCHER WATCH <date>, Claude reviewed, not cleared for posts`, and read it
+back. ChatGPT reads it there for the 08:00 candidates.
+
 **Record what you could not reach.** The proxy in this container blocks most
 publishers, Crossref, OpenAlex, Semantic Scholar, PubMed and doi.org. If a
 paper matters and cannot be opened, say so by name and ask Justin to put the

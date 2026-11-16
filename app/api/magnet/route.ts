@@ -7,7 +7,7 @@ import { magnetEmail } from '@/lib/email/templates'
 import { sendPush } from '@/lib/push/send'
 import { readUtm, UTM_COOKIE, utmFromCookie, utmColumns, type Utm } from '@/lib/video/utm'
 import { cleanUtmValue, hasUtm } from '@gc/shared/utm'
-import { tasterFromMagnetSlug } from '@/lib/magnets/tasters'
+import { tasterFromMagnetSlug, seriesDays } from '@/lib/magnets/tasters'
 
 // A parent asked for a free printable in exchange for their email. Save
 // the lead onto the same list the starter quiz fills (tagged by which
@@ -122,6 +122,7 @@ export async function POST(req: NextRequest) {
         reader: member?.id ? 'member' : 'lead',
         // A taster with the box ticked starts the five day series tomorrow.
         seriesNext: Boolean(taster) && body.consent === true && !member?.id,
+        seriesDays: taster ? seriesDays(taster) : undefined,
         // A lead gets the signed link that checks again on the tap, so a
         // parent who joins the morning after this lands in their app, not on
         // the pitch. See app/api/go/starter.

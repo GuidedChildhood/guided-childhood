@@ -1,11 +1,13 @@
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { PAGE } from '@gc/shared/page-scale'
 import { frLessonKey } from '@gc/shared/lesson-records'
 import RecordLesson from '@/components/records/RecordLesson'
+import { isFrenchTasterPath, LANGUAGES_COOKIE, languagesTokenAccess } from '@/lib/languages-access'
 import { eyebrow } from '@/components/ui'
 import {
-  activitiesFor, assessedIn, codesToRecord, deckSequence, FR_PAGE, FRENCH_UNITS, frenchLesson, frenchUnit, lessonLabel, lessonsOf, mediaUrl,
+  activitiesFor, assessedIn, checkpointTasks, codesToRecord, deckSequence, HAS_CHECKPOINTS, FR_PAGE, FRENCH_UNITS, frenchLesson, frenchUnit, lessonLabel, lessonsOf, mediaUrl,
   sheetList, SKILL_LABEL, soloName, teachingLessons,
 } from '@/lib/languages/french'
 import { body, card, Crumbs, Fold, FoldStyles, langEyebrow, Sheets, small } from '../../_ui'
@@ -71,6 +73,17 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
   const next = l.culture ? undefined : all.find(x => x.n === l.n + 1)
   const assess = l.culture ? [] : assessedIn(u, l.n)
   const toRecord = codesToRecord(u, l)
+  // The free taster is the one lesson a visitor with no code can open. They
+  // get a line saying what it is, and none of the links into gated pages.
+  const visitor = isFrenchTasterPath(`/languages/fr/${u.key}/${l.n}`)
+    && !(await languagesTokenAccess((await cookies()).get(LANGUAGES_COOKIE)?.value))?.langs.includes('fr')
+  // The scheme judges each code formally once a year, at a checkpoint half
+  // term. A count taken in any other half term is still worth having, and is
+  // formative: say which this is, so nobody reads a practice count as the judgement.
+  const formal = checkpointTasks(u).map(t => t.code)
+  const formalNote = !HAS_CHECKPOINTS || toRecord.length === 0 ? ''
+    : formal.length > 0 ? ` This half term is the formal checkpoint for ${formal.join(', ')}.`
+    : ' No code has its formal checkpoint this half term, so these counts are formative.'
   const deck = l.deck
   const songs = deck?.songs?.map(i => u.deck?.songs?.[i]).filter((s): s is NonNullable<typeof s> => !!s) ?? []
   const order = deckSequence(deck?.slides)
@@ -83,12 +96,26 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
 
   return (
     <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-      <Crumbs trail={[
+      {visitor && (
+        <aside aria-label="Free taster" style={{ background: 'var(--butter-lt)', borderLeft: '4px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: 'var(--space-3) var(--space-4)' }}>
+          <p style={{ ...langEyebrow, margin: '0 0 var(--space-1)' }}>A free taster lesson</p>
+          <p style={{ ...body, margin: 0, color: 'var(--ink)' }}>
+            This is one lesson from our KS2 French for Years 3 and 4, open for anyone to teach. The slides play
+            with their audio and the song is below. The rest of the scheme, with its sheets, answers and
+            assessment, is included in every school licence at no extra cost.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'var(--space-3)' }}>
+            <Link href="/pricing" className="btn btn-gold">See what a licence includes</Link>
+            <Link href="/unlock" className="btn btn-outline">I have a school code</Link>
+          </div>
+        </aside>
+      )}
+      {!visitor && <Crumbs trail={[
         { href: '/languages', label: 'Languages' },
         { href: '/languages/fr', label: 'French' },
         { href: `/languages/fr/${u.key}`, label: u.fr },
         { label: lessonLabel(l) },
-      ]} />
+      ]} />}
 
       <div>
         <p style={{ ...langEyebrow, marginBottom: 'var(--space-2)' }}>Year {u.year} · {u.fr} · {l.culture ? `Culture · ${l.culture}` : `Lesson ${l.n} of ${all.length}`}</p>
@@ -221,21 +248,25 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
         )}
       </Step>
 
+      {!visitor && (
       <Step n={3} id="record" title="Record" lead="One tap when the lesson is done. It is saved for your school, on every laptop.">
         <RecordLesson
           subject="fr"
           lessonKey={frLessonKey(u.key, l.n)}
           statements={toRecord.map(c => ({ code: c.code, skill: SKILL_LABEL[c.code[0]] ?? 'Statement', pupil: c.pupil }))}
           levelNames={['Below SOLO 4', 'SOLO 4', 'SOLO 5']}
-          levelKey={`This is how the scheme reports each statement. Below SOLO 4 is ${soloName(3)}, and anyone not there yet.`}
+          levelKey={`This is how the scheme reports each statement. Below SOLO 4 is ${soloName(3)}, and anyone not there yet.${formalNote}`}
           recordHref="/languages/fr/progress"
         />
       </Step>
+      )}
 
+      {!visitor && (
       <nav aria-label="Lessons in this unit" style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
         {prev ? <Link href={`/languages/fr/${u.key}/${prev.n}`} className="btn btn-outline">‹ Lesson {prev.n}</Link> : <span />}
         {next ? <Link href={`/languages/fr/${u.key}/${next.n}`} className="btn btn-outline">Lesson {next.n} ›</Link> : <Link href={`/languages/fr/${u.key}`} className="btn btn-outline">Back to the unit</Link>}
       </nav>
+      )}
 
       <FoldStyles />
       <style>{`

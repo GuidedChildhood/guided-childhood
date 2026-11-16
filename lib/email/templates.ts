@@ -159,7 +159,7 @@ export function welcomeEmail(params: {
       heading(parentName ? `Thank you for joining, ${parentName}.` : 'Thank you for joining.') +
       p(`You started before the next screen fight rather than after it, which is the hard part and you have done it.`) +
       p(`<strong>Here is where this goes.</strong> By sixteen, ${childName} ${verb(childName, 'is', 'are')} safe online and ready for social media, because they have been walked there a step at a time instead of handed a phone and hoped for.`) +
-      p(`<strong>It takes ten minutes a day.</strong> A small thing each day, matched to their stage. Not a course, not fifty pages, and nothing to catch up on if you miss a day.`) +
+      p(`<strong>You just follow the path.</strong> Each day we bring the next step and the words for it, matched to their stage. About ten minutes, not a course, and nothing to catch up on if you miss a day.`) +
       p(`What is waiting for you inside:`) +
       bullets([
         `<strong>Jobs and chores earn the screen time.</strong> They do something real, they earn stars, stars become minutes, and you set the rate. This is the part nobody else has.`,
@@ -607,6 +607,8 @@ export function magnetEmail(params: {
   reader?: Reader
   /** They ticked the box for the five day series (13 November 2026): say what comes tomorrow. */
   seriesNext?: boolean
+  /** How many emails that series is: five for a three page taster, fewer for a mini pack's (16 November 2026). */
+  seriesDays?: number
 }): EmailContent {
   const { magnetTitle, downloadUrl } = params
   const reader = params.reader ?? 'lead'
@@ -621,7 +623,7 @@ export function magnetEmail(params: {
       heading('Here is your download.') +
       p(`Thanks for grabbing <strong>${magnetTitle}</strong>. ${blurb}`) +
       button('Download the printable', downloadUrl) +
-      (params.seriesNext ? p(`Tomorrow morning, page 1 comes to your inbox with one tip for using it. Five short emails, one a day, and the stop link is at the bottom of every one.`) : '') +
+      (params.seriesNext ? p(`Tomorrow morning, page 1 comes to your inbox with one tip for using it. ${seriesCount(params.seriesDays ?? 5)} short emails, one a day, and the stop link is at the bottom of every one.`) : '') +
       more +
       p(`If the button does not work, paste this into your browser: <a href="${downloadUrl}" style="color:${BUTTER_DARK}">${downloadUrl}</a>`) +
       (reader === 'member'
@@ -631,6 +633,11 @@ export function magnetEmail(params: {
       'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
     ),
   }
+}
+
+// The series length in words, for the line under the download.
+function seriesCount(n: number): string {
+  return ['Three', 'Four', 'Five'][n - 3] ?? String(n)
 }
 
 // Minutes to a short label for the weekly review stats block.
@@ -1087,6 +1094,38 @@ export function tasterStageEmail(params: {
   }
 }
 
+// One day of a topic email course (lib/courses/registry.ts, 16 November 2026).
+// The copy is the checked pack's, word for word; this only lays it out. The
+// preview line is hidden text first in the body, which is what most inboxes
+// show beside the subject. Tonight's one thing is set apart so a tired parent
+// who reads nothing else still sees it.
+export function courseDayEmail(params: {
+  courseTitle: string
+  day: number
+  days: number
+  subject: string
+  preview: string
+  paragraphs: string[]
+  tonight: string
+  link: { label: string; url: string } | null
+  unsubscribe: string
+}): EmailContent {
+  const { courseTitle, day, days, subject, preview, paragraphs, tonight, link, unsubscribe } = params
+  return {
+    subject,
+    html: wrapper(
+      `<div style="display:none;max-height:0;overflow:hidden;opacity:0">${preview}</div>` +
+      `<div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${BUTTER_DARK};margin:0 0 10px">${courseTitle} · day ${day} of ${days}</div>` +
+      heading(subject) +
+      p('Hello,') +
+      paragraphs.map(t => p(t)).join('') +
+      `<div style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:16px 18px;margin:8px 0 4px"><strong>Tonight:</strong> ${tonight}</div>` +
+      (link ? button(link.label, link.url) : ''),
+      unsubscribe
+    ),
+  }
+}
+
 // The one email for the under 4 list (lib/starter/turns-four.ts): the month
 // the child turns 4, and never before.
 export function turnsFourEmail(params: { unsubscribe: string; cta: string }): EmailContent {
@@ -1123,9 +1162,9 @@ export function tasterFullPackEmail(params: {
   const when = params.when ?? 'Last week'
   const rest = pageCount - tasterPages
   const etsyBlock = etsyUrl
-    ? p(`${when} you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. If they earned their place on the fridge, the other ${rest} pages are in the full pack on Etsy, ready to print at home.`) +
+    ? p(`${when} you picked up ${tasterPages === 1 ? '1 page' : `${tasterPages} pages`} of <strong>${tasterTitle}</strong>. If ${tasterPages === 1 ? 'it' : 'they'} earned ${tasterPages === 1 ? 'its' : 'their'} place on the fridge, the other ${rest === 1 ? '1 page is' : `${rest} pages are`} in the full pack on Etsy, ready to print at home.`) +
       button('See the full pack on Etsy', etsyUrl)
-    : p(`${when} you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. I hope they earned their place on the fridge.`)
+    : p(`${when} you picked up ${tasterPages === 1 ? '1 page' : `${tasterPages} pages`} of <strong>${tasterTitle}</strong>. I hope ${tasterPages === 1 ? 'it' : 'they'} earned ${tasterPages === 1 ? 'its' : 'their'} place on the fridge.`)
   const appLine = inApp
     ? p(etsyUrl
       ? `Or print it free inside Guided Childhood. Every pack in the shop is in the app too, this one included, during the four free days and for members.`
@@ -1165,7 +1204,7 @@ export function balanceTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string
     subject: 'An hour a day, is that ok?',
     html: wrapper(
       heading('The number, settled by the science.') +
-      p(`Every parent asks it and no one gives a straight answer. Guided Childhood does. It shows the healthy amount of recreational screen for your child's exact age, per day and per week, drawn straight from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
+      p(`Every parent asks it and no one gives a straight answer. Guided Childhood does. It shows our guide for recreational screen at your child's exact age, per day and per week, set under what the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH say.`) +
       p(`Then it sets your child's real usage against it, so you can see at a glance where an hour a day actually sits. A calm steer for their age, never a hard cap.`) +
       starterButton(cta, reader),
       unsubscribe
@@ -1265,8 +1304,8 @@ export function balanceRevealEmail(params: { childName: string; unsubscribe: str
     subject: `Where ${childName}'s screen time actually sits`,
     html: wrapper(
       heading('The balance, by the science.') +
-      p(`Your balance and stats now show the healthy amount of recreational screen for ${childName}'s age, per day and per week, drawn from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
-      p(`It sets ${childName}'s real usage against that guide, so you can see in one glance whether a day sits inside the healthy range. A steer for their age, never a hard cap.`) +
+      p(`Your balance and stats now show our guide for recreational screen at ${childName}'s age, per day and per week, set under what the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH say.`) +
+      p(`It sets ${childName}'s real usage against that guide, so you can see in one glance whether a day sits inside it. A steer for their age, never a hard cap.`) +
       button('See the balance', `${APP}/dashboard/quests`),
       unsubscribe
     ),
@@ -1984,7 +2023,7 @@ export function paidTheNumbersEmail(params: {
     subject: 'Where the screen time number comes from',
     html: wrapper(
       heading('Nobody made that number up.') +
-      p(`The healthy range you see against ${childName}'s usage is drawn from the World Health Organization, the American Academy of Pediatrics, the Canadian movement guidelines and the Royal College of Paediatrics and Child Health. Four bodies, not one opinion.`) +
+      p(`The guide you see against ${childName}'s usage is ours, set under the guidance of the World Health Organization, the American Academy of Pediatrics, the Canadian movement guidelines and the Royal College of Paediatrics and Child Health. Four bodies, not one opinion.`) +
       p(`Here is the part most apps leave out. Those bodies do not agree with each other on a single magic number, and the RCPCH in particular is careful to say the evidence does not support one. What the research actually supports is a different question: not how many hours, but what the hours are displacing. Sleep, moving about, being with people, the stuff a childhood is made of.`) +
       p(`Which is why it is drawn as a range and called a steer, and why nothing here ever hard stops a child at a number. A cap tells you when to have a fight. A range tells you whether the shape of the week is right, and that is the thing you can actually act on.`) +
       button('See the balance', `${APP}/dashboard/quests`) +
@@ -2074,6 +2113,65 @@ export function lessonHeadsUpEmail(params: {
       p(`If anything comes up, stay calm and listen first. ${childName} can also call Childline free on 0800 1111, and their school's safeguarding lead is there to help too.`) +
       button('Read the note and tap Ready', readyUrl),
       '',
+    ),
+  }
+}
+
+// ── THE PARENT WHO SIGNED UP AND STOPPED ───────────────────────────────────
+//
+// Justin, 15 November 2026: the one live family made an account and never
+// came back, and nothing asked her why. Three short asks, each a different
+// angle, then silence (lib/asks/stalled.ts holds the spacing). Every one opens
+// the same page, where question one is a single tap.
+//
+// freeUntil is passed only when the free days are genuinely still open, so
+// the line is never a promise the paywall then breaks.
+export function stalledAskEmail(params: {
+  step: 'ask-1' | 'ask-2' | 'ask-3'
+  parentName: string | null
+  childName: string
+  askUrl: string
+  freeUntil: string | null
+  unsubscribe: string
+}): EmailContent {
+  const { step, parentName, childName, askUrl, freeUntil, unsubscribe } = params
+  const hello = parentName ? `Hi ${parentName}, it is Justin.` : 'Hi, it is Justin.'
+  const open = freeUntil ? p(`Your free days are open until ${freeUntil}, no card needed.`) : ''
+  if (step === 'ask-1') {
+    return {
+      subject: 'Can I ask what stopped you?',
+      html: wrapper(
+        heading('One tap would help me a lot.') +
+        p(`${hello} You made an account for ${childName} and then life got in the way, which is completely fair.`) +
+        p(`You are one of our very first families, so what stopped you is the most useful thing I can learn this week. It is one tap, and there are five short questions after it only if you have a minute.`) +
+        button('Tell me what stopped you', askUrl) +
+        open +
+        p(`If you do come back: ten minutes gets you the words for the next screen row, and a way for ${childName} to earn screen time with jobs and time outside, so you are not the one saying no.`),
+        unsubscribe
+      ),
+    }
+  }
+  if (step === 'ask-2') {
+    return {
+      subject: 'What would you want to see first?',
+      html: wrapper(
+        heading('What should the first two minutes show you?') +
+        p(`${hello} I asked last week what stopped you, and I know inboxes are busy.`) +
+        p(`A different question this time. When you open something like this for ${childName}, what do you want to see in the first two minutes to know it is worth your evening? One line is plenty, and I read every answer myself.`) +
+        button('Answer in one line', askUrl) +
+        open,
+        unsubscribe
+      ),
+    }
+  }
+  return {
+    subject: 'Last one from me on this',
+    html: wrapper(
+      heading('I will stop asking after this.') +
+      p(`${hello} This is the last time I will ask, and then I will leave you in peace.`) +
+      p(`If Guided Childhood was not right for your family, I would like to know why, so I can make it right for the next parent. One tap tells me.`) +
+      button('One tap, then I am done', askUrl),
+      unsubscribe
     ),
   }
 }

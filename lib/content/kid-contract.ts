@@ -24,7 +24,7 @@ export function isContractLevel(v: unknown): v is ContractLevel {
 export const CONTRACT_RULES: Record<ContractLevel, string> = {
   under8: 'A grown up starts my timer, and screens go off calmly',
   '8to10': 'Every screen runs through my timer. A grown up says yes first',
-  '11plus': 'Every screen runs through my timer. I start it myself and it winds up at the healthy amount',
+  '11plus': 'Every screen runs through my timer. I start it myself and it winds up at my guide for the day',
 }
 
 // The rule the child actually lives under follows the trust setting, not just

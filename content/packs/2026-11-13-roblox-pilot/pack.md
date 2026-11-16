@@ -4,8 +4,14 @@ STATUS: DRAFT FOR JUSTIN. Not in the research register, no GDC number claimed,
 nothing scheduled, nothing posted. Written from the verified pack only:
 `briefings/2026-11-13-roblox-predators-ban-v2.html`.
 
-No person is named anywhere in the copy below. That is deliberate and waits on
-Justin's decision about naming.
+Justin decided on 13 November to name Family IT Guy. He is named for two
+things only: his published advice to skip Roblox, which we hold the source
+for, and the boxing ring comparison, which Justin has seen and we have not yet
+sourced. No clinician is named.
+
+HOLD BEFORE POSTING: the Mike Tyson comparison must be matched to the video it
+came from, with his exact words, before any asset that attributes it to him
+goes out.
 
 ## The story in one line
 
@@ -42,7 +48,8 @@ against its source on 13 November 2026.
 - Any number for children who stay silent for fear of losing the device.
 - Any claim that a setting makes Roblox safe.
 - Any claim that a staged path beats a ban. No trial exists.
-- Any creator's or clinician's name.
+- Any clinician's name.
+- Any words put in Family IT Guy's mouth beyond what we hold a source for.
 
 ## Proof path in the product
 
@@ -74,9 +81,9 @@ Roblox did change this year. Chat now needs an age check, and chat is off by def
 
 A ban does lower the exposure. I will not pretend otherwise. But teenagers told the Children's Commissioner why they stay quiet when something goes wrong. They are afraid the phone gets taken away, and that stops them asking for help.
 
-I have heard Roblox compared to putting your child in the ring with Mike Tyson.
+Family IT Guy tells parents to skip Roblox. He compares it to putting your child in the ring with Mike Tyson.
 
-I understand the fear behind that. I do not think it holds. Nobody wants that fight, and in a ring you can at least see who you are facing. A child in a game cannot.
+He is right to take the risk seriously, and he has done a lot to make parents look. I do not think the comparison holds. Nobody wants that fight, and in a ring you can at least see who you are facing. A child in a game cannot.
 
 What plenty of children do want is to learn to box. With gloves, a coach and rules, a bit at a time. That is a long way from being thrown in.
 
@@ -138,12 +145,12 @@ the comments.
 
 ### Reel B, the boxing ring, silent, 22 seconds
 
-Answers the analogy without naming who made it. The on screen lines are longer
+Answers Family IT Guy's comparison and names him. The on screen lines are longer
 than Reel A, so time each one against the reading rule before it is cut.
 
 | Time | On screen text | Picture |
 | --- | --- | --- |
-| 0 to 3s | Is Roblox like putting your child in the ring with Mike Tyson? | Text on plain background |
+| 0 to 3s | Family IT Guy says Roblox is like the ring with Mike Tyson. Is it? | Text on plain background |
 | 3 to 7s | Nobody wants that fight. And in a ring you can see who you are facing. | Same |
 | 7 to 11s | Children do want to learn to box. Gloves, a coach, rules. | Real footage: a child's hands on a tablet, face not shown |
 | 11 to 15s | Close one ring and another opens. One you have not heard of. | The kitchen table |
@@ -169,8 +176,9 @@ your child to move to a private app. Once that happens, nobody is watching.
 
 Roblox tightened up this year, and that helps. Children still get round it.
 
-I have heard it compared to putting your child in the ring with Mike Tyson.
-I do not think that holds. Nobody wants that fight. But lots of children want
+Family IT Guy says skip it. He compares it to putting your child in the ring
+with Mike Tyson. He is right to take it seriously. I do not think that
+comparison holds. Nobody wants that fight. But lots of children want
 to learn to box, with gloves and a coach and rules. And if you close this
 ring, another one opens that you have never heard of.
 
@@ -250,9 +258,12 @@ a generated image standing in for a shot that was not filmed.
 
 ## What is still open
 
-1. Naming. Nobody is named in this pack. The boxing ring analogy is answered
-   as "I have heard", because we have not yet found where it was said. It
-   must not be attributed to anyone until we hold the link and the exact words.
+1. The exact words of the Mike Tyson comparison. Justin gave the link on 14
+   November, https://www.instagram.com/p/DNs4HIXYjFu/ , but Instagram refused
+   automated reading, so the words have not been read yet.
+   Was: the link to the video where Family IT Guy makes the comparison.
+   He is named on Justin's decision, but the comparison is attributed on
+   Justin's word alone until we hold the link and his exact words.
 2. Which account carries a founder Reel.
 3. Whether Justin films.
 4. The look.

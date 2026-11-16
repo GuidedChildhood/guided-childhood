@@ -246,8 +246,8 @@ export function chooseCheckin(opts: {
   if (s.overGuide) {
     return {
       ...base, promptId: 'over_guide', device: null,
-      question: `Screen ran ahead of the healthy amount for ${name} this week. Want to look at it together?`,
-      chatMessage: `${name}'s screen time ran ahead of the healthy guide for their age this week. Can we look at what is pulling it up and find a calm way to bring the balance back, without turning it into a battle?`,
+      question: `Screen ran ahead of our guide for ${name} this week. Want to look at it together?`,
+      chatMessage: `${name}'s screen time ran ahead of our guide for their age this week. Can we look at what is pulling it up and find a calm way to bring the balance back, without turning it into a battle?`,
       pathway: { label: 'Write the deal down together', href: '/dashboard/agreement' },
       concernHints: ['screen time', 'screen-time', 'too much', 'balance', 'limit'],
     }

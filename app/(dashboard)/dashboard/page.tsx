@@ -37,7 +37,7 @@ import { pickIssueOfWeek } from '@/lib/home/issue-of-week'
 import { friendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 import { CHALLENGE_LABELS } from '@/lib/pathway/challenge-labels'
 import { isHeldForHolidays } from '@/lib/school/child-items'
-import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
+import { visibleSteps as visibleSetupSteps, aboutChildState } from '@/lib/setup/steps'
 import { allBirthdaysIn } from '@/lib/setup/flags'
 import { nextEventForChild, aroundWhen } from '@/lib/learning/calendar'
 import { academicYearStart } from '@/lib/learning/term'
@@ -491,7 +491,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // above it. See lib/setup/flags.ts for the reasoning on each of the three.
   const timeRows = timeRowsRes.data
   const answeredTime = new Set(((timeRows ?? []) as { child_id: string }[]).map(r => r.child_id))
+  // Tell us about your child (14 November 2026): the name and birth month a
+  // one tap sign up may not have given. Same rule as lib/setup/flags.ts.
+  const aboutState = aboutChildState(
+    ((birthdays.data ?? []) as { date_of_birth: string | null; name: string | null }[]),
+    (profile as { onboarding_answers?: unknown } | null)?.onboarding_answers,
+  )
   const setupFlags = {
+    aboutChild: !aboutState.show || aboutState.done,
     // Both signatures, not the row's existence. The row is a draft the builder
     // saves as it goes; only a signature makes it an agreement. See the note in
     // lib/setup/flags.ts, and the four unsigned rows on the live database that
@@ -557,7 +564,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // up on Home. The last of those was the widest hole in the product: it had
   // no age gate at all, so a family with a co-viewing five year old could be
   // shown "Their own side of it" on their own front page.
-  const setupSteps = visibleSetupSteps()
+  const setupSteps = visibleSetupSteps({ about: aboutState.show && !(profile as { setup_completed_at?: string | null } | null)?.setup_completed_at })
 
   // ── THE FIRST DAY (25 September 2026) ─────────────────────────────────────
   //
@@ -1319,6 +1326,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {homeSlot === 'stickerNews' && <StickerNewsCard news={stickerNews} childName={child?.name ?? null} childId={child?.id ?? null} />}
       <ChildDayStrip state={childDay} childName={child?.name ?? null} onApp={hasKidLink} />
 
+      {/* THE PROMISE, SAID ONCE INSIDE THE APP (Justin, 15 November 2026: "clear
+          somewhere they just need to follow pathway and we drive it from
+          there"). It was only on the marketing page. Shown on the family's
+          first day only, right above the path it describes, then gone. */}
+      {firstRun && (
+        <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.4, margin: '0 0 12px' }}>
+          You just follow the path. Each day we bring the next step and the words for it.
+        </p>
+      )}
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} streakAliveToday={streak.aliveToday} bonus={friendToday} childId={child?.id ?? null} firstDay={firstDay} />
 
       {/* The fix of the week: the success help, one device problem for this

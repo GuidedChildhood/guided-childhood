@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
-import { LANGUAGES_COOKIE, languagesTokenAccess } from '@/lib/languages-access'
-import { FR_ORIGIN, FRENCH_UNITS } from '@/lib/languages/french'
+import { FRENCH_TASTER, LANGUAGES_COOKIE, languagesTokenAccess } from '@/lib/languages-access'
+import { EXTRAS_FOLDER, FR_ORIGIN, FRENCH_UNITS, frenchLesson, frenchUnit } from '@/lib/languages/french'
 
 // /languages/fr/media/<unit folder>/<file>: every French deck, song and sheet.
 //
@@ -45,7 +45,11 @@ function redirect(url: string, maxAge: number) {
 export async function GET(_req: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const [slug, ...rest] = (await params).path
   const file = rest.join('/')
-  if (!slug || !FRENCH_UNITS.some(u => u.slug === slug) || !SAFE.test(file)) return gone()
+  // The shared extras folder (mats, display cards, posters) is one more
+  // folder beside the units, and holds PDFs only.
+  const extras = slug === EXTRAS_FOLDER
+  if (!slug || !(extras || FRENCH_UNITS.some(u => u.slug === slug)) || !SAFE.test(file)) return gone()
+  if (extras && !/^[A-Za-z0-9_-]+\.pdf$/.test(file)) return gone()
 
   const base = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/$/, '')
   const ours = base ? `${base}/storage/v1/object/public/${BUCKET}/fr/${slug}/${file}` : null
@@ -57,8 +61,14 @@ export async function GET(_req: Request, { params }: { params: Promise<{ path: s
     return there ? redirect(ours!, 86400) : redirect(hers, 60)
   }
 
-  const access = await languagesTokenAccess((await cookies()).get(LANGUAGES_COOKIE)?.value)
-  if (!access?.langs.includes('fr')) return gone()
+  // The free taster lesson's own deck opens without a code. Every other deck needs one.
+  const tasterUnit = frenchUnit(FRENCH_TASTER.unit)
+  const tasterDeck = tasterUnit ? frenchLesson(tasterUnit, FRENCH_TASTER.lesson)?.deck?.slides : null
+  const isTaster = !!tasterUnit && slug === tasterUnit.slug && !!tasterDeck && file === tasterDeck
+  if (!isTaster) {
+    const access = await languagesTokenAccess((await cookies()).get(LANGUAGES_COOKIE)?.value)
+    if (!access?.langs.includes('fr')) return gone()
+  }
 
   const stored = ours ? await fetch(ours, { cache: 'no-store' }).catch(() => null) : null
   if (!stored?.ok) return redirect(hers, 60)

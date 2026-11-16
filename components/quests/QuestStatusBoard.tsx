@@ -111,14 +111,31 @@ export default function QuestStatusBoard() {
   // could remind Teo or Alma but never both.
   const [reminded, setReminded] = useState<Set<string>>(new Set())
   const [remindFailed, setRemindFailed] = useState<string | null>(null)
+  // Who to say something to, straight after a yes.
+  //
+  // Justin, 15 November 2026, chose "same stars, lead with praise". The stars
+  // are the smaller half of a yes. The evidence on rewards (Deci, Koestner and
+  // Ryan 1999) is that specific praise raises a child's own interest in a
+  // thing where an expected reward on its own can lower it, so the moment a
+  // parent agrees a job is the moment to be told: now say what you saw. Said
+  // out loud by the parent, never sent by us, because the words are the point
+  // and a push notification reading "well done" is the opposite of specific.
+  const [praise, setPraise] = useState<{ who: string | null; title: string | null } | null>(null)
 
   useEffect(() => {
     let alive = true
-    fetch('/api/quests')
+    const read = (first: boolean) => fetch('/api/quests')
       .then(r => r.json())
       .then(d => { if (alive) setData({ children: d.children ?? [], quests: d.quests ?? [], ticks: d.ticks ?? [], links: d.links ?? [] }) })
-      .catch(() => { if (alive) setData({ children: [], quests: [], ticks: [], links: [] }) })
-    return () => { alive = false }
+      // Only the first read may empty the board. A refresh that fails leaves
+      // what was there, rather than blanking a board the parent is reading.
+      .catch(() => { if (alive && first) setData({ children: [], quests: [], ticks: [], links: [] }) })
+    read(true)
+    // The board below this one approved or turned down a tick. Without this
+    // the row stayed here, still offering a Yes, until the page was reloaded.
+    const changed = () => { read(false) }
+    window.addEventListener('gc:quests-changed', changed)
+    return () => { alive = false; window.removeEventListener('gc:quests-changed', changed) }
   }, [])
 
   // "Ticked 2026-08-03" is a database talking to a parent (Justin's
@@ -231,11 +248,24 @@ export default function QuestStatusBoard() {
     } catch { return false }
   }
 
+  // Tell the rest of the page the stars moved, so the children's card under
+  // this one counts them now rather than at its next poll.
+  function announce() {
+    try {
+      window.dispatchEvent(new Event('gc:quests-changed'))
+      window.dispatchEvent(new Event('gc:notifs-changed'))
+    } catch { /* SSR */ }
+  }
+
   async function sayYes(id: string, kind: 'tick' | 'quest', childId?: string | null) {
     if (busyKey || allBusy) return
     setBusyKey(id); setFailed(null)
     const ok = await approve(id, kind, childId)
-    if (ok) setAgreed(prev => new Set(prev).add(id))
+    if (ok) {
+      setAgreed(prev => new Set(prev).add(id)); announce()
+      const row = [...buckets.waiting, ...buckets.withyou].find(r => r.key === id)
+      setPraise({ who: row && row.who !== 'Your child' && row.who !== 'Anyone' ? row.who : null, title: row?.title ?? null })
+    }
     else setFailed('That did not save. Try again.')
     setBusyKey(null)
   }
@@ -250,7 +280,12 @@ export default function QuestStatusBoard() {
     for (const id of ids) {
       if (await approve(id, 'tick')) done.push(id)
     }
-    if (done.length > 0) setAgreed(prev => new Set([...prev, ...done]))
+    if (done.length > 0) {
+      setAgreed(prev => new Set([...prev, ...done])); announce()
+      const names = new Set(buckets.waiting.filter(r => done.includes(r.key)).map(r => r.who))
+      const only = names.size === 1 ? [...names][0] : null
+      setPraise({ who: only && only !== 'Your child' ? only : null, title: null })
+    }
     // Named, not swallowed. A partial failure used to be indistinguishable from
     // a full success because neither said anything.
     if (done.length < ids.length) {
@@ -322,6 +357,18 @@ export default function QuestStatusBoard() {
   // Both piles a parent settles from here. Waiting agrees to a child's claim,
   // To do with you records one nobody could claim.
   const canMark = shown === 'waiting' || shown === 'withyou'
+
+  const praiseNote = praise && (
+    <p role="status" style={{
+      fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '12px 0 0',
+      background: 'var(--tint-butter)', border: '1px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '10px 12px',
+    }}>
+      <strong>Now tell {praise.who ?? 'them'} what you saw.</strong>{' '}
+      {praise.title
+        ? <>One thing you noticed about {praise.title.charAt(0).toLowerCase() + praise.title.slice(1)} does more than the stars.</>
+        : <>One thing you noticed does more than the stars.</>}
+    </p>
+  )
 
   // Caught up, so say it in a line rather than a card.
   //
@@ -405,6 +452,9 @@ export default function QuestStatusBoard() {
             )}
           </div>
         )}
+        {/* Agreeing the last waiting job collapses the board to this strip,
+            which is exactly when the note has to still be on the screen. */}
+        {praiseNote}
       </div>
     )
   }
@@ -603,14 +653,21 @@ export default function QuestStatusBoard() {
               turn one of these down, which this panel deliberately cannot do:
               a reject is a conversation and should never be one tap away from
               an approve on a list you are working through quickly. */}
+          {/* Named for what it is for. "One at a time" was written when the
+              rows had no Yes of their own; they do now, so it read as a second
+              way to do the same thing. It opens the queue on the card below,
+              which stays folded until asked for (QuestBoard, foldQueue). */}
           <a
             href="#quest-board"
-            style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none' }}
+            onClick={() => { try { window.dispatchEvent(new Event('gc:quest-queue-open')) } catch { /* SSR */ } }}
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', minHeight: 44, display: 'inline-flex', alignItems: 'center' }}
           >
-            One at a time ›
+            Turn one down ›
           </a>
         </div>
       )}
+
+      {praiseNote}
 
       {failed && (
         <p role="status" style={{ fontSize: 'var(--text-base)', color: '#B93B3F', fontWeight: 600, margin: '9px 0 0' }}>

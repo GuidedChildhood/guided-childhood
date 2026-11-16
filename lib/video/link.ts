@@ -90,3 +90,38 @@ export function startCode(cookies: { video?: string | null; started?: string | n
       : NO_LINK_CODES.direct)
   return cookies.started === code ? null : code
 }
+
+// ── THE STEPS AFTER THE START (migration 398) ────────────────────────────────
+//
+// Round 1 of the paid adverts had 8 starts and no accounts, with nothing to say
+// where the 8 stopped. So two more steps are counted: the parent reached their
+// pathway, and they opened the save screen. Each counts against the code their
+// start was counted against (the started cookie), so per link the numbers read
+// as one funnel, and once per browser per follow, so a reload or a Back and
+// forth is never a second one.
+
+/** The steps counted after a stage check start. */
+export const STAGE_STEPS = ['pathway', 'save'] as const
+export type StageStep = (typeof STAGE_STEPS)[number]
+
+/** Remembers which steps this browser has had counted, for which code. */
+export const VIDEO_STEPS_COOKIE = 'gc_video_steps'
+
+export function isStageStep(raw: unknown): raw is StageStep {
+  return typeof raw === 'string' && (STAGE_STEPS as readonly string[]).includes(raw)
+}
+
+/**
+ * The code a step counts against and the steps cookie to set after counting
+ * it, or null when it is not to be counted: no start was counted on this
+ * browser, or this step is already counted for that code. A start for a new
+ * code starts the list again.
+ */
+export function stepCount(cookies: { started?: string | null; steps?: string | null }, step: StageStep): { code: string; cookie: string } | null {
+  const code = normaliseLinkCode(cookies.started ?? null)
+  if (!code) return null
+  const [heldCode, list] = (cookies.steps ?? '').split(':')
+  const done = heldCode === code && list ? list.split(',').filter(isStageStep) : []
+  if (done.includes(step)) return null
+  return { code, cookie: `${code}:${[...done, step].join(',')}` }
+}

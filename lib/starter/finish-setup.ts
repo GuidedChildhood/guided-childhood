@@ -48,6 +48,9 @@ export type PendingSetup = {
    *  losing it means lib/learning/term.ts cannot say which school year the
    *  child is in and setup has to ask all over again. */
   dob: string | null
+  /** The age tapped on question one (14 November 2026), so a birth month given
+   *  later still gives the exact year. Absent on a run saved before then. */
+  ageYears?: number | null
 }
 
 /** Put it somewhere that survives a trip to Google and back. */
@@ -128,6 +131,11 @@ export async function writeStarterSetup(supabase: SupabaseClient, p: PendingSetu
         challenge_other: p.worryOther.trim() || null,
         feeling: p.feeling,
         timeCommitment: p.timeCommitment,
+        // The age they tapped and the day they tapped it, and whether setup
+        // must ask for the name and birth month (lib/setup/steps.ts ABOUT_STEP).
+        ageYears: p.ageYears ?? null,
+        ageOn: new Date().toISOString().slice(0, 10),
+        askAbout: !p.dob || !p.childName.trim(),
       },
     }).eq('id', user.id)
 

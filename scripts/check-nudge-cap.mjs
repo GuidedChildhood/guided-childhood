@@ -50,9 +50,25 @@ for (const file of NUDGES) {
   }
 }
 
+// What we PROMISE has to match the cap (Justin, 15 November 2026). The prompt
+// reads the number from DAILY_NUDGE_CAP; the setup step is plain copy, so it
+// is checked here against the same constant.
+const capSrc = readFileSync('lib/push/nudge-cap.ts', 'utf8')
+const cap = Number((capSrc.match(/DAILY_NUDGE_CAP\s*=\s*(\d+)/) || [])[1])
+const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five']
+const promises = {
+  'components/push/PushPrompt.tsx': /DAILY_NUDGE_CAP/,
+  'lib/setup/steps.ts': new RegExp(`at most ${WORDS[cap]} reminders? a day`, 'i'),
+}
+for (const [file, want] of Object.entries(promises)) {
+  const src = readFileSync(file, 'utf8')
+  if (!want.test(src)) misses.push(`${file}  the reminder promise does not match the cap of ${cap}`)
+  if (/(three|four|five) gentle nudges/i.test(src)) misses.push(`${file}  promises more nudges than the cap`)
+}
+
 if (misses.length || counted === 0) {
   console.error('check-nudge-cap FAILED\n')
-  for (const m of misses) console.error(`  ${m}  a parent nudge without nudge: true`)
+  for (const m of misses) console.error(`  ${m}${m.includes('  ') ? '' : '  a parent nudge without nudge: true'}`)
   if (counted === 0) console.error('  no parent sends found at all: the file list is stale')
   console.error('\nEvery scheduled parent nudge counts toward the two a day ceiling (lib/push/nudge-cap.ts).')
   process.exit(1)

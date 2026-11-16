@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import SetupQuest from '@/components/setup/SetupQuest'
-import type { SetupFlags } from '@/lib/setup/steps'
+import { visibleSteps, type SetupFlags } from '@/lib/setup/steps'
 
 // Dev harness for the Setup Quest (components/setup/SetupQuest.tsx).
 //
@@ -19,12 +19,15 @@ import type { SetupFlags } from '@/lib/setup/steps'
 // In list order: home screen, children, share. The middle states are the ones
 // worth looking at, because they are where the green ticks stack up above the
 // live card, which is the whole point of the 15 August change.
-const STATES: { label: string; flags: SetupFlags }[] = [
-  { label: 'Fresh',      flags: { homeScreen: false, children: false, coreTime: false, childLink: false } },
-  { label: 'One done',   flags: { homeScreen: true, children: false, coreTime: false, childLink: false } },
-  { label: 'Two done',   flags: { homeScreen: true,  children: true, coreTime: false, childLink: false } },
-  { label: 'Three done', flags: { homeScreen: true,  children: true,  coreTime: true, childLink: false } },
-  { label: 'All done',   flags: { homeScreen: true,  children: true,  coreTime: true, childLink: true } },
+const STATES: { label: string; flags: SetupFlags; about?: boolean }[] = [
+  // A family who joined on the one tap stage check with no name or birth month
+  // (14 November 2026): Tell us about your child leads, the four follow.
+  { label: 'Joined on one tap', about: true, flags: { aboutChild: false, homeScreen: false, children: false, coreTime: false, childLink: false } },
+  { label: 'Fresh',      flags: { aboutChild: true, homeScreen: false, children: false, coreTime: false, childLink: false } },
+  { label: 'One done',   flags: { aboutChild: true, homeScreen: true, children: false, coreTime: false, childLink: false } },
+  { label: 'Two done',   flags: { aboutChild: true, homeScreen: true,  children: true, coreTime: false, childLink: false } },
+  { label: 'Three done', flags: { aboutChild: true, homeScreen: true,  children: true,  coreTime: true, childLink: false } },
+  { label: 'All done',   flags: { aboutChild: true, homeScreen: true,  children: true,  coreTime: true, childLink: true } },
 ]
 
 export default function SetupQuestDevPage() {
@@ -56,16 +59,20 @@ export default function SetupQuestDevPage() {
           <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
             {Object.values(STATES[i].flags).every(Boolean)
               ? 'Setup Quest'
-              : 'Four things and you are set'}
+              : STATES[i].about ? 'Five things and you are set' : 'Four things and you are set'}
           </h1>
         </div>
         <SetupQuest
           flags={STATES[i].flags}
-          child={{ id: 'devfixture-child', name: 'Olga' }}
-          children={[
-            { id: 'devfixture-child', name: 'Olga', age_band: '8-10', linked: false, noPhone: false },
-            { id: 'devfixture-child-2', name: 'Teo', age_band: '11-13', linked: false, noPhone: false },
-          ]}
+          steps={visibleSteps({ about: STATES[i].about })}
+          signupAge={STATES[i].about ? { years: 9, on: '2026-11-14' } : null}
+          child={{ id: 'devfixture-child', name: STATES[i].about ? 'Your child' : 'Olga' }}
+          children={STATES[i].about
+            ? [{ id: 'devfixture-child', name: 'Your child', age_band: '8-10', linked: false, noPhone: false, dob: null }]
+            : [
+                { id: 'devfixture-child', name: 'Olga', age_band: '8-10', linked: false, noPhone: false },
+                { id: 'devfixture-child-2', name: 'Teo', age_band: '11-13', linked: false, noPhone: false },
+              ]}
           userId="devfixture-user"
         />
       </div>

@@ -1,3 +1,5 @@
+'use client'
+
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
@@ -6,6 +8,7 @@ const HAPPY_FOR: Partial<Record<KidIconName, HappyIconName>> = {
   jobs: 'jobs', time: 'time', star: 'wins', printables: 'print', games: 'games',
   deal: 'deal', lessons: 'lessons', keepsakes: 'heart',
 }
+import Link from 'next/link'
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 import type { BoardStatus } from '@/lib/quests/board-status'
 
@@ -31,6 +34,8 @@ type Tile = {
   label: string
   sub: string
   icon: KidIconName
+  /** A drawn icon picked by name, when the tile's own twin is already in use. */
+  happy?: HappyIconName
   bg: string
   iconBg: string
   /** The icon's own colour, so eight tiles read as eight places. */
@@ -123,6 +128,15 @@ const TILES: Tile[] = [
     badgeTone: s => s.timeAsks > 0 ? 'alert' : 'quiet',
   },
   {
+    // Everything that SETS the system rather than runs the day: the stars and
+    // what they are worth, the reward being saved for, the child's link and QR
+    // code, pings, routines and the idea lists. It was the bottom fifteen
+    // screens of this page until 15 November 2026 and has its own page now.
+    href: '/dashboard/quests/setup', label: 'Stars, rewards and sharing', sub: 'Set the deal, send their link',
+    // Its own drawing, so it does not wear the star chart's mark two rows down.
+    icon: 'star', happy: 'star', bg: 'var(--tint-butter)', iconBg: 'rgba(255,255,255,0.72)', iconColor: 'var(--terracotta-dark)',
+  },
+  {
     // The star chart is the starter pack, the one printable every family uses,
     // and it was two taps down inside Printables where a parent had to know it
     // existed to find it. It sits next to Manage jobs, in the same terracotta,
@@ -165,14 +179,10 @@ const TILES: Tile[] = [
     icon: 'deal', bg: 'var(--tint-sage)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#2F8F6B',
     badge: s => s.agreementSigned ? null : 'Not made',
   },
-  {
-    // Lessons had no way in from here at all, which is how a whole strand of
-    // the product goes quiet: jobs and stars are the daily loop a parent opens
-    // this board for, and the learning is the thing the loop is FOR. A board
-    // that offers games but not lessons quietly says which one matters.
-    href: '/dashboard/lessons', label: 'Lessons', sub: 'Watch together, pass the stage',
-    icon: 'lessons', bg: 'var(--tint-amber)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#A8475C',
-  },
+  // Lessons is not in this list any more. It was added when the board had no
+  // way in to them, and since then Lessons has had a permanent tab in the bar
+  // at the bottom of every screen, so the tile was a second door to a place
+  // already one tap away, on a page whose trouble was too many doors.
   {
     // The keepsake shop had no way in from here: it sat behind the passport and
     // the sticker book, so a parent who never opened those never found it. It
@@ -207,6 +217,19 @@ const ACCENT: Record<string, string> = {
   'var(--tint-amber)': '#D6BE8A',
 }
 
+// How many tiles are ACTIONS. The rest are places.
+//
+// Justin, 15 November 2026, on this page: "seems way too much". Nine equal
+// tiles was a fair answer to "where is everything" and the wrong answer to
+// "what do I do here", because nine doors the same size say that nothing is
+// the main thing. The two a parent uses daily stay as big tiles: add a job,
+// and the screen timer, which is also where a child asking for time shows up.
+// Everything else is somewhere a parent goes now and then, so it is one quiet
+// list under them, the way Greenlight and GoHenry both keep one button on the
+// chores screen and put the rest behind it. The badges all survive the move:
+// a row with something waiting still says so.
+const ACTIONS = 2
+
 export default function QuestShortcuts({ status }: { status?: BoardStatus }) {
   const tiles: SectionTile[] = TILES.map(t => {
     const badge = status && t.badge ? t.badge(status) : null
@@ -216,10 +239,63 @@ export default function QuestShortcuts({ status }: { status?: BoardStatus }) {
       label: t.label, sub: t.sub,
       // The story icons from the child's home, where one exists, so the two
       // apps share a drawing style (the happy news finish, 5 September).
-      icon: HAPPY_FOR[t.icon] ? <HappyIcon name={HAPPY_FOR[t.icon]!} size={34} /> : <KidIcon name={t.icon} size={23} />,
+      icon: t.happy ? <HappyIcon name={t.happy} size={34} /> : HAPPY_FOR[t.icon] ? <HappyIcon name={HAPPY_FOR[t.icon]!} size={34} /> : <KidIcon name={t.icon} size={23} />,
       bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)', iconColor: t.iconColor,
       ...(badge ? { badge, badgeTone: typeof t.badgeTone === 'function' ? t.badgeTone(status!) : (t.badgeTone ?? 'quiet') } : {}),
     }
   })
-  return <SectionTiles tiles={tiles} />
+  const more = tiles.slice(ACTIONS)
+  return (
+    <>
+      <SectionTiles tiles={tiles.slice(0, ACTIONS)} />
+      <nav aria-label="More in Quests" style={{
+        background: 'var(--white)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+        borderRadius: 'var(--radius-card)', overflow: 'hidden', marginBottom: 18,
+      }}>
+        {more.map((t, i) => (
+          <Link
+            key={t.href + t.label}
+            href={t.href}
+            onClick={t.href.includes('#') ? () => {
+              // A badge can point at a card on this same page. Next does not
+              // scroll for a hash on the route it is already on, so do it.
+              const el = document.getElementById(t.href.split('#')[1])
+              if (el) el.scrollIntoView({ block: 'start' })
+            } : undefined}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none',
+              padding: '11px 14px', minHeight: 60, boxSizing: 'border-box',
+              borderTop: i === 0 ? 'none' : '1px solid var(--border)',
+            }}
+          >
+            <span aria-hidden style={{
+              width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: t.bg,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+              color: t.iconColor,
+            }}>
+              {t.icon}
+            </span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
+                {t.label}
+              </span>
+              <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.35 }}>
+                {t.sub}
+              </span>
+            </span>
+            {t.badge && (
+              <span style={{
+                flexShrink: 0, background: t.bg, border: 'var(--edge)', color: 'var(--ink)',
+                borderRadius: 'var(--radius-pill)', padding: '0.25em 0.8em',
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+              }}>
+                {t.badge}
+              </span>
+            )}
+            <span aria-hidden style={{ flexShrink: 0, color: 'var(--ink-muted)', fontSize: 'var(--text-lg)', lineHeight: 1 }}>›</span>
+          </Link>
+        ))}
+      </nav>
+    </>
+  )
 }

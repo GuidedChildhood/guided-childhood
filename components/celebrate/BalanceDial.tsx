@@ -17,7 +17,7 @@ const INK = '#1A1A2E'
 const GREEN_END = 0.66
 
 function dayPosition(screenMins: number, healthyMins: number, offscreenStars: number): number {
-  // How full the screen day is against the healthy level: 0 none, 1 at the
+  // How full the screen day is against our guide: 0 none, 1 at the
   // level, up to 1.5 well over.
   const load = healthyMins > 0 ? Math.min(screenMins / healthyMins, 1.5) : (screenMins > 0 ? 1 : 0)
   let pos = 0.12 + (load / 1.5) * 0.82

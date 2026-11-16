@@ -62,6 +62,20 @@ export default function FrenchApproach() {
         </Part>
       )}
 
+      {H.overload && (
+        <Part id="overload" title="Avoiding overload">
+          <p style={{ ...body, margin: 0 }}>Pictures, actions, clear slides and clear worksheets.</p>
+          {H.overload.steps.map((t, i) => <p key={i} style={{ ...body, margin: 0, color: 'var(--ink)' }}>{t}</p>)}
+          <Cards rows={[['Clear worksheets', H.overload.worksheets], ['Clear slides', H.overload.slides]]} />
+        </Part>
+      )}
+
+      {P.directAssociation && P.directAssociation.length > 0 && (
+        <Part id="meaning" title="Meaning first, then the written word">
+          <Cards rows={P.directAssociation} />
+        </Part>
+      )}
+
       {(games.length > 0 || acts.phonics || acts.assess) && (
         <Part id="activities" title="The activities, and what each is for">
           {H.goodGame && <Callout>{H.goodGame}</Callout>}
@@ -77,6 +91,13 @@ export default function FrenchApproach() {
         <Part id="marie-and-pierre" title="Marie and Pierre">
           <p style={{ ...body, margin: 0 }}>The two toys at the heart of the lessons.</p>
           <Cards rows={H.marie} />
+        </Part>
+      )}
+
+      {P.pupilResources && P.pupilResources.length > 0 && (
+        <Part id="pupil-resources" title="Word mats and What I can do">
+          <p style={{ ...body, margin: 0 }}>The two sheets pupils keep and use across each unit.</p>
+          <Cards rows={P.pupilResources} />
         </Part>
       )}
 

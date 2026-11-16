@@ -5,7 +5,7 @@ import {
 } from '@gc/shared/lesson-records'
 import PrintButton from '@/components/PrintButton'
 import { eyebrow } from '@/components/ui'
-import { assessedCodes, CODE_ORDER, FRENCH_UNITS, FRENCH_YEARS, SKILL_LABEL, teachingLessons } from '@/lib/languages/french'
+import { assessedCodes, checkpointOf, CODE_ORDER, FRENCH_UNITS, HAS_CHECKPOINTS, FRENCH_YEARS, SKILL_LABEL, teachingLessons } from '@/lib/languages/french'
 import { readDeliveries, recordYears } from '@/lib/records'
 import { body, card, langEyebrow, small } from '../_ui'
 
@@ -176,7 +176,10 @@ export default async function FrenchProgress({ searchParams }: { searchParams: P
                         return (
                           <li key={c.code}>
                             <div style={{ minWidth: 0 }}>
-                              <span style={{ ...langEyebrow, display: 'block' }}>{c.code} · {SKILL_LABEL[c.code[0]] ?? 'Statement'}</span>
+                              <span style={{ ...langEyebrow, display: 'block' }}>
+                                {c.code} · {SKILL_LABEL[c.code[0]] ?? 'Statement'}
+                                {HAS_CHECKPOINTS && <span style={{ color: 'var(--ink-muted)' }}> · {checkpointOf(u.year, c.code) === `HT${u.ht}` ? 'Formal checkpoint' : 'Formative'}</span>}
+                              </span>
                               <span style={{ ...small, color: 'var(--ink)' }}>{c.pupil}</span>
                             </div>
                             {latest && share !== null ? (
@@ -205,8 +208,9 @@ export default async function FrenchProgress({ searchParams }: { searchParams: P
             <div style={{ marginTop: 'var(--space-4)' }}>
               <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 var(--space-1)' }}>Each statement, each time it comes round</h3>
               <p style={{ ...small, margin: '0 0 var(--space-2)' }}>
-                The share of the class at SOLO 4 or above. A statement is assessed in more than one half term, and a later
-                unit asks for more at the same level, so holding the same share is progress too.
+                The share of the class at SOLO 4 or above. A code is practised in more than one half term and formally
+                judged once a year, at its checkpoint. A later unit asks for more at the same level, so holding the
+                same share is progress too.
               </p>
               <div style={{ ...card, padding: 0, overflowX: 'auto' }}>
                 <table className="gc-fr-trend">

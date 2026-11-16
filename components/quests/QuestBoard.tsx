@@ -77,7 +77,21 @@ const ASK_DISMISS: React.CSSProperties = {
   color: 'var(--ink-muted)', flexShrink: 0,
 }
 
-export default function QuestBoard() {
+export default function QuestBoard({ foldQueue = false }: {
+  /**
+   * Keep the approve queue shut until it is asked for.
+   *
+   * On the Quests page the status board sits directly above this card and
+   * already lists every waiting tick with a Yes on it, so on a busy day the
+   * same three jobs were on the screen twice, one above the other (measured
+   * 15 November 2026: it added a full phone screen). The queue here is still
+   * the only place a tick can be turned down, on purpose, so it is not removed:
+   * it opens when the parent taps Turn one down on the status board, or arrives
+   * on a link that points at it.
+   */
+  foldQueue?: boolean
+} = {}) {
+  const [queueOpen, setQueueOpen] = useState(false)
   const [children, setChildren] = useState<Child[]>([])
   const [quests, setQuests] = useState<Quest[]>([])
   const [ticks, setTicks] = useState<Tick[]>([])
@@ -116,6 +130,23 @@ export default function QuestBoard() {
   // Keep the board live: a child ticking a quest lands as a pending approval
   // the parent should see without a refresh. Poll gently, and refetch the
   // moment the tab is looked at again, so Waiting on you is never stale.
+  useEffect(() => {
+    // An approve link from Home, a push or an email lands on #quest-board
+    // meaning this queue, so it arrives open.
+    if (window.location.hash === '#quest-board') setQueueOpen(true)
+    const open = () => setQueueOpen(true)
+    // The status board said yes to something: the stars and counts here are
+    // stale until the next poll, which was up to fifteen seconds of the two
+    // cards on one page disagreeing about the same child.
+    const changed = () => { load() }
+    window.addEventListener('gc:quest-queue-open', open)
+    window.addEventListener('gc:quests-changed', changed)
+    return () => {
+      window.removeEventListener('gc:quest-queue-open', open)
+      window.removeEventListener('gc:quests-changed', changed)
+    }
+  }, [load])
+
   useEffect(() => {
     load()
     const id = setInterval(load, 15000)
@@ -211,7 +242,10 @@ export default function QuestBoard() {
       })
       // Drop the bell and the Waiting on you banner at once, and the child's
       // own app hears the yes on its next poll.
-      try { window.dispatchEvent(new Event('gc:notifs-changed')) } catch { /* SSR */ }
+      try {
+        window.dispatchEvent(new Event('gc:notifs-changed'))
+        window.dispatchEvent(new Event('gc:quests-changed'))
+      } catch { /* SSR */ }
     } catch { load() }
   }
 
@@ -292,7 +326,7 @@ export default function QuestBoard() {
       )}
 
       {/* Approve queue: the kid is waiting on you */}
-      {pending.length > 0 && (
+      {pending.length > 0 && (!foldQueue || queueOpen) && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
           {pending.map(t => {
             const q = questById.get(t.quest_id)
@@ -360,7 +394,9 @@ export default function QuestBoard() {
                 }}
               >
                 <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '6px' }}>
+                  {/* Wraps as two whole pieces. On a phone the stars line broke
+                      after "this", leaving "week" alone on a line of its own. */}
+                  <span style={{ display: 'flex', alignItems: 'baseline', columnGap: '10px', rowGap: '2px', flexWrap: 'wrap', marginBottom: '6px' }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
                       {c.name}
                     </span>
@@ -372,7 +408,7 @@ export default function QuestBoard() {
                         designed reads as a runaway bug. Naming the window is
                         the whole fix: these stars reset, the banked minutes
                         below them do not. */}
-                    <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                    <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
                       ⭐ {balance} = {balance * STAR_MINUTES} min this week
                     </span>
                   </span>
@@ -392,6 +428,22 @@ export default function QuestBoard() {
                       {holiday.spendableNow
                         ? <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> to spend{holiday.holidayTitle ? ` during ${holiday.holidayTitle}` : ' now'}</>
                         : <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> saved for the school holidays</>}
+                    </span>
+                  )}
+                  {/* Today as a bar, the one thing on this row a parent reads
+                      from across the kitchen. GoHenry opens a child's earning
+                      on exactly this: one bar, then the words. Butter on the
+                      page's own cream, and decorative, because the sentence
+                      under it says the same thing to a screen reader. */}
+                  {dueToday.length > 0 && (
+                    <span aria-hidden style={{
+                      display: 'block', height: 10, borderRadius: 'var(--radius-pill)', background: 'var(--white)',
+                      border: 'var(--edge)', overflow: 'hidden', margin: '2px 0 7px',
+                    }}>
+                      <span style={{
+                        display: 'block', height: '100%', background: 'var(--terracotta)',
+                        width: `${Math.round((doneToday / dueToday.length) * 100)}%`,
+                      }} />
                     </span>
                   )}
                   {/* Today's quest dots */}

@@ -81,6 +81,14 @@ export const ONBOARDING_TO_SLUG: Record<string, string> = {
   social_media: 'social-media',
   ai_chatbots: 'ai-chatbots',
   seen_something: 'seen-something',
+  // The six tiles added on 16 November 2026, each its own concern so the
+  // check in can rate it and DiGi can name it.
+  game_chat: 'game-chat',
+  group_chats: 'group-chats',
+  getting_round: 'getting-round-rules',
+  homework_screens: 'homework-screens',
+  endless_youtube: 'endless-youtube',
+  game_spending: 'game-spending',
   // online_safety and something_else stay deliberately absent. A catch all is a
   // picker, not a rateable thing, and the daily card already filters those out
   // by slug. A baseline row nobody can honestly score is worse than none. They
@@ -100,6 +108,12 @@ export const LABEL: Record<string, string> = {
   'social-media': 'Social media',
   'ai-chatbots': 'AI chatbots',
   'seen-something': 'What they come across online',
+  'game-chat': 'Who they talk to in games',
+  'group-chats': 'Group chats',
+  'getting-round-rules': 'They get round the rules',
+  'homework-screens': 'Homework on screens',
+  'endless-youtube': 'Endless YouTube',
+  'game-spending': 'Spending in games',
 }
 
 // ── THE FOUR COMMON ONES, FOR A CHILD WITH NO HISTORY ───────────────────────

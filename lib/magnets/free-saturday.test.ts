@@ -95,7 +95,7 @@ test('every lead programme skips a no, and keeps the stop filter before 396', ()
 })
 
 // The taster series (13 November 2026, "Yes, daily for the series").
-import { seriesEmailDue, seriesPageNumber, SERIES_ORDER } from './taster-nurture'
+import { seriesEmailDue, seriesPageNumber, seriesOrderFor, SERIES_ORDER } from './taster-nurture'
 
 test('the series runs in order, one a day, and stops after five', () => {
   const sent = new Set<string>()
@@ -107,6 +107,20 @@ test('the series runs in order, one a day, and stops after five', () => {
     if (due) { sent.add(due); got.push(`${d}:${due}`) }
   }
   assert.deepEqual(got, ['1:series-1', '2:series-2', '3:series-3', '4:series-stage', '5:series-full-pack'])
+})
+
+test('a short taster leaves out the page emails it has no page for', () => {
+  // A mini pack's one page taster (16 November 2026): page 1, the stage check, the pack.
+  assert.deepEqual(seriesOrderFor(1), ['series-1', 'series-stage', 'series-full-pack'])
+  assert.deepEqual(seriesOrderFor(2), ['series-1', 'series-2', 'series-stage', 'series-full-pack'])
+  assert.deepEqual(seriesOrderFor(3), [...SERIES_ORDER])
+  const sent = new Set<string>()
+  const got: string[] = []
+  for (let d = 1; d <= 6; d++) {
+    const due = seriesEmailDue(d - 0.25, sent, 1)
+    if (due) { sent.add(due); got.push(`${d}:${due}`) }
+  }
+  assert.deepEqual(got, ['1:series-1', '2:series-stage', '3:series-full-pack'])
 })
 
 test('a failed day never bunches two emails together', () => {
@@ -147,5 +161,6 @@ test('the series goes only to a ticked box, as its own kind, and tells them it i
   const api = readFileSync('app/api/magnet/route.ts', 'utf8')
   assert.match(api, /seriesNext: Boolean\(taster\) && body\.consent === true/)
   const page = readFileSync('app/(marketing)/free/[slug]/page.tsx', 'utf8')
-  assert.match(page, /Also send me the 5 day series/)
+  assert.match(page, /Also send me the \$\{days\} day series/)
+  assert.match(cron, /seriesEmailDue\(age, sentKeys, taster\.pages\.length\)/)
 })

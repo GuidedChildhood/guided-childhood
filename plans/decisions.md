@@ -32,62 +32,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
 | `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-22 | 128 |
-| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-09 | 39 |
+| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-13 | 89 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-10-12 · 12 October 2026: "Ready", the brand advert, and its series template (PR 1221) · `plans/decisions-archive/2026-10.md`
-- 2026-10-12 · 12 October 2026: the film link, /v/<code> (migration 372) · `plans/decisions-archive/2026-10.md`
-- 2026-10-12 · 12 October 2026: PR 2 of the lessons loop, the home code records coverage (migration 373) · `plans/decisions-archive/2026-10.md`
-- 2026-10-12 · 12 October 2026: the shorts re-cut after the marketer review · `plans/decisions-archive/2026-10.md`
-- 2026-10-12 · 12 October 2026: guilt, not "bad guy" · `plans/decisions-archive/2026-10.md`
-- 2026-10-12 · 12 October 2026: readable films, the series line, and the product-shorts skill · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: the Digital Health Report is not a service · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: migration 360 was never applied, so the whole referral feature had no tables · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: 373 arrives in two halves, because 70 KB will not go through the tool · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: migrations 371 and 372 applied, and the shorts go out on the family account · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: the hard questions reach the live decks (migration 374) · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: the six heavy lessons wait for a grown up · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: the child's home, simpler, and nothing written for the parent reaches it · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: every post in Drive gets a Claude review, and the queue restarts at GDC-018 · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: live DiGi agrees the ending, and the bedroom rule is a pathway (migration 375) · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: the starter pack and the welcome agree the ending too · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: the Digital Health Report stays linked, and GDC-025 is live · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: GDC-022 was already spent, and the two parked posts are written · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: when the five land, the Planet Friends moonwalk on · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: screen break ideas, and Add your own on every step sheet · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: a child's lesson count is that child's own · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: five free Happy News printables, The Planet Post first · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: the child's home, the day first and linked to the grown up · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: the grown up's side of the link · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: The Guided Planet, the newspaper engine and Issue 001 · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: 373's content half carried in pieces, and proved before it was written · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: 375 and 374 applied, and 377 cannot be · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: a correction to what the 373 staging tables were granted · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: 377 goes back to the planet lane, not fixed here · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: The Guided Planet wears boho Happy News, and the audience is written down · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: the review board, eleven lenses scored every Friday · `plans/decisions-archive/2026-10.md`
-- 2026-10-13 · 13 October 2026: 377's grants are fixed, its name collision is not · `plans/decisions-archive/2026-10.md`
-- 2026-10-14 · 14 October 2026: The Guided Planet emails through Resend, and boho is for the printables · `plans/decisions-archive/2026-10.md`
-- 2026-10-14 · 14 October 2026: competitor sightings logged, and a first phone ad drafted · `plans/decisions-archive/2026-10.md`
-- 2026-10-14 · 14 October 2026: reels story bank from Family IT Guy's parent questions, not his content · `plans/decisions-archive/2026-10.md`
-- 2026-10-14 · 14 October 2026: the last three ChatGPT posts rewritten, and one register for the numbers · `plans/decisions-archive/2026-10.md`
-- 2026-10-14 · 14 October 2026: Happy News design system in Claude Design; printables start from it · `plans/decisions-archive/2026-10.md`
-- 2026-10-14 · 14 October 2026: GDC-039, 037, 038 running order approved · `plans/decisions-archive/2026-10.md`
-- 2026-10-14 · 14 October 2026: the Drive post review now runs itself · `plans/decisions-archive/2026-10.md`
-- 2026-10-14 · 14 October 2026: the Drive sweep nearly rewrote five published posts · `plans/decisions-archive/2026-10.md`
-- 2026-10-15 · 15 October 2026: The Planet Post is the taster, The Guided Planet the paper, one look · `plans/decisions-archive/2026-10.md`
-- 2026-10-15 · 15 October 2026: The Planet Post downloads now carry the better version · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: every stage check start is counted, by source · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: the board prints one line of real behaviour, and says unknown when it cannot read it · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: Digital Parenting Week planned as two date free pieces · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: every named worry has an exact script shelf, and the first phone is a plan · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: the child rule is "never chats", with one fixed card, and the guard is wired · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: our link in copy is guidedchildhood.com, and a guard holds it · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: The nightly evening push stops after seven unanswered nights · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: The Planet Post, clearer after a nine year old tried it · `plans/decisions-archive/2026-10.md`
 - 2026-10-16 · 16 October 2026: thumb sized buttons, route shaped loaders, a hex ratchet · `plans/decisions-archive/2026-10.md`
 - 2026-10-16 · 16 October 2026: The live Pathway Session line comes off the paid screens · `plans/decisions-archive/2026-10.md`
 - 2026-10-16 · 16 October 2026: The ask names what the family keeps, and repeats after the first look · `plans/decisions-archive/2026-10.md`
@@ -158,136 +108,250 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-11-09 · 9 November 2026: one click lesson tracking, audited, not built · `plans/decisions-archive/2026-11.md`
 - 2026-11-09 · 9 November 2026: the pilot teacher's French arrives in the languages tab · `plans/decisions-archive/2026-11.md`
 - 2026-11-09 · 9 November 2026: tracking approved, bridge b reversed for delivery records · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: the walkthrough campaign, 20 drafts and three built · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: French media mirrors into our storage, from GitHub · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: 390 applied, and the sweep is clear · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: French files stay on her site for now; the print room · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: the finish pass on French and the digital print room · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: the walkthrough campaign, all 20 built · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: the French scheme syncs every night · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: the walkthrough runs from 17 November, three a week · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: the Research Radar and ChatGPT run as one gated pipeline · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: French re-cut into three rooms, and the three pages it was missing · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: the relay, so Justin stops carrying research between ChatGPT and Claude · `plans/decisions-archive/2026-11.md`
+- 2026-11-10 · 10 November 2026: the lesson run and the school's record (first build) · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: her handbook comes across, and digital gets its progress page · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: films are checked, numbers come back, and why the 09:17 run did nothing · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: the ad system, step by step, and step 1 the creative director gate · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: Etsy repriced, and twelve more listings built · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: ad round 1 built, and the uploader that loads it paused · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: the ads measured against the talk's and the competitors', and a picture added · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: all five Round 1 cards carry a picture · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: the ad goal, the swipe file, and accounts of their own · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: ad video 1, the script for Justin to camera · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: the Facebook key is Justin's own, because the Page cannot be moved yet · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: Anna cannot be reached, so the Page goes to Meta support · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: migration 391 applied, after PR 1490 merged · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: progression and assessment reviewed against the best platforms · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: the nine amendments, built in order (first: the record, the musts, the descriptors) · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: a suggested year for every lesson, and the progression map · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: quiz counts, the leader's page and the look back quiz · `plans/decisions-archive/2026-11.md`
+- 2026-11-11 · 11 November 2026: a free taster of every printable pack, and the three email week behind it · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: migrations 393 and 394 applied, after PR 1496 merged · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: 391 and 392 applied, and 394 was already in · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: the second ad talk weighed, the results read, the Monday loop · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: the verified advertiser on the ads is The Social Billboard Ltd · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: round 1 loaded paused, the benchmark pass, the Monday loop scheduled, the how to use page · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: ten out of ten, the build order, and the Fable 5.2 trial · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: reconciliation before the next batch · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: migration 395 applied · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: round 1 paid test switched on · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: a simple version of mid match joins the paid test · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: the ad system takes a brand: The Social Billboard and Schools join · `plans/decisions-archive/2026-11.md`
+- 2026-11-12 · 12 November 2026: The Social Billboard's first ad round, built · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: creator radar brief, plan before build · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: ChatGPT's feedback on the visual report, weighed · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: Roblox pilot, the verified research pack · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: collecting from one creator's Instagram is allowed, for analysis · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: Family IT Guy may be named in the Roblox story · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: the French sync stops going red, and her checkpoint model is ours · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: Free Saturday, a free printable a week built to be claimed, and the download no longer signs anyone up · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: a five day email series for anyone who asks, daily, outside the weekly floor · `plans/decisions-archive/2026-11.md`
+- 2026-11-13 · 13 November 2026: creator radar pilots 2 and 3, draft packs · `plans/decisions-archive/2026-11.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
 
-## 10 November 2026: the walkthrough campaign, 20 drafts and three built
+## 14 November 2026: round 1 paused; the stage check opens on one tap
 
-Justin asked for a 20 post walkthrough of the three platforms, one service a post, one goal: free sign ups. Plan: `plans/week-of-2026-11-09-walkthrough-campaign-plan.md`; drafts and the three built pieces (a 30 second Reel cut from existing real captures, an 8 page schools carousel from captures of the live site, a playlists card) in `content/campaigns/platform-walkthrough/`. The spine is the sideways launch sequence with a problem, promise, proof, proposal shape and no agitate. Split 13 parents, 4 schools, 3 playlists, numbered per account because the three audiences never see each other's posts. Found on the live sites: schools has no open catalogue any more (the free steps are one whole lesson and the pilot), parents have no free tier (four days of everything, no card), "school chest" is on no live page, and school email forwarding is live. Nothing posted, scheduled or spent; six decisions wait on Justin. The film engine's tap ripple no longer paints a dot before the tap. PR 1471 was merged as the empty claim; the work is PR 1475.
+Round 1 reached 9,210 parents, 216 clicks, 136 page loads, £10.64, and no stage check was begun; the counter was proved working. Question one asked a stranger for the child's name and birth month and year before anything, with no button. Justin: "Pause and fix it". Campaign paused. Question one is now the child's age, one tap (4 to 16); the birth month moves to the save screen, where with the age it gives the exact year; "Not you? Start fresh" shows only to a real returning visit. Left out was the clear winner on clicks (117 of 216). `plans/2026-11-14-stage-check-one-tap.md`.
 
-## 10 November 2026: French media mirrors into our storage, from GitHub
+## 14 November 2026: the parent problem sweep, first ranked log
 
-Justin's 9 November call. `scripts/languages/mirror-french-media.mjs` copies the 104 decks, songs and sheets into the public `languages` bucket, run by `.github/workflows/languages-media.yml` because GitHub already holds the Supabase key (no key typed anywhere). Pages use one route, `/languages/fr/media`, which serves our copy and falls back to her site until a file is mirrored. Decks are served sandboxed so their scripts never run as the schools app. Also fixed: the "What I can do" sheet was missing from unit pages.
+- Prompt B of the answer series plan, run on open pages only. 15 problems ranked in `content/parent-problem-log.md`, beside the radar log. No usernames stored, nothing published.
+- Top of the list by threads read: coming off the screen (12), the first phone (9), Roblox and games at primary age (8), the phone in the bedroom at night (7). Weeks 1 to 3 of the plan are supported as they stand.
+- Proposed for week 4 onward: the bedroom at night, Snapchat before 13, homework on the screen. Coming off the screen needs a refresh, not new research.
+- Limits: every thread is Mumsnet bar two. Reddit, Netmums and public Facebook pages gave nothing readable without a login, so they are not covered. Quotes need a person to check them against the page before use. Messenger is NOT OURS for now. PR 1538.
 
-## 10 November 2026: 390 applied, and the sweep is clear
+## 14 November 2026: the answer series, email courses and child films, plan before build
 
-390 is the follow up to 389: two ks2-04 slides grew past what a projector and
-a teacher laptop show at once, and check-wall-fit turned main red. Applied as
-one transaction with its own per value guards and proof, so an abort would have
-left the deck alone. Both slides are now the shorter text, and the live ks2-04
-digest is 055deef8, equal to content/modules, so the deck and its file still
-match after both migrations.
+- Justin asked for a twice weekly post answering Family IT Guy, Dr Becky Kennedy and Catherine Knibbs, an email course per topic in place of downloads, a parent problem sweep, child lesson films released, and a research pop Reel.
+- Verdict: one verified topic pack feeds every format, as the Roblox pilot did. One new topic a week, two posts from it.
+- He extended Instagram collection for analysis to the other two accounts, same limits as 13 November.
+- Six decisions wait on him, the main two being where the email course sits in the funnel and whether the two clinicians may be named.
+- Plan and the four prompts: `plans/2026-11-14-answer-series-email-courses-and-child-films-plan.md`. Nothing is built until he says go.
 
-Nothing else is outstanding. 390 was the only file in the repo without its
-effect in the database. Worth writing down how that was established, because
-the ledger alone says the opposite: 252 of the 380 numbered migration files
-have no ledger row under their number, and nearly all of those are old rows
-recorded under a name with no number prefix (361 is
-lesson_clips_every_browser_can_play, 363 is school_day_windows). So the
-number comparison is noise. What settles it is the live schema: everything
-from 350 up was probed by its own effect, usually the backup table each one
-creates, and all of it is there.
+## 14 November 2026: Justin's answers on the answer series
 
-Left from yesterday, still open and not mine: the concern-guards failure on
-main is a miscount in scripts/check-followup-lives-in-checkin.mjs, not a fault
-in the route it guards. The guard subtracts one for its helper's definition,
-and the helper became generic, so the definition no longer matches the pattern
-and two real call sites count as one. The patch is on PR 1462.
+- Twice a week. Stage check stays the call to action on every post, with the topic email course offered on the result page.
+- The two clinicians are not named: our own posts, built off their subject material. Family IT Guy may be named.
+- Child films are released everywhere: YouTube, the family account and the product.
+- He gave the James Smith video and the Instagram post with the Mike Tyson comparison. Neither could be read by machine (both sites refused), so the Roblox post stays held until the exact words are read.
 
-## 10 November 2026: French files stay on her site for now; the print room
+## 14 November 2026: the seven rules marketing video, weighed
 
-The mirror's first run found no Supabase secrets in GitHub. Justin chose to keep the French files on the author's site for now: the media route already falls back to it, and the mirror job waits quietly until the two secrets are added (that is the whole switch). New page `/languages/fr/print`, the French print room: all 89 sheets on one page by unit and lesson, three versions side by side, a link filter per version.
+- The transcript Justin pasted is by a speaker addressed as Sabri and does not say email sequences over downloads. The email course stays on our own reasoning.
+- Adopted: every piece must give what a chatbot cannot. Adapted: a stage named in an ad's first line, tested free first. Parked: PR and cloned funnels. Declined: rewarded reviews.
+- `plans/2026-11-14-seven-rules-video-weighed.md`. No spend, no new funnel.
 
-## 10 November 2026: the finish pass on French and the digital print room
+## 14 November 2026: James Smith on lead magnets, weighed
 
-Justin asked for our level of finish on the French pages, with motion and better navigation, then flagged `/print`. French: one segmented control on every page (Units, Print room, Coverage), a live sandboxed preview of the first slide on the lesson page, a play button per lesson row, the house Reveal and the site's own button classes. `/print`: 238 pills in tables became one row per lesson that opens to its seven sheets (native details, no script, still cached). Her slides themselves are untouched; restyling them needs her say. Her own site is not changed by any of this.
+- The right video this time: no PDF as the price of an email address, a short email a day instead.
+- Adopted in adapted form: the topic email course is seven daily emails of about a minute each, one thing to do, the offer on days five and seven. Declined: pressure lines and a thirty day run.
+- Adopted: name our own bottleneck with real numbers before building more content.
+- `plans/2026-11-14-james-smith-lead-magnet-video-weighed.md`.
 
-## 10 November 2026: the walkthrough campaign, all 20 built
+## 14 November 2026: the child film inventory (Prompt D)
 
-Justin said yes to the look of posts 1 to 3, so the other seventeen were built the same afternoon, all free: four more parents Reels from the reference pages, seven parents carousels and cards with `tools/social-cards`, three schools decks from captures of the live site, two playlists decks. Six pages of the live parent app that no reference page shows (Scripts, app settings, first phone, Printables, tell a parent) were captured in his signed in Chrome, with the film family's names swapped on the page first and anything showing the family's own record cropped out. `tools/social-cards` gained a framed screen card (`shot`), a `start` number for lists and a tighter five band row. Open on the built pieces: a real fridge photo for post 17, the printed passport price on post 18, the marketer review of the five new films. Nothing posted, scheduled or spent. PRs 1478 and 1481.
+- Ten finished child films exist: the Stage 1 watch together films, ages 4 to 7, all live. Everything else is a script or a clip of 5 to 12 seconds.
+- First five to release, in journey order: 1.1, 1.5, 1.2, 1.4, 1.3. Remake: 1.6 (frightening picture), 1.9 (miscounts, DiGi off model), 1.10 (three patched stretches).
+- None is ready for YouTube or the family account: landscape only, no stage check ending, and each closes on a promise about the child.
+- Not reached: the languages films, the music video, Drive beyond one search, the channels.
+- `content/child-films/2026-11-14-inventory-and-release-list.md`. Nothing uploaded or published.
 
-## 10 November 2026: the French scheme syncs every night
+## 14 November 2026: the first WhatsApp group pack, and the August briefing no longer stands alone
 
-Justin said yes to a nightly sync. `languages-sync.yml` reads the author's data each night and, only when it changed, opens or refreshes one pull request (`languages/french-sync`) with the new `fr.json`; merging it is what goes live. The sync script now refuses to write a file whose shape the pages could not draw. Slides, songs and sheets are not in this: they load from her site as they are.
+- Topic production for the first WhatsApp group, Prompt C. The August briefing was re checked first: of 37 lines, 12 confirmed, 17 corrected, 7 removed, 1 not reached. `content/packs/2026-11-14-first-whatsapp-group/recheck.md`.
+- Withdrawn: "the blockers cannot see inside WhatsApp" (Bark's own page says it can), three untraceable Ofcom figures, and every teenage sleep or trajectory figure as a claim about a 10 or 11 year old. The briefing carries a notice at the top.
+- New: WhatsApp parent managed accounts for under 13s (March) and teen controls (September). UK availability unconfirmed, so every asset says so.
+- The pack: answer post, second angle, Reel, Short, seven daily emails (Justin's change the same day), child film brief, checklist marked NOT READY. Every post ends at the stage check, no clinician named.
+- No GDC number claimed. The register takes one study per record and a topic pack does not fit it yet. Nothing posted or sent.
 
-## 10 November 2026: the walkthrough runs from 17 November, three a week
+## 14 November 2026: the pathway is ready page, in pictures
 
-Justin: "Yes, 17 November". The walkthrough starts Tuesday 17 November and runs to Sunday 20 December as proposed, three posts a week on the family account (Tuesday, Friday, Sunday), which lifts the one ask in five rule for those five weeks; Monday and Wednesday still carry none. Schools go on his LinkedIn on Thursdays, playlists on Sunday mornings. The day by day list, with the file to upload and the links to make, is `content/campaigns/platform-walkthrough/schedule.md`. He posts and schedules; nothing was scheduled for him.
+Justin, on the page after the three questions ("Ava's pathway is ready"): show
+what a parent gets, far less wordy, the passport, DiGi and how it learns. The
+three middle sections of sentences became four picture blocks
+(components/starter/InsideBlocks.tsx): the road with their stage marked, three
+fixes with the product drawn, DiGi with its learning loop (no counts, no
+success rate), the rest as labels. The time number, its evidence and the
+"we do not read the device" note moved one tap in under the stars. The intro
+before the questions is unchanged; an earlier pass on it was reverted the same
+day because it was the wrong page. PR 1546.
 
-## 10 November 2026: the Research Radar and ChatGPT run as one gated pipeline
+## 14 November 2026: Tell us about your child, asked after joining
 
-Justin asked for an audit and repair of the Claude and ChatGPT workflow. The audit found the repo manifest, the Drive manifest and the live register each giving a different record count (14, 25, 16), and the queue pointing Stage 2 at a handoff doc he had already retitled superseded. Decided: GitHub owns post numbers, research history and publication status; Drive holds stamped copies (source commit, content digest, facts digest) that are only counted as synced after a readback compares. Every gate returns PASS or HOLD with reasons, and a HOLD never continues quietly. What is still manual, and said so on the dashboard: the copy to Drive is a Claude step, ChatGPT cannot see GitHub or be started by Claude, and approval, posting and the link stay with Justin. `scripts/radar/README.md` is the operating guide; `npm run radar-pipeline-test` is the proof. PR 1482.
+The one tap stage check (PR 1541) lets a parent join without a name or a birth month. Audited: nothing breaks, but a child with no birthday never ages up (the age up cron reads only children with one) and a skipped name shows as "Your child". Justin: ask for it after they join, to avoid blocks. So finish-setup keeps the age tapped and the day (onboarding_answers.ageYears, ageOn) and marks the family (askAbout) when either is missing; that family's Setup Quest leads with "Tell us about your child": the name and the birth month, the year worked out from the age. Saving writes the birthday and re-derives the band and stage, so the age up takes over. Shown only to marked families, so step numbers never shift. Round 1 adverts back on the same day at Justin's word.
 
-## 10 November 2026: French re-cut into three rooms, and the three pages it was missing
+## 16 November 2026: every printable on guidedchildhood.com/free
 
-Justin: bring across lesson plans, assessment across the year and culture, and "really simplify the flow". Three more tabs would have made six, so the section stays at three, named for what a teacher is doing: **Teach** (pick the year, six half terms in order, open one, press play), **Print**, **Plan and assess** (printable lesson plans per unit, assessment across the year, the coverage grid). The unit page leads with its lessons and folds the reference material away. Culture lessons carry a star and sit outside the numbered lessons, as the scheme has them. Assessment is labelled SOLO 3, 4 and 5, her own model, where the page had said "working towards, expected, greater depth", which was our reading of it. Two "challenge" sheets that the reader was dropping now show.
+- Justin: "all printables should be free", then "make them all available on a page at the link" (the first link in the Instagram bio). Asked which he meant; he chose a taster for the eight £1.99 mini packs (live on Etsy since 11 November), not the whole thing, and to keep the six held tasters off the index (retired characters, the under fives game, the teachers' pack). They still open by direct link.
+- The mini packs are three or four pages, so their taster is one page (two for the Routine Picture Cards): the headline page free, the rest on Etsy. The half rule still holds for every pack.
+- New in content/printables/free-tasters.json: partOf (the page links to the bigger pack's taster) and letterSource (a US Letter taster too). The email series leaves out page emails a short taster has no page for.
+- Not changed: the 27 live taster pages and files. A to Z Showdown, the Ice Cream Shop, the School Year Planner and Word Fishing are now live on Etsy but still say no-listing; flipping them is a follow up.
+## 14 November 2026: child films, Justin's four answers and the 1.3 test
 
-## 10 November 2026: the relay, so Justin stops carrying research between ChatGPT and Claude
+- The first five go out in the look they have now. The closing promise to the grown up is cut from public versions. Remakes wait until the five are out, 1.6 first.
+- Film 1.3 built in both public shapes as the test: YouTube 3:58 with the stage check end card, a 1:23 vertical cut with full captions, a thumbnail and subtitles.
+- Not listened to by ear. Nothing uploaded. `content/child-films/1.3-release-test/`. PR 1547.
 
-Justin: "I should only need to review and publish." Decided: research reaches Claude through a Drive inbox ChatGPT writes one JSON document a day into (`scripts/radar/candidate.schema.json`), never through him. A candidate is a claim to check and enters the register as DISCOVERED. Storing a review, claiming a GDC number and sending a pack back are now gated steps, not hand edits. Every run writes a log and a summary that opens with what needs him. His four statuses are READY FOR JUSTIN, CHANGES REQUESTED, APPROVED, PUBLISHED, and only he moves them. The Claude runs stay on the Claude Code scheduled task (it has the Drive connector); GitHub Actions carries the tests, an integrity gate and a watchdog, with no secrets. Running Claude inside Actions was costed and not enabled: it needs an API key and a Google credential, which is his call. Not automatic by design: approval, posting, and merging the day's pull request. `scripts/radar/README.md`; `npm run radar-relay-test`. PRs 1489 and 1491.
+## 15 November 2026: the Quests page is the day, and setup has its own page
 
-## 10 November 2026: the lesson run and the school's record (first build)
+- Justin, with a screenshot: "seems way too much". Measured on a phone with a two child family: 17 screens, 124 things to tap. Now 2 screens and 16 on a quiet day.
+- The page keeps one job: what is waiting on me, each child today, add a job, the timer, give a star, then one quiet list. QuestManager moved whole to `/dashboard/quests/setup`; old `?tab=` and `?add_child=` links are sent on.
+- Waiting ticks showed twice on a busy day. The lower queue now stays folded until Turn one down is tapped, and the two cards tell each other when a tick is answered.
+- Research (sources in the PR): no body gives a screen to outdoor ratio or a balance score, so this page shows none, and the age guide is worded as our steer. `weekBalance()`'s 0 to 100 figure and the "healthy ceiling" wording elsewhere are for Justin to decide.
+- No migration, no API change, child app untouched. PR 1551.
 
-Justin asked for one flow per lesson from prep to record, after a head asked how progress against a fixed progression gets recorded. Built on the 9 November spec: one table for both subjects (`schools.lesson_records`, migration 391, **not applied yet**), the school always read from the signed cookie, no pupil ever. The French lesson page is now three steps (Get ready, Teach, Record); a new progress page shows each class against the fixed sequence and the share at SOLO 4 or above; the digital run sheet and lesson page end in the same button. The head's question was put through the feedback filter: level **counts per class, no names** (adapted from "how children are learning"). Researched and verified against primary sources: it meets what Ofsted, the RSHE guidance and KCSIE ask for, and we must never call it "Ofsted ready" (inspectors do not review internal data) or a legal requirement. Four real gaps are written down in the plan. Renamed from the spec's `lesson_deliveries`, which already exists, empty, from the first schools build. Waiting on Justin: read the DPA and privacy wording (version 1.1), then the migration is applied.
+## 15 November 2026: no balance score, and play pays the same with praise
 
-## 11 November 2026: her handbook comes across, and digital gets its progress page
+- Justin's two answers after the Quests research. One: the 0 to 100 weekly balance figure goes; the round up shows two plain tallies (minutes on screens, minutes earned by jobs and play) and holds screens against "our guide". No health body gives a ratio, and it broke "no composite scores".
+- Two: play and outside jobs still lead every list but earn what any job their size earns (defaults 2, was 3 to 5). An expected reward for something a child already enjoys can lower their own interest; specific praise raises it (Deci, Koestner and Ryan 1999). So every yes now prompts the parent to say what they saw.
+- New jobs only. A family's existing jobs keep their stars; no migration. Homepage, guide and child copy changed from "pays the most" to "leads the list".
+- Not done, for Justin: "healthy guide" wording is still in about twenty other places (pace card, timer push, DiGi, lessons).
 
-The author rebuilt her site's home page as a handbook for a head. Brought in by sync, not retyped: three pages in Plan and assess (how progress is assessed, the curriculum, how the lessons work), her seven lesson steps folded into every lesson page, the lesson pack download, and her own reporting columns on the count (below SOLO 4, SOLO 4, SOLO 5). The French progress page gains each statement each time it comes round, with the change. The digital side takes three of her rules through the feedback filter: `/hub/progress` shows a class against the fixed sequence, the judgements added up, and a "to teach again" list from every objective marked needs revisiting. Parked: moderation. Declined for now: a named pupil over time. All in PR 1490, still waiting on the wording and migration 391.
+## 15 November 2026: Rachel first, and the promises match the code
 
-## 11 November 2026: films are checked, numbers come back, and why the 09:17 run did nothing
+- Justin: Rachel is the one live family. The five families task reopens as "Rachel through one full week, then four more". Read only check: no finished day since 28 September and the day's tick and its record stop together, so nobody ticked rather than ticks being lost.
+- The reminder prompt said three a day while the cap is two. It now reads the number from `DAILY_NUDGE_CAP`, setup says "at most two", and `check-nudge-cap` fails if they drift.
+- Setup's child step says "Send them their own link. It opens their app, nothing to download, no password", held by the new `check-child-link-open`.
+- "You just follow the path" on a family's first day on Home and in the welcome email. The price card and upgrade page say the four free days carry DiGi a few times a day and the starter scripts.
+- Later the same day: Rachael (her spelling) signed in once on 10 November and never chose a plan, so the choose screen is the last thing she saw and she never reached Home. Her free days were reset to 19 November on Justin's yes. Whether the choice moves later is Justin's to decide.
+- Justin kept school, French and Etsy builds going (no pause). Five questions for Rachel in `plans/2026-11-15-rachel-five-questions.md`.
+## 15 November 2026: French sync issue 1537 closed by hand, and her new progression tables
 
-Justin: every ChatGPT pack returns to Claude for the final review, a film only where it earns one, and "create an analytics register for all published posts". Decided: (1) the visual choice is recorded with its reason and text only is the default; a film must decode end to end and have a written review of its frames or the pack is held (`scripts/radar/assets.mjs`). (2) LinkedIn numbers arrive by a pasted screen and a checked import, because no connector reaches LinkedIn's post analytics; the report will not compare partial counts or rank a group under five (`scripts/analytics/linkedin.mjs`). (3) What the numbers say is printed in the start here document ChatGPT writes from. (4) The Founder Approval Desk is one Drive folder with a fixed link. The 09:17 run had fired and stopped in three minutes because its message told it to list pull requests and a scheduled run cannot; it now finds its branch with git and may never finish without a log. Five live posts sit on rows the number register calls retired: listed for Justin, nothing changed. PR 1491.
-## 11 November 2026: the ad system, step by step, and step 1 the creative director gate
+The sync could not open its own pull request (the repository setting is still off), so it left issue 1537. Her data is brought in here instead. Her site also changed its "grow" table into one sentence growing half term by half term, plus a lesson by lesson table for one unit; the old shape check would have turned tonight's run red, so the sync now reads both as rows of three and the curriculum page shows them. The unit page links the new phonics mat. PR to follow.
+## 15 November 2026: "our guide", never "healthy", across the app
 
-Justin asked to build the "marketing engineer" ad system from Cody Schneider's talk into ours. Weighed with the feedback filter (`plans/2026-11-11-ad-system-plan.md`): most of it is already built (ad studio, the renderer, per link counting in Supabase is our warehouse). Declined: AI avatar UGC presented as real people, cold outbound to parents (PECR), Graph. Parked: Meta API writes and creator networks until a winner is proven. Adopted first: a reviewer that is not the maker. `npm run ad-gate` fails any round deck card missing the full hook, its own link code, real screens, or breaking the claim and look rules; then a scored vision pass, eight of ten or it goes round again. Every round deck now carries `round` and each card `src`, the ledger step 3 reads. Eight steps, one PR each. PR 1493.
+- Justin said yes to finishing the wording. About 45 lines in 23 files (timer, pushes, pace card, parent report, DiGi's context, the child's timer card, three emails, one quiz option) now say "our guide" or "today's guide" where they said healthy guide, amount, level or range.
+- Reason: the daily minutes are our own steer set under the published guidance. WHO 2020 gives no screen number for ages 5 to 17, so "healthy" claimed more than we can show. The three emails now say "set under what the WHO, AAP, Canadian guidelines and RCPCH say", not "drawn straight from".
+- The area name "Healthy balance" (passport, lessons) is a title, not a claim about a number, and stays.
+- Board tasks due 21 November (walkthrough campaign, one family's first day, first paying family, Fable 5.2 compare) snoozed a week at his word.
 
-## 11 November 2026: Etsy repriced, and twelve more listings built
+## 15 November 2026: ask the parent who stopped
 
-Justin asked whether to go in much cheaper. Etsy UK search on 11 November showed kids phone contracts at £1.40 to £4.68 and chore and reward charts at £1.42 to £3.66 with VAT, against our £4.12 to £5.39, about double, with no reviews in the category and no visits from Etsy search. So all 23 live listings were repriced that day: entry singles £2.49 to £2.99, core packs £3.49 to £5.99, the First Phone Kit £6.99, both bundles £12.99 (about 23 percent under their parts). Etsy adds VAT on top. The £4 floor is retired. Justin chose to keep the 25 percent shop sale running to 30 November. Every live `listing.md` carries the new price.
+- Justin: capture the questions, keep nudging if unanswered, alert him on his phone. `/tell-us` opens from a signed email link with no sign in; question one is one tap. Answers go to `parent_answers` (migration 397, applied live), push to Justin's phone and show at the top of the founder asks page.
+- Three emails, then silence: day three, four days later, a week after that. Any answer, a first check in or a finished day stops them. Accounts under 45 days old only. They ride the one programme email a week floor.
+- Plan in `plans/2026-11-15-ask-the-parent-who-stopped.md`. PR 1558.
+## 15 November 2026: French is in every school's licence, and the gaps against the paid schemes
 
-Twelve more listings are built, not yet uploaded: four older games that were never listed (A to Z Showdown £3.99, the Ice Cream Shop £3.99, the School Year Planner £5.99, Word Fishing £2.99) and eight spin offs at £1.99, each a few pages of a live pack cut out by `content/printables/cut-pack.mjs` (Star Breathing Poster, Feelings Cards, Weekly Routine Chart, Routine Picture Cards, Car Bingo, Devices Sleep Here Sign, Family Tech Rules, Screen Time Tokens). The older games' last pages promised bonuses that /etsy-bonus does not give, so the same script swaps them for the thank you page that offers the Starter Pack. Left out: the Fish Tank game, whose pages still speak in the robot's "BEEP BOOP", and the four packs fronted by Zara, Sofia and Oliver. The First Phone Kit's readiness check was not cut out, because it points at other pages of the kit. Rules for spin offs are in the printables engine skill, step 7b.
-## 11 November 2026: ad round 1 built, and the uploader that loads it paused
+Justin: "all schools get french", the author agreed, under our branding. A school's scheme code now opens French with no second code: the proxy mints the French cookie from the scheme cookie, French only, rechecked against the scheme list on every request. It is on the pricing list and the Hub. From the review of Oak, Kapow, Jigsaw, Project Evolve, Twinkl and Language Angels: a subject lead kit (deep dive questions with the page that answers each, a pupil voice sheet, a staff audit, how the lessons are designed), an end of year "can say" list per year on the year plan from each lesson's own outcome, In short on nine long Hub pages, and the SEND page corrected. Not built: adapted versions of the printable sheets (each needs writing), pupil voice recorded online (needs a legal version), songs and a home practice site. PR 1557.
 
-Justin asked for step 2 with the creating and the uploading set up, at a top finish, and asked why not an avatar. Round 1 is the council's brief built: five hooks in one stacked treatment, real screens (three live `/say/` captures), gated, butter measured at under 3 percent, scored 8 to 9. The ad studio rule changed at his ask: `npm run ad-upload` may load a round into Facebook and Instagram ads, with everything PAUSED; switching on and spending stay his. Proved against a stand in only, no token yet. Five link codes (`r1-*`) inserted on the live database. Google waits for a developer token and a winner. The avatar rule is unchanged and clarified: never a synthetic parent or customer; Justin's own twin is allowed, to be tested against Justin on camera. `content/ads/SETUP.md`, `content/packs/2026-11-11-round-1/`.
+## 15 November 2026: one French lesson is free to open
 
-## 11 November 2026: the ads measured against the talk's and the competitors', and a picture added
+Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach screen open with no code, and the media route serves that one lesson's deck. Everything beside it still needs a code: exact paths, checked in `scripts/check-languages-door.mjs`. A visitor sees a line saying what it is and gets no record step and no links into gated pages. Linked from the pricing page. PR 1557.
 
-Justin asked whether Round 1 matches the finish of the adverts in the talk and of the competitors' proven ads, using the same products. Watched the talk's adverts frame by frame and read the Meta Ad Library live (`briefings/notes/competitor-sightings.md`). Found: the only proven set is Qustodio's plain videos in real homes (240 days and more); Kairoo launched a generated, illustrated campaign 5 to 11 days ago, including "Jobs first. Then screen time.", which is our card 5; the talk's adverts share our card's structure and add a picture. So a stacked card may now carry `scene`, a generated photograph of a room or objects behind the real screen, under visual system section 15 with nothing loosened. Proof made for mid match: 5.5 credits, agreed first. Seedance costed at 128 credits for eight seconds, not run. Open with Justin: scenes on all five, and card 5's hook.
+## 15 November 2026: the plan choice waits for the first check in
 
-## 11 November 2026: all five Round 1 cards carry a picture
+- Justin's yes. A new parent now goes straight in free and lands on setup, whose first step is the home screen and reminders. The founder or free choice is owed only after their first check in (`needsPlanChoice`). It reverses the 14 August placement at the end of sign up, because the one live family left at that screen before seeing the product.
+- Still its own route behind the middleware, so once owed it cannot be skipped. A parent who never checks in meets the upgrade page when the free days end.
+- Homepage line and THE STORY section 9 changed to match. No migration.
 
-Justin said yes to a picture behind the screen on all five cards. Each has a generated photograph of its moment (a room and objects, nobody in it, visual system section 15) with the real screen untouched on top. Ten images, 27.5 credits in all, agreed first. Gate passes, butter under 4 percent. The plain cards are kept in `content/packs/2026-11-11-round-1/plain/`. Card 5's hook is still open with Justin.
+## 16 November 2026: the worry question asks what parents want help with
 
-## 11 November 2026: the ad goal, the swipe file, and accounts of their own
+- Justin, with the stage check grid: match it to what parents raise most, make it clear we bring the solutions, and do not break the daily tracking. The grid is now the twelve the problem sweep ranked (Mumsnet log plus UK surveys and Ofcom; Reddit and Facebook groups unreadable, stated), each tile with one line of what we bring. Question: "What would you like help with?"
+- New: Who they talk to in games, Group chats, They get round the rules, Homework on screens, Endless YouTube, Spending in games. Folded, not deleted: Controller fights, Mood after screens, Morning TV, in RETIRED_WORRIES so families who picked them keep everything.
+- Every tile still becomes a concern, a check in row, a focus strip and a script filter (check-focus-labels). No migration. `plans/2026-11-16-worry-question-top-12.md`.
+## 16 November 2026: DiGi's recorded voice is Tamsin, a little slower
 
-Justin set the goal: the best performing adverts, built on what is proven, with Facebook and Google ready to upload to. Written down with its one measure (stage checks begun per thousand reached, then cost per stage check) in `content/ads/proven-rules.md`, over a swipe file of 21 adverts from six companies read by hand in the Ad Library (`content/ads/swipe/ads.json`). First rule: everything past 180 days is video, so the video round comes before more cards. We copy structure only; competitors' pictures, films and sentences are never stored or reused, and there is no scraper, which would break Meta's terms on the account we advertise from. Card 5 now reads "They earn their screen time. You set the rate." (code `r1-earned-time`). Accounts, looked at read only: the Page sits in the Inspired by Alma portfolio where Justin has partial access, his ad account is an old Etsy one, and the Google login opens another business. Guided Childhood gets its own of each: `content/ads/SETUP.md`.
+- Justin chose by ear from six samples of the same 1.3 passage: Tamsin (Higgsfield preset 9eb5a147, seed_audio, speech rate minus 10, about 118 words a minute). Replaces Mabel (films) and Imogen (social) for every new recording.
+- The name is written "Didgee" in spoken text, matching the app. The ten films say it three ways today.
+- The app's live speech (the phone's British voice) is unchanged. Samples and ids: `content/child-films/voice-test/`. PR 1570.
 
-## 11 November 2026: ad video 1, the script for Justin to camera
+## 16 November 2026: the advert funnel counts the pathway and the save screen
 
-The video round starts with one twenty second advert on the mid match moment, Justin to camera on his own phone, because every competitor advert past 180 days is plain video. Sixty words, every line taken from the live free script, ending on the hook word for word, plus a second opening filmed in the same sitting so only the hook is tested. No scene from his own life is used. Read cards in `content/read-cards/2026-11-11-ad-video-1.json`; script, sources and the cut plan in `content/packs/2026-11-11-ad-video-1/`. Not filmed. His digital twin reads the same cards as a third version later.
+- After the one tap first question, 8 of 119 advert visitors started the stage check and none made an account, with nothing to say where they stopped (PostHog is not on for the live site). Justin said yes to counting it.
+- `video_link_events` gains two kinds, `pathway` and `save` (migration 398), counted once per browser per follow against the code the start was counted against, so per link it reads opened, started, pathway, save, account. Existing counts filter by kind and are unchanged. PR 1569.
+## 16 November 2026: the premium motion engine for research cards
 
-## 11 November 2026: the Facebook key is Justin's own, because the Page cannot be moved yet
+- Justin asked for a Remotion engine making a PNG and a 14 second MP4 per approved story, 1080 by 1350, warm ivory, navy, restrained yellow. This brief settles the look for evidence posts, open since 12 November.
+- Built in `tools/motion-engine/` as its own package. HyperFrames films stay a separate lane.
+- Its gate refuses uncleared numbers, causal wording, a missing source or limitation and any record not Claude reviewed. It records files through `assets.mjs`; Drive, Metricool and the post register are unchanged.
+- No Higgsfield footage generated: that spends credits and waits on Justin.
 
-Justin was not sure who owns the Inspired by Alma business portfolio. Looked, read only: two people, Justin with partial access and Anna Quiles with full access, who left long ago. She alone can move the Page or add an admin. So the setup no longer waits on her: a Guided Childhood portfolio and ad account of its own, and Justin's own 60 day token in place of a system user, since he has full access to the Page himself. The app goes Live, not development. Separately and soon, the Page needs making safe: Anna raises him to full access, or Meta Business Support's process for a departed admin. `content/ads/SETUP.md`.
+### 16 November 2026: the researcher watch and the parent problems map
 
-## 11 November 2026: Anna cannot be reached, so the Page goes to Meta support
+`npm run radar-people` (scripts/radar/people.mjs) lists new papers by Odgers,
+Haidt and Knibbs (Europe PMC, Crossref) and Haidt's After Babel feed into
+content/research-watch/, for a Claude review: SUPPORT, CHALLENGE, CONTEXT or
+SKIP, a challenge only on the evidence. LinkedIn likes and reposts cannot be
+read. Knibbs is not named beside our advice. parent-issues.md maps ten common
+parent problems to a radar stream, our belief and a real product surface.
+Runs in the Monday radar sweep.
 
-Justin cannot reach Anna Quiles, the only full access admin of the portfolio that owns the Page. Only Meta can change that. Meta publishes no form for a departed admin; the route in `content/ads/SETUP.md` section E (proof of ownership, ID, a signed statement, a case opened from Business Support Home) is what third party guides describe, and is marked as such. The wording to paste is written with both IDs. Justin opens the case himself. Adverts do not wait on it.
-## 11 November 2026: migration 391 applied, after PR 1490 merged
+## 16 November 2026: four older games point to their Etsy listings
 
-Justin marked PR 1490 ready and merged it at 10:57 UTC. The record button was then live with no tables behind it, so migration 391 (`schools.lesson_records`, `schools.lesson_record_events`) was applied to production straight away, exactly as dry run the day before. Checked afterwards on the live database: no privilege for `anon` or `authenticated`, the server role has select, insert and update on the records and select and insert only on the trail, row level security on, no policy. The legal wording (version 1.1) went live with the merge.
+- A to Z Showdown (4614794043), Ice Cream Shop (4614808978), School Year Planner (4614796575) and Word Fishing (4614809538) went live on Etsy around 11 to 14 November, so their free taster rows move from no-listing to live and the rebuilt taster bands now link to the listing.
 
-## 11 November 2026: progression and assessment reviewed against the best platforms
+## 16 November 2026: the topic email course is offered on the stage check result page
 
-Justin asked for a review of what heads and teachers expect of progression over years, how the top platforms do it, each lesson rated, and amendments until we are first. Eight passes: two researchers on rivals' own pages and the primary sources, four lesson reviewers against the house rubric, one on the French scheme, one mapping what exists. Lessons score about 6.5 of 10 on progression and assessment: strongest at being runnable cold, weakest at telling a teacher what good looks like (30 of 34 have no descriptor, and the rows carry four vocabularies). Five answer keys contradict the lesson they mark. Nothing says which year teaches which lesson. French: 8 to 9 for its two finished units, about 4.8 as a whole. Nine amendments ranked in `plans/2026-11-11-progression-and-assessment-review.md`; none built. "First" is defined as the best no pupil data, no prep scheme, not first at being Jigsaw.
+- Justin chose it on 14 November. A child aged 10 to 12 (or an Explorer run saved before the age question) sees "The first group chat" on the result page: one email box, one button, "Start the seven emails". Day 1 goes at once, then one a morning from the email cron as kind `series`.
+- Asking is the consent: the button and the line under it name the seven emails and the odd note after, so the lead is marked `marketing_consent` true like a ticked box (396). No second box, because nothing else is given in exchange.
+- No migration. The start row in `lead_email_log` is the clock and its unique key stops a second press restarting the week. The copy lives in `lib/courses/registry.ts`, tested word for word against the checked pack, so the next topic is a new entry. PR 1573.
+## 16 November 2026: lesson films from what parents react to, the map and the 1.6 pair
 
-## 11 November 2026: the nine amendments, built in order (first: the record, the musts, the descriptors)
+- The last 30 posts from Family IT Guy and the two clinicians, read for subject only and grouped: `content/child-films/parent-reaction-series/subjects-2026-11-16.md`. The cybertrauma account posts on LinkedIn, not Instagram, so her 30 came from there. 32 of 90 are not ours.
+- First three subjects, each with a film already: bedtime phones (1.6 remake), "is this real?" (1.5), seen something upsetting (1.4, the largest group). Roblox strangers is the first new film after them.
+- The 1.6 child and parent scripts are drafted in Tamsin's voice. Nothing generated: the pair is quoted at about 97 credits and waits on Justin.
+- The watch together booking is a plan with four questions for Justin, not built. Plan: `plans/week-of-2026-11-16-lesson-films-from-parent-reactions-plan.md`. PR 1576.
+## 16 November 2026: film 1.3 re-voiced in Tamsin, the cost measured
 
-Justin on the progression review: "go ahead with all but dont change price." So amendments 1 to 8 are built, in the order in `plans/2026-11-11-progression-build-plan.md`; 9 is the French author's and nothing is written in her name; no price is touched. First increment: each judgement button now says what it looks like in that lesson (three lines per lesson, written only from the lesson's own misconceptions and check questions, held at `assessment.teacher_judgement.descriptors` in one vocabulary); the 21 lesson musts are fixed, including five answer keys that disagreed with their own wall; the stale "mark on the register" lines are gone; the school's record gets a Hub card, an every class grid, last year, and one spreadsheet download; the board's finish leads to Record. The lesson edits are migrations 393 and 394 (392 is claimed by PR 1498), generated by `scripts/gen-lesson-musts.mjs`, each value guarded on what it replaces. One must is only half met: ks5-20's new brief writing task sits on an extension slide, and moving it into the core changes the lesson's minutes, so that is left for Justin. PR 1496.
+- All 44 lines regenerated in DiGi's voice, pictures slowed to fit, both public cuts and the subtitles rebuilt. 20.9 credits for the film, measured from the balance. About 21 a film for the other four.
+- The generator pads lines with long silences and twice dropped a narration phrase; `revoice.py` trims the silences, and every line is transcribed against its words before the build.
+- `content/child-films/1.3-release-test/`. PR 1570. Nothing uploaded.
 
-## 11 November 2026: a suggested year for every lesson, and the progression map
+## 16 November 2026: six tiles first, and this is just the start
 
 Amendment 3. `shared/schools-progression.ts` gives each lesson a suggested year and the earlier lessons it builds on, read from each lesson's own prior knowledge lines. The scheme's order is kept inside each key stage and cut into years so nothing lands before what it builds on; `scripts/check-progression.mjs` holds that. `/hub/progression` shows it year by year and as four threads; `/hub/year-plan` now goes year by year where it used to lay a whole key stage over three terms. It is a suggestion and every page says so. KS3 still opens on ks3-27 and KS4 on ks4-29, as the scheme orders them: reordering is Justin's call and was not made here. PR 1496.
 
@@ -410,3 +474,5 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 ## 16 November 2026: the COUNTDOWN link rides on the Business Suite auto reply
 
 After Justin completed Meta's identity check, Instagram messages joined the Business Suite inbox, but this account offers no keyword replies. Justin chose "Add to auto reply": the existing first message reply now carries the free countdown link (`src=ig-dm`), and its Instagram channel, which had been off, is on. The previous wording is kept in `content/packs/2026-11-28-free-saturday/christmas-countdown.md` to restore after Christmas. ManyChat stays the upgrade for a reply to the word alone. PR 1535.
+- Justin: do not overwhelm parents; reassure them we drive it and keep asking. The stage check shows the six most common worries, the other six one tap away ("See 6 more"); a ticked tile never folds away. The question asks for what is on their mind today, even just one.
+- Under the grid: we bring up the next ones for their age (age prompts, the age up cron) and anything they mention to DiGi is added and tracked (concerns written by DiGi, Moments, Right now). "Not sure yet?" starts them on Coming off screens, the most common.

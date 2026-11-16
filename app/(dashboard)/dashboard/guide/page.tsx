@@ -24,7 +24,7 @@ const HOW_IT_WORKS: { emoji: string; title: string; body: string; href: string; 
   },
   {
     emoji: '⭐', title: 'Quests and games that earn screen time',
-    body: 'Everyday jobs, real play and quick learning games earn stars, and stars buy the screen time you agree. Play pays the most, on purpose.',
+    body: 'Everyday jobs, real play and quick learning games earn stars, and stars buy the screen time you agree. Play leads the list, on purpose.',
     href: '/dashboard/quests', cta: 'Set up quests',
   },
   {

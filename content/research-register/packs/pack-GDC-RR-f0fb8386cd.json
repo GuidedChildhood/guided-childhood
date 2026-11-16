@@ -1,0 +1,28 @@
+{
+ "researchId": "GDC-RR-f0fb8386cd",
+ "gdcPostNumber": "059",
+ "handoffVersion": 3,
+ "sourceCommit": "3496218754ea6c65604192c2ce00471d897e11d1",
+ "status": "DRAFT",
+ "linkedin": {
+  "body": "A survey in JAMA Pediatrics asked parents in the United States how comfortable they would be with an AI leading a behavioural therapy session for their child. About three in four were not.\n\nOf the 572 parents who answered, 47.2 percent were not comfortable at all and 28.8 percent were not too comfortable.\n\nThe headline version would be that parents do not trust AI with children. The study does not say that.\n\nIt asked one hypothetical question about AI led behavioural therapy, in an opt in sample, and it measured stated comfort, not what parents would choose in practice, whether the therapy was effective, or whether it helped or harmed a child. The children, aged 5 to 17, were not asked. Neither were parents in the UK.\n\nEveryday use of AI by parents and children made no difference to comfort. That cuts against the easy explanation that people fear what is unfamiliar.\n\nThis looks more like a judgement about where AI belongs.\n\nI build a parent tool with an AI guide in it, so I am not neutral. The boundary matters. Guidance that helps a parent think through a situation is not therapy delivered to a child. Our stage check is three questions about one child, and it is the parent who answers them. Nothing we make diagnoses or treats, and a serious worry belongs with a professional.\n\nThe survey also asked what would matter most, and 546 parents answered. They could choose more than one. Accuracy of diagnosis was chosen by 58.5 percent, empathy by 49.4 percent, recommendation from a medical professional by 46.8 percent, and confidentiality and privacy by 43.7 percent.\n\nThat list is more useful than a broad argument about whether AI is good or bad. Before a child uses an AI tool for something that matters, ask what it is for, who oversees it, and where what the child says goes.\n\nThe source is in the comments.\n\nIf more parents and school leaders need a clearer line between guidance and treatment, repost this. The boundary should be visible before trust is requested.\n\nWhen an AI tool is offered for a child's wellbeing, what would you need to see before you trusted the boundary it claims to keep?",
+  "firstComment": "The paper, published online in JAMA Pediatrics on 2 November 2026:\n\nhttps://doi.org/10.1001/jamapediatrics.2026.4939\n\nThe strongest objection is that stated comfort with a hypothetical does not tell us whether AI led therapy is safe, effective or what parents would actually choose. Agreed. The useful point is narrower. Parents were drawing a boundary around a high stakes role, and the factors they selected show what they would want made visible before considering it."
+ },
+ "declined": {
+  "INSTAGRAM CAPTION": "NOT RECOMMENDED. The cleared handoff approves LinkedIn only, and a shorter adaptation would risk losing the distinction between guidance for a parent and treatment for a child.",
+  "FACEBOOK CAPTION": "NOT RECOMMENDED. The cleared handoff approves LinkedIn only, and no separate parent action warrants another post.",
+  "NEWSLETTER": "NOT RECOMMENDED. This survey supports one focused distinction, not a full flagship edition.",
+  "REEL SCRIPT": "NOT RECOMMENDED. The handoff does not request a Reel or Short, and spoken compression would make the evidence boundaries harder to preserve.",
+  "VISUAL BRIEF": "NOT RECOMMENDED. Publish as text only. The handoff asks for a LinkedIn post and nothing else, and no approved brand asset has been verified for a card.",
+  "ASSETS USED": "NONE"
+ },
+ "visual": {
+  "assetsUsed": []
+ },
+ "evidence": {
+  "notes": "This was a cross sectional survey using an opt in sample of parents in the United States. It measured comfort with a hypothetical AI led behavioural therapy session, not actual use or a child outcome.\n\nIt does not show that AI led therapy is unsafe, ineffective or harmful. It does not show that parents distrust AI with children in general. It does not show that parents in the United Kingdom feel the same way. Children were not asked.\n\nThe figures about factors parents considered came from 546 respondents and allowed more than one choice. The post does not claim that this survey validates Guided Childhood, DiGi or any similar tool.\n\nProduct implication: no product change and no outcome claim. Keep the boundary explicit. The stage check is named only as something a parent answers. A parent guide can support thinking, but must not diagnose, treat or act as a therapist for a child. A serious concern should be taken to an appropriate professional."
+ },
+ "sources": [
+  "https://doi.org/10.1001/jamapediatrics.2026.4939"
+ ]
+}

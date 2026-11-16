@@ -70,11 +70,25 @@ export type SeriesKey = typeof SERIES_ORDER[number]
  * out of order, and since the cron sends one a run, a day missed (a failed
  * send) never bunches two together.
  */
-export function seriesEmailDue(ageDays: number, sent: ReadonlySet<string>): SeriesKey | null {
+export function seriesEmailDue(ageDays: number, sent: ReadonlySet<string>, pages = 3): SeriesKey | null {
   if (!Number.isFinite(ageDays) || ageDays > TASTER_NURTURE_WINDOW_DAYS) return null
-  const i = SERIES_ORDER.findIndex(k => !sent.has(k))
+  const order = seriesOrderFor(pages)
+  const i = order.findIndex(k => !sent.has(k))
   if (i === -1) return null
-  return ageDays >= i + 0.5 ? SERIES_ORDER[i] : null
+  return ageDays >= i + 0.5 ? order[i] : null
+}
+
+/**
+ * The series for a taster of this many pages (16 November 2026). The mini
+ * packs give one or two pages, so their series leaves out the page emails
+ * they have no page for: a one page taster is page 1, the stage check, the
+ * pack, on days 1, 2 and 3. Three pages is the full five.
+ */
+export function seriesOrderFor(pages: number): readonly SeriesKey[] {
+  return SERIES_ORDER.filter(k => {
+    const n = seriesPageNumber(k)
+    return n === null || n <= pages
+  })
 }
 
 /** The page a page email shows (1 to 3), or null for the stage and pack emails. */

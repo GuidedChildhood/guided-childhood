@@ -20,7 +20,8 @@ import raw from './fr.json'
 
 export type Level = 'challenge' | 'class' | 'adapted' | 'inclusion'
 export type FileKind = 'sheet' | 'inclusion' | 'game' | 'assess' | 'teacher' | 'mat' | 'activity' | string
-export type SheetFile = { t: string; f: string; lv?: Level; kind?: FileKind; lessons?: number[] }
+// `ans` is the sheet's answer sheet, where the author has made one (13 November 2026).
+export type SheetFile = { t: string; f: string; lv?: Level; kind?: FileKind; lessons?: number[]; ans?: string }
 export type Song = { t: string; f: string; poster?: string }
 export type Statement = { code: string; nc: string; pupil: string; s3: string; s4: string; idea?: string }
 export type AssessPlan = { code: string; lessons: number[]; how: string; s5?: string; what: string; files?: string[] }
@@ -80,6 +81,12 @@ type DeckUnit = {
   activities?: SheetFile[] | SheetFile
   assessment?: SheetFile[] | SheetFile
   teacher?: SheetFile[] | SheetFile
+  // Extra mats for pupils and cards and posters for the wall. These live in
+  // the scheme's shared extras folder, not the unit's own: see extrasUrl().
+  extras?: SheetFile[]
+  displays?: SheetFile[]
+  // A support mat for the half term's sound, in the unit's own print folder.
+  phonicsMats?: SheetFile[]
   songs?: Song[]
 }
 
@@ -104,19 +111,45 @@ export type FrenchPage = {
   inclusion?: Row2[]
   assessment?: Row2[]
   impact?: Row2[]
+  directAssociation?: Row2[]
+  pupilResources?: Row2[]
+  formalAssessment?: FormalAssessment
+  endOfYear?: EndOfYear[]
+}
+
+/** Her end of year statements (15 November 2026): for each year, each strand,
+ *  each code, the statement a pupil should meet by the end of the year and the
+ *  half term it is judged in. */
+export type EndOfYear = { year: number; strands: { strand: string; items: { code: string; term?: string; statement: string; tracker?: string }[] }[] }
+
+/** THE CHECKPOINT MAP (13 November 2026). The author settled how the scheme is
+ *  formally assessed: each code gets one judgement a year, in a named half
+ *  term, on a named task, against three descriptors written for that task.
+ *  Everything else a unit touches is formative. */
+export type FormalTask = { checkpoint: string; code: string; task: string }
+export type FormalDescriptor = { year: number; code: string; task: string; solo3: string; solo4: string; solo5: string }
+export type FormalAssessment = {
+  checkpoints?: { year: number; tasks: FormalTask[] }[]
+  descriptors?: FormalDescriptor[]
+  phonicsChecks?: { year: number; timing: string; purpose: string }[]
+  annualL2?: { year: number; timing: string; purpose: string }[]
 }
 
 /** The short pieces that live in her page script: her reasons, how each
  *  statement grows from Year 3 to Year 4, the two class toys, the four levels. */
 export type FrenchHandbook = {
   think?: Row2[] | null
-  grow?: Record<string, string> | null
+  sentenceGrows?: [string, string, string][] | null
+  unitGrows?: [string, string, string][] | null
   marie?: Row2[] | null
   levels?: Row2[] | null
   progressShows?: Row2[] | null
   shortAnswer?: string | null
   believe?: string | null
   goodGame?: string | null
+  everyClass?: { label: string; files: SheetFile[] }[] | null
+  pupilGames?: { sites: { year: number; url: string; inclusion?: boolean }[]; qr: string | null; phonicsCheck?: string | null } | null
+  overload?: { steps: string[]; worksheets: string; slides: string } | null
 }
 
 type Raw = {
@@ -273,6 +306,49 @@ export function mediaUrl(slug: string, file: string, kind: 'deck' | 'sheet'): st
   const path = kind === 'sheet' ? `print/${file}` : file
   return `/languages/fr/media/${encodeURIComponent(slug)}/${path.split('/').map(encodeURIComponent).join('/')}`
 }
+
+/** A sheet in the scheme's shared extras folder: the extra mats, the display
+ *  cards and posters, the sheets for every class. Same route, its own folder. */
+export const EXTRAS_FOLDER = 'extras'
+export function extrasUrl(file: string): string {
+  return `/languages/fr/media/${EXTRAS_FOLDER}/${encodeURIComponent(file)}`
+}
+
+/** The author's pupil games site for one year, if she has one. Pupils play at
+ *  home with only the units their class has met. It is her site, not ours. */
+export function pupilGames(year: number, inclusion = false): string | null {
+  const url = data.handbook?.pupilGames?.sites.find(s => s.year === year && !!s.inclusion === inclusion)?.url
+  return url && /^https:\/\/lets-play-french-y\d(-plus)?\.pages\.dev\/$/.test(url) ? url : null
+}
+/** Her phonics check app: pupils do the phonics progress checks on a tablet, an adult ticks, nothing is saved online. */
+export const PHONICS_CHECK_URL: string | null = data.handbook?.pupilGames?.phonicsCheck === 'https://french-phonics-check.pages.dev/' ? data.handbook.pupilGames.phonicsCheck : null
+export const END_OF_YEAR: EndOfYear[] = data.page?.endOfYear ?? []
+export const PUPIL_GAMES_QR: string | null = data.handbook?.pupilGames?.qr ?? null
+export const EVERY_CLASS = data.handbook?.everyClass ?? []
+
+const FORMAL: FormalAssessment = data.page?.formalAssessment ?? {}
+
+/** The formal tasks of one year, in the order the year meets them. */
+export function formalTasks(year: number): (FormalTask & { descriptor: FormalDescriptor | null })[] {
+  const tasks = FORMAL.checkpoints?.find(c => c.year === year)?.tasks ?? []
+  return [...tasks]
+    .sort((a, b) => a.checkpoint.localeCompare(b.checkpoint))
+    .map(t => ({ ...t, descriptor: FORMAL.descriptors?.find(x => x.year === year && x.code === t.code) ?? null }))
+}
+
+/** The codes formally judged in one unit: those whose checkpoint is this half term. */
+export function checkpointTasks(u: FrenchUnit): ReturnType<typeof formalTasks> {
+  return formalTasks(u.year).filter(t => t.checkpoint === `HT${u.ht}`)
+}
+
+/** Where a code a unit practises is formally judged that year, as "HT4". Null if it is not on the map. */
+export function checkpointOf(year: number, code: string): string | null {
+  return FORMAL.checkpoints?.find(c => c.year === year)?.tasks.find(t => t.code === code)?.checkpoint ?? null
+}
+
+export const HAS_CHECKPOINTS = (FORMAL.checkpoints ?? []).some(c => c.tasks.length > 0)
+export const PHONICS_CHECKS = FORMAL.phonicsChecks ?? []
+export const ANNUAL_L2 = FORMAL.annualL2 ?? []
 
 /** The KS2 languages statements, by code (L1, S2, R3, W4). */
 export const KS2_STATEMENTS: Record<string, string> = data.curriculum.nc

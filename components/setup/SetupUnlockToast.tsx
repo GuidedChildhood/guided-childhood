@@ -17,6 +17,7 @@ import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQue
 // at signup, and since 18 August the family agreement is offered at the first
 // quest instead, which is the first time a parent is actually setting a rule.
 const UNLOCK_COPY: Record<keyof SetupFlags, string> = {
+  aboutChild: 'That is their birthday in. Their school year is right now, and their stage moves up on its own as they grow.',
   childLink: 'That is their side sorted. Whether it is the code on their phone or the chart on the fridge, they can see what they have earned.',
   homeScreen: 'We are one tap away now, and the check ins can reach you at the hours screens turn up in your house.',
   coreTime: 'Their free time is decided, so the screen is never the prize. Stars add on top, and you can change it any time from Quests.',

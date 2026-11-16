@@ -37,4 +37,4 @@ counted per link (see `content/ads/brands/social-billboard.json`).
 
 ## What we learned
 
-Nothing yet. One line per round once the numbers are in.
+- **Round 1, read 14 November (2.3 days, £10.64):** 9,210 reached, 216 clicks, 136 page loads, **0 stage checks begun**. Left out won the clicks by far (117 clicks, 89 page loads, from 2,679 reached); earned time was weakest (5 clicks). The adverts worked and the page lost everyone at question one, which asked for the child's name and birth date first. Campaign paused; question one made one tap (`plans/2026-11-14-stage-check-one-tap.md`). Our own "opened" count (about 1,370) is inflated by Facebook's link checkers: judge page loads on Meta's landing page views.

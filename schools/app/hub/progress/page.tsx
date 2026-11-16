@@ -6,6 +6,7 @@ import {
 import { AREA_ORDER, AREAS, areaOf } from '@gc/shared/passport-areas'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER, positionOf } from '@gc/shared/schools-curriculum'
 import { suggestedYear, yearName } from '@gc/shared/schools-progression'
+import InShort from '@/components/InShort'
 import PrintButton from '@/components/PrintButton'
 import { asList } from '@/lib/notes'
 import { readDeliveries, recordYears } from '@/lib/records'
@@ -166,6 +167,14 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
               : 'Where this class is in the scheme, how each lesson went, and what to teach again. It fills itself in from the Mark lesson delivered button, and it is the same on every laptop.'}
           </p>
         </div>
+
+        <InShort title="How this record works, in short" fold={deliveries.length > 0} points={[
+          <>Tap <b>Mark lesson delivered</b> at the end of a lesson. That one tap is the record.</>,
+          <>A judgement is <b>optional</b>: secure, developing or needs revisiting, for the class as a whole, against that lesson&apos;s own descriptors.</>,
+          <>Quiz counts are optional too, and are <b>class totals</b>.</>,
+          <><b>No pupil is ever named.</b> The record is about a class, and it is the same on every laptop.</>,
+          <>Anything judged as needing a revisit lands on a list to <b>teach again</b>. That list is the reason to judge at all.</>,
+        ]} />
 
         {years.length > 1 && (
           <nav aria-label="School year" className="no-print" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>

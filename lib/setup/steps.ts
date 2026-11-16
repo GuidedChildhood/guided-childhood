@@ -54,6 +54,9 @@
 // it first would make a one child family answer a question about a second child
 // before they had seen what the product does with the first.
 export type SetupFlags = {
+  /** Their name and birth month, asked after joining (see ABOUT_STEP). True
+   *  for every family that was never asked. */
+  aboutChild: boolean
   childLink: boolean
   homeScreen: boolean
   children: boolean
@@ -88,7 +91,7 @@ export const STEPS: SetupStep[] = [
   {
     key: 'homeScreen',
     title: 'Put us on your home screen, and turn on reminders',
-    what: 'One tap away instead of a tab you have to find, and a few gentle nudges at the hours screens turn up in your house.',
+    what: 'One tap away instead of a tab you have to find, and at most two reminders a day, at the hours screens turn up in your house, easing off if you go quiet.',
     href: '/dashboard/setup#home-screen',
   },
   {
@@ -124,7 +127,7 @@ export const STEPS: SetupStep[] = [
     // search.
     key: 'childLink',
     title: "Share the app with your child",
-    what: 'Their side, for ticking off jobs and seeing what they have earned. Show them the code and it lands on their phone, nothing to install. No phone yet? Say so and we keep the whole thing on paper instead.',
+    what: 'Their side, for ticking off jobs and seeing what they have earned. Send them their own link. It opens their app, nothing to download, no password. No phone yet? Say so and we keep the whole thing on paper instead.',
     href: '/dashboard/setup#share',
   },
 ]
@@ -146,6 +149,58 @@ export const STEPS: SetupStep[] = [
 //
 // Kept as a function, taking nothing, because three callers already ask the
 // list this way and a step could yet earn a condition. It is the seam.
-export function visibleSteps(): SetupStep[] {
-  return STEPS
+export function visibleSteps(opts: { about?: boolean } = {}): SetupStep[] {
+  return opts.about ? [ABOUT_STEP, ...STEPS] : STEPS
+}
+
+// ── TELL US ABOUT YOUR CHILD (14 November 2026) ─────────────────────────────
+//
+// The stage check stopped asking for the child's name and birth month and year
+// on its first screen: 136 parents from the first paid adverts reached it and
+// none answered. It asks their age now, one tap, and the birth month only on
+// the save screen, where it can be skipped. Justin: ask for it after they join,
+// to avoid blocks.
+//
+// The birthday is what the monthly age up runs on (app/api/cron/age-up reads
+// only children who have one) and what gives the school year (the 31 August
+// cutoff). Without it a child keeps the band they joined with for good. So a
+// family who joined without a name or a birth month gets this as step one.
+//
+// SHOWN ONLY TO THOSE FAMILIES, AND THEN FOR GOOD. Step numbers never change
+// between visits (components/setup/SetupQuest.tsx), so the step is not added
+// and removed as the answers come and go: finish-setup marks the family
+// (onboarding_answers.askAbout) at sign up, and that mark alone decides
+// whether it is in the list. Answering it ticks it; it stays, ticked.
+export const ABOUT_STEP: SetupStep = {
+  key: 'aboutChild',
+  title: 'Tell us about your child',
+  what: 'Anything we do not have yet, their first name or the month they were born. The month gives them their school year and moves their stage up on its own as they grow.',
+  href: '/dashboard/setup#about',
+}
+
+type AboutChild = { name: string | null; date_of_birth?: string | null }
+
+/** Whether this family sees the step, and whether it is done. */
+export function aboutChildState(children: AboutChild[], answers: unknown): { show: boolean; done: boolean } {
+  const a = (answers && typeof answers === 'object') ? answers as { askAbout?: unknown } : {}
+  const show = a.askAbout === true
+  const done = children.length > 0 && children.every(c =>
+    !!c.date_of_birth && !!c.name && c.name.trim() !== '' && c.name !== 'Your child')
+  return { show, done }
+}
+
+/** The age tapped at sign up, and the day it was tapped, when we have them. */
+export function signupAge(answers: unknown): { years: number; on: string } | null {
+  const a = (answers && typeof answers === 'object') ? answers as { ageYears?: unknown; ageOn?: unknown } : {}
+  const years = typeof a.ageYears === 'number' && a.ageYears >= 4 && a.ageYears <= 16 ? a.ageYears : null
+  const on = typeof a.ageOn === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(a.ageOn) ? a.ageOn : null
+  return years != null && on ? { years, on } : null
+}
+
+/** The birth year from that age and a birth month: born in a month already
+ *  reached on the day they told us means born `years` years before it. */
+export function birthYearFromAge(age: { years: number; on: string }, month: number): number {
+  const year = Number(age.on.slice(0, 4))
+  const monthThen = Number(age.on.slice(5, 7))
+  return year - age.years - (month <= monthThen ? 0 : 1)
 }

@@ -50,7 +50,12 @@ let founder = {
   plan_choice: null,
 }
 
-check('path one · setup finished, the choice is owed',
+check('path one · setup finished but no check in yet, they are let in first',
+  needsPlanChoice(founder) === false)
+
+founder = { ...founder, first_checkin_at: new Date().toISOString() }
+
+check('path one · the first check in is what makes the choice owed',
   needsPlanChoice(founder) === true)
 
 check(`path one · Stripe is handed the full ${TRIAL_DAYS} day trial at sign up`,
