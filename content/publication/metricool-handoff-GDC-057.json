@@ -1,7 +1,7 @@
 {
   "schema": "gdc.metricool-handoff/1.0",
-  "generatedAt": "2026-11-12T12:46:17.086Z",
-  "sourceCommit": "df9502922cf4a320f7800cd94815cd985f1bfa23",
+  "generatedAt": "2026-11-16T13:56:58.653Z",
+  "sourceCommit": "2732214dc9e14447ac26fdb6c0df2ea96e8edb5f",
   "gdcPostNumber": "057",
   "researchId": "GDC-RR-86c1075a30",
   "title": "The regulators asked families about age checks. They found that parents were often the ones helping children past them.",
@@ -13,11 +13,40 @@
   ],
   "reviewedCopy": "https://docs.google.com/document/d/1X0oFT713nKO4P5Jzmg7k_tLVd_mZVsFK-IraxJ3r_G4/edit",
   "visualDecision": {
-    "choice": "text only",
-    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text."
+    "choice": "motion",
+    "reason": "Justin asked on 16 November for a still and a motion card on this post, to see complete drafts with media. The 11 November evidence is still too thin to say media helps, so this is his editorial call, and the card carries only cleared wording."
   },
-  "assets": [],
-  "approvalStatus": "READY FOR JUSTIN",
+  "assets": [
+    {
+      "kind": "motion",
+      "role": "required",
+      "file": "content/motion/GDC-057/gdc-057.mp4",
+      "sha256": "fb16c3a1174b91aa3032b322de080e24a1df458412c65e3a37a5b922558fc54d",
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/1oQoLL_D3MpBpTVpZXS7epvc2kGQ26aKr/view",
+      "attach": "yes",
+      "use": "the post media"
+    },
+    {
+      "kind": "still image",
+      "role": "required",
+      "file": "content/motion/GDC-057/gdc-057.png",
+      "sha256": "0cab014c73fd39aaecf180a6ff101682d926778891c8b71b3f69cdd265ebda18",
+      "seconds": null,
+      "width": null,
+      "height": null,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/16yz8LmcEGLS0ceOlx2oiEKnyRtcGAkPM/view",
+      "attach": "yes",
+      "use": "the cover for the film, or the media if Justin chooses an image post"
+    }
+  ],
+  "approvalStatus": "APPROVED",
   "duplicateCheck": {
     "result": "UNKNOWN",
     "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
@@ -25,14 +54,28 @@
   "linkedinNativeSchedule": null,
   "metricool": {
     "draftCreationPermitted": true,
-    "schedulingPermitted": false,
+    "schedulingPermitted": true,
     "autoPublishPermitted": false,
-    "why": [
-      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+    "mediaAttachPermitted": true,
+    "mediaToAttach": [
+      {
+        "kind": "motion",
+        "use": "the post media",
+        "driveLink": "https://drive.google.com/file/d/1oQoLL_D3MpBpTVpZXS7epvc2kGQ26aKr/view",
+        "sha256": "fb16c3a1174b91aa3032b322de080e24a1df458412c65e3a37a5b922558fc54d"
+      },
+      {
+        "kind": "still image",
+        "use": "the cover for the film, or the media if Justin chooses an image post",
+        "driveLink": "https://drive.google.com/file/d/16yz8LmcEGLS0ceOlx2oiEKnyRtcGAkPM/view",
+        "sha256": "0cab014c73fd39aaecf180a6ff101682d926778891c8b71b3f69cdd265ebda18"
+      }
     ],
+    "why": [],
     "rules": [
       "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
       "Do not create a second draft if one exists for this GDC number.",
+      "Media: if mediaAttachPermitted is true, attach the files in mediaToAttach to the existing draft for this GDC number, from the exact Drive links given, and change nothing else in it. Never a file from anywhere else, never a regenerated or edited version.",
       "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
       "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
     ]
