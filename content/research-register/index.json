@@ -1734,7 +1734,7 @@
    "foundBy": [
     "manual-drop"
    ],
-   "status": "ASSETS READY",
+   "status": "APPROVED",
    "relevanceScore": 26,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -1763,11 +1763,11 @@
    "words": 21851,
    "fullTextPath": "/home/user/guided-childhood/content/research-register/documents/GDC-RR-86c1075a30.txt",
    "studyId": "GDC-RR-86c1075a30",
-   "version": 35,
+   "version": 37,
    "firstFound": "2026-11-10T09:23:10.230Z",
-   "lastChecked": "2026-11-16T12:59:45.953Z",
-   "changeReason": "visual decision: motion",
-   "changedBy": "radar:assets",
+   "lastChecked": "2026-11-16T13:18:47.538Z",
+   "changeReason": "APPROVAL: PASS",
+   "changedBy": "radar:pipeline",
    "textSha256": "cdf32d71de3ac48e164229f65d11daccb016904eb2eb0ac1f9b7c61cf988895d",
    "textBytes": 137677,
    "dossier": {
@@ -1967,9 +1967,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "ASSETS READY",
+    "stage": "APPROVAL",
     "reasons": [],
-    "at": "2026-11-12T12:46:16.872Z"
+    "at": "2026-11-16T13:18:47.533Z"
    },
    "gdcPostNumber": "057",
    "handoff": {
@@ -2014,6 +2014,11 @@
     "fileId": "1X0oFT713nKO4P5Jzmg7k_tLVd_mZVsFK-IraxJ3r_G4",
     "level": "TEXT IDENTICAL",
     "at": "2026-11-12T12:46:16.860Z"
+   },
+   "approval": {
+    "approvedBy": "Justin",
+    "instruction": "\"1 apprived  let me know when i can tell chat to go ahead\" (16 November 2026, answering point 1, that neither GDC 059 nor GDC 057 was approved yet)",
+    "approvedAt": "2026-11-16T13:18:47.521Z"
    }
   },
   "GDC-RR-3d31eb1683": {
@@ -5660,7 +5665,7 @@
    "foundBy": [
     "chatgpt-inbox"
    ],
-   "status": "ASSETS READY",
+   "status": "APPROVED",
    "candidate": {
     "candidateId": "C-2026-11-12-02",
     "batchId": "2026-11-12-chatgpt-manual-1433",
@@ -5714,11 +5719,11 @@
    },
    "childIsTheSubject": true,
    "studyId": "GDC-RR-f0fb8386cd",
-   "version": 28,
+   "version": 30,
    "firstFound": "2026-11-12T14:45:32.751Z",
-   "lastChecked": "2026-11-16T12:59:45.823Z",
-   "changeReason": "visual decision: motion",
-   "changedBy": "radar:assets",
+   "lastChecked": "2026-11-16T13:18:47.513Z",
+   "changeReason": "APPROVAL: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-f0fb8386cd",
     "checkedAt": "2026-11-12T14:45:43.557Z",
@@ -5907,9 +5912,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "ASSETS READY",
+    "stage": "APPROVAL",
     "reasons": [],
-    "at": "2026-11-13T15:38:23.759Z"
+    "at": "2026-11-16T13:18:47.510Z"
    },
    "gdcPostNumber": "059",
    "handoff": {
@@ -5954,6 +5959,11 @@
     "reason": "Justin asked on 16 November for a still and a motion card on this post, to see complete drafts with media. The 11 November evidence is still too thin to say media helps, so this is his editorial call, and the card carries only cleared wording.",
     "decidedBy": "Justin, via Claude Code",
     "at": "2026-11-16T12:59:45.441Z"
+   },
+   "approval": {
+    "approvedBy": "Justin",
+    "instruction": "\"1 apprived  let me know when i can tell chat to go ahead\" (16 November 2026, answering point 1, that neither GDC 059 nor GDC 057 was approved yet)",
+    "approvedAt": "2026-11-16T13:18:47.498Z"
    }
   },
   "GDC-RR-45a302c73d": {
