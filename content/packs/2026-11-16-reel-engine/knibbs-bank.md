@@ -28,13 +28,14 @@ and every hook waits for Justin's yes.
 ## The bank
 
 **K1. The child who doesn't always tell** (week two, Reel 06)
-- Her finding: the children she worked with often hadn't told anyone, and some
-  thought their parents "don't get it". An absence of complaints is not an
-  absence of harm.
+- Her finding, in her published words: the seven to ten year olds she studied,
+  who had seen violent and gory content, had already decided adults were not
+  safe to tell, not because adults did not care but because they did not know
+  what to do with it (catherineknibbs.co.uk/about). Red teamed 16 November.
 - Parent question: would my child actually tell me?
-- Hook: **Nine in ten children say they'd tell someone. Only about half say they always would.**
+- Hook: **Nine in ten children say they'd tell someone. Just over half say they always would.**
 - The figure: Ofcom 2025, children aged 8 to 17 (92 percent would tell someone,
-  usually a parent; 56 percent always would), read at source on 13 November 2026.
+  usually a parent; 56 percent always, 36 percent sometimes, 3 percent not), read at source on 16 November 2026. The fair concession: 86 percent of those who did see something worrying told someone.
 - Proof: script "A message from someone they do not know" (migration 180), whose
   first words are "Thank you for telling me", and the no confiscation promise in
   `lib/digi/horizons.ts` ("if you show me something bad, the phone stays yours").
