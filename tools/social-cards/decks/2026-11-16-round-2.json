@@ -1,0 +1,86 @@
+{
+  "name": "2026-11-16-round-2",
+  "round": "2026-11-16-round-2",
+  "template": "ad",
+  "layout": "stacked",
+  "cards": [
+    {
+      "name": "left-out-year-5",
+      "src": "r2-left-out-y5",
+      "headline": "Everyone in Year&nbsp;5 is on Snapchat. <mark>They are not.</mark>",
+      "screen": {
+        "image": "content/ads/screens/say-snapchat.png",
+        "points": 360.1,
+        "crop": [
+          1.9,
+          300.4,
+          356.3,
+          569.7
+        ]
+      },
+      "ad": {
+        "text": "The plans get made on Snapchat, and your nine year old is not on it. They are not making that up, and it is a horrible feeling.\n\nThere are words for that conversation. They start with believing them, and they end with working out who would text them.\n\nGuided Childhood gives you the words for your child's stage, and the plan from here to sixteen. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/left-out-hallway.jpg",
+        "x": 0.7
+      }
+    },
+    {
+      "name": "left-out-year-6",
+      "src": "r2-left-out-y6",
+      "headline": "Everyone in Year&nbsp;6 is on Snapchat. <mark>They are not.</mark>",
+      "screen": {
+        "image": "content/ads/screens/say-snapchat.png",
+        "points": 360.1,
+        "crop": [
+          1.9,
+          300.4,
+          356.3,
+          569.7
+        ]
+      },
+      "ad": {
+        "text": "The plans get made on Snapchat, and your ten year old is not on it. They are not making that up, and it is a horrible feeling.\n\nThere are words for that conversation. They start with believing them, and they end with working out who would text them.\n\nGuided Childhood gives you the words for your child's stage, and the plan from here to sixteen. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/left-out-hallway.jpg",
+        "x": 0.7
+      }
+    },
+    {
+      "name": "left-out-year-7",
+      "src": "r2-left-out-y7",
+      "headline": "Everyone in Year&nbsp;7 is on Snapchat. <mark>They are not.</mark>",
+      "screen": {
+        "image": "content/ads/screens/say-snapchat.png",
+        "points": 360.1,
+        "crop": [
+          1.9,
+          300.4,
+          356.3,
+          569.7
+        ]
+      },
+      "ad": {
+        "text": "The plans get made on Snapchat, and your eleven year old is not on it. They are not making that up, and it is a horrible feeling.\n\nThere are words for that conversation. They start with believing them, and they end with working out who would text them.\n\nGuided Childhood gives you the words for your child's stage, and the plan from here to sixteen. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/left-out-hallway.jpg",
+        "x": 0.7
+      }
+    }
+  ]
+}

@@ -364,6 +364,62 @@
    "picture": "LinkedIn, run length not listed",
    "borrow": "A duty, a question, aimed at trust leaders, on LinkedIn",
    "leave": "Fear of inspection as the only reason"
+  },
+  {
+   "who": "Qustodio",
+   "library_id": "981890630974276",
+   "seen": "2026-11-16",
+   "days_live": 249,
+   "several_versions": true,
+   "kind": "video",
+   "proven": "proven",
+   "hook": "Teach good digital habits early",
+   "picture": "19 second video, read as text only in the library listing",
+   "borrow": "Runs 249 days in several versions: the frame holds, the line moves (rule 7)",
+   "leave": "Protect My Child Today on the button, the fear ask",
+   "brand": "guided-childhood"
+  },
+  {
+   "who": "Qustodio",
+   "library_id": "1339698191487108",
+   "seen": "2026-11-16",
+   "days_live": 91,
+   "several_versions": true,
+   "kind": "unknown",
+   "proven": "proven",
+   "hook": "I didn't really know what my child was doing on their phone",
+   "picture": "A parent's first person confession as the opening line",
+   "borrow": "Opens in the parent's own voice, first person, one admission",
+   "leave": "Seeing the child's activity: monitoring is the message",
+   "brand": "guided-childhood"
+  },
+  {
+   "who": "Qustodio",
+   "library_id": "1074439531639928",
+   "seen": "2026-11-16",
+   "days_live": 83,
+   "several_versions": false,
+   "kind": "video",
+   "proven": "probable",
+   "hook": "Worried about screen time? You're not alone.",
+   "picture": "28 second video",
+   "borrow": "Little: a category hook, which rule 2 says loses to a named moment",
+   "leave": "Worry as the opener, screen time as a category",
+   "brand": "guided-childhood"
+  },
+  {
+   "who": "Qustodio",
+   "library_id": "863193916726261",
+   "seen": "2026-11-16",
+   "days_live": 91,
+   "several_versions": true,
+   "kind": "image",
+   "proven": "proven",
+   "hook": "Experience peace of mind like never before",
+   "picture": "Image, read as text only",
+   "borrow": "Nothing new; it confirms they keep paying for the protect button",
+   "leave": "Safe, protect, peace of mind",
+   "brand": "guided-childhood"
   }
  ]
 }
