@@ -33,6 +33,31 @@ three questions, the child's stage and what to say tonight, no sign up, free.
    parent with no link (the reply below). Most groups welcome the person who
    helps, and remove the one who only promotes.
 
+## Finding the groups (searched 16 November)
+
+Most parent groups on Facebook are private, so a web search cannot see them;
+the search inside Facebook can. What the web search did find:
+
+| Group | Where | Fit |
+| --- | --- | --- |
+| [Sandford Baby and Toddlers](https://www.facebook.com/sandfordparentandtoddlers/) | Sandford Parish Hall, Wednesday mornings in term time | A page, mostly under 4s. Worth a friendly message: many of those parents have an older child too |
+| [Bristol Parents Club](https://www.instagram.com/bristolparentsclub/) | Bristol, South Glos and North Somerset | Small (about 210 followers), general parenting. Ask the owner |
+
+Not to post in: the parent carer and autism support groups the search also
+found (Bristol Autism Support, North Somerset Parent Carers, NeonDaisy). They
+exist to support families of children with additional needs, and a product
+post there would be unwelcome and off topic.
+
+Type these into the Facebook search bar, then tap Groups:
+
+- Winscombe, Sandford, Banwell, Churchill, Axbridge, Cheddar
+- Weston super Mare mums, Weston parents, Worle mums
+- North Somerset mums, North Somerset parents
+- Bristol mums, Bristol parents, and your children's school name with PTA or Friends of
+
+Pick groups with recent posts and at least a few hundred members, and join as
+yourself before messaging the admin.
+
 ## 1. The message to the group admin
 
 > Hi, I'm a dad near Winscombe. I've spent this year building something for
