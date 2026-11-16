@@ -1,0 +1,14 @@
+{
+  "gdcPostNumber": null,
+  "researchId": null,
+  "notForPublication": true,
+  "eyebrow": "TECHNICAL DEMONSTRATION",
+  "headline": "Placeholder headline set in the house style for testing",
+  "finding": { "figure": "00%", "text": "Placeholder finding. This is not a real result." },
+  "context": "Placeholder context explaining what was measured, in two lines.",
+  "source": "SOURCE  Placeholder Journal, 1 January 2026",
+  "limitation": "Placeholder limitation: what this study cannot tell us.",
+  "backgroundVideo": null,
+  "objectImage": null,
+  "durationSeconds": 14
+}
