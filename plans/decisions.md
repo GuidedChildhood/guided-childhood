@@ -329,6 +329,11 @@ After Justin completed Meta's identity check, Instagram messages joined the Busi
 - Round 2 is left out three times with only the school year changed (Year 5, 6, 7; proven rule 10), left out itself as the control. Gate passed, the old hallway scene reused, no Higgsfield credits spent. Not loaded: the three link codes must be made on the founder links page first, and loading is Justin's word.
 - Competitors: Kairoo has no live UK adverts (its generated families never reached 30 days). Four Qustodio adverts past 80 days logged. Nobody says what left out says.
 
+## 16 November 2026: Watch together booking built (migration 400, not applied)
+
+- On Justin's go ahead, with his five answers: book from a film page (three suggestions plus another time), the film leads the child's page at the time and never before, a parent push fifteen minutes before, one daytime buzz for the child (never after 19:00), change or cancel, a calendar file with no child's name, and a Tonight prompt after watching (stored on parent_lessons).
+- Home gets its own small card for a booking in the next hour or one that slipped by yesterday, because next up only draws after the day's habit is ticked.
+- Every read answers "no booking" until migration 400 is applied, so nothing changes for families before then. Applying it and deploying wait for Justin. PR 1589.
 ## 16 November 2026: 1.4 keeps its line, old labels stay, and a second voice test
 
 - Justin: leave "They'll remember it forever." in 1.4, and leave the dashed labels inside the old drawings for now.
@@ -342,3 +347,8 @@ which. Every evidence post now gets a research card by default (still plus
 shows); text only only when there is no single clean finding. Media is
 attached to the existing Metricool draft through mediaToAttach, never
 scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
+## 16 November 2026: DiGi's films re-voiced in Isla
+
+- Justin heard Tamsin as not real enough and chose Isla on ElevenLabs by ear (sample 5 of nine). All five first release films (1.1, 1.2, 1.3, 1.4, 1.5) are now in Isla's voice in both public shapes, subtitles rebuilt. DiGi's voice row in `digi-squad/README.md` now names Isla.
+- Every line was transcribed against its words before the build; one 1.4 line ("Screens" heard as "Screams") was redone.
+- About 52 credits for the four, so roughly 0.25 a line, not the 0.15 quoted. Nothing uploaded. PR 1588 and its follow up.

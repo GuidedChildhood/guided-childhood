@@ -97,6 +97,9 @@ import FoldSection from '@/components/dashboard/FoldSection'
 import { getFamilyHandover, offerableChildren, reofferChildren } from '@/lib/handover/settled'
 import PhoneLaterCard from '@/components/home/PhoneLaterCard'
 import { getWhatYouKeep, keepsLine } from '@/lib/paywall/what-you-keep'
+import WatchBookingCard from '@/components/home/WatchBookingCard'
+import { homeCardFor } from '@/lib/lessons/watch-bookings-server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 const WEEKLY_ACTIONS = [
   'Put the bedroom rule in place',
@@ -1039,6 +1042,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     digiWord: !firstRun,
   }, londonDayIndex())
 
+  // A Watch together time in the next hour, or yesterday's that slipped by
+  // (migration 400). Answers null, and so draws nothing, until the migration
+  // is applied.
+  const watchBookingCard = await homeCardFor(createAdminClient(), user.id)
+
   const nextUp = pickNextUp({
     childName: questsChildName,
     stageName: stage.name,
@@ -1521,6 +1529,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           school days (migration 362 times, lib/home/school-window). One move,
           the words, and the one tap log. Quiet the rest of the day. */}
       {homeSlot === 'schoolWindow' && schoolWindow && <SchoolWindowCard data={schoolWindow} />}
+
+      {/* A booked Watch together time: in the next hour, or yesterday's to
+          pick again. Shown whether or not the day's habit is done, because a
+          reminder that waits for the habit is no reminder (migration 400). */}
+      {watchBookingCard && <WatchBookingCard {...watchBookingCard} />}
 
       {/* Day done, so lead with quests. A returning parent whose daily habit is
           finished lands on an overview of what is waiting from their child,

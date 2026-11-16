@@ -5,20 +5,31 @@ and built in both public shapes, the same way as 1.3
 (`../1.3-release-test/README.md`). **Nothing here has been uploaded, posted or
 scheduled.**
 
+## Now in Isla's voice, 16 November
+
+Justin heard Tamsin as not real enough and chose Isla on ElevenLabs
+(`../voice-test-2/`, sample 5). Both public films below are now the Isla
+versions: the YouTube cut is 4:59 and the family cut is 1:25. All 51 lines were
+generated again (Higgsfield text2speech_v2, variant elevenlabs, preset
+7367e919-3069-5a0b-939e-dfb1c0fd91b4), each one transcribed against its words
+before the build. The original film is saved as `work/orig.mp4` (not
+committed). The Tamsin notes below are kept as the record of the first
+re-voice.
+
 ## What is in this folder
 
 | File | What it is |
 | --- | --- |
-| `when-screens-make-you-sad-youtube-16x9.mp4` | The whole film in Tamsin's voice, 5:45, 1920 by 1080. Nothing is cut: the ending to the grown up ("every time they run to you instead of hiding, that's your win. Keep the door open.") is advice, not a promise about the child, so it stays. Six seconds at the stage check are added at the end |
-| `when-screens-make-you-sad-family-9x16.mp4` | 1:39, 1080 by 1920, for Instagram and Facebook. From "Today we learn one big thing" to "you can still turn it over and tell", on cream, full captions under the picture, five seconds at the stage check |
+| `when-screens-make-you-sad-youtube-16x9.mp4` | The whole film in Isla's voice, 4:59, 1920 by 1080. Nothing is cut: the ending to the grown up ("every time they run to you instead of hiding, that's your win. Keep the door open.") is advice, not a promise about the child, so it stays. Six seconds at the stage check are added at the end |
+| `when-screens-make-you-sad-family-9x16.mp4` | 1:25, 1080 by 1920, for Instagram and Facebook. From "Today we learn one big thing" to "you can still turn it over and tell", on cream, full captions under the picture, five seconds at the stage check |
 | `when-screens-make-you-sad-thumbnail-1280x720.png` | YouTube thumbnail: "The uh oh feeling", the child and the grown up cheering beside a phone turned over |
 | `when-screens-make-you-sad.en-GB.srt` | Subtitles for the YouTube version, 88 lines |
 | `film.json` | The 51 lines with their times and captions, the vertical window and the card words |
-| `tamsin-lines.json`, `tamsin-ledger.tsv` | The words sent to the voice, and every Higgsfield job id with its result file |
+| `isla-lines.json`, `isla-ledger.tsv` | The words sent to Isla, and every Higgsfield result file. The Tamsin files (`tamsin-lines.json`, `tamsin-ledger.tsv`) are kept as the record of the first re-voice |
 
 How to rebuild, from `content/child-films/`:
-`python3 revoice/revoice.py 1.4-release build <1.4 full film>`, then
-`python3 revoice/revoice.py 1.4-release finish`, then
+`VOICE=isla python3 revoice/revoice.py 1.4-release build 1.4-release/work/orig.mp4`, then
+`VOICE=isla python3 revoice/revoice.py 1.4-release finish`, then
 `bash revoice/build.sh 1.4-release`.
 
 ## Cost and lines redone

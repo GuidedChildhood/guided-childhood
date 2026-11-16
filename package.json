@@ -42,6 +42,7 @@
     "radar-daily": "node scripts/radar/daily.mjs",
     "radar-dashboard": "node scripts/radar/dashboard.mjs",
     "digi-handoff-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/digi/prompt-token.test.ts",
+    "watch-bookings-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/lessons/watch-bookings.test.ts",
     "posthog-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts",
     "answer-beat-test": "node --experimental-strip-types scripts/answer-beat.test.mjs",
     "taster-guard": "node --experimental-strip-types scripts/check-taster-wall.mjs",
