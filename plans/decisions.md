@@ -345,3 +345,13 @@ Runs in the Monday radar sweep.
 - All 44 lines regenerated in DiGi's voice, pictures slowed to fit, both public cuts and the subtitles rebuilt. 20.9 credits for the film, measured from the balance. About 21 a film for the other four.
 - The generator pads lines with long silences and twice dropped a narration phrase; `revoice.py` trims the silences, and every line is transcribed against its words before the build.
 - `content/child-films/1.3-release-test/`. PR 1570. Nothing uploaded.
+
+## 16 November 2026: the 1.6 remake and its parent film are built
+
+- On Justin's yes to the quote: 24 pictures of Pebble and DiGi from the reference art, 38 lines in Tamsin's voice, every line checked by transcript (two redone). 68.7 credits against 97 quoted.
+- Cuts: the product film with its A, B, C segments, YouTube with subtitles and the stage check, a 9:16 family cut, and the parent film in three shapes, one real product screen in it.
+- No closing promise, no screen as villain, one line about the body that claims nothing. Nobody has listened with sound on; not swapped into the product. `content/child-films/parent-reaction-series/1.6-sleep/`. PR 1576.
+
+## 16 November 2026: Watch together booking, planned for approval
+
+- Justin's fuller brief: book, remind, show on the child's app at the time, change or cancel, an after prompt. Plan with privacy and safeguarding and five questions: `plans/2026-11-16-watch-together-booking-plan.md`. Nothing built. Migration 399 noted as free.
