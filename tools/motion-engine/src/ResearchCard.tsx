@@ -36,7 +36,10 @@ function rise(frame: number, start: number): React.CSSProperties {
   const t = interpolate(frame, [start, start + DUR], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: EASE })
   if (t >= 1) return { opacity: 1 }
   const y = Math.round(RISE * (1 - t) * 100) / 100
-  return { opacity: t, transform: `translate3d(0, ${y}px, 0)` }
+  // will-change keeps a moving word on its own layer, so the browser slides it
+  // smoothly instead of snapping the glyphs to the next whole pixel, which
+  // shows as a one frame step in a large headline as it slows down.
+  return { opacity: t, transform: `translate3d(0, ${y}px, 0)`, willChange: 'transform, opacity' }
 }
 
 function headlineSize(text: string) {

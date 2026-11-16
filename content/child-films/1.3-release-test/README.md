@@ -11,6 +11,22 @@ uploaded, posted or scheduled.**
 3. One full test on 1.3 first, then the other four the same way.
 4. Remakes start after the first five are out, with 1.6 first.
 
+## Re-voiced again in Isla's voice, 16 November
+
+Justin heard Tamsin as not real enough. From nine samples
+(`content/child-films/voice-test-2/`) he chose number 5: Isla on ElevenLabs
+(Higgsfield text2speech_v2, variant elevenlabs, preset
+7367e919-3069-5a0b-939e-dfb1c0fd91b4). The two public films below are now the
+Isla versions, 4:30 and 1:32; the Tamsin and Mabel versions are in git history.
+
+- 44 lines, job ids in `isla-ledger.tsv`, the words in `isla-lines.json`.
+  Every line transcribed against its words; all match.
+- About 0.15 credits a line, so under 7 credits for the film.
+- Rebuild: `VOICE=isla python3 ../revoice/revoice.py . build work/orig.mp4`,
+  then `VOICE=isla python3 ../revoice/revoice.py . finish`, then
+  `bash ../revoice/build.sh .`. The original film is the `full` segment of
+  "The internet remembers" in `parent_lesson_segments`.
+
 ## Re-voiced in DiGi's voice, 16 November
 
 Justin chose Tamsin, a little slower, as DiGi's voice

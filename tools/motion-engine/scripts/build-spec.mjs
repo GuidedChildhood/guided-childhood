@@ -18,6 +18,9 @@ import { checkSpec, numbersIn } from './gate.mjs'
 const ENGINE = dirname(dirname(fileURLToPath(import.meta.url)))
 const ROOT = join(ENGINE, '..', '..')
 process.chdir(ROOT) // the register reads content/research-register from the working directory
+// The register finds its folder from the working directory. Point it at the
+// repository's own, whichever folder this script was started from.
+process.env.RADAR_REGISTER ||= join(ROOT, 'content/research-register')
 const reg = await import(join(ROOT, 'scripts/radar/register.mjs'))
 
 const id = process.argv[2]

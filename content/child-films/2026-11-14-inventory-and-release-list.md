@@ -27,6 +27,7 @@ Nothing here was uploaded, released or published.
 2. The closing promise to the grown up is cut from the public versions.
 3. One full test on 1.3 first: `content/child-films/1.3-release-test/`.
 4. Remakes start after the first five are out, with 1.6 first.
+5. 16 November: the films go on the Guided Childhood YouTube channel. Still to confirm there: each upload set as made for kids.
 
 ## How these were checked, and the limit of it
 
@@ -195,7 +196,7 @@ The same for all five unless a row says otherwise.
 | Channel | Format it needs | Have | Missing |
 | --- | --- | --- | --- |
 | **Inside the product** | The film in three parts with pause cards, 16:9 | Everything. All five are live now | Nothing. The parent note above could be added beside each film |
-| **YouTube** | 16:9, 1080p, sound, a thumbnail, a title and description, a playlist in journey order | The 1080p file | (1) An end card at the stage check, built into the film, because a video marked as made for kids cannot carry end screens, cards or comments. Please confirm that on the channel before relying on it. (2) A decision on the closing promise line: leave, or cut the last sentence. (3) A thumbnail in the house look. (4) A checked subtitle file. A machine transcript exists for each, unchecked. (5) The made for kids setting chosen, since these are plainly for under sevens. (6) A channel to put them on |
+| **YouTube** | 16:9, 1080p, sound, a thumbnail, a title and description, a playlist in journey order | The 1080p file | (1) An end card at the stage check, built into the film, because a video marked as made for kids cannot carry end screens, cards or comments. Please confirm that on the channel before relying on it. (2) A decision on the closing promise line: leave, or cut the last sentence. (3) A thumbnail in the house look. (4) A checked subtitle file. A machine transcript exists for each, unchecked. (5) The made for kids setting chosen, since these are plainly for under sevens. (6) A channel: the Guided Childhood channel (Justin, 16 November) |
 | **Family account, Instagram and Facebook** | Vertical 9:16 (or 4:5 in the feed), about 60 to 90 seconds, readable with the sound off, ending at the stage check | Nothing in this shape | (1) A short cut. The natural one is the "one big thing" in the first 90 seconds. (2) A vertical frame. The drawings sit in the middle of the picture, so they can be placed on a cream ground with the caption below, no redraw. (3) Full captions, since the burned in labels are only keywords. (4) The stage check end card. (5) The family voice caption and the parent note as the post text |
 
 Per film:
