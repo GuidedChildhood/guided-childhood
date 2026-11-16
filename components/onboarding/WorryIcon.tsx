@@ -37,6 +37,8 @@ export type WorryIconName =
   | 'wont_put_down' | 'bedtime_screens' | 'mood_after_screens'
   | 'controller_fights' | 'morning_tv' | 'asking_for_phone'
   | 'social_media' | 'ai_chatbots' | 'seen_something' | 'something_else'
+  | 'game_chat' | 'group_chats' | 'getting_round' | 'homework_screens'
+  | 'endless_youtube' | 'game_spending'
 
 /** The house colours these are drawn from. Hex rather than var() because an
  *  SVG fill inside a tinted plate must not inherit the plate, and because a
@@ -164,6 +166,67 @@ export default function WorryIcon({
           <circle cx="10.9" cy="13.4" r="1.15" fill={INK} stroke="none" />
           <path d="M20.4 2.6v3.9" stroke={INK} />
           <circle cx="20.4" cy="8.6" r="0.85" fill={BUTTER} />
+        </svg>
+      )
+    // 16 November 2026: the six new tiles, drawn in the same hand.
+    // A controller with a speech bubble: who is on the other end.
+    case 'game_chat':
+      return (
+        <svg {...common}>
+          <path d="M5.6 11.4h8.8a4.4 4.4 0 0 1 4.4 4.4v.4a3.3 3.3 0 0 1-6.1 1.8l-.4-.8H8.1l-.4.8a3.3 3.3 0 0 1-6.1-1.8v-.4a4.4 4.4 0 0 1 4-4.4z" fill={SKY} />
+          <path d="M5.2 14.6v1.6M4.4 15.4h1.6" />
+          <path d="M14.2 2.4h7a1.6 1.6 0 0 1 1.6 1.6v3.4a1.6 1.6 0 0 1-1.6 1.6h-4.2l-2.4 2V9a1.6 1.6 0 0 1-1.6-1.6V4a1.6 1.6 0 0 1 1.2-1.6z" fill={BUTTER} />
+          <circle cx="16.4" cy="5.7" r="0.6" fill={INK} stroke="none" />
+          <circle cx="18.6" cy="5.7" r="0.6" fill={INK} stroke="none" />
+        </svg>
+      )
+    // Two overlapping chat bubbles: the group.
+    case 'group_chats':
+      return (
+        <svg {...common}>
+          <path d="M2.6 5.4a2.4 2.4 0 0 1 2.4-2.4h8.4a2.4 2.4 0 0 1 2.4 2.4v4.6a2.4 2.4 0 0 1-2.4 2.4H8l-3.4 2.8v-2.8a2.4 2.4 0 0 1-2-2.4z" fill={MINT} />
+          <path d="M9.6 13.6h6.8l3.2 2.8v-2.8h.4a2.4 2.4 0 0 0 2.4-2.4V8.6a2.4 2.4 0 0 0-2.4-2.4h-1.8" fill={PINK} />
+          <path d="M6 7.6h6M6 9.6h3.6" />
+        </svg>
+      )
+    // A padlock left open: the setting someone switched off.
+    case 'getting_round':
+      return (
+        <svg {...common}>
+          <rect x="4.4" y="10.6" width="13.2" height="10.4" rx="2.4" fill={LILAC} />
+          <path d="M8 10.6V7.2a4 4 0 0 1 7.6-1.7" />
+          <circle cx="11" cy="15.6" r="1.3" fill={INK} stroke="none" />
+          <path d="M19.2 3.2l1.6-1.4M20.4 6.4h2M18.8 1.2" stroke={INK} />
+        </svg>
+      )
+    // A laptop with a pencil: school work on the screen.
+    case 'homework_screens':
+      return (
+        <svg {...common}>
+          <rect x="4.2" y="5.2" width="15.6" height="10.2" rx="1.8" fill={SKY} />
+          <path d="M2 18.6h20l-1.6-3.2H3.6z" fill={CREAM} />
+          <path d="M8 9h8M8 11.6h5" />
+          <path d="M19.6 2.2l2.2 2.2-5.6 5.6-2.6.4.4-2.6z" fill={BUTTER} />
+        </svg>
+      )
+    // A play button on a screen with the next one queued behind.
+    case 'endless_youtube':
+      return (
+        <svg {...common}>
+          <rect x="5.6" y="3" width="15" height="10" rx="2.2" fill={CREAM} />
+          <rect x="2.6" y="7" width="15.6" height="11" rx="2.4" fill={CORAL} />
+          <path d="M8.8 10.2v4.8l4.2-2.4z" fill={INK} stroke="none" />
+          <path d="M7 21h7.6" />
+        </svg>
+      )
+    // A coin with a star, spent inside a game.
+    case 'game_spending':
+      return (
+        <svg {...common}>
+          <circle cx="11" cy="12.6" r="7.6" fill={BUTTER} />
+          <circle cx="11" cy="12.6" r="5.2" />
+          <path d="M11 9.6l.9 1.9 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2-1.5-1.4 2-.3z" fill={CREAM} />
+          <path d="M19.4 3v3.6M17.6 4.8h3.6" stroke={INK} />
         </svg>
       )
     // Something else: the parent's own words, waiting to be said. The one

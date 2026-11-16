@@ -204,5 +204,76 @@ export const ANSWERS: Record<string, Answer> = {
       { id: 'moment', line: 'Name it once, and the week after has a plan.' },
       { id: 'checkin', line: 'Ten seconds a day tells you whether they are settling.' },
     ],
+  },  // ── THE SIX ADDED ON 16 NOVEMBER 2026 ──────────────────────────────────
+  // From the parent problem sweep (plans/2026-11-16-worry-question-top-12.md).
+  // Each line names a part of the product that already exists; the expert
+  // steer the sweep found is in the answer (agree it together, settings back
+  // the plan up, autoplay off), never a ban.
+  game_chat: {
+    question: 'Who is my child really talking to in games?',
+    answer: 'A friends list you agree together, settings to match it, and the words so they tell you when someone odd gets in touch.',
+    proof: ['Game settings guides', 'What to say if a stranger messages'],
+    how: [
+      { id: 'script', line: 'The words for who counts as a real friend, agreed before the next game.' },
+      { id: 'digi', line: 'Walks you through the chat and friends settings for their game, step by step.' },
+      { id: 'lesson', line: 'Short lessons on strangers online, at their age, done together.' },
+      { id: 'moment', line: 'Name the message that worried you once, and the week after has a plan.' },
+    ],
   },
+  group_chats: {
+    question: 'How do I handle the class WhatsApp?',
+    answer: 'Who can add them, which groups are fine, and the words for the night a chat turns unkind.',
+    proof: ['Group chat scripts', 'Phone setup guides'],
+    how: [
+      { id: 'script', line: 'What to say when a group chat turns unkind, ready before it happens.' },
+      { id: 'digi', line: 'Helps you set who can add them to a group, and what to agree first.' },
+      { id: 'lesson', line: 'Group chats, screenshots and leaving a chat, learned before the phone.' },
+      { id: 'checkin', line: 'Ten seconds a day shows whether things are settling.' },
+    ],
+  },
+  getting_round: {
+    question: 'Why do the controls never hold?',
+    answer: 'Controls back up a plan, they are not the plan. A deal your child helped write holds far better than a block they can switch off.',
+    proof: ['The family agreement builder', 'What to do when a setting is switched off'],
+    how: [
+      { id: 'balance', line: 'Rules agreed together, so they have a reason to keep them.' },
+      { id: 'script', line: 'The words for the day you find a setting switched off.' },
+      { id: 'digi', line: 'Tells you which controls are worth it at their age, and which are not.' },
+      { id: 'kidapp', line: 'Their app shows what keeping the deal earns them.' },
+    ],
+  },
+  homework_screens: {
+    question: 'Homework is on the screen, so how can it ever come away?',
+    answer: 'School work and free time kept apart: a clear end to homework, then the screen time that is theirs.',
+    proof: ['Homework scripts', 'Protected windows'],
+    how: [
+      { id: 'balance', line: 'Homework and free time counted apart, so one never eats the other.' },
+      { id: 'script', line: 'The words for is that really homework, without the row.' },
+      { id: 'kidapp', line: 'They tick homework done before their free time starts.' },
+      { id: 'digi', line: 'Helps you set it up for their school and their age.' },
+    ],
+  },
+  endless_youtube: {
+    question: 'How do I stop the endless scroll of videos?',
+    answer: 'Autoplay off, a finish agreed before it starts, and something ready for after.',
+    proof: ['YouTube settings guides', 'The timer that calls time'],
+    how: [
+      { id: 'digi', line: 'Shows you how to turn off autoplay and Shorts on their device.' },
+      { id: 'balance', line: 'A finish agreed first, so the timer calls time, not you.' },
+      { id: 'script', line: 'The words for the end of a video, before the next one starts.' },
+      { id: 'checkin', line: 'Ten seconds a day shows whether the comedown is easing.' },
+    ],
+  },
+  game_spending: {
+    question: 'How do I stop the constant asks for in game money?',
+    answer: 'Pocket money rules agreed once, and things they earn, so wanting something is not a nightly ask.',
+    proof: ['The first gift card script', 'Jobs that earn stars'],
+    how: [
+      { id: 'script', line: 'The words for the first gift card, before the first spend.' },
+      { id: 'kidapp', line: 'Jobs earn stars, so wanting something has a path that is not nagging.' },
+      { id: 'digi', line: 'Helps you lock spending on their console and phone.' },
+      { id: 'lesson', line: 'A short lesson on how games are built to make you spend.' },
+    ],
+  },
+
 }
