@@ -334,6 +334,11 @@ Runs in the Monday radar sweep.
 
 - A to Z Showdown (4614794043), Ice Cream Shop (4614808978), School Year Planner (4614796575) and Word Fishing (4614809538) went live on Etsy around 11 to 14 November, so their free taster rows move from no-listing to live and the rebuilt taster bands now link to the listing.
 
+## 16 November 2026: the topic email course is offered on the stage check result page
+
+- Justin chose it on 14 November. A child aged 10 to 12 (or an Explorer run saved before the age question) sees "The first group chat" on the result page: one email box, one button, "Start the seven emails". Day 1 goes at once, then one a morning from the email cron as kind `series`.
+- Asking is the consent: the button and the line under it name the seven emails and the odd note after, so the lead is marked `marketing_consent` true like a ticked box (396). No second box, because nothing else is given in exchange.
+- No migration. The start row in `lead_email_log` is the clock and its unique key stops a second press restarting the week. The copy lives in `lib/courses/registry.ts`, tested word for word against the checked pack, so the next topic is a new entry. PR 1573.
 ## 16 November 2026: lesson films from what parents react to, the map and the 1.6 pair
 
 - The last 30 posts from Family IT Guy and the two clinicians, read for subject only and grouped: `content/child-films/parent-reaction-series/subjects-2026-11-16.md`. The cybertrauma account posts on LinkedIn, not Instagram, so her 30 came from there. 32 of 90 are not ours.

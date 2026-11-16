@@ -14,6 +14,8 @@ import { tasterStageEmail, tasterFullPackEmail, tasterSeriesPageEmail, turnsFour
 import { TURNS_FOUR_KEY, londonMonth } from '@/lib/starter/turns-four'
 import { getTaster, etsyUrl, seriesPage, tasterPdf, tasterPreview } from '@/lib/magnets/tasters'
 import { tasterEmailDue, TASTER_STAGE_KEY, TASTER_STAGE_DAY, TASTER_NURTURE_WINDOW_DAYS, seriesEmailDue, seriesPageNumber, SERIES_STAGE_KEY, SERIES_FULL_PACK_KEY, SERIES_ORDER } from '@/lib/magnets/taster-nurture'
+import { getCourse, courseDayDue, courseDayKey, COURSE_WINDOW_DAYS } from '@/lib/courses/registry'
+import { courseEmailFor } from '@/lib/courses/email'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { TRIAL_DAYS } from '@/lib/access'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -187,7 +189,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, founderPrecharge: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, tasterStage: 0, tasterFullPack: 0, turnsFour: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, founderPrecharge: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, tasterStage: 0, tasterFullPack: 0, course: 0, turnsFour: 0, errors: 0 }
 
   // ONE EMAIL PER PERSON PER RUN.
   //
@@ -794,6 +796,61 @@ async function handler(req: NextRequest) {
           if (sent.skipped) results.throttled += 1
           else results.errors += 1
           await supabase.from('lead_email_log').delete().eq('email', email).eq('email_key', due)
+        }
+      }
+    }
+  }
+
+  // THE TOPIC EMAIL COURSES (16 November 2026, lib/courses/registry.ts). A
+  // parent who asked for a course on the stage check result page got day 1 at
+  // once; this sends the rest, one a morning, as kind 'series' (asked for by
+  // name, so no weekly floor, and the stop link still wins). The start row in
+  // lead_email_log is the clock. Members keep getting a course they asked for:
+  // making an account halfway through a week is no reason to stop it.
+  // A lead who has since clicked stop, or whose consent reads false, is skipped.
+  {
+    const windowStart = new Date(Date.now() - COURSE_WINDOW_DAYS * 86400000).toISOString()
+    const { data: starts, error: startsErr } = await supabase
+      .from('lead_email_log').select('email, email_key, sent_at')
+      .like('email_key', 'course:%:start').gte('sent_at', windowStart).limit(500)
+    const rows = startsErr ? [] : (starts ?? [])
+    if (rows.length > 0) {
+      const emails = [...new Set(rows.map(r => r.email as string))]
+      const [{ data: sentLog }, { data: leadRows }] = await Promise.all([
+        supabase.from('lead_email_log').select('email, email_key').in('email', emails).like('email_key', 'course:%'),
+        // '*', not named columns: until migration 396 is applied, naming
+        // marketing_consent errors the read, and an empty read would let a
+        // lead who clicked stop keep getting the course.
+        supabase.from('starter_leads').select('*').in('email', emails),
+      ])
+      // No read at all means no way to honour a stop, so send nothing today.
+      if (!leadRows) rows.length = 0
+      const stopped = new Set((leadRows ?? []).filter(l => l.unsubscribed_at || l.marketing_consent === false).map(l => (l.email as string).toLowerCase()))
+      const sentByEmail = new Map<string, Set<string>>()
+      for (const l of sentLog ?? []) {
+        const k = (l.email as string).toLowerCase()
+        if (!sentByEmail.has(k)) sentByEmail.set(k, new Set())
+        sentByEmail.get(k)!.add(l.email_key as string)
+      }
+      for (const row of rows) {
+        const email = row.email as string
+        if (stopped.has(email.toLowerCase())) continue
+        const slug = (row.email_key as string).slice('course:'.length, -':start'.length)
+        const course = getCourse(slug)
+        if (!course) continue
+        const day = courseDayDue(daysSince(row.sent_at as string), sentByEmail.get(email.toLowerCase()) ?? new Set(), course)
+        if (!day) continue
+        const content = courseEmailFor(email, course, day)
+        if (!content) continue
+        const key = courseDayKey(course.slug, day)
+        const { error: logErr } = await supabase.from('lead_email_log').insert({ email, email_key: key })
+        if (logErr) continue // another run got here first
+        const sent = await sendEmail({ to: email, subject: content.subject, html: content.html, key, kind: 'series' })
+        if (sent.ok) results.course += 1
+        else {
+          if (sent.skipped) results.throttled += 1
+          else results.errors += 1
+          await supabase.from('lead_email_log').delete().eq('email', email).eq('email_key', key)
         }
       }
     }
