@@ -327,3 +327,8 @@ Runs in the Monday radar sweep.
 ## 16 November 2026: four older games point to their Etsy listings
 
 - A to Z Showdown (4614794043), Ice Cream Shop (4614808978), School Year Planner (4614796575) and Word Fishing (4614809538) went live on Etsy around 11 to 14 November, so their free taster rows move from no-listing to live and the rebuilt taster bands now link to the listing.
+## 16 November 2026: film 1.3 re-voiced in Tamsin, the cost measured
+
+- All 44 lines regenerated in DiGi's voice, pictures slowed to fit, both public cuts and the subtitles rebuilt. 20.9 credits for the film, measured from the balance. About 21 a film for the other four.
+- The generator pads lines with long silences and twice dropped a narration phrase; `revoice.py` trims the silences, and every line is transcribed against its words before the build.
+- `content/child-films/1.3-release-test/`. PR 1570. Nothing uploaded.
