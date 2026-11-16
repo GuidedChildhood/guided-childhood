@@ -338,3 +338,7 @@ Runs in the Monday radar sweep.
 - All 44 lines regenerated in DiGi's voice, pictures slowed to fit, both public cuts and the subtitles rebuilt. 20.9 credits for the film, measured from the balance. About 21 a film for the other four.
 - The generator pads lines with long silences and twice dropped a narration phrase; `revoice.py` trims the silences, and every line is transcribed against its words before the build.
 - `content/child-films/1.3-release-test/`. PR 1570. Nothing uploaded.
+## 16 November 2026: the warm ring sent
+
+- Justin asked for the 30 "A small favour, one parent" emails (drafted 6 November, never sent) to go. Sent from justin@thesocialbillboard.com, one each, with two fixes: the link was a Google redirect and is now plain guidedchildhood.com/v/warm-ring, and "a free tool" became "three questions, free" because the product itself has a trial, not a free tier. Old drafts deleted.
+- Count stage checks on the founder page under `warm-ring`. Some 2021 addresses will bounce.
