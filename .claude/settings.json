@@ -15,7 +15,10 @@
       "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__media_confirm",
       "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__create_voice_from_confirmed_audio",
       "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__show_generations",
-      "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__job_display"
+      "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__job_display",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push -u origin claude/*)"
     ]
   },
   "hooks": {
