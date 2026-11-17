@@ -314,3 +314,7 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 
 - On Justin's yes. Live: watch_bookings with row level security on, no browser grants or policies (service role only), four indexes, no rows; parent_lessons.after_prompt set on all ten films. Last migration recorded: 400_watch_bookings.
 - PR 1589 (the booking code) merged the same morning, so booking is live once main deploys. Next: one live test, a film booked a few minutes ahead for one child.
+
+## 17 Nov 2026: three personal LinkedIn posts a week, from Wed 18 Nov
+
+From Wednesday 18 November, no more than three personal LinkedIn posts in a calendar week. Research, review and pack writing carry on daily, building a reserve, with no publication forced. Claude assigns no dates and schedules nothing; Justin does. The suggested order already fits: 058, 059, 057 this week; 060 (if approved), 055, 056 next. The engagement audit sheet is "GDC LinkedIn Engagement and First Comment Audit" in the Approval Desk; comment and first comment status stays UNVERIFIED until someone reads the comments themselves (no LinkedIn or Metricool access here).
