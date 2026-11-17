@@ -1,7 +1,7 @@
 # Parent film: is this real?
 
 Subject group B (AI, fakes and chatbots). The parent half of the 1.5 pair.
-Draft 1, 17 November 2026. NOT RECORDED. Nothing generated.
+17 November 2026. Recorded and built: see README.md.
 
 **Watch it, then act on it.** About 70 seconds. Portrait first, landscape from
 the same build. DiGi's voice (Tamsin, slower) with full captions, so it works

@@ -2,7 +2,7 @@
 
 Child lesson film, Stage 1 (ages 4 to 7), watched with a grown up.
 Subject group B in `../subjects-2026-11-16.md` ("is this real?": AI, fakes and
-chatbots). Draft 1, 17 November 2026. NOT RECORDED. Nothing generated.
+chatbots). 17 November 2026. Recorded and built: see README.md. The words as recorded are in build/lines.json.
 
 ## What changes from the film live today
 
@@ -145,7 +145,7 @@ DIDGEE: You will never be in trouble for asking. Grown ups love that question.
 
 **14. Recap** (r05, r06, r07 in a row)
 DIDGEE: So. Some things are real. Some are pretend. And some are made by a computer.
-DIDGEE: When you're not sure: is this real?
+DIDGEE: And if you're not sure, ask. Is this real?
 
 **15. Goodbye** (r13)
 PICTURE: Pebble waving goodbye with the book the right way up, DiGi glowing beside.
