@@ -325,3 +325,6 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - Real, pretend, and made by a computer (the dog on the moon), as the school lesson ks1-03 teaches it. Keeps the live keyword, catchphrase and pause cards, so it swaps in with no database change. It deliberately teaches asking, not spotting fakes by clues.
 - 14 pictures (one redraw so the upside down book reads), 36 lines in Tamsin's voice checked by transcript (one redone for a stutter). 43.3 credits against 53 quoted.
 - The parent film's real screen is the Book a time panel. Nobody has listened with sound on; not swapped into the product. `content/child-films/parent-reaction-series/1.5-real/`. PR 1604.
+
+## 17 November 2026: the RSHE mapping page leads with the answer
+Justin: Apple UX, obvious to a teacher arriving from the schools email. The page now opens on "All 57 online requirements are taught" with a ring, then three steps, then a Primary or Secondary switch, a search and strand links; KCSIE and the lesson hooks fold away and open when printed; one "how we check" line at the foot. Same data and guard. Plan: plans/2026-11-17-rshe-mapping-clarity-plan.md.
