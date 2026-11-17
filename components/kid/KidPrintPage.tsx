@@ -43,7 +43,7 @@ import { HAPPY, SmileyDot } from '@/components/kid/HappyNewsBits'
 export type PrintJob =
   | { kind: 'sheet'; sheet: SheetPaperSpec; key: string }
   | { kind: 'bucket'; title: string; childName: string; picked: BucketIdea[] }
-  | { kind: 'star'; name: string; weekLabel: string | null; jobs: SheetJob[]; starMinutes: number }
+  | { kind: 'star'; name: string; weekLabel: string | null; jobs: SheetJob[]; starMinutes: number; fullDays?: number | null }
 
 export default function KidPrintPage({ job, token }: {
   job: PrintJob
@@ -199,13 +199,9 @@ export default function KidPrintPage({ job, token }: {
         </div>
       )}
       {job.kind === 'star' && (
-        <div className="kid-print-wrap" style={{ maxWidth: 820, margin: '0 auto', padding: '10px 12px 30px', overflowX: 'auto' }}>
-          <style>{`@media print { .sheet-scroll { overflow: visible !important } .sheet-scroll > div { min-width: 0 !important } }`}</style>
-          <div className="sheet-scroll" style={{ overflowX: 'auto' }}>
-            <div style={{ minWidth: 560 }}>
-              <StarChartSheet name={job.name} weekLabel={job.weekLabel} jobs={job.jobs} starMinutes={job.starMinutes} />
-            </div>
-          </div>
+        <div className="kid-print-wrap" style={{ maxWidth: 820, margin: '0 auto', padding: '10px 12px 30px' }}>
+          {/* Page one scales itself to the phone (SheetScale), so no sideways scroll. */}
+          <StarChartSheet name={job.name} weekLabel={job.weekLabel} jobs={job.jobs} starMinutes={job.starMinutes} fullDays={job.fullDays ?? null} />
         </div>
       )}
     </div>

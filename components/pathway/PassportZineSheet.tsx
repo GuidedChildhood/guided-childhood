@@ -101,7 +101,7 @@ export default function PassportZineSheet({
             <span key={i} style={{ width: '0.9mm', height: `${(h / 16) * 6}mm`, background: GOLD, borderRadius: '0.4mm' }} />
           ))}
         </span>
-        <span style={{ ...display, fontSize: '15px', lineHeight: 1.05 }}>Digital Literacy<br />Passport</span>
+        <span style={{ ...display, fontSize: '15px', lineHeight: 1.05 }}>Digital Childhood<br />Passport</span>
         <span style={{ ...mono, fontSize: '8px', marginTop: '2mm' }}>{childName}</span>
         {passportCode && <span style={{ ...mono, fontSize: '6.5px', opacity: 0.8 }}>№ {passportCode}</span>}
       </div>

@@ -8,10 +8,14 @@ import KidPrintPage, { type PrintJob } from '@/components/kid/KidPrintPage'
 import type { BucketIdea } from '@/components/printables/BucketSheet'
 import type { SheetJob } from '@/components/printables/StarChartSheet'
 import { MAX_ROWS } from '@/components/printables/StarChartSheet'
+import { streakCurrency } from '@/lib/pathway/streak-unlock'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
 import { dealFactsFrom } from '@/lib/printables/deal-facts'
 import type { DrawnSpec } from '@/components/printables/drawn'
 import { missionSheetFor } from '@/lib/printables/mission-sheets'
+import StickerPrintSheet from '@/components/passport/StickerPrintSheet'
+import { stampedStickerNums } from '@/lib/pathway/passport-stickers-server'
+import PrintButton from '@/app/(dashboard)/dashboard/keepsakes/passport-print/PrintButton'
 
 // The child's print page. See lib/kid/print-anywhere for why it exists:
 // inside an installed iOS app window.print() does nothing, so every print
@@ -31,7 +35,7 @@ export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Print it 🖨️' }
 
 type Params = { token: string }
-type Query = { sheet?: string; bucket?: string; star?: string }
+type Query = { sheet?: string; bucket?: string; star?: string; stickers?: string; stage?: string }
 
 const clean = (s: unknown, max: number) => (typeof s === 'string' ? s.replace(/\s+/g, ' ').trim().slice(0, max) : '')
 
@@ -44,6 +48,28 @@ export default async function KidPrintRoute({ params, searchParams }: { params: 
   const { data: link } = await supabase
     .from('kid_links').select('user_id, child_id').eq('token', token).maybeSingle()
   if (!link) notFound()
+
+  // THE PASSPORT STICKERS, FROM THE CHILD'S OWN APP (17 November 2026). The
+  // stage done moment links here so a child can print their Planet Friend
+  // sticker for the paper passport. The same sheet and the same stamp read as
+  // the parent's copy, so the two can never disagree.
+  if (q.stickers) {
+    const { data: child } = await supabase.from('children').select('name').eq('id', link.child_id).maybeSingle()
+    const kid = child?.name && child.name !== 'Your child' ? String(child.name) : null
+    const stamped = await stampedStickerNums(supabase, link.user_id as string, link.child_id as string).catch(() => [] as number[])
+    const focus = Number(q.stage)
+    const todayState = await readTodayState(supabase, link.child_id)
+    return (
+      <KidScreenChrome token={token} current="print" today={{ left: todayState.left, total: todayState.steps.length, complete: todayState.complete, opened: todayState.done.length > 0 }}>
+        <StickerPrintSheet kid={kid} stamped={stamped} focus={Number.isInteger(focus) ? focus : null}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
+            {stamped.length > 0 ? 'Print it in colour, cut it out and stick it in your passport.' : 'Finish your first stage and your first sticker shows up here.'}
+          </p>
+          <PrintButton />
+        </StickerPrintSheet>
+      </KidScreenChrome>
+    )
+  }
 
   let job: PrintJob | null = null
 
@@ -88,7 +114,18 @@ export default async function KidPrintRoute({ params, searchParams }: { params: 
       .filter(j => j.text.length > 0)
       .slice(0, MAX_ROWS)
     const starMinutes = Math.min(60, Math.max(1, Number(d.starMinutes) || 5))
-    job = { kind: 'star', name: clean(d.name, 20), weekLabel: typeof d.weekLabel === 'string' ? clean(d.weekLabel, 40) : null, jobs, starMinutes }
+    // The child's real full days, so the Planet Friends trail on their paper
+    // matches the streak bar on their phone.
+    let fullDays: number | null = null
+    try {
+      const [{ count: jobStreaks }, { count: completedDays }] = await Promise.all([
+        supabase.from('job_streaks').select('id', { count: 'exact', head: true }).eq('child_id', link.child_id),
+        supabase.from('kid_days').select('id', { count: 'exact', head: true })
+          .eq('child_id', link.child_id).not('completed_at', 'is', null),
+      ])
+      fullDays = streakCurrency(jobStreaks ?? 0, completedDays ?? 0)
+    } catch { /* prints without progress */ }
+    job = { kind: 'star', name: clean(d.name, 20), weekLabel: typeof d.weekLabel === 'string' ? clean(d.weekLabel, 40) : null, jobs, starMinutes, fullDays }
   }
 
   if (!job) notFound()

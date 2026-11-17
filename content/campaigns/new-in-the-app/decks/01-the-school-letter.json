@@ -1,0 +1,58 @@
+{
+ "name": "new-01-the-school-letter",
+ "size": "portrait",
+ "lead": "bloop",
+ "eyebrow": "New in Guided Childhood &middot; 1 of 3",
+ "cards": [
+  {
+   "name": "cover",
+   "type": "hook",
+   "scale": "h-l",
+   "headline": "The letter said<br>Wednesday.<br><mark>I found it on Thursday.</mark>"
+  },
+  {
+   "name": "snap",
+   "type": "shot",
+   "headline": "Snap the letter. Or screenshot the ClassDojo message.",
+   "image": "content/campaigns/new-in-the-app/screens/snap.png",
+   "width": 490,
+   "top": 410
+  },
+  {
+   "name": "forward",
+   "type": "shot",
+   "headline": "Or forward the school emails to your own address.",
+   "image": "content/campaigns/new-in-the-app/screens/letterbox.png",
+   "width": 500,
+   "top": 420
+  },
+  {
+   "name": "the-week",
+   "type": "shot",
+   "headline": "It lands on the right day. Weekly ones come back.",
+   "image": "content/campaigns/new-in-the-app/screens/school-week.png",
+   "width": 470,
+   "top": 420
+  },
+  {
+   "name": "their-week",
+   "type": "shot",
+   "headline": "And on their week, in their own app.",
+   "image": "content/campaigns/new-in-the-app/screens/kid-week.png",
+   "width": 760,
+   "top": 420
+  },
+  {
+   "name": "the-night-before",
+   "type": "text",
+   "headline": "A reminder the night before. Another in the morning.",
+   "body": "We keep the reminders, never the emails. Nobody reads your inbox."
+  },
+  {
+   "name": "ask",
+   "type": "ask",
+   "save": "Save it for the next letter in the book bag.",
+   "send": "Send it to whoever does the school run."
+  }
+ ]
+}

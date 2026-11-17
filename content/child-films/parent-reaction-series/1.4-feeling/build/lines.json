@@ -1,0 +1,296 @@
+{
+ "voice": {
+  "model": "seed_audio",
+  "voice_type": "preset",
+  "voice_id": "9eb5a147-c322-4f8a-8bc5-a30679dfaf5c",
+  "speech_rate": -10
+ },
+ "film": "1.4",
+ "hook": "What to teach a five year old before they see something upsetting online",
+ "family_ids": [
+  "c01",
+  "c08",
+  "c09",
+  "c10",
+  "c12",
+  "c13",
+  "c14",
+  "c15",
+  "c19"
+ ],
+ "book_line": "When screens make you sad. A few minutes, on the sofa.",
+ "thumb_title": "When screens make you sad",
+ "thumb_pic": "u08",
+ "screen": {
+  "file": "screen.png",
+  "crop": "iw:ih:0:0"
+ },
+ "cards": {
+  "ask1": [
+   "Grown up, ask:",
+   "Where do YOU feel a wobbly feeling? Point to it.",
+   "There is no wrong answer."
+  ],
+  "ask2": [
+   "Grown up, say:",
+   "If a screen ever gives you the uh oh feeling, you can always come to me. You will never be in trouble.",
+   "Then keep that promise."
+  ]
+ },
+ "child": [
+  {
+   "id": "c01",
+   "seg": "A",
+   "pics": [
+    "u01"
+   ],
+   "text": "Hello, it's Didgee. And here's Pebble."
+  },
+  {
+   "id": "c02",
+   "seg": "A",
+   "pics": [
+    "u02"
+   ],
+   "text": "Oh, Pebble. Other way round. Lovely."
+  },
+  {
+   "id": "c03",
+   "seg": "A",
+   "pics": [
+    "p02"
+   ],
+   "text": "Let's breathe together. Breathe in, and blow out slowly. One more. Lovely."
+  },
+  {
+   "id": "c04",
+   "seg": "A",
+   "pics": [
+    "u03"
+   ],
+   "product_only": true,
+   "text": "Last time, we sent a kind message. Today, we're talking about feelings."
+  },
+  {
+   "id": "c05",
+   "seg": "A",
+   "pics": [
+    "u04"
+   ],
+   "word": "FEELING",
+   "text": "Today's special word is feeling."
+  },
+  {
+   "id": "c06",
+   "seg": "A",
+   "pics": [
+    "u04"
+   ],
+   "word": "FEELING",
+   "text": "Happy, sad, excited, worried. All feelings are okay."
+  },
+  {
+   "id": "c07",
+   "seg": "A",
+   "pics": [
+    "u05"
+   ],
+   "text": "Most of the time, screens are fun. Songs, and games, and stories."
+  },
+  {
+   "id": "c08",
+   "seg": "A",
+   "pics": [
+    "u06"
+   ],
+   "text": "But sometimes, something on a screen gives you an uh oh feeling. It might be sad, or scary, or it just feels wrong."
+  },
+  {
+   "id": "c09",
+   "seg": "A",
+   "pics": [
+    "u07"
+   ],
+   "text": "You might feel it in your body. A wobbly tummy. A hot face. A heart going fast."
+  },
+  {
+   "id": "c10",
+   "seg": "A",
+   "pics": [
+    "u07"
+   ],
+   "text": "That's your body saying uh oh."
+  },
+  {
+   "id": "c11",
+   "seg": "A",
+   "pics": [
+    "p07"
+   ],
+   "card": "ask1",
+   "text": "Pause me here. Where do you feel a wobbly feeling? Point to it."
+  },
+  {
+   "id": "c12",
+   "seg": "B",
+   "pics": [
+    "u08"
+   ],
+   "word": "Turn it over.",
+   "text": "When you get the uh oh feeling, here's what to do. First, turn it over."
+  },
+  {
+   "id": "c13",
+   "seg": "B",
+   "pics": [
+    "u08"
+   ],
+   "word": "Turn it over.",
+   "text": "Put the screen face down. Now you can't see it."
+  },
+  {
+   "id": "c14",
+   "seg": "B",
+   "pics": [
+    "u09"
+   ],
+   "word": "Go and tell!",
+   "text": "Then, go and tell. Find your grown up, and tell them what you saw."
+  },
+  {
+   "id": "c15",
+   "seg": "B",
+   "pics": [
+    "u08",
+    "u09"
+   ],
+   "text": "Turn it over. Go and tell!"
+  },
+  {
+   "id": "c16",
+   "seg": "B",
+   "pics": [
+    "r11"
+   ],
+   "text": "Let's play the high five game. When your grown up says uh oh, turn your hands over like a screen. Then run to them, and high five!"
+  },
+  {
+   "id": "c17",
+   "seg": "B",
+   "pics": [
+    "r11"
+   ],
+   "gap": 3.0,
+   "text": "Ready? Uh oh!"
+  },
+  {
+   "id": "c18",
+   "seg": "B",
+   "pics": [
+    "p07"
+   ],
+   "card": "ask2",
+   "text": "Pause me here. Grown up, you have something important to say."
+  },
+  {
+   "id": "c19",
+   "seg": "C",
+   "pics": [
+    "r12"
+   ],
+   "text": "You will never be in trouble for telling. Even if you were watching something you weren't meant to. Telling is always the right thing."
+  },
+  {
+   "id": "c20",
+   "seg": "C",
+   "pics": [
+    "u10"
+   ],
+   "text": "When you tell, the uh oh feeling gets smaller. Your grown up helps you carry it."
+  },
+  {
+   "id": "c21",
+   "seg": "C",
+   "pics": [
+    "u07",
+    "u08",
+    "u09"
+   ],
+   "text": "So. Notice the uh oh feeling. Turn it over. Go and tell!"
+  },
+  {
+   "id": "c22",
+   "seg": "C",
+   "pics": [
+    "r13"
+   ],
+   "text": "Tonight, play the high five game with your grown up."
+  },
+  {
+   "id": "c23",
+   "seg": "C",
+   "pics": [
+    "r13"
+   ],
+   "text": "Goodbye from Didgee. See you next time."
+  }
+ ],
+ "parent": [
+  {
+   "id": "a01",
+   "pics": [
+    "u06"
+   ],
+   "text": "One day, your child will see something on a screen that upsets them."
+  },
+  {
+   "id": "a02",
+   "pics": [
+    "words"
+   ],
+   "eye": "The reason it matters",
+   "big": "If telling costs them the tablet, they may stop telling.",
+   "text": "If telling you costs them the tablet, they may stop telling you."
+  },
+  {
+   "id": "a03",
+   "pics": [
+    "u08"
+   ],
+   "text": "So make telling the easy part. Their film teaches one routine: turn it over, go and tell."
+  },
+  {
+   "id": "a04",
+   "pics": [
+    "words"
+   ],
+   "eye": "The first words",
+   "big": "Thank you for telling me.",
+   "text": "When they come to you, start with: thank you for telling me."
+  },
+  {
+   "id": "a05",
+   "pics": [
+    "words"
+   ],
+   "eye": "Then",
+   "big": "You're not in trouble.",
+   "text": "Then: you're not in trouble. Even if they were somewhere they shouldn't have been. Stay calm, and listen."
+  },
+  {
+   "id": "a06",
+   "pics": [
+    "screen"
+   ],
+   "text": "Their film is a few minutes on the sofa. In Guided Childhood, you can book a time to watch it together."
+  },
+  {
+   "id": "a07",
+   "pics": [
+    "r12"
+   ],
+   "text": "And if what they saw worries you, you don't have to handle it alone. The NSPCC helpline is oh eight oh eight, eight hundred, five thousand.",
+   "cap": "And if what they saw worries you, you don't have to handle it alone. NSPCC helpline: 0808 800 5000."
+  }
+ ]
+}

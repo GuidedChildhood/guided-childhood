@@ -90,6 +90,26 @@ export const MAGNETS: Record<string, Magnet> = {
     // pages, without the Etsy edition's last page (content/printables/build-pack.mjs app).
     staticPdf: '/printables/starter-pack-colour.pdf',
   },
+  // THE FAMILY WEEK PACK (17 November 2026). Justin's own house: TV asked for
+  // first thing, the room, hair and leaving on time, the front seat, homework
+  // and the reading record, missed school emails. The star chart with those
+  // five jobs printed in, Our school week, and the gold stars. Free for an
+  // email; the app is what fills them with a family's own jobs, real Planet
+  // Friend progress and the dates caught from school emails.
+  // Rendered from app/print-free/family-week (plans/2026-11-17-family-week-pack.md).
+  'family-week': {
+    slug: 'family-week',
+    eyebrow: 'Free family week pack',
+    title: 'The family week pack: a star chart and Our school week',
+    intro:
+      'Two fridge sheets for the week: a star chart with the morning and school jobs already on it, and Our school week, with reading, homework, the front seat rota and a Sunday check. Plus gold stars to cut out.',
+    numbered: false,
+    items: [],
+    close: 'Print it on Sunday, fill it in together, and stick it on the fridge.',
+    filename: 'Guided-Childhood-Family-Week',
+    emailBlurb: 'It is three pages: the star chart, Our school week and the gold stars to cut out. Print a fresh one every Sunday. No login needed.',
+    staticPdf: '/printables/free/family-week-a4.pdf',
+  },
   // THE PLANET POST, Issue 1 (13 October 2026): the first of the five free
   // Happy News printables (plans/2026-10-13-free-printables-lead-magnets-plan.md).
   // Rendered by scripts/render-free-printables.mjs from app/print-free.
