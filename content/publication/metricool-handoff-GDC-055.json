@@ -1,7 +1,7 @@
 {
   "schema": "gdc.metricool-handoff/1.0",
-  "generatedAt": "2026-11-16T14:46:23.389Z",
-  "sourceCommit": "69cafe8e723852edc154f702071b0204e521dabc",
+  "generatedAt": "2026-11-17T09:00:37.803Z",
+  "sourceCommit": "b51dae29068c3340068f5cc152ce9e4fd2468da3",
   "gdcPostNumber": "055",
   "researchId": "GDC-RR-e22bd17322",
   "title": "The government asked its own scientists whether social media harms children. Their answer was that nobody has run the experiment.",
@@ -46,7 +46,7 @@
       "use": "the cover for the film, or the media if Justin chooses an image post"
     }
   ],
-  "approvalStatus": "READY FOR JUSTIN",
+  "approvalStatus": "APPROVED",
   "duplicateCheck": {
     "result": "UNKNOWN",
     "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
@@ -54,7 +54,7 @@
   "linkedinNativeSchedule": null,
   "metricool": {
     "draftCreationPermitted": true,
-    "schedulingPermitted": false,
+    "schedulingPermitted": true,
     "autoPublishPermitted": false,
     "mediaAttachPermitted": true,
     "mediaToAttach": [
@@ -71,9 +71,7 @@
         "sha256": "7fb7d0595398c7ff7e0ce8c17eaf93504c5fdcf77dbbd36d486442cb4a67625a"
       }
     ],
-    "why": [
-      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
-    ],
+    "why": [],
     "rules": [
       "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
       "Do not create a second draft if one exists for this GDC number.",
