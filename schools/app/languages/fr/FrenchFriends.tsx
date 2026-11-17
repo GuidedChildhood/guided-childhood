@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { CHARACTERS } from '@gc/shared/schools-curriculum'
-import { LOUD_FRIEND, LOUD_NAME, QUIET_FRIEND, QUIET_NAME } from '@/lib/languages/fr-friends'
+import { FRENCH_ART, LOUD_FRIEND, LOUD_NAME, QUIET_FRIEND, QUIET_NAME } from '@/lib/languages/fr-friends'
 
 // WHISPER OR SHOUT (17 November 2026).
 //
@@ -18,10 +18,9 @@ import { LOUD_FRIEND, LOUD_NAME, QUIET_FRIEND, QUIET_NAME } from '@/lib/language
 //   board  two small buttons for the teach bar; the chosen friend stands in
 //          the corner of the board, big enough for the back row
 //
-// THE ART is the approved Planet Friend cutout and its approved happy still,
-// unaltered (visual system, section 16). The French touch is the frame: a
-// bleu, blanc, rouge ribbon in the house pastels and one word each. A friend
-// in a beret or a striped top is new art and waits for Justin (plan).
+// THE ART is each friend dressed up for French (FRENCH_ART, fr-friends.ts), made from
+// the approved cutout and approved by Justin, plus a bleu, blanc, rouge
+// ribbon in the house pastels on the plate and one word each.
 //
 // THE MOTION is GSAP only and runs FROM the resting pose, so under reduced
 // motion the pose is set with no movement and the chosen friend is simply
@@ -34,9 +33,8 @@ const reduced = () => typeof window !== 'undefined' && window.matchMedia('(prefe
 const NOVA = CHARACTERS[QUIET_FRIEND]
 const BLOOP = CHARACTERS[LOUD_FRIEND]
 
-/** The art for each friend in each moment: Bloop throws both arms up to shout. */
-const artFor = (who: 'quiet' | 'loud', voice: Voice) =>
-  who === 'loud' ? (voice === 'shout' && BLOOP.moods ? BLOOP.moods.happy : BLOOP.img) : NOVA.img
+/** The art for each friend: the French dressed up version, in every moment. */
+const artFor = (who: 'quiet' | 'loud') => FRENCH_ART[who]
 
 function useVoiceMotion(voice: Voice, quiet: React.RefObject<HTMLDivElement | null>, loud: React.RefObject<HTMLDivElement | null>, rings: React.RefObject<HTMLDivElement | null>, burst: React.RefObject<HTMLDivElement | null>) {
   useEffect(() => {
@@ -99,9 +97,8 @@ function Ribbon() {
   )
 }
 
-function Plate({ who, voice, size, artRef, fxRef }: {
+function Plate({ who, size, artRef, fxRef }: {
   who: 'quiet' | 'loud'
-  voice: Voice
   size: number
   artRef: React.RefObject<HTMLDivElement | null>
   fxRef: React.RefObject<HTMLDivElement | null>
@@ -121,7 +118,7 @@ function Plate({ who, voice, size, artRef, fxRef }: {
       <div ref={artRef} className="gc-ff-art">
         {/* The approved cutout, unaltered. A plain img: fixed size, one CDN family. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={artFor(who, voice)} alt="" draggable={false} />
+        <img src={artFor(who)} alt="" draggable={false} />
       </div>
       <Ribbon />
     </div>
@@ -142,7 +139,7 @@ export function FrenchFriendsCard() {
     <div className="gc-ff">
       <div className="gc-ff-pair">
         <figure className="gc-ff-friend">
-          <Plate who="quiet" voice={voice} size={132} artRef={quiet} fxRef={rings} />
+          <Plate who="quiet" size={132} artRef={quiet} fxRef={rings} />
           <figcaption>
             <b>{QUIET_NAME}</b>
             <span lang="fr" className="gc-ff-word">chut</span>
@@ -153,7 +150,7 @@ export function FrenchFriendsCard() {
           </button>
         </figure>
         <figure className="gc-ff-friend">
-          <Plate who="loud" voice={voice} size={132} artRef={loud} fxRef={burst} />
+          <Plate who="loud" size={132} artRef={loud} fxRef={burst} />
           <figcaption>
             <b>{LOUD_NAME}</b>
             <span lang="fr" className="gc-ff-word">fort !</span>
@@ -189,18 +186,18 @@ export function FrenchFriendsBoard() {
       <span className="gc-ff-bar" role="group" aria-label="Whisper or shout">
         <button type="button" aria-label="Whisper" aria-pressed={voice === 'whisper'} onClick={() => toggle('whisper')}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={NOVA.img} alt="" /><span className="gc-ff-bar-word">Whisper</span>
+          <img src={FRENCH_ART.quiet} alt="" /><span className="gc-ff-bar-word">Whisper</span>
         </button>
         <button type="button" aria-label="Shout" aria-pressed={voice === 'shout'} onClick={() => toggle('shout')}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={BLOOP.img} alt="" /><span className="gc-ff-bar-word">Shout</span>
+          <img src={FRENCH_ART.loud} alt="" /><span className="gc-ff-bar-word">Shout</span>
         </button>
       </span>
       {/* Both friends stay mounted so the motion has something to move; only
           the chosen one is shown on the board. */}
       <div className="gc-ff-stage" aria-hidden={voice === null} data-voice={voice ?? 'none'}>
-        <div className="gc-ff-stage-q"><Plate who="quiet" voice={voice} size={180} artRef={quiet} fxRef={rings} /><span lang="fr">chut</span></div>
-        <div className="gc-ff-stage-l"><Plate who="loud" voice={voice} size={180} artRef={loud} fxRef={burst} /><span lang="fr">fort !</span></div>
+        <div className="gc-ff-stage-q"><Plate who="quiet" size={180} artRef={quiet} fxRef={rings} /><span lang="fr">chut</span></div>
+        <div className="gc-ff-stage-l"><Plate who="loud" size={180} artRef={loud} fxRef={burst} /><span lang="fr">fort !</span></div>
       </div>
       <FriendsStyles />
     </>
@@ -221,7 +218,7 @@ function FriendsStyles() {
       .gc-ff-btn[aria-pressed="true"] { background: var(--butter); border-color: var(--butter-dark); }
       .gc-ff-live { margin: 0; font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink-soft); text-align: center; }
       .gc-ff-plate { position: relative; flex: none; width: var(--ff-size); height: var(--ff-size); border-radius: 50%; border: 2px solid; overflow: visible; }
-      .gc-ff-art { position: absolute; inset: 10%; transform-origin: 50% 85%; }
+      .gc-ff-art { position: absolute; inset: 16%; transform-origin: 50% 85%; }
       .gc-ff-art img { width: 100%; height: 100%; object-fit: contain; display: block; user-select: none; }
       .gc-ff-ribbon { position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); display: flex; height: 10px; width: 44%; border-radius: var(--radius-pill); overflow: hidden; border: 1.5px solid var(--ink); }
       .gc-ff-ribbon > span { flex: 1 1 0; }

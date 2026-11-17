@@ -13,7 +13,8 @@ import {
 import { body, card, Crumbs, Fold, FoldStyles, langEyebrow, Sheets, small } from '../../_ui'
 import DeckPreview from '../../DeckPreview'
 import { FrenchFriendsCard } from '../../FrenchFriends'
-import { FRIENDS_ANCHOR, FRIENDS_PAIR } from '@/lib/languages/fr-friends'
+import { FRENCH_ART, FRIENDS_ANCHOR, FRIENDS_PAIR, friendInTitle, LOUD_FRIEND, slideNote } from '@/lib/languages/fr-friends'
+import { CHARACTERS } from '@gc/shared/schools-curriculum'
 
 // /languages/fr/[unit]/[lesson]: ONE LESSON, START TO FINISH (10 November 2026).
 //
@@ -206,9 +207,15 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
               {order.map((t, i) => (
                 <li key={i} lang="fr" style={{ background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: 'var(--space-1) var(--space-3)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink)' }}>
                   <span style={{ color: 'var(--ink-muted)' }}>{i + 1}</span> {t}
+                  {friendInTitle(t) && (
+                    // Her slide names a toy; our friend plays the part.
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={friendInTitle(t) === LOUD_FRIEND ? FRENCH_ART.loud : FRENCH_ART.quiet} alt={`, with ${CHARACTERS[friendInTitle(t)!].name}`} width={22} height={22} style={{ verticalAlign: 'middle', marginLeft: 'var(--space-1)', objectFit: 'contain' }} />
+                  )}
                 </li>
               ))}
             </ol>
+            {slideNote(order) && <p style={{ ...small, margin: 'var(--space-2) 0 0', color: 'var(--ink)' }}>{slideNote(order)}</p>}
           </div>
         )}
         {seven.length > 0 && !l.culture && (

@@ -27,6 +27,23 @@ export const LOUD_FRIEND = 'bloop' as const
 export const QUIET_NAME = 'Nova'
 export const LOUD_NAME = 'Bloop'
 
+// THE FRENCH TOUCH (17 November 2026, on Justin's yes: "add French touches").
+// Each friend dressed up, made image to image FROM the approved cutout with
+// only the accessory in the prompt (GPT Image 2.6, transparent, 1 credit each,
+// two variants per friend, checked against the cutout, all four on model):
+//   Nova   pastel blue and white knitted scarf          job 08aaf000
+//   Bloop  navy beret and red and white neckerchief      job 15bb5703
+// The unused variants are a17c43c2 and 616e3521. The same pose as the cutout,
+// so the motion below is unchanged and the dressed friend is used in every
+// moment rather than swapping to an undressed face for the shout.
+// The originals are on the CDN (hf_20261117_103121_08aaf000, hf_20261117_103125_15bb5703);
+// the app serves copies cropped tight to the friend, 512 square, so they fill
+// the plate and read from the back row.
+export const FRENCH_ART = {
+  quiet: '/digi-squad/french/nova-french.png',
+  loud: '/digi-squad/french/bloop-french.png',
+}
+
 /** The pair as our copy names them. */
 export const FRIENDS_PAIR = `${QUIET_NAME} and ${LOUD_NAME}`
 
@@ -82,4 +99,30 @@ export function friendlyDeep<T>(v: T): T {
     return out as T
   }
   return v
+}
+
+// THE SLIDE NOTE (17 November 2026, Justin: "this needs to follow which
+// characters you decide"). Her decks are hers and still name the two toys,
+// so a lesson whose slides do gets one line telling the teacher which friend
+// to use. It is built here, from her names, because this is the one file the
+// guard lets say them. It follows QUIET_NAME and LOUD_NAME, so a change of
+// friend changes the note too.
+const HER_QUIET = 'Marie'
+const HER_LOUD = 'Pierre'
+
+/** The teacher's line for a deck whose slide titles name either toy, or null. */
+export function slideNote(titles: string[]): string | null {
+  const quiet = titles.some(t => t.includes(HER_QUIET))
+  const loud = titles.some(t => t.includes(HER_LOUD))
+  if (!quiet && !loud) return null
+  if (quiet && loud) return `The slides still call them ${HER_QUIET} and ${HER_LOUD}. In class, ${LOUD_NAME} hides and the class answers ${QUIET_NAME}.`
+  if (loud) return `The slides still say « Où est ${HER_LOUD} ? ». In class, hide ${LOUD_NAME} and ask « Où est ${LOUD_NAME} ? ».`
+  return `The slides still say ${HER_QUIET}. In class, the class answers ${QUIET_NAME}.`
+}
+
+/** Does this slide title name one of the toys? The running order marks it with our friend. */
+export function friendInTitle(title: string): typeof QUIET_FRIEND | typeof LOUD_FRIEND | null {
+  if (title.includes(HER_LOUD)) return LOUD_FRIEND
+  if (title.includes(HER_QUIET)) return QUIET_FRIEND
+  return null
 }

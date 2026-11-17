@@ -73,3 +73,16 @@ branding, so it is a fair ask), which removes the mismatch at source.
 - No new art. Brief in brand/GDC_SOCIAL_VISUAL_SYSTEM.md, section 17, waits for
   Justin's yes and a credit quote.
 - No change to her decks, PDFs or fr.json.
+
+## 17 November, Justin's answers
+
+"1 choose any the best 2 this needs to follow which characters you decide
+best 3 add French touches please".
+
+1. Nova and Bloop stay.
+2. The slide note is shipped, built from the chosen friends (`slideNote()` in
+   fr-friends.ts), under the running order of any lesson whose slides name a
+   toy. The matching slide gets our friend's face beside it.
+3. The French touch art is made: Nova in a pastel blue and white scarf, Bloop
+   in a navy beret and red and white neckerchief. Four images, 4 credits,
+   all on model. Used on every French surface the friends appear on.

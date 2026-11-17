@@ -414,13 +414,18 @@ When a brief goes to Higgsfield or any other model:
 
 ---
 
-## 17. Brief waiting for Justin: Nova and Bloop dressed up for French
+## 17. Nova and Bloop dressed up for French
 
-Not generated. Nothing is made, and no credits are spent, until Justin says
-yes to the brief and the credit quote. Until then the French pages show the
-approved cutouts unaltered, with the French touch in the frame only (a
-pastel bleu, blanc, rouge ribbon on the plate and the words "chut" and
-"fort !"). Plan: `plans/2026-11-17-french-planet-friends-plan.md`.
+Made 17 November 2026 on Justin's yes ("add French touches please"). Four
+images, 1 credit each, image to image from the approved cutouts, all four
+checked against the cutout and on model. In use: Nova `08aaf000` (scarf),
+Bloop `15bb5703` (beret and neckerchief); spares `a17c43c2`, `616e3521`.
+Same pose as the cutout, no pose change, which kept them on model. The app
+serves tight crops from `schools/public/digi-squad/french/`. These are
+approved files for the French pages only; the rest of the platform keeps the
+undressed cast. Plan: `plans/2026-11-17-french-planet-friends-plan.md`.
+
+The brief as it was approved:
 
 The ask: the same two friends wearing one light French accessory each, so a
 Year 3 class sees our friends dressed up, never new characters.
