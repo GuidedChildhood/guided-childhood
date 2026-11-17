@@ -31,7 +31,11 @@ export default function SheetScale({ sheetWidth, sheetHeight, children }: {
     const el = outer.current
     if (!el) return
     const fit = () => {
-      const w = el.getBoundingClientRect().width
+      // clientWidth, not getBoundingClientRect: the body carries a CSS zoom on
+      // some screens (1.07 on phones), and the rect reports zoomed pixels while
+      // the transform below works in the element's own. Measuring the rect
+      // overshot the page by the zoom and clipped its right edge.
+      const w = el.clientWidth
       if (w > 0) setScale(Math.min(1, w / sheetWidth))
     }
     fit()

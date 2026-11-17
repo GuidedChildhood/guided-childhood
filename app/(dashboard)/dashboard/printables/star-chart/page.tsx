@@ -4,6 +4,7 @@ import StarChartBuilder from './StarChartBuilder'
 import FridgeChartLog from '@/components/quests/FridgeChartLog'
 import { chartWeekStart, starWeekEnd, formatWeekBeginning } from '@/lib/quests/star-week'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
+import { streakCurrency } from '@/lib/pathway/streak-unlock'
 
 // The star chart, typed before it is printed.
 //
@@ -65,6 +66,21 @@ export default async function StarChartPage() {
   } catch { /* deployment default */ }
   const defaultRate = named[0] ? rateByChild[named[0].id as string] ?? 5 : 5
 
+  // Full days each child already has in the app, counted the one way the rest
+  // of the app counts them, so the sheet's Planet Friends trail prints the
+  // same progress the child's phone shows (17 November 2026 fridge redesign).
+  const fullDaysByChild: Record<string, number> = {}
+  try {
+    await Promise.all(named.map(async k => {
+      const [{ count: jobStreaks }, { count: completedDays }] = await Promise.all([
+        supabase.from('job_streaks').select('id', { count: 'exact', head: true }).eq('child_id', k.id),
+        supabase.from('kid_days').select('id', { count: 'exact', head: true })
+          .eq('child_id', k.id).not('completed_at', 'is', null),
+      ])
+      fullDaysByChild[k.id as string] = streakCurrency(jobStreaks ?? 0, completedDays ?? 0)
+    }))
+  } catch { /* the trail prints without progress */ }
+
   // Whole family jobs (child_id null) belong to every child, so they carry a
   // null and the builder shows them whichever child is picked.
   const yourJobs = (quests ?? []).map(q => ({
@@ -101,6 +117,8 @@ export default async function StarChartPage() {
         weeks={weeks}
         rateByChild={rateByChild}
         defaultRate={defaultRate}
+        fullDaysByChild={fullDaysByChild}
+        defaultChildId={(named[0]?.id as string | undefined) ?? null}
       />
       {/* End of the paper week: the same entry card as the printables page,
           here because THIS is where the quest board's star chart tile lands.
@@ -110,7 +128,7 @@ export default async function StarChartPage() {
           end padding, so the card sits near the builder rather than a screen
           below it. */}
       {childOptions.length > 0 && (
-        <div className="no-print" style={{ maxWidth: 820, margin: '0 auto', padding: '0 20px 120px', marginTop: -80 }}>
+        <div id="paper-week" className="no-print" style={{ scrollMarginTop: 24, maxWidth: 820, margin: '0 auto', padding: '0 20px 120px', marginTop: -80 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>
             End of the paper week?
           </h2>
