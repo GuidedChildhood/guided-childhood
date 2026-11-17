@@ -321,6 +321,12 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - On Justin's yes. Live: watch_bookings with row level security on, no browser grants or policies (service role only), four indexes, no rows; parent_lessons.after_prompt set on all ten films. Last migration recorded: 400_watch_bookings.
 - PR 1589 (the booking code) merged the same morning, so booking is live once main deploys. Next: one live test, a film booked a few minutes ahead for one child.
 
+## 17 November 2026: KS2 French gets our Planet Friends, Nova and Bloop
+
+- The scheme's two class toys (shy Marie, loud Pierre) are played on our French pages by Nova (quiet, Still register) and Bloop (loud, the Stage 2 friend for ages 8 to 10). Mapped as fr.json is read (`schools/lib/languages/fr-friends.ts`), never in fr.json, which the nightly sync rewrites. `scripts/check-french-friends.mjs` (in CI) fails if either toy's name reaches a page through our copy.
+- Whisper or shout: GSAP moment on the approach page, beside each lesson's song, and as two buttons in the teach bar that stand the friend in the corner of the board. Approved art only; dressed up art is a brief in the visual system, section 17, waiting for Justin.
+- Her decks and PDFs still say Marie and Pierre (15 slides, the Je peux unit). Slide titles are listed verbatim. Teacher note proposed, not shipped. PR 1609.
+- Same day, Justin's answers: Nova and Bloop confirmed; the slide note ships, built from whichever friends are chosen; French touch art made (Nova scarf `08aaf000`, Bloop beret and neckerchief `15bb5703`, 4 credits, image to image from the approved cutouts, all on model). French pages only. PR 1609.
 ## 17 November 2026: the passport shows the real book and the five Planet Friend stickers
 
 - Justin: the order card showed a yellow "Digital Literacy Passport" photo and generic stickers. Now drawn: the app's burgundy cover (PassportCover, shared with the stage check and the shop) and one Planet Friend sticker per stage (StageSticker), earned ones in colour.
