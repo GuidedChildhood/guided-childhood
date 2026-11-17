@@ -68,14 +68,14 @@ export function penRows(jobCount: number): number {
 
 // Page one, sized to the printable area of A4 at 10mm margins (190 x 277mm at
 // 96 dpi, a few pixels spare). SheetScale shrinks it to a phone exactly.
-const PAGE_W = 718
-const PAGE_H = 1040
+export const PAGE_W = 718
+export const PAGE_H = 1040
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
 // The same seven, taken from the Planet Friends, so the printed chart and the
 // app read as one thing.
-const DAY_INK = ['#C99A28', '#5C9433', '#3C82B4', '#7E56B4', '#C96C25', '#C4477E', '#2E8C84']
-const DAY_BG = ['#FDF3D8', '#E9F3DF', '#DCEBF7', '#EAE1F6', '#FBE7D8', '#FBE0EC', '#DDF0EE']
+export const DAY_INK = ['#C99A28', '#5C9433', '#3C82B4', '#7E56B4', '#C96C25', '#C4477E', '#2E8C84']
+export const DAY_BG = ['#FDF3D8', '#E9F3DF', '#DCEBF7', '#EAE1F6', '#FBE7D8', '#FBE0EC', '#DDF0EE']
 
 // The Planet Family. Names, accent and soft tokens match the schools cast and
 // the app.
@@ -157,29 +157,29 @@ function PhoneBed() {
   )
 }
 
-function TickBox() {
+export function TickBox() {
   return (
     <span aria-hidden style={{ flexShrink: 0, width: 14, height: 14, borderRadius: 4, border: '1.6px solid var(--ink)', background: 'var(--white)', display: 'inline-block' }} />
   )
 }
 
-function PenLine({ width = '100%' }: { width?: string | number }) {
+export function PenLine({ width = '100%' }: { width?: string | number }) {
   return <span aria-hidden style={{ display: 'inline-block', width, borderBottom: '1.4px dashed var(--ink-muted)', height: 14, verticalAlign: 'bottom' }} />
 }
 
-const panel: React.CSSProperties = {
+export const panel: React.CSSProperties = {
   background: 'var(--white)', border: '2px solid var(--ink)', borderRadius: 14,
   padding: '10px 12px 12px', display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0,
 }
-const panelTitle: React.CSSProperties = {
+export const panelTitle: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15, color: 'var(--ink)', lineHeight: 1.15, margin: 0,
 }
-const eyebrow: React.CSSProperties = {
+export const eyebrow: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
 }
-const small: React.CSSProperties = { fontSize: 11.5, color: 'var(--ink-soft)', lineHeight: 1.4, margin: 0 }
+export const small: React.CSSProperties = { fontSize: 11.5, color: 'var(--ink-soft)', lineHeight: 1.4, margin: 0 }
 
-export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5, fullDays = null }: {
+export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5, fullDays = null, extraPage = null }: {
   /** Empty string prints "My star week", the signed out lead magnet case. */
   name: string
   /** Null prints undated, the signed out lead magnet case. */
@@ -199,6 +199,9 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5,
    * Null prints the ladder with no progress, for the lead magnet.
    */
   fullDays?: number | null
+  /** A page printed between the chart and the cut outs: the parent's
+   *  Our school week sheet. Its own .print-sheet with its own page break. */
+  extraPage?: React.ReactNode
 }) {
   const picked = jobs.slice(0, MAX_ROWS)
   const fiveRows = Array.from({ length: FIVE }, (_, i) => picked[i] ?? null)
@@ -438,6 +441,8 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5,
           </p>
         </div>
       </SheetScale>
+
+      {extraPage}
 
       {/* PAGE TWO: the gold stars to cut out, then the Planet Family with the
           deal written on it. Prints on its own sheet after the chart. */}
