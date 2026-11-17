@@ -303,6 +303,11 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - Justin heard Tamsin as not real enough and chose Isla on ElevenLabs by ear (sample 5 of nine). All five first release films (1.1, 1.2, 1.3, 1.4, 1.5) are now in Isla's voice in both public shapes, subtitles rebuilt. DiGi's voice row in `digi-squad/README.md` now names Isla.
 - Every line was transcribed against its words before the build; one 1.4 line ("Screens" heard as "Screams") was redone.
 - About 52 credits for the four, so roughly 0.25 a line, not the 0.15 quoted. Nothing uploaded. PR 1588 and its follow up.
+## 17 November 2026: the fridge star chart, redesigned to match the app
+
+- Page one is now a fixed A4 page in the child app's look: rainbow, "My five a day", a full day planet row, the Planet Friends trail with the child's real full days, the goal line at the top, and three panels (where our phones sleep, outside this week by season, end of the week tally with a QR to the paper week entry).
+- The old "4 stars in a day = one Planet Friend" was wrong. The sheet now imports the real ladder (2, 10, 22, 38, 58 full days) and says full days count when ticked in the app.
+- SheetScale measured zoomed pixels and clipped sheets on phones; fixed for every sheet. Plan in plans/2026-11-17-fridge-star-chart.md.
 
 ## 17 November 2026: the Scripts page is three shelves, and every script looks after the parent too
 

@@ -8,6 +8,7 @@ import KidPrintPage, { type PrintJob } from '@/components/kid/KidPrintPage'
 import type { BucketIdea } from '@/components/printables/BucketSheet'
 import type { SheetJob } from '@/components/printables/StarChartSheet'
 import { MAX_ROWS } from '@/components/printables/StarChartSheet'
+import { streakCurrency } from '@/lib/pathway/streak-unlock'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
 import { dealFactsFrom } from '@/lib/printables/deal-facts'
 import type { DrawnSpec } from '@/components/printables/drawn'
@@ -88,7 +89,18 @@ export default async function KidPrintRoute({ params, searchParams }: { params: 
       .filter(j => j.text.length > 0)
       .slice(0, MAX_ROWS)
     const starMinutes = Math.min(60, Math.max(1, Number(d.starMinutes) || 5))
-    job = { kind: 'star', name: clean(d.name, 20), weekLabel: typeof d.weekLabel === 'string' ? clean(d.weekLabel, 40) : null, jobs, starMinutes }
+    // The child's real full days, so the Planet Friends trail on their paper
+    // matches the streak bar on their phone.
+    let fullDays: number | null = null
+    try {
+      const [{ count: jobStreaks }, { count: completedDays }] = await Promise.all([
+        supabase.from('job_streaks').select('id', { count: 'exact', head: true }).eq('child_id', link.child_id),
+        supabase.from('kid_days').select('id', { count: 'exact', head: true })
+          .eq('child_id', link.child_id).not('completed_at', 'is', null),
+      ])
+      fullDays = streakCurrency(jobStreaks ?? 0, completedDays ?? 0)
+    } catch { /* prints without progress */ }
+    job = { kind: 'star', name: clean(d.name, 20), weekLabel: typeof d.weekLabel === 'string' ? clean(d.weekLabel, 40) : null, jobs, starMinutes, fullDays }
   }
 
   if (!job) notFound()

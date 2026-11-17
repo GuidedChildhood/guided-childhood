@@ -63,6 +63,8 @@ export const BEST_JOBS: Record<StageKey, BestJob[]> = {
   foundation: [
     { title: 'Teeth brushed, no reminders',      emoji: '🦷', stars: 1, schedule: 'daily',    band: 'morning',      kind: 'routine', why: 'Twice a day without the nagging. The habit that saves the most mornings.' },
     { title: 'Dressed and ready on time',        emoji: '👕', stars: 1, schedule: 'weekdays', band: 'morning',      kind: 'routine', why: 'Clothes on and out of the door without the fight.' },
+    { title: 'TV waits till dressed and fed',    emoji: '📺', stars: 1, schedule: 'daily',    band: 'morning',      kind: 'grow',    why: 'The first ask of the day settled before it is asked. Dressed and breakfast first, then the telly, every morning the same.' },
+    { title: 'Reading done, record signed',      emoji: '📖', stars: 2, schedule: 'weekdays', band: 'evening',      kind: 'school',  why: 'Ten minutes and a signature, and the reading record is never the thing found empty on Friday.' },
     { title: 'Toys tidied before bed',           emoji: '🧸', stars: 1, schedule: 'daily',    band: 'evening',      kind: 'home',    why: 'Their room, their job. Five minutes, then the story.' },
     { title: 'Shoes away in the hallway',        emoji: '👟', stars: 1, schedule: 'daily',    band: 'after_school', kind: 'home',    why: 'One place for shoes, and tomorrow morning finds them.' },
     { title: 'One hour of outside play',         emoji: '🌳', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'play',    why: 'The best thing a small body can do, so it leads the list.' },
@@ -79,6 +81,8 @@ export const BEST_JOBS: Record<StageKey, BestJob[]> = {
     { title: 'Homework before screens',          emoji: '✏️', stars: 2, schedule: 'weekdays', band: 'after_school', kind: 'school',  why: 'The order matters more than the minutes. Work, then play.' },
     { title: 'Device on charge downstairs',      emoji: '🔌', stars: 1, schedule: 'daily',    band: 'evening',      kind: 'grow',    why: 'Screens sleep outside bedrooms. The rule the sleep evidence is loudest about.' },
     { title: 'Dressed and ready on time',        emoji: '👕', stars: 1, schedule: 'weekdays', band: 'morning',      kind: 'routine', why: 'Out of the door on time without a single reminder.' },
+    { title: 'TV waits till dressed and fed',    emoji: '📺', stars: 1, schedule: 'daily',    band: 'morning',      kind: 'grow',    why: 'Dressed and breakfast first, then the screen. Decided once, so it is not argued every morning.' },
+    { title: 'At the door on time, hair done',   emoji: '👟', stars: 1, schedule: 'weekdays', band: 'morning',      kind: 'routine', why: 'A leaving time on the fridge and one star for beating it. The school run without the shouting.' },
     { title: 'Twenty minutes lost in a book',    emoji: '📚', stars: 2, schedule: 'daily',    band: 'after_school', kind: 'school',  why: 'Deep attention practised every day. Pays well on purpose.' },
     { title: 'Empty or load the dishwasher',     emoji: '🫧', stars: 1, schedule: 'daily',    band: 'after_school', kind: 'home',    why: 'A proper job the house needs, not a pretend one.' },
     { title: 'Room tidy before bed',             emoji: '🛏️', stars: 1, schedule: 'daily',    band: 'evening',      kind: 'home',    why: 'Floor clear, clothes away. Five minutes, every night.' },
