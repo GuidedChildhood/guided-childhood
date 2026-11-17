@@ -16,7 +16,18 @@ with open(tr, encoding='utf-8', errors='replace') as f:
         for m in re.finditer(r'\\?"content\\?":\s*\\?"([A-Za-z0-9+/=]{200,})\\?"', line):
             tail = line[m.end():m.end()+400]
             if fid in tail: best = m.group(1)
-if not best: sys.exit('no download for %s found in the transcript' % fid)
-raw = base64.b64decode(best)
+saved = None
+if not best:
+    # Since November 2026 the connector writes a download to a file and the
+    # transcript only names it: "[Resource from Google-Drive at
+    # googledrive://file/<id>] Binary content (...) saved to <path>". Read that
+    # file, which holds exactly the bytes the connector returned.
+    with open(tr, encoding='utf-8', errors='replace') as f:
+        for line in f:
+            if 'googledrive://file/' + fid not in line: continue
+            for m in re.finditer(r'googledrive://file/' + re.escape(fid) + r'\][^\n]*?saved to (/[^\s"\\]+)', line):
+                saved = m.group(1)
+if not best and not saved: sys.exit('no download for %s found in the transcript' % fid)
+raw = base64.b64decode(best) if best else open(saved, 'rb').read()
 open(out, 'wb').write(raw)
 print(len(raw), hashlib.sha256(raw).hexdigest())
