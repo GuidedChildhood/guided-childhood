@@ -1,7 +1,7 @@
 {
   "schema": "gdc.metricool-handoff/1.0",
-  "generatedAt": "2026-11-12T12:46:17.009Z",
-  "sourceCommit": "df9502922cf4a320f7800cd94815cd985f1bfa23",
+  "generatedAt": "2026-11-17T09:00:37.803Z",
+  "sourceCommit": "b51dae29068c3340068f5cc152ce9e4fd2468da3",
   "gdcPostNumber": "055",
   "researchId": "GDC-RR-e22bd17322",
   "title": "The government asked its own scientists whether social media harms children. Their answer was that nobody has run the experiment.",
@@ -13,11 +13,40 @@
   ],
   "reviewedCopy": "https://docs.google.com/document/d/1Zeoh9Y1P4clbEqeHbsnWoue0Kdu0FmJUNwYrBgxTdAY/edit",
   "visualDecision": {
-    "choice": "text only",
-    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text."
+    "choice": "motion",
+    "reason": "Card by default for evidence posts, Justin 16 November 2026: a still and a 14 second motion card on plain paper with a contrarian headline inside what the study shows."
   },
-  "assets": [],
-  "approvalStatus": "READY FOR JUSTIN",
+  "assets": [
+    {
+      "kind": "motion",
+      "role": "required",
+      "file": "content/motion/GDC-055/gdc-055.mp4",
+      "sha256": "da976bb6a7c558f765f7ea6556fcf90af754d7c2621365888caf1c1458d38896",
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/1GT6mqJdjG52JYOqaFhO1XHJeknRXsKaN/view",
+      "attach": "yes",
+      "use": "the post media"
+    },
+    {
+      "kind": "still image",
+      "role": "required",
+      "file": "content/motion/GDC-055/gdc-055.png",
+      "sha256": "7fb7d0595398c7ff7e0ce8c17eaf93504c5fdcf77dbbd36d486442cb4a67625a",
+      "seconds": null,
+      "width": null,
+      "height": null,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/1fuXtEpo8gsYZgmRw5HkzL2e1u5LLdiPS/view",
+      "attach": "yes",
+      "use": "the cover for the film, or the media if Justin chooses an image post"
+    }
+  ],
+  "approvalStatus": "APPROVED",
   "duplicateCheck": {
     "result": "UNKNOWN",
     "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
@@ -25,14 +54,28 @@
   "linkedinNativeSchedule": null,
   "metricool": {
     "draftCreationPermitted": true,
-    "schedulingPermitted": false,
+    "schedulingPermitted": true,
     "autoPublishPermitted": false,
-    "why": [
-      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+    "mediaAttachPermitted": true,
+    "mediaToAttach": [
+      {
+        "kind": "motion",
+        "use": "the post media",
+        "driveLink": "https://drive.google.com/file/d/1GT6mqJdjG52JYOqaFhO1XHJeknRXsKaN/view",
+        "sha256": "da976bb6a7c558f765f7ea6556fcf90af754d7c2621365888caf1c1458d38896"
+      },
+      {
+        "kind": "still image",
+        "use": "the cover for the film, or the media if Justin chooses an image post",
+        "driveLink": "https://drive.google.com/file/d/1fuXtEpo8gsYZgmRw5HkzL2e1u5LLdiPS/view",
+        "sha256": "7fb7d0595398c7ff7e0ce8c17eaf93504c5fdcf77dbbd36d486442cb4a67625a"
+      }
     ],
+    "why": [],
     "rules": [
       "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
       "Do not create a second draft if one exists for this GDC number.",
+      "Media: if mediaAttachPermitted is true, attach the files in mediaToAttach to the existing draft for this GDC number, from the exact Drive links given, and change nothing else in it. Never a file from anywhere else, never a regenerated or edited version.",
       "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
       "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
     ]

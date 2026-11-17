@@ -306,10 +306,12 @@ Amendment 3. `shared/schools-progression.ts` gives each lesson a suggested year 
 After Justin completed Meta's identity check, Instagram messages joined the Business Suite inbox, but this account offers no keyword replies. Justin chose "Add to auto reply": the existing first message reply now carries the free countdown link (`src=ig-dm`), and its Instagram channel, which had been off, is on. The previous wording is kept in `content/packs/2026-11-28-free-saturday/christmas-countdown.md` to restore after Christmas. ManyChat stays the upgrade for a reply to the word alone. PR 1535.
 - Justin: do not overwhelm parents; reassure them we drive it and keep asking. The stage check shows the six most common worries, the other six one tap away ("See 6 more"); a ticked tile never folds away. The question asks for what is on their mind today, even just one.
 - Under the grid: we bring up the next ones for their age (age prompts, the age up cron) and anything they mention to DiGi is added and tracked (concerns written by DiGi, Moments, Right now). "Not sure yet?" starts them on Coming off screens, the most common.
+
 ## 16 November 2026: films 1.1, 1.5, 1.2 and 1.4 re-voiced in Tamsin
 
 - All four first release films now exist in DiGi's voice in both public shapes (YouTube with the stage check end card, a vertical cut for the family account), with subtitles and thumbnails. 99.4 credits for the four, measured from the balance.
 - The 1.3 scripts became one shared tool, `content/child-films/revoice/`, with each film's settings in its folder's `film.json`. Folders: `content/child-films/1.*-release/`. Nothing uploaded.
+
 ## 16 November 2026: the child films go on the Guided Childhood YouTube channel
 
 - Justin named the channel for the five re-voiced films. Each upload still needs made for kids set, which turns off end screens and comments, so the stage check end card built into each film is the only call to action. Recorded in the inventory. PR 1588.
@@ -341,3 +343,21 @@ After Justin completed Meta's identity check, Instagram messages joined the Busi
 
 - On Justin's yes. Live: watch_bookings with row level security on, no browser grants or policies (service role only), four indexes, no rows; parent_lessons.after_prompt set on all ten films. Last migration recorded: 400_watch_bookings.
 - The booking code reaches families only when PR 1589 merges and deploys. Next: one live test, a film booked a few minutes ahead for one child.
+### 16 November 2026: one post ready a day, research card by default
+
+Justin: aim for one post ready every day; he posts 3 or 4 a week and picks
+which. Every evidence post now gets a research card by default (still plus
+14 second motion, plain paper, contrarian headline inside what the study
+shows); text only only when there is no single clean finding. Media is
+attached to the existing Metricool draft through mediaToAttach, never
+scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
+## 16 November 2026: DiGi's films re-voiced in Isla
+
+- Justin heard Tamsin as not real enough and chose Isla on ElevenLabs by ear (sample 5 of nine). All five first release films (1.1, 1.2, 1.3, 1.4, 1.5) are now in Isla's voice in both public shapes, subtitles rebuilt. DiGi's voice row in `digi-squad/README.md` now names Isla.
+- Every line was transcribed against its words before the build; one 1.4 line ("Screens" heard as "Screams") was redone.
+- About 52 credits for the four, so roughly 0.25 a line, not the 0.15 quoted. Nothing uploaded. PR 1588 and its follow up.
+
+## 17 November 2026: migration 400 applied and read back
+
+- On Justin's yes. Live: watch_bookings with row level security on, no browser grants or policies (service role only), four indexes, no rows; parent_lessons.after_prompt set on all ten films. Last migration recorded: 400_watch_bookings.
+- PR 1589 (the booking code) merged the same morning, so booking is live once main deploys. Next: one live test, a film booked a few minutes ahead for one child.

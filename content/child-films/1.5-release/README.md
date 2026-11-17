@@ -5,20 +5,31 @@ and built in both public shapes, the same way as 1.3
 (`../1.3-release-test/README.md`). **Nothing here has been uploaded, posted or
 scheduled.**
 
+## Now in Isla's voice, 16 November
+
+Justin heard Tamsin as not real enough and chose Isla on ElevenLabs
+(`../voice-test-2/`, sample 5). Both public films below are now the Isla
+versions: the YouTube cut is 4:15 and the family cut is 1:26. All 45 lines were
+generated again (Higgsfield text2speech_v2, variant elevenlabs, preset
+7367e919-3069-5a0b-939e-dfb1c0fd91b4), each one transcribed against its words
+before the build. The original film is saved as `work/orig.mp4` (not
+committed). The Tamsin notes below are kept as the record of the first
+re-voice.
+
 ## What is in this folder
 
 | File | What it is |
 | --- | --- |
-| `real-or-pretend-youtube-16x9.mp4` | The whole film in Tamsin's voice, 4:53, 1920 by 1080. The line "And grown up, you just gave your child a question they'll use for the rest of their life." is cut, picture and sound. Six seconds at the stage check are added at the end |
-| `real-or-pretend-family-9x16.mp4` | 1:41, 1080 by 1920, for Instagram and Facebook. From "Today we learn one big thing" to "Even grown ups have to stop and think", on cream, full captions under the picture, five seconds at the stage check |
+| `real-or-pretend-youtube-16x9.mp4` | The whole film in Isla's voice, 4:15, 1920 by 1080. The line "And grown up, you just gave your child a question they'll use for the rest of their life." is cut, picture and sound. Six seconds at the stage check are added at the end |
+| `real-or-pretend-family-9x16.mp4` | 1:26, 1080 by 1920, for Instagram and Facebook. From "Today we learn one big thing" to "Even grown ups have to stop and think", on cream, full captions under the picture, five seconds at the stage check |
 | `real-or-pretend-thumbnail-1280x720.png` | YouTube thumbnail: "Real or pretend?", the real dog and the cartoon dog |
 | `real-or-pretend.en-GB.srt` | Subtitles for the YouTube version, 76 lines |
 | `film.json` | The 45 lines with their times and captions, the cut, the vertical window and the card words |
-| `tamsin-lines.json`, `tamsin-ledger.tsv` | The words sent to the voice, and every Higgsfield job id with its result file |
+| `isla-lines.json`, `isla-ledger.tsv` | The words sent to Isla, and every Higgsfield result file. The Tamsin files (`tamsin-lines.json`, `tamsin-ledger.tsv`) are kept as the record of the first re-voice |
 
 How to rebuild, from `content/child-films/`:
-`python3 revoice/revoice.py 1.5-release build <1.5 full film>`, then
-`python3 revoice/revoice.py 1.5-release finish`, then
+`VOICE=isla python3 revoice/revoice.py 1.5-release build 1.5-release/work/orig.mp4`, then
+`VOICE=isla python3 revoice/revoice.py 1.5-release finish`, then
 `bash revoice/build.sh 1.5-release`.
 
 ## Cost and lines redone

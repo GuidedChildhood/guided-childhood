@@ -1,7 +1,7 @@
 {
   "schema": "gdc.metricool-handoff/1.0",
-  "generatedAt": "2026-11-12T12:46:16.930Z",
-  "sourceCommit": "df9502922cf4a320f7800cd94815cd985f1bfa23",
+  "generatedAt": "2026-11-17T09:00:38.982Z",
+  "sourceCommit": "b51dae29068c3340068f5cc152ce9e4fd2468da3",
   "gdcPostNumber": "056",
   "researchId": "GDC-RR-e923851b08",
   "title": "How much do you really know about what your child does online? A new study suggests less than you think. I include myself.",
@@ -14,11 +14,40 @@
   ],
   "reviewedCopy": "https://docs.google.com/document/d/1fV6m2cw04TBKC0JD568QKkaXUIuHG_A-PZgycXbFPE4/edit",
   "visualDecision": {
-    "choice": "text only",
-    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text."
+    "choice": "motion",
+    "reason": "Card by default for evidence posts, Justin 16 November 2026: a still and a 14 second motion card on plain paper with a contrarian headline inside what the study shows."
   },
-  "assets": [],
-  "approvalStatus": "READY FOR JUSTIN",
+  "assets": [
+    {
+      "kind": "motion",
+      "role": "required",
+      "file": "content/motion/GDC-056/gdc-056.mp4",
+      "sha256": "4efd30b5fccd1920013fe28b10a936132968f47b0872590be05281b4f6e215aa",
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/1-Mf6CLVVLeXEm9gDQrkt8pb9xugirsGm/view",
+      "attach": "yes",
+      "use": "the post media"
+    },
+    {
+      "kind": "still image",
+      "role": "required",
+      "file": "content/motion/GDC-056/gdc-056.png",
+      "sha256": "05846d5dfc98cca29f62e73765d737dbf03e7816807977132f95cca96b0c42eb",
+      "seconds": null,
+      "width": null,
+      "height": null,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/1HqeuI1inAWuKP-PdRu-YfFht7OFIqHA_/view",
+      "attach": "yes",
+      "use": "the cover for the film, or the media if Justin chooses an image post"
+    }
+  ],
+  "approvalStatus": "APPROVED",
   "duplicateCheck": {
     "result": "UNKNOWN",
     "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
@@ -26,14 +55,28 @@
   "linkedinNativeSchedule": null,
   "metricool": {
     "draftCreationPermitted": true,
-    "schedulingPermitted": false,
+    "schedulingPermitted": true,
     "autoPublishPermitted": false,
-    "why": [
-      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+    "mediaAttachPermitted": true,
+    "mediaToAttach": [
+      {
+        "kind": "motion",
+        "use": "the post media",
+        "driveLink": "https://drive.google.com/file/d/1-Mf6CLVVLeXEm9gDQrkt8pb9xugirsGm/view",
+        "sha256": "4efd30b5fccd1920013fe28b10a936132968f47b0872590be05281b4f6e215aa"
+      },
+      {
+        "kind": "still image",
+        "use": "the cover for the film, or the media if Justin chooses an image post",
+        "driveLink": "https://drive.google.com/file/d/1HqeuI1inAWuKP-PdRu-YfFht7OFIqHA_/view",
+        "sha256": "05846d5dfc98cca29f62e73765d737dbf03e7816807977132f95cca96b0c42eb"
+      }
     ],
+    "why": [],
     "rules": [
       "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
       "Do not create a second draft if one exists for this GDC number.",
+      "Media: if mediaAttachPermitted is true, attach the files in mediaToAttach to the existing draft for this GDC number, from the exact Drive links given, and change nothing else in it. Never a file from anywhere else, never a regenerated or edited version.",
       "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
       "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
     ]

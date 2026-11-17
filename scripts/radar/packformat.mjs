@@ -90,7 +90,7 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     '(What the card shows. Approved brand assets only.)',
     '',
     '=== CARD TEXT ===',
-    '(Evidence posts only, when the card is a still or motion. Five lines: HEADLINE: under 110 characters. FINDING: under 110, the figure exactly as cleared. CONTEXT: under 140. SOURCE: journal and date. LIMITATION: one line, in the record\'s own words. Under 45 words in all. Otherwise NOT RECOMMENDED.)',
+    '(Every evidence post has a card by default. Five lines. HEADLINE is contrarian: it turns the obvious reading round and stays inside what the study shows. Lines: HEADLINE: under 110 characters. FINDING: under 110, the figure exactly as cleared. CONTEXT: under 140. SOURCE: journal and date. LIMITATION: one line, in the record\'s own words. Under 45 words in all. Write NOT RECOMMENDED only when the story has no single clean finding, and say why.)',
     '',
     '=== ASSETS USED ===',
     '(One approved asset per line, or NONE if the post goes out as text only.)',
@@ -237,6 +237,9 @@ export function stage2Brief({ links = {} } = {}) {
   line('FOR EVERY STORY')
   line('  No number may appear anywhere in a pack unless it is in that story\'s own list above. The check compares every figure against it.')
   line('  Never claim an outcome for a child. Never "safe online" or "ready for social media".')
+  line('  Every evidence pack ends with the CARD TEXT section: HEADLINE, FINDING, CONTEXT, SOURCE, LIMITATION, under 45 words in all.')
+  line('  The HEADLINE reverses the obvious expectation and stays defensible: it must be true of the study as reviewed, with no causal wording and no figure outside the list.')
+  line('  Write NOT RECOMMENDED under CARD TEXT only when the story has no single clean finding, and say why.')
   line()
   line('THE NUMBER RULE')
   line('  Post numbers are claimed in GitHub and nowhere else. You cannot write to GitHub.')

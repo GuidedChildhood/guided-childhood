@@ -1,0 +1,23 @@
+{
+  "engine": "gc-motion-engine 0.1.0",
+  "renderedAt": "2026-11-16T14:41:19.951Z",
+  "seconds": 252.9,
+  "spec": "../../content/motion/GDC-055/spec.json",
+  "gdcPostNumber": "055",
+  "researchId": "GDC-RR-e22bd17322",
+  "notForPublication": false,
+  "wordsOnCard": 45,
+  "gateWarnings": [
+    "the limitation is not word for word one of the record's limitations. Check it says the same thing"
+  ],
+  "mp4": {
+    "file": "content/motion/GDC-055/gdc-055.mp4",
+    "bytes": 664666,
+    "sha256": "da976bb6a7c558f765f7ea6556fcf90af754d7c2621365888caf1c1458d38896"
+  },
+  "png": {
+    "file": "content/motion/GDC-055/gdc-055.png",
+    "bytes": 1713922,
+    "sha256": "7fb7d0595398c7ff7e0ce8c17eaf93504c5fdcf77dbbd36d486442cb4a67625a"
+  }
+}
