@@ -29,7 +29,7 @@ Silent first. Every line below is on screen. There is no voice.
 | 0.0 | A THING PARENTS SAY. "It's utterly miserable constantly policing screen time." Then: INSIDE GUIDED CHILDHOOD, 1 OF 13 | None |
 | 3.6 | Not a ban. A plan. Four moves. Thirty seconds. | None |
 | 6.2 | THE STAR QUEST. 1. They earn screen time | The ask box: "Sam is asking for 30 minutes. That is 6 stars on the Console." Yes, or Not yet |
-| 10.8 | MOMENTS. 2. You tap what is hard | The stage check, question two: "What are you dealing with right now?" |
+| 10.8 | MOMENTS. 2. You tap what is hard | The stage check, question two: "What would you like help with?" (re-laid 17 November, see below) |
 | 15.6 | SCRIPTS, FOR TONIGHT. 3. You get the words | The script deck, the Say this card |
 | 20.4 | THE CHECK IN. 4. You watch it move | The check in: five faces, one tap, the line that comes back |
 | 25.0 | One plan for screens, phones and AI. What stage is your child? Three questions, no sign up. See what to do tonight. `guidedchildhood.com/v/tour-01` | The end card, with the approved DiGi star |
@@ -106,3 +106,17 @@ child? Three questions, no sign up: guidedchildhood.com/v/tour-01-tt
 - Nothing says safe, proven or fix.
 - `tour-01`, `tour-01-fb` and `tour-01-tt` must be made on Admin, Film links, before posting.
 - Still to do before it is posted: the marketer review and feedback filter pass from `product-shorts`.
+
+
+## 17 November 2026: the worry shots re-laid over the finished film
+
+The worry question changed on 16 November (PRs 1574, 1577): it now asks "What
+would you like help with?", and Controller fights, Mood after screens and
+Morning TV are no longer tiles. The film still showed the old screen from
+10.8s to 15.6s. The source captures live on the Mac, so the current screen
+was captured at the same scale (`starter-pack`, age 9, then Coming off screens
+and Who they talk to in games ticked) and laid over those seconds of the
+finished film, with both 0.2s crossfades rebuilt. Sound and every other frame
+are untouched. The old render is `the-plan-in-thirty-seconds-v1.mp4`; post only
+the unnumbered file. Before this cut is ever re-rendered from source, re-capture
+`captures/worries-before.png` and `worries-after.png` on the Mac. PR 1611.

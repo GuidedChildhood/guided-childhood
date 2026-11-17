@@ -33,6 +33,8 @@ or "Post text, LinkedIn" in that draft.
 
 ## Before the first post, Tuesday 17 November
 
+0. **Post 1 was re-laid on 17 November** (PR 1611): the worry screen in it was the old one. Upload `the-plan-in-thirty-seconds.mp4`, never the `-v1` file. Posts 4, 10 and 18 need fixes before their dates: `plans/2026-11-17-instagram-walkthrough-plan.md` section 3.
+
 1. On Admin, Film links, make `tour-01`, `tour-01-fb` and `tour-01-tt`, with the channel set on each. The rest can be made week by week; the full list is in section 8 of the plan.
 2. Watch post 1 on your phone inside Instagram, sound off, and check the text sits clear of the buttons.
 3. The marketer review of the film, if you want it before it goes. Say the word and it runs.

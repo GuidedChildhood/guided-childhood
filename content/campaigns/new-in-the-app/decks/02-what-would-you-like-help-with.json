@@ -1,0 +1,24 @@
+{
+ "name": "new-02-what-would-you-like-help-with",
+ "size": "portrait",
+ "lead": "digi",
+ "eyebrow": "New in Guided Childhood &middot; 2 of 3",
+ "cards": [
+  { "name": "cover", "type": "hook", "scale": "h-l",
+    "headline": "The twelve things<br>parents ask us<br><mark>for help with.</mark>" },
+  { "name": "the-question", "type": "shot", "headline": "It starts with one question.",
+    "image": "content/campaigns/new-in-the-app/screens/worries-1.png", "width": 580, "top": 360 },
+  { "name": "games-and-feeds", "type": "shot", "headline": "Games, what they see, the feed, bedtime.",
+    "image": "content/campaigns/new-in-the-app/screens/worries-2.png", "width": 540, "top": 360 },
+  { "name": "chats-and-rules", "type": "shot", "headline": "Group chats, the rules, homework, YouTube.",
+    "image": "content/campaigns/new-in-the-app/screens/worries-3.png", "width": 540, "top": 360 },
+  { "name": "money-and-ai", "type": "shot", "headline": "Spending, AI, and anything else on your mind.",
+    "image": "content/campaigns/new-in-the-app/screens/worries-4.png", "width": 620, "top": 380 },
+  { "name": "what-you-get", "type": "text",
+    "headline": "Tick one. You get the words to say and one thing to try tonight.",
+    "body": "Then the plan keeps going, and brings up the next one for their age." },
+  { "name": "ask", "type": "ask",
+    "save": "Save it for the night one of these comes up.",
+    "send": "Send it to the parent who said it was just their house." }
+ ]
+}
