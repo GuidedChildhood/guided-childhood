@@ -327,8 +327,19 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - Whisper or shout: GSAP moment on the approach page, beside each lesson's song, and as two buttons in the teach bar that stand the friend in the corner of the board. Approved art only; dressed up art is a brief in the visual system, section 17, waiting for Justin.
 - Her decks and PDFs still say Marie and Pierre (15 slides, the Je peux unit). Slide titles are listed verbatim. Teacher note proposed, not shipped. PR 1609.
 - Same day, Justin's answers: Nova and Bloop confirmed; the slide note ships, built from whichever friends are chosen; French touch art made (Nova scarf `08aaf000`, Bloop beret and neckerchief `15bb5703`, 4 credits, image to image from the approved cutouts, all on model). French pages only. PR 1609.
+## 17 November 2026: the passport shows the real book and the five Planet Friend stickers
+
+- Justin: the order card showed a yellow "Digital Literacy Passport" photo and generic stickers. Now drawn: the app's burgundy cover (PassportCover, shared with the stage check and the shop) and one Planet Friend sticker per stage (StageSticker), earned ones in colour.
+- One rule, screen and paper: lessons passed, talks done, big check passed (lib/pathway/stamped.ts). Moments, stars, balance and outside time show as "along the way" and earn nothing, since the code does not read them. Adding any to the rule is Justin's call, asked in the PR.
+- Stage done: both sides see "Stage done, sticker added to your passport" with what the sticker says was learnt, and print a colour A4 sticker sheet (parent and child routes). Guard: check-stage-stickers. PR 1608 (1603 merged as the claim only).
 ## 17 November 2026: the 1.5 remake and its parent film are built
 
 - Real, pretend, and made by a computer (the dog on the moon), as the school lesson ks1-03 teaches it. Keeps the live keyword, catchphrase and pause cards, so it swaps in with no database change. It deliberately teaches asking, not spotting fakes by clues.
 - 14 pictures (one redraw so the upside down book reads), 36 lines in Tamsin's voice checked by transcript (one redone for a stutter). 43.3 credits against 53 quoted.
 - The parent film's real screen is the Book a time panel. Nobody has listened with sound on; not swapped into the product. `content/child-films/parent-reaction-series/1.5-real/`. PR 1604.
+
+## 17 November 2026: the 1.4 remake and its parent film are built
+
+- Notice the uh oh feeling, turn it over, go and tell, with the live keyword, catchphrase and pause cards kept. The upsetting thing is never shown; the grown up says the never in trouble promise on the pause card.
+- The parent film ends at the NSPCC helpline for adults (0808 800 5000, checked on nspcc.org.uk; no hours given, their own pages disagree). 38.1 credits against 46 quoted.
+- Found and fixed in the build: the fade at a picture change used to fade the whole frame, so hooks and captions flickered in every portrait and parent cut. Now only the picture fades. 1.5 and 1.6 are re-rendered with the fix. PR 1612.

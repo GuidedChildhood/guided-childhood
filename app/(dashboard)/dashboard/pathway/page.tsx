@@ -47,6 +47,8 @@ import { nextMilestone } from '@/lib/pathway/milestones'
 import { rememberKept } from '@/lib/kid/remember-server'
 import { SOCIAL_MEDIA_LAW } from '@gc/shared/social-media-law'
 import PassportOrderCard from '@/components/passport/PassportOrderCard'
+import { StageEarnCard, StageDoneCard, type AlongTheWay } from '@/components/passport/StageStickerCards'
+import { stickerFor } from '@/lib/pathway/stage-stickers'
 import { pageCount } from '@/lib/pathway/page-count'
 import { passportNext, type NextStep } from '@/lib/pathway/passport-next'
 import { loadPassportToday } from '@/lib/pathway/passport-today'
@@ -506,6 +508,24 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     nextStep = { key: 'clear', chip: 'Later', title: `Opens in ${START_YEAR[selectedNum]}`, how: `With ${kidName}'s class. Everything on this page waits until then.`, button: null }
   }
 
+  // THE STICKER THIS PAGE EARNS (17 November 2026, plans/2026-11-17-passport-stickers-plan.md).
+  // The rule is the stamp rule and nothing else; "along the way" is the
+  // detailed record from readings this page already made, each a door to its
+  // own screen, and is labelled as not needed for the sticker.
+  const selSticker = selectedNum ? stickerFor(selectedNum) : null
+  const stampedNums = passportStamps.filter(st => st.status === 'earned').map(st => st.id)
+  const solvedTotal = (solvedMomentsRes.count ?? 0) + restingCount
+  const along: AlongTheWay[] = selectedNum === currentStageNum ? [
+    { key: 'moments', value: String(solvedTotal), label: solvedTotal === 1 ? 'moment sorted' : 'moments sorted', href: withChild('/dashboard/moments', childParam) },
+    ...(weekReport ? [
+      { key: 'stars', value: String(weekReport.offscreen.stars), label: 'stars earned this week', href: withChild('/dashboard/quests', childParam) },
+      { key: 'offscreen', value: `${weekReport.offscreen.minutes} min`, label: 'off screen this week', href: withChild('/dashboard/quests', childParam) },
+      { key: 'balance', value: `${weekReport.totalWeekMins} of ${weekReport.healthyWeekMins}`, label: 'screen minutes this week, against the healthy amount', href: '#balance-zone' },
+    ] : []),
+    { key: 'jobs', value: inARow > 0 ? String(inARow) : '0', label: inARow === 1 ? 'day of jobs in a row' : 'days of jobs in a row', href: withChild('/dashboard/quests', childParam) },
+  ] : []
+  const stickerPrintHref = `/dashboard/keepsakes/passport-print/stickers${primaryChild ? `?child=${encodeURIComponent(primaryChild.id)}` : ''}`
+
   return (
     <div style={{ padding: '20px 0 32px' }}>
       <div style={{ padding: '0 20px', maxWidth: '640px', margin: '0 auto' }}>
@@ -540,11 +560,17 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         {selectedNum && (
           <PassportProgress n={selectedNum} page={pageOf(selectedNum).page} eyebrow={selEyebrow} kid={kidName} count={countOf(selectedNum)} skills={skills} />
         )}
+        {selSticker && selStatus === 'earned' && (
+          <StageDoneCard s={selSticker} kid={kidName} printHref={stickerPrintHref} />
+        )}
+        {selSticker && selectedNum && (selStatus === 'current' || selStatus === 'catchup') && (
+          <StageEarnCard s={selSticker} count={countOf(selectedNum)} kid={kidName} along={along} />
+        )}
         {nextStep && <PassportNextCard step={nextStep} />}
         {selectedNum && selStatus !== 'upcoming' && <PassportLearnt kid={kidName} lessons={learnt} kept={kept} />}
 
         {/* 5. ON PAPER: the booklet and the sticker sheet, one button. */}
-        {primaryChild && <PassportOrderCard kid={kidName} childId={primaryChild.id} stampedCount={stampedCount} />}
+        {primaryChild && <PassportOrderCard kid={kidName} childId={primaryChild.id} stamped={stampedNums} />}
       </div>
 
       {/* ── THE FULL BOOK AND THE RECORD, folded ─────────────────────────────

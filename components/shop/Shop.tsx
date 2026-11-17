@@ -5,6 +5,9 @@ import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { canBuy, characterForKey, formatPence, lockedReason, MAX_QTY, type Product } from '@/lib/shop/catalogue'
 import { shopArt } from '@/lib/shop/art'
+import PassportCover from '@/components/passport/PassportCover'
+import StageSticker from '@/components/passport/StageSticker'
+import { STAGE_STICKERS } from '@/lib/pathway/stage-stickers'
 import { currentChildId } from '@/lib/children/current'
 import HappyIcon from '@/components/kid/HappyIcon'
 import Link from 'next/link'
@@ -207,7 +210,21 @@ function Card({
   // fallback for anything added without one.
   const photo = shopArt(product.key, product.image_url)
   const [photoBroken, setPhotoBroken] = useState(false)
-  const shownPhoto = photoBroken ? null : photo
+  // THE PASSPORT AND THE STICKERS ARE DRAWN, NOT PHOTOGRAPHED (Justin,
+  // 17 November 2026). The vendored renders were a yellow "Digital Literacy
+  // Passport" and a sheet of generic blobs, neither of which is the thing in
+  // the post. The app's own burgundy cover and the five Planet Friend stickers
+  // are, so the shop shows those, from the same components as the passport.
+  const drawn = product.key === 'passport_printed'
+    ? <PassportCover kid={childName} width={58} tilt={0} />
+    : product.key === 'sticker_sheet'
+    ? (
+      <span style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, padding: 4, justifyItems: 'center' }}>
+        {STAGE_STICKERS.map(s => <StageSticker key={s.n} s={s} earned size={22} showName={false} />)}
+      </span>
+    )
+    : null
+  const shownPhoto = drawn ? 'drawn' : photoBroken ? null : photo
 
   // Arrived from the passport or the sticker book, which name the product they
   // are sending you to. Landing on the shop and having to find it again is the
@@ -246,7 +263,9 @@ function Card({
           // is itself the reward.
           filter: buyable ? 'none' : 'grayscale(1)',
         }} aria-hidden={!character && !shownPhoto}>
-          {shownPhoto
+          {drawn
+            ? drawn
+            : shownPhoto
             // A remote photo that fails takes the card down to the character
             // art rather than leaving a broken image on a page that sells
             // things. The vendored ones cannot fail, this covers the coming
