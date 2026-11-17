@@ -258,6 +258,9 @@ jobs:
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs
+      # KS2 French: the scheme's two class toys reach our pages only as our
+      # Planet Friends, Nova and Bloop, mapped as fr.json is read (17 November 2026).
+      - run: node --experimental-strip-types scripts/check-french-friends.mjs
       # The curriculum map is public and the lessons are not, so every card
       # must say which doors open. A comment describing that bug did not stop
       # it shipping; this does.

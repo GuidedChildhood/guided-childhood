@@ -414,6 +414,35 @@ When a brief goes to Higgsfield or any other model:
 
 ---
 
+## 17. Brief waiting for Justin: Nova and Bloop dressed up for French
+
+Not generated. Nothing is made, and no credits are spent, until Justin says
+yes to the brief and the credit quote. Until then the French pages show the
+approved cutouts unaltered, with the French touch in the frame only (a
+pastel bleu, blanc, rouge ribbon on the plate and the words "chut" and
+"fort !"). Plan: `plans/2026-11-17-french-planet-friends-plan.md`.
+
+The ask: the same two friends wearing one light French accessory each, so a
+Year 3 class sees our friends dressed up, never new characters.
+
+| Friend | Role in French | Accessory | Pose |
+| --- | --- | --- | --- |
+| Nova | the quiet one, the class whispers | a soft knitted scarf in pastel blue and white, wrapped once | one hand raised to the mouth, a "chut" |
+| Bloop | the loud one, the class shouts | a small navy beret worn at an angle, a red and white striped neckerchief | both arms up, mouth open, mid shout |
+
+Method, per section 15: image to image FROM the approved cutout in
+`shared/schools-curriculum.ts` (Nova `hf_20260725_090735_80eecf61`, Bloop
+`hf_20260723_135534_b8fa0227`) as the only character reference, with the
+accessory and pose alone in the prompt. Transparent background, the friends'
+own 3D style and colours, no text, no flag graphic, no Eiffel Tower, no
+baguette or other cliche. Two images, two to four variants each, about one
+credit an image on GPT Image 2.5, so roughly 4 to 8 credits. Check every
+result against the cutout; discard any that drifts off model. If approved,
+the new files are added beside the existing moods and FrenchFriends.tsx
+swaps them in; nothing else changes.
+
+---
+
 ## 16. Before anything goes out
 
 - [ ] Every character is an approved file, unaltered

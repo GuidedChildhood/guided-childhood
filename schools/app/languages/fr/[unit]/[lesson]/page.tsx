@@ -12,6 +12,8 @@ import {
 } from '@/lib/languages/french'
 import { body, card, Crumbs, Fold, FoldStyles, langEyebrow, Sheets, small } from '../../_ui'
 import DeckPreview from '../../DeckPreview'
+import { FrenchFriendsCard } from '../../FrenchFriends'
+import { FRIENDS_ANCHOR, FRIENDS_PAIR } from '@/lib/languages/fr-friends'
 
 // /languages/fr/[unit]/[lesson]: ONE LESSON, START TO FINISH (10 November 2026).
 //
@@ -232,6 +234,16 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
           <div>
             <span style={label}>The main task, in their books</span>
             <p style={{ ...body, margin: 0, color: 'var(--ink)' }}>{deck.book}</p>
+          </div>
+        )}
+        {/* WHISPER OR SHOUT (17 November 2026): the two class friends, held up
+            before the song so the class matches the volume. Teach mode has the
+            same two buttons in its bar for the board. */}
+        {songs.length > 0 && (
+          <div>
+            <span style={label}>Before the song: whisper or shout</span>
+            <FrenchFriendsCard />
+            <Link href={`/languages/fr/approach#${FRIENDS_ANCHOR}`} style={{ ...small, display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'var(--terracotta-dark)', fontWeight: 700 }}>How {FRIENDS_PAIR} are used in class</Link>
           </div>
         )}
         {songs.length > 0 && u.slug && (

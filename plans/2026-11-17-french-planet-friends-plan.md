@@ -55,6 +55,19 @@ Bloop and answer Nova." Not shipped until he says yes. Alternative: ask the
 author whether she would add a name setting to her decks (she agreed to our
 branding, so it is a fair ask), which removes the mismatch at source.
 
+## Built (PR 1609)
+
+- Approach page: the section is now "Nova and Bloop", with the whisper or
+  shout card above her six notes, all mapped. Her mascot origin line is
+  reworded so it does not claim our friends began as her class toys.
+- Lesson page: the card sits in Teach, under "Before the song: whisper or
+  shout", on every lesson with a song, linking to the approach section.
+- Teach mode: Whisper and Shout buttons in the bar; the chosen friend stands
+  in the corner of the board. Icon only on a phone so the bar still fits.
+- Print room: her sheet titles name neither toy, so nothing to change there.
+  The guard covers it if one ever does.
+- Reduced motion: the chosen friend is shown and the other dimmed, no movement.
+
 ## Not done, and why
 
 - No new art. Brief in brand/GDC_SOCIAL_VISUAL_SYSTEM.md, section 17, waits for
