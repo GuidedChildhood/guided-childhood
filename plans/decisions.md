@@ -315,11 +315,17 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - The page went from eleven sections to three shelves under the search: Picked for Teo (lead plus two, each saying why: a raised worry, a check in dip, a device, the age), Worth another go (new: did not land, used three or more weeks ago, or read and never tried; never anything marked not needed), and For Teo's age (nine tiles, chips, the rest one tap away, other ages folded). One paywall card, not two. A star tally of conversations had, counting up, no streak.
 - Every script reader gets "If this one is hard for you": calm first, pick the moment, practise once, repair, guilt, the other parent. Same six lines on every script; UI support copy, not a script, so not in the scripts table.
 - Why: spaced review (Cepeda et al 2006), practising with your own child and carer consistency (Kaminski et al 2008), no streaks (Silverman and Barasch 2023). `lib/scripts/shelves.ts`, `scripts/check-script-shelves.mjs`. No migration, no API change.
+
 ## 17 November 2026: migration 400 applied and read back
 
 - On Justin's yes. Live: watch_bookings with row level security on, no browser grants or policies (service role only), four indexes, no rows; parent_lessons.after_prompt set on all ten films. Last migration recorded: 400_watch_bookings.
 - PR 1589 (the booking code) merged the same morning, so booking is live once main deploys. Next: one live test, a film booked a few minutes ahead for one child.
 
+## 17 November 2026: the passport shows the real book and the five Planet Friend stickers
+
+- Justin: the order card showed a yellow "Digital Literacy Passport" photo and generic stickers. Now drawn: the app's burgundy cover (PassportCover, shared with the stage check and the shop) and one Planet Friend sticker per stage (StageSticker), earned ones in colour.
+- One rule, screen and paper: lessons passed, talks done, big check passed (lib/pathway/stamped.ts). Moments, stars, balance and outside time show as "along the way" and earn nothing, since the code does not read them. Adding any to the rule is Justin's call, asked in the PR.
+- Stage done: both sides see "Stage done, sticker added to your passport" with what the sticker says was learnt, and print a colour A4 sticker sheet (parent and child routes). Guard: check-stage-stickers. PR 1608 (1603 merged as the claim only).
 ## 17 November 2026: the 1.5 remake and its parent film are built
 
 - Real, pretend, and made by a computer (the dog on the moon), as the school lesson ks1-03 teaches it. Keeps the live keyword, catchphrase and pause cards, so it swaps in with no database change. It deliberately teaches asking, not spotting fakes by clues.
@@ -330,3 +336,9 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - Justin asked for a high quality walkthrough of every service. The 20 post run (PR 1475) already covers them, so this pass checked it against the week's changes and built posts only for what is new: the school letter catch, the stage check's twelve, watch it together ("New in Guided Childhood, 1 of 3").
 - Post 1, due tonight, showed the retired worry question. The current screen was laid over those 4.8 seconds of the finished film (the source captures are on the Mac); the old render is kept as `-v1`.
 - Two stage check tiles no longer promise "safe". Posts 4, 10 and 18 have stale lines, listed with fixes. PR 1611 merged with only the claim; the work is in its follow up. `plans/2026-11-17-instagram-walkthrough-plan.md`.
+
+## 17 November 2026: the 1.4 remake and its parent film are built
+
+- Notice the uh oh feeling, turn it over, go and tell, with the live keyword, catchphrase and pause cards kept. The upsetting thing is never shown; the grown up says the never in trouble promise on the pause card.
+- The parent film ends at the NSPCC helpline for adults (0808 800 5000, checked on nspcc.org.uk; no hours given, their own pages disagree). 38.1 credits against 46 quoted.
+- Found and fixed in the build: the fade at a picture change used to fade the whole frame, so hooks and captions flickered in every portrait and parent cut. Now only the picture fades. 1.5 and 1.6 are re-rendered with the fix. PR 1612.
