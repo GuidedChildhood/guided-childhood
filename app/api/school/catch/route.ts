@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { extractSchoolItems, isAcceptedImageType, type AcceptedImageType } from '@/lib/school/extract'
+import { readSchoolMessage, isAcceptedImageType, type AcceptedImageType } from '@/lib/school/extract'
 
 // SNAP IT OR PASTE IT: the way in that needs no forwarding at all.
 //
@@ -76,11 +76,20 @@ export async function POST(req: NextRequest) {
     .eq('user_id', user.id)
     .maybeSingle()
 
-  const items = (await extractSchoolItems({
+  const read = await readSchoolMessage({
     schoolName: conn?.school_name?.trim() || 'your school',
     body: text,
     image,
-  })).slice(0, 8)
+  })
 
-  return NextResponse.json({ ok: true, items })
+  // Never read is not the same as nothing found (17 November 2026): say so,
+  // so a parent holding an inset day letter is never told it needed nothing.
+  if (!read.reached) {
+    return NextResponse.json({
+      ok: false,
+      message: 'DiGi could not read that just now. Try again in a minute, or add it as a reminder by hand.',
+    }, { status: 503 })
+  }
+
+  return NextResponse.json({ ok: true, items: read.items.slice(0, 8) })
 }

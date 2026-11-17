@@ -94,11 +94,21 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 48px' }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '10px' }}>School</p>
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }}>
-        School alerts and reminders
+        Your school calendar
       </h1>
       <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-lg)', lineHeight: 1.6, marginBottom: '20px', maxWidth: '46ch' }}>
-        Everything from school in one place. Tick a thing off to clear it, or add your own weekly routine so the PE kit never gets forgotten again.
+        Everything from school in one place, and we keep on top of it for you. Tick a thing off to clear it, or add a weekly routine so the PE kit is never forgotten.
       </p>
+
+      {/* ADD FROM SCHOOL COMES FIRST (17 November 2026). Justin, tapping the
+          Calendar on Home: when it opens, the first thing should say a parent
+          can add a reminder, a screenshot or a letter, and we pick the date and
+          keep on top of it, with forwarding an email as a button. The routing
+          line that used to sit here said the same thing twice; the card now
+          carries both ways in. */}
+      <SchoolCatch />
+
+      <div style={{ height: 22 }} />
 
       {/* Live alerts, stored in school_actions, shown here in the app itself */}
       <div id="school-actions" style={{ marginBottom: '28px' }}>
@@ -114,43 +124,14 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
         />
       </div>
 
-      {/* WHICH WAY IN, IN ONE LINE.
-          Justin, 17 September 2026, thinking through the actual moment: "really
-          they see a school email then wonder how to remember or deal with it?
-          So what is best to create working flow."
-          The honest answer is that it depends where the thing is, and the tap
-          counts are not close. Looking at an email on your phone, forwarding is
-          Forward, the address autocompletes after the first time, Send. Doing
-          the same thing by screenshot means two buttons, leaving the mail app,
-          finding the photo again in here, and about seven taps. The other way
-          round for a letter or a ClassDojo message, which have no forward
-          button at all.
-          The cards below are ordered by how much setup they need, which is the
-          right order for a parent who has never used either. This line is for
-          the parent standing there holding the thing, and it is the only place
-          the product says which is which. */}
-      <p style={{
-        color: 'var(--ink-soft)', fontSize: 'var(--text-base)', lineHeight: 1.6,
-        margin: '0 0 16px', maxWidth: '46ch',
-      }}>
-        <strong style={{ color: 'var(--ink)' }}>An email?</strong> Forward it, straight from your inbox.{' '}
-        <strong style={{ color: 'var(--ink)' }}>A letter, or a message in an app like ClassDojo?</strong> Snap it.
-      </p>
-
-      {/* TWO WAYS IN, EASIEST FIRST.
-          Snap it needs nothing set up at all and also catches the paper that
-          forwarding can never reach, so it leads. The letterbox is the one that
-          becomes automatic and never needs touching again, so it follows.
-          Justin, 17 September 2026: "Is there a way without having to set up
-          forward?" This order is the answer to that, on the screen. */}
-      <SchoolCatch />
-
       {/* The letterbox, live since 17 September 2026.
           This is where the Home promo card has always pointed, and until now
           what it landed on was a dashed box saying the feature was coming. The
           setup itself lives here rather than in Settings, because this is the
           page a parent is on when they think about school. */}
-      <SchoolLetterbox />
+      <div id="letterbox" style={{ scrollMarginTop: 80 }}>
+        <SchoolLetterbox />
+      </div>
     </div>
   )
 }
