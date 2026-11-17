@@ -7,6 +7,7 @@ import { childStageCheckPool, markStageCheck } from '@/lib/pathway/child-stage-c
 import { passportStageFor } from '@/lib/lessons/school-path'
 import { loadPassportToday, kidOf, type PassportChild } from '@/lib/pathway/passport-today'
 import { awardStampIfEarned } from '@/lib/pathway/stamp-store'
+import { stickerFor, STAGE_DONE_LINE } from '@/lib/pathway/stage-stickers'
 import { pageCountLine } from '@/lib/pathway/page-count'
 import { claimPageMoment, sendPassportPush } from '@/lib/push/passport-push'
 
@@ -116,8 +117,10 @@ export async function POST(req: NextRequest) {
           if (await claimPageMoment(supabase, { userId: link.user_id, childId: link.child_id, stageNum: stage, moment: 'stamp_pushed_at' })) {
             await sendPassportPush({
               userId: link.user_id, childId: link.child_id, stageNum: stage,
-              title: `${name} earned the ${today.friend} stamp`,
-              body: `The ${today.page} page is stamped: every lesson passed with its check, every talk done, and the big check passed.`,
+              // Justin, 17 November 2026: both sides hear the same words when a
+              // stage is done, and the sticker says what was learnt.
+              title: `${name}: ${STAGE_DONE_LINE}`,
+              body: `${name} earned ${today.friend} on the ${today.page} page. The sticker says: "${stickerFor(stage)?.learnt ?? ''}" Print it from the passport page.`,
             })
           }
         } else {
