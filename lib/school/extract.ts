@@ -97,8 +97,22 @@ export type ExtractInput = {
  * behind it (non-negotiable 2 in CLAUDE.md).
  */
 export async function extractSchoolItems(input: ExtractInput): Promise<ExtractedItem[]> {
+  return (await readSchoolMessage(input)).items
+}
+
+/**
+ * The same read, saying whether any model answered at all.
+ *
+ * The photo path needs the difference (17 November 2026, Justin: "make sure
+ * all works"). An empty list from a model that read the picture means nothing
+ * needed doing. An empty list because no model could be reached means it was
+ * never read, and telling a parent holding an inset day letter "nothing in
+ * there needed doing" is the worst possible answer. The email webhook keeps
+ * using extractSchoolItems, which must never throw or differ.
+ */
+export async function readSchoolMessage(input: ExtractInput): Promise<{ items: ExtractedItem[]; reached: boolean }> {
   const { schoolName, subject = '', body = '', image } = input
-  if (!body.trim() && !image) return []
+  if (!body.trim() && !image) return { items: [], reached: true }
 
   const prompt = buildPrompt(schoolName, subject, body, Boolean(image))
   const content: Anthropic.MessageParam['content'] = image
@@ -118,9 +132,9 @@ export async function extractSchoolItems(input: ExtractInput): Promise<Extracted
       })
       const text = res.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('')
       const match = text.match(/\[[\s\S]*\]/)
-      if (!match) return []
-      return validateItems(JSON.parse(match[0]))
+      if (!match) return { items: [], reached: true }
+      return { items: validateItems(JSON.parse(match[0])), reached: true }
     } catch { /* try the next model in the ladder */ }
   }
-  return []
+  return { items: [], reached: false }
 }
