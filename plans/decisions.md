@@ -336,3 +336,8 @@ After Justin completed Meta's identity check, Instagram messages joined the Busi
 
 - Justin: leave "They'll remember it forever." in 1.4, and leave the dashed labels inside the old drawings for now.
 - Tamsin on Seed Audio does not sound real enough to him. Nine samples of the same 1.3 opening on ElevenLabs and MiniMax wait for his ear in `content/child-films/voice-test-2/`, at about 0.15 credits each. A real recorded voice is the other option. PR 1588.
+
+## 17 November 2026: migration 400 applied and read back
+
+- On Justin's yes. Live: watch_bookings with row level security on, no browser grants or policies (service role only), four indexes, no rows; parent_lessons.after_prompt set on all ten films. Last migration recorded: 400_watch_bookings.
+- The booking code reaches families only when PR 1589 merges and deploys. Next: one live test, a film booked a few minutes ahead for one child.
