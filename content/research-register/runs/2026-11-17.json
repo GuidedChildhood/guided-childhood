@@ -116,18 +116,6 @@
    "attempts": 3
   },
   {
-   "stage": "APPROVAL DESK",
-   "verdict": "PASS",
-   "by": "claude",
-   "reasons": [
-    "nothing new at ASSETS READY (GDC 055, 056, 057, 059 ready and 054, 058 approved, unchanged); Radar Desk republished at the same URL, version 12, from 4992de15 plus the sync record"
-   ],
-   "detail": null,
-   "at": "2026-11-17T09:55:58.687Z",
-   "commit": "c5671241",
-   "attempts": 2
-  },
-  {
    "stage": "PACK REVIEW",
    "verdict": "PASS",
    "by": "claude",
@@ -150,7 +138,55 @@
    "at": "2026-11-17T13:33:52.397Z",
    "commit": "7ea416a3",
    "attempts": 4
+  },
+  {
+   "stage": "ASSETS",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-061: research card by default for an evidence post; still PNG and 14 second MP4 rendered by the motion engine from the pack CARD TEXT, card gate PASS, every frame check PASS, frames looked at, both uploaded to the Founder Approval Desk with conversion off, sizes match"
+   ],
+   "detail": null,
+   "at": "2026-11-17T14:11:56.952Z",
+   "commit": "427fa677",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-061 v2 READY FOR JUSTIN Doc, card still and motion, METRICOOL HANDOFF GDC-061 (draft permitted, scheduling not permitted) all in the Founder Approval Desk; approval sheet regenerated and TEXT IDENTICAL; Post Desk version 21 with GDC-061 on top; start here CURRENT TEXT IDENTICAL, queue manifest BYTE IDENTICAL; superseded copies retitled ZZ"
+   ],
+   "detail": null,
+   "at": "2026-11-17T14:11:57.057Z",
+   "commit": "427fa677",
+   "attempts": 3
+  },
+  {
+   "stage": "METRICOOL HANDOFF",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-061 handoff written, radar-reconcile PASS (0 to settle, 9 to note), copied to Drive as METRICOOL HANDOFF GDC-061 and read back TEXT IDENTICAL; it was the first for 061 so nothing to retire"
+   ],
+   "detail": null,
+   "at": "2026-11-17T14:11:57.181Z",
+   "commit": "427fa677",
+   "attempts": 1
+  },
+  {
+   "stage": "FLOW CHECK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "1 yes, CANDIDATES 2026-11-17 batch read this morning (it held no candidates). 2 yes, morning stages logged and start here CURRENT dated today. 3 yes, GDC-061 was the one story under WHAT TO WRITE and its pack was in Stage 2. 4 yes, the pack was checked and METRICOOL HANDOFF GDC-061 is in the Approval Desk. 5 yesterday's 14:30 ChatGPT step cannot be seen from here, not reported as done"
+   ],
+   "detail": null,
+   "at": "2026-11-17T14:11:57.278Z",
+   "commit": "427fa677",
+   "attempts": 1
   }
  ],
- "updatedAt": "2026-11-17T13:33:52.437Z"
+ "updatedAt": "2026-11-17T14:11:57.310Z"
 }
