@@ -1,0 +1,24 @@
+{
+  "engine": "gc-motion-engine 0.1.0",
+  "renderedAt": "2026-11-17T13:32:57.620Z",
+  "seconds": 330.1,
+  "spec": "../../content/motion/GDC-061/spec.json",
+  "gdcPostNumber": "061",
+  "researchId": "GDC-RR-9a82e5d5b3",
+  "notForPublication": false,
+  "wordsOnCard": 52,
+  "gateWarnings": [
+    "52 words on the card. Under 45 reads more comfortably",
+    "the limitation is not word for word one of the record's limitations. Check it says the same thing"
+  ],
+  "mp4": {
+    "file": "content/motion/GDC-061/gdc-061.mp4",
+    "bytes": 1520234,
+    "sha256": "20ff15e57ed457e2e5d4d8fa77af5cf2c78b05817075e881823a0a749016c51f"
+  },
+  "png": {
+    "file": "content/motion/GDC-061/gdc-061.png",
+    "bytes": 1725352,
+    "sha256": "65c0714b5490cc09041e8925532488a0447dd5d240346e2afdd5875a632d8d4d"
+  }
+}

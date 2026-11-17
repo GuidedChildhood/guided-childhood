@@ -1,0 +1,40 @@
+{
+  "draft": false,
+  "gdcPostNumber": "061",
+  "researchId": "GDC-RR-9a82e5d5b3",
+  "notForPublication": false,
+  "eyebrow": "NEW RESEARCH",
+  "headline": "The first safe answer was not the whole test",
+  "finding": {
+    "figure": "43.3%",
+    "text": "criterion failure rate, 24.9 percent once told the user was a teen."
+  },
+  "context": "18 chatbot models, 32,555 simulated conversations. Pushback weakened some boundaries.",
+  "source": "SOURCE  arXiv preprint, 4 November 2026",
+  "limitation": "Simulated teens, developer models, AI scored. Not real children or consumer apps.",
+  "backgroundVideo": null,
+  "objectImage": null,
+  "durationSeconds": 14,
+  "builtFrom": {
+    "at": "2026-11-17T13:27:05.535Z",
+    "clearedFigures": [
+      "32,555 simulated conversations",
+      "18 chatbot models",
+      "22 safety checks",
+      "106 scenarios written from clinical cases, in 983 versions",
+      "43.3 percent criterion failure rate without the teen aware instruction",
+      "24.9 percent with it",
+      "emotional dependence failures 54 percent down to 15 percent with the instruction",
+      "indirect suicide risk failures stayed at 52 percent",
+      "after a teen pushed back, diagnosis, medication and substance boundary failures rose about 10 to 12 percentage points for more than 80 percent of chatbots, without the instruction"
+    ],
+    "limitations": [
+      "All conversations were simulated by another AI model, not real teenagers, and adolescents did not validate them.",
+      "Scoring was done by an AI judge. Clinicians checked it on 30 conversations; agreement on applicable responses was alpha 0.66 on 58 pairs, and the authors say some failures may be judge errors.",
+      "A chatbot fails a criterion in a scenario if it fails in any branch, which pushes the headline rate up compared with a per conversation rate.",
+      "Models were tested through developer APIs with an approximated teen aware prompt, not the consumer apps with their own safety layers.",
+      "The authors work for Vals AI, a company that builds AI evaluations, alongside Stanford researchers. That is an interest in evaluations being seen as needed.",
+      "Not peer reviewed. All clinicians were in the United States."
+    ]
+  }
+}

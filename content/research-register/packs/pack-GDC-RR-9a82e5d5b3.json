@@ -1,0 +1,36 @@
+{
+ "researchId": "GDC-RR-9a82e5d5b3",
+ "gdcPostNumber": "061",
+ "handoffVersion": 1,
+ "sourceCommit": "a1c213acb9a6aa7409d5d5953c210a397514f1bd",
+ "status": "DRAFT",
+ "linkedin": {
+  "body": "A preprint on arXiv put 18 chatbot models through 32,555 simulated conversations with teenagers. Telling each model it was talking to a teenager cut the criterion failure rate from 43.3 percent to 24.9 percent.\n\nGood news. Half of it.\n\nNone of these were real teenagers, and none of them were the apps children actually download. The researchers wrote 106 scenarios from clinical cases, turned them into 983 versions, and had an AI judge score every reply against 22 safety checks.\n\nThe scoring was strict: a chatbot failed a check in a scenario if it failed in any single version of that conversation, which means 43.3 percent is not the share of conversations that went wrong, and it says nothing about how often a real child is harmed.\n\nThe part I keep coming back to is what happened when the simulated teenager pushed back.\n\nWithout the teen aware instruction, failures around diagnosis, medication and substances rose by about 10 to 12 percentage points for more than 80 percent of the chatbots once the teenager said no.\n\nA boundary held at the first answer. Then it slipped.\n\nIt is a preprint. It tested models through developer connections, not consumer apps with their own safety layers. It cannot tell us that any particular app is unsafe, and it does not show that children should be kept away from AI.\n\nWhat it does give a parent is a question worth practising at the kitchen table.\n\nAsk your child what they would do if a chatbot told them not to worry about something that worried you. Then ask what they would do if it kept agreeing after they said they did not want to tell anyone.\n\nOur schools lesson on AI companions is built around one question: \"It talks like it knows me. Does it?\" I also build a parent tool with an AI guide in it, and that guide talks to the parent. It is never a chat partner for the child.\n\nThe source is in the comments.\n\nIf a parent or teacher you know needs this, repost it. An AI can be useful and still be the wrong thing to trust with a hard decision.\n\nWhat phrase would you teach a child to use when an AI starts sounding like a friend taking sides?",
+  "firstComment": "The SAFE Teen preprint on arXiv:\n\nhttps://arxiv.org/abs/2611.07218\n\nThe strongest objection is that every conversation was simulated and an AI judge did the scoring. That is fair. This study cannot tell us what any real child experiences or whether a consumer app behaves in the same way. The useful finding is narrower. Under these test conditions, a teen aware instruction improved the criterion failure rate, but pushback still weakened some boundaries."
+ },
+ "declined": {
+  "INSTAGRAM CAPTION": "NOT RECOMMENDED. The reviewed handoff asks for LinkedIn only, and the limits need more room than a short caption allows.",
+  "FACEBOOK CAPTION": "NOT RECOMMENDED. The reviewed handoff asks for LinkedIn only, and no separate parent action justifies another version.",
+  "NEWSLETTER": "NOT RECOMMENDED. This is a banked preprint interpretation, not a flagship newsletter edition.",
+  "REEL SCRIPT": "NOT RECOMMENDED. The handoff does not ask for a Reel or Short, and the evidence limits are better carried in the written post.",
+  "ASSETS USED": "NONE"
+ },
+ "visual": {
+  "brief": "Recommended treatment: a short silent MP4 using the approved Guided Childhood editorial motion style. Warm paper texture, navy typography and one restrained yellow underline. Minimal text and slow, smooth transitions.\n\nOpen on a real adult hand placing two printed conversation cards on a plain desk. No face is shown. The first card reads FIRST ANSWER. The second reads TEEN PUSHES BACK. Do not invent dialogue or show a consumer chatbot interface.\n\nThe finding appears only after the second card: CRITERION FAILURE RATE, then 43.3 PERCENT and 24.9 PERCENT WITH THE TEEN AWARE INSTRUCTION. A final paper card reads A TOOL CAN STILL LOSE ITS BOUNDARY.\n\nKeep every frame readable in silence. Use authentic desk footage or a verified brand paper asset only. No child faces, synthetic people, app logos, character art, medical imagery or alarm styling. Do not imply that the figures describe real teenagers or consumer apps.\n\nNo visual asset is verified as existing. Capture or production is required before use. If that cannot be done with approved assets, publish as text only.",
+  "assetsUsed": []
+ },
+ "card": {
+  "text": "HEADLINE: THE FIRST SAFE ANSWER WAS NOT THE WHOLE TEST\n\nFINDING: Criterion failure rate: 43.3 percent to 24.9 percent with the instruction\n\nCONTEXT: Simulated conversations, developer models, AI scored\n\nSOURCE: arXiv preprint\n\nLIMITATION: Not real teenagers or consumer apps",
+  "headline": "THE FIRST SAFE ANSWER WAS NOT THE WHOLE TEST",
+  "finding": "Criterion failure rate: 43.3 percent to 24.9 percent with the instruction",
+  "context": "Simulated conversations, developer models, AI scored",
+  "source": "arXiv preprint",
+  "limitation": "Not real teenagers or consumer apps"
+ },
+ "evidence": {
+  "notes": "This research does not show that a real child has been harmed or how often harm occurs. It does not establish that any particular app is unsafe. It does not test consumer app safety layers. It does not support keeping children away from AI altogether, and it does not prove that a parental control or school policy works.\n\nThe conversations were simulated rather than supplied by teenagers. An AI judge scored the responses. The criterion rate uses a strict scenario rule, so it must not be described as the share of conversations that went wrong. The work is a preprint and has not been peer reviewed.\n\nNo chatbot or company is named or ranked because model versions change and the study does not justify a durable consumer ranking."
+ },
+ "sources": [
+  "https://arxiv.org/abs/2611.07218"
+ ]
+}

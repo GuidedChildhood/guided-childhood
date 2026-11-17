@@ -7786,7 +7786,7 @@
    "foundBy": [
     "chatgpt-inbox"
    ],
-   "status": "EDITORIAL READY",
+   "status": "ASSETS READY",
    "candidate": {
     "candidateId": "C-2026-11-14-01",
     "batchId": "2026-11-14-chatgpt-0800",
@@ -7838,11 +7838,11 @@
    },
    "childIsTheSubject": true,
    "studyId": "GDC-RR-9a82e5d5b3",
-   "version": 10,
+   "version": 27,
    "firstFound": "2026-11-17T09:21:23.223Z",
-   "lastChecked": "2026-11-17T09:31:24.865Z",
-   "changeReason": "handoff tied to the review it was built from",
-   "changedBy": "radar:daily",
+   "lastChecked": "2026-11-17T13:33:43.513Z",
+   "changeReason": "ASSETS READY: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-9a82e5d5b3",
     "checkedAt": "2026-11-17T09:27:01.529Z",
@@ -8021,9 +8021,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "HANDOFF",
+    "stage": "ASSETS READY",
     "reasons": [],
-    "at": "2026-11-17T09:31:24.850Z"
+    "at": "2026-11-17T13:33:43.510Z"
    },
    "gdcPostNumber": "061",
    "handoff": {
@@ -8035,7 +8035,102 @@
     "builtAt": "2026-11-17T09:31:24.835Z",
     "reviewDigest": "ce144d94f712ede9",
     "gdcPostNumber": "061"
-   }
+   },
+   "pack": {
+    "file": "content/research-register/packs/pack-GDC-RR-9a82e5d5b3.json",
+    "submittedAt": "2026-11-17T13:26:44.904Z",
+    "sourceCommit": "a1c213acb9a6aa7409d5d5953c210a397514f1bd",
+    "gdcPostNumber": "061",
+    "digest": "f958e74b716da868",
+    "driveFile": "1ORTqKfr_dZ4-4zXImMrJLScHyRjDXUufMM5A_NdadhY__pack.txt"
+   },
+   "packQa": {
+    "verdict": "PASS",
+    "checked": 30,
+    "failedCount": 0,
+    "failures": [],
+    "checkedAt": "2026-11-17T13:26:44.898Z"
+   },
+   "packReview": {
+    "verdict": "PASS",
+    "notes": "ChatGPT got the substance right: every figure is cleared, the 43.3 percent is never called the share of conversations that went wrong, the preprint, simulation, AI judge and developer model limits are all stated, no company is named, the first comment meets the strongest objection, and Instagram, Facebook, newsletter and Reel were rightly declined. Claude edited the LinkedIn post only, as v2: added the proof path (the schools lesson on AI companions, essential question It talks like it knows me. Does it?, supabase/migrations/282), cut two not this but that shapes, and loosened the sentence rhythm (spread 50 to 64 percent against his 79). Argument, order and the takeaway are ChatGPT's. The editor and the reviewer are the same; the mechanical checks are independent; whether it sounds like Justin is his to judge. Visual: research card still and 14 second motion, built from the pack CARD TEXT, gate and every frame check passed.",
+    "reviewedBy": "Claude Code, directed run",
+    "reviewedAt": "2026-11-17T13:33:43.380Z"
+   },
+   "packDrive": {
+    "verified": true,
+    "fileId": "1ORTqKfr_dZ4-4zXImMrJLScHyRjDXUufMM5A_NdadhY",
+    "level": "TEXT IDENTICAL",
+    "at": "2026-11-17T13:33:43.402Z"
+   },
+   "visualDecision": {
+    "choice": "still image",
+    "reason": "An evidence post with one clean finding, so it gets the research card by default (Justin, 16 November); the newest analytics put a named study and its finding first, which the card does, and the card carries the preprint, simulated and AI scored limits on its face.",
+    "decidedBy": "Claude Code, directed run",
+    "at": "2026-11-17T13:33:14.027Z"
+   },
+   "assets": [
+    {
+     "kind": "motion",
+     "role": "optional",
+     "file": "content/motion/GDC-061/gdc-061.mp4",
+     "sha256": "20ff15e57ed457e2e5d4d8fa77af5cf2c78b05817075e881823a0a749016c51f",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-061/spec.json",
+     "facts": {
+      "bytes": 1520234,
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "fps": "30/1",
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audio": "none, silent",
+      "playsThrough": true
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Looked at the final PNG and the frame at 2 seconds. Ivory card, navy Nunito headline: The first safe answer was not the whole test. Figure 43.3% with a gold rule, then: criterion failure rate, 24.9 percent once told the user was a teen. Context: 18 chatbot models, 32,555 simulated conversations, pushback weakened some boundaries. Source arXiv preprint 4 November 2026 and the limitation Simulated teens, developer models, AI scored, not real children or consumer apps. All figures cleared, no person, no logo, no chart, no dash. One note: for about two seconds the 43.3% sits alone before its qualifier lands; the still has the full card.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-17T13:33:20.204Z"
+     },
+     "drive": {
+      "fileId": "1pg59b-333wvx45hdmmkK20vimzteb1Kz",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 1520234,
+      "at": "2026-11-17T13:33:43.353Z"
+     },
+     "at": "2026-11-17T13:33:20.208Z"
+    },
+    {
+     "kind": "still image",
+     "role": "optional",
+     "file": "content/motion/GDC-061/gdc-061.png",
+     "sha256": "65c0714b5490cc09041e8925532488a0447dd5d240346e2afdd5875a632d8d4d",
+     "source": "tools/motion-engine, gc-motion-engine 0.1.0, from ../../content/motion/GDC-061/spec.json",
+     "facts": {
+      "bytes": 1725352
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Looked at the final PNG and the frame at 2 seconds. Ivory card, navy Nunito headline: The first safe answer was not the whole test. Figure 43.3% with a gold rule, then: criterion failure rate, 24.9 percent once told the user was a teen. Context: 18 chatbot models, 32,555 simulated conversations, pushback weakened some boundaries. Source arXiv preprint 4 November 2026 and the limitation Simulated teens, developer models, AI scored, not real children or consumer apps. All figures cleared, no person, no logo, no chart, no dash. One note: for about two seconds the 43.3% sits alone before its qualifier lands; the still has the full card.",
+      "reviewedBy": "Claude Code, motion engine",
+      "at": "2026-11-17T13:33:20.227Z"
+     },
+     "drive": {
+      "fileId": "1nIDEdXLIqHuoE7VRAVFyXqIuAK7H4XHj",
+      "verified": true,
+      "level": "SIZE MATCHES",
+      "bytesInDrive": 1725352,
+      "at": "2026-11-17T13:33:43.368Z"
+     },
+     "at": "2026-11-17T13:33:20.228Z"
+    }
+   ]
   },
   "GDC-RR-5577da5988": {
    "title": "2026 Into the Light Index on Global Child Sexual Exploitation and Abuse",
