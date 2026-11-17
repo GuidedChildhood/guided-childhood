@@ -2575,7 +2575,7 @@
     "europepmc",
     "pubmed"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 13,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -2595,11 +2595,11 @@
     "until": "2026-11-12"
    },
    "studyId": "GDC-RR-e1a6cd5229",
-   "version": 7,
+   "version": 8,
    "firstFound": "2026-11-10T17:17:53.811Z",
-   "lastChecked": "2026-11-12T09:21:43.725Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-17T09:25:48.711Z",
+   "changeReason": "restored to HOLD: the stored review of 2026-11-11T12:33:03Z said HOLD; a rerun had moved it to VERIFIED (register guard fixed 17 November)",
+   "changedBy": "claude:radar-fix",
    "dossier": {
     "studyId": "GDC-RR-e1a6cd5229",
     "checkedAt": "2026-11-12T09:21:43.442Z",
@@ -3700,7 +3700,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 5,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -3716,11 +3716,11 @@
     "until": "2026-11-13"
    },
    "studyId": "GDC-RR-19396d6493",
-   "version": 9,
+   "version": 10,
    "firstFound": "2026-11-11T11:38:23.859Z",
-   "lastChecked": "2026-11-13T09:20:45.354Z",
-   "changeReason": "discovery run, streams 18,23",
-   "changedBy": "radar:discover",
+   "lastChecked": "2026-11-17T09:25:48.724Z",
+   "changeReason": "restored to HOLD: the stored review of 2026-11-11T12:33:19Z said HOLD; a rerun had moved it to VERIFIED (register guard fixed 17 November)",
+   "changedBy": "claude:radar-fix",
    "dossier": {
     "studyId": "GDC-RR-19396d6493",
     "checkedAt": "2026-11-12T09:21:44.944Z",
@@ -4006,7 +4006,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 17,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -4029,11 +4029,11 @@
     "until": "2026-11-13"
    },
    "studyId": "GDC-RR-34b3878324",
-   "version": 6,
+   "version": 7,
    "firstFound": "2026-11-12T09:21:43.255Z",
-   "lastChecked": "2026-11-13T09:20:45.552Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-17T09:25:48.733Z",
+   "changeReason": "restored to HOLD: the stored review of 2026-11-12T09:24:20Z said HOLD; a rerun had moved it to VERIFIED (register guard fixed 17 November)",
+   "changedBy": "claude:radar-fix",
    "dossier": {
     "studyId": "GDC-RR-34b3878324",
     "checkedAt": "2026-11-13T09:20:45.398Z",
@@ -4432,7 +4432,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "VERIFIED",
+   "status": "REJECTED",
    "relevanceScore": 13,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -4451,11 +4451,11 @@
     "until": "2026-11-13"
    },
    "studyId": "GDC-RR-b3cbb73e58",
-   "version": 6,
+   "version": 7,
    "firstFound": "2026-11-12T09:21:43.270Z",
-   "lastChecked": "2026-11-13T09:20:45.703Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-17T09:25:48.741Z",
+   "changeReason": "restored to REJECTED: the stored review of 2026-11-12T09:24:20Z said REJECT; a rerun had moved it to VERIFIED (register guard fixed 17 November)",
+   "changedBy": "claude:radar-fix",
    "dossier": {
     "studyId": "GDC-RR-b3cbb73e58",
     "checkedAt": "2026-11-13T09:20:45.556Z",
@@ -5188,7 +5188,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 10,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -5207,11 +5207,11 @@
     "until": "2026-11-13"
    },
    "studyId": "GDC-RR-cc7b7da589",
-   "version": 6,
+   "version": 7,
    "firstFound": "2026-11-12T09:21:43.313Z",
-   "lastChecked": "2026-11-13T09:20:46.456Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-17T09:25:48.750Z",
+   "changeReason": "restored to HOLD: the stored review of 2026-11-12T09:24:20Z said HOLD; a rerun had moved it to VERIFIED (register guard fixed 17 November)",
+   "changedBy": "claude:radar-fix",
    "dossier": {
     "studyId": "GDC-RR-cc7b7da589",
     "checkedAt": "2026-11-13T09:20:46.206Z",
@@ -7712,11 +7712,1765 @@
    },
    "childIsTheSubject": false,
    "studyId": "GDC-RR-29a4765c83",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-16T13:42:42.965Z",
-   "lastChecked": "2026-11-16T13:42:42.965Z",
-   "changeReason": "candidate C-2026-11-16-GELMAN from claude-code-directed, idea from Justin and ChatGPT, sources read by Claude, batch 2026-11-16-claude-directed-justin",
-   "changedBy": "radar:inbox"
+   "lastChecked": "2026-11-17T09:26:13.022Z",
+   "changeReason": "automatic dossier (directed, inbox or named by Justin): RECORD UNCONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-29a4765c83",
+    "checkedAt": "2026-11-17T09:26:13.019Z",
+    "doi": null,
+    "doiResolves": null,
+    "canonicalTitle": "Meta discussed attacking Jonathan Haidt, now even his haters are annoyed",
+    "indexedDate": "2026-11-13",
+    "crossrefOnlineDate": null,
+    "datesAgree": null,
+    "peerReviewed": false,
+    "isPreprint": false,
+    "journal": "The Verge (Lauren Feiner), and Andrew Gelman's blog Statistical Modeling, Causal Inference, and Social Science",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no DOI on the record, so there is no canonical identifier to verify against",
+     "this record came through the candidate inbox. Its summary and claims are the sender's wording, not the source's, so nothing extracted from them above is a fact about the source.",
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "automaticVerdict": "RECORD UNCONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-9a82e5d5b3": {
+   "title": "SAFE-Teen: Evaluating Chatbot Safety Across Adolescent Mental Health Conversations",
+   "url": "https://arxiv.org/abs/2611.07218",
+   "journal": "arXiv",
+   "published": "2026-11-04",
+   "authors": "Andrea Mock, Valerie Chen, Eric Lin, Rayan Krishnan, Diyi Yang, Caroline Figueroa",
+   "abstract": "A clinician-informed simulation tested chatbot responses to adolescent mental health and safety scenarios. Teen-aware prompting reduced the measured criterion failure rate, but failures remained. This is a preprint, not evidence of real-world clinical harm rates. The authors evaluated 32,555 simulated conversations across 18 chatbot APIs and two system-prompt conditions using 22 safety criteria. The overall criterion failure rate was 43.3% without the teen-aware prompt and 24.9% with it. Conversations spanned 983 variants of 106 seed scenarios.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "isOfficial": false,
+   "streams": [
+    "inbox"
+   ],
+   "foundBy": [
+    "chatgpt-inbox"
+   ],
+   "status": "EDITORIAL READY",
+   "candidate": {
+    "candidateId": "C-2026-11-14-01",
+    "batchId": "2026-11-14-chatgpt-0800",
+    "sentBy": "chatgpt-scheduled-0800",
+    "sentAt": "2026-11-14T08:00:00Z",
+    "sourceType": "preprint",
+    "otherUrls": [],
+    "claims": [
+     {
+      "claim": "The authors evaluated 32,555 simulated conversations across 18 chatbot APIs and two system-prompt conditions using 22 safety criteria.",
+      "figure": "32,555 simulated conversations across 18 chatbot APIs and two system-prompt conditions using 22 safety criteria",
+      "whereInSource": "abstract"
+     },
+     {
+      "claim": "The overall criterion failure rate was 43.3% without the teen-aware prompt and 24.9% with it.",
+      "figure": "43.3% without the teen-aware prompt and 24.9% with it",
+      "whereInSource": "abstract"
+     },
+     {
+      "claim": "Conversations spanned 983 variants of 106 seed scenarios.",
+      "figure": "983 variants of 106 seed scenarios",
+      "whereInSource": "abstract"
+     }
+    ],
+    "limitations": [
+     "Simulated conversations are not observations of actual children and cannot estimate the proportion of children harmed by chatbots.",
+     "Failure rates depend on the selected safety criteria, APIs, prompts and scenarios; they are not universal chatbot risk rates.",
+     "Preprint has not been confirmed peer reviewed, and the results do not establish effectiveness of any particular parental or school safeguard."
+    ],
+    "whyItMatters": "Parents and school leaders need to distinguish a chatbot sounding supportive from demonstrated safety when adolescents seek sensitive advice.",
+    "ukRelevance": "Simulation of chatbot APIs, not a UK representative sample; relevance is to safety evaluation and procurement, not UK prevalence.",
+    "suggestedFormats": [
+     "linkedin",
+     "newsletter"
+    ],
+    "standing": "UNVERIFIED. These are the sender's claims about the source. None may be quoted until the directed review has checked it against the source itself."
+   },
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+4 \\bAI companion|chatbot|conversatio"
+    ],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "childIsTheSubject": true,
+   "studyId": "GDC-RR-9a82e5d5b3",
+   "version": 10,
+   "firstFound": "2026-11-17T09:21:23.223Z",
+   "lastChecked": "2026-11-17T09:31:24.865Z",
+   "changeReason": "handoff tied to the review it was built from",
+   "changedBy": "radar:daily",
+   "dossier": {
+    "studyId": "GDC-RR-9a82e5d5b3",
+    "checkedAt": "2026-11-17T09:27:01.529Z",
+    "doi": null,
+    "doiResolves": null,
+    "canonicalTitle": "SAFE-Teen: Evaluating Chatbot Safety Across Adolescent Mental Health Conversations",
+    "indexedDate": "2026-11-04",
+    "crossrefOnlineDate": "2026-11-04",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "arXiv",
+    "sampleSize": null,
+    "ageRange": "not stated, described as adolescent",
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "43.3%",
+      "24.9%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "arXiv record resolved through the arXiv API, title matches",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "this record came through the candidate inbox. Its summary and claims are the sender's wording, not the source's, so nothing extracted from them above is a fact about the source.",
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "officialRecordResolves": true,
+    "officialRecord": {
+     "url": "https://arxiv.org/abs/2611.07218",
+     "title": "SAFE-Teen: Evaluating Chatbot Safety Across Adolescent Mental Health Conversations",
+     "published": "2026-11-04"
+    },
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-9a82e5d5b3",
+    "reviewedAt": "2026-11-17T09:31:00Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 17 November 2026",
+    "verdict": "EDIT",
+    "editorialPriority": "BANK",
+    "proposedTitle": "Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped.",
+    "proposedAngle": "Open on the design, plainly: these were simulated teenagers, written from cases supplied by clinicians, talking to 18 chatbot models through their developer connections, not the apps children download. Give the two headline rates with their meaning: in a given scenario a chatbot counted as failing a safety check if it failed in any version of that conversation, and an AI judge did the scoring. The tension is not that chatbots are bad. It is that a chatbot which answers safely the first time can drift when a teenager says no, I do not want to tell anyone. Our belief: an AI can be a useful tool and is still not a friend, and a child is safer when they have practised what to do when it starts to sound like one. Say once that I build a parent tool with an AI guide in it, and that guidance for a parent is not a chat partner for a child. Close on the takeaway for parents.",
+    "oneStory": "A preprint posted to arXiv on 4 November 2026 tested 18 chatbot models in 32,555 simulated conversations with teenagers aged 13 to 17, scored against 22 safety checks written with clinicians.",
+    "oneTension": "Telling the chatbot it was talking to a teenager cut the failure rate from 43.3 percent to 24.9 percent, but no chatbot reached zero, and when the simulated teen pushed back, boundaries on diagnosis, medication and substances weakened for most models.",
+    "oneBelief": "A chatbot is a tool, not a friend. Children are safer when they have practised noticing the moment it starts to act like one, with a parent in the room.",
+    "oneTakeaway": "Ask your child what they would do if a chatbot told them not to worry about something that worried you. Then ask what they would do if it kept agreeing with them.",
+    "reviewBasis": "The full text of version 1 of the preprint, read in this run from the PDF at arxiv.org/pdf/2611.07218: abstract, introduction, method including scenario development, the teen simulator and judge calibration, results, limitations and author contributions. The arXiv record was confirmed through the arXiv API, first submitted 4 November 2026. It is a preprint and has not been peer reviewed.",
+    "claims": [
+     {
+      "claim": "The authors evaluated 32,555 simulated conversations across 18 chatbot APIs and two system prompt conditions using 22 safety criteria.",
+      "status": "VERIFIED",
+      "basis": "Abstract and section 3: 16,271 conversations without the teen aware prompt and 16,284 with it, 22 criteria in the final rubric."
+     },
+     {
+      "claim": "Conversations spanned 983 variants of 106 seed scenarios.",
+      "status": "VERIFIED",
+      "basis": "Abstract and introduction: 106 clinician authored seed scenarios and 983 matched variants."
+     },
+     {
+      "claim": "The overall criterion failure rate was 43.3 percent without the teen aware prompt and 24.9 percent with it.",
+      "status": "QUALIFIED",
+      "basis": "Abstract and section 4.1. The figures are right, but the rate is per criterion per scenario, and a chatbot fails a criterion in a scenario if it fails it in any branch of that scenario, so it is a worst case across matched versions, scored by an AI judge. It is not the share of conversations that went wrong and must not be written as one."
+     },
+     {
+      "claim": "With the prompt, emotional dependence failures fell from 54 percent to 15 percent, while failures to respond to indirect suicide risk stayed at 52 percent and to self harm close to 75 percent where those topics came up.",
+      "status": "VERIFIED",
+      "basis": "Introduction, page 2, as written by the authors."
+     },
+     {
+      "claim": "Without the prompt, when a teen pushed back on a chatbot limit, failures on mental health diagnosis, medication and substance misuse boundaries rose by about 10 to 12 percentage points for more than 80 percent of chatbots.",
+      "status": "VERIFIED",
+      "basis": "Abstract and introduction."
+     },
+     {
+      "claim": "Chatbots harm a given share of real teenagers.",
+      "status": "UNSUPPORTED",
+      "basis": "Every conversation was simulated. The authors say adolescents did not validate the replies and the study cannot say how often anything happens to real children."
+     },
+     {
+      "claim": "The chatbot apps teenagers use fail 43 percent of the time.",
+      "status": "UNSUPPORTED",
+      "basis": "The study tested models through developer APIs with an approximated teen aware prompt, because real consumer prompts are proprietary. App level safety layers were not tested."
+     }
+    ],
+    "verifiedStatistics": [
+     "32,555 simulated conversations",
+     "18 chatbot models",
+     "22 safety checks",
+     "106 scenarios written from clinical cases, in 983 versions",
+     "43.3 percent criterion failure rate without the teen aware instruction",
+     "24.9 percent with it",
+     "emotional dependence failures 54 percent down to 15 percent with the instruction",
+     "indirect suicide risk failures stayed at 52 percent",
+     "after a teen pushed back, diagnosis, medication and substance boundary failures rose about 10 to 12 percentage points for more than 80 percent of chatbots, without the instruction"
+    ],
+    "notQuotable": [
+     "Any share of real teenagers harmed by chatbots",
+     "Any ranking of named chatbots or companies: model versions change monthly and the ranking is a judge scored preprint",
+     "The names of any of the clinicians or authors",
+     "The 43.3 percent described as conversations that went wrong",
+     "The 75 percent self harm figure without saying it applies only to conversations where the topic came up"
+    ],
+    "recommendedPlatforms": [
+     "LinkedIn"
+    ],
+    "urgency": "Low. Bank it. A preprint, so it can be posted any week while it is current, saying it is a preprint.",
+    "evidenceConfidence": "HIGH that the preprint says what is written here: the full text was read. MODERATE as evidence: a careful, clinician informed simulation with a calibrated judge, but simulated teenagers, an AI judge whose agreement with clinicians on applicable responses was a modest alpha of 0.66, worst case aggregation, and not peer reviewed.",
+    "limitations": [
+     "All conversations were simulated by another AI model, not real teenagers, and adolescents did not validate them.",
+     "Scoring was done by an AI judge. Clinicians checked it on 30 conversations; agreement on applicable responses was alpha 0.66 on 58 pairs, and the authors say some failures may be judge errors.",
+     "A chatbot fails a criterion in a scenario if it fails in any branch, which pushes the headline rate up compared with a per conversation rate.",
+     "Models were tested through developer APIs with an approximated teen aware prompt, not the consumer apps with their own safety layers.",
+     "The authors work for Vals AI, a company that builds AI evaluations, alongside Stanford researchers. That is an interest in evaluations being seen as needed.",
+     "Not peer reviewed. All clinicians were in the United States."
+    ],
+    "contradictoryEvidence": [
+     "The same paper shows the problem is partly fixable: a single instruction about the user's age cut failures by about 40 percent and reduced them for every model.",
+     "Without the prompt the best model failed 14.0 percent of criteria and the worst 62.4 percent, so 'chatbots' is not one thing and averages hide a wide spread."
+    ],
+    "whatThisDoesNotProve": [
+     "That any real child has been harmed by a chatbot, or how often.",
+     "That any particular app is unsafe.",
+     "That children should be kept away from AI altogether.",
+     "That any parental control or school policy works."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'chatbots fail teens 43 percent of the time', which turns a worst case criterion rate in a simulation into a real world rate. Avoid it.",
+    "gdcBeliefs": [
+     "A tool, not a friend. Our AI companions lesson asks 'It talks like it knows me. Does it?', which is the gap this study measures, so it gets more scrutiny, not less.",
+     "Never allow or deny. The answer is practice and conversation, not a ban on AI."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "Proof path: the AI companions and chatbots lesson (supabase/migrations/282 and 156: a chatbot is a tool, not a friend; it is built to agree, so it can be confidently wrong).",
+     "parentTool": "Proof path: the situations script for a child meeting AI on their own (supabase/migrations/261).",
+     "digi": "No change. DiGi speaks to parents, not children.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Parents of children aged 9 to 16, and school leaders.",
+    "unresolvedQuestions": [
+     "Will a peer reviewed version change the figures?",
+     "How do consumer apps with age prediction compare with the raw models tested here?"
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-9a82e5d5b3.json"
+   },
+   "editorialPriority": "BANK",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "HANDOFF",
+    "reasons": [],
+    "at": "2026-11-17T09:31:24.850Z"
+   },
+   "gdcPostNumber": "061",
+   "handoff": {
+    "json": "content/research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.json",
+    "doc": "content/research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.txt",
+    "version": 1,
+    "schemaVersion": "1.1.0",
+    "sourceCommit": "a1c213acb9a6aa7409d5d5953c210a397514f1bd",
+    "builtAt": "2026-11-17T09:31:24.835Z",
+    "reviewDigest": "ce144d94f712ede9",
+    "gdcPostNumber": "061"
+   }
+  },
+  "GDC-RR-5577da5988": {
+   "title": "2026 Into the Light Index on Global Child Sexual Exploitation and Abuse",
+   "doi": "10.7488/ds/8210",
+   "url": "https://doi.org/10.7488/ds/8210",
+   "journal": "University of Edinburgh / Childlight Global Child Safety Institute",
+   "published": "2026-11-16",
+   "authors": "Fry, Deborah; Ren, Jingru; Vermeulen, Inga; Stevenson, James; and colleagues",
+   "abstract": "The 2026 index combines representative survey studies, reporting and frontline data to estimate and document child sexual exploitation and abuse, including technology facilitated forms. Its newly released geographic focus includes East Asia and the Pacific, North America, and Latin America and the Caribbean. Counts of reports and population prevalence must be kept separate. Of 103 countries and areas examined, only 22 had representative survey data covering both offline and technology facilitated child sexual exploitation and abuse. The new regional analysis draws on 645 representative studies of offline abuse from 47 countries and 76 studies of technology facilitated abuse from 21 countries. Reports to NCMEC related to AI child sexual abuse material increased from around 4,700 in 2023 to more than 400,000 in 2025; Childlight describes a rise of more than 8,411% in its index display.",
+   "isPreprint": false,
+   "peerReviewed": false,
+   "isOfficial": false,
+   "streams": [
+    "inbox"
+   ],
+   "foundBy": [
+    "chatgpt-inbox"
+   ],
+   "status": "HOLD",
+   "candidate": {
+    "candidateId": "C-2026-11-16-01",
+    "batchId": "2026-11-16-chatgpt-0800",
+    "sentBy": "chatgpt-scheduled-0800",
+    "sentAt": "2026-11-16T08:18:07Z",
+    "sourceType": "dataset",
+    "otherUrls": [
+     "https://www.childlight.org/into-the-light/executive-summary",
+     "https://www.childlight.org/newsroom/young-indians-embrace-ai-innovation-but-want-more-safeguards-for-children-2"
+    ],
+    "claims": [
+     {
+      "claim": "Of 103 countries and areas examined, only 22 had representative survey data covering both offline and technology facilitated child sexual exploitation and abuse.",
+      "figure": "103; 22",
+      "whereInSource": "Childlight launch release, 16 November 2026"
+     },
+     {
+      "claim": "The new regional analysis draws on 645 representative studies of offline abuse from 47 countries and 76 studies of technology facilitated abuse from 21 countries.",
+      "figure": "645; 47; 76; 21",
+      "whereInSource": "Childlight launch release, 16 November 2026"
+     },
+     {
+      "claim": "Reports to NCMEC related to AI child sexual abuse material increased from around 4,700 in 2023 to more than 400,000 in 2025; Childlight describes a rise of more than 8,411% in its index display.",
+      "figure": "around 4,700; more than 400,000; more than 8,411%",
+      "whereInSource": "Childlight 16 November launch release and Into the Light index dashboard; reconcile reporting definitions against primary technical note before reuse"
+     }
+    ],
+    "limitations": [
+     "Reports are not unique victims, verified offences or population risk; changing detection, classification and reporting can affect trends.",
+     "The study does not establish how likely any particular UK child is to be harmed on a named platform, or a causal effect of AI.",
+     "Regional survey coverage and inconsistent definitions limit direct comparisons between places and eras."
+    ],
+    "whyItMatters": "An important global safeguarding and AI design story for parents and school leaders, especially how to interpret alarming report growth without confusing reports with victims.",
+    "ukRelevance": "UK based research institute but the newly emphasised regions are not the UK; do not generalise regional prevalence estimates to UK pupils.",
+    "suggestedFormats": [
+     "linkedin",
+     "newsletter",
+     "image"
+    ],
+    "standing": "UNVERIFIED. These are the sender's claims about the source. None may be quoted until the directed review has checked it against the source itself."
+   },
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "childIsTheSubject": true,
+   "studyId": "GDC-RR-5577da5988",
+   "version": 5,
+   "firstFound": "2026-11-17T09:21:23.245Z",
+   "lastChecked": "2026-11-17T09:31:06.446Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
+   "dossier": {
+    "studyId": "GDC-RR-5577da5988",
+    "checkedAt": "2026-11-17T09:27:01.795Z",
+    "doi": "10.7488/ds/8210",
+    "doiResolves": true,
+    "canonicalTitle": "2026 Into the Light Index on Global Child Sexual Exploitation and Abuse",
+    "indexedDate": "2026-11-16",
+    "crossrefOnlineDate": "2026",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": false,
+    "journal": "University of Edinburgh / Childlight Global Child Safety Institute",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "survey",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "411%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through DataCite, title matches",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "a DataCite record of type Dataset, not a journal article: no peer review is implied",
+     "this record came through the candidate inbox. Its summary and claims are the sender's wording, not the source's, so nothing extracted from them above is a fact about the source.",
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "publisher": "University of Edinburgh. Moray House School of Education and Sport",
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-5577da5988",
+    "reviewedAt": "2026-11-17T09:31:00Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 17 November 2026",
+    "verdict": "HOLD",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "reviewBasis": "Read in this run: the DataCite record for DOI 10.7488/ds/8210 (University of Edinburgh, issued 2026); the Childlight executive summary page for the 2026 Into the Light Index; the Childlight launch release linked by the candidate; and NCMEC's own generative AI page at ncmec.org/GAI for the 2023 to 2025 report counts. The full dataset and technical note were not read.",
+    "claims": [
+     {
+      "claim": "Of 103 countries and areas examined, only 22 had representative survey data covering both offline and technology facilitated child sexual exploitation and abuse.",
+      "status": "VERIFIED",
+      "basis": "Executive summary and launch release: 21 percent, 22 out of 103, across East Asia and the Pacific, Latin America and the Caribbean, and North America."
+     },
+     {
+      "claim": "The regional analysis draws on 645 representative studies of offline abuse from 47 countries and 76 studies of technology facilitated abuse from 21 countries.",
+      "status": "VERIFIED",
+      "basis": "Executive summary and launch release, word for word."
+     },
+     {
+      "claim": "Reports to NCMEC related to AI child sexual abuse material rose from around 4,700 in 2023 to more than 400,000 in 2025, a rise of more than 8,411 percent.",
+      "status": "QUALIFIED",
+      "basis": "The counts match NCMEC's own page: 4,700 in 2023, 67,000 in 2024, more than 400,000 in 2025. But NCMEC counts reports 'of GAI', and its own breakdown shows more than 200,000 of the 2025 reports had too little information to say how AI was used, and only 7,000 or more were users generating or possessing AI abuse imagery. Calling the whole figure 'AI related reports of child sexual abuse material', as the release does, overstates it. Reports are not victims or images."
+     },
+     {
+      "claim": "The index estimates how likely a UK child is to be harmed.",
+      "status": "UNSUPPORTED",
+      "basis": "This release covers three regions, none of them the UK. Prevalence there cannot be carried to UK pupils."
+     }
+    ],
+    "verifiedStatistics": [],
+    "notQuotable": [
+     "The 8,411 percent rise, in any form: NCMEC's own breakdown does not support describing it as AI abuse material",
+     "Any regional prevalence figure applied to UK children",
+     "Any count of reports described as children or images"
+    ],
+    "recommendedPlatforms": [],
+    "urgency": "None. Held.",
+    "evidenceConfidence": "HIGH that the figures checked are on the pages named. LOW as a GDC story: the regions are not the UK, and the headline AI figure needs a correction rather than a repeat.",
+    "limitations": [
+     "Not the UK: the 2026 release covers East Asia and the Pacific, Latin America and the Caribbean, and North America.",
+     "Reports to a hotline measure detection and reporting practice, not how many children are harmed.",
+     "NCMEC changed how it breaks down generative AI reports between years, and more than half of 2025's could not be characterised.",
+     "A dataset, not a peer reviewed article."
+    ],
+    "contradictoryEvidence": [
+     "NCMEC's own page says not every report with an AI connection involves creating or sharing AI abuse imagery, and puts the clearest category, users generating or possessing it, at 7,000 or more.",
+     "Childlight's own release warns that measurement gaps leave children invisible, which cuts against reading any single count as the size of the problem."
+    ],
+    "whatThisDoesNotProve": [
+     "That AI generated abuse of children rose 84 fold.",
+     "Anything about prevalence among UK children.",
+     "That any platform or product is the cause."
+    ],
+    "mediaMisrepresentation": "The release itself frames all 400,000 plus NCMEC reports as AI related reports of child sexual abuse material, which NCMEC's breakdown does not support. Any coverage repeating the 8,411 percent figure repeats that overstatement.",
+    "gdcBeliefs": [
+     "Evidence or silence. The founder brief of 16 November asked for the AI report definitions to be reconciled before any headline; reconciled, the headline does not stand.",
+     "Connection is the protection. Nothing here changes how we teach it."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody yet.",
+    "unresolvedQuestions": [
+     "Would a UK release of the index give UK figures we could use?",
+     "Does the technical note define the AI category more narrowly than the release does?"
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-5577da5988.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-17T09:31:06.443Z"
+   }
+  },
+  "GDC-RR-8a876b3cb0": {
+   "title": "Contemporary screen exposure among children under two: a representative survey, implications and perspectives.",
+   "doi": "10.1007/s42977-026-00349-8",
+   "pmid": "43034982",
+   "pmcid": null,
+   "url": "https://doi.org/10.1007/s42977-026-00349-8",
+   "journal": "Biologia futura",
+   "published": "2026-11-15",
+   "authors": "Kopcsó K, Ökrös F, Boros J, Konok V, Pogány Á.",
+   "abstract": "Professional guidelines consistently recommend avoiding screen exposure in children under two years of age; however, international evidence indicates that early media use is widespread. This narrative review synthesizes contemporary data on screen exposure in infancy and toddlerhood, integrates findings from recent longitudinal research on developmental implications, and discusses expectations and intervention strategies across family, clinical, public health, and policy levels. Drawing on international cohorts and previously published representative Hungarian data (N = 2569), we describe high prevalence, substantial daily exposure, and marked socioeconomic gradients. Nearly half of Hungarian 18-month-olds were exposed to screens daily, and over one third exceeded one hour per day on a typical day. Synthesizing literature from the last ten years, we examine early screen use within a developmental-ecological framework. Evidence links higher exposure in the first two years to poorer language, cognitive, and self-regulatory outcomes, while also indicating bi-directional and transactional processes. Beyond total exposure time, displacement of interaction-rich activities and caregiver-driven \"technoference\" may alter the microstructure of early social exchange, with potential implications for attachment, co-regulation, and language development. Given that early communication and self-regulation form foundational systems for later academic achievement, socio-emotional functioning, and health behaviours, early screen practices may influence longer-term developmental trajectories. We conclude by outlining developmentally informed expectations, family-level strategies, clinical guidance, and emerging policy approaches, emphasizing the need to move beyond descriptive prevalence estimates and strictly restrictive guidelines toward integrated, evidence-based responses adapted to contemporary digital environments.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Review; Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "05",
+    "06",
+    "08",
+    "09",
+    "19",
+    "21",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-8a876b3cb0",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.666Z",
+   "lastChecked": "2026-11-17T09:24:39.666Z",
+   "changeReason": "discovery run, streams 01,05,06,08,09,19,21,22,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-442383364c": {
+   "title": "Association of digital follow-up-supported individualized nutrition guidance with hematological outcomes and recorded parental adherence in children with iron deficiency anemia: a retrospective cohort study",
+   "doi": "10.3389/fped.2026.1946186",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/fped.2026.1946186",
+   "journal": "Frontiers in Pediatrics",
+   "published": "2026-11-17",
+   "authors": "Li Lin",
+   "abstract": "Objective To examine the association between engagement-defined digital follow-up with individualized nutrition guidance and 8–12-week hematological outcomes in children with iron deficiency anemia (IDA), with an exploratory analysis based on digital-channel offer at the index visit. Methods Of 240 screened records, 196 children met baseline eligibility criteria and 168 had a valid 8–12-week Hb test. The primary analysis included 152 children classified by documented engagement: 61 in the digital follow-up group and 91 in the conventional group. An exploratory baseline-offer analysis included all 168 children with valid tests, including 16 low-contact children excluded from the primary analysis. Baseline-variable regression, propensity-score matching, and stabilized inverse-probability weighting were used to assess associations with Hb change ( Δ Hb). Results In the primary 152-person cohort, mean Δ Hb was 24.93 ± 4.04 g/L in the digital follow-up group and 16.37 ± 3.52 g/L in the conventional group. The baseline-adjusted difference was 8.38 g/L (HC3 95% CI 7.04–9.73), and the IPTW estimate was 8.26 g/L (95% CI 7.00–9.52). Anemia correction occurred in 40/61 (65.6%) versus 28/91 (30.8%) children. In the exploratory 168-person baseline-offer analysis, the adjusted difference was 6.75 g/L (HC3 95% CI 5.28–8.22) and the weighted difference was 6.64 g/L (95% CI 5.22–8.05). Conclusions Engagement-defined digital follow-up was associated with greater observed Hb improvement in the primary cohort, but exposure classification depended on post-baseline contacts and may have introduced selection bias. Twenty-eight baseline-eligible children lacked a valid follow-up blood test, and channel offer was not randomized. The findings do not establish a causal benefit of digital follow-up.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "01",
+    "08",
+    "19",
+    "22"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+4 \\brandomis(ed|ation)|randomiz(ed|a",
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [
+     "-5 \\bmalaria|neonatal|sepsis|immunis|"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-442383364c",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.674Z",
+   "lastChecked": "2026-11-17T09:24:39.674Z",
+   "changeReason": "discovery run, streams 01,08,19,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-ee3af4aeab": {
+   "title": "Developmental Autopilot Dominance Index and ADHD Prevalence and Severity Among U.S. Children and Adolescents: A Cross-Sectional Study",
+   "doi": "10.21203/rs.3.rs-11450601/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11450601/v1",
+   "journal": "Research Square",
+   "published": "2026-11-16",
+   "authors": "Ahmmad MR.",
+   "abstract": "<title>Abstract</title> <p>Background Attention-deficit/hyperactivity disorder (ADHD) is associated with multiple behavioral and sleep-related characteristics, yet these domains are often examined separately. This study developed the Developmental Autopilot Dominance Index (DADI), a multidimensional behavioral composite, and examined its associations with current ADHD, ADHD severity, and sleep rhythm profiles among U.S. children. Methods This cross-sectional study analyzed 2021–2023 National Survey of Children’s Health data from 90,790 children aged 6–17 years. DADI integrated recreational screen exposure, physical inactivity, and nonparticipation in sports, organized activities, and enrichment activities. Survey-weighted logistic regression examined associations with current ADHD and severity. Age- and sex-specific associations were evaluated, and exploratory mediation analysis assessed the statistical contribution of sleep rhythm profiles combining sleep duration and bedtime regularity. Results The survey-weighted prevalence of current ADHD was 12.4%. Each standard deviation increase in DADI was associated with higher odds of current ADHD (adjusted odds ratio [aOR] = 1.29;95%CI:1.24–1.34). Compared with the lowest DADI category, the highest category had greater odds of ADHD (aOR = 1.86;95%CI:1.65–2.10), with adjusted probabilities of 7.7% and 13.5%, respectively. Associations increased across mild (aOR = 1.16), moderate (aOR = 1.33), and severe ADHD (aOR = 1.64) and were stronger among adolescents than younger children (P for interaction = 0.002). Sleep rhythm profiles statistically accounted for 8.5% (95%CI:5.7%-12.0%) of the DADI-ADHD association. Conclusions Higher DADI scores were associated with current ADHD and greater reported ADHD severity, particularly among adolescents. Sleep rhythm profiles accounted for a modest proportion of this association. DADI may offer a multidimensional framework for investigating behavioral engagement in childhood ADHD, although independent validation and longitudinal research are needed.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "04",
+    "05",
+    "08",
+    "19",
+    "20"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+2 \\bsleep\\b"
+    ],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-ee3af4aeab",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.679Z",
+   "lastChecked": "2026-11-17T09:24:39.679Z",
+   "changeReason": "discovery run, streams 01,04,05,08,19,20",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-cd1e1fffef": {
+   "title": "Identification of associative factors for recurrent respiratory tract infection using machine learning models in preschoolers.",
+   "doi": "10.1038/s41390-026-05565-5",
+   "pmid": "43035507",
+   "pmcid": null,
+   "url": "https://doi.org/10.1038/s41390-026-05565-5",
+   "journal": "Pediatric research",
+   "published": "2026-11-16",
+   "authors": "Li C, Wang Q, Wang X, Zhang W, Zheng F, Zhang Z, Niu W.",
+   "abstract": "<h4>Objectives</h4>Childhood recurrent respiratory tract infection (RRTI) poses a significant global public health burden. This study aimed to identify factors associated with RRTI in preschool children using machine learning (ML) and to develop a web-based tool for estimating individualized RRTI probabilities.<h4>Methods</h4>Two cross-sectional surveys using stratified cluster sampling were conducted in 2020 and 2025. RRTI was diagnosed according to the national criteria issued by the Chinese Medical Association and China Association of Chinese Medicine. Questionnaire data covering demographic characteristics, fetal/neonatal history, and lifestyle factors were collected.<h4>Results</h4>Total 15,075 eligible records from two surveys were included, reporting an RRTI prevalence of 14.55%. Ten ML models were trained on 29 candidate variables. The eXtreme Gradient Boosting (XGBoost) model outperformed the others, yielding an area under the curve of 0.733. SHapley Additive exPlanations analysis identified sleep duration, child's age, and screen duration as the top three associative variables for childhood RRTI. Forward feature selection was applied to derive a parsimonious nine-variable predictive set, which was subsequently deployed as an online application ( https://cipchina.streamlit.app/ ).<h4>Conclusions</h4>In a large, population-based cohort of preschool children, three factors (sleep duration, child's age, and screen duration) associated with RRTI were consistently identified across multiple high-performing ML models.<h4>Impact</h4>This study identified key lifestyle-related factors associated with recurrent respiratory tract infection in preschool children. Ten machine learning models were applied to analyze 29 variables from 15,075 Chinese preschoolers, with further importance interpreted via the SHapley Additive exPlanations. Sleep duration emerged as the primary lifestyle-related factor associated with childhood recurrent respiratory tract infection, followed by child's age and screen duration.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "04"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+2 \\bsleep\\b"
+    ],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [
+     "-5 \\bmalaria|neonatal|sepsis|immunis|"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-cd1e1fffef",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.684Z",
+   "lastChecked": "2026-11-17T09:24:39.684Z",
+   "changeReason": "discovery run, streams 01,04",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-301f2f955e": {
+   "title": "Effects of gamified mobile learning on physical activity self-efficacy and fundamental motor skills among Chinese preschool children",
+   "doi": "10.3389/fpsyg.2026.1832311",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/fpsyg.2026.1832311",
+   "journal": "Frontiers in Psychology",
+   "published": "2026-11-17",
+   "authors": "Yu Lin Wang, Yucheng Shen, Yizhan Du, Tsaifeng Kao, Hsianghoo Steve Ching",
+   "abstract": "Preschool children in urban Chinese-speaking contexts often face limited opportunities to practice fundamental motor skills because of cramped living spaces, scarce playgrounds, and high screen time. This study tested whether a 10-week gamified mobile learning intervention using augmented reality could improve fundamental motor skills and physical activity self-efficacy more effectively than standard kindergarten activities. A quasi-experimental design was employed with 240 children aged 4–6 years (120 in Chinese mainland and 120 in China's Taiwan region). Classes were assigned to either the experimental condition using the custom “Move &amp;amp; Win” app (AR overlays, points, badges, and adaptive feedback) or the control condition (regular teacher-led activities). Fundamental motor skills were measured with the TGMD-3, and self-efficacy with a pictorial scale. Mastery experiences were recorded automatically by the app. The experimental group showed significantly larger gains in both outcomes, with stronger motor skill improvements in Chinese mainland. Mediation analysis confirmed that mastery experiences explained the link between the intervention and self-efficacy gains. Post-test scores also exceeded regional normative data, with large effect sizes. These findings indicate that simple AR gamification offers a practical, low-cost way to overcome common environmental barriers and promote early motor development and confidence in urban Chinese preschools.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "07",
+    "08",
+    "09",
+    "19",
+    "22",
+    "23",
+    "24"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 5,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-301f2f955e",
+   "version": 2,
+   "firstFound": "2026-11-17T09:24:39.689Z",
+   "lastChecked": "2026-11-17T09:24:40.262Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-301f2f955e",
+    "checkedAt": "2026-11-17T09:24:40.021Z",
+    "doi": "10.3389/fpsyg.2026.1832311",
+    "doiResolves": true,
+    "canonicalTitle": "Effects of gamified mobile learning on physical activity self-efficacy and fundamental motor skills among Chinese preschool children",
+    "indexedDate": "2026-11-17",
+    "crossrefOnlineDate": "2026-11-17",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Frontiers in Psychology",
+    "sampleSize": 240,
+    "ageRange": "4 to 6",
+    "country": "China",
+    "design": "quasi-experimental",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": true,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no confidence interval found: do not present the estimate as precise",
+     "the abstract itself uses causal language without hedging. Check the design supports it before repeating any of that wording."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-43b9a663c7": {
+   "title": "Transforming Victims into Warriors: Resilience Development in Parents of Traumatized Children",
+   "doi": "10.1007/s10826-026-03388-w",
+   "pmid": null,
+   "url": "https://doi.org/10.1007/s10826-026-03388-w",
+   "journal": "Journal of Child and Family Studies",
+   "published": "2026-11-17",
+   "authors": "Erica E. Miller, Elizabeth A. Cutrer-Párraga, Rebecca Winters, Kendra M. Hall-Kenyon, Ryan O. Kellems, Rebecca Westercamp",
+   "abstract": "Abstract Raising children with trauma histories may create unique challenges for families. Thus, the importance of building caregiver resilience cannot be overemphasized. Developing resilience can help parents navigate challenges and promote family well-being. Social support is a critical factor in increasing parent resilience and decreasing stress. This interpretive phenomenological analysis study explores the online talk of 17 nonoffending parents of children with trauma histories to better understand how they make meaning out of their participation in an online parenting support group. The participants’ online conversations were overlaid on Bronfenbrenner’s bioecological model to provide a construct for resilience development. Participants in this study related a transformative process, moving from feeling like “victims” in their own lives to becoming resilient “warriors.” This shift was facilitated by daily interactions within the support group, which included grieving, rejecting shame, and normalizing struggles. These proximal processes created a supportive community and helped parents cope with, understand, and make decisions regarding their unique challenges, ultimately fostering resilience. Results suggest that online support groups can provide needed encouragement, empathy, and support. Professionals such as therapists and religious leaders interacting with parents of children with trauma should incorporate a multileveled perspective to help them better understand parents’ context and experiences. The timing and delivery of accessible, empathetic, and knowledgeable support (formal and informal) can significantly enhance a parent’s ability to manage their complex family dynamics and develop resilience.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "03",
+    "19",
+    "21"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-43b9a663c7",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.695Z",
+   "lastChecked": "2026-11-17T09:24:39.695Z",
+   "changeReason": "discovery run, streams 03,19,21",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-e14aa2cd50": {
+   "title": "Beyond screen time: how screen use context is associated with developmental outcomes in early childhood",
+   "doi": "10.3389/fpubh.2026.1934086",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/fpubh.2026.1934086",
+   "journal": "Frontiers in Public Health",
+   "published": "2026-11-17",
+   "authors": "Krisztina Kopcsó, Melinda Pohárnok, Beatrix Lábadi",
+   "abstract": "Background Excessive screen time is a leading parental health concern, reflecting its potential negative impact on child development. Although substantial evidence links higher screen exposure to adverse developmental outcomes in early childhood, much less is known about the independent contribution of the context of use to developmental outcomes. The objective of this longitudinal study was to examine whether screen time and context of use at 18 months predicted developmental outcomes at age 3. Methods The sample comprised participants from the Cohort'18 Growing Up in Hungary study ( n = 2,569; 52.0% boys). All analyzed data were based on maternal report. Outcomes were assessed using the Ages &amp;amp; Stages Questionnaires-3. Context of use was operationalized as a count of non-recommended screen-use situations (during household chores, meals, at bedtime, or for soothing). Associations were examined using bivariate analyses and multivariable logistic regression models. Results Mean daily screen time at 18 months was 85.7 minutes, and only 14.0% had no screen exposure on an average day. Higher levels of screen time at 18 months were associated with increased odds of delays in communication, fine motor, problem-solving, and personal-social skills, but not gross motor skills, at age 3 in both bivariate analyses and multivariable models adjusted for the child's sex and baseline delay in the same domain. After accounting for socioeconomic characteristics (maternal educational attainment, partnership status, and difficulties covering household expenses), associations were modestly attenuated. Context of use was an independent predictor of developmental delays, with the most consistent evidence observed for fine motor and problem-solving skills. Conclusions The findings indicate that screen use is already widespread at 18 months, both in terms of duration and its use across different everyday contexts. Higher levels of screen time and screen use in a greater number of non-recommended contexts were associated with less favorable developmental outcomes, suggesting the importance of promoting moderate and developmentally appropriate screen-use practices in early childhood.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "01",
+    "04",
+    "08",
+    "09",
+    "19",
+    "21"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "HOLD",
+   "relevanceScore": 8,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b"
+    ],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-e14aa2cd50",
+   "version": 4,
+   "firstFound": "2026-11-17T09:24:39.703Z",
+   "lastChecked": "2026-11-17T09:31:10.604Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
+   "dossier": {
+    "studyId": "GDC-RR-e14aa2cd50",
+    "checkedAt": "2026-11-17T09:24:39.960Z",
+    "doi": "10.3389/fpubh.2026.1934086",
+    "doiResolves": true,
+    "canonicalTitle": "Beyond screen time: how screen use context is associated with developmental outcomes in early childhood",
+    "indexedDate": "2026-11-17",
+    "crossrefOnlineDate": "2026-11-17",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Frontiers in Public Health",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "longitudinal cohort",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "n = 2,569",
+      "52.0%",
+      "14.0%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-e14aa2cd50",
+    "reviewedAt": "2026-11-17T09:31:00Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 17 November 2026",
+    "verdict": "HOLD",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "reviewBasis": "The full text on the Frontiers in Public Health site for DOI 10.3389/fpubh.2026.1934086, read in this run: abstract, introduction, methods including weighting and measures, results with tables 6 to 9, the strengths and limitations section, funding and conflict of interest statements. Peer reviewed, published 17 November 2026.",
+    "claims": [
+     {
+      "claim": "The sample was 2,569 children from the Cohort'18 Growing Up in Hungary birth cohort.",
+      "status": "VERIFIED",
+      "basis": "Abstract and methods."
+     },
+     {
+      "claim": "Mean daily screen time at 18 months was 85.7 minutes and only 14.0 percent had none on an average day.",
+      "status": "VERIFIED",
+      "basis": "Abstract and results 3.1, weighted."
+     },
+     {
+      "claim": "Among children with the same screen time, each extra non recommended context (chores, meals, bedtime, soothing) was linked to higher odds of fine motor and problem solving delay at age 3.",
+      "status": "QUALIFIED",
+      "basis": "Results tables 7 to 9: odds ratios of about 1.17 to 1.25 per context, one of them marginal at p = 0.053. Associations, all reported by the mother."
+     },
+     {
+      "claim": "Screen use at bedtime or meals causes developmental delay.",
+      "status": "UNSUPPORTED",
+      "basis": "Observational. The authors say residual confounding cannot be ruled out and reverse causation remains possible, as children with emerging difficulties may be offered devices more."
+     }
+    ],
+    "verifiedStatistics": [],
+    "notQuotable": [
+     "Any figure, until the story is matched to an audience we serve",
+     "Any causal wording about delay"
+    ],
+    "recommendedPlatforms": [],
+    "urgency": "None. Held.",
+    "evidenceConfidence": "HIGH that the paper says what is written here. MODERATE as evidence: a weighted national cohort with baseline adjustment, but one reporter for exposure and outcome, a screening questionnaire rather than assessment, modest effects and a data wave disrupted by COVID 19.",
+    "limitations": [
+     "Children were 18 months old at exposure and 3 at outcome. Our customer is the parent of a child aged 4 to 16; the parent of a 2 or 3 year old is a customer later (Justin, 16 October 2026).",
+     "Exposure and outcome were both reported by the mother, so the same view of the child shapes both.",
+     "The ASQ 3 is a screening tool, so 'at risk of delay' is not a diagnosis.",
+     "Reverse causation and residual confounding are stated by the authors.",
+     "The 18 month wave coincided with the start of the COVID 19 pandemic, reducing the sample and delaying some assessments."
+    ],
+    "contradictoryEvidence": [
+     "After adjustment for family circumstances the screen time associations were attenuated, and in some domains only the highest levels stayed significant, which suggests family context explains part of what looks like a screen effect.",
+     "Gross motor skills showed no association, so the pattern is not uniform across development."
+    ],
+    "whatThisDoesNotProve": [
+     "That screens at meals or bedtime harm development.",
+     "Anything about children aged 4 to 16.",
+     "That reducing contexts would improve outcomes."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. It was published today.",
+    "gdcBeliefs": [
+     "Three kinds of time: protected time at meals and bedtime matches the paper's non recommended contexts closely, which is exactly why it is held to a higher bar and not used for a younger age group than we serve."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody yet.",
+    "unresolvedQuestions": [
+     "Does the same cohort report on these children at school age? That would be the version worth posting."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-e14aa2cd50.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-17T09:31:10.602Z"
+   }
+  },
+  "GDC-RR-10f3d68b7f": {
+   "title": "From tools to teammates: When children and AI create together in early childhood education",
+   "doi": "10.65106/apubs.2026.3113",
+   "pmid": null,
+   "url": "https://doi.org/10.65106/apubs.2026.3113",
+   "journal": "ASCILITE Publications",
+   "published": "2026-11-17",
+   "authors": "Murat Sümer, Sebnem Cetken-Aktas",
+   "abstract": "As generative artificial intelligence becomes increasingly integrated into learning environments, its role is shifting from a passive tool to an active partner in meaning-making and creative expression. This study explores how young children engage in co-creative learning with AI through adults and examines the implications of these interactions for reimagining human–AI partnerships in early childhood education. Sixteen children (aged 5-6) from a single preschool classroom first drew an original character and then worked individually alongside a researcher to generate an AI-based version of that character using Gemini, with up to three iterative prompts per child. Data from classroom observations, interaction records, and reflective discussions were analysed using thematic analysis to understand children’s interaction dynamics. Initial findings reveal one key dimension of co-creative engagement. Children appreciated AI’s ability to extend and transform their visual ideas, yet emphasised the importance of maintaining personal authorship and manual control, highlighting an emerging sense of creative agency in human–AI collaboration. Building on these findings, the study proposes a vision of AI as a creative teammate that amplifies children's imagination while preserving human intentionality and ownership.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "08",
+    "11",
+    "18"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-10f3d68b7f",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.709Z",
+   "lastChecked": "2026-11-17T09:24:39.710Z",
+   "changeReason": "discovery run, streams 08,11,18",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-aba4b12ac9": {
+   "title": "The Physical Activity and Screen Time of Children and Adolescents living in Germany: The MoMo 2.0-Study 2023-2025",
+   "doi": "10.21203/rs.3.rs-10516335/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-10516335/v1",
+   "journal": "Research Square",
+   "published": "2026-11-16",
+   "authors": "Schmidt SC, Klos L, Fiedler J, Niessner C, Loss J, Woll A.",
+   "abstract": "<title>Abstract</title> <p>Background Following the COVID-19 pandemic and amid the ongoing digitalization of everyday life, concerns about physical activity levels among children and adolescents have increased. To identify vulnerable groups and inform targeted interventions, continuous, population-based surveillance of physical activity is essential. Methods This study presents recent representative physical activity and leisure screen time questionnaire data from the MoMo 2.0-Study, collected in 2023 and 2024 among children and adolescents across Germany. Weighted data from 4,258 (2,035 girls, 2,223 boys) randomly selected 4-to-17-year-olds drawn from 171 municipalities across Germany were analyzed. Results Girls accumulated an average of 105 ± 138 and boys 130 ± 138 min/week in sports activities in sports clubs. Sports club membership was 66.5% among 4-to-17-year-olds living in Germany. Outside of sports clubs, girls spent 31 ± 76 and boys 41 ± 120 min/week in sports activities. 18.2% of boys and 17.7% of girls met the 2010 World Health Organization’s physical activity guidelines. Boys engaged in 56 ± 56 min/week of physical activity by playing outside, girls averaged 48 ± 57 min/week. Physical activity in sports clubs increased, whereas physical activity outside sports clubs decreased compared to previous study waves. Leisure screen time averaged 172 ± 164 min/day for girls and 200 ± 174 for boys. In total, only 41.8% of boys and 49.8% of girls accumulated less than two hours of leisure screen time per day. Conclusions Although the long-term implications of declining non-organized physical activity are not yet fully understood, the persistent shift away from sports activites outside sports clubs and outdoor play is concerning and warrants continued monitoring.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "07",
+    "19",
+    "20",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-aba4b12ac9",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.716Z",
+   "lastChecked": "2026-11-17T09:24:39.716Z",
+   "changeReason": "discovery run, streams 01,07,19,20,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-19e4ca597a": {
+   "title": "Unboxing unhealthy food marketing: An analysis of the extent and nature of unhealthy food marketing to children on YouTube in Canada using the CHOPPED artificial intelligence system",
+   "doi": "10.64898/2026.11.12.26367461",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.64898/2026.11.12.26367461",
+   "journal": "medRxiv",
+   "published": "2026-11-15",
+   "authors": "Al Sharani S, Williamson T, Fietz S, Radin Pereira L, Elliott C, Potvin Kent M, Lalani I, Hossain S, Shakeri Hossein Abad Z, Yin S, Prowse R, Olstad DL.",
+   "abstract": "<h4>Background: </h4> Unhealthy food marketing negatively affects children's dietary patterns. However, little is known about the extent and nature of unhealthy food marketing to children on YouTube due to reliance on manual assessment methods. <h4>Objectives:</h4> To use a novel artificial intelligence (AI) system (CHild Oriented food Product Promotion Evaluation and Detection system, CHOPPED) to examine the extent and nature of unhealthy food marketing in YouTube videos suggested to Avatar accounts created for children and adults based on age and gender. <h4>Methods:</h4> Over two months of continuous monitoring, CHOPPED collected marketing instances played before, during, and after videos suggested by YouTube's algorithm to six child and two adult accounts that were not signed in and differed by age (2-4, 5-8, 9-12, =<18 years) and gender across four Canadian cities (Calgary, Vancouver, Toronto, Halifax). CHOPPED characterized the extent and nature of monthly child-targeted unhealthy food marketing instances during 24-hour and typical 2-hour daily viewing periods. <h4>Results:</h4> CHOPPED collected 60,633 marketing instances. No food marketing was shown to child accounts 2-4 years. On average, child accounts (5-12 years) were shown 25 monthly unhealthy food marketing instances during a 2-hour daily viewing period, 24 of which were child-targeted. The boy's account (9-12 years) was shown a significantly higher monthly frequency of child-targeted unhealthy food marketing instances (340, 70.2%) than the boy's account (5-8 years; 241, 66.2%), the girl's account (5-8 years; 261, 60.6%), the man's account (224, 57.7%), and the woman's account (263, 54.7%) during a 24-hour (p<0.05) but not a 2-hour daily viewing period. Monthly frequencies of some core child-targeted techniques shown to the boy's account (9-12 years) were also higher than other accounts during a 24-hour (p<0.05) but not a 2-hour daily viewing period. <h4>Conclusions:</h4> This study pioneered AI-driven analysis of the extent and nature of unhealthy food marketing to children on YouTube. Children's potential exposure to such marketing on YouTube may be low. There was some evidence that the older boys' account was shown more monthly child-targeted unhealthy food marketing instances and of some core child-targeted techniques than other accounts. On YouTube, food marketing may target a general audience rather than children by age and gender.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "09",
+    "19"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 1,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+4 \\balgorithm|recommender|\\bfeed\\b|f",
+     "+3 \\btiktok|instagram|snapchat|youtub"
+    ],
+    "method": [],
+    "penalty": [
+     "-4 \\bcheckout policy|food marketing|d"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-19e4ca597a",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.723Z",
+   "lastChecked": "2026-11-17T09:24:39.723Z",
+   "changeReason": "discovery run, streams 08,09,19",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-9b1a5e5c2c": {
+   "title": "Online civic engagement on X surrounding Indonesia’s Free Nutritious Meals Program",
+   "doi": "10.21203/rs.3.rs-11247690/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11247690/v1",
+   "journal": "Research Square",
+   "published": "2026-11-16",
+   "authors": "Mulyono B, Arpannudin I, Saputro JD, Alvinca MF, Nugraha F.",
+   "abstract": "<title>Abstract</title> <p>The transformation of digital public spaces shifts public policy meaning to social media as a participatory discursive arena. This study examines online debates surrounding Indonesia’s Free Nutritious Meal Program (MBG) on platform X, reflecting ideological contestation in digital citizenship practices. Utilising a mixed-methods sequential explanatory design, this research combines Latent Dirichlet Allocation (LDA) topic modelling with Norman Fairclough’s Critical Discourse Analysis (CDA) to analyse 646,376 tweets collected between January 1 and March 31, 2025. The LDA results identify four main topics: policy and budget criticism; poisoning issues and child nutrition quality; affirmative program support; and technical implementation. The CDA analysis reveals that at the textual level, MBG is framed as a moral-political issue, an economic instrument, and a child protection issue, driving civic polarisation. At the discursive practice level, meaning is dynamically negotiated through institutional texts and citizen participation responsive to empirical events. Socioculturally, the discourse is event-driven, mediated by X's algorithm, and reflects an ideological battle over state roles, accountability, and citizenship. The findings confirm that public policy legitimacy is actively shaped through online civic engagement within digital public spaces.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "09",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+4 \\balgorithm|recommender|\\bfeed\\b|f"
+    ],
+    "method": [],
+    "penalty": [
+     "-5 \\bmalaria|neonatal|sepsis|immunis|"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-9b1a5e5c2c",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.731Z",
+   "lastChecked": "2026-11-17T09:24:39.731Z",
+   "changeReason": "discovery run, streams 08,09,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-b1ad911e2d": {
+   "title": "Identifying Barriers and Developing a Roadmap to Adapt a Digital Mental Health Intervention (Wysa) for Adolescent Girls with Anxiety and Depression in Rural Uttar Pradesh, India: Protocol Paper",
+   "doi": "10.12688/wellcomeopenres.27995.1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.12688/wellcomeopenres.27995.1",
+   "journal": "Wellcome Open Res",
+   "published": "2026-11-16",
+   "authors": "Sinha C, Shetty T, Kierkegaard P, Thakkar R, Joshi A, Costelloe C, Roy M.",
+   "abstract": "<h4>Background: </h4> Adolescent girls in rural India face substantial barriers to mental healthcare, including restrictive gender norms, limited digital autonomy and a severe shortage of trained professionals. Digital mental health interventions offer scalable solutions but require contextual adaptation to achieve meaningful engagement. This study aims to identify multi-level barriers and co-produce a stakeholder-endorsed roadmap for adapting the Wysa application, an artificial intelligence-based conversational agent, and its implementation strategies for adolescent girls in rural Uttar Pradesh. It is a formative, pre-implementation intervention-adaptation study and constitutes the first work package of a five-year research programme. Methods and analysis This protocol describes a sequential, participatory mixed-methods study conducted across five districts of Uttar Pradesh, namely Bahraich, Barabanki, Hardoi, Lucknow and Sitapur, with a total sample ranging between 120–175 participants. Step 1 will comprise of 15 in-person participatory workshops with adolescent girls (n = 60–90), parents and guardians (n = 35–50) and community stakeholders (n = 25–35), supplemented by semi-structured interviews with a subset of adolescent girls, analysed thematically and mapped to the Capability, Opportunity, Motivation and Behaviour (COM-B) model and the Expert Recommendations for Implementing Change (ERIC) taxonomy. Step 2 will employ two rounds of Delphi survey (n = 24) to prioritise barriers and candidate strategies against the APEASE criteria. Step 3 will apply a modified nominal group technique (n = 18–24) to co-produce the final adaptation roadmap. Ethics and dissemination The protocol has been approved by the Institutional Review Board of the Tata Institute of Social Sciences, Mumbai (2026/51/E26005). Written informed consent, and parental consent with participant assent for minors, will be obtained. Findings will be disseminated through peer-reviewed open-access journals, academic conferences and community-level platforms coordinated with the Lived Experience Advisory Group. Registration The study was registered on ClinicalTrials.gov (NCT07595029) on 12th May 2026. The details can be found at https://clinicaltrials.gov/study/NCT07595029.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "08",
+    "09",
+    "11",
+    "19",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+4 \\bAI companion|chatbot|conversatio"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-b1ad911e2d",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.738Z",
+   "lastChecked": "2026-11-17T09:24:39.738Z",
+   "changeReason": "discovery run, streams 03,08,09,11,19,22,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-f59e96c34f": {
+   "title": "Developmental pathways of online grooming victimisation: Understanding adolescent vulnerability.",
+   "doi": "10.1016/j.chiabu.2026.108419",
+   "pmid": "43033546",
+   "pmcid": null,
+   "url": "https://doi.org/10.1016/j.chiabu.2026.108419",
+   "journal": "Child abuse & neglect",
+   "published": "2026-11-14",
+   "authors": "Nápoles L, Santos M, Gomes HS, Guedes IS.",
+   "abstract": "<h4>Background</h4>Adolescents increasingly engage with digital environments as a central part of their daily lives. While digital environments offer valuable opportunities, they also expose young users to risks, such as online grooming, a manipulative process in which adults build deceptive relationships with minors for sexual exploitation. Recent policy debates in Europe have reignited concern over the need to regulate adolescents' Internet use, especially given their developmental vulnerabilities.<h4>Objective</h4>This study aimed to identify psychological, behavioural, relational, and contextual factors associated with online grooming victimisation in adolescents and to explore how these vulnerabilities vary across developmental stages, informing prevention strategies.<h4>Participants and setting</h4>Data were collected from 240 Portuguese adolescents aged 12-19 in schools in Porto, Portugal.<h4>Methods</h4>A quantitative cross-sectional design was used. Online grooming victimisation was coded as a dichotomous outcome based on reported grooming-related experiences. Individual, relational, behavioural, and victimisation factors were analysed. Descriptive analyses, group comparisons, and binary logistic regression models were conducted for the overall sample and separately by developmental group.<h4>Results</h4>Three predictors of online grooming victimisation emerged: risky online behaviours (OR = 1.21; 95% CI[1.10, 1.33]; p < .001), gender (OR = 2.49; 95% CI[1.22, 5.06]; p = .012), and (cyber)bullying (OR = 2.21; 95% CI[1.19, 4.10]; p = .012). Age-stratified models showed developmentally contingent vulnerability: early adolescence involved behavioural exposure, experiences of (cyber)bullying, and gendered vulnerability, whereas in later adolescence, risk was associated with risky online behaviours.<h4>Conclusions</h4>Prevention should adopt age-sensitive approaches addressing behavioural exposure, victimisation, and gendered vulnerability.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "12",
+    "13",
+    "16",
+    "20",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 4,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+3 \\bsexting|grooming|image-based abu"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": [
+     "+1 \\bEurope|European\\b"
+    ]
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-f59e96c34f",
+   "version": 2,
+   "firstFound": "2026-11-17T09:24:39.746Z",
+   "lastChecked": "2026-11-17T09:24:40.763Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-f59e96c34f",
+    "checkedAt": "2026-11-17T09:24:40.514Z",
+    "doi": "10.1016/j.chiabu.2026.108419",
+    "doiResolves": true,
+    "canonicalTitle": "Developmental pathways of online grooming victimisation: Understanding adolescent vulnerability.",
+    "indexedDate": "2026-11-14",
+    "crossrefOnlineDate": "2027-01",
+    "datesAgree": false,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Child abuse & neglect",
+    "sampleSize": null,
+    "ageRange": "12 to 19",
+    "country": "Portugal",
+    "design": "cross-sectional",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": true,
+     "hasPValue": true,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "OR = 1.21",
+      "95%",
+      "OR = 2.49",
+      "OR = 2.21"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "date disagreement: index says 2026-11-14, Crossref online date is 2027-01",
+     "sample size not extractable: do not quote an N"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-bb9c3b722c": {
+   "title": "Faculty Perspectives on a Pre-Implementation Master’s Curriculum in Pediatric Occupational Therapy in Saudi Arabia: A qualitative study",
+   "doi": "10.21203/rs.3.rs-11243279/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11243279/v1",
+   "journal": "Research Square",
+   "published": "2026-11-16",
+   "authors": "Meny AH, Hayat AA.",
+   "abstract": "<title>Abstract</title> <p>Background Children with developmental disabilities in Saudi Arabia (SA) are increasingly in need of specialised rehabilitation, yet the occupational therapists trained to serve them remain in short supply. Despite a steady expansion of undergraduate occupational therapy programmes since 2010, no postgraduate programme in pediatric occupational therapy exists anywhere in SA. To address this gap, a Master’s programme in Pediatric Occupational Therapy (MPOT) was developed using the Kern Six-Step curriculum development framework. Before its first cohort could begin, a systematic faculty evaluation was conducted to assess the curriculum’s strengths, surface potential gaps, and gather expert recommendations. Methods A qualitative descriptive study was conducted in SA. Twelve faculty members and medical educators with backgrounds spanning occupational therapy, rehabilitation sciences, psychiatry, neurology, and medical education, drawn from SA and internationally were recruited through purposive sampling. Each participant reviewed the full curriculum document and submitted a written narrative evaluation responding to six open-ended questions. Data were analysed using Braun and Clarke’s six-phase thematic analysis framework. Ethical approval was granted by King Abduallah International Medical Research Center. Results Eight themes emerged from the analysis: alignment with national healthcare priorities and workforce needs; content breadth and pediatric specialisation; curriculum coherence, structure, and academic rigour; teaching and learning effectiveness; quality assurance and standards alignment; research orientation and scholarly development; identified gaps and areas for improvement; and forward-looking recommendations. Participants strongly endorsed the curriculum’s national relevance, depth of pediatric specialisation, and alignment with World Federation of Occupational Therapy standards. Recurring concerns centred on limited clinical practicum structure, assessment transparency, workload feasibility for working clinicians, and insufficient coverage of interprofessional education and emerging digital health competencies. Conclusion This pre-implementation evaluation affirms the MPOT curriculum’s promise as a meaningful response to a critical workforce gap in SA. Beyond its local relevance, the study offers a replicable model for prospective curriculum evaluation in allied health postgraduate education one that other institutions across the region and beyond may find instructive.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "08",
+    "09",
+    "20",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-bb9c3b722c",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.754Z",
+   "lastChecked": "2026-11-17T09:24:39.754Z",
+   "changeReason": "discovery run, streams 01,08,09,20,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-a09e752631": {
+   "title": "Out-of-school children in Pakistan: a structured narrative review of determinants, interventions, and research trends from 1987 to 2025",
+   "doi": "10.1108/ijssp-08-2026-0709",
+   "pmid": null,
+   "url": "https://doi.org/10.1108/ijssp-08-2026-0709",
+   "journal": "International Journal of Sociology and Social Policy",
+   "published": "2026-11-17",
+   "authors": "Ayesha Afzal, Shahid Rafiq",
+   "abstract": "Purpose This structured narrative review examines research on out-of-school children (OOSC) in Pakistan from 1987 to 2025, focusing on the determinants of educational exclusion, intervention and policy responses, and the evolution of the research evidence. Design/methodology/approach Following a structured review approach informed by Preferred Reporting Items for Systematic Reviews and Meta-Analyses 2020 reporting principles, relevant literature was identified through searches of Education Resources Information Center, Journal Storage, Scopus, Google Scholar, PubMed, Taylor &amp; Francis Online, SpringerLink and SAGE Journals, supplemented by reference-list screening and institutional sources. Thirty-two studies met the predefined inclusion criteria. Evidence was synthesized using an integrated narrative and thematic approach, while methodological appraisal was undertaken using design-appropriate Critical Appraisal Skills Programme, Joanna Briggs Institute and Mixed Methods Appraisal Tool frameworks, with documentary/conceptual appraisal used for desk-based, comparative and policy-oriented sources. Findings The review identifies poverty, limited parental education, child labor, gender norms, school distance, inadequate infrastructure and weak policy implementation as recurring determinants of educational exclusion. Girls, children with disabilities, working children, street-connected children and children in rural or underserved areas experience intersecting and compounded barriers. Intervention evidence remains limited and context-specific. Included studies provide evidence on girls' stipend programs, public–private education provision, community-oriented and non-formal approaches, and inclusive education; however, evidence regarding sustained effectiveness, scalability and long-term educational outcomes remains insufficient. The research landscape has also shifted from predominantly descriptive accounts of access towards more intersectional, policy-oriented and Sustainable Development Goal 4-aligned analyses. Important gaps remain in longitudinal evaluation, disability inclusion, migration, street-connected children and evidence from under-researched regions, particularly Balochistan and remote Khyber Pakhtunkhwa. Originality/value This review integrates fragmented Pakistan-specific evidence on the structural, social, cultural, geographical and institutional processes shaping educational exclusion. By combining determinant-focused evidence with intervention and research-trend analysis, it provides a consolidated basis for context-sensitive policy development and identifies priorities for future research, implementation and monitoring.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "01",
+    "02",
+    "08",
+    "12",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 10,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+4 \\bmeta-?analy",
+     "+3 \\bsystematic review|umbrella revie",
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-a09e752631",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.762Z",
+   "lastChecked": "2026-11-17T09:24:39.762Z",
+   "changeReason": "discovery run, streams 01,02,08,12,19,20,21,22,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-ef5edb0793": {
+   "title": "Digital Engagement Activities and Internet Adoption Among Chinese Older Adults: Roles of Family Relations and Personality Traits in China Family Panel Studies",
+   "doi": "10.21203/rs.3.rs-11360860/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11360860/v1",
+   "journal": "Research Square",
+   "published": "2026-11-16",
+   "authors": "Tang Y, Li B, Zhang J, Lin S.",
+   "abstract": "<title>Abstract</title> <p>Objective To examine how personality traits and family factors (number of children, parent–child relationship) are associated with internet use among older adults in China, including adoption, weekly time online, and breadth of online functions used. Methods We analysed 2018 China Family Panel Studies (CFPS) data for adults aged ≥ 60 years (n = 8,003). Internet adoption (computer and/or mobile) was modelled with multivariable logistic regression. Weekly hours online and online functions used were modelled with OLS. Covariates included age, gender, education, urban residence, subjective social status, employment, and self-rated health. Results Internet adoption was higher with better education (OR = 2.05, 95% CI 1.91–2.20), urban residence (OR = 2.52, 2.07–3.07), openness (OR = 1.30, 1.17–1.43), and closer parent–child ties (OR = 1.15, 1.01–1.30); but lower with older age (OR = 0.93, 0.91–0.94), being employed (OR = 0.52, 0.43–0.63), more children (OR = 0.82, 0.75–0.91), and neuroticism (OR = 0.80, 0.71–0.90). Among internet users, weekly time online increased with openness (β = +1.90 hours/week) and education (β = +0.66 per schooling level) but decreased with conscientiousness (β = −1.66), current employment (β = −4.79), spousal presence (β = −2.63), number of children (β = −1.47 per child), and closer parent–child ties (β = −1.53 per point). Breadth of online functions increased with education (β = +0.27) and openness (β = +0.28) and decreased with number of children (β = −0.20). Conclusion Among Chinese older adults, openness consistently predicts deeper and broader internet engagement. More children and closer parent–child ties are linked to shorter use among users, even though better relationships facilitate initial adoption. Interventions tailored to personality (e.g., motivating less-open users) and targeting older adults with poor family ties could narrow digital divide.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "19",
+    "21",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-ef5edb0793",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.770Z",
+   "lastChecked": "2026-11-17T09:24:39.770Z",
+   "changeReason": "discovery run, streams 08,19,21,22,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-27e31bef5b": {
+   "title": "How Discrimination Shapes Care-Seeking for Black Caregivers of Children With Medical Complexity.",
+   "doi": "10.1542/peds.2026-077079",
+   "pmid": "43035110",
+   "pmcid": null,
+   "url": "https://doi.org/10.1542/peds.2026-077079",
+   "journal": "Pediatrics",
+   "published": "2026-11-16",
+   "authors": "Nmoh A, Fish LJ, Rodriguez J, Moore C, Miles T, Powell L, Leach B, Baumgardner L, Makarushka C, Parnell HE, Parente V, White MJ.",
+   "abstract": "<h4>Objectives</h4>Black children with medical complexity (CMC) experience a disproportionately high number of hospitalizations and emergency department (ED) visits. This disparity may reflect systemic and interpersonal racism and discrimination. Understanding Black caregivers' experiences is essential to designing programs that reduce acute care use. This study described caregivers' experiences of racism and discrimination and explored how these experiences influence care-seeking and communication among Black caregivers of CMC.<h4>Methods</h4>In partnership with family advocacy organizations, we recruited Black caregivers of CMC via national advocacy groups, social media, and electronic health record messaging. Eligible caregivers had a child aged 0 to 21 years with a hospitalization or ED visit in the previous year and a score of 3 or more on the Children with Special Health Care Needs screener. Purposive sampling ensured that one-third of participants were from rural areas. Semistructured interviews, guided by Critical Race Theory, were recorded, transcribed, and analyzed thematically.<h4>Results</h4>Thirty-one caregivers completed interviews. Caregivers described discrimination in health care based on race and other characteristics. Five themes emerged in caregivers' experiences of racism: dismissal, stereotyping, fear of retaliation, dehumanization, and differential access to resources. These experiences contributed to distrust, caregiver burnout, and perceived negative health outcomes. Caregivers' responses to discrimination included withholding concerns, advocating, documenting, selecting specific clinicians, managing perceptions, and staying informed.<h4>Conclusions</h4>Perceived racism and discrimination shaped how Black caregivers of CMC communicated with clinicians and navigated health care, underscoring the need for health care systems and clinicians to foster trusting partnerships, address structural inequities, and provide equitable, family-centered care.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "19",
+    "21"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 1,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-27e31bef5b",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.778Z",
+   "lastChecked": "2026-11-17T09:24:39.778Z",
+   "changeReason": "discovery run, streams 19,21",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-85cc1a3be7": {
+   "title": "Myopia Frequency and Associated Factors Among Children and Adolescents Attending Tertiary Eye-Care Centers in Iraq: A Multicenter Study.",
+   "doi": "10.1080/09286586.2026.2765318",
+   "pmid": "43035230",
+   "pmcid": null,
+   "url": "https://doi.org/10.1080/09286586.2026.2765318",
+   "journal": "Ophthalmic epidemiology",
+   "published": "2026-11-15",
+   "authors": "Aljaberi HA, Rahmani S, Noori ZTM.",
+   "abstract": "<h4>Purpose</h4>To quantify the frequency of myopia and examine demographic, behavioral, and ocular biometric correlates in a selected tertiary-care sample of Iraqi children and adolescents.<h4>Methods</h4>This retrospective, multicenter, cross-sectional comparative study included 6-18-year-olds examined during 2023-2025 at three tertiary eye care centers. Cycloplegic autorefraction and optical biometry were performed. Myopia was defined as right-eye spherical equivalent (SE) ≤-0.50 D. Multivariable logistic regression was used to evaluate factors associated with myopia, and linear regression was used to evaluate concurrent correlates of SE.<h4>Results</h4>Among 6,356 participants, 3,820 (60.1%) were myopic and 2,536 (39.9%) emmetropic. The frequency and severity of myopia increased with age. Axial length (AL) correlated strongly with SE (<i>r</i> = -0.80). Age (OR 1.18/year), parental myopia (OR 3.19), and urban residence (OR 1.16) were positively associated with myopia; outdoor exposure was inversely associated (OR 0.86/hour). Screen time showed an inverse adjusted association after a positive crude association. AL was the strongest concurrent biometric correlate of SE (-2.81 D/mm; R<sup>2</sup> = 0.766).<h4>Conclusion</h4>The observed 60.1% myopia frequency applies to this selected tertiary-care sample and is not a population prevalence estimate for Iraqi youth. Older age, parental myopia, urban residence, and lower outdoor exposure were associated with myopia, while axial length was the strongest concurrent biometric correlate of SE.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "19",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 5,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-85cc1a3be7",
+   "version": 2,
+   "firstFound": "2026-11-17T09:24:39.785Z",
+   "lastChecked": "2026-11-17T09:24:40.509Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-85cc1a3be7",
+    "checkedAt": "2026-11-17T09:24:40.267Z",
+    "doi": "10.1080/09286586.2026.2765318",
+    "doiResolves": true,
+    "canonicalTitle": "Myopia Frequency and Associated Factors Among Children and Adolescents Attending Tertiary Eye-Care Centers in Iraq: A Multicenter Study.",
+    "indexedDate": "2026-11-15",
+    "crossrefOnlineDate": "2026-11-15",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Ophthalmic epidemiology",
+    "sampleSize": 6356,
+    "ageRange": "not stated, described as adolescents",
+    "country": null,
+    "design": "cross-sectional",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "60.1%",
+      "39.9%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-0d83664391": {
+   "title": "Determinants of prices of commercial electric breast pumps sold in Germany: a cross-sectional analysis",
+   "doi": "10.64898/2026.11.13.26367926",
+   "pmid": null,
+   "url": "https://doi.org/10.64898/2026.11.13.26367926",
+   "journal": "medRxiv (preprint)",
+   "published": "2026-11-15",
+   "authors": "Gencel-Augusto, J.; Okanmelu, E.; Strobl, F.; Ziebart, M.; Theurich, M.",
+   "abstract": "In Germany, statutory health insurance covers the rental or purchase of breast pumps when a medical indication is present for the mother or infant, and a physician has issued a prescription. However, parents must pay out of pocket for commercially available breast pumps for returning to work or personal circumstances. High indirect costs for continuation of breastfeeding and direct costs for breast pumps and related equipment may pose substantial barriers to breastfeeding families, an issue relevant for health equity. To our knowledge, no studies have assessed the direct financial costs associated with the purchase of commercially available breast pumps. In this cross-sectional study, we examined digital marketplaces in Germany for commercial electric breast pumps between March 2025 and May 2026, across major online platforms. Our objective was to explore pump features that predict price. We identified 282 commercial electric pump models from 108 brands. Basic information was unavailable for half of surveyed breast pump brands. The median price for surveyed commercial electric pumps was 72.70 EUR (IQR: 82.70), with costs ranging widely from 19.99 to 659.57 EUR. Prices varied by marketplace, manufacturer location, accessories, pump system type, power source, battery capacity, flange sizes, availability of instruction manuals, and single user claims; predicting significantly higher costs. Half of pumps surveyed offered only one flange size, signaling additional expenses for mothers needing alternative sizes. These findings highlight important considerations for maternal health and consumer safety. Health technology assessments and a review of current health policy on reimbursement for commercial electric breast pumps is needed",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "preprint",
+   "grants": [],
+   "streams": [
+    "08",
+    "09",
+    "19",
+    "23"
+   ],
+   "foundBy": [
+    "medrxiv"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -11,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician",
+     "-5 \\bmalaria|neonatal|sepsis|immunis|"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-14",
+    "until": "2026-11-17"
+   },
+   "studyId": "GDC-RR-0d83664391",
+   "version": 1,
+   "firstFound": "2026-11-17T09:24:39.792Z",
+   "lastChecked": "2026-11-17T09:24:39.792Z",
+   "changeReason": "discovery run, streams 08,09,19,23",
+   "changedBy": "radar:discover"
   }
  },
  "keys": {
@@ -7962,6 +9716,73 @@
   "url:www.ncbi.nlm.nih.gov/pmc/articles/pmc13752684": "GDC-RR-2e20d0facc",
   "title:correction an online randomised controlled trial to evaluate the effectiveness of an online intervention": "GDC-RR-2e20d0facc",
   "url:www.theverge.com/policy/1032645/jonathan-haidt-critics-response-meta": "GDC-RR-29a4765c83",
-  "title:meta discussed attacking jonathan haidt now even his haters are annoyed": "GDC-RR-29a4765c83"
+  "title:meta discussed attacking jonathan haidt now even his haters are annoyed": "GDC-RR-29a4765c83",
+  "url:arxiv.org/abs/2611.07218": "GDC-RR-9a82e5d5b3",
+  "title:safe teen evaluating chatbot safety across adolescent mental health conversations": "GDC-RR-9a82e5d5b3",
+  "doi:10.7488/ds/8210": "GDC-RR-5577da5988",
+  "url:doi.org/10.7488/ds/8210": "GDC-RR-5577da5988",
+  "title:2026 into the light index on global child sexual exploitation and abuse": "GDC-RR-5577da5988",
+  "doi:10.1007/s42977-026-00349-8": "GDC-RR-8a876b3cb0",
+  "pmid:43034982": "GDC-RR-8a876b3cb0",
+  "url:doi.org/10.1007/s42977-026-00349-8": "GDC-RR-8a876b3cb0",
+  "title:contemporary screen exposure among children under two a representative survey implications and perspectives": "GDC-RR-8a876b3cb0",
+  "doi:10.3389/fped.2026.1946186": "GDC-RR-442383364c",
+  "url:doi.org/10.3389/fped.2026.1946186": "GDC-RR-442383364c",
+  "title:association of digital follow up supported individualized nutrition guidance with hematological outcomes and recorded": "GDC-RR-442383364c",
+  "doi:10.21203/rs.3.rs-11450601/v1": "GDC-RR-ee3af4aeab",
+  "url:doi.org/10.21203/rs.3.rs-11450601/v1": "GDC-RR-ee3af4aeab",
+  "title:developmental autopilot dominance index and adhd prevalence and severity among u s children and": "GDC-RR-ee3af4aeab",
+  "doi:10.1038/s41390-026-05565-5": "GDC-RR-cd1e1fffef",
+  "pmid:43035507": "GDC-RR-cd1e1fffef",
+  "url:doi.org/10.1038/s41390-026-05565-5": "GDC-RR-cd1e1fffef",
+  "title:identification of associative factors for recurrent respiratory tract infection using machine learning models in": "GDC-RR-cd1e1fffef",
+  "doi:10.3389/fpsyg.2026.1832311": "GDC-RR-301f2f955e",
+  "url:doi.org/10.3389/fpsyg.2026.1832311": "GDC-RR-301f2f955e",
+  "title:effects of gamified mobile learning on physical activity self efficacy and fundamental motor skills": "GDC-RR-301f2f955e",
+  "doi:10.1007/s10826-026-03388-w": "GDC-RR-43b9a663c7",
+  "url:doi.org/10.1007/s10826-026-03388-w": "GDC-RR-43b9a663c7",
+  "title:transforming victims into warriors resilience development in parents of traumatized children": "GDC-RR-43b9a663c7",
+  "doi:10.3389/fpubh.2026.1934086": "GDC-RR-e14aa2cd50",
+  "url:doi.org/10.3389/fpubh.2026.1934086": "GDC-RR-e14aa2cd50",
+  "title:beyond screen time how screen use context is associated with developmental outcomes in early": "GDC-RR-e14aa2cd50",
+  "doi:10.65106/apubs.2026.3113": "GDC-RR-10f3d68b7f",
+  "url:doi.org/10.65106/apubs.2026.3113": "GDC-RR-10f3d68b7f",
+  "title:from tools to teammates when children and ai create together in early childhood education": "GDC-RR-10f3d68b7f",
+  "doi:10.21203/rs.3.rs-10516335/v1": "GDC-RR-aba4b12ac9",
+  "url:doi.org/10.21203/rs.3.rs-10516335/v1": "GDC-RR-aba4b12ac9",
+  "title:the physical activity and screen time of children and adolescents living in germany the": "GDC-RR-aba4b12ac9",
+  "doi:10.64898/2026.11.12.26367461": "GDC-RR-19e4ca597a",
+  "url:doi.org/10.64898/2026.11.12.26367461": "GDC-RR-19e4ca597a",
+  "title:unboxing unhealthy food marketing an analysis of the extent and nature of unhealthy food": "GDC-RR-19e4ca597a",
+  "doi:10.21203/rs.3.rs-11247690/v1": "GDC-RR-9b1a5e5c2c",
+  "url:doi.org/10.21203/rs.3.rs-11247690/v1": "GDC-RR-9b1a5e5c2c",
+  "title:online civic engagement on x surrounding indonesia s free nutritious meals program": "GDC-RR-9b1a5e5c2c",
+  "doi:10.12688/wellcomeopenres.27995.1": "GDC-RR-b1ad911e2d",
+  "url:doi.org/10.12688/wellcomeopenres.27995.1": "GDC-RR-b1ad911e2d",
+  "title:identifying barriers and developing a roadmap to adapt a digital mental health intervention wysa": "GDC-RR-b1ad911e2d",
+  "doi:10.1016/j.chiabu.2026.108419": "GDC-RR-f59e96c34f",
+  "pmid:43033546": "GDC-RR-f59e96c34f",
+  "url:doi.org/10.1016/j.chiabu.2026.108419": "GDC-RR-f59e96c34f",
+  "title:developmental pathways of online grooming victimisation understanding adolescent vulnerability": "GDC-RR-f59e96c34f",
+  "doi:10.21203/rs.3.rs-11243279/v1": "GDC-RR-bb9c3b722c",
+  "url:doi.org/10.21203/rs.3.rs-11243279/v1": "GDC-RR-bb9c3b722c",
+  "title:faculty perspectives on a pre implementation master s curriculum in pediatric occupational therapy in": "GDC-RR-bb9c3b722c",
+  "doi:10.1108/ijssp-08-2026-0709": "GDC-RR-a09e752631",
+  "url:doi.org/10.1108/ijssp-08-2026-0709": "GDC-RR-a09e752631",
+  "title:out of school children in pakistan a structured narrative review of determinants interventions and": "GDC-RR-a09e752631",
+  "doi:10.21203/rs.3.rs-11360860/v1": "GDC-RR-ef5edb0793",
+  "url:doi.org/10.21203/rs.3.rs-11360860/v1": "GDC-RR-ef5edb0793",
+  "title:digital engagement activities and internet adoption among chinese older adults roles of family relations": "GDC-RR-ef5edb0793",
+  "doi:10.1542/peds.2026-077079": "GDC-RR-27e31bef5b",
+  "pmid:43035110": "GDC-RR-27e31bef5b",
+  "url:doi.org/10.1542/peds.2026-077079": "GDC-RR-27e31bef5b",
+  "title:how discrimination shapes care seeking for black caregivers of children with medical complexity": "GDC-RR-27e31bef5b",
+  "doi:10.1080/09286586.2026.2765318": "GDC-RR-85cc1a3be7",
+  "pmid:43035230": "GDC-RR-85cc1a3be7",
+  "url:doi.org/10.1080/09286586.2026.2765318": "GDC-RR-85cc1a3be7",
+  "title:myopia frequency and associated factors among children and adolescents attending tertiary eye care centers": "GDC-RR-85cc1a3be7",
+  "doi:10.64898/2026.11.13.26367926": "GDC-RR-0d83664391",
+  "url:doi.org/10.64898/2026.11.13.26367926": "GDC-RR-0d83664391",
+  "title:determinants of prices of commercial electric breast pumps sold in germany a cross sectional": "GDC-RR-0d83664391"
  }
 }

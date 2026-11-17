@@ -1,0 +1,74 @@
+{
+ "studyId": "GDC-RR-5577da5988",
+ "reviewedAt": "2026-11-17T09:31:00Z",
+ "reviewedBy": "Claude Code, scheduled morning run, 17 November 2026",
+ "verdict": "HOLD",
+ "editorialPriority": "LOW",
+ "proposedTitle": null,
+ "proposedAngle": null,
+ "reviewBasis": "Read in this run: the DataCite record for DOI 10.7488/ds/8210 (University of Edinburgh, issued 2026); the Childlight executive summary page for the 2026 Into the Light Index; the Childlight launch release linked by the candidate; and NCMEC's own generative AI page at ncmec.org/GAI for the 2023 to 2025 report counts. The full dataset and technical note were not read.",
+ "claims": [
+  {
+   "claim": "Of 103 countries and areas examined, only 22 had representative survey data covering both offline and technology facilitated child sexual exploitation and abuse.",
+   "status": "VERIFIED",
+   "basis": "Executive summary and launch release: 21 percent, 22 out of 103, across East Asia and the Pacific, Latin America and the Caribbean, and North America."
+  },
+  {
+   "claim": "The regional analysis draws on 645 representative studies of offline abuse from 47 countries and 76 studies of technology facilitated abuse from 21 countries.",
+   "status": "VERIFIED",
+   "basis": "Executive summary and launch release, word for word."
+  },
+  {
+   "claim": "Reports to NCMEC related to AI child sexual abuse material rose from around 4,700 in 2023 to more than 400,000 in 2025, a rise of more than 8,411 percent.",
+   "status": "QUALIFIED",
+   "basis": "The counts match NCMEC's own page: 4,700 in 2023, 67,000 in 2024, more than 400,000 in 2025. But NCMEC counts reports 'of GAI', and its own breakdown shows more than 200,000 of the 2025 reports had too little information to say how AI was used, and only 7,000 or more were users generating or possessing AI abuse imagery. Calling the whole figure 'AI related reports of child sexual abuse material', as the release does, overstates it. Reports are not victims or images."
+  },
+  {
+   "claim": "The index estimates how likely a UK child is to be harmed.",
+   "status": "UNSUPPORTED",
+   "basis": "This release covers three regions, none of them the UK. Prevalence there cannot be carried to UK pupils."
+  }
+ ],
+ "verifiedStatistics": [],
+ "notQuotable": [
+  "The 8,411 percent rise, in any form: NCMEC's own breakdown does not support describing it as AI abuse material",
+  "Any regional prevalence figure applied to UK children",
+  "Any count of reports described as children or images"
+ ],
+ "recommendedPlatforms": [],
+ "urgency": "None. Held.",
+ "evidenceConfidence": "HIGH that the figures checked are on the pages named. LOW as a GDC story: the regions are not the UK, and the headline AI figure needs a correction rather than a repeat.",
+ "limitations": [
+  "Not the UK: the 2026 release covers East Asia and the Pacific, Latin America and the Caribbean, and North America.",
+  "Reports to a hotline measure detection and reporting practice, not how many children are harmed.",
+  "NCMEC changed how it breaks down generative AI reports between years, and more than half of 2025's could not be characterised.",
+  "A dataset, not a peer reviewed article."
+ ],
+ "contradictoryEvidence": [
+  "NCMEC's own page says not every report with an AI connection involves creating or sharing AI abuse imagery, and puts the clearest category, users generating or possessing it, at 7,000 or more.",
+  "Childlight's own release warns that measurement gaps leave children invisible, which cuts against reading any single count as the size of the problem."
+ ],
+ "whatThisDoesNotProve": [
+  "That AI generated abuse of children rose 84 fold.",
+  "Anything about prevalence among UK children.",
+  "That any platform or product is the cause."
+ ],
+ "mediaMisrepresentation": "The release itself frames all 400,000 plus NCMEC reports as AI related reports of child sexual abuse material, which NCMEC's breakdown does not support. Any coverage repeating the 8,411 percent figure repeats that overstatement.",
+ "gdcBeliefs": [
+  "Evidence or silence. The founder brief of 16 November asked for the AI report definitions to be reconciled before any headline; reconciled, the headline does not stand.",
+  "Connection is the protection. Nothing here changes how we teach it."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "No change.",
+  "parentTool": "No change.",
+  "digi": "No change.",
+  "historyChecker": "No change."
+ },
+ "recommendedAudience": "Nobody yet.",
+ "unresolvedQuestions": [
+  "Would a UK release of the index give UK figures we could use?",
+  "Does the technical note define the AI category more narrowly than the release does?"
+ ],
+ "storedAt": "scripts/radar/reviews/GDC-RR-5577da5988.json"
+}

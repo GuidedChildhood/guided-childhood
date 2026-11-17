@@ -1,0 +1,144 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-17",
+ "startedAt": "2026-11-17T09:21:22.751Z",
+ "stages": [
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 19,
+    "total": 94
+   },
+   "at": "2026-11-17T09:24:39.807Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 4,
+    "confirmed": 4,
+    "unconfirmed": []
+   },
+   "at": "2026-11-17T09:24:40.767Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "4 reviewed of a raised cap of 5 (Justin, 17 Nov). Cleared: GDC-RR-9a82e5d5b3 SAFE-Teen chatbot simulation preprint, EDIT, full text read. HOLD: GDC-RR-5577da5988 Childlight index (not UK; NCMEC's own breakdown does not support the 8,411 percent AI abuse material framing), GDC-RR-e14aa2cd50 Hungarian cohort (ages 18 months to 3, below our customer, mother reported both sides). HOLD, not storable: GDC-RR-29a4765c83 Meta and Haidt, a news report with no primary record confirmed; the court filing was not read and Gelman's blog refused the fetch (403). Not reopened: GDC-RR-34b3878324 HOLD, GDC-RR-e1a6cd5229 HOLD, GDC-RR-b3cbb73e58 REJECT stand from 11 and 12 Nov reviews, nothing new. Fixed: a register guard bug had moved 5 reviewed records off HOLD or REJECTED; restored. 9 ADJACENT records still wait."
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:31:19.702Z",
+   "commit": "a1c213ac",
+   "attempts": 2
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [
+     {
+      "researchId": "GDC-RR-9a82e5d5b3",
+      "gdcPostNumber": "061",
+      "handoffVersion": 1
+     }
+    ],
+    "alreadyCurrent": [],
+    "duplicateCheck": {
+     "GDC-RR-9a82e5d5b3": "NEW"
+    },
+    "queue": [
+     "GDC-RR-9a82e5d5b3"
+    ]
+   },
+   "at": "2026-11-17T09:31:24.878Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack waiting in Stage 2: every PACK document is already CLAUDE REVIEWED, and no CHATGPT FEEDBACK document is unread"
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:31:44.708Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "four CANDIDATES documents read (14, 15, 16, 17 Nov; none had been read because no morning run committed since 13 Nov). Two candidates taken in: SAFE-Teen and the Childlight index. 15 and 17 Nov were empty. No brief yet for 17 Nov; the 16 Nov brief agrees with the register. The LinkedIn numbers inbox is empty."
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:31:44.801Z",
+   "commit": "a1c213ac",
+   "attempts": 2
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "ERROR",
+   "by": "claude",
+   "reasons": [
+    "git push --dry-run origin HEAD:refs/heads/claude/radar-push-check was accepted (new branch, dry run), but this session's permission check refused git commit itself: 'Permission for this action was denied by the Claude Code auto mode classifier. Reason: [Destructive or Unwanted Actions]'. Nothing reached GitHub; the day's work is a patch in the Stage 2 folder titled FOR JUSTIN."
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:32:28.023Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "not copied: the runbook copies the queue, numbers, GDC 061 handoff and start here only after the branch is pushed, so every Drive copy is stamped with a commit that exists in GitHub. The commit was refused, so ChatGPT's 11:00 run still sees the 13 Nov start here with an empty queue, and GDC 061 waits."
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:32:28.135Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "nothing new at ASSETS READY; desks not republished from an uncommitted tree"
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:32:28.218Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "after the run: the Drive copies of the queue, number list and start here are stale against the register, because the Drive sync is held behind the refused commit"
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:32:42.414Z",
+   "commit": "a1c213ac",
+   "attempts": 2
+  }
+ ],
+ "updatedAt": "2026-11-17T09:32:42.453Z"
+}

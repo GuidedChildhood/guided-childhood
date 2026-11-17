@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-13T09:24:34.232Z",
+ "generatedAt": "2026-11-17T09:31:24.875Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -9,42 +9,41 @@
   "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
  ],
  "counts": {
-  "total": 72,
+  "total": 94,
   "byStatus": {
-   "DISCOVERED": 46,
-   "APPROVED": 2,
-   "HOLD": 5,
-   "ASSETS READY": 3,
-   "REJECTED": 4,
-   "VERIFIED": 11,
+   "DISCOVERED": 62,
+   "APPROVED": 6,
+   "HOLD": 11,
+   "REJECTED": 5,
+   "VERIFIED": 9,
    "EDITORIAL READY": 1
   }
  },
  "queue": [
   {
-   "researchId": "GDC-RR-f0fb8386cd",
-   "title": "Parent Comfort With Artificial Intelligence–Led Behavioral Therapy for Their Child",
-   "proposedTitle": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
+   "researchId": "GDC-RR-9a82e5d5b3",
+   "title": "SAFE-Teen: Evaluating Chatbot Safety Across Adolescent Mental Health Conversations",
+   "proposedTitle": "Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped.",
    "editorialPriority": "BANK",
-   "urgency": "Medium. Published ten days ago and current, and the subject is live.",
+   "urgency": "Low. Bank it. A preprint, so it can be posted any week while it is current, saying it is a preprint.",
    "claudeStatus": "CLAUDE REVIEWED",
    "claudeVerdict": "EDIT",
    "recommendedPlatforms": [
-    "LinkedIn post"
+    "LinkedIn"
    ],
-   "gdcPostNumber": "059",
-   "primaryUrl": "https://doi.org/10.1001/jamapediatrics.2026.4939",
-   "doi": "10.1001/jamapediatrics.2026.4939",
-   "publishedDate": "2026-11-02",
-   "design": "cross-sectional",
-   "figuresCleared": 11,
+   "gdcPostNumber": "061",
+   "primaryUrl": "https://arxiv.org/abs/2611.07218",
+   "doi": null,
+   "publishedDate": "2026-11-04",
+   "design": null,
+   "figuresCleared": 9,
    "handoffDoc": null,
    "handoffJsonDriveFileId": null,
-   "handoffVersion": 3,
-   "handoffSourceCommit": "3496218754ea6c65604192c2ce00471d897e11d1",
-   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json",
-   "firstFound": "2026-11-12T14:45:32.751Z",
-   "registerVersion": 14
+   "handoffVersion": 1,
+   "handoffSourceCommit": "a1c213acb9a6aa7409d5d5953c210a397514f1bd",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.json",
+   "firstFound": "2026-11-17T09:21:23.223Z",
+   "registerVersion": 10
   }
  ],
  "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"
