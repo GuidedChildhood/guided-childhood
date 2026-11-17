@@ -48,5 +48,10 @@ check('the order card draws the passport and stickers, no shop photo', !/\/shop\
 check('the shop draws the passport and stickers', read('components/shop/Shop.tsx').includes("product.key === 'passport_printed'"))
 check('no "Digital Literacy Passport" title on paper', !/Digital Literacy<br/.test(read('components/pathway/PassportZineSheet.tsx') + read('app/(dashboard)/dashboard/keepsakes/passport-print/page.tsx')))
 
+const rb = read('lib/pathway/record-book-server.ts')
+check('the record book lists only what the stamp counts (lessons, talks, the check)', /kind: 'lesson' \| 'talk' \| 'check'/.test(rb)
+  && !/concerns|quest_ticks|device_sessions|outside/.test(rb.replace(/\/\/.*$/gm, '')))
+check('the record book reads passes through childLessonPath and talks through countsTowardPathway', rb.includes('loadChildLessonPath') && rb.includes('countsTowardPathway'))
+
 if (failures) { console.log(`\n${failures} failed`); process.exit(1) }
 console.log('\nall passed')

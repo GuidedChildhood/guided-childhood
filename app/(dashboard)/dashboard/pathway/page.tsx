@@ -525,6 +525,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     { key: 'jobs', value: inARow > 0 ? String(inARow) : '0', label: inARow === 1 ? 'day of jobs in a row' : 'days of jobs in a row', href: withChild('/dashboard/quests', childParam) },
   ] : []
   const stickerPrintHref = `/dashboard/keepsakes/passport-print/stickers${primaryChild ? `?child=${encodeURIComponent(primaryChild.id)}` : ''}`
+  const recordHref = `/dashboard/keepsakes/passport-print/record${primaryChild ? `?child=${encodeURIComponent(primaryChild.id)}` : ''}`
 
   return (
     <div style={{ padding: '20px 0 32px' }}>
@@ -564,7 +565,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           <StageDoneCard s={selSticker} kid={kidName} printHref={stickerPrintHref} />
         )}
         {selSticker && selectedNum && (selStatus === 'current' || selStatus === 'catchup') && (
-          <StageEarnCard s={selSticker} count={countOf(selectedNum)} kid={kidName} along={along} />
+          <StageEarnCard s={selSticker} count={countOf(selectedNum)} kid={kidName} along={along} recordHref={recordHref} />
         )}
         {nextStep && <PassportNextCard step={nextStep} />}
         {selectedNum && selStatus !== 'upcoming' && <PassportLearnt kid={kidName} lessons={learnt} kept={kept} />}

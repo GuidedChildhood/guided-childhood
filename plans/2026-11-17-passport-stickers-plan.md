@@ -54,3 +54,17 @@ of them should become part of the rule is Justin's call, asked in the PR.
 
 320, 390, 1280 and A4 print screenshots; ai-tells, token-guard, tap-guard,
 hex-guard, tsc; review.md.
+
+## Part 2: the paper record book (Justin, 17 November 2026, picked from four)
+
+A printable record book like a swimming badge book. One A4 page per stage:
+the Planet Friend sticker spot and its line, then every step on its own row in
+the order the app teaches it: each school lesson, each grown up talk, the big
+check. Each row says how to do it in a few words, carries a tick and the date
+when the app already has it done, and a box for a grown up's initials. The
+cover explains it in four steps, and a QR code takes the family to the passport
+page. The ticks come from the same reads as the page count (childLessonPath,
+countsTowardPathway, the passed stage checks), so paper and app agree.
+Route: /dashboard/keepsakes/passport-print/record, linked from the order card,
+the Stage done card and the earn card. No migration.
+Parked for Justin: the child's own page view, gentle reminders, the evidence check.
