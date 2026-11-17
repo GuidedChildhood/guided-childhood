@@ -92,30 +92,6 @@
    "attempts": 2
   },
   {
-   "stage": "PUSH",
-   "verdict": "ERROR",
-   "by": "claude",
-   "reasons": [
-    "git push --dry-run origin HEAD:refs/heads/claude/radar-push-check was accepted (new branch, dry run), but this session's permission check refused git commit itself: 'Permission for this action was denied by the Claude Code auto mode classifier. Reason: [Destructive or Unwanted Actions]'. Nothing reached GitHub; the day's work is a patch in the Stage 2 folder titled FOR JUSTIN."
-   ],
-   "detail": null,
-   "at": "2026-11-17T09:32:28.023Z",
-   "commit": "a1c213ac",
-   "attempts": 1
-  },
-  {
-   "stage": "DRIVE SYNC",
-   "verdict": "HOLD",
-   "by": "claude",
-   "reasons": [
-    "not copied: the runbook copies the queue, numbers, GDC 061 handoff and start here only after the branch is pushed, so every Drive copy is stamped with a commit that exists in GitHub. The commit was refused, so ChatGPT's 11:00 run still sees the 13 Nov start here with an empty queue, and GDC 061 waits."
-   ],
-   "detail": null,
-   "at": "2026-11-17T09:32:28.135Z",
-   "commit": "a1c213ac",
-   "attempts": 1
-  },
-  {
    "stage": "APPROVAL DESK",
    "verdict": "SKIPPED",
    "by": "claude",
@@ -128,17 +104,41 @@
    "attempts": 1
   },
   {
-   "stage": "PREFLIGHT",
-   "verdict": "HOLD",
+   "stage": "PUSH",
+   "verdict": "PASS",
    "by": "claude",
    "reasons": [
-    "after the run: the Drive copies of the queue, number list and start here are stale against the register, because the Drive sync is held behind the refused commit"
+    "pushed claude/radar-2026-11-17 at 4992de15 once .claude/settings.json on main was valid and allowed git (Justin, 09:51); draft PR 1601. Earlier refusals were the session permission check, not GitHub."
    ],
    "detail": null,
-   "at": "2026-11-17T09:32:42.414Z",
-   "commit": "a1c213ac",
+   "at": "2026-11-17T09:55:18.642Z",
+   "commit": "4992de15",
    "attempts": 2
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "stamped at pushed commit 4992de15: queue (1 story), number list and GDC 061 handoff JSON each BYTE IDENTICAL by code; GDC 061 handoff Doc and the start here Doc TEXT IDENTICAL by verifyDocExport. Old queue, number list and start here retitled ZZ SUPERSEDED; four inbox documents retitled ZZ INGESTED; the fallback patch retitled ZZ NOT NEEDED."
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:55:18.737Z",
+   "commit": "4992de15",
+   "attempts": 2
+  },
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "after the sync: every Drive role Stage 2 reads is current"
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:55:23.278Z",
+   "commit": "4992de15",
+   "attempts": 3
   }
  ],
- "updatedAt": "2026-11-17T09:32:42.453Z"
+ "updatedAt": "2026-11-17T09:55:23.308Z"
 }
