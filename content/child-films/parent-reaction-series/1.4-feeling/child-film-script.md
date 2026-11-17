@@ -3,7 +3,7 @@
 Child lesson film, Stage 1 (ages 4 to 7), watched with a grown up.
 Subject group A in `../subjects-2026-11-16.md` (seen something upsetting
 online, and telling a grown up: the largest group, 15 posts). Draft 1,
-17 November 2026. NOT RECORDED. Nothing generated.
+17 November 2026. Recorded and built: see README.md. The words as recorded are in build/lines.json.
 
 ## What changes from the film live today
 
@@ -92,7 +92,7 @@ DIDGEE: But sometimes, something on a screen gives you an uh oh feeling. It migh
 **7. In your body** (u07)
 PICTURE: Pebble with a little arm on its tummy, a small soft swirl drawn there, cheeks a bit pink.
 DIDGEE: You might feel it in your body. A wobbly tummy. A hot face. A heart going fast.
-DIDGEE: That's your body saying: uh oh.
+DIDGEE: That's your body saying uh oh.
 
 **Pause and ask 1** (p07, reused)
 CARD (live): Where do YOU feel a wobbly feeling? Point to it.

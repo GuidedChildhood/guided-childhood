@@ -1,7 +1,7 @@
 # Parent film: the five minutes after they tell you
 
 Subject group A (seen something upsetting online). The parent half of the 1.4
-pair. Draft 1, 17 November 2026. NOT RECORDED. Nothing generated.
+pair. 17 November 2026. Recorded and built: see README.md.
 
 **Watch it, then act on it.** About 70 seconds. Portrait first, landscape from
 the same build. DiGi's voice (Tamsin, slower) with full captions. No figures.
@@ -18,7 +18,7 @@ parent film (`../1.5-real/build/pics/screen.png`).
 | 3 | Pebble turning the tablet face down (u08) | So make telling the easy part. Their film teaches one routine: turn it over, go and tell. |
 | 4 | Big text: "Thank you for telling me." | When they come to you, start with: thank you for telling me. |
 | 5 | Big text: "You're not in trouble." | Then: you're not in trouble. Even if they were somewhere they shouldn't have been. Stay calm, and listen. |
-| 6 | REAL SCREEN: Book a time | When screens make you sad is a few minutes on the sofa. In Guided Childhood you can book a time to watch it together. |
+| 6 | REAL SCREEN: Book a time | Their film is a few minutes on the sofa. In Guided Childhood, you can book a time to watch it together. |
 | 7 | Pebble and DiGi on the sofa (r12) | And if what they saw worries you, you don't have to handle it alone. The NSPCC helpline is 0808 800 5000. |
 | 8 | End card | **Product cut**: Book a watch together time. **Public cut**: What stage is your child? Three questions, no sign up. |
 
