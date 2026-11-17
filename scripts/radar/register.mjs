@@ -114,6 +114,16 @@ export function upsert(rec, { reason = '', actor = 'radar', allowBackward = fals
     const to = RANK[status] ?? -1
     if (to < from) status = prev.status
   }
+  // HOLD and REJECTED are off the ladder, so the rank test above reads them as
+  // below DISCOVERED and let any rerun overwrite them. Found on 17 November:
+  // three records a review had parked or killed on 11 and 12 November had been
+  // put back to DISCOVERED by discovery and then to VERIFIED by the dossier. A
+  // parked record leaves HOLD or REJECTED only through a new stored review
+  // (storeReview always brings one), or Justin's deliberate backward move.
+  if (prev && !allowBackward && ['HOLD', 'REJECTED'].includes(prev.status) && !['HOLD', 'REJECTED'].includes(status)) {
+    const newReview = rec.claudeReview && JSON.stringify(rec.claudeReview) !== JSON.stringify(prev.claudeReview || null)
+    if (!newReview) status = prev.status
+  }
   // A stored review is evidence. Never let a later pass claim it is pending.
   const claudeStatus = (prev?.claudeReview || rec.claudeReview)
     ? (rec.claudeStatus === 'CLAUDE REVIEWED' || prev?.claudeStatus === 'CLAUDE REVIEWED' ? 'CLAUDE REVIEWED' : (rec.claudeStatus || prev?.claudeStatus))
