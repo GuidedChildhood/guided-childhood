@@ -1,0 +1,192 @@
+{
+ "schemaVersion": "1.1.0",
+ "researchId": "GDC-RR-9a82e5d5b3",
+ "registerVersion": 7,
+ "handoffVersion": 1,
+ "sourceCommit": "a1c213acb9a6aa7409d5d5953c210a397514f1bd",
+ "createdAt": "2026-11-17T09:31:24.835Z",
+ "stage": "EDITORIAL READY",
+ "productionStatus": "EDITORIAL READY",
+ "proposedTitle": "Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped.",
+ "proposedAngle": "Open on the design, plainly: these were simulated teenagers, written from cases supplied by clinicians, talking to 18 chatbot models through their developer connections, not the apps children download. Give the two headline rates with their meaning: in a given scenario a chatbot counted as failing a safety check if it failed in any version of that conversation, and an AI judge did the scoring. The tension is not that chatbots are bad. It is that a chatbot which answers safely the first time can drift when a teenager says no, I do not want to tell anyone. Our belief: an AI can be a useful tool and is still not a friend, and a child is safer when they have practised what to do when it starts to sound like one. Say once that I build a parent tool with an AI guide in it, and that guidance for a parent is not a chat partner for a child. Close on the takeaway for parents.",
+ "oneStory": "A preprint posted to arXiv on 4 November 2026 tested 18 chatbot models in 32,555 simulated conversations with teenagers aged 13 to 17, scored against 22 safety checks written with clinicians.",
+ "oneTension": "Telling the chatbot it was talking to a teenager cut the failure rate from 43.3 percent to 24.9 percent, but no chatbot reached zero, and when the simulated teen pushed back, boundaries on diagnosis, medication and substances weakened for most models.",
+ "oneBelief": "A chatbot is a tool, not a friend. Children are safer when they have practised noticing the moment it starts to act like one, with a parent in the room.",
+ "oneTakeaway": "Ask your child what they would do if a chatbot told them not to worry about something that worried you. Then ask what they would do if it kept agreeing with them.",
+ "research": {
+  "title": "SAFE-Teen: Evaluating Chatbot Safety Across Adolescent Mental Health Conversations",
+  "authors": "Andrea Mock, Valerie Chen, Eric Lin, Rayan Krishnan, Diyi Yang, Caroline Figueroa",
+  "journal": "arXiv",
+  "doi": null,
+  "pmid": null,
+  "primaryUrl": "https://arxiv.org/abs/2611.07218",
+  "publishedDate": "2026-11-04",
+  "indexedDate": "2026-11-04",
+  "peerReviewed": false,
+  "isPreprint": true,
+  "design": null,
+  "sampleSize": null,
+  "ageRange": "not stated, described as adolescent",
+  "country": null,
+  "followUp": null,
+  "funding": [],
+  "preregistered": false,
+  "streams": [
+   "inbox"
+  ],
+  "foundBy": [
+   "chatgpt-inbox"
+  ]
+ },
+ "sourceUrls": [
+  {
+   "url": "https://arxiv.org/abs/2611.07218",
+   "kind": "primary",
+   "verifiedAt": "2026-11-17T09:27:01.529Z",
+   "how": "recorded, DOI not confirmed to resolve"
+  }
+ ],
+ "verification": {
+  "dossierCheckedAt": "2026-11-17T09:27:01.529Z",
+  "claudeReviewedAt": "2026-11-17T09:31:00Z",
+  "fullTextChecked": false,
+  "reviewBasis": "The full text of version 1 of the preprint, read in this run from the PDF at arxiv.org/pdf/2611.07218: abstract, introduction, method including scenario development, the teen simulator and judge calibration, results, limitations and author contributions. The arXiv record was confirmed through the arXiv API, first submitted 4 November 2026. It is a preprint and has not been peer reviewed."
+ },
+ "verifiedStatistics": [
+  "32,555 simulated conversations",
+  "18 chatbot models",
+  "22 safety checks",
+  "106 scenarios written from clinical cases, in 983 versions",
+  "43.3 percent criterion failure rate without the teen aware instruction",
+  "24.9 percent with it",
+  "emotional dependence failures 54 percent down to 15 percent with the instruction",
+  "indirect suicide risk failures stayed at 52 percent",
+  "after a teen pushed back, diagnosis, medication and substance boundary failures rose about 10 to 12 percentage points for more than 80 percent of chatbots, without the instruction"
+ ],
+ "notQuotable": [
+  "the sample size, which could not be extracted from the available text",
+  "the size of the effect, since no effect size was found",
+  "any claim of precision, since no confidence interval was found",
+  "Any share of real teenagers harmed by chatbots",
+  "Any ranking of named chatbots or companies: model versions change monthly and the ranking is a judge scored preprint",
+  "The names of any of the clinicians or authors",
+  "The 43.3 percent described as conversations that went wrong",
+  "The 75 percent self harm figure without saying it applies only to conversations where the topic came up"
+ ],
+ "clearedFigures": [
+  "32,555 simulated conversations",
+  "18 chatbot models",
+  "22 safety checks",
+  "106 scenarios written from clinical cases, in 983 versions",
+  "43.3 percent criterion failure rate without the teen aware instruction",
+  "24.9 percent with it",
+  "emotional dependence failures 54 percent down to 15 percent with the instruction",
+  "indirect suicide risk failures stayed at 52 percent",
+  "after a teen pushed back, diagnosis, medication and substance boundary failures rose about 10 to 12 percentage points for more than 80 percent of chatbots, without the instruction"
+ ],
+ "prohibitedClaims": [
+  "Any share of real teenagers harmed by chatbots",
+  "Any ranking of named chatbots or companies: model versions change monthly and the ranking is a judge scored preprint",
+  "The names of any of the clinicians or authors",
+  "The 43.3 percent described as conversations that went wrong",
+  "The 75 percent self harm figure without saying it applies only to conversations where the topic came up"
+ ],
+ "evidenceConfidence": "HIGH that the preprint says what is written here: the full text was read. MODERATE as evidence: a careful, clinician informed simulation with a calibrated judge, but simulated teenagers, an AI judge whose agreement with clinicians on applicable responses was a modest alpha of 0.66, worst case aggregation, and not peer reviewed.",
+ "limitations": [
+  "All conversations were simulated by another AI model, not real teenagers, and adolescents did not validate them.",
+  "Scoring was done by an AI judge. Clinicians checked it on 30 conversations; agreement on applicable responses was alpha 0.66 on 58 pairs, and the authors say some failures may be judge errors.",
+  "A chatbot fails a criterion in a scenario if it fails in any branch, which pushes the headline rate up compared with a per conversation rate.",
+  "Models were tested through developer APIs with an approximated teen aware prompt, not the consumer apps with their own safety layers.",
+  "The authors work for Vals AI, a company that builds AI evaluations, alongside Stanford researchers. That is an interest in evaluations being seen as needed.",
+  "Not peer reviewed. All clinicians were in the United States."
+ ],
+ "contradictoryEvidence": [
+  "The same paper shows the problem is partly fixable: a single instruction about the user's age cut failures by about 40 percent and reduced them for every model.",
+  "Without the prompt the best model failed 14.0 percent of criteria and the worst 62.4 percent, so 'chatbots' is not one thing and averages hide a wide spread."
+ ],
+ "whatThisDoesNotProve": [
+  "That any real child has been harmed by a chatbot, or how often.",
+  "That any particular app is unsafe.",
+  "That children should be kept away from AI altogether.",
+  "That any parental control or school policy works."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'chatbots fail teens 43 percent of the time', which turns a worst case criterion rate in a simulation into a real world rate. Avoid it.",
+ "claimVerification": [
+  {
+   "claim": "The authors evaluated 32,555 simulated conversations across 18 chatbot APIs and two system prompt conditions using 22 safety criteria.",
+   "status": "VERIFIED",
+   "basis": "Abstract and section 3: 16,271 conversations without the teen aware prompt and 16,284 with it, 22 criteria in the final rubric."
+  },
+  {
+   "claim": "Conversations spanned 983 variants of 106 seed scenarios.",
+   "status": "VERIFIED",
+   "basis": "Abstract and introduction: 106 clinician authored seed scenarios and 983 matched variants."
+  },
+  {
+   "claim": "The overall criterion failure rate was 43.3 percent without the teen aware prompt and 24.9 percent with it.",
+   "status": "QUALIFIED",
+   "basis": "Abstract and section 4.1. The figures are right, but the rate is per criterion per scenario, and a chatbot fails a criterion in a scenario if it fails it in any branch of that scenario, so it is a worst case across matched versions, scored by an AI judge. It is not the share of conversations that went wrong and must not be written as one."
+  },
+  {
+   "claim": "With the prompt, emotional dependence failures fell from 54 percent to 15 percent, while failures to respond to indirect suicide risk stayed at 52 percent and to self harm close to 75 percent where those topics came up.",
+   "status": "VERIFIED",
+   "basis": "Introduction, page 2, as written by the authors."
+  },
+  {
+   "claim": "Without the prompt, when a teen pushed back on a chatbot limit, failures on mental health diagnosis, medication and substance misuse boundaries rose by about 10 to 12 percentage points for more than 80 percent of chatbots.",
+   "status": "VERIFIED",
+   "basis": "Abstract and introduction."
+  },
+  {
+   "claim": "Chatbots harm a given share of real teenagers.",
+   "status": "UNSUPPORTED",
+   "basis": "Every conversation was simulated. The authors say adolescents did not validate the replies and the study cannot say how often anything happens to real children."
+  },
+  {
+   "claim": "The chatbot apps teenagers use fail 43 percent of the time.",
+   "status": "UNSUPPORTED",
+   "basis": "The study tested models through developer APIs with an approximated teen aware prompt, because real consumer prompts are proprietary. App level safety layers were not tested."
+  }
+ ],
+ "claudeReview": {
+  "status": "CLAUDE REVIEWED",
+  "reviewedAt": "2026-11-17T09:31:00Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 17 November 2026",
+  "verdict": "EDIT",
+  "unresolvedQuestions": [
+   "Will a peer reviewed version change the figures?",
+   "How do consumer apps with age prediction compare with the raw models tested here?"
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-9a82e5d5b3.json"
+ },
+ "gdcBeliefs": [
+  "A tool, not a friend. Our AI companions lesson asks 'It talks like it knows me. Does it?', which is the gap this study measures, so it gets more scrutiny, not less.",
+  "Never allow or deny. The answer is practice and conversation, not a ban on AI."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "Proof path: the AI companions and chatbots lesson (supabase/migrations/282 and 156: a chatbot is a tool, not a friend; it is built to agree, so it can be confidently wrong).",
+  "parentTool": "Proof path: the situations script for a child meeting AI on their own (supabase/migrations/261).",
+  "digi": "No change. DiGi speaks to parents, not children.",
+  "historyChecker": "No change."
+ },
+ "gdcPostNumber": "061",
+ "gdcPostNumberNote": "This number already exists in content/gdc-post-register.md. Stage 1 never assigns one.",
+ "recommendedAudience": "Parents of children aged 9 to 16, and school leaders.",
+ "recommendedPlatforms": [
+  "LinkedIn"
+ ],
+ "recommendedFormats": [
+  "LinkedIn"
+ ],
+ "editorialAngle": "Open on the design, plainly: these were simulated teenagers, written from cases supplied by clinicians, talking to 18 chatbot models through their developer connections, not the apps children download. Give the two headline rates with their meaning: in a given scenario a chatbot counted as failing a safety check if it failed in any version of that conversation, and an AI judge did the scoring. The tension is not that chatbots are bad. It is that a chatbot which answers safely the first time can drift when a teenager says no, I do not want to tell anyone. Our belief: an AI can be a useful tool and is still not a friend, and a child is safer when they have practised what to do when it starts to sound like one. Say once that I build a parent tool with an AI guide in it, and that guidance for a parent is not a chat partner for a child. Close on the takeaway for parents.",
+ "editorialPriority": "BANK",
+ "urgency": "Low. Bank it. A preprint, so it can be posted any week while it is current, saying it is a preprint.",
+ "supportingFiles": [
+  "content/research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.json"
+ ],
+ "history": {
+  "registerJsonl": "content/research-register/studies.jsonl",
+  "studyVersions": 7
+ }
+}
