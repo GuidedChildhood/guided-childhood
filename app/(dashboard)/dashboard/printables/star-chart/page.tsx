@@ -5,6 +5,7 @@ import FridgeChartLog from '@/components/quests/FridgeChartLog'
 import { chartWeekStart, starWeekEnd, formatWeekBeginning } from '@/lib/quests/star-week'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
 import { streakCurrency } from '@/lib/pathway/streak-unlock'
+import { schoolItemsForWeek, type SchoolActionRow } from '@/lib/school/week-items'
 
 // The star chart, typed before it is printed.
 //
@@ -108,6 +109,22 @@ export default async function StarChartPage() {
     { start: second, label: formatWeekBeginning(second), name: startsTomorrow ? 'The one after' : 'Next week' },
   ]
 
+  // What school told us, for the Our school week sheet: every open dated item
+  // and every weekly routine, placed into each printable week by the shared
+  // helper. Best effort: the sheet prints blank lines without it.
+  const schoolItemsByWeek: Record<string, ReturnType<typeof schoolItemsForWeek>> = {}
+  try {
+    const { data: actions } = await supabase
+      .from('school_actions')
+      .select('title, kind, due_date, child_id, recurs_weekday, status')
+      .eq('user_id', user.id)
+      .eq('status', 'open')
+      .or(`due_date.gte.${first},recurs_weekday.not.is.null`)
+      .limit(200)
+    const childIndex = named.map(k => k.id as string)
+    for (const w of weeks) schoolItemsByWeek[w.start] = schoolItemsForWeek((actions ?? []) as SchoolActionRow[], w.start, childIndex)
+  } catch { /* blank lines */ }
+
   return (
     <>
       <StarChartBuilder
@@ -119,6 +136,8 @@ export default async function StarChartPage() {
         defaultRate={defaultRate}
         fullDaysByChild={fullDaysByChild}
         defaultChildId={(named[0]?.id as string | undefined) ?? null}
+        schoolKids={named.map(k => k.name as string)}
+        schoolItemsByWeek={schoolItemsByWeek}
       />
       {/* End of the paper week: the same entry card as the printables page,
           here because THIS is where the quest board's star chart tile lands.
