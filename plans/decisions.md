@@ -337,6 +337,8 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - Post 1, due tonight, showed the retired worry question. The current screen was laid over those 4.8 seconds of the finished film (the source captures are on the Mac); the old render is kept as `-v1`.
 - Two stage check tiles no longer promise "safe". Posts 4, 10 and 18 have stale lines, listed with fixes. PR 1611 merged with only the claim; the work is in its follow up. `plans/2026-11-17-instagram-walkthrough-plan.md`.
 
+## 17 November 2026: the RSHE mapping page leads with the answer
+Justin: Apple UX, obvious to a teacher arriving from the schools email. The page now opens on "All 57 online requirements are taught" with a ring, then three steps, then a Primary or Secondary switch, a search and strand links; KCSIE and the lesson hooks fold away and open when printed; one "how we check" line at the foot. Same data and guard. Plan: plans/2026-11-17-rshe-mapping-clarity-plan.md.
 ## 17 November 2026: the 1.4 remake and its parent film are built
 
 - Notice the uh oh feeling, turn it over, go and tell, with the live keyword, catchphrase and pause cards kept. The upsetting thing is never shown; the grown up says the never in trouble promise on the pause card.
