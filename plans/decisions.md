@@ -350,3 +350,8 @@ Justin: Apple UX, obvious to a teacher arriving from the schools email. The page
 - Notice the uh oh feeling, turn it over, go and tell, with the live keyword, catchphrase and pause cards kept. The upsetting thing is never shown; the grown up says the never in trouble promise on the pause card.
 - The parent film ends at the NSPCC helpline for adults (0808 800 5000, checked on nspcc.org.uk; no hours given, their own pages disagree). 38.1 credits against 46 quoted.
 - Found and fixed in the build: the fade at a picture change used to fade the whole frame, so hooks and captions flickered in every portrait and parent cut. Now only the picture fades. 1.5 and 1.6 are re-rendered with the fix. PR 1612.
+
+## 17 November 2026: the passport record book, every step on paper
+
+- Justin picked the paper record book from four options ("a book like a swimming passport"). One A4 page per stage: the Planet Friend sticker spot and its line, then every lesson, talk and the big check on its own row, with how to do it, a tick and date when the app has it, and a grown up's initials. A sign off line ends each stage.
+- The rows are only what the stamp counts, read through the same functions as the page count, so the paper never disagrees with the app. Route `/dashboard/keepsakes/passport-print/record`, linked from the earn card and the order card. Parked: the child's page view, gentle reminders, the evidence check. PR 1616.

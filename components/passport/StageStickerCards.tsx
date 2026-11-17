@@ -28,7 +28,9 @@ const card: React.CSSProperties = {
 
 export type AlongTheWay = { key: string; label: string; value: string; href: string }
 
-export function StageEarnCard({ s, count, kid, along }: { s: Sticker; count: PageCount; kid: string; along: AlongTheWay[] }) {
+export function StageEarnCard({ s, count, kid, along, recordHref = null }: { s: Sticker; count: PageCount; kid: string; along: AlongTheWay[]
+  /** The printed record book, every step of this stage on paper to tick and sign. */
+  recordHref?: string | null }) {
   const lines = ruleLines(count, kid)
   return (
     <section data-block="earn" style={card}>
@@ -56,6 +58,14 @@ export function StageEarnCard({ s, count, kid, along }: { s: Sticker; count: Pag
           </li>
         ))}
       </ul>
+      {recordHref && (
+        <Link href={recordHref} data-record style={{
+          display: 'inline-flex', alignItems: 'center', minHeight: 44, marginTop: 6,
+          fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: 3,
+        }}>
+          Print every step to tick off at home
+        </Link>
+      )}
       {along.length > 0 && (
         <div data-along style={{ marginTop: 14 }}>
           <p style={{ ...mono, margin: '0 0 2px', color: 'var(--ink)' }}>Along the way</p>

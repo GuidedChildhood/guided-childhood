@@ -25,6 +25,7 @@ export default function PassportOrderCard({ kid, childId, stamped }: { kid: stri
   const q = childId ? `?child=${encodeURIComponent(childId)}` : ''
   const href = `/dashboard/keepsakes${q}#p-passport_printed`
   const printHref = `/dashboard/keepsakes/passport-print/stickers${q}`
+  const recordHref = `/dashboard/keepsakes/passport-print/record${q}`
   const cap: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em',
     textTransform: 'uppercase', color: 'var(--ink)', margin: '8px 0 0', textAlign: 'center',
@@ -72,6 +73,12 @@ export default function PassportOrderCard({ kid, childId, stamped }: { kid: stri
           color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: 3,
         }}>
           Print the stickers free
+        </Link>
+        <Link href={recordHref} style={{
+          display: 'inline-flex', alignItems: 'center', minHeight: 44, fontFamily: 'var(--font-display)', fontWeight: 800,
+          color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: 3,
+        }}>
+          Print the record book free
         </Link>
       </div>
     </section>
