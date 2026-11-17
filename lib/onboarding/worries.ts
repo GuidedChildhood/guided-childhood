@@ -47,6 +47,10 @@ export type Worry = {
    * says the problem in the parent's words and, under it, what changes. Every
    * line is the short form of that worry's answer in lib/content/proof.ts, so
    * nothing here promises more than the result page then delivers.
+   *
+   * No line says "safe" (17 November 2026, the Instagram walkthrough check):
+   * it promises an outcome for a child, which no screen we film may show, and
+   * these tiles are the first screen of every walkthrough post.
    */
   promise: string
 }
@@ -54,7 +58,7 @@ export type Worry = {
 export const WORRIES: Worry[] = [
   { id: 'wont_put_down', label: 'Coming off screens', icon: 'wont_put_down', tint: 'var(--stage-3-bold)', promise: 'A calm ending, not a nightly row' },
   { id: 'asking_for_phone', label: 'Asking for a phone', icon: 'asking_for_phone', tint: 'var(--stage-2-bold)', promise: 'Know when they are truly ready' },
-  { id: 'game_chat', label: 'Who they talk to in games', icon: 'game_chat', tint: 'var(--stage-2-bold)', promise: 'Safe friends lists, set together' },
+  { id: 'game_chat', label: 'Who they talk to in games', icon: 'game_chat', tint: 'var(--stage-2-bold)', promise: 'Friends lists you set up together' },
   { id: 'seen_something', label: 'What they come across online', icon: 'seen_something', tint: 'var(--stage-3-bold)', promise: 'The words if they see something' },
   { id: 'social_media', label: 'Social media', icon: 'social_media', tint: 'var(--stage-4-bold)', promise: 'Ready for the feed before it arrives' },
   { id: 'bedtime_screens', label: 'Bedtime screens', icon: 'bedtime_screens', tint: 'var(--stage-5-bold)', promise: 'Screens out of bedrooms, no war' },
@@ -63,7 +67,7 @@ export const WORRIES: Worry[] = [
   { id: 'homework_screens', label: 'Homework on screens', icon: 'homework_screens', tint: 'var(--stage-1-bold)', promise: 'School work and free time kept apart' },
   { id: 'endless_youtube', label: 'Endless YouTube', icon: 'endless_youtube', tint: 'var(--stage-3-bold)', promise: 'Autoplay off, and a clear finish' },
   { id: 'game_spending', label: 'Spending in games', icon: 'game_spending', tint: 'var(--stage-2-bold)', promise: 'Pocket money rules that stick' },
-  { id: 'ai_chatbots', label: 'AI chatbots', icon: 'ai_chatbots', tint: 'var(--stage-5-bold)', promise: 'Safe, smart use, by age' },
+  { id: 'ai_chatbots', label: 'AI chatbots', icon: 'ai_chatbots', tint: 'var(--stage-5-bold)', promise: 'Clear rules for AI, by age' },
   { id: 'something_else', label: 'Something else', icon: 'something_else', tint: 'var(--tint-sage)', promise: 'Tell us, and we cover it too' },
 ]
 

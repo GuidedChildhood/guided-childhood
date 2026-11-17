@@ -331,6 +331,11 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - Real, pretend, and made by a computer (the dog on the moon), as the school lesson ks1-03 teaches it. Keeps the live keyword, catchphrase and pause cards, so it swaps in with no database change. It deliberately teaches asking, not spotting fakes by clues.
 - 14 pictures (one redraw so the upside down book reads), 36 lines in Tamsin's voice checked by transcript (one redone for a stutter). 43.3 credits against 53 quoted.
 - The parent film's real screen is the Book a time panel. Nobody has listened with sound on; not swapped into the product. `content/child-films/parent-reaction-series/1.5-real/`. PR 1604.
+## 17 November 2026: the walkthrough checked against the week, post 1 re-laid, three new posts
+
+- Justin asked for a high quality walkthrough of every service. The 20 post run (PR 1475) already covers them, so this pass checked it against the week's changes and built posts only for what is new: the school letter catch, the stage check's twelve, watch it together ("New in Guided Childhood, 1 of 3").
+- Post 1, due tonight, showed the retired worry question. The current screen was laid over those 4.8 seconds of the finished film (the source captures are on the Mac); the old render is kept as `-v1`.
+- Two stage check tiles no longer promise "safe". Posts 4, 10 and 18 have stale lines, listed with fixes. PR 1611 merged with only the claim; the work is in its follow up. `plans/2026-11-17-instagram-walkthrough-plan.md`.
 
 ## 17 November 2026: the 1.4 remake and its parent film are built
 
