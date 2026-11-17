@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { playKidSound } from '@/lib/sound/kidSounds'
+import { stickerFor, STAGE_DONE_LINE } from '@/lib/pathway/stage-stickers'
 import StickerBadge from '@/components/pathway/StickerBadge'
 import type { StickerRule } from '@/lib/stickers/catalog'
 import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
@@ -191,6 +192,12 @@ export default function KidStickers({ token, stickers, celebrate, daily = null }
   // The new stickers to celebrate this visit, held so a dismiss cannot lose
   // them before they are marked seen.
   const [toCheer] = useState(() => stickers.filter(s => celebrate.includes(s.key) && s.earned))
+  // A WHOLE STAGE DONE (17 November 2026): the passport stamp is the one
+  // sticker that goes in the paper passport, so its moment says so in the same
+  // words the grown up sees, shows the Planet Friend sticker and what it says
+  // was learnt, and offers the colour print.
+  const stampCheer = toCheer.find(s => s.rule.kind === 'stamp')
+  const stageDone = stampCheer && 'n' in stampCheer.rule ? stickerFor(stampCheer.rule.n) : null
   const [showCheer, setShowCheer] = useState(toCheer.length > 0)
   const popRef = useRef<HTMLDivElement>(null)
   const seenSent = useRef(false)
@@ -434,7 +441,10 @@ export default function KidStickers({ token, stickers, celebrate, daily = null }
                   border: `4px solid ${s.colour}`, boxShadow: `0 6px 0 ${s.colour}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
                 }}>
-                  {s.art
+                  {s.rule.kind === 'stamp' && 'n' in s.rule && stickerFor(s.rule.n)
+                    // eslint-disable-next-line @next/next/no-img-element
+                    ? <img src={stickerFor(s.rule.n)!.img} alt={`${stickerFor(s.rule.n)!.friend} sticker`} width={82} height={82} style={{ width: 82, height: 82, objectFit: 'contain' }} />
+                    : s.art
                     // eslint-disable-next-line @next/next/no-img-element
                     ? <img src={s.art} alt={s.name} width={82} height={82} style={{ width: 82, height: 82, objectFit: 'contain' }} />
                     // The same drawn badge the book shows, not the emoji it
@@ -446,13 +456,23 @@ export default function KidStickers({ token, stickers, celebrate, daily = null }
               ))}
             </div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
-              {toCheer.length > 1 ? 'You earned new stickers' : toCheer[0]?.rule.kind === 'sorted' ? `${toCheer[0].name}: sorted` : `You earned ${toCheer[0]?.name}`}
+              {stageDone ? STAGE_DONE_LINE : toCheer.length > 1 ? 'You earned new stickers' : toCheer[0]?.rule.kind === 'sorted' ? `${toCheer[0].name}: sorted` : `You earned ${toCheer[0]?.name}`}
             </h2>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
-              {toCheer.length === 1 && toCheer[0]?.rule.kind === 'sorted'
+              {stageDone
+                ? <>You earned {stageDone.friend}. Your sticker says: <strong style={{ color: 'var(--ink)' }}>&ldquo;{stageDone.learnt}&rdquo;</strong></>
+                : toCheer.length === 1 && toCheer[0]?.rule.kind === 'sorted'
                 ? 'Your grown up gave it five stars. That was you. Stamped in your passport.'
                 : 'Straight into your sticker book. Keep going for more.'}
             </p>
+            {stageDone && (
+              <a href={`/k/${token}/print?stickers=1&stage=${stageDone.n}`} style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 44, marginBottom: 10,
+                fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: 3,
+              }}>
+                Print my sticker for my passport
+              </a>
+            )}
             <button onClick={() => setShowCheer(false)} style={{
               width: '100%', padding: '14px', borderRadius: 'var(--radius-btn)', border: 'none', cursor: 'pointer',
               background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)',

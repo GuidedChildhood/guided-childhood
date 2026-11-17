@@ -7,13 +7,15 @@ import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
 import { loadStoredStamps } from '@/lib/pathway/stamp-store'
-import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getStickerBook } from '@/lib/stickers/book'
 import { stickerArt } from '@/lib/stickers/catalog'
 import StickerBadge from '@/components/pathway/StickerBadge'
 import { characterForStage } from '@/lib/content/stage-characters'
 import PrintButton from './PrintButton'
-import { STAGE_IDS, STAGE_COLOURS, BURGUNDY_FLAT, GOLD, PASSPORT_PRINT_RESET } from '@/lib/pathway/passport-print-style'
+import StageSticker from '@/components/passport/StageSticker'
+import { STAGE_STICKERS, PAPER_RULE } from '@/lib/pathway/stage-stickers'
+import { pageCount } from '@/lib/pathway/page-count'
+import { STAGE_IDS, STAGE_COLOURS, BURGUNDY_FLAT, GOLD, PASSPORT_PRINT_RESET, PAGE_CREAM, PAGE_INK, PAGE_INK_SOFT } from '@/lib/pathway/passport-print-style'
 
 // The printed passport, page by page, at A6.
 //
@@ -53,10 +55,8 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
   // Stored stamps first (migration 378): the booklet prints the stamps the
   // record holds, so adding a module never takes one off a printed page.
   const storedStamps = await loadStoredStamps(supabase, child?.id ?? null)
-  const sections = await buildPassportSections(
-    supabase, user.id, child ? { id: child.id, age_band: child.age_band } : null, progress, currentStageNum,
-    { openMoments: 0, solvedMoments: 0, parentReport: null },
-  ).catch(() => ({} as Awaited<ReturnType<typeof buildPassportSections>>))
+  // The stage pages print the one stamp rule now, so the five section rows
+  // (buildPassportSections) are no longer read here (17 November 2026).
   const earned = (book?.stickers ?? []).filter(s => s.earned)
   const stampedCount = STAGE_IDS.filter((id, i) => isStageStamped(progress[id], passed, i + 1, storedStamps)).length
 
@@ -110,8 +110,21 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
         {/* COVER */}
         <div className="gc-pp-page" data-page="cover" style={{ ...page, background: BURGUNDY_FLAT, color: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, padding: 24, textAlign: 'center', boxShadow: `inset 0 0 0 3mm rgba(237,195,95,0.35), ${page.boxShadow}` }}>
           <span style={{ ...mono, fontSize: 11, opacity: 0.85 }}>Guided Childhood</span>
-          <span style={{ width: 62, height: 62, borderRadius: '50%', border: `3px solid ${GOLD}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 30 }} aria-hidden>🛂</span>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 24, lineHeight: 1.05, letterSpacing: '-0.01em' }}>Digital Literacy<br />Passport</span>
+          {/* The app's title and the five friends in foil, a friend in colour
+              once its page is stamped (17 November 2026: the printed book is
+              the app's burgundy passport, not a different object). */}
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 24, lineHeight: 1.05, letterSpacing: '-0.01em' }}>Digital Childhood<br />Passport</span>
+          <span style={{ display: 'flex', gap: 5, marginTop: 6 }}>
+            {STAGE_STICKERS.map((st, i) => {
+              const on = isStageStamped(progress[STAGE_IDS[i]], passed, st.n, storedStamps)
+              return (
+                <span key={st.n} style={{ width: 26, height: 26, borderRadius: '50%', overflow: 'hidden', border: `1.5px solid ${GOLD}`, background: on ? PAGE_CREAM : 'rgba(237,195,95,0.10)', display: 'inline-flex' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={st.img} alt="" width={26} height={26} style={{ width: '100%', height: '100%', objectFit: 'contain', filter: on ? 'none' : 'grayscale(1) brightness(1.35) sepia(0.7) opacity(0.45)' }} />
+                </span>
+              )
+            })}
+          </span>
           <span style={{ ...mono, fontSize: 12, marginTop: 8 }}>{childName}</span>
           {child?.passport_code && <span style={{ ...mono, fontSize: 10, opacity: 0.8 }}>№ {child.passport_code}</span>}
         </div>
@@ -122,7 +135,7 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 26, margin: '0 0 4px', letterSpacing: '-0.02em' }}>{childName}</p>
           {child?.passport_code && <p style={{ ...mono, fontSize: 10, color: '#6B5C42', margin: '0 0 18px' }}>№ {child.passport_code}</p>}
           <p style={{ fontSize: 12.5, lineHeight: 1.55, color: '#4A3B25', margin: '0 0 12px' }}>
-            Five stages from four to sixteen. Each page stamps when its lessons are passed and its check is done. The stickers at the back are the days, the jobs, the time outside and the things learned along the way.
+            Five stages from four to sixteen, and a Planet Friend sticker for each. A stage is done when: {PAPER_RULE.charAt(0).toLowerCase() + PAPER_RULE.slice(1)} The stickers at the back are the days, the jobs and the time outside along the way.
           </p>
           <p style={{ fontSize: 12.5, lineHeight: 1.55, color: '#4A3B25', margin: 0 }}>
             Add each sticker from the sheet as it is earned in the app, or keep this copy until the whole book is stamped.
@@ -137,7 +150,7 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
           const stamped = isStageStamped(p, passed, n, storedStamps)
           const colour = STAGE_COLOURS[i]
           const friend = characterForStage(n)
-          const rows = sections[n]?.sections ?? []
+          const c = pageCount(p, passed.has(n))
           const isCurrent = currentStageNum === n
           return (
             <div key={id} className="gc-pp-page" data-page={`stage-${n}`} data-stamped={stamped ? '1' : '0'} style={{ ...page, padding: '18px 18px 16px', borderTop: `6mm solid ${colour}` }}>
@@ -152,32 +165,32 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
                 )}
               </div>
 
-              {/* The stamp: a ring on every page, filled and tilted once earned,
-                  so an unstamped page reads as waiting rather than empty. */}
-              <div style={{ display: 'flex', justifyContent: 'center', margin: '12px 0 10px' }}>
-                <div style={{
-                  width: 72, height: 72, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
-                  border: stamped ? `3px solid ${colour}` : '2px dashed rgba(42,31,20,0.3)',
-                  background: stamped ? '#fff' : 'transparent', transform: stamped ? 'rotate(-8deg)' : 'none',
-                  color: stamped ? colour : 'rgba(42,31,20,0.35)',
-                }}>
-                  <span style={{ fontSize: 22, lineHeight: 1 }}>{stamped ? '✓' : ''}</span>
-                  <span style={{ ...mono, fontSize: 8 }}>{stamped ? 'Stamped' : 'Not yet'}</span>
-                </div>
+              {/* THE STICKER SPOT (17 November 2026). The stage's Planet Friend
+                  in colour once the page is stamped in the app, a dashed
+                  circle to stick it on until then, and the line it says was
+                  learnt. Then the one rule, the three things the stamp reads
+                  (lib/pathway/stamped.ts), never the rows that earn nothing. */}
+              <div style={{ display: 'flex', justifyContent: 'center', margin: '10px 0 6px' }}>
+                {stamped
+                  ? <StageSticker s={STAGE_STICKERS[i]} earned size={70} showName={false} />
+                  : (
+                    <div style={{ width: 70, height: 70, borderRadius: '50%', border: '2px dashed rgba(42,31,20,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', color: 'rgba(42,31,20,0.45)' }}>
+                      <span style={{ ...mono, fontSize: 7, lineHeight: 1.4 }}>Stick<br />{STAGE_STICKERS[i].friend}<br />here</span>
+                    </div>
+                  )}
               </div>
-
-              <p style={{ ...mono, fontSize: 9, color: '#6B5C42', margin: '0 0 6px' }}>
-                Lessons {p?.lessonsDone ?? 0} of {p?.lessonsTotal ?? 0} · Check {passed.has(n) ? 'passed' : 'to do'}
+              <p style={{ fontSize: 10.5, lineHeight: 1.4, color: PAGE_INK_SOFT, textAlign: 'center', margin: '0 0 8px', fontStyle: stamped ? 'normal' : 'italic' }}>
+                {stamped ? `“${STAGE_STICKERS[i].learnt}”` : `Earns ${STAGE_STICKERS[i].friend}: ${STAGE_STICKERS[i].learnt.charAt(0).toLowerCase()}${STAGE_STICKERS[i].learnt.slice(1)}`}
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                {rows.map(r => (
-                  <div key={r.key} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <span style={{ width: 14, textAlign: 'center', fontSize: 11 }} aria-hidden>{r.emoji}</span>
-                    <span style={{ flex: 1, fontSize: 11, fontWeight: 700, color: '#2A1F14' }}>{r.label}</span>
-                    <span style={{ width: 54, height: 6, borderRadius: 3, background: 'rgba(42,31,20,0.1)', overflow: 'hidden' }}>
-                      <span style={{ display: 'block', height: '100%', width: `${Math.max(0, Math.min(100, r.pct))}%`, background: colour }} />
-                    </span>
-                    <span style={{ ...mono, fontSize: 8, width: 26, textAlign: 'right', color: '#6B5C42' }}>{Math.round(r.pct)}%</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {[
+                  { k: 'l', label: `Lessons passed · ${c.lessons.done} of ${c.lessons.total}`, done: c.lessons.total > 0 && c.lessons.done >= c.lessons.total, show: c.lessons.total > 0 },
+                  { k: 's', label: `Talks done · ${c.scripts.done} of ${c.scripts.total}`, done: c.scripts.done >= c.scripts.total, show: c.scripts.total > 0 },
+                  { k: 'c', label: c.check.done ? 'Big check passed' : 'Big check', done: c.check.done, show: true },
+                ].filter(r => r.show).map(r => (
+                  <div key={r.k} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 12, height: 12, borderRadius: '50%', border: `1.5px solid ${r.done ? colour : 'rgba(42,31,20,0.3)'}`, background: r.done ? colour : 'transparent', flexShrink: 0 }} aria-hidden />
+                    <span style={{ fontSize: 11, fontWeight: 700, color: PAGE_INK }}>{r.label}</span>
                   </div>
                 ))}
               </div>
