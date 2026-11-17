@@ -314,3 +314,9 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 
 - On Justin's yes. Live: watch_bookings with row level security on, no browser grants or policies (service role only), four indexes, no rows; parent_lessons.after_prompt set on all ten films. Last migration recorded: 400_watch_bookings.
 - PR 1589 (the booking code) merged the same morning, so booking is live once main deploys. Next: one live test, a film booked a few minutes ahead for one child.
+
+## 17 November 2026: the 1.5 remake and its parent film are built
+
+- Real, pretend, and made by a computer (the dog on the moon), as the school lesson ks1-03 teaches it. Keeps the live keyword, catchphrase and pause cards, so it swaps in with no database change. It deliberately teaches asking, not spotting fakes by clues.
+- 14 pictures (one redraw so the upside down book reads), 36 lines in Tamsin's voice checked by transcript (one redone for a stutter). 43.3 credits against 53 quoted.
+- The parent film's real screen is the Book a time panel. Nobody has listened with sound on; not swapped into the product. `content/child-films/parent-reaction-series/1.5-real/`. PR 1604.

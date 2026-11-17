@@ -1,0 +1,345 @@
+{
+ "voice": {
+  "model": "seed_audio",
+  "voice_type": "preset",
+  "voice_id": "9eb5a147-c322-4f8a-8bc5-a30679dfaf5c",
+  "speech_rate": -10
+ },
+ "film": "1.5",
+ "hook": "One question every five year old needs for AI pictures",
+ "family_ids": [
+  "c01",
+  "c05",
+  "c09",
+  "c10",
+  "c13",
+  "c14",
+  "c15",
+  "c17",
+  "c18",
+  "c19",
+  "c20",
+  "c21",
+  "c22",
+  "c25"
+ ],
+ "book_line": "Real or pretend. A few minutes, on the sofa.",
+ "thumb_title": "Real or pretend?",
+ "thumb_pic": "r07",
+ "screen": {
+  "file": "screen.png",
+  "crop": "iw:ih:0:0"
+ },
+ "cards": {
+  "ask1": [
+   "Grown up, ask:",
+   "Can you think of something on a screen that is PRETEND? And something that is REAL?",
+   "There is no wrong answer. Let it land."
+  ],
+  "ask2": [
+   "Say together:",
+   "When we are not sure... we ASK.",
+   "Then give each other a high five."
+  ]
+ },
+ "child": [
+  {
+   "id": "c01",
+   "seg": "A",
+   "pics": [
+    "r01"
+   ],
+   "text": "Hello, it's Didgee. And here's Pebble."
+  },
+  {
+   "id": "c02",
+   "seg": "A",
+   "pics": [
+    "r02"
+   ],
+   "text": "Oh, Pebble. Other way round. That's better."
+  },
+  {
+   "id": "c03",
+   "seg": "A",
+   "pics": [
+    "p02"
+   ],
+   "text": "Let's breathe together. Breathe in, and blow out slowly. One more. Lovely."
+  },
+  {
+   "id": "c04",
+   "seg": "A",
+   "pics": [
+    "r03"
+   ],
+   "product_only": true,
+   "text": "Last time, we learned that a photo only shows a tiny bit of you. Today, we're picture detectives."
+  },
+  {
+   "id": "c05",
+   "seg": "A",
+   "pics": [
+    "r04"
+   ],
+   "word": "PRETEND",
+   "text": "Today's special word is pretend."
+  },
+  {
+   "id": "c06",
+   "seg": "A",
+   "pics": [
+    "r04"
+   ],
+   "word": "PRETEND",
+   "text": "Pretend means made up. Not really happening."
+  },
+  {
+   "id": "c07",
+   "seg": "A",
+   "pics": [
+    "r05"
+   ],
+   "text": "Some things are real. A real puppy. Real rain. Real splashes."
+  },
+  {
+   "id": "c08",
+   "seg": "A",
+   "pics": [
+    "r06"
+   ],
+   "text": "Some things are pretend. Dragons are pretend. Someone drew this one, to make a story."
+  },
+  {
+   "id": "c09",
+   "seg": "A",
+   "pics": [
+    "r07"
+   ],
+   "text": "And here's a tricky one. A computer can make a picture of something that never happened."
+  },
+  {
+   "id": "c10",
+   "seg": "A",
+   "pics": [
+    "r07"
+   ],
+   "text": "This dog never went to the moon. A computer made the picture. It looks real, but it isn't."
+  },
+  {
+   "id": "c11",
+   "seg": "A",
+   "pics": [
+    "r08"
+   ],
+   "text": "Sometimes you can't tell, just by looking. And that's okay. You don't have to know by yourself."
+  },
+  {
+   "id": "c12",
+   "seg": "A",
+   "pics": [
+    "p07"
+   ],
+   "card": "ask1",
+   "text": "Pause me here, and ask each other the question. I'll wait."
+  },
+  {
+   "id": "c13",
+   "seg": "B",
+   "pics": [
+    "r09"
+   ],
+   "text": "So when you're not sure, ask the magic question."
+  },
+  {
+   "id": "c14",
+   "seg": "B",
+   "pics": [
+    "r09"
+   ],
+   "word": "Is this real?",
+   "text": "Is this real?"
+  },
+  {
+   "id": "c15",
+   "seg": "B",
+   "pics": [
+    "r10"
+   ],
+   "text": "Take it to your grown up and ask: is this real? Then look at it together."
+  },
+  {
+   "id": "c16",
+   "seg": "B",
+   "pics": [
+    "r04"
+   ],
+   "text": "Let's play. Real, pretend, or made by a computer? Shout it out."
+  },
+  {
+   "id": "c17",
+   "seg": "B",
+   "pics": [
+    "r05"
+   ],
+   "gap": 1.8,
+   "text": "The puppy in the puddle?"
+  },
+  {
+   "id": "c17b",
+   "seg": "B",
+   "pics": [
+    "r05"
+   ],
+   "text": "Real!"
+  },
+  {
+   "id": "c18",
+   "seg": "B",
+   "pics": [
+    "r06"
+   ],
+   "gap": 1.8,
+   "text": "The dragon?"
+  },
+  {
+   "id": "c18b",
+   "seg": "B",
+   "pics": [
+    "r06"
+   ],
+   "text": "Pretend!"
+  },
+  {
+   "id": "c19",
+   "seg": "B",
+   "pics": [
+    "r07"
+   ],
+   "gap": 1.8,
+   "text": "The dog on the moon?"
+  },
+  {
+   "id": "c19b",
+   "seg": "B",
+   "pics": [
+    "r07"
+   ],
+   "text": "Made by a computer. Ooh, tricky."
+  },
+  {
+   "id": "c20",
+   "seg": "B",
+   "pics": [
+    "r11"
+   ],
+   "text": "The clever thing isn't knowing. The clever thing is asking."
+  },
+  {
+   "id": "c21",
+   "seg": "B",
+   "pics": [
+    "p07"
+   ],
+   "card": "ask2",
+   "text": "Pause me here. Say it together, and do your high five."
+  },
+  {
+   "id": "c22",
+   "seg": "C",
+   "pics": [
+    "r12"
+   ],
+   "text": "You will never be in trouble for asking. Grown ups love that question."
+  },
+  {
+   "id": "c23",
+   "seg": "C",
+   "pics": [
+    "r05",
+    "r06",
+    "r07"
+   ],
+   "text": "So. Some things are real. Some are pretend. And some are made by a computer."
+  },
+  {
+   "id": "c24",
+   "seg": "C",
+   "pics": [
+    "r09"
+   ],
+   "text": "And if you're not sure, ask. Is this real?"
+  },
+  {
+   "id": "c25",
+   "seg": "C",
+   "pics": [
+    "r13"
+   ],
+   "text": "Tonight, if you see something amazing on a screen, ask your grown up: is this real?"
+  },
+  {
+   "id": "c26",
+   "seg": "C",
+   "pics": [
+    "r13"
+   ],
+   "text": "Goodbye from Didgee. See you next time."
+  }
+ ],
+ "parent": [
+  {
+   "id": "a01",
+   "pics": [
+    "r07"
+   ],
+   "text": "This dog never went to the moon. A computer made the picture, in seconds."
+  },
+  {
+   "id": "a02",
+   "pics": [
+    "r08"
+   ],
+   "text": "Sometimes nobody can tell just by looking. Not your child, and not us."
+  },
+  {
+   "id": "a03",
+   "pics": [
+    "words"
+   ],
+   "eye": "So",
+   "big": "Don't teach them to spot the fakes. Teach them to ask.",
+   "text": "So don't teach them to spot the fakes. Teach them to ask."
+  },
+  {
+   "id": "a04",
+   "pics": [
+    "r09@0.55"
+   ],
+   "text": "The magic question is: is this real?"
+  },
+  {
+   "id": "a05",
+   "pics": [
+    "words"
+   ],
+   "eye": "The answer that keeps them asking",
+   "big": "Good question. Let's look together.",
+   "text": "And the answer that keeps them asking: good question, let's look together."
+  },
+  {
+   "id": "a06",
+   "pics": [
+    "screen"
+   ],
+   "text": "Real or pretend is a few minutes on the sofa. In Guided Childhood you can book a time, and it waits on their page then."
+  },
+  {
+   "id": "a07",
+   "pics": [
+    "r11"
+   ],
+   "text": "Tonight, when something amazing turns up on a screen, ask together: is this real?"
+  }
+ ]
+}
