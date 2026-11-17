@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import StarChartSheet, { MAX_ROWS } from '@/components/printables/StarChartSheet'
+import StarChartSheet, { MAX_ROWS, penRows } from '@/components/printables/StarChartSheet'
 import KidBackLink from '@/components/kid/KidBackLink'
 import { HAPPY, HappyMasthead, Burst } from '@/components/kid/HappyNewsBits'
 import { printOrOpen, packForUrl, tickPrintableStep, fiveADayHref } from '@/lib/kid/print-anywhere'
@@ -78,6 +78,8 @@ export default function StarChartBuilder({
   kidToken = null,
   rateByChild = {},
   defaultRate = 5,
+  fullDaysByChild = {},
+  defaultChildId = null,
 }: {
   /** The family's real active jobs, straight off the quests board. */
   yourJobs?: YourJob[]
@@ -121,6 +123,10 @@ export default function StarChartBuilder({
    */
   rateByChild?: Record<string, number>
   defaultRate?: number
+  /** Full days each child has in the app, for the Planet Friends trail. */
+  fullDaysByChild?: Record<string, number>
+  /** The child a one child family's sheet is for (there is no switcher). */
+  defaultChildId?: string | null
 } = {}) {
   const router = useRouter()
   const [childName, setChildName] = useState(defaultChildName)
@@ -141,6 +147,8 @@ export default function StarChartBuilder({
   // The deal printed on the sheet follows the chosen child's own rate. A one
   // child family has no switcher, so the default carries their rate instead.
   const rate = (forChild && rateByChild[forChild]) || defaultRate
+  const progressFor = forChild ?? defaultChildId
+  const fullDays = progressFor && progressFor in fullDaysByChild ? fullDaysByChild[progressFor] : null
 
   const [picked, setPicked] = useState<Job[]>(
     // Their own jobs lead. Falling back to our menu only when a family has set
@@ -170,7 +178,7 @@ export default function StarChartBuilder({
 
   // Whatever is left of the eleven rows prints as a blank line, so the chart
   // always fills the page and there is still room for a Tuesday afterthought.
-  const blanks = Math.max(0, MAX_ROWS - picked.length)
+  const blanks = penRows(picked.length)
   const name = childName.trim()
 
   return (
@@ -417,15 +425,9 @@ export default function StarChartBuilder({
 
       {/* The sheet itself, the SHARED one. What is on screen here is exactly
           what prints, and exactly what the child's own print page prints.
-          On a narrow phone the seven day columns crush the headers into each
-          other, so the preview scrolls sideways instead; print ignores the
-          wrapper entirely, the A4 page being wider than the minimum anyway. */}
-      <style>{`@media print { .sheet-scroll { overflow: visible !important } .sheet-scroll > div { min-width: 0 !important } }`}</style>
-      <div className="sheet-scroll" style={{ overflowX: 'auto' }}>
-        <div style={{ minWidth: 560 }}>
-          <StarChartSheet name={name} weekLabel={week?.label ?? null} jobs={picked} starMinutes={rate} />
-        </div>
-      </div>
+          Page one sits in SheetScale, so a phone sees the whole A4 page shrunk
+          to fit rather than a sideways scroll (17 November 2026). */}
+      <StarChartSheet name={name} weekLabel={week?.label ?? null} jobs={picked} starMinutes={rate} fullDays={fullDays} />
 
       {/* One tidy action bar, fixed low on the screen the Mobbin way, so the
           print button is always in reach however far the menu runs. */}

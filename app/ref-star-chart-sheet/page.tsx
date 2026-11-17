@@ -54,20 +54,14 @@ export default function RefStarChartSheet() {
         <Label>Parent end of week entry (two children)</Label>
         <FridgeChartLog kids={[{ id: 'a', name: 'Teo' }, { id: 'b', name: 'Alma' }]} />
 
-        <Label>The sheet: five real jobs, named and dated (scrolls sideways on a narrow phone)</Label>
-        <div style={{ overflowX: 'auto' }}><div style={{ minWidth: 560 }}>
-          <StarChartSheet name="Teo" weekLabel="Monday 10 August" jobs={FIVE_JOBS} />
-        </div></div>
+        <Label>The sheet: five real jobs, named and dated (shrinks to fit a phone)</Label>
+        <StarChartSheet name="Teo" weekLabel="Monday 16 November" jobs={FIVE_JOBS} fullDays={7} />
 
         <Label>The sheet: no jobs, all pen rows</Label>
-        <div style={{ overflowX: 'auto' }}><div style={{ minWidth: 560 }}>
-          <StarChartSheet name="" weekLabel={null} jobs={[]} />
-        </div></div>
+        <StarChartSheet name="" weekLabel={null} jobs={[]} />
 
         <Label>The sheet: a full eleven rows, undated</Label>
-        <div style={{ overflowX: 'auto' }}><div style={{ minWidth: 560 }}>
-          <StarChartSheet name="Alma" weekLabel={null} jobs={ELEVEN_JOBS} />
-        </div></div>
+        <StarChartSheet name="Alma" weekLabel={null} jobs={ELEVEN_JOBS} />
 
         <Label>The kid variant of the shared builder (the child app page is exactly this)</Label>
         <div style={{ background: 'var(--cream)', borderRadius: 'var(--radius-btn)' }}>
