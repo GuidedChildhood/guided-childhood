@@ -181,8 +181,56 @@ export async function buildDossier(rec) {
       if (m.type === 'posted-content' || m.subtype === 'preprint') { d.isPreprint = true; d.peerReviewed = false }
       if (m['is-referenced-by-count'] != null) d.citedBy = m['is-referenced-by-count']
     } else {
-      d.doiResolves = false
-      notes.push(`DOI did not resolve through Crossref (HTTP ${status}). Treat the citation as unconfirmed.`)
+      // Not every DOI is a Crossref DOI. A dataset or report deposited with a
+      // university repository is registered with DataCite (Childlight's index,
+      // 10.7488, 17 November 2026). Ask DataCite before calling it unconfirmed,
+      // and only believe it when the title matches the register's.
+      const dc = await getJson(`https://api.datacite.org/dois/${encodeURIComponent(clean)}`)
+      const a = dc.ok ? dc.json?.data?.attributes : null
+      const dcTitle = a?.titles?.[0]?.title || ''
+      const words = reg.titleKey(rec.title).split(' ').filter((w) => w.length > 3)
+      const dcKey = ` ${reg.titleKey(dcTitle)} `
+      const titleMatches = words.length > 0 && words.filter((w) => dcKey.includes(` ${w} `)).length / words.length >= 0.7
+      if (a && titleMatches) {
+        d.doiResolves = true
+        d.automaticChecks.push('DOI resolved through DataCite, title matches')
+        d.canonicalTitle = dcTitle
+        d.publisher = a.publisher?.name || a.publisher || null
+        const issued = (a.dates || []).find((x) => x.dateType === 'Issued')?.date || a.published || null
+        if (issued) d.crossrefOnlineDate = String(issued).slice(0, 10)
+        if (a.types?.resourceTypeGeneral) notes.push(`a DataCite record of type ${a.types.resourceTypeGeneral}, not a journal article: no peer review is implied`)
+        if (d.crossrefOnlineDate && d.indexedDate) {
+          d.datesAgree = d.crossrefOnlineDate.slice(0, 7) === String(d.indexedDate).slice(0, 7) || d.crossrefOnlineDate.length === 4
+          if (!d.datesAgree) notes.push(`date disagreement: index says ${d.indexedDate}, DataCite issued date is ${d.crossrefOnlineDate}`)
+        }
+      } else {
+        d.doiResolves = false
+        notes.push(`DOI did not resolve through Crossref (HTTP ${status})${a ? ', and the DataCite title does not match' : ' or DataCite'}. Treat the citation as unconfirmed.`)
+      }
+    }
+  } else if (/^https?:\/\/(export\.)?arxiv\.org\/abs\/\d{4}\.\d{4,5}/.test(rec.url || '')) {
+    // An arXiv preprint has no DOI on the record but has its own canonical
+    // record: the arXiv API entry, with the title and the first submitted date.
+    const arxivId = rec.url.match(/abs\/(\d{4}\.\d{4,5})/)[1]
+    const r = await get(`https://export.arxiv.org/api/query?id_list=${arxivId}`, { retries: 2, timeoutMs: 20000 })
+    const body = r.ok ? String(r.body || '') : ''
+    const entry = body.split('<entry>')[1] || ''
+    const title = ((entry.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '').replace(/\s+/g, ' ').trim()
+    const published = ((entry.match(/<published>([^<]+)<\/published>/) || [])[1] || '').slice(0, 10)
+    const words = reg.titleKey(rec.title).split(' ').filter((w) => w.length > 3)
+    const key = ` ${reg.titleKey(title)} `
+    const titleMatches = words.length > 0 && words.filter((w) => key.includes(` ${w} `)).length / words.length >= 0.7
+    d.isPreprint = true; d.peerReviewed = false
+    if (title && titleMatches && published) {
+      d.officialRecordResolves = true
+      d.officialRecord = { url: `https://arxiv.org/abs/${arxivId}`, title, published }
+      d.automaticChecks.push('arXiv record resolved through the arXiv API, title matches')
+      d.crossrefOnlineDate = published
+      d.datesAgree = !!d.indexedDate && published.slice(0, 7) === String(d.indexedDate).slice(0, 7)
+      if (!d.datesAgree) notes.push(`date disagreement: the register says ${d.indexedDate}, arXiv first submitted ${published}`)
+    } else {
+      d.officialRecordResolves = false
+      notes.push(`the arXiv record ${arxivId} did not answer with a matching title (HTTP ${r.status}). Treat the citation as unconfirmed.`)
     }
   } else if (rec.isOfficial && /^https:\/\/www\.gov\.uk\/government\/publications\//.test(rec.url || '')) {
     // An official document has no DOI. Its canonical record is the GOV.UK

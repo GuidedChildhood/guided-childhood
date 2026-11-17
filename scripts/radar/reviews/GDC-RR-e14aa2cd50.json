@@ -1,0 +1,72 @@
+{
+ "studyId": "GDC-RR-e14aa2cd50",
+ "reviewedAt": "2026-11-17T09:31:00Z",
+ "reviewedBy": "Claude Code, scheduled morning run, 17 November 2026",
+ "verdict": "HOLD",
+ "editorialPriority": "LOW",
+ "proposedTitle": null,
+ "proposedAngle": null,
+ "reviewBasis": "The full text on the Frontiers in Public Health site for DOI 10.3389/fpubh.2026.1934086, read in this run: abstract, introduction, methods including weighting and measures, results with tables 6 to 9, the strengths and limitations section, funding and conflict of interest statements. Peer reviewed, published 17 November 2026.",
+ "claims": [
+  {
+   "claim": "The sample was 2,569 children from the Cohort'18 Growing Up in Hungary birth cohort.",
+   "status": "VERIFIED",
+   "basis": "Abstract and methods."
+  },
+  {
+   "claim": "Mean daily screen time at 18 months was 85.7 minutes and only 14.0 percent had none on an average day.",
+   "status": "VERIFIED",
+   "basis": "Abstract and results 3.1, weighted."
+  },
+  {
+   "claim": "Among children with the same screen time, each extra non recommended context (chores, meals, bedtime, soothing) was linked to higher odds of fine motor and problem solving delay at age 3.",
+   "status": "QUALIFIED",
+   "basis": "Results tables 7 to 9: odds ratios of about 1.17 to 1.25 per context, one of them marginal at p = 0.053. Associations, all reported by the mother."
+  },
+  {
+   "claim": "Screen use at bedtime or meals causes developmental delay.",
+   "status": "UNSUPPORTED",
+   "basis": "Observational. The authors say residual confounding cannot be ruled out and reverse causation remains possible, as children with emerging difficulties may be offered devices more."
+  }
+ ],
+ "verifiedStatistics": [],
+ "notQuotable": [
+  "Any figure, until the story is matched to an audience we serve",
+  "Any causal wording about delay"
+ ],
+ "recommendedPlatforms": [],
+ "urgency": "None. Held.",
+ "evidenceConfidence": "HIGH that the paper says what is written here. MODERATE as evidence: a weighted national cohort with baseline adjustment, but one reporter for exposure and outcome, a screening questionnaire rather than assessment, modest effects and a data wave disrupted by COVID 19.",
+ "limitations": [
+  "Children were 18 months old at exposure and 3 at outcome. Our customer is the parent of a child aged 4 to 16; the parent of a 2 or 3 year old is a customer later (Justin, 16 October 2026).",
+  "Exposure and outcome were both reported by the mother, so the same view of the child shapes both.",
+  "The ASQ 3 is a screening tool, so 'at risk of delay' is not a diagnosis.",
+  "Reverse causation and residual confounding are stated by the authors.",
+  "The 18 month wave coincided with the start of the COVID 19 pandemic, reducing the sample and delaying some assessments."
+ ],
+ "contradictoryEvidence": [
+  "After adjustment for family circumstances the screen time associations were attenuated, and in some domains only the highest levels stayed significant, which suggests family context explains part of what looks like a screen effect.",
+  "Gross motor skills showed no association, so the pattern is not uniform across development."
+ ],
+ "whatThisDoesNotProve": [
+  "That screens at meals or bedtime harm development.",
+  "Anything about children aged 4 to 16.",
+  "That reducing contexts would improve outcomes."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run. It was published today.",
+ "gdcBeliefs": [
+  "Three kinds of time: protected time at meals and bedtime matches the paper's non recommended contexts closely, which is exactly why it is held to a higher bar and not used for a younger age group than we serve."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "No change.",
+  "parentTool": "No change.",
+  "digi": "No change.",
+  "historyChecker": "No change."
+ },
+ "recommendedAudience": "Nobody yet.",
+ "unresolvedQuestions": [
+  "Does the same cohort report on these children at school age? That would be the version worth posting."
+ ],
+ "storedAt": "scripts/radar/reviews/GDC-RR-e14aa2cd50.json"
+}
