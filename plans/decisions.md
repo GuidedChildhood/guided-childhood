@@ -303,6 +303,11 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - Justin heard Tamsin as not real enough and chose Isla on ElevenLabs by ear (sample 5 of nine). All five first release films (1.1, 1.2, 1.3, 1.4, 1.5) are now in Isla's voice in both public shapes, subtitles rebuilt. DiGi's voice row in `digi-squad/README.md` now names Isla.
 - Every line was transcribed against its words before the build; one 1.4 line ("Screens" heard as "Screams") was redone.
 - About 52 credits for the four, so roughly 0.25 a line, not the 0.15 quoted. Nothing uploaded. PR 1588 and its follow up.
+## 17 November 2026: the fridge star chart, redesigned to match the app
+
+- Page one is now a fixed A4 page in the child app's look: rainbow, "My five a day", a full day planet row, the Planet Friends trail with the child's real full days, the goal line at the top, and three panels (where our phones sleep, outside this week by season, end of the week tally with a QR to the paper week entry).
+- The old "4 stars in a day = one Planet Friend" was wrong. The sheet now imports the real ladder (2, 10, 22, 38, 58 full days) and says full days count when ticked in the app.
+- SheetScale measured zoomed pixels and clipped sheets on phones; fixed for every sheet. Plan in plans/2026-11-17-fridge-star-chart.md.
 
 ## 17 November 2026: the Scripts page is three shelves, and every script looks after the parent too
 
@@ -321,3 +326,8 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 - Justin: the order card showed a yellow "Digital Literacy Passport" photo and generic stickers. Now drawn: the app's burgundy cover (PassportCover, shared with the stage check and the shop) and one Planet Friend sticker per stage (StageSticker), earned ones in colour.
 - One rule, screen and paper: lessons passed, talks done, big check passed (lib/pathway/stamped.ts). Moments, stars, balance and outside time show as "along the way" and earn nothing, since the code does not read them. Adding any to the rule is Justin's call, asked in the PR.
 - Stage done: both sides see "Stage done, sticker added to your passport" with what the sticker says was learnt, and print a colour A4 sticker sheet (parent and child routes). Guard: check-stage-stickers. PR 1608 (1603 merged as the claim only).
+## 17 November 2026: the 1.5 remake and its parent film are built
+
+- Real, pretend, and made by a computer (the dog on the moon), as the school lesson ks1-03 teaches it. Keeps the live keyword, catchphrase and pause cards, so it swaps in with no database change. It deliberately teaches asking, not spotting fakes by clues.
+- 14 pictures (one redraw so the upside down book reads), 36 lines in Tamsin's voice checked by transcript (one redone for a stutter). 43.3 credits against 53 quoted.
+- The parent film's real screen is the Book a time panel. Nobody has listened with sound on; not swapped into the product. `content/child-films/parent-reaction-series/1.5-real/`. PR 1604.

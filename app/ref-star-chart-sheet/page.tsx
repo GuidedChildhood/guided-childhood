@@ -1,4 +1,5 @@
 import StarChartSheet from '@/components/printables/StarChartSheet'
+import SchoolWeekSheet from '@/components/printables/SchoolWeekSheet'
 import StarChartBuilder from '@/app/(dashboard)/dashboard/printables/star-chart/StarChartBuilder'
 import { KidStarChartHero } from '@/app/k/[token]/KidQuestScreen'
 import FridgeChartLog from '@/components/quests/FridgeChartLog'
@@ -54,20 +55,31 @@ export default function RefStarChartSheet() {
         <Label>Parent end of week entry (two children)</Label>
         <FridgeChartLog kids={[{ id: 'a', name: 'Teo' }, { id: 'b', name: 'Alma' }]} />
 
-        <Label>The sheet: five real jobs, named and dated (scrolls sideways on a narrow phone)</Label>
-        <div style={{ overflowX: 'auto' }}><div style={{ minWidth: 560 }}>
-          <StarChartSheet name="Teo" weekLabel="Monday 10 August" jobs={FIVE_JOBS} />
-        </div></div>
+        <Label>The sheet: five real jobs, named and dated (shrinks to fit a phone)</Label>
+        <StarChartSheet name="Teo" weekLabel="Monday 16 November" jobs={FIVE_JOBS} fullDays={7} />
+
+        <Label>Our school week: three children, with dates caught from school emails</Label>
+        <SchoolWeekSheet
+          kids={['Alma', 'Olga', 'Teo']}
+          weekLabel="Monday 16 November"
+          items={[
+            { day: 0, child: 2, text: 'Library book back' },
+            { day: 1, child: 1, text: 'PE kit' },
+            { day: 2, child: 0, text: 'Due: Science project' },
+            { day: 3, child: 1, text: 'PE kit' },
+            { day: 4, child: null, text: 'Non uniform day, £1' },
+            { day: 4, child: 2, text: 'Due: Spellings test' },
+          ]}
+        />
+
+        <Label>Our school week: blank, the free download</Label>
+        <SchoolWeekSheet kids={[]} weekLabel={null} />
 
         <Label>The sheet: no jobs, all pen rows</Label>
-        <div style={{ overflowX: 'auto' }}><div style={{ minWidth: 560 }}>
-          <StarChartSheet name="" weekLabel={null} jobs={[]} />
-        </div></div>
+        <StarChartSheet name="" weekLabel={null} jobs={[]} />
 
         <Label>The sheet: a full eleven rows, undated</Label>
-        <div style={{ overflowX: 'auto' }}><div style={{ minWidth: 560 }}>
-          <StarChartSheet name="Alma" weekLabel={null} jobs={ELEVEN_JOBS} />
-        </div></div>
+        <StarChartSheet name="Alma" weekLabel={null} jobs={ELEVEN_JOBS} />
 
         <Label>The kid variant of the shared builder (the child app page is exactly this)</Label>
         <div style={{ background: 'var(--cream)', borderRadius: 'var(--radius-btn)' }}>
