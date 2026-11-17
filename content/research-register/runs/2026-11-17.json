@@ -92,18 +92,6 @@
    "attempts": 2
   },
   {
-   "stage": "APPROVAL DESK",
-   "verdict": "SKIPPED",
-   "by": "claude",
-   "reasons": [
-    "nothing new at ASSETS READY; desks not republished from an uncommitted tree"
-   ],
-   "detail": null,
-   "at": "2026-11-17T09:32:28.218Z",
-   "commit": "a1c213ac",
-   "attempts": 1
-  },
-  {
    "stage": "PUSH",
    "verdict": "PASS",
    "by": "claude",
@@ -138,7 +126,19 @@
    "at": "2026-11-17T09:55:23.278Z",
    "commit": "4992de15",
    "attempts": 3
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "nothing new at ASSETS READY (GDC 055, 056, 057, 059 ready and 054, 058 approved, unchanged); Radar Desk republished at the same URL, version 12, from 4992de15 plus the sync record"
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:55:58.687Z",
+   "commit": "c5671241",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-17T09:55:23.308Z"
+ "updatedAt": "2026-11-17T09:55:58.719Z"
 }
