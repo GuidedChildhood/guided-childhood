@@ -7,7 +7,7 @@ Lead: Bloop (routines). Parent problem: service map 7, the mental load of school
 ## The cards
 
 1. The letter said Wednesday. I found it on Thursday.
-2. Take a photo of the letter. Or pick the screenshot. (the snap card)
+2. Snap the letter. Or screenshot the ClassDojo message. (the Add from school card)
 3. Or forward the school emails to your own address. (the Letterbox card)
 4. It lands on the right day. Weekly ones come back. (the week grid)
 5. And on their week, in their own app. (the child's week)
@@ -41,7 +41,7 @@ It starts with a free stage check. Three questions, no sign up: guidedchildhood.
 ## Alt text
 
 1. Headline: The letter said Wednesday. I found it on Thursday. Bloop, a small green character, stands on a gold path.
-2. The app's card: Snap it and DiGi reads it, with a Photo or screenshot button and Or paste the text.
+2. The app's card: Add from school. Snap it. We find the date and keep on top of it. Buttons: Photo or screenshot, Forward an email, Or paste the text.
 3. The app's card: Let DiGi catch the school emails, a private address, with three ticks about privacy and a Get my address button.
 4. The app's week, Monday 16 and Tuesday 17 November, with PE kit at 08:30 marked weekly.
 5. The child's week in their app: a row of days and Today, PE kit, 08:30, every Tuesday.
@@ -54,7 +54,7 @@ It starts with a free stage check. Three questions, no sign up: guidedchildhood.
 
 ## Proof paths
 
-- Snap or screenshot, read by DiGi: `components/school/SchoolCatch.tsx`, `app/api/school/catch/route.ts`, `lib/school/extract.ts` (dev fixture `/dev/school-catch`). PR 1610 (open) moves "add from school" to the top of the page and gives an honest message when a screenshot cannot be read. Post this after 1610 merges.
+- Snap or screenshot, read by DiGi: `components/school/SchoolCatch.tsx`, `app/api/school/catch/route.ts`, `lib/school/extract.ts` (dev fixture `/dev/school-catch`). PR 1610 (merged 17 November) put "Add from school" first, added the Forward an email button and an honest message when a screenshot cannot be read. Card 2 was captured after it merged.
 - Forwarded emails, private address, "we keep the reminders, never the emails": the Letterbox card, `/dev/school-letterbox`, live since 17 September.
 - Night before and morning reminders: the snap card's own words; the school window push (decision of 3 November).
 - Weekly items come back: `components/school/SchoolWeek.tsx` ("Anything marked weekly comes back on the same day next week").

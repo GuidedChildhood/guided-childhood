@@ -23,7 +23,7 @@ const NAMES_JS = readFileSync(TOOLS + 'names.js', 'utf8')
 
 // name, page, text inside the card, optional steps to run first
 const SHOTS = [
-  ['snap', 'dev/school-catch', 'Snap it and DiGi reads it'],
+  ['snap', 'dev/school-catch', 'Add from school'],
   ['letterbox', 'dev/school-letterbox', 'Let DiGi catch'],
   ['school-week', 'dev/school-week', 'This week', { region: ['This week', 'THU'] }],
   ['kid-week', 'dev/kid-school-week', 'This week', { region: ['This week', 'Most of this comes from'] }],

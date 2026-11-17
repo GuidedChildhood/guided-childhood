@@ -1,6 +1,6 @@
 # Instagram walkthrough, every service: the review and the new posts
 
-17 November 2026, marketing lane, PR 1611. Justin: "review all things we are
+17 November 2026, marketing lane. PR 1611 merged with only the claim; the work is in the follow up PR. Justin: "review all things we are
 adding to do instagram high quality walkthrough of every service to advertise".
 **Drafts only. Nothing posted or scheduled.**
 
@@ -26,9 +26,9 @@ post. So this pass did not rebuild it. It did three things:
 | Stars and the screen timer | Merged | Run posts 4, 7 |
 | Planet Friends and the sticker book | Merged | Run post 19 |
 | Passport | Merged (1603); stickers and Stage done in 1608, **open** | Run post 18 (needs fixes, below) |
-| Fridge star chart | **Open**, PR 1600 | Run post 17 card 3 re-capture after merge |
-| Our school week sheet and family week pack | **Open**, PR 1607 | 1607 carries its own carousel; post it as is |
-| School calendar: snap, forward, reminders | Snap and Letterbox merged; "add from school first" and the honest failure in PR 1610, **open** | Run post 16; **new post 1** |
+| Fridge star chart | Merged 17 Nov, PR 1600 | Run post 17 card 3: re-capture now |
+| Our school week sheet and family week pack | Merged 17 Nov, PR 1607 | 1607 carries its own carousel; post it as is |
+| School calendar: snap, forward, reminders | Merged 17 Nov, PR 1610 (Add from school first, Forward an email button); cards captured after it | Run post 16; **new post 1** |
 | Watch it together | Merged 17 Nov (1589, 1598, migration 400) | **New post 3** |
 | Lessons | Merged | Run post 18 |
 | Scripts | Merged; page rebuilt as three shelves 17 Nov | Run post 9 (re-capture card 2) |
@@ -59,7 +59,7 @@ pages calling the API with no session, which is expected.
 | 4 | Sun 22 Nov | Says outside play "pays the most"; it now pays the same, with praise (15 Nov) | s4 to "Outside comes first", crop the star count; caption "Outside play leads the list". Needs the Mac render |
 | 10 | Tue 1 Dec | "Four days of everything" | Use the live line: DiGi a few times a day and the starter scripts |
 | 18 | Tue 15 Dec | Card 3 says stamps fill from jobs and check ins; they come from lessons, scripts and the big check. Card 5 shows the old passport | Card 3: "from lessons, the talks you have, and their big check". Re-capture card 5 after 1608 |
-| 9, 17 | 29 Nov, 13 Dec | Scripts page and star chart sheet both redesigned 17 Nov | Re-capture after 1600 merges |
+| 9, 17 | 29 Nov, 13 Dec | Scripts page and star chart sheet both redesigned 17 Nov | Re-capture both (1600 is merged) |
 | 7 | 27 Nov | Timer clips may say "healthy amount"; the app now says "today's guide" | Watch both clips |
 | 5 | 24 Nov | Card 5 shows "with safe settings" | Crop that line, or Justin's yes |
 
@@ -92,9 +92,9 @@ The family account rhythm is full in the evenings, so the new run takes the
 free **Sunday mornings at 10:00** on the family account:
 
 1. **Tonight, 19:30**: run post 1, the re-laid film.
-2. **Saturday 21 Nov**: the family week pack carousel from PR 1607 as Free Saturday, once 1607 merges.
+2. **Saturday 21 Nov**: the family week pack carousel from PR 1607 (merged) as Free Saturday.
 3. **Sunday 22 Nov, 10:00**: new 2, the twelve. No dependency; everything is live.
-4. **Sunday 29 Nov, 10:00**: new 1, the school letter. Only after PR 1610 merges.
+4. **Sunday 29 Nov, 10:00**: new 1, the school letter (PR 1610 is merged, so nothing waits).
 5. **Sunday 6 Dec, 10:00**: new 3, watch it together.
 
 This adds one ask a week for three weeks on top of the run's three. Links to

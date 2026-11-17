@@ -329,4 +329,4 @@ scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
 
 - Justin asked for a high quality walkthrough of every service. The 20 post run (PR 1475) already covers them, so this pass checked it against the week's changes and built posts only for what is new: the school letter catch, the stage check's twelve, watch it together ("New in Guided Childhood, 1 of 3").
 - Post 1, due tonight, showed the retired worry question. The current screen was laid over those 4.8 seconds of the finished film (the source captures are on the Mac); the old render is kept as `-v1`.
-- Two stage check tiles no longer promise "safe". Posts 4, 10 and 18 have stale lines, listed with fixes. PR 1611, `plans/2026-11-17-instagram-walkthrough-plan.md`.
+- Two stage check tiles no longer promise "safe". Posts 4, 10 and 18 have stale lines, listed with fixes. PR 1611 merged with only the claim; the work is in its follow up. `plans/2026-11-17-instagram-walkthrough-plan.md`.
