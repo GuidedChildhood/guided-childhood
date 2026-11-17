@@ -138,6 +138,14 @@ def render_piece(path, lay, piece, overlay_png, audio=None, alead=0.0, fade_in=F
     pic = piece['pic']
     z0, z1 = piece['z0'], piece['z1']
     nfr = max(int(round(T * FPS)), 1)
+    # The fade through cream at a picture change touches the PICTURE only, so
+    # the hook, the captions and the logo never flicker (found on the 1.4
+    # contact sheet, 17 November 2026: the whole frame used to fade).
+    pf = ''
+    if fade_in:
+        pf += f',fade=t=in:st=0:d=0.3:color={CREAM}'
+    if fade_out:
+        pf += f',fade=t=out:st={max(T - 0.3, 0):.3f}:d=0.3:color={CREAM}'
     if pic in ('words', 'thanks', 'blank'):
         vsrc = ['-f', 'lavfi', '-i', f'color=c={CREAM}:s={lay["W"]}x{lay["H"]}:r={FPS}:d={T:.3f}']
         filt = '[0:v]format=rgba[bg];'
@@ -149,7 +157,7 @@ def render_piece(path, lay, piece, overlay_png, audio=None, alead=0.0, fade_in=F
         if pic == 'screen':
             vsrc = ['-loop', '1', '-framerate', str(FPS), '-t', f'{T:.3f}', '-i', str(src)]
             filt = (f'color=c={CREAM}:s={lay["W"]}x{lay["H"]}:r={FPS}:d={T:.3f},format=rgba[bg];'
-                    f'[0:v]crop={L["screen"]["crop"]},scale={bw - 120}:{bh - 120}:force_original_aspect_ratio=decrease,format=rgba[ph];'
+                    f'[0:v]crop={L["screen"]["crop"]},scale={bw - 120}:{bh - 120}:force_original_aspect_ratio=decrease,format=rgba{pf}[ph];'
                     f'[bg][ph]overlay=x={x}+({bw}-w)/2:y={y}+({bh}-h)/2[b0];')
             base = 'b0'
         else:
@@ -158,16 +166,12 @@ def render_piece(path, lay, piece, overlay_png, audio=None, alead=0.0, fade_in=F
             filt = (f'color=c={CREAM}:s={lay["W"]}x{lay["H"]}:r={FPS}:d={T:.3f},format=rgba[bg];'
                     f'[0:v]crop=\'min(iw,ih*{bw}/{bh})\':\'min(ih,iw*{bh}/{bw})\':\'(iw-out_w)*{focal(pic)}\':\'(ih-out_h)/2\',scale={bw * 2}:{bh * 2},'
                     f'zoompan=z=\'{zexpr}\':x=\'iw/2-(iw/zoom/2)\':y=\'ih/2-(ih/zoom/2)\':d=1:s={bw}x{bh}:fps={FPS},'
-                    f'trim=duration={T:.3f},setpts=PTS-STARTPTS,format=rgba[pc];'
+                    f'trim=duration={T:.3f},setpts=PTS-STARTPTS,format=rgba{pf}[pc];'
                     f'[bg][pc]overlay=x={x}:y={y}[b0];')
             base = 'b0'
     inputs = vsrc + ['-loop', '1', '-framerate', str(FPS), '-t', f'{T:.3f}', '-i', str(overlay_png)]
     oi = 1
     filt += f'[{base}][{oi}:v]overlay=0:0,format=yuv420p'
-    if fade_in:
-        filt += f',fade=t=in:st=0:d=0.3:color={CREAM}'
-    if fade_out:
-        filt += f',fade=t=out:st={max(T - 0.3, 0):.3f}:d=0.3:color={CREAM}'
     filt += f',trim=duration={T:.3f}[v]'
     if audio:
         inputs += ['-i', str(audio)]
@@ -212,7 +216,7 @@ def srt(segs, path, offset=0.0):
         return f'{int(h):02d}:{int(m):02d}:{int(s):02d},{int(round((s % 1) * 1000)) % 1000:03d}'
     rows, k = [], 1
     for s in segs:
-        cs = chunks(s['line']['text'], 64)
+        cs = chunks(s['line'].get('cap') or s['line']['text'], 64)
         total = sum(len(c) for c in cs)
         t = s['start'] + s['lead'] + offset
         for c in cs:
@@ -242,7 +246,7 @@ def overlays():
             key = overlay_key(cut, x)
             parts = []
             if c['caps']:
-                cs = chunks(x['text'], 64 if cut.startswith('child') else 72)
+                cs = chunks(x.get('cap') or x['text'], 64 if cut.startswith('child') else 72)
                 for q, ctext in enumerate(cs):
                     specs.append({'file': f'{key}-cap{q}.png', 'W': Wd, 'H': Ht, 'html': page(cut, x, ctext)})
             else:
@@ -309,7 +313,7 @@ def films(only=None):
             key = overlay_key(cut, x)
             # Which caption chunk is on during this piece: captions change at
             # chunk times, so a piece with several chunks is split further.
-            cs = chunks(x['text'], 64 if cut.startswith('child') else 72) if c['caps'] else [None]
+            cs = chunks(x.get('cap') or x['text'], 64 if cut.startswith('child') else 72) if c['caps'] else [None]
             total = sum(len(q) for q in cs) if c['caps'] else 1
             bounds, t = [], s['lead']
             for q, ctext in enumerate(cs):

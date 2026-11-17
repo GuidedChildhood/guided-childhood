@@ -298,7 +298,9 @@
    "pics": [
     "words"
    ],
-   "text": "Here are the words to say. Phones go to bed first in our house. Mine too."
+   "text": "Here are the words to say. Phones go to bed first in our house. Mine too.",
+   "eye": "The words to say",
+   "big": "Phones go to bed first in our house. Mine too."
   },
   {
    "id": "a07",
@@ -312,7 +314,43 @@
    "pics": [
     "thanks"
    ],
-   "text": "And if they ever tell you something from a screen is stuck in their head, thank them for telling you. That is the night it matters most."
+   "text": "And if they ever tell you something from a screen is stuck in their head, thank them for telling you. That is the night it matters most.",
+   "eye": "If something is stuck in their head",
+   "big": "Thank them for telling you."
   }
- ]
+ ],
+ "film": "1.6",
+ "hook": "One bedtime rule a five year old can say back",
+ "family_ids": [
+  "c01",
+  "c06",
+  "c07",
+  "c13",
+  "c14",
+  "c15",
+  "c16",
+  "c19",
+  "c25",
+  "c26",
+  "c29"
+ ],
+ "book_line": "Screens go to bed first. A few minutes, on the sofa.",
+ "thumb_title": "Screens go to bed first",
+ "thumb_pic": "p22",
+ "screen": {
+  "file": "screen.png",
+  "crop": "1170:830:0:1370"
+ },
+ "cards": {
+  "ask1": [
+   "Grown up, ask:",
+   "What helps YOU feel sleepy?",
+   "Older child: What is the last thing you do before you go to sleep?"
+  ],
+  "ask2": [
+   "Grown up, ask:",
+   "What shall our three cosy things be?",
+   "Older child: Where shall the screens sleep in our house?"
+  ]
+ }
 }

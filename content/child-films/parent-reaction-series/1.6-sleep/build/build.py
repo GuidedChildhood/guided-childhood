@@ -1,4 +1,4 @@
-"""Builds the 1.6 pair from the pictures in pics/, Tamsin's lines in audio/ and
+"""Builds a lesson film pair (first made for 1.6, reused for 1.5) from the pictures in pics/, Tamsin's lines in audio/ and
 lines.json. Nothing here uploads anything.
 
   python3 build.py overlays   writes work/overlays.json (every word set on screen)
@@ -66,10 +66,8 @@ ALL = L['child'] + L['parent']
 for k, x in enumerate(ALL):
     x['n'] = k
 
-CARDS = {
-    'ask1': ('Grown up, ask:', 'What helps YOU feel sleepy?', 'Older child: What is the last thing you do before you go to sleep?'),
-    'ask2': ('Grown up, ask:', 'What shall our three cosy things be?', 'Older child: Where shall the screens sleep in our house?'),
-}
+CARDS = {k: tuple(v) for k, v in L['cards'].items()}
+FILM = L['film']
 
 def timeline(lines, card_hold=4.0):
     """Places every line on a clock. Returns segments: one per line, each with
@@ -81,7 +79,9 @@ def timeline(lines, card_hold=4.0):
         nxt = lines[j + 1] if j + 1 < len(lines) else None
         new_shot = not prev or prev['pics'][-1] != x['pics'][0]
         lead = 0.45 if new_shot else 0.2
-        if x.get('card'):
+        if x.get('gap'):
+            gap = float(x['gap'])
+        elif x.get('card'):
             gap = card_hold
         elif not nxt:
             gap = 1.6
@@ -138,6 +138,14 @@ def render_piece(path, lay, piece, overlay_png, audio=None, alead=0.0, fade_in=F
     pic = piece['pic']
     z0, z1 = piece['z0'], piece['z1']
     nfr = max(int(round(T * FPS)), 1)
+    # The fade through cream at a picture change touches the PICTURE only, so
+    # the hook, the captions and the logo never flicker (found on the 1.4
+    # contact sheet, 17 November 2026: the whole frame used to fade).
+    pf = ''
+    if fade_in:
+        pf += f',fade=t=in:st=0:d=0.3:color={CREAM}'
+    if fade_out:
+        pf += f',fade=t=out:st={max(T - 0.3, 0):.3f}:d=0.3:color={CREAM}'
     if pic in ('words', 'thanks', 'blank'):
         vsrc = ['-f', 'lavfi', '-i', f'color=c={CREAM}:s={lay["W"]}x{lay["H"]}:r={FPS}:d={T:.3f}']
         filt = '[0:v]format=rgba[bg];'
@@ -149,7 +157,7 @@ def render_piece(path, lay, piece, overlay_png, audio=None, alead=0.0, fade_in=F
         if pic == 'screen':
             vsrc = ['-loop', '1', '-framerate', str(FPS), '-t', f'{T:.3f}', '-i', str(src)]
             filt = (f'color=c={CREAM}:s={lay["W"]}x{lay["H"]}:r={FPS}:d={T:.3f},format=rgba[bg];'
-                    f'[0:v]crop=1170:830:0:1370,scale={min(bw - 80, 980)}:-2,format=rgba[ph];'
+                    f'[0:v]crop={L["screen"]["crop"]},scale={bw - 120}:{bh - 120}:force_original_aspect_ratio=decrease,format=rgba{pf}[ph];'
                     f'[bg][ph]overlay=x={x}+({bw}-w)/2:y={y}+({bh}-h)/2[b0];')
             base = 'b0'
         else:
@@ -158,16 +166,12 @@ def render_piece(path, lay, piece, overlay_png, audio=None, alead=0.0, fade_in=F
             filt = (f'color=c={CREAM}:s={lay["W"]}x{lay["H"]}:r={FPS}:d={T:.3f},format=rgba[bg];'
                     f'[0:v]crop=\'min(iw,ih*{bw}/{bh})\':\'min(ih,iw*{bh}/{bw})\':\'(iw-out_w)*{focal(pic)}\':\'(ih-out_h)/2\',scale={bw * 2}:{bh * 2},'
                     f'zoompan=z=\'{zexpr}\':x=\'iw/2-(iw/zoom/2)\':y=\'ih/2-(ih/zoom/2)\':d=1:s={bw}x{bh}:fps={FPS},'
-                    f'trim=duration={T:.3f},setpts=PTS-STARTPTS,format=rgba[pc];'
+                    f'trim=duration={T:.3f},setpts=PTS-STARTPTS,format=rgba{pf}[pc];'
                     f'[bg][pc]overlay=x={x}:y={y}[b0];')
             base = 'b0'
     inputs = vsrc + ['-loop', '1', '-framerate', str(FPS), '-t', f'{T:.3f}', '-i', str(overlay_png)]
     oi = 1
     filt += f'[{base}][{oi}:v]overlay=0:0,format=yuv420p'
-    if fade_in:
-        filt += f',fade=t=in:st=0:d=0.3:color={CREAM}'
-    if fade_out:
-        filt += f',fade=t=out:st={max(T - 0.3, 0):.3f}:d=0.3:color={CREAM}'
     filt += f',trim=duration={T:.3f}[v]'
     if audio:
         inputs += ['-i', str(audio)]
@@ -212,7 +216,7 @@ def srt(segs, path, offset=0.0):
         return f'{int(h):02d}:{int(m):02d}:{int(s):02d},{int(round((s % 1) * 1000)) % 1000:03d}'
     rows, k = [], 1
     for s in segs:
-        cs = chunks(s['line']['text'], 64)
+        cs = chunks(s['line'].get('cap') or s['line']['text'], 64)
         total = sum(len(c) for c in cs)
         t = s['start'] + s['lead'] + offset
         for c in cs:
@@ -226,9 +230,8 @@ CUTS = {
     'child-product': {'lay': LAND, 'lines': CHILD, 'caps': False},
     'child-youtube': {'lay': LAND, 'lines': [x for x in CHILD if not x.get('product_only')], 'caps': False,
                       'end': 'end-16x9.png', 'end_len': 6},
-    'child-family': {'lay': PORT, 'lines': [x for x in CHILD if x['id'] in
-                     ('c01', 'c06', 'c07', 'c13', 'c14', 'c15', 'c16', 'c19', 'c25', 'c26', 'c29')],
-                     'caps': True, 'end': 'end-9x16.png', 'end_len': 5, 'hook': 'One bedtime rule a five year old can say back'},
+    'child-family': {'lay': PORT, 'lines': [x for x in CHILD if x['id'] in L['family_ids']],
+                     'caps': True, 'end': 'end-9x16.png', 'end_len': 5, 'hook': L['hook']},
     'parent-family': {'lay': PPORT, 'lines': L['parent'], 'caps': True, 'end': 'end-9x16.png', 'end_len': 5},
     'parent-product': {'lay': PPORT, 'lines': L['parent'], 'caps': True, 'end': 'book-9x16.png', 'end_len': 4},
     'parent-landscape': {'lay': PLAND, 'lines': L['parent'], 'caps': True, 'end': 'end-16x9.png', 'end_len': 6},
@@ -243,7 +246,7 @@ def overlays():
             key = overlay_key(cut, x)
             parts = []
             if c['caps']:
-                cs = chunks(x['text'], 64 if cut.startswith('child') else 72)
+                cs = chunks(x.get('cap') or x['text'], 64 if cut.startswith('child') else 72)
                 for q, ctext in enumerate(cs):
                     specs.append({'file': f'{key}-cap{q}.png', 'W': Wd, 'H': Ht, 'html': page(cut, x, ctext)})
             else:
@@ -287,8 +290,8 @@ def page(cut, x, caption):
             bits.append(f'<div class="cap" style="left:1150px;right:80px;top:300px;font-size:58px">{e(caption)}</div>')
             bits.append(f'<img src="LOCKUP" style="position:absolute;left:1150px;top:880px;height:84px">')
     if cut.startswith('parent') and x['pics'][0] in ('words', 'thanks'):
-        big = 'Phones go to bed first in our house. Mine too.' if x['pics'][0] == 'words' else 'Thank them for telling you.'
-        eye = 'The words to say' if x['pics'][0] == 'words' else 'If something is stuck in their head'
+        big = x['big']
+        eye = x['eye']
         if lay is PLAND:
             box = 'left:90px;top:260px;width:900px'; fs = 84
         else:
@@ -310,7 +313,7 @@ def films(only=None):
             key = overlay_key(cut, x)
             # Which caption chunk is on during this piece: captions change at
             # chunk times, so a piece with several chunks is split further.
-            cs = chunks(x['text'], 64 if cut.startswith('child') else 72) if c['caps'] else [None]
+            cs = chunks(x.get('cap') or x['text'], 64 if cut.startswith('child') else 72) if c['caps'] else [None]
             total = sum(len(q) for q in cs) if c['caps'] else 1
             bounds, t = [], s['lead']
             for q, ctext in enumerate(cs):
@@ -345,10 +348,10 @@ def films(only=None):
                  '-vf', f'scale={lay["W"]}:{lay["H"]},format=yuv420p,fade=t=in:d=0.4:color={CREAM}', '-r', str(FPS),
                  '-c:v', 'libx264', '-crf', '19', '-preset', 'fast', '-c:a', 'aac', '-b:a', '160k', '-ar', '48000', str(ep)])
             parts.append(ep)
-        out = OUT / f'1.6-{cut}.mp4'
+        out = OUT / f'{FILM}-{cut}.mp4'
         concat(parts, out)
         if cut == 'child-youtube':
-            srt(segs, OUT / '1.6-child-youtube.en-GB.srt')
+            srt(segs, OUT / f'{FILM}-child-youtube.en-GB.srt')
         if cut == 'child-product':
             # The player's three segments, split where the two pause lines end.
             ends = [s['start'] + s['len'] for s in segs if s['line'].get('card')]
@@ -356,7 +359,7 @@ def films(only=None):
             for name, (ta, tb) in zip('ABC', zip(marks, marks[1:])):
                 run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ta:.3f}', '-to', f'{tb:.3f}', '-i', str(out),
                      '-c:v', 'libx264', '-crf', '19', '-preset', 'fast', '-c:a', 'aac', '-b:a', '160k',
-                     '-movflags', '+faststart', str(OUT / f'1.6-child-product-{name}.mp4')])
+                     '-movflags', '+faststart', str(OUT / f'{FILM}-child-product-{name}.mp4')])
         print(cut, round(dur(out), 1), 's')
 
 if __name__ == '__main__':

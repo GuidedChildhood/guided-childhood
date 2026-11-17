@@ -41,6 +41,7 @@ const shot = async (body, w, h, file, transparent = true) => {
   await page.screenshot({ path: path.join(ov, file), omitBackground: transparent })
 }
 const specs = JSON.parse(fs.readFileSync(path.join(work, 'overlays.json'), 'utf8'))
+const LINES = JSON.parse(fs.readFileSync(path.join(here, 'lines.json'), 'utf8'))
 for (const s of specs) await shot(s.html, s.W, s.H, s.file)
 
 const endCard = (w, h, s) => `<div style="width:${w}px;height:${h}px;background:#F9F8F6;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:${90 * s}px">
@@ -54,13 +55,13 @@ await shot(endCard(1080, 1920, 1.05), 1080, 1920, 'end-9x16.png', false)
 await shot(`<div style="width:1080px;height:1920px;background:#F9F8F6;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px">
   <div class="eye" style="font-size:28px">Watch together</div>
   <div class="h" style="font-size:96px;margin-top:24px">Pick a time to<br>watch it together</div>
-  <div class="b" style="font-size:42px;margin-top:30px">Screens go to bed first. A few minutes, on the sofa.</div>
+  <div class="b" style="font-size:42px;margin-top:30px">${LINES.book_line}</div>
   <div class="url" style="font-size:46px;padding:26px 52px;margin-top:64px">Book a watch together time</div></div>`, 1080, 1920, 'book-9x16.png', false)
 await shot(`<div style="width:1280px;height:720px;position:relative;background:#F9F8F6">
-  <img src="${pathToFileURL(path.join(here, 'pics/p22.png')).href}" style="position:absolute;inset:0;width:1280px;height:720px;object-fit:cover">
+  <img src="${pathToFileURL(path.join(here, 'pics', LINES.thumb_pic + '.png')).href}" style="position:absolute;inset:0;width:1280px;height:720px;object-fit:cover">
   <div style="position:absolute;left:60px;top:150px;width:600px">
     <div class="eye" style="font-size:24px">Watch together, ages 4 to 7</div>
-    <div class="h" style="font-size:94px;margin-top:16px">Screens go to bed first</div>
+    <div class="h" style="font-size:94px;margin-top:16px">${LINES.thumb_title}</div>
     <div style="margin-top:34px"><img src="LOCKUP" style="height:78px"></div></div></div>`, 1280, 720, 'thumbnail.png', false)
 await browser.close()
 console.log('drawn', specs.length + 4)
