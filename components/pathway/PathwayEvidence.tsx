@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { WHY_IT_WORKS, OUR_STANCE } from '@/lib/content/readiness'
+import { WHY_IT_WORKS, OUR_STANCE, PASSPORT_EVIDENCE } from '@/lib/content/readiness'
 import HappyIcon from '@/components/kid/HappyIcon'
 
 // The evidence and the stance, folded into one calm card that opens on demand.
@@ -42,6 +42,23 @@ export default function PathwayEvidence() {
             ))}
           </div>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '14px 0 16px' }}>{WHY_IT_WORKS.sources}</p>
+
+          {/* The verified lines (lib/content/readiness.ts PASSPORT_EVIDENCE), each
+              worded as the association or lab finding it is, and the one thing
+              no study shows yet, said plainly. */}
+          <div data-evidence style={{ margin: '0 0 16px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '8px' }}>{PASSPORT_EVIDENCE.eyebrow}</div>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {PASSPORT_EVIDENCE.points.map(e => (
+                <li key={e.title} style={{ borderLeft: '3px solid var(--terracotta)', paddingLeft: '12px' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{e.title}</div>
+                  <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{e.body}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginTop: '3px' }}>{e.source}</div>
+                </li>
+              ))}
+            </ul>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '12px 0 0' }}>{PASSPORT_EVIDENCE.honest}</p>
+          </div>
 
           <div style={{ background: 'var(--deep-teal)', borderRadius: 'var(--radius-btn)', padding: '16px 18px' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: '#fff', lineHeight: 1.25, marginBottom: '7px' }}>{OUR_STANCE.headline}</div>

@@ -358,3 +358,7 @@ Justin: Apple UX, obvious to a teacher arriving from the schools email. The page
 
 - Justin picked the paper record book from four options ("a book like a swimming passport"). One A4 page per stage: the Planet Friend sticker spot and its line, then every lesson, talk and the big check on its own row, with how to do it, a tick and date when the app has it, and a grown up's initials. A sign off line ends each stage.
 - The rows are only what the stamp counts, read through the same functions as the page count, so the paper never disagrees with the app. Route `/dashboard/keepsakes/passport-print/record`, linked from the earn card and the order card. Parked: the child's page view, gentle reminders, the evidence check. PR 1616.
+
+## 18 November 2026: the child's passport page, the weekly email reminder, and honest evidence
+
+- Justin: "do them in order as you recommend". (1) The child's passport shows their page step by step in kid words, next step lit, earlier pages as gentle catch up; talks show as "A talk with your grown up", never the script title. (2) The reminder rides the weekly email (pace line plus print the steps), no new push, because the 17 October no new push decision stands. (3) Five evidence claims were verified at source. Two were corrected: skills go with more risk, not less, and enabling parenting goes with more opportunities and more risks. The passport now says plainly that no study shows a programme like this makes children safer. Guard: check-stage-stickers. PR 1623.

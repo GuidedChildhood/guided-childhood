@@ -5,6 +5,7 @@ import { stickerFor } from '@/lib/pathway/stage-stickers'
 import { pageCount } from '@/lib/pathway/page-count'
 import RecordBook from '@/components/passport/RecordBook'
 import KidPassportSteps from '@/components/kid/KidPassportSteps'
+import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import type { RecordStage } from '@/lib/pathway/record-book-server'
 
 // Layout harness for the passport stickers (17 November 2026). No auth, no
@@ -15,6 +16,7 @@ import type { RecordStage } from '@/lib/pathway/record-book-server'
 export default async function Page({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
   const { view } = await searchParams
   if (view === 'print') return <StickerPrintSheet kid="Teo" stamped={[1]} focus={1} />
+  if (view === 'evidence') return <div style={{ padding: 16, maxWidth: 640, margin: '0 auto' }}><PathwayEvidence /></div>
   if (view === 'kid') {
     return (
       <div style={{ padding: 16, maxWidth: 480, margin: '0 auto', background: 'var(--cream)' }}>

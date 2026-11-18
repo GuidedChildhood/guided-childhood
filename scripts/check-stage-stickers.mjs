@@ -53,5 +53,9 @@ check('the record book lists only what the stamp counts (lessons, talks, the che
   && !/concerns|quest_ticks|device_sessions|outside/.test(rb.replace(/\/\/.*$/gm, '')))
 check('the record book reads passes through childLessonPath and talks through countsTowardPathway', rb.includes('loadChildLessonPath') && rb.includes('countsTowardPathway'))
 
+const ev = read('lib/content/readiness.ts')
+check('the passport never claims to be proven to make children safer', !/proven to (make|keep)|makes children safer\b(?! yet)/i.test(ev.replace(/\/\/.*$/gm, '').replace('What no study shows yet is that a programme like this makes children safer', '')))
+check('the evidence keeps the verifier\'s corrections (skills go with more risk, enabling with more opportunities)', /met more online risk, not less/.test(ev) && /fewer risks but also fewer opportunities/.test(ev))
+
 if (failures) { console.log(`\n${failures} failed`); process.exit(1) }
 console.log('\nall passed')

@@ -151,7 +151,32 @@ export const WHY_IT_WORKS = {
   points: [
     { icon: '⚖️', title: 'Balance, not a ban', body: 'The research is clear that the quantity of screen time explains very little on its own. What matters is what screens crowd out, and whether a child can handle what is on them. So we build balance and skill, not a countdown.' },
     { icon: '🪪', title: 'A passport, not a birthday', body: 'Independence is handed over in steps as the skills are shown, the graduated digital passport idea, not all at once on a birthday. Each stage earns its stamp.' },
-    { icon: '🧭', title: 'Competence is the protection', body: 'A child who understands the feed, owns their footprint, and knows you are the first call is safer than a child kept away from it and then dropped in. The relationship and the skill are the safeguard.' },
+    { icon: '🧭', title: 'Competence is the protection', body: 'Our view: a child who understands the feed, owns their footprint, and knows you are the first call is better prepared than a child kept away from it and then dropped in. The relationship and the skill are what we build. What the research does and does not show is below.' },
   ],
   sources: 'Grounded in the measured research of Candice Odgers and Amy Orben (Cambridge), on what actually shapes a child’s relationship with screens.',
+}
+
+// WHAT THE EVIDENCE SAYS, AND WHAT IT DOES NOT (18 November 2026).
+//
+// Justin asked that the passport be scientifically proven to give a safer
+// childhood online. No study has tested a programme like this, so we cannot
+// say that, and "evidence or silence" means we do not. These five lines were
+// checked against the primary sources by the citation verifier on 18 November
+// 2026 (plans/2026-11-17-passport-stickers-plan.md, part 5). Two corrections
+// it made matter and must not drift back:
+//   Livingstone 2017: enabling parenting went with MORE opportunities AND
+//     more risks, not fewer risks, and harm was never measured.
+//   EU Kids Online 2011: more skills went with MORE risk, not less; children
+//     with fewer skills were among those who found risks more upsetting.
+// Every line is an association or a lab finding, worded as one.
+export const PASSPORT_EVIDENCE = {
+  eyebrow: 'What the research says, honestly',
+  points: [
+    { title: 'Remembering, not rereading', body: 'Recalling what you have learned, rather than rereading it, improves how much you remember days later. That is shown in adult lab studies, and it is why every lesson ends with a short check.', source: 'Roediger and Karpicke, 2006' },
+    { title: 'Little and often, then back again', body: 'Our lessons follow established teaching principles: a short review each time, checking understanding, and coming back to material weeks and months later.', source: 'Rosenshine, 2012' },
+    { title: 'Media literacy lessons help', body: 'Across 51 media literacy programmes the average effect was positive. It was largest for knowledge, smaller for behaviour, and programmes with more sessions did better. None of them were about online safety specifically.', source: 'Jeong, Cho and Hwang, 2012' },
+    { title: 'Involved parenting, not only blocking', body: 'In a survey of 6,400 European parents of 6 to 14 year olds, involved, enabling parenting went with children doing more of what the internet offers. Restrictive parenting went with fewer risks but also fewer opportunities.', source: 'Livingstone and colleagues, 2017' },
+    { title: 'Skills and coping', body: 'In a 25 country survey of 9 to 16 year olds, children with more digital skills met more online risk, not less. Children with fewer skills were among those who found risks more upsetting.', source: 'EU Kids Online, 2011' },
+  ],
+  honest: 'What no study shows yet is that a programme like this makes children safer. So we measure what we can: lessons passed with a real check, and questions still remembered weeks later.',
 }
