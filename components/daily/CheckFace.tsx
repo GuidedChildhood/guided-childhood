@@ -6,7 +6,7 @@
 // have. One drawing, two places: change a face here and both follow.
 
 export default function Face({ band, filled, past, size = 40 }: { band: number; filled: boolean; past: boolean; size?: number }) {
-  const fill = filled ? 'var(--terracotta)' : past ? '#DCD7CB' : '#FEF7E0'
+  const fill = filled ? 'var(--terracotta)' : past ? '#DCD7CB' : 'var(--terracotta-lt)' // hex-ok: last time's grey, moved as it was from ConcernCheckIn, no token holds it
   const op = filled ? 1 : past ? 0.8 : 0.62
   // Indexed by band, 1 to 5; slot 0 is never drawn.
   const mouth = [
@@ -39,7 +39,7 @@ export default function Face({ band, filled, past, size = 40 }: { band: number; 
         </>
       )}
       <path d={mouth} fill={grin ? 'var(--ink)' : 'none'} fillOpacity={op} stroke="var(--ink)" strokeOpacity={op} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      {filled && <circle cx="13" cy="10.5" r="2.4" fill="#fff" fillOpacity="0.85" />}
+      {filled && <circle cx="13" cy="10.5" r="2.4" fill="var(--white)" fillOpacity="0.85" />}
     </svg>
   )
 }

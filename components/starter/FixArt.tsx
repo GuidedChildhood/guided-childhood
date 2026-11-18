@@ -37,7 +37,7 @@ const EYEBROW: CSSProperties = {
   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 const CARD: CSSProperties = {
-  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)',
+  background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)',
 }
 
 /** The ground each drawing sits on: a soft tint with a faint dot paper, the
@@ -110,10 +110,10 @@ export function WordsArt({ words, notThis }: { words: string; notThis: string })
         width: '84%', marginLeft: 'auto', transform: 'rotate(2.5deg)', transformOrigin: 'right bottom',
         background: 'var(--tint-rose)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '12px 14px 26px',
       }}>
-        <div style={{ ...EYEBROW, color: '#B4453C', marginBottom: 4 }}>Not this</div>
+        <div style={{ ...EYEBROW, color: 'var(--danger)', marginBottom: 4 }}>Not this</div>
         <p style={{
           margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.35,
-          textDecoration: 'line-through', textDecorationColor: '#B4453C', textDecorationThickness: 2,
+          textDecoration: 'line-through', textDecorationColor: 'var(--alert)', textDecorationThickness: 2,
         }}>
           &ldquo;{quoteOf(notThis)}&rdquo;
         </p>
@@ -130,8 +130,8 @@ export function WordsArt({ words, notThis }: { words: string; notThis: string })
           &ldquo;{words}&rdquo;
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
-          <Chip bg="#fff"><span style={{ display: 'inline-flex', margin: '-4px 0 -4px -4px' }}><DigiCharacter mood="idle" size={22} /></span>Practise with DiGi</Chip>
-          <Chip bg="#fff"><PrinterIcon /> Fridge card</Chip>
+          <Chip bg="var(--white)"><span style={{ display: 'inline-flex', margin: '-4px 0 -4px -4px' }}><DigiCharacter mood="idle" size={22} /></span>Practise with DiGi</Chip>
+          <Chip bg="var(--white)"><PrinterIcon /> Fridge card</Chip>
         </div>
       </div>
     </Ground>
@@ -143,7 +143,7 @@ function PrinterIcon() {
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d="M7 9V3h10v6" />
       <rect x="3" y="9" width="18" height="8" rx="2" fill="var(--tint-blue)" />
-      <rect x="7" y="14" width="10" height="7" rx="1" fill="#fff" />
+      <rect x="7" y="14" width="10" height="7" rx="1" fill="var(--white)" />
     </svg>
   )
 }
@@ -206,7 +206,7 @@ export function CheckArt({ concern }: { concern: string }) {
             const last = i + 1 === WEEKS.length
             return (
               <div key={i} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-                <span style={{ display: 'block', borderRadius: '50%', lineHeight: 0, marginBottom: RISE[b], boxShadow: last ? '0 3px 0 var(--ink)' : 'none', background: '#fff' }}>
+                <span style={{ display: 'block', borderRadius: '50%', lineHeight: 0, marginBottom: RISE[b], boxShadow: last ? '0 3px 0 var(--ink)' : 'none', background: 'var(--white)' }}>
                   <Face band={b} filled={last} past={!last} size={28} />
                 </span>
                 <span style={{ ...EYEBROW, fontSize: 10, letterSpacing: '0.08em' }}>W{i + 1}</span>
@@ -219,7 +219,7 @@ export function CheckArt({ concern }: { concern: string }) {
           background: 'var(--tint-green)', border: 'var(--edge)', borderRadius: 14,
         }}>
           <span style={{ flexShrink: 0, width: 24, height: 24, borderRadius: '50%', background: 'var(--retro-green)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--white)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
           </span>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>
             Sorted. Back in a week to check it held.
