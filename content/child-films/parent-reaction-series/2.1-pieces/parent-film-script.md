@@ -1,7 +1,7 @@
 # Parent film: the move to watch for
 
 Subject group D (strangers and contact in games). The parent half of the 2.1
-film. Draft 1, 17 November 2026. NOT RECORDED. Nothing generated.
+film. 17 November 2026, recorded and built 18 November: see README.md.
 
 **Watch it, then act on it.** About 70 seconds. Portrait first, landscape from
 the same build. DiGi's voice (Tamsin, slower) with full captions. Written from
@@ -13,7 +13,7 @@ is named, and Family IT Guy is not quoted.
 | --- | --- | --- | --- |
 | 1 | The team chat (q07) | More than half of children who game online sometimes play with people they've never met. | 55% of children who game online play at least sometimes with people they have never met offline. Source line: Ofcom, Growing Up Gaming, October 2026 |
 | 2 | Big text on cream | Most of those people are other children. The risk is one move. | The game is where it starts. The private app is where it happens. |
-| 3 | "let's chat somewhere else" (q13) | Someone friendly says: let's chat somewhere else. Once chat leaves the game, nobody is moderating it. | Quote line: "no one is moderating it", CEOP |
+| 3 | "let's chat somewhere else" (q13) | Then someone friendly says: let's chat somewhere else. And once chat leaves the game, nobody is moderating it. | Quote line: "no one is moderating it", CEOP |
 | 4 | Big text on cream | So make one promise tonight, before anything happens. | "If anyone asks you to move to another app, come and tell me. You won't lose the game for telling me." |
 | 5 | The jigsaw card (q08) | Their film teaches the other half: private details get collected one small piece at a time, and how to spot it. | |
 | 6 | REAL SCREEN: Book a time | It's a few minutes on the sofa. In Guided Childhood, you can book a time to watch it together. | |

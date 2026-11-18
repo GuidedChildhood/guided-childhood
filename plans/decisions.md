@@ -362,3 +362,14 @@ Justin: Apple UX, obvious to a teacher arriving from the schools email. The page
 ## 18 November 2026: the child's passport page, the weekly email reminder, and honest evidence
 
 - Justin: "do them in order as you recommend". (1) The child's passport shows their page step by step in kid words, next step lit, earlier pages as gentle catch up; talks show as "A talk with your grown up", never the script title. (2) The reminder rides the weekly email (pace line plus print the steps), no new push, because the 17 October no new push decision stands. (3) Five evidence claims were verified at source. Two were corrected: skills go with more risk, not less, and enabling parenting goes with more opportunities and more risks. The passport now says plainly that no study shows a programme like this makes children safer. Guard: check-stage-stickers. PR 1623.
+
+## 18 November 2026: the remade 1.6, 1.5 and 1.4 are live in the app
+
+- On Justin's "Go ahead with all". Each film's four segments point at new uploads (checked to serve byte for byte), with new durations and a plain poster.
+- 1.6's row described the old film and claimed growth during sleep as fact: title, keyword, knowledge intention, misconception, parent note and both pause cards now match the remake. 1.5 and 1.4 already matched.
+- Rollback values and the new links: `content/child-films/parent-reaction-series/app-swap-2026-11-18.md`. PR 1618.
+
+## 18 November 2026: the Stage 2 film 2.1 is built, and kept out of the app
+
+- Strangers in games, with Bloop, from the 2.1 script plus the "let's chat somewhere else" move from the verified Roblox pack. 19 pictures, 37 lines checked by transcript (three redone). 70.5 credits against 71 quoted.
+- Not in the app: as the only active Stage 2 lesson, finishing it would award the whole Stage 2 passport (`/api/parent-lessons/complete`). Waits on Justin: more Stage 2 films first, or a passport rule change. PR 1618.
