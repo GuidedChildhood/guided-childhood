@@ -4,6 +4,8 @@ import KidStickers, { type KidSticker, type DailyStickers } from '@/components/k
 import PassportBook from '@/components/pathway/PassportBook'
 import type { Stamp } from '@/components/pathway/PassportStamps'
 import { HAPPY, Plate } from '@/components/kid/HappyNewsBits'
+import KidPassportSteps from '@/components/kid/KidPassportSteps'
+import type { KidSteps } from '@/lib/pathway/record-book-server'
 
 // The passport, on its own.
 //
@@ -26,8 +28,10 @@ import { HAPPY, Plate } from '@/components/kid/HappyNewsBits'
 
 export default function KidPassport({
   onClose, token, childName, stickers, celebrateStickers, passportCode = null, stageId = null,
-  book = null, daily = null,
+  book = null, daily = null, steps = null,
 }: {
+  /** The child's own page, step by step (plan part 3). Replaces the count box when present. */
+  steps?: KidSteps | null
   /** This week's daily stickers and the total, for the Every day page. */
   daily?: DailyStickers | null
   onClose: () => void
@@ -127,7 +131,9 @@ export default function KidPassport({
           Your own book. Every sticker says what it takes.
         </p>
 
-        {page && pageName && (
+        {steps && <KidPassportSteps steps={steps} />}
+
+        {!steps && page && pageName && (
           <div style={{
             display: 'flex', alignItems: 'center', gap: 12,
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',

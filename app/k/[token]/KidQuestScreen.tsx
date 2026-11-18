@@ -46,6 +46,7 @@ import KidSquadIntro, { squadIntroSeen, squadIntroDue } from '@/components/kid/K
 import StreakBar from '@/components/kid/StreakBar'
 import KidWins, { type WinRecord } from '@/components/kid/KidWins'
 import KidPassport from '@/components/kid/KidPassport'
+import type { KidSteps } from '@/lib/pathway/record-book-server'
 import KidFriendArrival from '@/components/kid/KidFriendArrival'
 import KidFriendsParade from '@/components/kid/KidFriendsParade'
 import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
@@ -112,7 +113,7 @@ export default function KidQuestScreen({
   tutorLesson = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
-  fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null,
+  fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null, kidSteps = null,
   dailyStickers = null,
   sinceItems = [], lastSeenAt = null, grownUpLabel = null, watchTime = null,
 }: {
@@ -136,6 +137,8 @@ export default function KidQuestScreen({
   /** The real book, read only, for the passport takeover. Null when it could
    *  not be built, and the takeover is the sticker book alone. */
   kidBook?: { stamps: KidBookStamp[]; currentStage: number | null } | null
+  /** The child's own page, step by step (lib/pathway/record-book-server.ts kidStepsFrom). */
+  kidSteps?: KidSteps | null
   // How many Planet Friends this child has earned, the further of the passport
   // stages and the streak unlock, so the picker only offers earned Friends.
   earnedStages?: number
@@ -2124,6 +2127,7 @@ export default function KidQuestScreen({
             passportCode={passportCode}
             stageId={stageId}
             book={kidBook}
+            steps={kidSteps}
           />
         )}
 

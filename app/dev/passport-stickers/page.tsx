@@ -4,6 +4,8 @@ import StickerPrintSheet from '@/components/passport/StickerPrintSheet'
 import { stickerFor } from '@/lib/pathway/stage-stickers'
 import { pageCount } from '@/lib/pathway/page-count'
 import RecordBook from '@/components/passport/RecordBook'
+import KidPassportSteps from '@/components/kid/KidPassportSteps'
+import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import type { RecordStage } from '@/lib/pathway/record-book-server'
 
 // Layout harness for the passport stickers (17 November 2026). No auth, no
@@ -14,6 +16,22 @@ import type { RecordStage } from '@/lib/pathway/record-book-server'
 export default async function Page({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
   const { view } = await searchParams
   if (view === 'print') return <StickerPrintSheet kid="Teo" stamped={[1]} focus={1} />
+  if (view === 'evidence') return <div style={{ padding: 16, maxWidth: 640, margin: '0 auto' }}><PathwayEvidence /></div>
+  if (view === 'kid') {
+    return (
+      <div style={{ padding: 16, maxWidth: 480, margin: '0 auto', background: 'var(--cream)' }}>
+        <KidPassportSteps steps={{ n: 2, stamped: false, catchup: [{ n: 1, left: 2 }], steps: [
+          { key: 'a', kind: 'lesson', label: 'Screen routines', done: true },
+          { key: 'b', kind: 'lesson', label: 'Gaming, time and spend', done: true },
+          { key: 'c', kind: 'lesson', label: 'How algorithms work', done: false },
+          { key: 'd', kind: 'lesson', label: 'Privacy and reputation', done: false },
+          { key: 'e', kind: 'talk', label: 'A talk with your grown up', done: true },
+          { key: 'f', kind: 'talk', label: 'A talk with your grown up', done: false },
+          { key: 'g', kind: 'check', label: 'The big check', done: false },
+        ] }} />
+      </div>
+    )
+  }
   if (view === 'record') {
     const L = (t: string, done: boolean, on: string | null = null) => ({ key: t, kind: 'lesson' as const, title: t, done, doneOn: on })
     const T = (t: string, done: boolean) => ({ key: t, kind: 'talk' as const, title: t, done, doneOn: done ? '2026-10-02T10:00:00Z' : null })
