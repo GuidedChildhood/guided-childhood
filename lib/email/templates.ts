@@ -413,7 +413,7 @@ export function weeklyDigestEmail(params: {
   // 17 October 2026): the page's one count and its one next step, from
   // lib/pathway/passport-today.ts, the same words as the passport card on
   // Home. Every child, per Justin's 18 August rule for weekly summaries.
-  passport?: { line: string; nextLine: string; href: string; img: string }[] | null
+  passport?: { line: string; nextLine: string; href: string; img: string; pace?: string | null; recordHref?: string | null }[] | null
 }): EmailContent {
   const { childName, stageName, scriptsDoneTotal, scriptsDoneThisWeek, unsubscribe, balanceNote, spotlight, passport } = params
   const passportRows = passport && passport.length
@@ -424,6 +424,7 @@ export function weeklyDigestEmail(params: {
            <td valign="top" style="font-family:'Nunito',Helvetica,Arial,sans-serif;color:${INK}">
              <div style="font-size:17px;font-weight:800;line-height:1.3">${r.line}</div>
              <div style="font-size:15px;line-height:1.55;margin-top:2px">${r.nextLine} <a href="${r.href}" style="color:${INK};font-weight:700">Open the passport</a></div>
+             ${r.pace ? `<div style="font-size:14px;line-height:1.5;margin-top:4px;color:#4A3B25">${r.pace}${r.recordHref ? ` <a href="${r.recordHref}" style="color:${INK};font-weight:700">Print the steps</a>` : ''}</div>` : ''}
            </td></tr></table>`).join('')}
        </td></tr></table>`
     : ''
