@@ -401,3 +401,8 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - Justin asked whether children should have icons and whether there was a better way. He chose the letter disc: the child's first letter on their stage colour, the same disc the child switcher draws on every page.
 - Why it replaces the buddy picture from PR 1629: a child who never picked a buddy shows DiGi, so two children could wear the same face, and the parent app had two ways of drawing one child.
 - `components/quests/ChildDisc.tsx` replaces `ChildBuddy.tsx`. No data change.
+
+## 18 November 2026: the starter page's three fixes are drawn the way the app draws them
+
+- Justin, with a screenshot: still clunky, "the graphics need to be way more stylish and in fit with app". Good Inside is not on Mobbin; Alma (stacked turned cards), X (the notification lifted off the screen) and Finch/Duolingo (progress as the app's own marks) set the shape.
+- Stars: the child's ask behind, the parent's card in front. Words: "Not this" struck through behind, "Say this" in the script finish on top, with Practise with DiGi and Fridge card. Check in: the real five faces (now `components/daily/CheckFace.tsx`, shared with the app), six weeks climbing, ending on the real rest rule. The pink bars and "Stamped in the passport" went: the check in has neither. `components/starter/FixArt.tsx`. PR 1633.
