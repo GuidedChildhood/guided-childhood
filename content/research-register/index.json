@@ -7786,7 +7786,7 @@
    "foundBy": [
     "chatgpt-inbox"
    ],
-   "status": "ASSETS READY",
+   "status": "APPROVED",
    "candidate": {
     "candidateId": "C-2026-11-14-01",
     "batchId": "2026-11-14-chatgpt-0800",
@@ -7838,10 +7838,10 @@
    },
    "childIsTheSubject": true,
    "studyId": "GDC-RR-9a82e5d5b3",
-   "version": 27,
+   "version": 29,
    "firstFound": "2026-11-17T09:21:23.223Z",
-   "lastChecked": "2026-11-17T13:33:43.513Z",
-   "changeReason": "ASSETS READY: PASS",
+   "lastChecked": "2026-11-18T11:39:35.335Z",
+   "changeReason": "APPROVAL: PASS",
    "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-9a82e5d5b3",
@@ -8021,9 +8021,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "ASSETS READY",
+    "stage": "APPROVAL",
     "reasons": [],
-    "at": "2026-11-17T13:33:43.510Z"
+    "at": "2026-11-18T11:39:35.332Z"
    },
    "gdcPostNumber": "061",
    "handoff": {
@@ -8130,7 +8130,12 @@
      },
      "at": "2026-11-17T13:33:20.228Z"
     }
-   ]
+   ],
+   "approval": {
+    "approvedBy": "Justin",
+    "instruction": "approved 61 yses 54 gone out",
+    "approvedAt": "2026-11-18T11:39:35.310Z"
+   }
   },
   "GDC-RR-5577da5988": {
    "title": "2026 Into the Light Index on Global Child Sexual Exploitation and Abuse",

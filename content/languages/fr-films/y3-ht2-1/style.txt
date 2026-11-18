@@ -1,0 +1,13 @@
+MAIN STYLE PROMPT (paste as tags/caption):
+bright playful children's hip hop chant in French, 100 BPM, bouncy boom bap
+drums, handclaps, xylophone and glockenspiel hook, warm bass, two clear voices
+trading lines, one soft and calm, one loud and bouncy, call and response, every
+French word sung slowly and clearly for young learners, group unison chorus,
+cheerful classroom energy, original melody, clean family friendly vocals
+
+RULES
+- Never include real artist or song names in prompts.
+- Never use commercial recordings as audio references or samples.
+- All melodies, lyrics and voices must be original.
+- The whispered verse is soft and quiet, the shouted verse loud: it is the
+  Nova and Bloop whisper or shout game, so the volume change must be obvious.
