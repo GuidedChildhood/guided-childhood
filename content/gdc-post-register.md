@@ -82,7 +82,7 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 053 | Judging the evidence, or whose side people are on (Meta, Odgers) | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, Justin wrote it, scrutiny applied | 2026-11-05 judging the evidence pack |
 
-| 054 | A new meta-analysis says the effect is much bigger, and why we are not using it | **CLAIMED 9 Nov for the Research Radar handoff GDC-RR-0754a1641c.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-0754a1641c.json |
+| 054 | A new meta-analysis says the effect is much bigger, and why we are not using it | **POSTED.** Justin confirmed 18 November ("54 gone out"). **No URL captured**, so this row rests on his word rather than on a checked link. Was: claimed 9 Nov for the Research Radar handoff GDC-RR-0754a1641c, Claude reviewed, approved | research-register/handoffs/handoff-GDC-RR-0754a1641c.json |
 
 | 055 | The government asked its own scientists whether social media harms children. Their answer was that nobody has run the experiment. | **CLAIMED 10 Nov for the Research Radar handoff GDC-RR-e22bd17322.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-e22bd17322.json |
 

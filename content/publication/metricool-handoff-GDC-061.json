@@ -1,7 +1,7 @@
 {
   "schema": "gdc.metricool-handoff/1.0",
-  "generatedAt": "2026-11-17T13:35:02.634Z",
-  "sourceCommit": "7ea416a397aa1f707f1373f67d263b0cdebef8d5",
+  "generatedAt": "2026-11-18T11:39:44.783Z",
+  "sourceCommit": "a420bd3b2cea3561a0188cb1e10bb08c5a3dd552",
   "gdcPostNumber": "061",
   "researchId": "GDC-RR-9a82e5d5b3",
   "title": "Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped.",
@@ -46,7 +46,7 @@
       "use": "the cover for the film, or the media if Justin chooses an image post"
     }
   ],
-  "approvalStatus": "READY FOR JUSTIN",
+  "approvalStatus": "APPROVED",
   "duplicateCheck": {
     "result": "UNKNOWN",
     "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
@@ -54,13 +54,11 @@
   "linkedinNativeSchedule": null,
   "metricool": {
     "draftCreationPermitted": true,
-    "schedulingPermitted": false,
+    "schedulingPermitted": true,
     "autoPublishPermitted": false,
     "mediaAttachPermitted": false,
     "mediaToAttach": [],
-    "why": [
-      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
-    ],
+    "why": [],
     "rules": [
       "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
       "Do not create a second draft if one exists for this GDC number.",
