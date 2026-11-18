@@ -377,3 +377,7 @@ Justin: Apple UX, obvious to a teacher arriving from the schools email. The page
 ## 18 November 2026: 2.1 goes to YouTube and the family account only
 
 - Justin's choice. No `parent_lessons` row for 2.1 and no change to the passport rule, so one Stage 2 film cannot award the whole Stage 2 passport. Revisit when more Stage 2 films exist.
+
+## 18 November 2026: 2.1 is live on YouTube
+
+- https://youtu.be/UPbRSQzYEGg on the Guided Childhood channel. Public, made for kids, English subtitles and the thumbnail on. Published only after YouTube's checks came back clean. The copy is in `2.1-pieces/youtube-post.md`.
