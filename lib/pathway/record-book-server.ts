@@ -40,9 +40,13 @@ export async function loadRecordBook(
   userId: string,
   childId: string,
   paid: boolean,
+  /** Only these stage numbers (the child's screen reads its own page and the
+   *  earlier ones, not all five). Omitted, all five. */
+  only?: number[],
 ): Promise<RecordStage[]> {
+  const want = (n: number) => !only || only.includes(n)
   const [paths, scripts, scriptDone, passed, stamped, completions] = await Promise.all([
-    Promise.all(STAGE_IDS.map(stageId => loadChildLessonPath(db, { userId, childId, stageId, paid }).catch(() => null))),
+    Promise.all(STAGE_IDS.map((stageId, i) => want(i + 1) ? loadChildLessonPath(db, { userId, childId, stageId, paid }).catch(() => null) : Promise.resolve(null))),
     db.from('scripts').select('sort_order, title, stage_id, only_on_signal').order('sort_order'),
     db.from('script_completions').select('script_sort_order, status, child_id, completed_at').eq('user_id', userId).or(`child_id.eq.${childId},child_id.is.null`),
     getPassedStageQuizzes(db, userId, childId),
@@ -66,8 +70,9 @@ export async function loadRecordBook(
   }
   const allScripts = (scripts.data ?? []) as { sort_order: number; title: string | null; stage_id: string | null; only_on_signal?: boolean | null }[]
 
-  return STAGE_IDS.map((stageId, i) => {
+  return STAGE_IDS.flatMap((stageId, i) => {
     const n = i + 1
+    if (!want(n)) return []
     const path = paths[i]
     const lessons: RecordRow[] = (path?.modules ?? []).map(m => {
       const done = path?.path.statusById[m.id]?.state === 'passed'
@@ -80,6 +85,40 @@ export async function loadRecordBook(
         return { key: `s-${s.sort_order}`, kind: 'talk', title: s.title ?? 'A talk together', done, doneOn: done ? (talkOn.get(s.sort_order) || null) : null }
       })
     const check: RecordRow = { key: 'check', kind: 'check', title: 'The big check', done: passed.has(n), doneOn: null }
-    return { n, rows: [...lessons, ...talks, check], stamped: stamped.includes(n) }
+    return [{ n, rows: [...lessons, ...talks, check], stamped: stamped.includes(n) }]
   })
+}
+
+// ── THE CHILD'S VIEW OF THE SAME ROWS (17 November 2026, plan part 3) ────────
+//
+// What the child's own passport shows: their page's steps in kid words, and
+// the earlier pages still open. A talk is shown as "A talk with your grown up"
+// and never by the script's title, because the titles are written for the
+// grown up ("When they hide the phone") and a child reading their own
+// passport should never find a line about themselves they were not meant to
+// see. The same reason the child's book draws slots and never detail.
+
+export type KidStep = { key: string; label: string; kind: RecordRow['kind']; done: boolean }
+export type KidSteps = {
+  n: number
+  stamped: boolean
+  steps: KidStep[]
+  /** Earlier pages not stamped yet, with how many steps are left on each. */
+  catchup: { n: number; left: number }[]
+}
+
+export function kidStepsFrom(stages: RecordStage[], current: number): KidSteps | null {
+  const page = stages.find(s => s.n === current)
+  if (!page) return null
+  const steps: KidStep[] = page.rows.map(r => ({
+    key: r.key,
+    kind: r.kind,
+    done: r.done,
+    label: r.kind === 'lesson' ? r.title : r.kind === 'talk' ? 'A talk with your grown up' : 'The big check',
+  }))
+  const catchup = stages
+    .filter(s => s.n < current && !s.stamped)
+    .map(s => ({ n: s.n, left: s.rows.filter(r => !r.done).length }))
+    .filter(c => c.left > 0)
+  return { n: page.n, stamped: page.stamped, steps, catchup }
 }

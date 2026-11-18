@@ -27,6 +27,7 @@ import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
 import { stampedStages } from '@/lib/pathway/stamp-store'
+import { loadRecordBook, kidStepsFrom, type KidSteps } from '@/lib/pathway/record-book-server'
 import { passportStageFor } from '@/lib/lessons/school-path'
 
 const BOOK_STAGE_NUM: Record<string, number> = { foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5 }
@@ -916,6 +917,17 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     }
   } catch { kidBook = null }
 
+  // THE CHILD'S STEPS (17 November 2026, plans/2026-11-17-passport-stickers-plan.md
+  // part 3): their own page, every step in kid words, ticked from the same rows
+  // as the record book and the grown up's passport, plus earlier pages still
+  // open. Fails soft: the passport just shows its count without them.
+  let kidSteps: KidSteps | null = null
+  try {
+    const only = Array.from({ length: Math.max(1, Math.min(5, bookStage)) }, (_, i) => i + 1)
+    const stages = await loadRecordBook(supabase, link.user_id as string, link.child_id as string, false, only)
+    kidSteps = kidStepsFrom(stages, bookStage)
+  } catch { kidSteps = null }
+
   const completedDays = completedDaysRes?.count ?? 0
 
   const completedStreaks = streakCurrency(jobStreaks, completedDays)
@@ -1005,6 +1017,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       accent={(childRes.data?.accent as string | null) ?? null}
       stageId={stageId}
       kidBook={kidBook}
+      kidSteps={kidSteps}
       quests={dueQuests}
       todayTicks={todayTicks}
       weekStars={weekStars}
