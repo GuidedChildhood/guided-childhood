@@ -68,3 +68,18 @@ countsTowardPathway, the passed stage checks), so paper and app agree.
 Route: /dashboard/keepsakes/passport-print/record, linked from the order card,
 the Stage done card and the earn card. No migration.
 Parked for Justin: the child's own page view, gentle reminders, the evidence check.
+
+## Part 3 to 5 (Justin, 18 November 2026: "do them in order as you recommend")
+
+3. The child's own page. Inside the passport the child opens in their app:
+   their stage's sticker and its line, every step in kid words with a tick when
+   done and the next one lit, talks shown as "A talk with your grown up" (never
+   the script's title, which is the grown up's business), and any earlier
+   pages still open as a short catch up list. Same rows as the record book
+   (lib/pathway/record-book-server.ts), so app, child and paper agree.
+4. Gentle reminders. One push to the grown up when the current page is behind
+   its pace, with the one next step, at most once a fortnight, from the same
+   count. No new email (one email a week rule stands).
+5. The evidence check. Verify what we can honestly say about building these
+   skills and online safety, with the citation verifier, and put only the
+   verified wording on the passport. Never "proven to make children safer".
