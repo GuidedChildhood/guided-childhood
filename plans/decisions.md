@@ -381,3 +381,8 @@ Justin: Apple UX, obvious to a teacher arriving from the schools email. The page
 ## 18 November 2026: 2.1 is live on YouTube
 
 - https://youtu.be/UPbRSQzYEGg on the Guided Childhood channel. Public, made for kids, English subtitles and the thumbnail on. Published only after YouTube's checks came back clean. The copy is in `2.1-pieces/youtube-post.md`.
+
+## 18 November 2026: the remade films come out, and the format is on hold
+
+- Justin made 2.1 private on YouTube. He said the voice was too AI, the sound wasn't right and there was no animation. The app's 1.6, 1.5 and 1.4 went back to their old films the same afternoon, restored from the rollback table in `app-swap-2026-11-18.md`.
+- No more films in the stills plus AI voice format, and nothing public until Justin has heard it. Next: settle a real voice and some movement before any remake.

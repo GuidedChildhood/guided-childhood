@@ -1,6 +1,6 @@
 # 2.1 on YouTube: the post
 
-**Live: https://youtu.be/UPbRSQzYEGg** (published 18 November 2026, public, made for kids, en GB subtitles and the thumbnail on, checks passed with no issues before it went public).
+**Made private by Justin the same afternoon** (voice too AI, no animation): https://youtu.be/UPbRSQzYEGg. It was (published 18 November 2026, public, made for kids, en GB subtitles and the thumbnail on, checks passed with no issues before it went public).
 
 Channel: Guided Childhood. File: `films/2.1-child-youtube.mp4` (6:29), with
 `films/2.1-child-youtube.en-GB.srt` and the thumbnail from `build/work/ov/thumbnail.png`.
