@@ -2,8 +2,6 @@
 
 Read THE-STORY.md at the start of every session. It is the whole picture:
 philosophy, product map, business model, what exists and where it lives.
-(It replaces the old guided-childhood-build/README.md pointer, which named a
-directory that no longer exists in this repo.)
 Re-read /plans/decisions.md after any compaction. It is an index plus the last
 couple of days in full. The full text of every past decision is in the monthly
 archives at /plans/decisions-archive/. Never load an archive whole: each one
@@ -178,5 +176,5 @@ Inside (the simplicity, big text, swipe to discard, DiGi comes up first).
 
 Monday: new session → read CLAUDE.md + decisions.md → write week-N-plan.md → approve → build
 Daily: check /plans/, update decisions.md with anything decided
-Session end: `npm run roll-decisions` so the log stays an index, not a 1 MB file
+Session end: `npm run roll-decisions`, then log your work in the Command Centre (docs/command-centre.md)
 Friday: layout + console check → `npm run context-guard` → push → Vercel deploy
