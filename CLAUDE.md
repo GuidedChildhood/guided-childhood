@@ -2,8 +2,6 @@
 
 Read THE-STORY.md at the start of every session. It is the whole picture:
 philosophy, product map, business model, what exists and where it lives.
-(It replaces the old guided-childhood-build/README.md pointer, which named a
-directory that no longer exists in this repo.)
 Re-read /plans/decisions.md after any compaction. It is an index plus the last
 couple of days in full. The full text of every past decision is in the monthly
 archives at /plans/decisions-archive/. Never load an archive whole: each one
@@ -139,25 +137,6 @@ the same thing (it happened: PR 55 and PR 56 built the same Phase 2 twice on
 9. Every CTA on /join routes to /starter-pack.
 10. Founder rate capped at 50 — enforced in code, not just in copy.
 
-## COMMAND CENTRE — log every session
-
-Justin keeps one master tracker for everything across his chats, code and
-projects: the Sheet "JP Command Centre",
-https://claude.ai/artifact/Y4jWrLcoPTFZm7GtKJJLNo (sheet "Tracker", columns
-Task, Area, Status, Next step, Due, Source). A weekday morning check-in reads
-it and tells him what needs him.
-
-At the end of every interactive session, add or update the row for the work
-you did, through the Claude Docs connector (its guide, topic.sheets, gives the
-calls). Status comes from the existing dropdown. Next step says plainly what
-happens next and who does it. Source names the branch or pull request.
-
-1. Update a row only if it is your work. Never delete rows and never change a
-   row that is someone else's.
-2. If the Claude Docs connector is not in the session, say so in your report to
-   Justin and put the suggested row in the pull request body instead.
-3. Scheduled routines skip this. The morning check-in already reads their runs.
-
 ## REPORTING BACK TO JUSTIN
 
 Summarise. Do not narrate every detail.
@@ -197,5 +176,5 @@ Inside (the simplicity, big text, swipe to discard, DiGi comes up first).
 
 Monday: new session → read CLAUDE.md + decisions.md → write week-N-plan.md → approve → build
 Daily: check /plans/, update decisions.md with anything decided
-Session end: `npm run roll-decisions` so the log stays an index, not a 1 MB file
+Session end: `npm run roll-decisions`, then log your work in the Command Centre (docs/command-centre.md)
 Friday: layout + console check → `npm run context-guard` → push → Vercel deploy
