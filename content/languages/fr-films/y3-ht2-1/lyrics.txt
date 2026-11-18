@@ -1,0 +1,33 @@
+[intro]
+Bonjour, bonjour !
+Ça va ? Ça va !
+
+[verse]
+Rouge, rouge, rouge !
+Jaune, jaune, jaune !
+Bleu, bleu, bleu !
+Vert, vert, vert !
+Gris, gris, gris !
+
+[chorus]
+Les couleurs, les couleurs,
+rouge, jaune, bleu, vert, gris !
+Les couleurs, les couleurs,
+rouge, jaune, bleu, vert, gris !
+
+[verse: whispered, soft and quiet]
+Chut... rouge... jaune...
+bleu... vert... gris...
+
+[verse: shouted, loud and bouncy]
+Fort ! ROUGE ! JAUNE !
+BLEU ! VERT ! GRIS !
+
+[chorus]
+Les couleurs, les couleurs,
+rouge, jaune, bleu, vert, gris !
+Les couleurs, les couleurs,
+rouge, jaune, bleu, vert, gris !
+
+[outro]
+Bravo ! Au revoir !

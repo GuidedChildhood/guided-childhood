@@ -1,0 +1,18 @@
+{
+  "length": 26,
+  "note": "Preview timeline, spoken by the word recordings. When the song is made, the cues move to the song's beats.",
+  "cues": [
+    {"t": 2.5, "who": "nova", "text": "Bonjour !", "audio": "nova-bonjour"},
+    {"t": 4.3, "who": "bloop", "text": "Ça va ?", "audio": "bloop-cava"},
+    {"t": 6.4, "who": "nova", "mode": "whisper", "text": "rouge", "colour": "#D9483B", "audio": "nova-rouge"},
+    {"t": 8.0, "who": "nova", "mode": "whisper", "text": "jaune", "colour": "#EDC35F", "audio": "nova-jaune"},
+    {"t": 9.6, "who": "nova", "mode": "whisper", "text": "bleu", "colour": "#3E86BC", "audio": "nova-bleu"},
+    {"t": 11.2, "who": "nova", "mode": "whisper", "text": "vert", "colour": "#2F8F6B", "audio": "nova-vert"},
+    {"t": 12.8, "who": "nova", "mode": "whisper", "text": "gris", "colour": "#8E8EA0", "audio": "nova-gris"},
+    {"t": 15.0, "who": "bloop", "mode": "shout", "text": "ROUGE !", "colour": "#D9483B", "audio": "bloop-rouge"},
+    {"t": 16.6, "who": "bloop", "mode": "shout", "text": "JAUNE !", "colour": "#EDC35F", "audio": "bloop-jaune"},
+    {"t": 18.2, "who": "bloop", "mode": "shout", "text": "BLEU !", "colour": "#3E86BC", "audio": "bloop-bleu"},
+    {"t": 19.8, "who": "bloop", "mode": "shout", "text": "VERT !", "colour": "#2F8F6B", "audio": "bloop-vert"},
+    {"t": 21.4, "who": "bloop", "mode": "shout", "text": "GRIS !", "colour": "#8E8EA0", "audio": "bloop-gris"}
+  ]
+}

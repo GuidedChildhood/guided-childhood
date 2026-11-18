@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>French lesson film</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=IBM+Plex+Mono:wght@600&display=block" rel="stylesheet">
+<style>
+  /* The French lesson film stage. 1280 by 720, house tokens: butter, cream,
+     ink, Nunito and Plex Mono. Nova and Bloop are the approved French cutouts
+     (brand/GDC_SOCIAL_VISUAL_SYSTEM.md section 17), moved in code, never
+     redrawn. The timeline is built from cue.json and stepped frame by frame
+     by render.mjs, so every render is identical. */
+  :root { --cream:#F9F8F6; --butter:#EDC35F; --butter-lt:#FEF7E0; --ink:#1A1A2E; --muted:#65657C; }
+  html, body { margin:0; width:1280px; height:720px; overflow:hidden; background:var(--cream); }
+  .stage { position:relative; width:1280px; height:720px; overflow:hidden;
+    background: radial-gradient(circle at 50% 120%, var(--butter-lt) 0, var(--cream) 60%); }
+  .eyebrow { position:absolute; top:34px; left:0; right:0; text-align:center; font:600 18px 'IBM Plex Mono', monospace;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+  .title { position:absolute; top:70px; left:0; right:0; text-align:center; font:900 76px Nunito, sans-serif; color:var(--ink); letter-spacing:-.02em; }
+  .friend { position:absolute; bottom:40px; width:330px; height:330px; transform-origin:50% 100%; }
+  .friend img { width:100%; height:100%; object-fit:contain; }
+  #nova { left:70px; } #bloop { right:70px; }
+  .tag { position:absolute; bottom:380px; padding:8px 18px; border-radius:100px; background:#fff; border:2px solid var(--ink);
+    font:800 26px Nunito, sans-serif; color:var(--ink); opacity:0; }
+  #tag-nova { left:150px; } #tag-bloop { right:110px; bottom:440px; }
+  .word { position:absolute; left:50%; top:52%; transform:translate(-50%,-50%); text-align:center; opacity:0; }
+  .blob { width:190px; height:190px; border-radius:50%; margin:0 auto 18px; box-shadow:0 8px 0 rgba(26,26,46,.12); }
+  .label { font:900 86px Nunito, sans-serif; color:var(--ink); letter-spacing:-.02em; line-height:1; }
+  .row { position:absolute; left:0; right:0; top:230px; display:flex; justify-content:center; gap:26px; opacity:0; }
+  .row div { width:92px; height:92px; border-radius:50%; }
+  .bravo { position:absolute; left:0; right:0; top:360px; text-align:center; font:900 96px Nunito, sans-serif; color:var(--ink); opacity:0; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="eyebrow" id="eyebrow">Year 3 · Les couleurs 1</div>
+  <div class="title" id="title">Les couleurs</div>
+  <div class="friend" id="nova"><img src="nova.png" alt=""></div>
+  <div class="friend" id="bloop"><img src="bloop.png" alt=""></div>
+  <div class="tag" id="tag-nova">chut</div>
+  <div class="tag" id="tag-bloop">fort !</div>
+  <div class="row" id="row"></div>
+  <div class="bravo" id="bravo">Bravo !</div>
+</div>
+<script src="gsap.min.js"></script>
+<script>
+  // window.CUE is injected by render.mjs before this runs.
+  const C = window.CUE, tl = gsap.timeline({ paused: true })
+  const stage = document.getElementById('stage')
+  gsap.set(['#nova', '#bloop'], { y: 420 })
+  tl.from('#eyebrow', { opacity: 0, y: -12, duration: .5 }, .2)
+    .from('#title', { opacity: 0, y: 24, duration: .6, ease: 'back.out(2)' }, .35)
+    .to('#nova', { y: 0, duration: .7, ease: 'back.out(1.6)' }, .9)
+    .to('#bloop', { y: 0, duration: .7, ease: 'back.out(1.6)' }, 1.15)
+  let lastMode = null
+  C.cues.forEach((q, i) => {
+    const me = '#' + q.who, other = q.who === 'nova' ? '#bloop' : '#nova'
+    if (q.mode && q.mode !== lastMode) {
+      // The game switches: the quiet friend leans in, or the loud one gets ready.
+      tl.to('#title', { opacity: 0, y: -20, duration: .4 }, q.t - .9)
+        .to('#tag-' + q.who, { opacity: 1, y: -6, duration: .35 }, q.t - .8)
+        .to(other, { opacity: .35, scale: .9, duration: .4 }, q.t - .8)
+        .to(me, { opacity: 1, scale: q.mode === 'whisper' ? .92 : 1.08, duration: .4 }, q.t - .8)
+      if (lastMode) tl.to('#tag-' + (q.who === 'nova' ? 'bloop' : 'nova'), { opacity: 0, duration: .3 }, q.t - .9)
+      lastMode = q.mode
+    }
+    // The friend who speaks moves: a small soft lean for a whisper, a big
+    // bounce for a shout, a friendly hop otherwise.
+    if (q.mode === 'whisper') tl.to(me, { rotation: q.who === 'nova' ? 6 : -6, duration: .25, yoyo: true, repeat: 1, ease: 'sine.inOut' }, q.t)
+    else if (q.mode === 'shout') tl.to(me, { y: -70, duration: .2, yoyo: true, repeat: 1, ease: 'power2.out' }, q.t)
+    else tl.to(me, { y: -30, duration: .22, yoyo: true, repeat: 1, ease: 'power1.out' }, q.t)
+    // The word, big and centred, held until the next one.
+    const w = document.createElement('div'); w.className = 'word'
+    w.innerHTML = (q.colour ? `<div class="blob" style="background:${q.colour}"></div>` : '') + `<div class="label">${q.text}</div>`
+    stage.appendChild(w)
+    const next = C.cues[i + 1], end = next ? next.t - .05 : C.length - 3.6
+    const big = q.mode === 'shout' ? 1.15 : q.mode === 'whisper' ? .85 : 1
+    tl.fromTo(w, { opacity: 0, scale: .6 }, { opacity: 1, scale: big, duration: .3, ease: q.mode === 'shout' ? 'back.out(3)' : 'back.out(1.5)' }, q.t - .05)
+      .to(w, { opacity: 0, duration: .2 }, end - .2)
+  })
+  // The close: all five colours in a row, both friends together, Bravo.
+  const row = document.getElementById('row')
+  const colours = [...new Set(C.cues.filter(q => q.colour).map(q => q.colour))]
+  colours.forEach(c => { const d = document.createElement('div'); d.style.background = c; row.appendChild(d) })
+  const close = C.length - 3.4
+  tl.to(['#tag-nova', '#tag-bloop'], { opacity: 0, duration: .3 }, close - .3)
+    .to(['#nova', '#bloop'], { opacity: 1, scale: 1, duration: .4 }, close)
+    .to(row, { opacity: 1, duration: .3 }, close)
+    .from('#row div', { scale: 0, stagger: .1, duration: .35, ease: 'back.out(2.5)' }, close)
+    .to('#bravo', { opacity: 1, duration: .3 }, close + .6)
+    .from('#bravo', { scale: .5, duration: .45, ease: 'back.out(2.5)' }, close + .6)
+    .to(['#nova', '#bloop'], { y: -40, duration: .25, yoyo: true, repeat: 3, stagger: .12 }, close + .7)
+  tl.to({}, { duration: 0 }, C.length)
+  window.seek = t => { tl.seek(t, false); return true }
+  window.ready = document.fonts.ready.then(() => true)
+</script>
+</body>
+</html>
