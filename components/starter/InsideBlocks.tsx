@@ -3,7 +3,8 @@ import MethodIcon, { METHOD, type MethodId } from './MethodIcon'
 import { STAGES } from '@/lib/content/stages'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import PassportCover from '@/components/passport/PassportCover'
-import { MockAsk, MockDigi, MockProgress } from '@/app/(marketing)/starter-pack/Mocks'
+import { MockDigi } from '@/app/(marketing)/starter-pack/Mocks'
+import { StarsArt, WordsArt, CheckArt } from './FixArt'
 
 // THE PATHWAY IS READY PAGE, SAID IN PICTURES.
 //
@@ -119,25 +120,20 @@ function Fix({ instead, title, children }: { instead: string; title: string; chi
 
 /** Three fixes. `afterStars` is the fold that holds the time number and the
  *  honest notes about it, which stay on the page one tap in. */
-export function Fixes({ kid, words, concern, afterStars }: { kid: string; words: string; concern: string; afterStars?: ReactNode }) {
+export function Fixes({ kid, words, notThis, concern, afterStars }: { kid: string; words: string; notThis: string; concern: string; afterStars?: ReactNode }) {
   return (
     <section aria-labelledby="ready-fixes" data-ready-fixes>
       <Head eyebrow="What it fixes" title="Three things, starting tonight." id="ready-fixes" />
       <ul style={{ margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 40 }}>
         <Fix instead="Instead of rows about more time" title="Stars they earn.">
-          <MockAsk kid={kid} />
+          <StarsArt kid={kid} />
           {afterStars && <div style={{ marginTop: 12 }}>{afterStars}</div>}
         </Fix>
         <Fix instead="Instead of not knowing what to say" title="The words, ready.">
-          <p style={{
-            margin: 0, background: 'var(--tint-butter)', borderRadius: 'var(--radius-card)', padding: '18px 20px',
-            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45,
-          }}>
-            &ldquo;{words}&rdquo;
-          </p>
+          <WordsArt words={words} notThis={notThis} />
         </Fix>
         <Fix instead="Instead of guessing if it works" title="Ten seconds a day.">
-          <MockProgress concern={concern} />
+          <CheckArt concern={concern} />
         </Fix>
       </ul>
     </section>
