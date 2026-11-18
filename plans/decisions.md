@@ -365,3 +365,10 @@ Justin: Apple UX, obvious to a teacher arriving from the schools email. The page
 
 ## 18 November 2026: French lesson films, pilot started; both curricula reviewed
 Justin: rebuild her lesson video with our friends, better animation, correct voices, for every lesson. Pilot on Year 3 Colours lesson 1: native French word recordings (Higgsfield, ElevenLabs engine), Nova whispers and Bloop shouts in a code animated film, our own song kit for ACE-Step (the rap program, his choice). 2.55 credits so far. Reviews of the digital (about 7.5) and French (about 8 for Years 3 and 4) schemes are in plans/, musts await his yes. Plan: plans/2026-11-18-french-lesson-films-plan.md.
+
+## 18 November 2026: the top of the Quests page, redrawn
+
+- Justin, with a screenshot: the top "needs expert attention, better Happy News styled icons, easier to use".
+- The caught up strip now has a drawn trophy on a sage plate, the headline "All caught up", and one row of remind chips, each showing the child's buddy.
+- Each child row now shows the buddy the child picked in their own app, on their stage colour (`components/quests/ChildBuddy.tsx`, the same picture the child sees). Then name and "0 of 10 today", a full width bar, and stars in words ("No stars yet this week", not "0 = 0 min").
+- The card heading is now "Today". No data, API or child app change.

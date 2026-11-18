@@ -8,6 +8,7 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 import Button from '@/components/ui/Button'
 import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
 import HappyIcon from '@/components/kid/HappyIcon'
+import ChildBuddy from '@/components/quests/ChildBuddy'
 import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
 import { DEVICES, ACTIVITIES, asksActivity, type ActivityKey } from '@/lib/quests/device-time'
 import type { FamilyDevice } from '@/lib/devices/family'
@@ -21,7 +22,7 @@ import type { FamilyDevice } from '@/lib/devices/family'
 // The saving goal is NOT here. StarSummary owns it, bar and redeem button
 // together, one screen up the same page.
 
-type Child = { id: string; name: string }
+type Child = { id: string; name: string; buddy?: string | null; age_band?: string | null }
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null }
 type Tick = { id: string; quest_id: string; child_id: string | null; tick_date: string; status: string }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
@@ -278,11 +279,14 @@ export default function QuestBoard({ foldQueue = false }: {
   return (
     <div style={{
       background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
-      borderRadius: 'var(--radius-card)', padding: '20px 22px', marginBottom: '20px',
+      borderRadius: 'var(--radius-card)', padding: '18px 16px', marginBottom: '20px',
     }}>
       <div style={{ marginBottom: '14px' }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
-          Family Quests
+        {/* "Today", because that is what this card is: each child's day so
+            far. "Family Quests" was the page's own name repeated as a card
+            heading (18 November 2026, the top of the page redrawn). */}
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+          Today
         </span>
       </div>
 
@@ -388,76 +392,69 @@ export default function QuestBoard({ foldQueue = false }: {
               <button
                 onClick={() => { setShowDone(false); setOpenChild(isOpen ? null : c.id) }}
                 style={{
-                  width: '100%', display: 'flex', alignItems: 'center', gap: '14px',
-                  padding: '14px 16px', background: 'none', border: 'none',
+                  width: '100%', display: 'flex', alignItems: 'flex-start', gap: '12px',
+                  padding: '13px 12px 13px 13px', background: 'none', border: 'none',
                   cursor: 'pointer', textAlign: 'left',
                 }}
               >
+                {/* Their face: the buddy they chose in their own app, on their
+                    stage colour (components/quests/ChildBuddy.tsx). */}
+                <ChildBuddy buddy={c.buddy} ageBand={c.age_band} size={42} />
                 <span style={{ flex: 1, minWidth: 0 }}>
-                  {/* Wraps as two whole pieces. On a phone the stars line broke
-                      after "this", leaving "week" alone on a line of its own. */}
-                  <span style={{ display: 'flex', alignItems: 'baseline', columnGap: '10px', rowGap: '2px', flexWrap: 'wrap', marginBottom: '6px' }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
+                  {/* REDRAWN 18 NOVEMBER 2026, top to bottom in the order a
+                      parent reads it across a kitchen:
+                        name                     0 of 10 today
+                        [bar, full width]
+                        stars this week, and the holiday bank
+                      The count used to sit beside the bar and squeezed it to a
+                      stub on a phone, and the star sum "0 = 0 min this week"
+                      sat beside the name and ran into the chevron at 320px.
+                      The bar is the thing to read, so it gets the whole width,
+                      the way Apple Activity and GoHenry give their one bar. */}
+                  <span style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', columnGap: '10px', rowGap: '2px', marginBottom: '7px' }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', overflowWrap: 'anywhere' }}>
                       {c.name}
                     </span>
-                    {/* "This week", said out loud. It used to read "⭐ 116 =
-                        580 min of screen time left", which was this week's
-                        earned stars and the holiday bank summed into one
-                        figure with no seam. In August that number climbs past
-                        anything a week could hold and the feature working as
-                        designed reads as a runaway bug. Naming the window is
-                        the whole fix: these stars reset, the banked minutes
-                        below them do not. */}
-                    <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
-                      ⭐ {balance} = {balance * STAR_MINUTES} min this week
+                    <span style={{ flexShrink: 0, fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--ink-soft)', fontFamily: 'var(--font-display)' }}>
+                      {dueToday.length > 0 ? `${doneToday} of ${dueToday.length} today` : 'Nothing set today'}
                     </span>
                   </span>
-                  {/* The holiday bank, on its own line and never added to the
-                      one above. Minutes earned past the weekly cap, which
-                      survive the reset and can only be spent while school is
-                      out. Silent at zero, because a bank nobody has paid into
-                      is not news.
-
-                      "during", not "this". Every title in META carries its
-                      own article already ("the summer holidays", "half term",
-                      "spring break"), so "this ${title}" read as "spend this
-                      the summer holidays" on the one branch a parent sees
-                      most, the holidays actually being open. */}
+                  {/* An empty bar keeps a sliver of butter, so 0 of 10 reads as
+                      a bar to fill rather than an empty box. Decorative: the
+                      count above says the same thing to a screen reader. */}
+                  {dueToday.length > 0 && (
+                    <span aria-hidden style={{
+                      display: 'block', height: 12, borderRadius: 'var(--radius-pill)', background: 'var(--white)',
+                      border: 'var(--edge)', overflow: 'hidden', marginBottom: '9px',
+                    }}>
+                      <span style={{
+                        display: 'block', height: '100%', background: 'var(--terracotta)',
+                        width: `${Math.max(4, Math.round((doneToday / dueToday.length) * 100))}%`,
+                      }} />
+                    </span>
+                  )}
+                  {/* This week's stars, said in words at zero. These reset each
+                      week; the holiday bank under them does not, so the two are
+                      never added together (the August "580 min left" bug). */}
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800, color: balance > 0 ? 'var(--terracotta-dark)' : 'var(--ink-muted)', lineHeight: 1.35 }}>
+                    <span aria-hidden>⭐ </span>
+                    {balance > 0 ? `${balance} star${balance === 1 ? '' : 's'}, ${balance * STAR_MINUTES} min this week` : 'No stars yet this week'}
+                  </span>
+                  {/* The holiday bank: minutes earned past the weekly cap,
+                      spendable only while school is out. Silent at zero.
+                      "during", not "this": every title carries its own article. */}
                   {holiday && holiday.remaining > 0 && (
-                    <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginBottom: '6px' }}>
+                    <span style={{ display: 'block', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '6px' }}>
                       {holiday.spendableNow
                         ? <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> to spend{holiday.holidayTitle ? ` during ${holiday.holidayTitle}` : ' now'}</>
                         : <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> saved for the school holidays</>}
                     </span>
                   )}
-                  {/* Today as a bar, the one thing on this row a parent reads
-                      from across the kitchen. GoHenry opens a child's earning
-                      on exactly this: one bar, then the words. Butter on the
-                      page's own cream, and decorative, because the sentence
-                      under it says the same thing to a screen reader. */}
-                  {dueToday.length > 0 && (
-                    <span aria-hidden style={{
-                      display: 'block', height: 10, borderRadius: 'var(--radius-pill)', background: 'var(--white)',
-                      border: 'var(--edge)', overflow: 'hidden', margin: '2px 0 7px',
-                    }}>
-                      <span style={{
-                        display: 'block', height: '100%', background: 'var(--terracotta)',
-                        width: `${Math.round((doneToday / dueToday.length) * 100)}%`,
-                      }} />
-                    </span>
-                  )}
-                  {/* Today's quest dots */}
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)' }}>
-                      {/* The instruction that used to run on here, "tap to see
-                          the tasks, agree the waiting ones and send more", was
-                          three lines of telling a parent what a row with a
-                          chevron on it does. The chevron already says it. */}
-                      {doneToday} of {dueToday.length} done today
-                    </span>
+                  {/* The day goal on its own line, so it never squeezes the bar. */}
                     {goal?.daily_stars ? (
                       <span style={{
-                        fontSize: 'var(--text-xs)', fontWeight: 800, marginLeft: '4px',
+                        display: 'block', width: 'fit-content', marginTop: '8px',
+                        fontSize: 'var(--text-xs)', fontWeight: 800,
                         fontFamily: 'var(--font-mono)', letterSpacing: '0.04em',
                         color: dayGoalHit ? 'var(--ink)' : 'var(--ink-muted)',
                         background: dayGoalHit ? 'var(--terracotta)' : 'var(--cream)',
@@ -467,7 +464,6 @@ export default function QuestBoard({ foldQueue = false }: {
                         {dayGoalHit ? 'Day goal hit 🎉' : `Day goal ⭐ ${Math.min(todayStars, goal.daily_stars)}/${goal.daily_stars}`}
                       </span>
                     ) : null}
-                  </span>
                   {/* The Saving for bar used to be here too. StarSummary a
                       screen up already draws it, and owns it properly: it
                       carries the goal reached celebration and the redeem
@@ -479,8 +475,8 @@ export default function QuestBoard({ foldQueue = false }: {
                       the selected one, so for a family with two children this
                       row is the only place both balances appear at once. */}
                 </span>
-                <span style={{ color: 'var(--ink-light)', fontSize: 'var(--text-md)', flexShrink: 0, transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s ease' }}>
-                  →
+                <span aria-hidden style={{ alignSelf: 'center', color: 'var(--ink-light)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', flexShrink: 0, transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s ease' }}>
+                  ›
                 </span>
               </button>
 

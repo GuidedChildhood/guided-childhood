@@ -9,6 +9,8 @@ import { pileFor } from '@/lib/quests/job-pile'
 import LessonCheck from './LessonCheck'
 import { questDueToday } from '@/lib/quests/due'
 import NudgeReceipt from '@/components/quests/NudgeReceipt'
+import HappyIcon from '@/components/kid/HappyIcon'
+import ChildBuddy from '@/components/quests/ChildBuddy'
 
 // Where every job actually is.
 //
@@ -40,7 +42,7 @@ import NudgeReceipt from '@/components/quests/NudgeReceipt'
 // Rejected has no tile on purpose. A parent who said no does not need it
 // counted back at them, and a child does not need a running total of refusals.
 
-type Child = { id: string; name: string; use_mode?: string | null }
+type Child = { id: string; name: string; use_mode?: string | null; buddy?: string | null; age_band?: string | null }
 type Quest = {
   id: string; child_id: string | null; title: string; emoji: string | null
   stars: number | null; schedule: string | null; schedule_days: number[] | null
@@ -390,32 +392,42 @@ export default function QuestStatusBoard() {
       new Map(buckets.sent.filter(r => r.childId).map(r => [r.childId as string, r.who])).entries()
     )
     return (
+      // Redrawn 18 November 2026. Justin, with a screenshot: "the top of this
+      // page needs expert attention, better Happy News styled icons, easier to
+      // use". A bare tick glyph, a run on sentence and two pill buttons
+      // wrapping onto separate lines. Now: one drawn icon on a sage plate, a
+      // two word headline that answers the question, the count underneath,
+      // and the nudges on one row with each child's own colour.
       <div style={{
-        background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
-        padding: '13px 16px', marginBottom: 18,
+        background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+        boxShadow: 'var(--lift)', padding: '14px 16px', marginBottom: 18,
       }}>
-        {/* The row is no longer one big button, because it now holds a second
-            action and a button inside a button is not a thing. The text is the
-            tappable part, exactly as before. */}
+        {/* The text is the tappable part: it opens the full board. A button
+            inside a button is not a thing, so the nudges sit below it. */}
         <button
           onClick={() => setOpenAnyway(true)}
           style={{
-            width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+            width: '100%', display: 'flex', alignItems: 'center', gap: 13, minHeight: 48,
             background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left',
           }}
         >
-          <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)' }}>✓</span>
-          <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
-            <strong>Nothing waiting on you.</strong>{' '}
-            <span style={{ color: 'var(--ink-soft)' }}>
+          <span aria-hidden style={{
+            flexShrink: 0, width: 48, height: 48, borderRadius: 'var(--radius-tile)',
+            background: 'var(--tint-sage)', border: 'var(--edge)', boxSizing: 'border-box',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <HappyIcon name="wins" size={32} />
+          </span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
+              All caught up
+            </span>
+            <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
               {onApp > 0
-                ? `${onApp} job${onApp === 1 ? '' : 's'} on their app.`
-                : 'Every job is done.'}
+                ? `Nothing waiting on you · ${onApp} job${onApp === 1 ? '' : 's'} on their app`
+                : 'Nothing waiting on you · every job done'}
             </span>
           </span>
-          {/* A chevron, not a word. "Where" alone was shorthand for the heading
-              this row replaces and read as a riddle without it, and the chevron
-              is what every other tappable row in this product already wears. */}
           <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-light)' }}>
             ›
           </span>
@@ -424,12 +436,12 @@ export default function QuestStatusBoard() {
         {/* Nothing waiting on YOU is not the same as nothing to do, and this is
             the one thing a parent can actually do about the other half. */}
         {toRemind.length > 0 && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 11, paddingTop: 11, borderTop: '2px dotted rgba(26,26,46,0.18)' }}>
-            <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
-              {toRemind.every(([id]) => reminded.has(id)) ? 'Nudged.' : 'Give them a nudge?'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
+            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+              {toRemind.every(([id]) => reminded.has(id)) ? 'Reminded' : 'Remind'}
             </span>
             {toRemind.map(([id, name]) => reminded.has(id) ? (
-              <span key={id} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
+              <span key={id} style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
                 {name} 💛 <NudgeReceipt childId={id} name={name} sentAt={1} />
               </span>
             ) : (
@@ -438,13 +450,15 @@ export default function QuestStatusBoard() {
                 onClick={() => remind(id, name)}
                 disabled={reminding !== null}
                 style={{
+                  flexShrink: 0, minHeight: 44, display: 'inline-flex', alignItems: 'center', gap: 7,
                   background: 'var(--cream)', border: 'var(--edge)',
-                  borderRadius: 'var(--radius-pill)', padding: '6px 13px', cursor: reminding ? 'wait' : 'pointer',
+                  borderRadius: 'var(--radius-pill)', padding: '6px 14px', cursor: reminding ? 'wait' : 'pointer',
                   fontFamily: 'var(--font-display)', fontWeight: 700,
                   fontSize: 'var(--text-sm)', color: 'var(--ink)',
                 }}
               >
-                {reminding === id ? 'Sending' : `Remind ${name}`}
+                {(() => { const c = data?.children.find(k => k.id === id); return <ChildBuddy buddy={c?.buddy} ageBand={c?.age_band} size={26} /> })()}
+                {reminding === id ? 'Sending' : name}
               </button>
             ))}
             {remindFailed && (
