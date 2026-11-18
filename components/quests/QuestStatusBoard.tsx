@@ -10,7 +10,7 @@ import LessonCheck from './LessonCheck'
 import { questDueToday } from '@/lib/quests/due'
 import NudgeReceipt from '@/components/quests/NudgeReceipt'
 import HappyIcon from '@/components/kid/HappyIcon'
-import ChildBuddy from '@/components/quests/ChildBuddy'
+import ChildDisc from '@/components/quests/ChildDisc'
 
 // Where every job actually is.
 //
@@ -42,7 +42,7 @@ import ChildBuddy from '@/components/quests/ChildBuddy'
 // Rejected has no tile on purpose. A parent who said no does not need it
 // counted back at them, and a child does not need a running total of refusals.
 
-type Child = { id: string; name: string; use_mode?: string | null; buddy?: string | null; age_band?: string | null }
+type Child = { id: string; name: string; use_mode?: string | null; age_band?: string | null }
 type Quest = {
   id: string; child_id: string | null; title: string; emoji: string | null
   stars: number | null; schedule: string | null; schedule_days: number[] | null
@@ -457,7 +457,7 @@ export default function QuestStatusBoard() {
                   fontSize: 'var(--text-sm)', color: 'var(--ink)',
                 }}
               >
-                {(() => { const c = data?.children.find(k => k.id === id); return <ChildBuddy buddy={c?.buddy} ageBand={c?.age_band} size={26} /> })()}
+                {(() => { const c = data?.children.find(k => k.id === id); return <ChildDisc name={c?.name ?? name} ageBand={c?.age_band} size={26} /> })()}
                 {reminding === id ? 'Sending' : name}
               </button>
             ))}

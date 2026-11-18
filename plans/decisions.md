@@ -395,3 +395,9 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - The caught up strip now has a drawn trophy on a sage plate, the headline "All caught up", and one row of remind chips, each showing the child's buddy.
 - Each child row now shows the buddy the child picked in their own app, on their stage colour (`components/quests/ChildBuddy.tsx`, the same picture the child sees). Then name and "0 of 10 today", a full width bar, and stars in words ("No stars yet this week", not "0 = 0 min").
 - The card heading is now "Today". No data, API or child app change.
+
+## 18 November 2026: children on Quests are their letter on their colour, not their buddy
+
+- Justin asked whether children should have icons and whether there was a better way. He chose the letter disc: the child's first letter on their stage colour, the same disc the child switcher draws on every page.
+- Why it replaces the buddy picture from PR 1629: a child who never picked a buddy shows DiGi, so two children could wear the same face, and the parent app had two ways of drawing one child.
+- `components/quests/ChildDisc.tsx` replaces `ChildBuddy.tsx`. No data change.
