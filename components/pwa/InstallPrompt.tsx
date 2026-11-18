@@ -77,6 +77,22 @@ const LAST_SHOWN_KEY = 'gc_install_last_shown'
 const SESSION_KEY = 'gc_install_asked_session'
 const ASK_AGAIN_AFTER_MS = 7 * 24 * 60 * 60 * 1000
 
+// ── A FEW DAYS AT THE START, THEN WEEKLY (Justin, 18 November 2026) ────────
+//
+// "can it remind first couple of days when starting but then after that
+// weekly? best practice". The first days are when a new parent is setting up
+// and the reminders matter most, so in the first three days after the first
+// visit it may ask once a day (a gap of 20 hours, so a morning and the next
+// morning both count). After that, the weekly clock above. The session guard
+// still holds either way, so it is never more than once a visit.
+const EARLY_DAYS_MS = 3 * 24 * 60 * 60 * 1000
+const EARLY_GAP_MS = 20 * 60 * 60 * 1000
+
+/** How long to wait since the last ask: daily in the first days, then weekly. */
+export function askGapMs(firstSeen: number, now: number): number {
+  return firstSeen && now - firstSeen < EARLY_DAYS_MS ? EARLY_GAP_MS : ASK_AGAIN_AFTER_MS
+}
+
 type BeforeInstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> }
 
 function ShareGlyph() {
@@ -88,7 +104,10 @@ function ShareGlyph() {
   )
 }
 
-export default function InstallPrompt() {
+export default function InstallPrompt({ installedOnAccount = false }: {
+  /** This account has opened the app from a home screen on some device. Never ask again. */
+  installedOnAccount?: boolean
+} = {}) {
   // ── NEVER ON THE PAGE THAT ALREADY ASKS THIS ─────────────────────────────
   //
   // Justin, 16 August 2026, with a screenshot of the banner sitting on top of
@@ -112,6 +131,12 @@ export default function InstallPrompt() {
 
   useEffect(() => {
     if (onSetup) return
+    // Installed on this account somewhere (the phone, usually), so a laptop
+    // tab is not a reason to ask. Recorded locally too so it sticks offline.
+    if (installedOnAccount) {
+      try { localStorage.setItem(DONE_KEY, '1') } catch { /* private mode */ }
+      return
+    }
     const nav = navigator as Navigator & {
       standalone?: boolean
       getInstalledRelatedApps?: () => Promise<unknown[]>
@@ -157,10 +182,11 @@ export default function InstallPrompt() {
     // Already asked this visit, whatever the weekly clock says.
     try { if (sessionStorage.getItem(SESSION_KEY) === '1') return } catch { /* private mode */ }
 
-    // Asked within the last week. Say nothing.
+    // Asked too recently: within a day in the first three days, a week after.
     try {
       const last = Number(localStorage.getItem(LAST_SHOWN_KEY) ?? 0)
-      if (last && Date.now() - last < ASK_AGAIN_AFTER_MS) return
+      const firstSeen = Number(localStorage.getItem(FIRST_SEEN_KEY) ?? 0)
+      if (last && Date.now() - last < askGapMs(firstSeen, Date.now())) return
     } catch { /* private mode: behave as though it has never asked */ }
 
     const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
@@ -188,7 +214,7 @@ export default function InstallPrompt() {
       setMode('banner')
     }, 2500)
     return () => { cancelled = true; clearTimeout(id) }
-  }, [onSetup])
+  }, [onSetup, installedOnAccount])
 
   /**
    * Closing the banner starts the week, it does not end the conversation.
