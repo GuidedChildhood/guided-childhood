@@ -212,7 +212,11 @@ LIGHT: the joke and the chant still play, just without full motion.
 | Animate everything | Animation (c) | Decline | It breaks the screen rule and the word timing, and costs about 435 |
 | Childline in this film | Safeguarding | Decline | For 4 to 7 the route is a trusted grown up. Childline starts in Stage 2 |
 
-## One decision for Justin
+## Pebble's voice: decided
+
+Kaia on ElevenLabs, chosen by Justin on 18 November 2026 (`pebble-voice-test/`). The note below is kept as the record of the question.
+
+## One decision for Justin (answered)
 
 **Does Pebble speak?** The character bible leaves Pebble's voice unset. In
 this script Pebble has three short lines, and the most important one is "I got

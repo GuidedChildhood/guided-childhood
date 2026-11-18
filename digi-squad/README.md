@@ -167,7 +167,7 @@ never pick a new one because the old one cannot be found.**
 | Friend | Voice id | Sample | Pronunciation |
 |---|---|---|---|
 | DiGi | Isla on ElevenLabs (Higgsfield text2speech_v2, variant elevenlabs, preset 7367e919-3069-5a0b-939e-dfb1c0fd91b4), chosen by Justin by ear 16 November 2026, replacing Tamsin on Seed Audio | `content/child-films/voice-test-2/5-elevenlabs-isla.mp3` | Written "Didgee" in spoken text so it is said like the app says it |
-| Pebble | to be set | | |
+| Pebble | Kaia on ElevenLabs (Higgsfield text2speech_v2, variant elevenlabs, preset bb9db352-f345-59f3-90b3-fa9432bcff91), chosen by Justin by ear 18 November 2026 from five | `content/child-films/animation-pilot-1.4/pebble-voice-test/4-kaia.mp3` | Says DiGi as "Didgee", like DiGi does |
 | Bloop | to be set | | |
 | Orbit | to be set | | |
 | Nova | to be set | | |

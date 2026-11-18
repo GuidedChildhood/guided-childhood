@@ -1,5 +1,7 @@
 # Pebble voice test, 18 November 2026
 
+**Chosen by Justin, by ear: sample 4, Kaia.** Recorded in `digi-squad/README.md`.
+
 Justin chose to give Pebble a voice ("Yes, voice test"). Each sample is
 Pebble's two lines from the 1.4 animated script: "Oh! Other way round!" and
 "Didgee. I got the uh oh feeling." In `all-five-in-order.mp3`, each one starts

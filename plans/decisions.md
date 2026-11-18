@@ -395,3 +395,8 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - The caught up strip now has a drawn trophy on a sage plate, the headline "All caught up", and one row of remind chips, each showing the child's buddy.
 - Each child row now shows the buddy the child picked in their own app, on their stage colour (`components/quests/ChildBuddy.tsx`, the same picture the child sees). Then name and "0 of 10 today", a full width bar, and stars in words ("No stars yet this week", not "0 = 0 min").
 - The card heading is now "Today". No data, API or child app change.
+
+## 18 November 2026: Pebble has a voice, and 1.4 is the animated pilot
+
+- Pebble is Kaia on ElevenLabs (preset bb9db352), picked by Justin by ear from five. DiGi stays Isla. No background music in any child film.
+- The 1.4 animated script is merged from a four lens panel (curriculum, children's TV, safeguarding, animation) in `content/child-films/animation-pilot-1.4/`. It waits on Justin's budget: key moments about 81 credits, or the full plan about 110. PR 1626.
