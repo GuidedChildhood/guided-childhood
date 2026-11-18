@@ -31,6 +31,15 @@ const before = { index: digest(LIVE_INDEX), jsonl: digest(LIVE_JSONL), posts: di
 const TMP = mkdtempSync(join(tmpdir(), 'radar-pipeline-test-'))
 process.env.RADAR_REGISTER = TMP
 
+// The fixture record carries GDC 054, which Justin has since posted (18 Nov).
+// The test reads a copy of the post register in which that one row is put
+// back to its claimed, unposted state, so the handoff gates can still be
+// exercised end to end. Every other row, posted ones included, is unchanged.
+const TEST_POSTS = join(TMP, 'gdc-post-register.md')
+writeFileSync(TEST_POSTS, readFileSync(LIVE_POSTS, 'utf8').split('\n').map((l) =>
+  /^\| 054 \|/.test(l) ? '| 054 | test fixture row | **CLAIMED** for the Research Radar handoff GDC-RR-0754a1641c. Claude reviewed, verdict EDIT | research-register/handoffs/handoff-GDC-RR-0754a1641c.json |' : l).join('\n'))
+process.env.RADAR_POST_REGISTER = TEST_POSTS
+
 const reg = await import('./register.mjs')
 const P = await import('./pipeline.mjs')
 const S = await import('./sync.mjs')
@@ -83,7 +92,7 @@ const empty = mkdtempSync(join(tmpdir(), 'radar-norepo-'))
 let childOut = ''
 try {
   childOut = execFileSync('node', ['-e', `import('${join(process.cwd(), 'scripts/radar/pipeline.mjs')}').then(p=>console.log(JSON.stringify(p.preflight({requireDrive:false}))))`],
-    { env: { ...process.env, RADAR_REPO: empty, RADAR_REGISTER: mkdtempSync(join(tmpdir(), 'radar-norepo-reg-')) }, cwd: empty, encoding: 'utf8' })
+    { env: { ...process.env, RADAR_POST_REGISTER: '', RADAR_REPO: empty, RADAR_REGISTER: mkdtempSync(join(tmpdir(), 'radar-norepo-reg-')) }, cwd: empty, encoding: 'utf8' })
 } catch (e) { childOut = String(e.stdout || e.message) }
 let noRepo = null
 try { noRepo = JSON.parse(childOut.trim().split('\n').pop()) } catch { /* reported below */ }

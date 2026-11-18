@@ -37,8 +37,13 @@ const POSTS = join(TMP, 'gdc-post-register.md')
 // no number yet. POSTS_WITH_ROW keeps it, for the check that a row claimed by
 // hand is adopted and not claimed a second time.
 const POSTS_WITH_ROW = join(TMP, 'gdc-post-register-with-row.md')
-copyFileSync(LIVE.posts, POSTS_WITH_ROW)
-writeFileSync(POSTS, readFileSync(LIVE.posts, 'utf8').split('\n').filter((l) => !l.includes('GDC-RR-0754a1641c.**')).join('\n'))
+// The test study carries GDC 054, which Justin has since posted (18 Nov), so
+// both copies match its row by number, and the kept row is put back to its
+// claimed, unposted state.
+const liveLines = readFileSync(LIVE.posts, 'utf8').split('\n')
+const is054 = (l) => /^\| 054 \|/.test(l)
+writeFileSync(POSTS_WITH_ROW, liveLines.map((l) => is054(l) ? '| 054 | test fixture row | **CLAIMED 9 Nov for the Research Radar handoff GDC-RR-0754a1641c.** Claude reviewed, verdict EDIT | research-register/handoffs/handoff-GDC-RR-0754a1641c.json |' : l).join('\n'))
+writeFileSync(POSTS, liveLines.filter((l) => !is054(l)).join('\n'))
 
 const reg = await import('./register.mjs')
 const P = await import('./pipeline.mjs')
