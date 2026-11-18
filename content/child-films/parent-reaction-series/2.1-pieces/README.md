@@ -38,7 +38,10 @@ and it is not in the app** (see below).
 completed every active lesson of that stage. As the only active Stage 2 film,
 2.1 would award a Stage 2 child the whole Stage 2 passport for one film. It
 stays out of the app until there are more Stage 2 films, or the passport rule
-changes. Justin's call.
+changes.
+
+**Decided by Justin, 18 November 2026: YouTube and the family account only for
+now.** No app row, no passport change.
 
 ## Cost
 

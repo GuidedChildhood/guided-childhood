@@ -373,3 +373,7 @@ Justin: Apple UX, obvious to a teacher arriving from the schools email. The page
 
 - Strangers in games, with Bloop, from the 2.1 script plus the "let's chat somewhere else" move from the verified Roblox pack. 19 pictures, 37 lines checked by transcript (three redone). 70.5 credits against 71 quoted.
 - Not in the app: as the only active Stage 2 lesson, finishing it would award the whole Stage 2 passport (`/api/parent-lessons/complete`). Waits on Justin: more Stage 2 films first, or a passport rule change. PR 1618.
+
+## 18 November 2026: 2.1 goes to YouTube and the family account only
+
+- Justin's choice. No `parent_lessons` row for 2.1 and no change to the passport rule, so one Stage 2 film cannot award the whole Stage 2 passport. Revisit when more Stage 2 films exist.
