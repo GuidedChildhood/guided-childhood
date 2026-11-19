@@ -236,6 +236,20 @@ export function summary(date = today()) {
 
   line(`RESEARCH RADAR, ${date}`)
   line()
+  // The daily completion report Justin asked for on 19 November: one line per
+  // stage of the day, counted from the register, never from memory. Metricool
+  // is named as not connected rather than left out, so a missing stage never
+  // reads as a working one.
+  const on = (t) => String(t || '').startsWith(date)
+  const discovered = all.filter((r) => on(r.firstFound)).length
+  const cleared = all.filter((r) => on(r.claudeReview?.reviewedAt) && ['EDIT', 'PASS', 'CLEAR'].includes(r.claudeReview?.verdict)).length
+  const heldToday = all.filter((r) => on(r.claudeReview?.reviewedAt) && ['HOLD', 'REJECT'].includes(r.claudeReview?.verdict)).length
+  const produced = all.filter((r) => on(r.packQa?.checkedAt)).length
+  line('TODAY IN NUMBERS')
+  line(`  Research discovered: ${discovered}. Claude cleared: ${cleared}. Held or rejected at review: ${heldToday}.`)
+  line(`  Packs produced and checked: ${produced}. Stages held or failed: ${bad.length}.`)
+  line('  Metricool verified: NOT CONNECTED. Claude cannot read Metricool; ChatGPT reports uploads, and nothing counts as scheduled until it has seen it there.')
+  line()
   line('NEEDS YOU')
   let asks = 0
   for (const r of readyForHim) { asks += 1; line(`  Read and post, or send back: ${num(r)}, ${name(r)}`) }
