@@ -26,3 +26,15 @@ for (const m of [leadMessage('Anderson shelter project', 7, '2026-12-01', 'paren
 assert.match(leadMessage('Anderson shelter project', 7, '2026-12-01', 'parent', 'Teo'), /Teo is due in a week \(Tue 1 Dec\)/)
 
 console.log('check-school-lead-up ok: a week and three days before when there is room, the bell waits for the first reminder, choices respected')
+
+// One letter, one item per piece of work.
+const { mergeNearDuplicates: validateItems } = await import('../lib/school/merge-items.ts')
+const merged = validateItems([
+  { kind: 'homework', title: 'Build an Anderson shelter model', detail: 'Use a shoebox.', due_date: '2026-12-01' },
+  { kind: 'homework', title: 'Hand in Anderson shelter project', detail: 'Bring it to class.', due_date: '2026-12-01' },
+  { kind: 'kit', title: 'Bring PE kit', detail: null, due_date: '2026-12-01' },
+  { kind: 'homework', title: 'Times tables practice', detail: null, due_date: '2026-12-01' },
+])
+assert.equal(merged.length, 3, 'the two Anderson shelter items are one')
+assert.match(merged[0].detail, /shoebox.*class/)
+console.log('check-school-lead-up ok: one letter, one item per piece of work')

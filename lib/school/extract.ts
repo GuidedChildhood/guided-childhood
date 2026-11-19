@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { mergeNearDuplicates } from './merge-items'
 
 // THE ONE SCHOOL EXTRACTOR.
 //
@@ -53,7 +54,7 @@ function buildPrompt(schoolName: string, subject: string, body: string, hasImage
   const source = hasImage
     ? 'this photo of a school letter, note or screen'
     : 'this school message'
-  return `Extract actionable items for a parent from ${source} from ${schoolName}. Only real actions a parent must do or remember: kit to bring (coat, PE kit, water bottle, wellies), payments due, homework or practice (times tables, reading), events and trips with dates, deadlines, important notices. Ignore newsletters with no action. Exception: if the message is only a notification that a message, post or update is waiting inside an app (ClassDojo, Tapestry, Seesaw, Arbor, ParentPay and similar) and the content itself is not included, return exactly one notice item telling the parent to check that app, naming the sender if given, for example {"kind":"notice","title":"Check ClassDojo message from Miss Smith","detail":"ClassDojo says a new message is waiting in the app.","due_date":null}. Today is ${today}.${hasImage ? ' Read every date you can see. If a date is written as a weekday without a year, work it out from today.' : ''}
+  return `Extract actionable items for a parent from ${source} from ${schoolName}. Only real actions a parent must do or remember: kit to bring (coat, PE kit, water bottle, wellies), payments due, homework or practice (times tables, reading), events and trips with dates, deadlines, important notices. Ignore newsletters with no action. Exception: if the message is only a notification that a message, post or update is waiting inside an app (ClassDojo, Tapestry, Seesaw, Arbor, ParentPay and similar) and the content itself is not included, return exactly one notice item telling the parent to check that app, naming the sender if given, for example {"kind":"notice","title":"Check ClassDojo message from Miss Smith","detail":"ClassDojo says a new message is waiting in the app.","due_date":null}. One item per piece of work: a project to make and hand in on the same day is ONE homework item, never one to build it and another to hand it in. Put what to bring or make in the detail. Today is ${today}.${hasImage ? ' Read every date you can see. If a date is written as a weekday without a year, work it out from today.' : ''}
 
 ${subject ? `Subject: ${subject}\n\n` : ''}${body.slice(0, 4000)}
 
@@ -64,7 +65,7 @@ Return ONLY a JSON array (empty if no actions): [{"kind":"kit|payment|homework|e
  *  coerced, because a guessed kind on a school deadline is worse than nothing. */
 export function validateItems(raw: unknown): ExtractedItem[] {
   if (!Array.isArray(raw)) return []
-  return raw
+  return mergeNearDuplicates(raw
     .filter((i): i is ExtractedItem =>
       Boolean(i) && typeof i === 'object'
       && (SCHOOL_KINDS as readonly string[]).includes((i as ExtractedItem).kind)
@@ -75,7 +76,7 @@ export function validateItems(raw: unknown): ExtractedItem[] {
       title: i.title.trim().slice(0, 120),
       detail: typeof i.detail === 'string' ? i.detail.trim().slice(0, 300) : null,
       due_date: typeof i.due_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(i.due_date) ? i.due_date : null,
-    }))
+    })))
 }
 
 export type ExtractInput = {
