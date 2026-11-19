@@ -197,7 +197,7 @@
      "songs": [
       0
      ],
-     "book": "Stick the alien strip down the side of your page. Next to each alien, write « C'est … » and its colour. Challenge: draw your own alien and write its colour.",
+     "book": "Write the title « Quelle couleur ? ». Stick the alien strip down the side of your page. Next to each alien, write « C'est … » and its colour. Challenge: draw your own alien and write its colour.",
      "files": [
       {
        "kind": "game",
@@ -4258,15 +4258,15 @@
     0
    ],
    [
+    "Ask and answer",
+    0
+   ],
+   [
     "Quelle couleur ?",
     0
    ],
    [
     "Song",
-    0
-   ],
-   [
-    "Repeat!",
     0
    ],
    [
@@ -4312,6 +4312,10 @@
    [
     "Où est Pierre ?",
     0
+   ],
+   [
+    "Extra: Repeat!",
+    1
    ],
    [
     "Extra: Splat !",
