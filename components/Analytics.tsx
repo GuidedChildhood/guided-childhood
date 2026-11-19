@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import type { PostHog } from 'posthog-js'
 import { isTrackedPath, cleanEvent, type STAGE_CHECK_STEPS } from '@/lib/analytics/posthog-policy'
+import { aiSourceOf } from '@/lib/analytics/ai-source'
 
 // PostHog, on the public pages only. What it may see, and why, is
 // lib/analytics/posthog-policy.ts; this file only decides when to load it.
@@ -46,6 +47,16 @@ function start(): Promise<PostHog> {
       disable_external_dependency_loading: true,
       advanced_disable_flags: true,
       before_send: event => cleanEvent(event, host),
+      // AI search tagging (19 November 2026). Worked out once, on the first
+      // public page of the visit, from the referrer and utm_source, and
+      // registered before the first pageview so every event of the visit
+      // carries ai_source. Memory persistence means it ends with the tab.
+      loaded: ph => {
+        const source = aiSourceOf(document.referrer, window.location.search)
+        if (!source) return
+        ph.register({ ai_source: source })
+        ph.capture('ai_referral', { ai_source: source })
+      },
     })
     return posthog
   })
