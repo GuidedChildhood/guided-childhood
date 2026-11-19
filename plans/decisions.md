@@ -281,6 +281,13 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - Why it replaces the buddy picture from PR 1629: a child who never picked a buddy shows DiGi, so two children could wear the same face, and the parent app had two ways of drawing one child.
 - `components/quests/ChildDisc.tsx` replaces `ChildBuddy.tsx`. No data change.
 
+## 18 November 2026: Quests setup is a settings list, not fourteen screens of cards
+
+- Justin: make /dashboard/quests/setup "super easy to follow and easy to read", following the best apps.
+- It measured 14.8 phone screens and 110 taps for a two child family. Most of it copied pages that already exist: the job list and both idea lists (Add a job), the routines (their own page), the balance card (Stats).
+- Now: the child picker and the stars card, then three grouped rows in the Apple Settings style. Jobs and Routines link to their pages. Rewards, Do this first and messages, Learning games, Their app and Print open in place with an "All settings" back row. 3 screens, 16 taps. The "a lot for one day" advice only shows when the day is heavy.
+- The stars card keeps only an Approve button, and only when something is waiting. The deal guard now holds every page that mounts the job composer, and fails if Add a job ever stops mounting it.
+- No data or API change. `components/quests/SettingsList.tsx`.
 ## 18 Nov 2026: the Evidence Reveal is the default for research led posts
 
 Every evidence pack now carries three hooks of different kinds with one CHOSEN, a DISRUPT, REVEAL, REFRAME, INVITE storyboard with a cover, and CARD TEXT with TIMING and VISUAL lines. The pack checks read hooks and storyboard for uncleared figures, dashes and causal wording (qa.mjs check 8b); a pack with no HOOKS passes and is flagged, so work in flight is not stopped. The look moves to black and white editorial paper with one yellow highlight. Cadence "every other day" sits under the 17 Nov cap of three a week until Justin says otherwise. Skill: .claude/skills/evidence-reveal. ChatGPT's v3 motion files for 055 to 061 are on HOLD (wrong AI label on three, unreadable caveats, 12 fps, no end hold); the Claude cards stay the approved visuals.
