@@ -1,0 +1,66 @@
+{
+  "studyId": "GDC-RR-f59e96c34f",
+  "reviewedAt": "2026-11-19T09:38:17Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 19 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "verifiedStatistics": [],
+  "recommendedPlatforms": [],
+  "urgency": "None while held.",
+  "reviewBasis": "The abstract only, from the PubMed record 43033546 as stored in the register and matching the DOI 10.1016/j.chiabu.2026.108419. Unpaywall lists the published version as open access under CC BY, but the ScienceDirect PDF answered 403 and the Elsevier API refused for rate limit, so the methods, measures, tables and the authors' limitations were not read. No figure is cleared from an abstract alone.",
+  "claims": [
+    {
+      "claim": "Risky online behaviours, gender and (cyber)bullying predicted online grooming victimisation.",
+      "status": "REQUIRES SOURCE",
+      "basis": "Stated in the abstract with odds ratios 1.21, 2.49 and 2.21. How grooming was measured, the scale of risky behaviour and which gender carried the higher odds were not read."
+    },
+    {
+      "claim": "Vulnerability differs between early and later adolescence.",
+      "status": "REQUIRES SOURCE",
+      "basis": "From age stratified models in 240 young people, so each group is small. The group sizes and intervals were not read."
+    },
+    {
+      "claim": "Prevention should be age sensitive.",
+      "status": "UNSUPPORTED",
+      "basis": "A recommendation, not a finding; a cross sectional survey of 240 people cannot show what prevention works."
+    }
+  ],
+  "notQuotable": [
+    "any figure from the abstract",
+    "any statement that bullying or gender causes grooming"
+  ],
+  "evidenceConfidence": "LOW: abstract only. Even read in full, 240 adolescents from schools in one Portuguese city, cross sectional and self reported, would be a thin base for a post on a subject this sensitive.",
+  "limitations": [
+    "Abstract only.",
+    "240 adolescents aged 12 to 19, schools in Porto, Portugal; nothing on the UK.",
+    "Cross sectional and self reported.",
+    "Grooming coded as yes or no from reported experiences; the measure was not read.",
+    "Age stratified models on a small sample."
+  ],
+  "contradictoryEvidence": [
+    "None read in this run. The abstract's own framing ties grooming to bullying and risky behaviour rather than to time online, which differs from how the subject is often covered."
+  ],
+  "whatThisDoesNotProve": [
+    "What causes grooming.",
+    "Anything about UK children.",
+    "Which prevention works."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run.",
+  "gdcBeliefs": [
+    "Evidence or silence, and more care, not less, on a sexual harm subject."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody while held.",
+  "unresolvedQuestions": [
+    "The full text, which is open access: a PDF left in Drive could be ingested and this review redone. Worth it only if the sample sizes per age group hold up."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-f59e96c34f.json"
+}
