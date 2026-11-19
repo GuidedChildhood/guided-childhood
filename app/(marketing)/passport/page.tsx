@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import PassportPageCta from '@/components/marketing/PassportPageCta'
 import { STAGES } from '@/lib/content/stages'
@@ -9,11 +11,11 @@ import {
   STAGE_READINESS,
 } from '@/lib/content/passport'
 
-export const metadata = {
-  title: 'The Social Media Passport · Guided Childhood',
-  description:
-    'The digital pathway is your child’s social media passport. Gradual, guided exposure from age 4 to 16, built on the evidence, so 16 is a step and not a cliff edge.',
-}
+export const metadata: Metadata = pageMetadata({
+  title: 'The Social Media Passport',
+  description: 'The digital pathway is your child’s social media passport. Gradual, guided exposure from age 4 to 16, built on the evidence, so 16 is a step and not a cliff edge.',
+  path: '/passport',
+})
 
 const STAGE_RING = ['var(--stage-1)', 'var(--stage-2)', 'var(--stage-3)', 'var(--stage-4)', 'var(--stage-5)']
 

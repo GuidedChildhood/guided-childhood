@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -30,14 +31,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const t = getTaster(slug)
   if (!t) return {}
-  return {
+  return pageMetadata({
     title: `${t.title}: a free printable taster`,
     description: `${t.blurb} Free to print, ages ${t.ages}.`,
-    alternates: { canonical: `/free/${t.slug}` },
-    openGraph: { images: [tasterPreview(t.slug, 1)] },
+    path: `/free/${t.slug}`,
+    image: tasterPreview(t.slug, 1),
     // A hold works by direct link but is not promoted, so search does not list it.
-    ...(t.status === 'hold' ? { robots: { index: false, follow: true } } : {}),
-  }
+    noindex: t.status === 'hold',
+  })
 }
 
 const WRAP: CSSProperties = { maxWidth: '860px', margin: '0 auto', padding: '44px 18px 80px' }

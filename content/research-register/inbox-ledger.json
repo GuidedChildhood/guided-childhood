@@ -205,6 +205,26 @@
      "warnings": []
     }
    ]
+  },
+  "1088ffa14184b9a4917f3ba558a858ef33032edcc80f9ecc94c8e7e5b9c1303a": {
+   "batchId": "2026-11-18-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-18T08:00:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1ycdWOBf2ADg7-GcOH6asAMA1kye0ZerbiSMLohJLJpE",
+   "driveTitle": "1ycdWOBf2ADg7-GcOH6asAMA1kye0ZerbiSMLohJLJpE__candidates",
+   "ingestedAt": "2026-11-18T09:21:08.900Z",
+   "results": []
+  },
+  "6bd02083c1212b7fa5c319c5b5244086b03d2d444d7dd860223753c188e4c038": {
+   "batchId": "2026-11-19-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-19T08:02:37Z",
+   "readAs": "as sent",
+   "driveFileId": "1lFLGzTjYZ8-VYyQNuN-16ANpIZjnxrxAQ8PtXnlzOMU",
+   "driveTitle": "1lFLGzTjYZ8-VYyQNuN-16ANpIZjnxrxAQ8PtXnlzOMU__candidates",
+   "ingestedAt": "2026-11-19T09:22:45.844Z",
+   "results": []
   }
  },
  "candidates": {

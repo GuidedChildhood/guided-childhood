@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import AnnouncementBar from '@/components/marketing/AnnouncementBar'
 import HeroPhoto from '@/components/marketing/HeroPhoto'
 import FlipCards from '@/components/marketing/FlipCards'
@@ -23,14 +24,23 @@ import { CONTACT, hasAddress, hasCompany } from '@/lib/content/contact'
 // pass fixed robots, the sitemap and the metadataBase and missed the home page,
 // which is the page all of it points at.
 import { SITE_URL } from '@/lib/config/site'
+import { pageMetadata } from '@/lib/seo/meta'
 import { GUIDES } from '@/lib/content/guides'
 
 export const metadata: Metadata = {
-  title: 'Guided Childhood · What to say tonight, from first screen to 16',
-  // In the parent's words, not ours (the board's audience lens, 12 November
-  // 2026): the nightly fight, the phone coming, what to say tonight. The
-  // product names (the Digital Passport, the tracker) are inside the page.
-  description: 'The nightly screen fight, the first phone coming, the group chat you are not in. For UK parents of children aged 4 to 16: the words to say tonight, a plan for your child\'s age, and a check in that shows you what is working. Free to start.',
+  // pageMetadata gives the canonical, the share card image and the Twitter
+  // card. Before 19 November 2026 this page's own openGraph replaced the root
+  // layout's whole object and left out the image, so a shared home page link
+  // showed no picture.
+  ...pageMetadata({
+    title: 'Guided Childhood · What to say tonight, from first screen to 16',
+    absoluteTitle: true,
+    // In the parent's words, not ours (the board's audience lens, 12 November
+    // 2026): the nightly fight, the phone coming, what to say tonight. The
+    // product names (the Digital Passport, the tracker) are inside the page.
+    description: 'The nightly screen fight, the first phone coming, the group chat you are not in. For UK parents of children aged 4 to 16: the words to say tonight, a plan for your child\'s age, and a check in that shows you what is working. Free to start.',
+    path: '',
+  }),
   keywords: [
     'digital parenting UK', 'screen time scripts', 'digital literacy for children',
     'child screen time advice', 'social media age UK', 'digital parenting pathway',
@@ -38,21 +48,6 @@ export const metadata: Metadata = {
     'online safety for children UK', 'AI literacy for kids', 'screen time rewards',
     'chores for screen time', 'safe device settings by age',
   ],
-  openGraph: {
-    title: 'What to say tonight, from first screen to 16.',
-    description: 'The nightly screen fight, the first phone coming, the group chat you are not in. The words for tonight and a plan for your child\'s age, 4 to 16. Free to start.',
-    url: SITE_URL,
-    type: 'website',
-    locale: 'en_GB',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'What to say tonight, from first screen to 16.',
-    description: 'The nightly screen fight, the first phone coming, the group chat you are not in. The words for tonight and a plan for your child\'s age, 4 to 16.',
-  },
-  alternates: {
-    canonical: SITE_URL,
-  },
 }
 
 // ── Stage definitions (ported unchanged: verbatim parent quotes per stage) ───
@@ -220,27 +215,32 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify([
           {
             '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: 'Guided Childhood',
-            description: 'A clear digital pathway from first screen to 16. Age by age lessons, habits and quests for UK families, evidence informed, finished with their Digital Passport.',
-            url: SITE_URL,
-            foundingDate: '2024',
-            founder: { '@type': 'Person', name: 'Justin Phillips' },
-            areaServed: { '@type': 'Country', name: 'United Kingdom' },
-            knowsAbout: ['digital parenting', 'screen time', 'online safety', 'children social media', 'parental controls', 'digital wellbeing', 'AI literacy for children', 'digital literacy curriculum', 'under 16 social media ban', 'digital passport for children'],
-            slogan: 'A clear digital pathway from first screen to 16.',
-          },
-          {
-            '@context': 'https://schema.org',
             '@type': 'WebSite',
             name: 'Guided Childhood',
             url: SITE_URL,
             description: 'A clear digital pathway from first screen to 16.',
-            potentialAction: {
-              '@type': 'SearchAction',
-              target: `${SITE_URL}/search?q={search_term_string}`,
-              'query-input': 'required name=search_term_string',
-            },
+            publisher: { '@id': `${SITE_URL}/#organization` },
+            // The SearchAction that sat here pointed at /search, which has
+            // never existed. Removed 19 November 2026; the Organization moved
+            // to the root layout so every page carries it.
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: 'Guided Childhood',
+            applicationCategory: 'LifestyleApplication',
+            operatingSystem: 'Web, iOS, Android',
+            url: SITE_URL,
+            description: 'The words to say tonight, a plan for your child\'s age from 4 to 16, a check in that shows what is working, and your child\'s own app where jobs earn screen time.',
+            publisher: { '@id': `${SITE_URL}/#organization` },
+            // The standing prices, as the pricing section below shows them.
+            // The founder rate is left out on purpose: it is capped at 50 and
+            // structured data that outlives the last seat would be wrong.
+            offers: [
+              { '@type': 'Offer', name: 'Free start', price: '0', priceCurrency: 'GBP' },
+              { '@type': 'Offer', name: 'Monthly', price: '12.99', priceCurrency: 'GBP' },
+              { '@type': 'Offer', name: 'Annual', price: '99', priceCurrency: 'GBP' },
+            ],
           },
           {
             '@context': 'https://schema.org',
@@ -413,9 +413,14 @@ export default function HomePage() {
               {STAGE_CHARACTERS.map((c, i) => (
                 <div key={c.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', transform: `translateY(-${i * 24}px)`, flex: '0 0 auto' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  {/* next/image so a 512 pixel cutout shown at 66 is sent at
+                      its shown size, not its full one (19 November 2026). */}
+                  <Image
                     src={c.cutout}
                     alt=""
+                    width={512}
+                    height={512}
+                    sizes="66px"
                     loading={i < 2 ? 'eager' : 'lazy'}
                     style={{ width: 'clamp(44px, 5.5vw, 66px)', height: 'auto', filter: 'drop-shadow(0 6px 10px rgba(26,26,46,0.18))' }}
                   />
@@ -877,7 +882,7 @@ export default function HomePage() {
                     </div>
                     {friend && (
                       /* eslint-disable-next-line @next/next/no-img-element */
-                      <img src={friend.cutout} alt={`${friend.name}, the ${s.ages} Planet Friend`} loading="lazy" style={{ width: '44px', height: 'auto', flexShrink: 0 }} />
+                      <Image src={friend.cutout} alt={`${friend.name}, the ${s.ages} Planet Friend`} width={512} height={512} sizes="44px" loading="lazy" style={{ width: '44px', height: 'auto', flexShrink: 0 }} />
                     )}
                   </div>
                   <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', flex: 1 }}>

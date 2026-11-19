@@ -1,11 +1,14 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { companyLine } from '@/lib/content/contact'
 
-export const metadata = {
-  title: 'Privacy Policy · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Privacy policy',
   description: 'How Guided Childhood collects, uses and protects your family’s information, and your rights under UK data protection law.',
-}
+  path: '/privacy',
+})
 
 // Bumped 8 August 2026: the child section now describes the optional birthday
 // and interests, which the app had been collecting while this page said it did

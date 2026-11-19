@@ -1,11 +1,14 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { companyLine } from '@/lib/content/contact'
 
-export const metadata = {
-  title: 'Terms of Service · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Terms of service',
   description: 'The terms for using Guided Childhood, including your subscription, the founder rate, cancellation, and important limits.',
-}
+  path: '/terms',
+})
 
 const EFFECTIVE = '6 September 2026'
 

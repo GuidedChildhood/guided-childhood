@@ -1,10 +1,13 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import type { CSSProperties } from 'react'
 import MagnetGate from '@/components/marketing/MagnetGate'
 
-export const metadata = {
-  title: 'Five questions before you hand over a screen · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Five questions before you hand over a screen',
   description: 'Five simple questions that help any parent make a calm, confident call about screens, no guilt and no lectures.',
-}
+  path: '/five-questions',
+})
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }

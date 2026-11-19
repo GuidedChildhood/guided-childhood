@@ -157,7 +157,7 @@ export function MockDigi({ question, answer, words }: { question: string; answer
  *  system emoji: they render in the operating system's palette and read as a
  *  placeholder next to the hand drawn WorryIcon and MethodIcon sets. */
 /** A telly, drawn, for the device row in the ask mock. */
-function Screen({ size = 24 }: { size?: number }) {
+export function Screen({ size = 24 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <rect x="2.6" y="5.4" width="18.8" height="12.4" rx="2.2" fill="#BAE6FD" />
@@ -167,7 +167,7 @@ function Screen({ size = 24 }: { size?: number }) {
   )
 }
 
-function Star({ size = 15 }: { size?: number }) {
+export function Star({ size = 15 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="#EDC35F" stroke={INK} strokeWidth="1.6" strokeLinejoin="round" aria-hidden>
       <path d="m12 2.6 2.9 6 6.5 1-4.7 4.6 1.1 6.6L12 17.7 6.2 20.8l1.1-6.6L2.6 9.6l6.5-1z" />
@@ -175,24 +175,32 @@ function Star({ size = 15 }: { size?: number }) {
   )
 }
 
+/** The ask as it lands on the parent's phone. Drawn on its own so the result
+ *  page can lift it off the child's ask behind it (components/starter/FixArt). */
+export function AskCard({ kid }: { kid: string }) {
+  return (
+    <div style={{ background: '#fff', border: '2.5px solid var(--ink)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)', padding: '14px 16px 14px' }}>
+      <div style={{ ...EYEBROW, marginBottom: 6 }}>Screen time ask</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: 'var(--terracotta)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Screen /></span>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: INK, lineHeight: 1.15 }}>{kid} is asking for 30 minutes</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 3 }}>On the TV. That is 6 stars, they have 6.</div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+        <span style={{ flex: 1, textAlign: 'center', padding: '11px 0', borderRadius: 'var(--radius-tile)', background: 'var(--terracotta)', border: 'var(--edge)', boxShadow: 'var(--lift)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: INK, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>Yes <Star size={16} /></span>
+        <span style={{ padding: '11px 16px', borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: INK }}>Not now</span>
+      </div>
+    </div>
+  )
+}
+
 export function MockAsk({ kid }: { kid: string }) {
   return (
     <Stage>
       <div style={{ ...EYEBROW, marginBottom: 10 }}>On your phone</div>
-      <div style={{ background: '#fff', border: '2.5px solid var(--ink)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)', padding: '14px 16px 14px' }}>
-        <div style={{ ...EYEBROW, marginBottom: 6 }}>Screen time ask</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: 'var(--terracotta)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Screen /></span>
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: INK, lineHeight: 1.15 }}>{kid} is asking for 30 minutes</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 3 }}>On the TV. That is 6 stars, they have 6.</div>
-          </div>
-        </div>
-        <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-          <span style={{ flex: 1, textAlign: 'center', padding: '11px 0', borderRadius: 'var(--radius-tile)', background: 'var(--terracotta)', border: 'var(--edge)', boxShadow: 'var(--lift)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: INK, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>Yes <Star size={16} /></span>
-          <span style={{ padding: '11px 16px', borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: INK }}>Not now</span>
-        </div>
-      </div>
+      <AskCard kid={kid} />
     </Stage>
   )
 }
