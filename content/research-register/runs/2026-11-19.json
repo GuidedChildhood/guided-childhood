@@ -1,0 +1,158 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-19",
+ "startedAt": "2026-11-19T09:22:45.801Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-19T09:22:45.801Z",
+   "commit": "5bb2df03",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 14,
+    "total": 129
+   },
+   "at": "2026-11-19T09:35:09.423Z",
+   "commit": "5bb2df03",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 3,
+    "confirmed": 3,
+    "unconfirmed": []
+   },
+   "at": "2026-11-19T09:35:10.116Z",
+   "commit": "5bb2df03",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 reviewed of a raised cap of 5 (Justin, 17 Nov); stopped at 3 because the rest are thin, off topic or below our age. Cleared, EDIT: GDC-RR-540fff2c03 Leiden TikTok data donation preprint, full text read, 98.4 percent median of news like content from unfollowed accounts, ages 16 to 25, moderation claim not cleared. REJECT: GDC-RR-e1a6cd5229 Australian family structure study, now read in full from PMC13745404: data 2006 to 2016, before phones, null result. HOLD: GDC-RR-f59e96c34f Portuguese grooming survey, abstract only (publisher PDF 403), 240 pupils. Rechecked, not reopened: GDC-RR-29a4765c83 Meta and Haidt, the MDL exhibit still not reachable (court search needs an account). GDC-RR-34b3878324 HOLD and GDC-RR-b3cbb73e58 REJECT stand. 11 ADJACENT records wait."
+   ],
+   "detail": null,
+   "at": "2026-11-19T09:38:22.667Z",
+   "commit": "5bb2df03",
+   "attempts": 2
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [
+     {
+      "researchId": "GDC-RR-540fff2c03",
+      "gdcPostNumber": "063",
+      "handoffVersion": 1
+     }
+    ],
+    "alreadyCurrent": [
+     "GDC-RR-553f7dc067"
+    ],
+    "duplicateCheck": {
+     "GDC-RR-553f7dc067": "NEW",
+     "GDC-RR-540fff2c03": "NEW"
+    },
+    "queue": [
+     "GDC-RR-553f7dc067",
+     "GDC-RR-540fff2c03"
+    ]
+   },
+   "at": "2026-11-19T09:38:27.438Z",
+   "commit": "5bb2df03",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "CANDIDATES 2026-11-19 read: an empty batch from ChatGPT's 08:00 task, the third empty day running (17, 18, 19 Nov). CANDIDATES 2026-11-18 was also empty. No ChatGPT daily brief since 16 Nov, so nothing to reconcile and no disagreement recorded. Posting pack read. LinkedIn numbers inbox empty. No CHATGPT FEEDBACK document waiting. The inbox documents could not be retitled ZZ INGESTED: the connector reports them as not editable."
+   ],
+   "detail": null,
+   "at": "2026-11-19T09:38:40.067Z",
+   "commit": "5bb2df03",
+   "attempts": 2
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack waiting in Stage 2: every PACK document there is already CLAUDE REVIEWED. ChatGPT has not seen GDC-062 or GDC-063 because neither has been copied to Drive."
+   ],
+   "detail": null,
+   "at": "2026-11-19T09:38:40.168Z",
+   "commit": "5bb2df03",
+   "attempts": 1
+  },
+  {
+   "stage": "RECOVERY",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "The 18 Nov run's work, left in Drive as a patch because git commit was refused, was applied to today's branch: GDC-062 (Eurobarometer 579) and two HOLDs. One conflict, in the append only studies.jsonl, resolved by keeping both sides. Gate 15 of 15 after applying."
+   ],
+   "detail": null,
+   "at": "2026-11-19T09:38:40.262Z",
+   "commit": "5bb2df03",
+   "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "ERROR",
+   "by": "claude",
+   "reasons": [
+    "push dry run to GitHub succeeded at 09:18 London, but git commit was refused three times by the session's permission check, answer: Permission for this action was denied by the Claude Code auto mode classifier. Reason: [Destructive or Unwanted Actions]. Same refusal as 18 Nov. Nothing committed or pushed; the day's work, with the recovered 18 Nov work, is a patch in the Stage 2 folder."
+   ],
+   "detail": null,
+   "at": "2026-11-19T09:38:58.145Z",
+   "commit": "5bb2df03",
+   "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "not done: no commit exists in GitHub to stamp the copies with. The start here document in Drive still shows the 17 Nov queue, so ChatGPT has not been handed GDC-062 or GDC-063."
+   ],
+   "detail": null,
+   "at": "2026-11-19T09:38:58.241Z",
+   "commit": "5bb2df03",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "unchanged: no new pack reached ASSETS READY, and neither desk can be rebuilt from a clean commit while git commit is refused. GDC-061 was approved by Justin on 17 Nov."
+   ],
+   "detail": null,
+   "at": "2026-11-19T09:38:58.355Z",
+   "commit": "5bb2df03",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-19T09:38:58.402Z"
+}

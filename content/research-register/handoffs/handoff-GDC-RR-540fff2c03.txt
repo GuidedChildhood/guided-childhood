@@ -1,0 +1,118 @@
+GDC RESEARCH HANDOFF  GDC-RR-540fff2c03
+Stage 1 complete, ready for Stage 2 editorial production
+Schema 1.1.0  handoff version 1  created 2026-11-19T09:38:27.381Z
+Register version 6  source commit 5bb2df03
+
+STATUS
+  production status: EDITORIAL READY
+  editorial priority: BANK
+  Claude review: CLAUDE REVIEWED, EDIT, 2026-11-19T09:37:40Z
+  GDC post number: 063
+  This number already exists in content/gdc-post-register.md. Stage 1 never assigns one.
+
+THE STORY
+  proposed title: Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow.
+  angle: The source is a preprint from Leiden University, posted on PsyArXiv on 18 November 2026 and not yet peer reviewed. 147 young people in the Netherlands aged 16 to 25, average age about 20, donated their TikTok feed histories, about 6.7 million public videos, mostly October 2023 to May 2026. The researchers classified which videos were about news, politics and big societal issues. For the typical person, 98 percent of that content came from accounts they did not follow, so it was most likely chosen for them by the recommendation system. Only about 13 percent came from established news organisations; most came from small niche creators, who were also the likeliest to post hateful videos. The typical person saw about 3 hateful news style videos a month. Be exact: these are young adults and older teenagers in one country, a volunteer sample, not UK children, and the paper does not show any effect on what they think or feel. The tension: parents check who their child follows, but the feed is not made of who they follow. Our belief: teach the child how the feed works before they get it, so they arrive at sixteen knowing the recipe. Say once that our primary curriculum has a lesson, How algorithms work, whose glossary says of the feed: you do not choose it, the algorithm does. Close on one question for parents.
+  ONE STORY: 
+  ONE TENSION: 
+  ONE GDC BELIEF: 
+  ONE TAKEAWAY: 
+
+THE RESEARCH
+  News, Politics, Societal Issues, and Hate on Youths’ Donated Social Media Feeds
+  Oostrum K, Westera M, van den Bos W, Ma I.
+  PsyArXiv, published 2026-11-18
+  https://doi.org/10.31234/osf.io/j73bg
+  DOI 10.31234/osf.io/j73bg   PMID none
+  design: not determined
+  sample: not extractable   ages: 16 to 25   country: not stated
+  peer reviewed: NO, PREPRINT   preregistered: not stated
+  funding: none declared in the record
+  found by streams 06, 09, 11 via europepmc
+
+FIGURES CLEARED FOR USE
+  147 young people in the Netherlands aged 16 to 25 (average 20.4) donated their TikTok feed histories, about 6.7 million public videos, mostly from October 2023 to May 2026
+  news, politics and societal issues made up a median of 5.34 percent of a feed, about 126 such videos a month for the typical person
+  a median of 98.4 percent of that news like content came from accounts the person did not follow, compared against the accounts they followed when they donated
+  on average 13.28 percent of news like content came from established news organisations, 63.85 percent from niche creators
+  hateful videos were a median of 2.21 percent of news like content, about 3 a month for the typical person; 5.44 percent of participants never came across one
+  76.74 percent said social media was their main source of news
+
+DO NOT QUOTE
+  the sample size, which could not be extracted from the available text
+  any claim of precision, since no confidence interval was found
+  that TikTok removed none of the hate videos, or that its moderation failed
+  anything about children under 16, or about UK young people
+  any effect on beliefs, politics, mood or wellbeing: the authors say the study does not establish effects
+  98 percent of all young people's feeds: it is the median person
+
+WHAT THIS DOES NOT PROVE
+  That the recommendation system harms young people.
+  That under 16s see the same feed.
+  That TikTok fails to moderate hate.
+  Anything about UK young people.
+
+LIMITATIONS
+  A preprint, not peer reviewed.
+  147 volunteers, ages 16 to 25, average 20.4; two thirds women; one country.
+  TikTok only.
+  Follows were compared at the time of donation, not when each video was seen.
+  Topic and hate classified by a language model; agreement with human coders was high for topic (alpha 0.79) and moderate for hate (alpha 0.62 to 0.66).
+  Private videos and videos with no transcript text were missed; the authors call the counts lower limits.
+  Descriptive only. No measure of effects.
+
+CONTRADICTORY OR NULL EVIDENCE
+  From the same paper: the share from unfollowed accounts ranged from 37 to 100 percent between people, so some young people's news does come from accounts they chose.
+  From the same paper: news like content was 5 percent of the typical feed, so most of the feed is not news at all.
+  No outside study was read against it in this run.
+
+MEDIA COVERAGE
+  Coverage was not searched; the preprint is one day old. The abstract's 98 percent reads as everyone and its moderation line reads as proven, and both should be corrected if they are repeated in coverage.
+
+CLAIM BY CLAIM
+  [QUALIFIED] Nearly all (98%) of the news like content did not come from accounts youth followed.
+      basis: Read in section 2.1: median 98.40 percent, IQR 5.88, range 37.42 to 100 percent. Qualified on two points the abstract skips: it is the median person, not 98 percent of everyone, and follows were taken at the time of donation, not at the time each video was seen, so an account followed then unfollowed would count as unfollowed.
+  [VERIFIED] Only 13% of news like content came from established news organisations; most came from niche creators.
+      basis: Section 2.1: legacy 13.28 percent on average, alternative 22.83, niche 63.85. Account types were defined by the authors; the multiverse check over 67 categorisations is reported for the hate comparison.
+  [VERIFIED] Niche creators were more likely to post hate speech.
+      basis: Section 2.3: 82.29 percent of hateful videos from niche accounts; odds of hate 3.57 to 33.14 times higher than legacy sources across models. Hate was classified by a language model against human labels with agreement alpha 0.62 to 0.66, which is moderate.
+  [QUALIFIED] Youth saw about 3 hateful news like videos a month.
+      basis: Section 2.2: median about 3 a month, IQR 4.86, range 0 to 60.88. The authors call their counts lower limits, since private accounts and text free videos were missed.
+  [UNSUPPORTED] None of the hateful videos were removed by the platform, suggesting inefficient content moderation.
+      basis: What was found is that none of the video ids appeared in the EU transparency database. The authors themselves offer a second explanation, that the platform and the classifier disagree on what counts as hate. Not cleared.
+  [UNSUPPORTED] This shows what children see on social media.
+      basis: Ages 16 to 25, average 20.4, volunteers recruited through Prolific, TikTok adverts and a university portal, 97 of 147 women. Nothing on under 16s.
+
+EVIDENCE CONFIDENCE
+  HIGH that the paper says what is written here. MODERATE as description: real feed data rather than recall, which is the strength, but a small volunteer sample of 147 young adults in one country, a preprint, and a language model classifier with moderate agreement on hate.
+
+UNRESOLVED VERIFICATION QUESTIONS
+  Whether a peer reviewed version appears.
+  Whether the supplementary appendix shows the age 16 and 17 subgroup.
+
+GUIDED CHILDHOOD
+  beliefs this touches:
+  The positive pathway, not the ban: knowing how the feed is made is part of being ready at sixteen. This flatters our curriculum, so the figures cleared are only the descriptive ones and the age gap is said out loud.
+  Evidence or silence.
+  product implications:
+    digitalPathwayOS: No change.
+    schoolLesson: Proof path: KS2 module 6, How algorithms work (supabase/migrations/033_full_curriculum.sql from line 2109), whose glossary says of the feed: you do not choose it, the algorithm does.
+    parentTool: No change.
+    digi: No change.
+    historyChecker: No change.
+
+PRODUCTION DIRECTION
+  audience: Parents of children aged 10 to 15 and teachers, the years before the feed arrives.
+  platforms: LinkedIn
+  urgency: Low to moderate. Bank it. Posted 18 November 2026, current for some weeks.
+
+FOR STAGE 2
+  Read this against the GDC Daily Content Operating System, the Current
+  Posting Pack and the GDC POST REGISTER mirror in this folder.
+  (An earlier version of this template also named a Story Bible. The audit
+  on 10 November found no such document in Drive, so it is not listed.)
+  Normal LinkedIn length is 250 to 450 words. The question goes last with
+  nothing after it. No link in the post body: it belongs in the first
+  comment. No dashes anywhere. Nothing publishes without Justin.
+
+  Machine readable version of this handoff: content/research-register/handoffs/handoff-GDC-RR-540fff2c03.json

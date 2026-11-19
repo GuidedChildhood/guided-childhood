@@ -1,0 +1,192 @@
+{
+ "schemaVersion": "1.1.0",
+ "researchId": "GDC-RR-553f7dc067",
+ "registerVersion": 6,
+ "handoffVersion": 1,
+ "sourceCommit": "bca36accd7a18b2b879e27e0f2ad7e007529b6a8",
+ "createdAt": "2026-11-18T09:32:09.247Z",
+ "stage": "EDITORIAL READY",
+ "productionStatus": "EDITORIAL READY",
+ "proposedTitle": "Ask 13 and 14 year olds how they protect themselves online and about a third say they talk to an adult. By 17 and 18 it is fewer than one in five.",
+ "proposedAngle": "The source is the European Commission's own survey, Flash Eurobarometer 579, the youth tables (volume B, question 11), which a preprint from a German university hospital then analysed. Say it is a survey of young people in the 27 EU countries in spring 2026, not the UK. The question asked young people who use social media on a school day what they do to protect their mental wellbeing there. Talking to a parent, teacher or another adult was chosen by 32 percent of 13 and 14 year olds, 28 percent of 15 and 16 year olds and 18 percent of 17 and 18 year olds, while reporting content and taking breaks went up with age. Be exact that these are three different groups of teenagers at one moment, not the same children followed over time, and that the answer bundles parents with teachers and other adults. The tension: older teenagers see more of the hard stuff, AI fakes and unwanted sexual content among it, and are less likely to name an adult as part of how they cope. Our belief: the open door is built before it is needed, when they are younger and still say yes to it, not at 17. Say once that I build a parent tool and that one of its first parent lessons gives the line for that. Close on the takeaway for parents.",
+ "oneStory": "The European Commission asked 26,297 young people aged 13 to 18 across the EU about life on social media in spring 2026. Asked what they do to protect their wellbeing there, 32 percent of 13 and 14 year olds said they talk to a parent, teacher or another adult. Among 17 and 18 year olds it was 18 percent.",
+ "oneTension": "The older groups reported more of the difficult encounters, such as AI content that was hard to recognise (47 percent at 17 and 18 against 34 percent at 13 and 14) and unwanted sexualised content (23 against 14), and were the least likely to name an adult as one of the ways they protect themselves.",
+ "oneBelief": "The open door is something a parent builds early, in calm moments, before it is needed. Connection is the protection.",
+ "oneTakeaway": "Tonight, while they are still young enough to say yes to it, tell your child: if a screen ever gives you that uh oh feeling, you can always come to me, and you will never be in trouble for telling me.",
+ "research": {
+  "title": "Digital Encounters and Protection Pathways Across Adolescence: Age- and Gender-Related Patterns in 26,297 European Adolescents Digital encounters and protection pathways",
+  "authors": "Peter L, Laugner E, Fegert JM, Köhler-Dauner F.",
+  "journal": "Research Square",
+  "doi": "10.21203/rs.3.rs-11441481/v1",
+  "pmid": null,
+  "primaryUrl": "https://doi.org/10.21203/rs.3.rs-11441481/v1",
+  "publishedDate": "2026-11-17",
+  "indexedDate": "2026-11-17",
+  "peerReviewed": false,
+  "isPreprint": true,
+  "design": "cross-sectional",
+  "sampleSize": 26297,
+  "ageRange": "13 to 18",
+  "country": null,
+  "followUp": null,
+  "funding": [],
+  "preregistered": false,
+  "streams": [
+   "01",
+   "03",
+   "05",
+   "08",
+   "15",
+   "19",
+   "22"
+  ],
+  "foundBy": [
+   "europepmc"
+  ]
+ },
+ "sourceUrls": [
+  {
+   "url": "https://doi.org/10.21203/rs.3.rs-11441481/v1",
+   "kind": "primary",
+   "verifiedAt": "2026-11-18T09:22:15.409Z",
+   "how": "DOI resolved through Crossref"
+  }
+ ],
+ "verification": {
+  "dossierCheckedAt": "2026-11-18T09:22:15.409Z",
+  "claudeReviewedAt": "2026-11-18T09:30:00Z",
+  "fullTextChecked": false,
+  "reviewBasis": "Two things read in this run. First, the European Commission's published youth tables for Flash Eurobarometer 579, Impact of excessive screen time and social media on young people's mental health, downloaded from the official data portal (data.europa.eu dataset s3686_fl579_eng): volume AA (EU27, questions 11 and 12a) and volume B (EU27 by gender and age, questions 10, 11, 12a and 12c), fieldwork 30 March to 16 April 2026, weighted. Every cleared figure below was read in those official tables. Second, the full text of the preprint, version 1, from the Research Square PDF for DOI 10.21203/rs.3.rs-11441481/v1 (posted 17 November 2026, not peer reviewed): abstract, methods, results, tables 1 to 3, discussion, limitations and declarations. The companion preprint GDC-RR-34b3878324 stays on HOLD: its figures were approximations of merged subgroups; the figures here are the Commission's own published percentages, read directly."
+ },
+ "verifiedStatistics": [
+  "26,297 young people aged 13 to 18 across the 27 EU countries, surveyed 30 March to 16 April 2026",
+  "talk to a parent, teacher or another adult: 32 percent at 13 and 14, 28 percent at 15 and 16, 18 percent at 17 and 18, among young people who use social media on a school day",
+  "26 percent across all ages",
+  "report harmful content or accounts: 21 percent at 13 and 14, 30 percent at 17 and 18",
+  "take breaks from social media: 28 percent at 13 and 14, 35 percent at 17 and 18",
+  "AI content that was hard to recognise, seen in the past three months: 34 percent at 13 and 14, 47 percent at 17 and 18",
+  "unwanted sexualised content seen in the past three months: 14 percent at 13 and 14, 23 percent at 17 and 18"
+ ],
+ "notQuotable": [
+  "any claim of precision, since no confidence interval was found",
+  "Any wording that teenagers stop talking to their parents, or that the same children changed over time",
+  "The 18 percent as a figure for parents alone: the option is a parent, teacher or another adult",
+  "Any UK figure or any suggestion the survey included the UK",
+  "Any screen time percentage from the preprint: its thresholds were summed from rounded categories",
+  "Any claim that the open door, or our product, raises these numbers",
+  "The names of any authors"
+ ],
+ "clearedFigures": [
+  "26,297 young people aged 13 to 18 across the 27 EU countries, surveyed 30 March to 16 April 2026",
+  "talk to a parent, teacher or another adult: 32 percent at 13 and 14, 28 percent at 15 and 16, 18 percent at 17 and 18, among young people who use social media on a school day",
+  "26 percent across all ages",
+  "report harmful content or accounts: 21 percent at 13 and 14, 30 percent at 17 and 18",
+  "take breaks from social media: 28 percent at 13 and 14, 35 percent at 17 and 18",
+  "AI content that was hard to recognise, seen in the past three months: 34 percent at 13 and 14, 47 percent at 17 and 18",
+  "unwanted sexualised content seen in the past three months: 14 percent at 13 and 14, 23 percent at 17 and 18"
+ ],
+ "prohibitedClaims": [
+  "Any wording that teenagers stop talking to their parents, or that the same children changed over time",
+  "The 18 percent as a figure for parents alone: the option is a parent, teacher or another adult",
+  "Any UK figure or any suggestion the survey included the UK",
+  "Any screen time percentage from the preprint: its thresholds were summed from rounded categories",
+  "Any claim that the open door, or our product, raises these numbers",
+  "The names of any authors"
+ ],
+ "evidenceConfidence": "HIGH that the European Commission's tables say what is written here: every figure was read in the official weighted tables. MODERATE as evidence for the point being made: a large official survey, but cross sectional, self reported, multiple choice, EU only, and the adult option bundles parents with teachers and others.",
+ "limitations": [
+  "Cross sectional. Age group differences are not change within the same young people and may partly reflect cohort.",
+  "Question 11 was asked only of young people who use social media on a typical school day.",
+  "The option is talk to a parent, teacher or another adult, so parents cannot be separated out.",
+  "Multiple answers were allowed and the question does not measure how often, when, or whether it helped.",
+  "EU 27 only. The UK was not surveyed.",
+  "The analysis paper is a preprint and not peer reviewed, though the figures used here come from the Commission's own tables.",
+  "A finding that flatters our thesis, connection is the protection, so it was checked against the primary tables rather than taken from the preprint."
+ ],
+ "contradictoryEvidence": [
+  "In the same survey 75 percent of young people said parents or relatives do enough to protect young people's mental wellbeing online, against 52 percent for social media platforms (question 12a and 12c, EU27), so the picture is not one of teenagers giving up on parents.",
+  "Older teenagers also more often chose self directed steps such as reporting content and taking breaks, which the authors read as growing independence, a normal and healthy part of adolescence rather than a failure.",
+  "Seeking professional help barely changed with age (12 to 15 percent), so the fall is specific to the adult option, not to help seeking in general."
+ ],
+ "whatThisDoesNotProve": [
+  "That teenagers stop confiding in their parents as they grow.",
+  "That talking to an adult protects a teenager better than reporting or taking breaks.",
+  "That an open door conversation at 10 changes what a teenager does at 17.",
+  "Anything about UK teenagers or about children under 13.",
+  "That Guided Childhood changes any of this."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run; the preprint was posted yesterday. The likely misreading is 'teenagers stop talking to their parents', which turns three age groups at one moment into a trajectory and drops teachers and other adults from the option. Avoid it.",
+ "claimVerification": [
+  {
+   "claim": "The youth survey covered 26,297 young people aged 13 to 18 in the 27 EU member states, fieldwork 30 March to 16 April 2026.",
+   "status": "VERIFIED",
+   "basis": "Official tables, volume AA and B: base EU27 (All) 26,297 unweighted and weighted; fieldwork dates printed on every sheet."
+  },
+  {
+   "claim": "Talking to a parent, teacher or another adult, as a way to protect wellbeing on social media, was chosen by 32 percent of 13 to 14 year olds, 28 percent of 15 to 16 year olds and 18 percent of 17 to 18 year olds.",
+   "status": "QUALIFIED",
+   "basis": "Official volume B, question 11. Correct, but the base is young people who use social media on a typical school day (23,595 unweighted), not all 26,297; the answer groups parents with teachers and other adults; and it is one of several options that could all be chosen. The EU27 figure is 26 percent."
+  },
+  {
+   "claim": "Reporting harmful content or accounts rose from 21 percent at 13 to 14 to 30 percent at 17 to 18, and taking breaks from 28 to 35 percent.",
+   "status": "VERIFIED",
+   "basis": "Official volume B, question 11, same base."
+  },
+  {
+   "claim": "In the past three months, AI generated content that was hard to recognise was reported by 34 percent of 13 to 14 year olds and 47 percent of 17 to 18 year olds, and unwanted sexualised content by 14 and 23 percent.",
+   "status": "VERIFIED",
+   "basis": "Official volume B, question 10, same base. The question covers content seen or experienced, so it is exposure, not victimisation."
+  },
+  {
+   "claim": "Teenagers stop talking to their parents as they get older.",
+   "status": "UNSUPPORTED",
+   "basis": "Cross sectional: three different age groups at one moment, not the same young people followed. The authors say the pattern may reflect development, cumulative experience or cohort, and cannot show change within a person. The item also bundles parents with teachers and other adults."
+  },
+  {
+   "claim": "Older teenagers who see more risk are the ones who do not seek adult help.",
+   "status": "UNSUPPORTED",
+   "basis": "The tables are aggregates and cannot link answers within the same person. The authors call this a hypothesis, not a demonstrated mechanism."
+  }
+ ],
+ "claudeReview": {
+  "status": "CLAUDE REVIEWED",
+  "reviewedAt": "2026-11-18T09:30:00Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 18 November 2026",
+  "verdict": "EDIT",
+  "unresolvedQuestions": [
+   "Does a UK survey with the same question exist, for example from Ofcom?",
+   "Will a peer reviewed version of the analysis add measures of uncertainty for the age contrasts?"
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-553f7dc067.json"
+ },
+ "gdcBeliefs": [
+  "Connection is the protection: the open door is built before it is needed (digi/07-trust-framework.md). This finding flatters that belief, so it got more scrutiny, not less.",
+  "Never allow or deny. The answer is a relationship and a line to say, not a rule."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "No change.",
+  "parentTool": "Proof path: parent lesson 1.4, whose say step is 'If a screen ever gives you the uh oh feeling, you can always come to me. You will never be in trouble.' (supabase/migrations/050_parent_lessons_seed.sql line 170), and the open door script in the trust framework (digi/07-trust-framework.md).",
+  "digi": "No change. DiGi already works from the trust framework.",
+  "historyChecker": "No change."
+ },
+ "gdcPostNumber": "062",
+ "gdcPostNumberNote": "This number already exists in content/gdc-post-register.md. Stage 1 never assigns one.",
+ "recommendedAudience": "Parents of children aged 8 to 14, the age when the open door is still easy to build.",
+ "recommendedPlatforms": [
+  "LinkedIn"
+ ],
+ "recommendedFormats": [
+  "LinkedIn"
+ ],
+ "editorialAngle": "The source is the European Commission's own survey, Flash Eurobarometer 579, the youth tables (volume B, question 11), which a preprint from a German university hospital then analysed. Say it is a survey of young people in the 27 EU countries in spring 2026, not the UK. The question asked young people who use social media on a school day what they do to protect their mental wellbeing there. Talking to a parent, teacher or another adult was chosen by 32 percent of 13 and 14 year olds, 28 percent of 15 and 16 year olds and 18 percent of 17 and 18 year olds, while reporting content and taking breaks went up with age. Be exact that these are three different groups of teenagers at one moment, not the same children followed over time, and that the answer bundles parents with teachers and other adults. The tension: older teenagers see more of the hard stuff, AI fakes and unwanted sexual content among it, and are less likely to name an adult as part of how they cope. Our belief: the open door is built before it is needed, when they are younger and still say yes to it, not at 17. Say once that I build a parent tool and that one of its first parent lessons gives the line for that. Close on the takeaway for parents.",
+ "editorialPriority": "BANK",
+ "urgency": "Low to moderate. Bank it. The Commission data are from spring 2026 and the preprint was posted on 17 November, so it is current for some weeks.",
+ "supportingFiles": [
+  "content/research-register/handoffs/handoff-GDC-RR-553f7dc067.json"
+ ],
+ "history": {
+  "registerJsonl": "content/research-register/studies.jsonl",
+  "studyVersions": 6
+ }
+}

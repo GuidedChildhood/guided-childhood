@@ -14,7 +14,7 @@ const NUMBER_FIELDS = ['headline', 'finding.figure', 'finding.text', 'context', 
 const LIMITS = { eyebrow: 40, headline: 110, 'finding.figure': 8, 'finding.text': 110, context: 140, source: 64, limitation: 110 }
 // Wording that claims a cause. A card can only say this when the record's
 // design supports it, and the engine does not decide that: a person does.
-const CAUSAL = /\b(causes?|caused|causing|leads? to|led to|results? in|makes? (children|kids|teens|parents)|because of|drives?|triggers?|damages?|harms?|rewires?)\b/i
+export const CAUSAL = /\b(causes?|caused|causing|leads? to|led to|results? in|makes? (children|kids|teens|parents)|because of|drives?|triggers?|damages?|harms?|rewires?)\b/i
 const WORD_HARD = 55
 const WORD_SOFT = 45
 

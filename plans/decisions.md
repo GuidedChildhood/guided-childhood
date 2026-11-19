@@ -281,6 +281,9 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - Why it replaces the buddy picture from PR 1629: a child who never picked a buddy shows DiGi, so two children could wear the same face, and the parent app had two ways of drawing one child.
 - `components/quests/ChildDisc.tsx` replaces `ChildBuddy.tsx`. No data change.
 
+## 18 Nov 2026: the Evidence Reveal is the default for research led posts
+
+Every evidence pack now carries three hooks of different kinds with one CHOSEN, a DISRUPT, REVEAL, REFRAME, INVITE storyboard with a cover, and CARD TEXT with TIMING and VISUAL lines. The pack checks read hooks and storyboard for uncleared figures, dashes and causal wording (qa.mjs check 8b); a pack with no HOOKS passes and is flagged, so work in flight is not stopped. The look moves to black and white editorial paper with one yellow highlight. Cadence "every other day" sits under the 17 Nov cap of three a week until Justin says otherwise. Skill: .claude/skills/evidence-reveal. ChatGPT's v3 motion files for 055 to 061 are on HOLD (wrong AI label on three, unreadable caveats, 12 fps, no end hold); the Claude cards stay the approved visuals.
 ## 18 November 2026: the starter page's three fixes are drawn the way the app draws them
 
 - Justin, with a screenshot: still clunky, "the graphics need to be way more stylish and in fit with app". Good Inside is not on Mobbin; Alma (stacked turned cards), X (the notification lifted off the screen) and Finch/Duolingo (progress as the app's own marks) set the shape.

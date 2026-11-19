@@ -27,7 +27,7 @@
 // image, and cannot read LinkedIn. It checks a pack against the handoff and
 // the house rules. Truth is the dossier's job and the directed review's job.
 
-import { checkSpec as checkCard } from '../../tools/motion-engine/scripts/gate.mjs'
+import { checkSpec as checkCard, CAUSAL } from '../../tools/motion-engine/scripts/gate.mjs'
 import { readFileSync, existsSync, writeFileSync, mkdtempSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
@@ -307,7 +307,7 @@ export function checkPack(pack, { record = null, corpus = null, postRegisterPath
 
   // 4. Figures. Nothing in copy that the handoff did not clear.
   const cleared = rec?.claudeReview?.verifiedStatistics || []
-  const allCopy = [li, pack?.linkedin?.firstComment, pack?.instagram?.caption, pack?.facebook?.caption, pack?.newsletter?.body, pack?.reel?.script]
+  const allCopy = [li, pack?.linkedin?.firstComment, pack?.instagram?.caption, pack?.facebook?.caption, pack?.newsletter?.body, pack?.reel?.script, pack?.reveal?.hooks, pack?.reveal?.storyboard]
     .filter(Boolean).join('\n\n')
 
   // 4a. The formats. The handoff says which formats this story is worth, and
@@ -326,7 +326,7 @@ export function checkPack(pack, { record = null, corpus = null, postRegisterPath
     !rec ? 'no record to compare with'
       : unasked.length ? `the handoff asks for ${rec.claudeReview?.recommendedPlatforms?.join(', ') || 'a LinkedIn post only'}, and the pack also carries: ${unasked.join(', ')}. Write NOT RECOMMENDED under those and give the reason.`
         : `${produced.length} other format(s) produced, all asked for`)
-  const otherCopy = produced.map(([, body]) => body).join('\n\n')
+  const otherCopy = [...produced.map(([, body]) => body), pack?.reveal?.hooks, pack?.reveal?.storyboard].filter(Boolean).join('\n\n')
   add('no dashes in the other formats', !DASHES.test(otherCopy),
     DASHES.test(otherCopy) ? 'a caption, the newsletter or the script carries a dash. None in any copy.' : (produced.length ? 'none found' : 'no other format to check'))
   const uncleared = figuresIn(allCopy).filter((f) => !isCleared(f, cleared))
@@ -422,6 +422,26 @@ export function checkPack(pack, { record = null, corpus = null, postRegisterPath
     }, rec)
     add('the CARD TEXT passes the research card gate', g.verdict === 'PASS',
       g.verdict === 'PASS' ? `${g.words} words, every figure cleared` : g.reasons.join('; '))
+  }
+
+  // 8b. The Evidence Reveal (Justin, 18 November 2026). Three hooks of
+  // different kinds, the one used marked CHOSEN, and none with causal
+  // wording. Figures and dashes in the hooks and storyboard are already
+  // covered by checks 4 and 4a. A pack written before the rule has no HOOKS
+  // section; that passes and is flagged for the Claude review rather than
+  // held, so a pack already in flight is not stopped by a rule it never saw.
+  const hooks = String(pack?.reveal?.hooks || '').split('\n').map((l) => l.replace(/^[-*•\d.)\s]+/, '').trim()).filter((l) => /^[A-Z][A-Z ]+\s*:/.test(l) && !/^(WHY|REJECTED|NOTE)\b/.test(l))
+  if (!pack?.reveal?.hooks) {
+    add('the Evidence Reveal hooks are sound', true, 'no HOOKS section. From 18 November every pack offers three; flagged for the Claude review')
+  } else {
+    const causal = hooks.map((h) => h.match(CAUSAL)).filter(Boolean).map((m) => m[0])
+    const chosen = hooks.filter((h) => /\bCHOSEN\b/.test(h)).length
+    const ok = hooks.length >= 3 && chosen === 1 && causal.length === 0
+    add('the Evidence Reveal hooks are sound', ok,
+      ok ? `${hooks.length} hooks, one chosen, no causal wording`
+        : [hooks.length < 3 ? `${hooks.length} hook(s) found, three are asked for, one per line as TYPE: the hook` : null,
+          chosen !== 1 ? `${chosen} marked CHOSEN, exactly one should be` : null,
+          causal.length ? `causal wording in a hook: ${causal.join(', ')}. Say what was found, not what it causes` : null].filter(Boolean).join('; '))
   }
 
   // 9. Approval status. Nothing may claim approval it does not have.

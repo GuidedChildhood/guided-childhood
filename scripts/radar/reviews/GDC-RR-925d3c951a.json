@@ -1,0 +1,82 @@
+{
+ "studyId": "GDC-RR-925d3c951a",
+ "reviewedAt": "2026-11-18T09:30:00Z",
+ "reviewedBy": "Claude Code, scheduled morning run, 18 November 2026",
+ "verdict": "HOLD",
+ "editorialPriority": "LOW",
+ "proposedTitle": null,
+ "proposedAngle": null,
+ "reviewBasis": "The full manuscript, read in this run from the file attached to the PsyArXiv preprint xjrqu through the OSF API (posted 10 November 2026, not peer reviewed): abstract, introduction, methods including sample, ethics and measures, attrition, results with tables 2 to 5, discussion, limitations and conclusion.",
+ "claims": [
+  {
+   "claim": "The data came from 3,675 adolescents aged 12 to 16 in the Norwegian population based UEVO study; 3,341 had complete data on the five online items.",
+   "status": "VERIFIED",
+   "basis": "Methods, sample and table 1."
+  },
+  {
+   "claim": "By age 16, 49 percent reported at least one online sexual experience or violation.",
+   "status": "QUALIFIED",
+   "basis": "Results. The figure combines voluntary acts (sending sexual content, 12 percent) with being sent images (41 percent), receiving sexual content (43 percent), coercion (2 percent) and nude images spread (4.5 percent). It is not a rate of abuse and must not be read as one."
+  },
+  {
+   "claim": "About 41 percent had been sent images of someone's private parts.",
+   "status": "QUALIFIED",
+   "basis": "Results. The item asks whether someone ever sent them such images; it does not say unwanted, from whom, or at what age."
+  },
+  {
+   "claim": "Greater cumulative exposure was associated with more mental and somatic symptoms, also after adjusting for symptoms two years earlier.",
+   "status": "VERIFIED",
+   "basis": "Table 3 and sensitivity analyses, HSCL b 0.27 after adjustment. Association only."
+  },
+  {
+   "claim": "Online sexual experiences cause depression and anxiety in teenagers.",
+   "status": "UNSUPPORTED",
+   "basis": "The authors state the main analyses are cross sectional and cannot establish temporal order or causality; symptoms may also lead to the experiences."
+  }
+ ],
+ "verifiedStatistics": [],
+ "notQuotable": [
+  "The 49 percent, in any form: it bundles voluntary and abusive experiences",
+  "The 41 percent as unsolicited or unwanted images",
+  "Any causal wording",
+  "The names of any authors"
+ ],
+ "recommendedPlatforms": [],
+ "urgency": "None. Held.",
+ "evidenceConfidence": "HIGH that the manuscript says what is written here. MODERATE as evidence: a preregistered population based sample with an earlier symptom wave, but cross sectional on the main question, self reported, not peer reviewed, and with heavy missingness on the appraisal questions.",
+ "limitations": [
+  "A preprint, not peer reviewed.",
+  "The headline measure combines voluntary exploration with abuse, which the authors do on purpose but which a post cannot carry safely.",
+  "Cross sectional for the main associations, as the authors state.",
+  "Follow up questions on distress, regret and coercion were answered by only about 42 to 44 percent of those exposed, far fewer boys than girls.",
+  "Boys were less likely to give complete data, so boys' prevalence is uncertain, as the authors say.",
+  "Norway, ages 12 to 16. Not the UK.",
+  "A sexual topic about children: a misread number does real harm, so the bar is higher, not lower."
+ ],
+ "contradictoryEvidence": [
+  "Regret did not moderate the link between exposure and distress, so the simple story that regretted experiences are the harmful ones was not supported.",
+  "The association with symptoms held even after removing the two most severe items, which the authors read as some ordinary experiences also being linked to symptoms, not only abuse, so the finding does not separate harm from normal development cleanly."
+ ],
+ "whatThisDoesNotProve": [
+  "That half of teenagers are sexually abused online.",
+  "That online sexual experiences cause mental health problems.",
+  "Anything about UK teenagers."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'half of teenagers face online sexual abuse by 16', which turns a bundled measure into an abuse rate. Avoid it.",
+ "gdcBeliefs": [
+  "Connection is the protection: the finding that offline abuse by an adult raised the odds of online experiences supports open door work, but that is not enough to carry a held figure."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "No change.",
+  "parentTool": "No change while held.",
+  "digi": "No change.",
+  "historyChecker": "No change."
+ },
+ "recommendedAudience": "None while held.",
+ "unresolvedQuestions": [
+  "Will the peer reviewed version report the unwanted items separately from the voluntary ones?",
+  "Is there a UK figure for being sent unwanted sexual images, for example from Ofcom, that could be the better source?"
+ ],
+ "storedAt": "scripts/radar/reviews/GDC-RR-925d3c951a.json"
+}

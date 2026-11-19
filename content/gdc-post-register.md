@@ -98,7 +98,11 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 061 | Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped. | **CLAIMED 17 Nov for the Research Radar handoff GDC-RR-9a82e5d5b3.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.json |
 
-**Next free number: 062.**
+| 062 | Ask 13 and 14 year olds how they protect themselves online and about a third say they talk to an adult. By 17 and 18 it is fewer than one in five. | **CLAIMED 18 Nov for the Research Radar handoff GDC-RR-553f7dc067.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-553f7dc067.json |
+
+| 063 | Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow. | **CLAIMED 19 Nov for the Research Radar handoff GDC-RR-540fff2c03.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-540fff2c03.json |
+
+**Next free number: 064.**
 
 **Why Claude claimed 054 rather than leaving it to ChatGPT.** The handoff tells
 Stage 2 to claim the next free number here before writing. ChatGPT cannot write
