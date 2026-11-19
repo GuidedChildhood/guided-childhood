@@ -64,7 +64,7 @@ repo, counted in PostHog, the door to the paid app), the Digital Health Report
 is a secondary link, and the email capture reuses the topic email course for
 that app's topic. Justin decides.
 
-## Phase 1, SEO foundations
+## Phase 1, SEO foundations (shipped, PR 1635, merged 19 November 2026)
 
 1. `lib/seo/meta.ts`: one helper that returns title, description, canonical,
    Open Graph and Twitter for a path. Applied to every public page. A layout
@@ -93,7 +93,7 @@ that app's topic. Justin decides.
 8. Core Web Vitals pass: plain `img` to `next/image` where it matters, check
    the stage check's first paint is in the server HTML, report anything left.
 
-## Phase 2, the app safety pages
+## Phase 2, the app safety pages (next, claimed in the follow up PR)
 
 - **Data.** `lib/app-safety/apps.ts`, typed, one entry per app (the 20
   named): minimum age, PEGI and App Store and Google Play ratings, risks,
