@@ -6,6 +6,7 @@ import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { schoolReminderEmail } from '@/lib/email/templates'
 import { sendPush } from '@/lib/push/send'
 import { CHILD_KINDS, isHeldForHolidays } from '@/lib/school/child-items'
+import { LEAD_KINDS, leadDays, leadMessage, daysBetween } from '@/lib/school/lead-up'
 import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
 import type { Region } from '@/lib/learning/holidays'
 
@@ -214,7 +215,69 @@ async function handler(req: NextRequest) {
     } catch { /* best effort, next week tries again */ }
   }
 
-  return NextResponse.json({ families: byUser.size, sent, childSent, emailed, dueDate: tomorrow, weekday })
+  // EARLY REMINDERS, leading up to the day (lib/school/lead-up.ts).
+  //
+  // Justin, 19 November 2026, after snapping the Anderson shelter project: a
+  // project due in twelve days needs a nudge to start, not only the night
+  // before. Homework and deadlines due two to eight days from today get a push
+  // on the evenings their plan names: a week before, three days before, or
+  // what the parent chose on the school card. The night before is the push
+  // above, so it is never sent twice. Homework also reaches the child's own
+  // app, because starting a project is their job as much as the parent's.
+  //
+  // remind_days lands with migration 401 and created_at is always there; the
+  // extra read is guarded, so before 401 every item runs the automatic plan.
+  const today = londonDateIn(0)
+  let leadSent = 0
+  let leadChildSent = 0
+  try {
+    const { data: soonRows } = await supabase
+      .from('school_actions')
+      .select('id, user_id, child_id, title, kind, due_date, created_at')
+      .eq('status', 'open')
+      .in('kind', [...LEAD_KINDS])
+      .gte('due_date', londonDateIn(2))
+      .lte('due_date', londonDateIn(8))
+    type SoonRow = { id: string; user_id: string; child_id: string | null; title: string; kind: string; due_date: string; created_at: string | null; remind_days?: number[] | null }
+    const soon = (soonRows ?? []) as SoonRow[]
+    if (soon.length) {
+      try {
+        const { data, error } = await supabase.from('school_actions').select('id, remind_days').in('id', soon.map(r => r.id))
+        if (!error) {
+          const chosen = new Map((data ?? []).map(r => [String(r.id), (r as { remind_days?: number[] | null }).remind_days ?? null]))
+          for (const r of soon) r.remind_days = chosen.get(String(r.id)) ?? null
+        }
+      } catch { /* pre 401, the automatic plan */ }
+      if (nameOf.size === 0) {
+        const { data } = await supabase.from('children').select('id, name').in('parent_id', [...new Set(soon.map(r => r.user_id))])
+        for (const c of (data ?? []) as { id: string; name: string | null }[]) if (c.name && c.name !== 'Your child') nameOf.set(c.id, c.name)
+      }
+    }
+    for (const r of soon) {
+      const left = daysBetween(today, r.due_date)
+      if (!leadDays(r, today).includes(left)) continue
+      const who = r.child_id ? nameOf.get(r.child_id) ?? null : null
+      try {
+        const res = await sendPush({ userId: r.user_id, title: 'Coming up for school 📚', body: leadMessage(r.title, left, r.due_date, 'parent', who), url: '/dashboard/school' })
+        if (res.sent > 0) leadSent++
+      } catch { /* best effort */ }
+      if (!CHILD_KINDS.has(r.kind)) continue
+      const targets: string[] = []
+      if (r.child_id) targets.push(r.child_id)
+      else {
+        const { data: kids } = await supabase.from('children').select('id').eq('parent_id', r.user_id)
+        for (const k of kids ?? []) targets.push(k.id as string)
+      }
+      for (const childId of targets) {
+        try {
+          const res = await sendPush({ userId: r.user_id, audience: 'kids', childId, title: left >= 7 ? 'A project to start 📚' : 'Coming up 📚', body: leadMessage(r.title, left, r.due_date, 'child'), url: '/' })
+          if (res.sent > 0) leadChildSent++
+        } catch { /* best effort */ }
+      }
+    }
+  } catch { /* the night before still went; early reminders try again tomorrow */ }
+
+  return NextResponse.json({ families: byUser.size, sent, childSent, emailed, leadSent, leadChildSent, dueDate: tomorrow, weekday })
 }
 
 export const GET = withHeartbeat('/api/school/remind', handler)

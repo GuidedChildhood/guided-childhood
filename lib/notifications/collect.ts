@@ -7,6 +7,7 @@
 import { followUpOpener } from '@/lib/digi/followup-queue'
 import { deviceLabel } from '@/lib/quests/device-time'
 import { digiPromptHref, resealDigiHref } from '@/lib/digi/prompt-token'
+import { showFrom, shortDate, toGo, daysBetween } from '@/lib/school/lead-up'
 
 type NotifClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
 
@@ -43,7 +44,7 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     supabase.from('family_quests').select('id, title, emoji').eq('user_id', userId),
     supabase.from('quest_ticks').select('id, quest_id, child_id, tick_date').eq('user_id', userId).eq('status', 'pending').gte('tick_date', weekAgo),
     supabase.from('quest_requests').select('id, child_id, title, emoji, created_at, status').eq('user_id', userId).eq('status', 'pending'),
-    supabase.from('school_actions').select('id, title, due_date, created_at, recurs_weekday, cleared_on, child_id, added_by, added_by_child_id').eq('user_id', userId).eq('status', 'open'),
+    supabase.from('school_actions').select('id, kind, title, due_date, created_at, recurs_weekday, cleared_on, child_id, added_by, added_by_child_id').eq('user_id', userId).eq('status', 'open'),
     supabase.from('digi_prompts').select('id, kind, title, body, href, created_at').eq('user_id', userId).eq('status', 'pending'),
     supabase.from('device_sessions').select('id, child_id, device, ends_at').eq('user_id', userId).eq('status', 'active').gt('ends_at', new Date().toISOString()),
     // Printables a child says they finished, waiting on the parent to confirm.
@@ -63,6 +64,16 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
   ])
 
   const childName = new Map((childrenRes.data ?? []).map(c => [c.id as string, c.name as string]))
+  // The early reminders a parent chose (migration 401), read on their own so a
+  // database without the column still shows every item on the automatic plan.
+  const remindDays = new Map<string, number[] | null>()
+  try {
+    const ids = (schoolRes.data ?? []).filter(s => s.due_date).map(s => s.id as string)
+    if (ids.length) {
+      const { data, error } = await supabase.from('school_actions').select('id, remind_days').in('id', ids)
+      if (!error) for (const r of (data ?? []) as { id: string; remind_days?: number[] | null }[]) remindDays.set(String(r.id), r.remind_days ?? null)
+    }
+  } catch { /* pre 401 */ }
   const quest = new Map((questsRes.data ?? []).map(q => [q.id as string, q as { title: string; emoji: string }]))
   const nameOf = (id: string | null) => (id && childName.get(id)) || 'Your child'
 
@@ -146,7 +157,19 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       if (recurs !== todayWeekday) continue
       if (String((s as { cleared_on?: string | null }).cleared_on ?? '') === today) continue
     }
-    const due = s.due_date ? ` · due ${String(s.due_date)}` : recurs != null ? ' · today' : ''
+    // NOT AN ALERT UNTIL IT IS TIME. Justin, 19 November 2026: the Anderson
+    // shelter project, due 1 December, was on the bell the moment it was
+    // snapped. A dated one off now waits for its first early reminder (a week
+    // before for a long project, two days before for anything else), which is
+    // when there is something to do. It was always on the school calendar.
+    const lead = { kind: String((s as { kind?: string }).kind ?? ''), due_date: (s.due_date as string | null) ?? null, created_at: (s.created_at as string | null) ?? null, remind_days: remindDays.get(String(s.id)) ?? null }
+    if (recurs == null && lead.due_date) {
+      const from = showFrom(lead, today)
+      if (from && today < from) continue
+    }
+    const due = lead.due_date
+      ? ` · due ${shortDate(lead.due_date)}${daysBetween(today, lead.due_date) >= 2 ? ` · ${toGo(lead.due_date, today)}` : ''}`
+      : recurs != null ? ' · today' : ''
     // WHOSE, AND WHO PUT IT THERE. Justin, red penning: "I added a school
     // reminder on Jody's app and it appeared on the parent's notification,
     // which is good, but it has no reference to which child, and that it was
