@@ -285,3 +285,10 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 
 - Justin, with a screenshot: still clunky, "the graphics need to be way more stylish and in fit with app". Good Inside is not on Mobbin; Alma (stacked turned cards), X (the notification lifted off the screen) and Finch/Duolingo (progress as the app's own marks) set the shape.
 - Stars: the child's ask behind, the parent's card in front. Words: "Not this" struck through behind, "Say this" in the script finish on top, with Practise with DiGi and Fridge card. Check in: the real five faces (now `components/daily/CheckFace.tsx`, shared with the app), six weeks climbing, ending on the real rest rule. The pink bars and "Stamped in the passport" went: the check in has neither. `components/starter/FixArt.tsx`. PR 1633.
+
+## 19 November 2026: search foundations (Phase 1 of the SEO plan)
+
+- Justin: Google and AI search become the main way parents find us. Plan: plans/2026-11-19-seo-and-app-safety-pages-plan.md, PR 1635. Phases ship one at a time with a preview check.
+- His answers: the Digital Health Check is left alone for now (not a lead, no app data on it); free tool pages lead to the stage check; the existing email course signup is reused unchanged; all age pages indexed if each carries genuinely different advice.
+- Phase 1: every public page builds its metadata through `lib/seo/meta.ts` (canonical, its own share card; the brand was printed twice in a dozen titles), private pages noindexed, AI crawlers named in robots, real sitemap dates, Organization JSON-LD site wide, FAQPage on /join, SoftwareApplication on the home page, `/llms.txt`, the Google verification slot (`lib/config/site.ts`), and `ai_source` on PostHog events from ChatGPT, Perplexity, Gemini, Claude and Copilot.
+- Found: PostHog has never run on the live site (NEXT_PUBLIC_POSTHOG_KEY is not set in Vercel). Setup steps went to Justin.

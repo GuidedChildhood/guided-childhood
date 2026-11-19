@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import type { CSSProperties } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -13,11 +15,12 @@ import MagnetGate from '@/components/marketing/MagnetGate'
 // Built by content/printables/guided-times/build.mjs; plan in
 // plans/2026-11-05-paid-happy-news-newspaper-plan.md.
 
-export const metadata = {
-  title: 'The Guided Times: a free Christmas newspaper taster for kids · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'The Guided Times: a free Christmas newspaper taster for kids',
   description: 'Four free pages of The Guided Times, a newspaper for kids aged 6 to 11 about setting up a new tablet, console or phone together this Christmas. A new screen ID card, puzzles and the Christmas morning plan.',
-  openGraph: { images: ['/printables/free/guided-times-1-taster-p1.png'] },
-}
+  path: '/free/guided-times',
+  image: '/printables/free/guided-times-1-taster-p1.png',
+})
 
 const WRAP: CSSProperties = { maxWidth: '860px', margin: '0 auto', padding: '44px 18px 80px' }
 const EYEBROW: CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink)', margin: '0 0 10px' }

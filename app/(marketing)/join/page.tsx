@@ -2,7 +2,11 @@ import Link from 'next/link'
 import { unstable_cache } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { STAGES } from '@/lib/content/stages'
+import type { Metadata } from 'next'
 import FaqAccordion from '@/components/marketing/FaqAccordion'
+import { JOIN_FAQS } from '@/lib/content/join-faqs'
+import { pageMetadata } from '@/lib/seo/meta'
+import { JsonLd, faqPage } from '@/lib/seo/json-ld'
 
 const STAGE_COLORS = {
   1: { bg: 'var(--stage-1)', text: 'var(--ink)', border: 'var(--stage-1)', accent: 'var(--terracotta)' },
@@ -191,6 +195,13 @@ const TESTIMONIALS = [
     avatarBg: 'var(--stage-5)',
   },
 ]
+
+// It had no metadata of its own, so it went out under the home page's title.
+export const metadata: Metadata = pageMetadata({
+  title: 'Join Guided Childhood: plans for the screen fight, from 4 to 16',
+  description: 'Five minutes a day, from age 4 to 16: the exact words for tonight\'s argument, a plan for the day the phone arrives, and your child\'s own app. Start with the free stage check.',
+  path: '/join',
+})
 
 export default async function JoinPage() {
   const { taken, available } = await getFounderData()
@@ -807,6 +818,7 @@ export default async function JoinPage() {
             <h2>Things parents ask before they start</h2>
           </div>
           <FaqAccordion />
+          <JsonLd data={faqPage(JOIN_FAQS)} />
         </div>
       </section>
 

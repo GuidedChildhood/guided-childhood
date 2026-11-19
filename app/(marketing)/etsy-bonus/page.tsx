@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import MagnetGate from '@/components/marketing/MagnetGate'
@@ -15,10 +17,12 @@ import PassportRewardClaim from '@/components/marketing/PassportRewardClaim'
 // page (Justin, 5 November 2026). The guide sits below the Starter Pack, with
 // a link to it at the top for the Passport families who arrive for it.
 
-export const metadata = {
-  title: 'Your free bonus · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Your free bonus',
   description: 'A thank you and a free bonus for your Guided Childhood printable, the Road to 16 guide for a Passport stamped up to your child\'s age, and where the whole pathway lives if you want it.',
-}
+  path: '/etsy-bonus',
+  noindex: true,
+})
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }

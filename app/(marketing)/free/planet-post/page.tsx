@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import type { CSSProperties } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,11 +13,12 @@ import MagnetGate from '@/components/marketing/MagnetGate'
 // is what asks for the email, the way the registry intends. The download
 // then hands on to the stage check, which is where every freebie ends.
 
-export const metadata = {
-  title: 'The Planet Post: a free screen time newspaper for kids · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'The Planet Post: a free screen time newspaper for kids',
   description: 'A free four page newspaper for kids aged 6 to 11 that explains how screen time works in your house, before the argument starts. Print it, colour it, sign the screen promise together.',
-  openGraph: { images: ['/printables/free/planet-post-1-p1.png'] },
-}
+  path: '/free/planet-post',
+  image: '/printables/free/planet-post-1-p1.png',
+})
 
 const WRAP: CSSProperties = { maxWidth: '860px', margin: '0 auto', padding: '44px 18px 80px' }
 const EYEBROW: CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 10px' }

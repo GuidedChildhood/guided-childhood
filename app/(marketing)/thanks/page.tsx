@@ -12,7 +12,8 @@ const FEATURES: Record<string, string> = {
   'school-alerts': 'school reminders',
 }
 
-export const metadata = { title: 'Thank you' }
+// Shown after a tap, so it means nothing to a searcher: out of the index.
+export const metadata = { title: 'Thank you', robots: { index: false, follow: true } }
 
 export default async function ThanksPage({
   searchParams,

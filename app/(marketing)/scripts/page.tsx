@@ -1,12 +1,15 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 import PrintButton from './PrintButton'
 import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 
-export const metadata = {
-  title: 'Conversation Scripts | Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Conversation scripts for every stage of digital parenting',
   description: 'Word for word scripts for every stage of digital parenting. Screen time, bedroom rules, the algorithm conversation, online safety. Five stages, ages 4 to 16.',
-}
+  path: '/scripts',
+})
 
 const STAGE_COLORS = [
   { bg: 'var(--stage-1)', border: 'var(--stage-1)', deep: 'var(--terracotta)', wash: 'var(--terracotta-lt)' },

@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/lib/seo/meta'
 import type { Metadata } from 'next'
 import FamilyDealSheet from '@/components/deal/FamilyDealSheet'
 import { promisesFrom, agreementTypeLabel } from '@/lib/content/agreement-promises'
@@ -25,19 +26,11 @@ const SIGN_IN = `/login?next=${encodeURIComponent(NEXT)}`
 const TITLE = 'The family agreement: one page everyone signs'
 const DESCRIPTION = 'Your family’s screen rules on one page: when, where, and where the devices spend the night. Choose the rules together, sign it together and put it on the fridge.'
 
-export const metadata: Metadata = {
-  title: 'The family agreement, one page everyone signs',
+export const metadata: Metadata = pageMetadata({
+  title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: '/agreement' },
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: '/agreement',
-    type: 'website',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Guided Childhood, the family agreement' }],
-  },
-  twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION, images: ['/og.png'] },
-}
+  path: '/agreement',
+})
 
 // Example rules, as a family might write them. Every key is a real clause the
 // builder offers for this type (lib/content/agreement-clauses.ts).

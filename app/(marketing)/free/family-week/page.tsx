@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import type { CSSProperties } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,11 +18,12 @@ import MagnetGate from '@/components/marketing/MagnetGate'
 // The app fills it in for you (your own jobs, real Planet Friend progress,
 // dates from forwarded school emails) and runs the stars and the timer.
 
-export const metadata = {
-  title: 'Free family week pack: a fridge star chart and school week planner · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Free family week pack: a fridge star chart and school week planner',
   description: 'Two free fridge sheets for the morning and school week: a star chart with the jobs every house argues about, and Our school week with reading, homework, the front seat rota and a Sunday check.',
-  openGraph: { images: ['/printables/free/family-week-p1.png'] },
-}
+  path: '/free/family-week',
+  image: '/printables/free/family-week-p1.png',
+})
 
 const WRAP: CSSProperties = { maxWidth: '860px', margin: '0 auto', padding: '44px 18px 80px' }
 const EYEBROW: CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 10px' }
