@@ -6,6 +6,13 @@ the order.** This is the pick.
 Thirteen issues are written and unsent. That is a quarter's worth, so the order
 matters more than the cadence does.
 
+## 19 November: one issue added ahead of the order
+
+Justin approved "Are we measuring childhood risk, or just counting headlines?"
+(content/newsletter/2026-11-22-measuring-or-counting.md) for Sunday 22 November. If
+issue 1 below has not gone out yet, everything in the table moves back one week.
+The order itself does not change.
+
 ## The order
 
 | | Week of | Issue | Pack | Why here |
