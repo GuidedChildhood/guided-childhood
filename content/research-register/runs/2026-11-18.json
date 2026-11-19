@@ -1,0 +1,44 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-18",
+ "startedAt": "2026-11-18T13:23:46.479Z",
+ "stages": [
+  {
+   "stage": "PUSH",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "afternoon dry run push to claude/radar-push-check accepted at 13:22 London"
+   ],
+   "detail": null,
+   "at": "2026-11-18T13:23:46.479Z",
+   "commit": "4a5f3ec9",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack was waiting in the Stage 2 folder: the only PACK documents there are 054, 058, 059 and 061, all already CLAUDE REVIEWED; ChatGPT wrote no new pack today"
+   ],
+   "detail": null,
+   "at": "2026-11-18T13:23:46.568Z",
+   "commit": "4a5f3ec9",
+   "attempts": 1
+  },
+  {
+   "stage": "FLOW CHECK",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "1 yes, CANDIDATES 2026-11-18 is in the inbox, not yet ingested on GitHub. 2 no, the morning run's push was refused and its work is only in the FOR JUSTIN patch in Stage 2 (file 1onUDCtZN9djcy9_IaxeimBaLny5iybBg, 531 KB), so main has no 18 Nov morning log. 3 no new pack. 4 nothing new to check. 5 the 14:30 ChatGPT step cannot be seen from here"
+   ],
+   "detail": null,
+   "at": "2026-11-18T13:23:46.666Z",
+   "commit": "4a5f3ec9",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-18T13:23:46.700Z"
+}
