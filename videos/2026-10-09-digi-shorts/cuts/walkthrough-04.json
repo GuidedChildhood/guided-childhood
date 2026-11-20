@@ -287,19 +287,9 @@
      "kind": "step",
      "n": 4,
      "eyebrow": "On purpose",
-     "text": "Outside pays the most",
+     "text": "Outside comes first",
      "y": 300,
      "t0": 0.15
-    }
-   ],
-   "inScreen": [
-    {
-     "cls": "hl",
-     "x": 80,
-     "y": 724,
-     "w": 112,
-     "h": 22,
-     "t0": 1.35
     }
    ],
    "sfx": [
