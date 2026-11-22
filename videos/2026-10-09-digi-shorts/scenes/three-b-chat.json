@@ -1,0 +1,47 @@
+{
+ "name": "three-b-chat",
+ "url": "/ref-digi-chat?kids=1",
+ "swap": {
+  "'s mood drops after Instagram. What do I say tonight?": "'s friends are all online after school. What do I say?",
+  "Teo": "Sam",
+  "Timbotee": "Sam",
+  "Alfie": "Sam",
+  "Bumble": "Sam",
+  "Olga": "Sam",
+  "Alma Rose": "Sam",
+  "Alma": "Sam"
+ },
+ "seconds": 19.5,
+ "stubs": [
+  {
+   "match": "/api/digi",
+   "method": "POST",
+   "delayMs": 2600,
+   "wordMs": 40,
+   "body": "Being taken out on purpose is meant to hurt, so start with Sam, not the group.\n\n**Do not tell him to just leave.** Say it was meant to hurt and it did, then ask who did it and whether it is happening to anyone else.\n\n**Keep a record.** Screenshot the removals with dates, so a word with school is about a pattern, not a feeling.\n\nGroup chats is on Sam's check in now, and I will ask how the week went. The words are in [Taken out of the group on purpose](/dashboard/scripts/9611).\n\n**Tonight.** Mute the group for the night and agree to decide next steps tomorrow."
+  }
+ ],
+ "actions": [
+  {
+   "at": 300,
+   "do": "type",
+   "selector": "textarea",
+   "text": "All hell has broken loose on the Year 6 group chat. Sam's been taken out of it.",
+   "charMs": 24
+  },
+  {
+   "at": 2596,
+   "do": "press",
+   "key": "Enter"
+  },
+  {
+   "at": 11800,
+   "do": "scrollChat",
+   "back": 230
+  },
+  {
+   "at": 15600,
+   "do": "scrollChat"
+  }
+ ]
+}
