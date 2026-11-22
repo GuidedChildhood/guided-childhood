@@ -22,6 +22,7 @@ import { preflight, founderStatus } from './pipeline.mjs'
 import { loadRun, STAGES } from './daily.mjs'
 import { recentReceipts } from './candidates.mjs'
 import { eligibility } from './qa.mjs'
+import { loadSchedule } from './metricool.mjs'
 
 // The one page Justin copies posts from. Never a second one.
 const POST_DESK = 'https://claude.ai/artifact/Xb6Jt6JAm2d3wrF7WXxeGY'
@@ -108,7 +109,12 @@ export function collect() {
   })
   const inbox = recentReceipts(3)
 
-  return { g, posted, facts, sync, pre, systemBlocks, run, stages, inbox, builtAt: new Date().toISOString(), newToday: g.discovered.filter((x) => x.isNew).length }
+  const on = (x) => String(x || '').startsWith(today)
+  const clearedToday = all.filter((r) => on(r.claudeReview?.reviewedAt) && ['EDIT', 'PASS', 'CLEAR'].includes(r.claudeReview?.verdict)).length
+  const heldToday = all.filter((r) => on(r.claudeReview?.reviewedAt) && ['HOLD', 'REJECT'].includes(r.claudeReview?.verdict)).length
+  const packsToday = all.filter((r) => on(r.packQa?.checkedAt)).length
+  const foundToday = all.filter((r) => on(r.firstFound)).length
+  return { g, posted, facts, sync, pre, systemBlocks, run, stages, inbox, builtAt: new Date().toISOString(), newToday: g.discovered.filter((x) => x.isNew).length, today, foundToday, clearedToday, heldToday, packsToday }
 }
 
 function storyRow(r, { showNote = true } = {}) {
@@ -154,7 +160,39 @@ export function render(d = collect()) {
     ['#sync', 'Drive', syncWord, syncTone],
   ].map(([href, label, n, tone]) => `<a class="tile ${tone}" href="${href}"><span class="n">${esc(n)}</span><span class="l">${esc(label)}</span></a>`).join('')
 
-  const headline = needsYou
+  // Justin, 22 November 2026: "super easy to read, what needs to be done by
+  // me, and simple steps". So the page opens on his jobs, worked out from the
+  // register, each one a single plain step. Everything else sits below.
+  const gdc = (r) => (r.number ? String(r.number).padStart(3, '0') : null)
+  const ready = g.awaitingApproval.filter((r) => r.founder === 'READY FOR JUSTIN')
+  const changing = g.awaitingApproval.filter((r) => r.founder === 'CHANGES REQUESTED')
+  const approvedWaiting = g.awaitingApproval.filter((r) => r.approved)
+  const failed = d.stages.filter((x) => ['HOLD', 'ERROR'].includes(x.verdict))
+  const jobs = []
+  for (const r of ready) jobs.push({ tone: 'gold', title: `Read GDC ${gdc(r) || ''} and decide`, step: `Open the Post Desk, read it, then reply "approve ${gdc(r) || ''}" or tell me what to change.`, link: POST_DESK, linkText: 'Open the Post Desk' })
+  // A post already out (posted in the register, or booked in LinkedIn for a
+  // time now past) only needs its link; the rest are still to go out.
+  const postedNums = new Set(posted.map((p) => String(p.number).padStart(3, '0')))
+  const booked = loadSchedule().posts || []
+  const pastBooking = (n) => booked.find((b) => String(b.gdcNumber || '').padStart(3, '0') === n && new Date(b.scheduledFor) < new Date(d.builtAt))
+  const outNoLink = approvedWaiting.filter((r) => postedNums.has(gdc(r)) || pastBooking(gdc(r)))
+  const toGo = approvedWaiting.filter((r) => !outNoLink.includes(r))
+  if (outNoLink.length) jobs.push({ tone: '', title: `Send the link${outNoLink.length === 1 ? '' : 's'} for ${outNoLink.map((r) => 'GDC ' + (gdc(r) || '')).join(' and ')}`, step: `${outNoLink.length === 1 ? 'It has' : 'They have'} gone out. Paste the LinkedIn link${outNoLink.length === 1 ? '' : 's'} to Claude so ${outNoLink.length === 1 ? 'it is' : 'they are'} marked published.` })
+  if (failed.length) jobs.push({ tone: 'bad', title: `Today's run hit ${failed.length === 1 ? 'a problem' : failed.length + ' problems'}`, step: `${failed.map((x) => x.name.toLowerCase()).join(', ')}. Tell Claude "fix the radar" and it will sort it.` })
+  if (sync.verdict !== 'CURRENT') jobs.push({ tone: 'bad', title: "ChatGPT's instructions are out of date", step: 'The start here document in Drive is older than the latest research. Tell Claude "refresh Drive".' })
+  const jobsHtml = jobs.length
+    ? `<ol class="jobs">${jobs.map((j) => `<li class="job ${j.tone}"><h3>${esc(j.title)}</h3><p>${esc(j.step)}</p>${j.link ? `<a class="btn" href="${j.link}">${esc(j.linkText)}</a>` : ''}</li>`).join('')}</ol>`
+    : '<p class="calm">Nothing needs you today. The radar and ChatGPT carry on without you.</p>'
+  const runOk = !failed.length && d.stages.some((x) => x.verdict !== 'NOT RUN')
+  const todayLines = [
+    `Research found: ${d.foundToday}. Cleared by Claude: ${d.clearedToday}. Held back: ${d.heldToday}.`,
+    `Packs written by ChatGPT and checked: ${d.packsToday}. Stories waiting for ChatGPT: ${g.readyForProduction.length}.`,
+    toGo.length ? `Approved and on their way (Monday, Wednesday, Friday at 08:00): ${toGo.map((r) => 'GDC ' + (gdc(r) || '')).join(', ')}.` : 'No approved posts are waiting to go out.',
+    d.stages.every((x) => x.verdict === 'NOT RUN') ? 'The radar has not run yet today.' : runOk ? 'The radar ran with no problems.' : `The radar ran, but ${failed.length} stage${failed.length === 1 ? '' : 's'} need fixing (see your jobs).`,
+  ]
+
+  const headline = jobs.length ? `${jobs.length} thing${jobs.length === 1 ? '' : 's'} for you today` : 'Nothing needs you today'
+  const oldHeadline = needsYou
     ? `${needsYou} pack${needsYou === 1 ? '' : 's'} waiting for your yes.`
     : blockedCount
       ? `Nothing needs your approval. ${blockedCount} thing${blockedCount === 1 ? ' is' : 's are'} blocked.`
@@ -261,14 +299,38 @@ section.band{display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
 .manual{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
 .manual ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-weight:600;color:var(--soft);font-size:15px}
 .manual li b{color:var(--fg)}
+.jobs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;counter-reset:job}
+.job{counter-increment:job;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px 16px 58px;position:relative;display:flex;flex-direction:column;gap:6px}
+.job::before{content:counter(job);position:absolute;left:16px;top:15px;width:30px;height:30px;border-radius:50%;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;font-weight:900;font-size:15px}
+.job h3{font-size:18px;line-height:1.25}
+.job p{font-weight:600;font-size:15.5px;color:var(--soft)}
+.job.gold{border:2px solid var(--gold);box-shadow:0 5px 0 var(--gold-dark)} .job.gold::before{background:var(--gold);color:#1A1A2E;border-color:var(--gold-dark)}
+.job.bad{border-color:var(--warn)} .job.bad::before{color:var(--warn);border-color:var(--warn);background:var(--warn-bg)}
+.btn{align-self:flex-start;margin-top:4px;background:var(--gold);color:#1A1A2E;font-weight:800;text-decoration:none;padding:10px 16px;border-radius:16px;box-shadow:0 5px 0 var(--gold-dark)}
+.calm{font-weight:700;font-size:17px;background:var(--done-bg);color:var(--done);border-radius:16px;padding:16px 18px}
+.today{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-weight:700;font-size:15.5px}
+.today li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+details.detail{border-top:1px solid var(--line);padding-top:16px}
+details.detail summary{cursor:pointer;font-weight:800;font-size:16px;color:var(--soft)}
+.detail-body{display:flex;flex-direction:column;gap:30px;margin-top:20px}
 </style>
 <div class="wrap">
   <header>
-    <div class="eyebrow">Guided Childhood  Research Radar</div>
+    <div class="eyebrow">Radar Desk  ${esc(d.today)}</div>
     <h1>${esc(headline)}</h1>
-    <p class="built">Built ${esc(when(d.builtAt))} from ${esc(facts.repo.shortCommit)}${facts.repo.dirty ? ', with uncommitted changes' : ''}. This page does not update itself.</p>
+    <p class="built">Updated ${esc(when(d.builtAt))}. Approving and posting are always yours.</p>
   </header>
 
+  <section class="band" id="jobs" aria-label="Your jobs">${jobsHtml}</section>
+
+  <section class="band" id="today">
+    <div class="head"><h2>How today went</h2></div>
+    <ul class="today">${todayLines.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>
+  </section>
+
+  <details class="detail">
+  <summary>The detail, if you want it</summary>
+  <div class="detail-body">
   <nav class="tiles" aria-label="Pipeline counts">${tiles}</nav>
 
   ${section({ id: 'approval', title: 'Waiting for you', count: g.awaitingApproval.length, tone: g.awaitingApproval.length ? 'gold' : '',
@@ -347,6 +409,9 @@ section.band{display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
       <li><b>Approval and posting are yours.</b> That is on purpose.</li>
     </ul>
   </section>
+  <p class="built">Built from ${esc(facts.repo.shortCommit)}${facts.repo.dirty ? ', with uncommitted changes' : ''}. This page does not update itself.</p>
+  </div>
+  </details>
 </div>
 `
 }
