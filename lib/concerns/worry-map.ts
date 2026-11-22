@@ -111,7 +111,7 @@ export const LABEL: Record<string, string> = {
   'game-chat': 'Who they talk to in games',
   'group-chats': 'Group chats',
   'getting-round-rules': 'They get round the rules',
-  'homework-screens': 'Homework on screens',
+  'homework-screens': 'Homework and school',
   'endless-youtube': 'Endless YouTube',
   'game-spending': 'Spending in games',
 }

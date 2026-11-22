@@ -63,6 +63,9 @@ export type Delivery = {
   assessment: Assessment
   marks: Record<string, unknown>
   note: string | null
+  /** What the teacher would change about the lesson (migration 403). For us,
+   *  not the school: it goes in the weekly digest to Justin. */
+  wouldChange: string | null
   createdAt: string          // ISO
 }
 

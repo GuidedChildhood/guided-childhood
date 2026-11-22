@@ -8,7 +8,7 @@ import {
 import { cleanModuleId } from '@gc/shared/parent-share'
 import { codesToRecord, frenchLesson, frenchUnit } from '@/lib/languages/french'
 import { asList } from '@/lib/notes'
-import { readDeliveries, readOwnDelivery, recordsDb, recordsSchool } from '@/lib/records'
+import { missingColumn, readDeliveries, readOwnDelivery, recordsDb, recordsSchool } from '@/lib/records'
 
 // MARK LESSON DELIVERED, AND HOW THE CLASS DID (10 November 2026).
 //
@@ -118,7 +118,7 @@ export async function markDelivered(input: { subject: Subject; lessonKey: string
 }
 
 export async function assessDelivery(input: {
-  subject: Subject; id: string; judgement?: string; objectiveMarks?: unknown; levels?: unknown; note?: string; quiz?: unknown
+  subject: Subject; id: string; judgement?: string; objectiveMarks?: unknown; levels?: unknown; note?: string; quiz?: unknown; wouldChange?: string
 }): Promise<RecordResult> {
   if (!isSubject(input?.subject)) return { ok: false, error: NOT_SAVED }
   const ref = await recordsSchool(input.subject)
@@ -142,16 +142,23 @@ export async function assessDelivery(input: {
     if (quiz) marks[QUIZ_KEY] = quiz
   }
   const note = cleanNote(input.note)
-  const after = { assessment, objective_marks: marks, note }
+  // What the teacher would change (migration 403). The same one line rule as
+  // the note. Sent only when the form carries it, so a French save, which has
+  // no such box, never clears a line written elsewhere.
+  const change = input.wouldChange === undefined ? undefined : cleanNote(input.wouldChange)
+  const after = { assessment, objective_marks: marks, note, ...(change === undefined ? {} : { would_change: change }) }
 
-  const { error } = await recordsDb.from('lesson_records')
-    .update({ ...after, updated_at: new Date().toISOString() })
+  const save = (row: Record<string, unknown>) => recordsDb.from('lesson_records')
+    .update({ ...row, updated_at: new Date().toISOString() })
     .eq('id', before.id).eq('school_ref', ref)
+  let { error } = await save(after)
+  // Before migration 403 has run the column is missing: save everything else.
+  if (missingColumn(error)) ({ error } = await save({ assessment, objective_marks: marks, note }))
   if (error) {
     console.error('[records] assessment not saved:', error.message)
     return { ok: false, error: NOT_SAVED }
   }
-  await logEvent(before.id, ref, 'assessed', { assessment: before.assessment, objective_marks: before.marks, note: before.note }, after)
+  await logEvent(before.id, ref, 'assessed', { assessment: before.assessment, objective_marks: before.marks, note: before.note, would_change: before.wouldChange }, after)
   const delivery = await readOwnDelivery(ref, before.id)
   return delivery ? { ok: true, delivery } : { ok: false, error: NOT_SAVED }
 }

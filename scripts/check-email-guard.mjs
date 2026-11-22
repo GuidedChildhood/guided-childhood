@@ -86,6 +86,8 @@ const ALLOWED_OPT_OUTS = {
   'lib/ops/signup-alert.ts': 'operational',
   'app/api/cron/digi-insights/route.ts': 'operational',
   'app/api/cron/digi-quality/route.ts': 'operational',
+  // What teachers would change, to Justin (migration 403).
+  'app/api/cron/lesson-changes/route.ts': 'operational',
   'app/api/cron/health-alert/route.ts': 'operational',
   'app/api/cron/device-guide-refresh/route.ts': 'operational',
   'app/api/cron/knowledge-refresh/route.ts': 'operational',
