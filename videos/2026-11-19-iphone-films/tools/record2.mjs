@@ -35,10 +35,12 @@ await page.addInitScript((stubs) => {
     return new Response(body, { status: s.status || 200, headers: { 'Content-Type': s.json ? 'application/json' : 'text/plain; charset=utf-8', 'X-Messages-Used-Today': '1' } })
   }
 }, S.stubs || [])
-await page.clock.install({ time: new Date('2026-10-12T19:00:00Z') })
+// A scene may set its own evening ("clock": "2026-11-19"), for screens that count days to a date.
+const DAY0 = S.clock || '2026-10-12'
+await page.clock.install({ time: new Date(`${DAY0}T19:00:00Z`) })
 // Without a pause the fake clock also flows in real time, so a frame that takes
 // 100 ms to screenshot would add 100 ms of page time. Paused, it moves only on runFor.
-await page.clock.pauseAt(new Date('2026-10-12T19:00:00.100Z'))
+await page.clock.pauseAt(new Date(`${DAY0}T19:00:00.100Z`))
 await page.goto(`${DEV}${S.url}`, { waitUntil: 'domcontentloaded', timeout: 120000 })
 // Let the page hydrate on the fake clock.
 for (let i = 0; i < 60; i++) { await page.clock.runFor(50); await page.waitForTimeout(30) }
@@ -72,6 +74,9 @@ for (let f = 0; f < N; f++) {
     else if (e.do === 'tap' || e.do === 'click') {
       const { x, y } = await page.evaluate(({ sel, nth, text }) => { let els = [...document.querySelectorAll(sel)]; if (text) els = els.filter((el) => el.textContent.trim().includes(text)); const r = els[nth || 0].getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 } }, { sel: e.selector, nth: e.nth || 0, text: e.text || null })
       await page.mouse.click(x, y)
+    } else if (e.do === 'file') {
+      // A photo handed to a hidden file input (the school snap), as the phone's picker would.
+      await page.setInputFiles(e.selector, new URL(`../${e.path}`, import.meta.url).pathname)
     } else if (e.do === 'jsclick') {
       // A control below the fold (the script deck's Next): click it in the page, no scroll.
       await page.evaluate(({ sel, text }) => { const el = [...document.querySelectorAll(sel)].find((x) => x.textContent.trim().includes(text)); el && el.click() }, { sel: e.selector, text: e.text })
