@@ -24,7 +24,7 @@ export const MOMENTS: Moment[] = [
   { key: 'mornings', label: 'School mornings', emoji: '🎒', tint: 'var(--stage-2)', hint: 'Getting out of the door' },
   { key: 'meals', label: 'Mealtimes', emoji: '🍽️', tint: 'var(--tint-sage)', hint: 'Phones and the table' },
   { key: 'siblings', label: 'Brothers and sisters', emoji: '🤝', tint: 'var(--stage-5)', hint: 'Sharing, turns and fairness' },
-  { key: 'phone', label: 'The phone ask', emoji: '📱', tint: 'var(--stage-4)', hint: 'Everyone else has one' },
+  { key: 'phone', label: 'Phones and social media', emoji: '📱', tint: 'var(--stage-4)', hint: 'Everyone else has one' },
   { key: 'online', label: 'Something online', emoji: '🛡️', tint: 'var(--tint-blue, var(--stage-3))', hint: 'Seen, sent or said online' },
   { key: 'feelings', label: 'Big feelings', emoji: '💛', tint: 'var(--tint-butter, var(--stage-1))', hint: 'Meltdowns, moods and slammed doors' },
 ]
@@ -47,13 +47,13 @@ const BY_CATEGORY: Record<string, MomentKey> = {
   'social-media': 'phone',
   'staying-safe': 'online',
   'mood-confidence': 'feelings',
-  'family-rules': 'phone',
-  'everyday-routines': 'mornings',
 }
 
 /** The moment a script belongs to, or null if none fits (it stays in the list below). */
 export function momentFor(s: { title: string; situation?: string | null; category?: string | null }): MomentKey | null {
-  const text = `${s.title} ${s.situation ?? ''}`
-  for (const [key, re] of RULES) if (re.test(text)) return key
+  // The title first: it names the moment ("The Just Five More Minutes Loop"),
+  // where the situation often mentions a second one in passing (bed, school).
+  for (const [key, re] of RULES) if (re.test(s.title)) return key
+  for (const [key, re] of RULES) if (s.situation && re.test(s.situation)) return key
   return (s.category && BY_CATEGORY[s.category]) || null
 }

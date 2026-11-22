@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
 import ScriptFinder from '@/components/scripts/ScriptFinder'
+import ScriptMoments, { type MomentCard } from '@/components/scripts/ScriptMoments'
 import { chunky, pill, INK_EDGE } from '@/components/scripts/card-system'
 import { momentImageForTitle } from '@/lib/content/moment-images'
 import { CATEGORY_META, scriptEmoji, type StageId, type ScriptRow, STAGE_META } from '@/components/scripts/library-meta'
@@ -15,6 +16,9 @@ type Pick = { sort_order: number; title: string; situation: string; is_free: boo
 type Group = { stageId: StageId; meta: (typeof STAGE_META)[StageId]; items: ScriptRow[] }
 
 export type ScriptsLibraryProps = {
+  /** The moment tiles and My scripts, at the top. Optional so fixtures still render. */
+  momentCards?: MomentCard[]
+  pinned?: number[]
   isPaid: boolean
   scripts: ScriptRow[]
   completed: number[]
@@ -158,6 +162,10 @@ export default function ScriptsLibrary(props: ScriptsLibraryProps) {
           no fit, ask DiGi and it lands in the founder insights to be written.
           Seeded from DiGi's "scripts for moments like this", capped at a
           sentence: this is a search box, not a transcript. */}
+      {props.momentCards && props.momentCards.length > 0 && (
+        <ScriptMoments cards={props.momentCards} pinned={props.pinned ?? []} childQS={childQS} />
+      )}
+
       <ScriptFinder
         scripts={scripts.map(s => ({ sort_order: s.sort_order, title: s.title, situation: s.situation, category: s.category, is_free: s.is_free }))}
         isPaid={isPaid}

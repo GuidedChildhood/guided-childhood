@@ -10,6 +10,8 @@ import { recordSurfaceEvents } from '@/lib/events/record'
 import { countsTowardPathway } from '@/lib/pathway/script-status'
 import type { ChallengeId } from '@/lib/content/stages'
 import ScriptsLibrary from '@/components/scripts/ScriptsLibrary'
+import type { MomentCard } from '@/components/scripts/ScriptMoments'
+import { momentFor } from '@/lib/scripts/moments'
 import { revisitShelf, conversationTally, type CompletionLite } from '@/lib/scripts/shelves'
 
 import { CATEGORY_META, STAGE_META, type StageId, type ScriptRow } from '@/components/scripts/library-meta'
@@ -51,7 +53,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     // the teenager's scripts on top.
     getChildren<{ id: string; stage_id: string | null; is_primary: boolean | null; name: string | null }>(
       supabase, user.id, childParam, 'stage_id, name'),
-    supabase.from('scripts').select('id, stage_id, title, situation, category, is_free, sort_order').order('sort_order', { ascending: true }),
+    supabase.from('scripts').select('id, stage_id, title, situation, category, is_free, sort_order, say_this, if_they_push_back').order('sort_order', { ascending: true }),
     supabase.from('script_completions').select('script_sort_order, completed_at, status, worked, child_id').eq('user_id', user.id),
   ])
 
@@ -210,8 +212,35 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
   // the founder allowlist. See migration 187, which closes the same door in the
   // database so a script is unreachable as well as unopenable.
 
+  // WHAT IS HAPPENING? and My scripts (18 November 2026, plan
+  // plans/2026-11-18-scripts-system.md). The moment cards are this child's
+  // age plus anything pinned, so the stack is never the whole library. The
+  // words only travel for scripts the parent can open.
+  let pinned: number[] = []
+  try {
+    const { data: pinRows } = await supabase.from('script_pins').select('script_sort_order').eq('user_id', user.id).order('created_at')
+    pinned = (pinRows ?? []).map(r => r.script_sort_order as number)
+  } catch { /* before migration 402: no pins yet */ }
+  const cardStage = askedStage ?? currentStageId
+  const momentCards: MomentCard[] = (scriptsData ?? [])
+    .filter(r => !cardStage || r.stage_id === cardStage || pinned.includes(r.sort_order as number))
+    .map(r => {
+      const locked = !isPaid && !r.is_free
+      return {
+        sort_order: r.sort_order as number,
+        title: r.title as string,
+        situation: (r.situation as string) ?? '',
+        say: locked ? null : ((r.say_this as string | null) ?? null),
+        pushBack: locked ? null : ((r.if_they_push_back as string | null) ?? null),
+        moment: momentFor({ title: r.title as string, situation: r.situation as string, category: r.category as string }),
+        locked,
+      }
+    })
+
   return (
     <ScriptsLibrary
+      momentCards={momentCards}
+      pinned={pinned}
       isPaid={isPaid}
       scripts={scripts}
       completed={[...completedOrders]}
