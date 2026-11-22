@@ -160,6 +160,11 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
   compact?: boolean
 }) {
   const [actions, setActions] = useState(initial)
+  // Follow the server when the page comes back (22 November 2026). A photo
+  // add and the Next up card above both end in router.refresh(), and this
+  // list held on to the copy it was first given, so a parent was told three
+  // things were added and then looked at a calendar without them.
+  useEffect(() => { setActions(initial) }, [initial])
   const [sendingId, setSendingId] = useState<string | null>(null)
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<string | null>(null)

@@ -85,7 +85,7 @@ export default function PrivacyPage() {
         We do not sell your data, ever. We use a small number of trusted providers who process it only on our instructions to run the service:
       </p>
       <ul>
-        <li style={LI}><strong>Supabase</strong> and <strong>Vercel</strong> for secure database and hosting.</li>
+        <li style={LI}><strong>Supabase</strong> and <strong>Vercel</strong> for secure database and hosting. Vercel also measures how fast our public pages load, with no cookie and nothing about who you are.</li>
         <li style={LI}><strong>Stripe</strong> for payments.</li>
         <li style={LI}><strong>PayPal</strong> to send referral rewards, if you have asked for one.</li>
         <li style={LI}><strong>Resend</strong> for our emails.</li>

@@ -243,14 +243,16 @@ export const ANSWERS: Record<string, Answer> = {
     ],
   },
   homework_screens: {
-    question: 'Homework is on the screen, so how can it ever come away?',
-    answer: 'School work and free time kept apart: a clear end to homework, then the screen time that is theirs.',
-    proof: ['Homework scripts', 'Protected windows'],
+    // Widened 22 November 2026 with the tile ('Homework and school'): the
+    // school snap and the reminders that lead up to the day (lib/school/lead-up.ts).
+    question: 'Homework is on the screen, and the project is due when?',
+    answer: 'School work and free time kept apart, and the project remembered well before the night before.',
+    proof: ['Homework scripts', 'Protected windows', 'School reminders'],
     how: [
       { id: 'balance', line: 'Homework and free time counted apart, so one never eats the other.' },
       { id: 'script', line: 'The words for is that really homework, without the row.' },
       { id: 'kidapp', line: 'They tick homework done before their free time starts.' },
-      { id: 'digi', line: 'Helps you set it up for their school and their age.' },
+      { id: 'digi', line: 'Snap the school letter. It finds the date and reminds you both as it nears.' },
     ],
   },
   endless_youtube: {

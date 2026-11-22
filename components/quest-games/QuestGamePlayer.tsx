@@ -42,6 +42,13 @@ export default function QuestGamePlayer({ game, onComplete, onClose, theme }: {
 }) {
   const t = theme ?? resolveTheme(DEFAULT_ACCENT)
   const [finished, setFinished] = useState(false)
+  // Beat the clock (22 November 2026): after a judgement game is played and
+  // its stars are earned, the child can race the same cards against a timer.
+  // Modelled on the practice or round choice in the French scheme's pupil
+  // games (plans/2026-11-22-french-games-review.md). No extra stars, so it
+  // can never be used to earn screen time; the best score lives on this
+  // device only, nothing is sent anywhere.
+  const [round, setRound] = useState(false)
 
   function finish() {
     if (finished) return
@@ -64,8 +71,10 @@ export default function QuestGamePlayer({ game, onComplete, onClose, theme }: {
         </div>
 
         <div style={{ flex: 1, minHeight: 0, background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '20px', overflowY: 'auto', boxShadow: 'var(--lift)', position: 'relative' }}>
-          {finished ? (
-            <Finish game={game} onClose={onClose} />
+          {round && game.mechanic === 'judge' ? (
+            <JudgeRound game={game} onClose={onClose} onAgainDone={() => setRound(false)} />
+          ) : finished ? (
+            <Finish game={game} onClose={onClose} onRound={game.mechanic === 'judge' ? () => setRound(true) : undefined} />
           ) : game.mechanic === 'pairs' ? (
             <PairsView game={game} onDone={finish} />
           ) : game.mechanic === 'sums' ? (
@@ -99,7 +108,7 @@ function CloseControl({ onClose }: { onClose?: () => void }) {
   return <Link href="/dashboard/quests/play" aria-label="Close" style={closeStyle}>✕</Link>
 }
 
-function Finish({ game, onClose }: { game: QuestGame; onClose?: () => void }) {
+function Finish({ game, onClose, onRound }: { game: QuestGame; onClose?: () => void; onRound?: () => void }) {
   const btnStyle = {
     display: 'inline-block', marginTop: '20px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
     background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '13px 22px', textDecoration: 'none',
@@ -116,7 +125,99 @@ function Finish({ game, onClose }: { game: QuestGame; onClose?: () => void }) {
       {onClose
         ? <button onClick={onClose} style={btnStyle}>Done</button>
         : <Link href="/dashboard/quests/play" style={btnStyle}>Back to games</Link>}
+      {onRound && (
+        <div style={{ marginTop: '14px' }}>
+          <button onClick={onRound} style={{ ...btnStyle, marginTop: 0, background: 'var(--white)', border: 'var(--edge)', boxShadow: 'var(--lift)' }}>
+            ⏱ Beat the clock
+          </button>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '8px 0 0' }}>Just for fun: no extra stars.</p>
+        </div>
+      )}
     </div>
+  )
+}
+
+const ROUND_SECONDS = 45
+
+// The timed round: the same cards, shuffled, looping until the clock runs out.
+// Right moves on fast; wrong shows the right side for a moment, then moves on.
+function JudgeRound({ game, onClose, onAgainDone }: { game: JudgeGame; onClose?: () => void; onAgainDone: () => void }) {
+  const key = `gc.round.best.${game.key}`
+  const [order, setOrder] = useState(() => shuffle(game.items))
+  const [i, setI] = useState(0)
+  const [left, setLeft] = useState(ROUND_SECONDS)
+  const [score, setScore] = useState(0)
+  const [flash, setFlash] = useState<null | { ok: boolean; label: string }>(null)
+  const [best, setBest] = useState(0)
+  const [newBest, setNewBest] = useState(false)
+  const over = left <= 0
+
+  useEffect(() => { try { setBest(Number(localStorage.getItem(key) || 0)) } catch { /* private mode */ } }, [key])
+  useEffect(() => {
+    if (over) return
+    const t = setInterval(() => setLeft(s => s-1), 1000)
+    return () => clearInterval(t)
+  }, [over])
+  useEffect(() => {
+    if (!over) return
+    if (score > best) {
+      setNewBest(true); setBest(score)
+      try { localStorage.setItem(key, String(score)) } catch { /* private mode */ }
+    }
+  }, [over]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const item = order[i % order.length]
+  function answer(side: 'left' | 'right') {
+    if (flash || over) return
+    const ok = side === item.correct
+    if (ok) setScore(s => s + 1)
+    setFlash({ ok, label: item.correct === 'left' ? game.leftLabel : game.rightLabel })
+    setTimeout(() => {
+      setFlash(null)
+      if ((i + 1) % order.length === 0) setOrder(o => shuffle(o))
+      setI(n => n + 1)
+    }, ok ? 450 : 1300)
+  }
+  function again() { setOrder(shuffle(game.items)); setI(0); setLeft(ROUND_SECONDS); setScore(0); setFlash(null); setNewBest(false) }
+
+  const chip = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px 12px' } as const
+  const big = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '15px', borderRadius: '15px', cursor: 'pointer', minHeight: 52 } as const
+
+  if (over) {
+    return (
+      <div style={{ textAlign: 'center', padding: '24px 8px' }}>
+        <div style={{ fontSize: '48px' }} aria-hidden>⏱</div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', margin: '6px 0' }}>Time&apos;s up!</h2>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)' }}>{score} right</div>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', margin: '6px 0 18px' }}>{newBest ? 'Your best ever! Brilliant.' : `Your best: ${best} right`}</p>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button onClick={again} style={{ ...big, background: 'var(--terracotta)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)', color: 'var(--ink)' }}>Play again</button>
+          {onClose
+            ? <button onClick={onClose} style={{ ...big, background: 'var(--white)', border: 'var(--edge)', color: 'var(--ink)' }}>Done</button>
+            : <button onClick={onAgainDone} style={{ ...big, background: 'var(--white)', border: 'var(--edge)', color: 'var(--ink)' }}>Done</button>}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+        <span style={{ ...chip, color: left <= 10 ? 'var(--danger)' : 'var(--ink)' }} aria-label={`${left} seconds left`}>0:{String(left).padStart(2, '0')}</span>
+        <span style={chip} aria-live="polite">{score} right</span>
+        <span style={{ ...chip, color: 'var(--ink-muted)' }}>Best {best}</span>
+      </div>
+      <div style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '20px', marginBottom: '16px', minHeight: 110 }}>
+        <p style={{ fontSize: 'var(--text-lg)', lineHeight: 1.5, fontWeight: 600, margin: 0, color: 'var(--ink)' }}>{item.text}</p>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+        <button onClick={() => answer('left')} disabled={!!flash} style={{ ...big, background: 'var(--white)', border: 'var(--edge)', color: 'var(--ink)', boxShadow: 'var(--lift)' }}>{game.leftLabel}</button>
+        <button onClick={() => answer('right')} disabled={!!flash} style={{ ...big, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>{game.rightLabel}</button>
+      </div>
+      <p aria-live="polite" style={{ minHeight: 28, textAlign: 'center', fontWeight: 700, margin: '12px 0 0', color: flash ? (flash.ok ? 'var(--retro-green-dark, #236F52)' : 'var(--danger)') : 'transparent' }}>
+        {flash ? (flash.ok ? 'Yes!' : `It's ${flash.label}.`) : '.'}
+      </p>
+    </>
   )
 }
 

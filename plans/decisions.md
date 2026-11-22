@@ -188,12 +188,17 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Justin: "run on this session", the walkthrough of the school snap and homework reminders. Made as the fifth iPhone service film (32.8s) with the 19 November kit: real screens, example family, no generated imagery.
 - Pack: `content/packs/2026-11-22-homework-reminders/` (film, Instagram, Facebook, TikTok captions, one LinkedIn post in Justin's voice, flagged AMBER for his check). Drafts; Justin posts.
 - The recorder gained a per scene `clock` and a `file` action (a photo into the snap card). The child's slim home line drops the star so it stays on one line. Migration 401 was applied the same day.
+
 ## 22 November 2026: scripts reach the parent at the moment
 
 - The scripts page opens on My scripts (up to five pinned) and "What is happening?" with eight moment tiles. A tile opens one card at a time with the line to say first. Migration 402 (script_pins, script_nudges), applied live.
 - Script reminders are capped at two a week, never two within 20 hours (Justin's choice). The turning it off words ride on the existing timer end push. A Sunday push sends the words for this week. A one tap "did it work" the morning after decides what is sent next. PR 1649.
 - The timer page now explains why to use the timer every time.
 
+## 22 November 2026: "Homework on screens" becomes "Homework and school"
+
+- Justin asked for a school worry on the stage check. One already existed, so he chose to widen it, keeping the grid at the twelve set on 16 November. Same id and slug, so every family who picked it keeps it.
+- Label, promise and answer now cover the project remembered the night before: the answer names the school snap and the reminders that lead up to the day (PR 1641). The homework film's tile is this one.
 ## 22 November 2026: migration sweep, 397 ran but was never recorded
 
 - Candidates past 394: 395, 396, 397, 398, 399, 400. Every one is live. Only 397 (`public.parent_answers`) had no ledger row, so a row was written for it; nothing was applied.
@@ -201,3 +206,17 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 395, 396, 398 and 400 were each checked by their own object rather than their ledger row (`parent_nudge_log`, the two `starter_leads` consent columns, the four value `video_link_events` kind check, `watch_bookings` and `parent_lessons.after_prompt`). All present.
 - 377 is resolved. The planet lane took the handback and renamed the newspaper ledger to `planet_issue_events`; `public.planet_events` keeps the children's shape. Repo file and live database agree.
 - The duplicate 394 ledger row (version 20261112090300) is deleted, on Justin's say so. One row left, the one carrying the real SQL.
+
+## 22 November 2026: search joins the review board, Speed Insights, IndexNow
+
+- Justin: ten out of ten on every part of search, kept under review until it holds. Search is lens 11 of the Friday board (`review-search`, eight parts, mean rounded down); business running moves to 12. Unknown data scores 0, never guessed. A weekly board beats a loop: search moves in weeks.
+- Vercel Speed Insights on the public pages only (same allowlist as PostHog, query strings stripped, `lib/analytics/speed-policy.ts`); privacy page says so. IndexNow: `scripts/indexnow.mjs`, key file in `public/`, sends sitemap URLs with a recent lastmod after each deploy (`.github/workflows/indexnow.yml`), never fails a build.
+### 22 November 2026: teachers can say what they would change, and Justin gets it weekly (migration 403, not applied)
+- The digital lesson record gains one optional line, "What would you change about this lesson?", saved to `schools.lesson_records.would_change` (280 characters, no pupil names). Every line written goes to Justin in a Monday 07:17 digest beside the revisit counts per lesson, so every lesson taught anywhere can improve the lesson. Taken from the French scheme, whose author changes each lesson after she runs it.
+- Reads and saves fall back cleanly until 403 is applied, so the deploy can land first. Apply 403 after the PR merges. PR 1658.
+## 22 November 2026: the school page opens on Next up, and the photo reader keeps every date
+
+- The school page is three parts: Next up (one large card, then the next seven days as rows that tick away, overdue held on top, one count line), Add from school (photo first, Type it in beside it), and one fold for the week grid, routines and forwarding. Rule in lib/school/next-up.ts. Mobbin: Future Pro, Givingli, Slack Later.
+- The photo reader now treats every dated thing as an item (inset days, term dates, non uniform days), has room for twenty items, and keeps the finished items of a reply that was cut short. A photo that finds nothing offers Type it in.
+- The full calendar card now follows the server after a refresh, so a photo add shows in the list without a reload.
+- Scripts: phones, something online and big feelings have their own picture book tiles (Higgsfield, 2.25 credits, Justin said yes).

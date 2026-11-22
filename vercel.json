@@ -114,6 +114,10 @@
       "schedule": "0 6 * * 0"
     },
     {
+      "path": "/api/cron/lesson-changes",
+      "schedule": "17 7 * * 1"
+    },
+    {
       "path": "/api/cron/digi-quality",
       "schedule": "30 6 * * 1"
     },

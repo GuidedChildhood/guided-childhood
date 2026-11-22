@@ -31,7 +31,7 @@ What stage is your child? Three questions, no sign up. Link in our bio.
 
 We put the twelve things parents ask us about most on one screen.
 
-Coming off screens. Asking for a phone. Who they talk to in games. What they come across online. Social media. Bedtime screens. Group chats. They get round the rules. Homework on screens. Endless YouTube. Spending in games. AI chatbots. And something else, in your own words.
+Coming off screens. Asking for a phone. Who they talk to in games. What they come across online. Social media. Bedtime screens. Group chats. They get round the rules. Homework and school. Endless YouTube. Spending in games. AI chatbots. And something else, in your own words.
 
 Tick what is on your mind. For each one you get the words to say, something to try tonight, and a plan that keeps going as they grow.
 
@@ -44,7 +44,7 @@ Which one is it in your house this week?
 1. Headline: The twelve things parents ask us for help with. DiGi, the gold star, on a gold path.
 2. The app screen: What would you like help with? Coming off screens, a calm ending, not a nightly row. Asking for a phone, know when they are truly ready.
 3. Four tiles: Who they talk to in games, What they come across online, Social media, Bedtime screens, each with one line of what we bring.
-4. Four tiles: Group chats, They get round the rules, Homework on screens, Endless YouTube.
+4. Four tiles: Group chats, They get round the rules, Homework and school, Endless YouTube.
 5. Three tiles: Spending in games, AI chatbots, Something else.
 6. Headline: Tick one. You get the words to say and one thing to try tonight.
 7. Save and send card.

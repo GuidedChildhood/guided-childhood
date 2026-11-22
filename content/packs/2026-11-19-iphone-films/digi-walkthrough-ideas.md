@@ -33,7 +33,7 @@ film's end card names, so the film's promise is kept on the landing page.
 | 2 | "She's 10 and asks every day. How long can I hold out?" | Asking for a phone | The Year 6 phone plan, before the box is opened | The Year 6 version of iPhone film 1 |
 | 3 | "He's 8 and a stranger messaged him on Roblox." | Who they talk to in games | Online gaming with strangers | Strongest new one; Roblox pilot research is verified (13 Nov) |
 | 4 | "He's 14 and wants his phone back in his room." | Bedtime screens | Renegotiating the phone-free bedroom | Older child, so the pathway is a trial with a review date |
-| 5 | "Homework is on the iPad, so the iPad never comes away." | Homework on screens | Homework on a device with constant distraction | Pairs with the school film's homework hint |
+| 5 | "Homework is on the iPad, so the iPad never comes away." | Homework and school | Homework on a device with constant distraction | Pairs with the school film's homework hint |
 | 6 | "Year 6 WhatsApp group, 47 unread, and someone's being left out." | Group chats | Pile-on in a group chat | The series plan's Short 5, with the safeguarding opener |
 | 7 | "Everyone is on Snapchat and she's 11." | Social media | Everyone is on Snapchat and they are not | Check the age against each app's limit on every frame |
 | 8 | "He watches Shorts for an hour and comes off a different child." | Endless YouTube | Asking to watch YouTube unsupervised | Autoplay off, a clear finish |
