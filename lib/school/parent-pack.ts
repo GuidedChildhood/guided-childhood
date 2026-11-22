@@ -68,15 +68,28 @@ export function startLink(school: PackSchool): string {
   return `${SITE_URL}/starter-pack`
 }
 
-/** The address of a school's own pack, for the page's "make your link" form and the share line. */
+/**
+ * The query parameter a school's pack link carries. It holds the school's slug
+ * (the same one in its /go/ link and utm_campaign), never its name typed out:
+ * scripts/check-no-pii-in-urls.mjs keeps names out of URLs, and the slug adds
+ * nothing a log does not already have. The page still reads ?school= (what the
+ * form sends, and links already shared), since reading one is harmless.
+ */
+export const PACK_PARAM = 'pack'
+
+/** The address of a school's own pack, for the share line. */
 export function packLink(school: PackSchool): string {
   if (school.kind === 'none') return `${SITE_URL}${PACK_PATH}`
-  // ?pack=, not ?school=: the privacy guard (scripts/check-no-pii-in-urls.mjs)
-  // treats a parameter named school as holding a school's name, and asks for
-  // a neutral name rather than an exception. The page still reads ?school=,
-  // which the make your link form submits and old links carry.
-  const value = school.kind === 'linked' ? school.code : school.name
-  return `${SITE_URL}${PACK_PATH}?pack=${encodeURIComponent(value)}`
+  const slug = school.kind === 'linked' ? school.code : school.slug
+  return `${SITE_URL}${PACK_PATH}?${PACK_PARAM}=${slug}`
+}
+
+/** The name to show for a ?pack= or ?school= value: as typed, or a slug turned back into words. */
+export function displayName(raw: string | null | undefined): string | null {
+  if (typeof raw === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)+$/.test(raw.trim())) {
+    return cleanSchoolName(raw.trim().split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '))
+  }
+  return cleanSchoolName(raw)
 }
 
 /** The words a school pastes into its newsletter. No dashes, no claim the product cannot show. */

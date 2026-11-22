@@ -179,6 +179,10 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The engine is `videos/2026-11-19-iphone-films/`. The pack and captions are in `content/packs/2026-11-19-iphone-films/posting-plan.md`.
 - Scheduling in Meta Business Suite stays with Justin, because no connected tool can schedule organic posts. The posting queue page carries the whole drip feed.
 
+## 22 November 2026: SEO Phase 4, the handover guide and the gum join
+
+- Phase 4 checks all green (build, tsc, every guard, posthog 13/13, app-safety 6/6, school-pack 4/4). `SEO-SETUP-GUIDE.md` at the repo root: Search Console (Domain property, DNS verify, both sitemaps, ten URLs to request), Bing import, the PostHog Search dashboard, the weekly 15 minutes, next builds and risks.
+- Reviewed the 21 October "Gum app SEO plan" session. Its weekly report read only literal sitemap paths, so it could not see the 220 app pages: `sitemapUrls` now reads `lib/app-safety/apps.ts` and AGES, and the never shown list folds age pages to one line per app. gum stays optional until Search Console has a few weeks of data; no pull has been committed yet.
 ## 22 November 2026: the homework reminders film and its posts
 
 - Justin: "run on this session", the walkthrough of the school snap and homework reminders. Made as the fifth iPhone service film (32.8s) with the 19 November kit: real screens, example family, no generated imagery.
@@ -189,3 +193,11 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The scripts page opens on My scripts (up to five pinned) and "What is happening?" with eight moment tiles. A tile opens one card at a time with the line to say first. Migration 402 (script_pins, script_nudges), applied live.
 - Script reminders are capped at two a week, never two within 20 hours (Justin's choice). The turning it off words ride on the existing timer end push. A Sunday push sends the words for this week. A one tap "did it work" the morning after decides what is sent next. PR 1649.
 - The timer page now explains why to use the timer every time.
+
+## 22 November 2026: migration sweep, 397 ran but was never recorded
+
+- Candidates past 394: 395, 396, 397, 398, 399, 400. Every one is live. Only 397 (`public.parent_answers`) had no ledger row, so a row was written for it; nothing was applied.
+- 397 was proved live by its own shape, not by its absence from the ledger: the table carries 397's six columns plus 399's `lead_id`, RLS on with no policies, no grant to anon or authenticated, and 399 only alters `parent_answers`, so 399 being applied means 397 ran first. Same pattern as 381 to 383: a missing ledger row is not evidence a migration did not run.
+- 395, 396, 398 and 400 were each checked by their own object rather than their ledger row (`parent_nudge_log`, the two `starter_leads` consent columns, the four value `video_link_events` kind check, `watch_bookings` and `parent_lessons.after_prompt`). All present.
+- 377 is resolved. The planet lane took the handback and renamed the newspaper ledger to `planet_issue_events`; `public.planet_events` keeps the children's shape. Repo file and live database agree.
+- The duplicate 394 ledger row (version 20261112090300) is deleted, on Justin's say so. One row left, the one carrying the real SQL.

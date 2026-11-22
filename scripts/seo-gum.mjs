@@ -172,6 +172,19 @@ export function sitemapUrls(prop, root = ROOT) {
   if (src.includes('GUIDES') && existsSync(guides)) {
     for (const m of readFileSync(guides, 'utf8').matchAll(/slug:\s*'([^']+)'/g)) paths.add(`/guides/${m[1]}`)
   }
+  // The app safety pages (19 November 2026) are spread from APPS and AGES too:
+  // one page per app and one per app and age, the same paths
+  // lib/app-safety/content.ts builds (appPath, agePath).
+  const apps = join(root, 'lib/app-safety/apps.ts')
+  const types = join(root, 'lib/app-safety/types.ts')
+  if (src.includes('APPS') && existsSync(apps) && existsSync(types)) {
+    const ageList = readFileSync(types, 'utf8').match(/export const AGES\s*=\s*\[([^\]]*)\]/)
+    const ages = ageList ? ageList[1].split(',').map(n => n.trim()).filter(Boolean) : []
+    for (const m of readFileSync(apps, 'utf8').matchAll(/^ {4}"slug":\s*"([a-z0-9-]+)"/gm)) {
+      paths.add(`/is-${m[1]}-safe`)
+      for (const age of ages) paths.add(`/is-${m[1]}-safe-for-${age}-year-old`)
+    }
+  }
   return [...paths].map(p => `${prop.host}${p === '/' ? '' : p}`)
 }
 
@@ -257,6 +270,27 @@ function table(head, rows) {
   return [`| ${head.join(' | ')} |`, `| ${head.map(() => '---').join(' | ')} |`, ...rows.map(r => `| ${r.map(cell).join(' | ')} |`)].join('\n') + '\n'
 }
 
+/**
+ * The never shown list, with the 200 app and age pages folded to one line per
+ * app, so a young site's report is not 200 lines of the same shape.
+ */
+export function neverShownLines(urls, host) {
+  const ageRe = /^\/is-([a-z0-9-]+)-safe-for-(\d{1,2})-year-old$/
+  const byApp = new Map()
+  const lines = []
+  for (const u of urls) {
+    const p = path(u, host)
+    const m = p.match(ageRe)
+    if (m) byApp.set(m[1], [...(byApp.get(m[1]) || []), Number(m[2])])
+    else lines.push(`- \`${p}\``)
+  }
+  for (const [app, ages] of byApp) {
+    ages.sort((x, y) => x - y)
+    lines.push(`- \`/is-${app}-safe-for-N-year-old\`, ${ages.length} age page${ages.length === 1 ? '' : 's'} (${ages.join(', ')})`)
+  }
+  return lines
+}
+
 export function renderReport(pull, analyses) {
   const out = [`# Search report, ${pull.day}`, '',
     `Window ${pull.windows.current.startDate} to ${pull.windows.current.endDate}, against the 28 days before. Made by \`npm run seo -- report\` from \`pull-${pull.day}.json\`.`, '',
@@ -276,7 +310,7 @@ export function renderReport(pull, analyses) {
       '### Pages falling', '',
       table(['Page', 'Impressions', 'Before', 'Clicks', 'Before'], a.falling.map(m => [path(m.key, h), m.impressions, m.impressionsBefore, m.clicks, m.clicksBefore])),
       '### In the sitemap, never shown in search', 'Run `npm run seo -- inspect` to see whether Google has indexed these at all.', '',
-      a.neverShown.length ? a.neverShown.map(u => `- \`${path(u, h)}\``).join('\n') + '\n' : '_Every sitemap page was shown at least once._\n')
+      a.neverShown.length ? neverShownLines(a.neverShown, h).join('\n') + '\n' : '_Every sitemap page was shown at least once._\n')
   }
   return out.join('\n')
 }
