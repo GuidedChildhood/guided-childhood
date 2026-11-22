@@ -61,10 +61,10 @@ test('alerts on an empty board say it has not run, in one line', () => {
   assert.equal(out.split('\n').length, 1)
 })
 
-test('ingest writes eleven scores and the tasks, with default due dates', () => {
+test('ingest writes twelve scores and the tasks, with default due dates', () => {
   const state = loadState()
   const summary = ingest(state, sampleRun())
-  assert.equal(summary.lenses, 11)
+  assert.equal(summary.lenses, 12)
   assert.equal(summary.added, 2)
   const run = state.board.runs[0]
   assert.equal(run.scores['value-above-ai'], 10)
@@ -254,7 +254,7 @@ test('the CLI ingest round trip writes the dashboard file', () => {
   writeFileSync(runFile, JSON.stringify(sampleRun()))
   const r = spawnSync(process.execPath, [SCRIPT, 'ingest', runFile], { env: process.env, encoding: 'utf8' })
   assert.equal(r.status, 0, r.stderr)
-  assert.match(r.stdout, /ingested run 2026-10-16: 11 lenses/)
+  assert.match(r.stdout, /ingested run 2026-10-16: 12 lenses/)
   assert.match(readFileSync(join(dir, 'dashboard.html'), 'utf8'), /<title>Review Board<\/title>/)
   const report = readFileSync(join(dir, 'runs', '2026-10-16.md'), 'utf8')
   assert.match(report, /# Review board, 2026-10-16/)

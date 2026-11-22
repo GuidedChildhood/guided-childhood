@@ -207,6 +207,10 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 377 is resolved. The planet lane took the handback and renamed the newspaper ledger to `planet_issue_events`; `public.planet_events` keeps the children's shape. Repo file and live database agree.
 - The duplicate 394 ledger row (version 20261112090300) is deleted, on Justin's say so. One row left, the one carrying the real SQL.
 
+## 22 November 2026: search joins the review board, Speed Insights, IndexNow
+
+- Justin: ten out of ten on every part of search, kept under review until it holds. Search is lens 11 of the Friday board (`review-search`, eight parts, mean rounded down); business running moves to 12. Unknown data scores 0, never guessed. A weekly board beats a loop: search moves in weeks.
+- Vercel Speed Insights on the public pages only (same allowlist as PostHog, query strings stripped, `lib/analytics/speed-policy.ts`); privacy page says so. IndexNow: `scripts/indexnow.mjs`, key file in `public/`, sends sitemap URLs with a recent lastmod after each deploy (`.github/workflows/indexnow.yml`), never fails a build.
 ### 22 November 2026: teachers can say what they would change, and Justin gets it weekly (migration 403, not applied)
 - The digital lesson record gains one optional line, "What would you change about this lesson?", saved to `schools.lesson_records.would_change` (280 characters, no pupil names). Every line written goes to Justin in a Monday 07:17 digest beside the revisit counts per lesson, so every lesson taught anywhere can improve the lesson. Taken from the French scheme, whose author changes each lesson after she runs it.
 - Reads and saves fall back cleanly until 403 is applied, so the deploy can land first. Apply 403 after the PR merges. PR 1658.

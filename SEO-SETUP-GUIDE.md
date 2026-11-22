@@ -7,9 +7,18 @@ What was built (PRs 1635, 1644, 1648, plus this one):
 - **Foundations.** A clean sitemap (276 pages), robots.txt that welcomes Google, Bing and the AI search crawlers, proper titles and descriptions on every public page, structured data (Organization, WebSite, SoftwareApplication, FAQ), `/llms.txt` for AI assistants, and PostHog tagging of visits that come from ChatGPT, Perplexity, Gemini, Claude and Copilot.
 - **The app safety guide.** `/app-safety-guide`, 20 app pages (`/is-tiktok-safe` and so on) and 200 age pages (`/is-roblox-safe-for-9-year-old` and so on). Each one has a direct answer, the app's own minimum age with its source, the settings to switch on first, the free TRUST check, FAQs, and the stage check at the end.
 - **The school parent pack.** `/schools/parent-pack?school=Name` gives a school its own page, a newsletter blurb, a QR code and a tracked short link (`/go/<school>`).
+- **Kept at ten every week (22 November).** Search is now lens 11 of the Friday review board (`.claude/agents/review-search.md`): eight parts of search scored out of ten, the skeptic challenges any nine or ten, and the gaps join the task list on the dashboard you already have. Vercel Speed Insights measures real phone speed on the public pages. IndexNow tells Bing (and so ChatGPT search and Copilot) when a page changes, by itself after each deploy.
 - **The gum report knows about all of it.** The weekly Search Console report from the gum session (21 October) now reads the 220 app pages too, and folds the age pages to one line per app.
 
 ---
+
+## 0. Monday, in order (about 45 minutes)
+
+1. Search Console: add the Domain property (1.1), verify (1.2), submit both sitemaps (1.4), request the top 10 (1.5).
+2. Bing Webmaster Tools: import from Search Console (section 2).
+3. Ahrefs Webmaster Tools, free: ahrefs.com/webmaster-tools, sign up, choose **Import from Google Search Console**. It audits the site every week and shows who links to us. Send Claude a screenshot of its health score and backlinks.
+4. Vercel Speed Insights: Vercel, project **guided-childhood**, **Speed Insights** tab, **Enable**. The code is already in; it only starts counting once this is switched on.
+5. PostHog: build the Search dashboard (section 3).
 
 ## 1. Google Search Console (30 minutes, once)
 
@@ -159,7 +168,7 @@ Every one of these maps to something the product already does, which is the rule
 5. **More apps.** Brawl Stars, Clash Royale, Telegram, Messenger Kids, Steam, Xbox, PlayStation, Nintendo Switch, Meta AI, Google Gemini. Each needs the same sourced research the first 20 had.
 6. **A family phone agreement page that ranks.** "Family phone contract template UK" is a big search, and `/agreement` already exists. It needs the title, the copy and the template on the page for search.
 7. **The under 16 rules explainer.** `/ban-workarounds` plus the `social_media_law` flag (docs/11), aimed at "what is the social media ban UK". It moves when the law moves, which is exactly what the flag is for.
-8. **IndexNow.** A small build that tells Bing (and so ChatGPT search) the moment a page changes, instead of waiting for a crawl. Free, under an hour.
+8. **IndexNow.** Built 22 November: `npm run indexnow` and a GitHub workflow after each deploy tell Bing (and so ChatGPT search) which pages changed. To send every page once by hand: GitHub, Actions, IndexNow, Run workflow, tick "all".
 9. **A named reviewer on the app pages.** "Checked by Justin Phillips, reviewed by [a DSL or a children's online safety professional]". Google judges child safety pages hard on who wrote them. One real reviewer is worth more than any wording change.
 10. **The school pack, sent.** Every school that links its pack from its own site is a link from a trusted domain, which is the strongest thing for ranking a young site. This is outreach, not code: one email to the schools already in the pilot.
 
@@ -186,7 +195,7 @@ Every one of these maps to something the product already does, which is the rule
 2. Next guides, picked from the first queries (idea 1).
 3. The named reviewer (idea 9), before anything else for the app pages.
 4. Screen time by age (idea 2), if the data shows age questions coming in.
-5. IndexNow (idea 8), any time, it is small.
+5. IndexNow (idea 8): done.
 6. More apps (idea 5) once the first 20 show which kinds of app parents search for.
 
 ---
