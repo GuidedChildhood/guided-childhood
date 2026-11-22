@@ -1,0 +1,16 @@
+{
+ "name": "q-board",
+ "url": "/ref-job-board",
+ "seconds": 7,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 1200,
+   "do": "scroll",
+   "to": 700,
+   "ms": 3500
+  }
+ ]
+}

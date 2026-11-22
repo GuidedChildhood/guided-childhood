@@ -1,0 +1,16 @@
+{
+ "name": "q-kid",
+ "url": "/ref-kid-jobs",
+ "seconds": 7.5,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 1800,
+   "do": "scroll",
+   "to": 560,
+   "ms": 2600
+  }
+ ]
+}

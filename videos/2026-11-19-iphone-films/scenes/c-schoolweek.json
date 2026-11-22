@@ -1,0 +1,17 @@
+{
+ "name": "c-schoolweek",
+ "url": "/ref-star-chart-sheet",
+ "seconds": 6,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 1500,
+   "do": "scroll",
+   "to": 3050,
+   "ms": 3000
+  }
+ ],
+ "scrollY": 2740
+}

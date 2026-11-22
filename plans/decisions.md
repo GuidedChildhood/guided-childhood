@@ -242,3 +242,10 @@ Every evidence pack now carries three hooks of different kinds with one CHOSEN, 
 - The three New in Guided Childhood posts run on Sunday mornings at 10:00 (22 Nov, 29 Nov, 6 Dec); the family week pack takes Free Saturday 21 Nov.
 - The stage check intro says "a confident, capable 16", not "a safe" one, and the save screen says "four days free", not "four days of everything", to match FreeDoor and the upgrade page.
 - Posts 10 and 18 re-rendered. Post 4 says outside comes first; `ref-kid-jobs` now pays outside play what the templates pay. Its film is re-rendered on the Mac.
+
+## 22 November 2026: the iPhone service films, four, from the real app
+
+- Justin asked for Apple-style iPhone walkthroughs of DiGi on the hardest questions (and how it is tracked), Quests, Scripts, and the charts and school help. All four are built: real fixture screens recorded frame by frame with the film family's names, in a drawn iPhone, one headline per beat, ending on the stage check. 27 to 43 seconds each. No model credits.
+- No music baked in: trending sounds are added in the app at upload. The shortlist comes from TikTok's Commercial Music Library (UK, 7 days) through the Higgsfield connector.
+- The engine is `videos/2026-11-19-iphone-films/`. The pack and captions are in `content/packs/2026-11-19-iphone-films/posting-plan.md`.
+- Scheduling in Meta Business Suite stays with Justin, because no connected tool can schedule organic posts. The posting queue page carries the whole drip feed.
