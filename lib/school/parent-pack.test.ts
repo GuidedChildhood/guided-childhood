@@ -2,7 +2,7 @@
 
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { blurb, candidateCode, cleanSchoolName, packLink, startLink, trackedPath, type PackSchool } from './parent-pack'
+import { blurb, candidateCode, cleanSchoolName, displayName, packLink, startLink, trackedPath, type PackSchool } from './parent-pack'
 
 const LINKED: PackSchool = { kind: 'linked', code: 'st-marys-primary', name: "St Mary's Primary" }
 const NAMED: PackSchool = { kind: 'named', slug: 'oak-hill-academy', name: 'Oak Hill Academy' }
@@ -30,7 +30,10 @@ test('a linked school starts at its own /s/ link; a named one at its short /go/ 
 })
 
 test('the pack link and the blurb', () => {
-  assert.match(packLink(NAMED), /\/schools\/parent-pack\?school=Oak%20Hill%20Academy$/)
+  assert.match(packLink(NAMED), /\/schools\/parent-pack\?pack=oak-hill-academy$/, 'the slug, never the name typed out')
+  assert.match(packLink(LINKED), /\?pack=st-marys-primary$/)
+  assert.equal(displayName('oak-hill-academy'), 'Oak Hill Academy', 'a slug reads back as words')
+  assert.equal(displayName("St Mary's Primary"), "St Mary's Primary", 'a typed name is kept as typed')
   const b = blurb(LINKED)
   assert.match(b, /\/s\/st-marys-primary/)
   assert.doesNotMatch(b, /[‐-―]|\s-\s/, 'no dashes in the copy a school pastes')
