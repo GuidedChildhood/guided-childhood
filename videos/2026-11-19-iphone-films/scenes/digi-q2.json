@@ -1,0 +1,39 @@
+{
+ "name": "digi-q2",
+ "url": "/ref-digi-chat?kids=1",
+ "swap": {
+  "Teo": "Sam",
+  "Timbotee": "Sam",
+  "Alfie": "Sam",
+  "Bumble": "Sam",
+  "'s mood drops after Instagram. What do I say tonight?": "'s friends all have phones. What do I say tonight?"
+ },
+ "seconds": 11.5,
+ "stubs": [
+  {
+   "match": "/api/digi",
+   "method": "POST",
+   "delayMs": 1600,
+   "wordMs": 28,
+   "body": "At eleven, the class group at night is where a lot of the drama starts, and he is not in trouble for being in it.\n\n**Talk tomorrow, calmly.** Ask what was going on in the group before anything about the time.\n\n**Agree where phones sleep.** Pick a spot outside bedrooms together, yours included, so it is the house rule and not a punishment.\n\nGroup chats is on Sam's check in now, and I will ask how the week went. The words are in [The class group at eleven at night](/dashboard/scripts/9dfcab36-6c7e-43a5-99f8-569584d4678b).\n\n**Tonight.** Put every phone to bed in the same place, yours first."
+  }
+ ],
+ "actions": [
+  {
+   "at": 300,
+   "do": "type",
+   "selector": "textarea",
+   "text": "Found him in the class group chat at midnight. He's 11.",
+   "charMs": 24
+  },
+  {
+   "at": 1970,
+   "do": "press",
+   "key": "Enter"
+  },
+  {
+   "at": 8600,
+   "do": "scrollChat"
+  }
+ ]
+}

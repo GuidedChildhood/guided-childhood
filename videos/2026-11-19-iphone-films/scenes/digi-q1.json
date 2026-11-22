@@ -1,0 +1,37 @@
+{
+ "name": "digi-q1",
+ "url": "/ref-digi-chat?kids=1",
+ "swap": {
+  "Stage 3": "Stage 2",
+  "11 to 13": "8 to 10",
+  "'s mood drops after Instagram. What do I say tonight?": "'s friends all have phones. What do I say tonight?"
+ },
+ "seconds": 13.5,
+ "stubs": [
+  {
+   "match": "/api/digi",
+   "method": "POST",
+   "delayMs": 1600,
+   "wordMs": 28,
+   "body": "At nine, almost every child asks. What matters is the plan you make together.\n\n**Find out what it is for.** Ask Ava what she would use a phone for. Most nine year olds say calls to you and chatting with friends, and both have steps before a phone.\n\n**Give her a plan, with a date on it.** Tell her you are working it out together, what she shows you first, and when you will look again.\n\nAsking for a phone is on Ava's check in now, and in a week I will ask how it went. The words are in [Asking for their own phone](/dashboard/scripts/e9d06c4a-6f50-45f8-a355-b355a39a69fd).\n\n**Tonight.** Ask the one thing she wants a phone for, and just listen."
+  }
+ ],
+ "actions": [
+  {
+   "at": 300,
+   "do": "type",
+   "selector": "textarea",
+   "text": "Everyone in her class has a phone. She's 9 and asks every single day.",
+   "charMs": 24
+  },
+  {
+   "at": 2306,
+   "do": "press",
+   "key": "Enter"
+  },
+  {
+   "at": 10200,
+   "do": "scrollChat"
+  }
+ ]
+}
