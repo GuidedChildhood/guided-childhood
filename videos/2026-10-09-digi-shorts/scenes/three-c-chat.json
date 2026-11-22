@@ -1,0 +1,49 @@
+{
+ "name": "three-c-chat",
+ "url": "/ref-digi-chat?kids=1",
+ "swap": {
+  "Stage 3": "Stage 4",
+  "11 to 13": "13 to 15",
+  "'s mood drops after Instagram. What do I say tonight?": "'s friends are all online after school. What do I say?",
+  "Teo": "Maya",
+  "Timbotee": "Maya",
+  "Alfie": "Maya",
+  "Bumble": "Maya",
+  "Olga": "Maya",
+  "Alma Rose": "Maya",
+  "Alma": "Maya"
+ },
+ "seconds": 19.5,
+ "stubs": [
+  {
+   "match": "/api/digi",
+   "method": "POST",
+   "delayMs": 2600,
+   "wordMs": 40,
+   "body": "At fourteen, wanting the rule to change is fair, and the reason for it is sleep, not trust.\n\n**Reopen it properly.** Tell Maya you will talk it through rather than lay down the law, and that the reason is sleep, yours too.\n\n**Agree a trial.** Try a charging spot just outside her room for two weeks, then review it together on a set date.\n\nBedtime screens is on Maya's check in now, and I will ask how the fortnight went. The words are in [Renegotiating the phone free bedroom](/dashboard/scripts/417).\n\n**Tonight.** Pick the charging spot together, and put your phone there too."
+  }
+ ],
+ "actions": [
+  {
+   "at": 300,
+   "do": "type",
+   "selector": "textarea",
+   "text": "She's 14 and wants her phone back in her room at night. Says I don't trust her.",
+   "charMs": 24
+  },
+  {
+   "at": 2596,
+   "do": "press",
+   "key": "Enter"
+  },
+  {
+   "at": 11800,
+   "do": "scrollChat",
+   "back": 230
+  },
+  {
+   "at": 15600,
+   "do": "scrollChat"
+  }
+ ]
+}

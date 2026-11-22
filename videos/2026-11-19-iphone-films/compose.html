@@ -49,7 +49,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
   <div id="end"><div class="mark"><div class="sq"><span style="height:20px"></span><span style="height:36px"></span><span style="height:56px"></span><span style="height:32px"></span></div><div class="name">Guided Childhood</div></div>
     <div class="line" id="tagline">One plan for screens, phones and AI.</div>
     <div class="cta" id="cta">What stage is your child? <mark>Three questions, no sign up.</mark></div>
-    <div class="url" id="url">Link in bio</div></div>
+    <div class="url" id="url">Link in bio</div><div class="slate" id="endslate" style="margin-top:0"></div></div>
 </div>
 <script>
 // Film data is injected by render.mjs as window.FILM before seek() is called.
@@ -79,6 +79,7 @@ window.seek = (t) => {
   $('end').style.opacity = ek
   if (inEnd) {
     const lt = t - endStart
+    if (F.cta) $('cta').innerHTML = F.cta; $('endslate').textContent = F.endSlate || ''
     ;['tagline', 'cta', 'url'].forEach((id, n) => { const k = ease((lt - .35 - n * .3) / .5); $(id).style.opacity = k; $(id).style.transform = `translateY(${(1 - k) * 26}px)` })
     return
   }

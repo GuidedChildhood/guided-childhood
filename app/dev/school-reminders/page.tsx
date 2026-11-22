@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 
 // Dev harness for the homework early reminders (19 November 2026): a two week
@@ -15,9 +17,12 @@ const ACTIONS: SchoolAction[] = [
 ]
 
 export default function SchoolRemindersHarness() {
+  // ?only=project shows the long project alone, for the film of that card.
+  const [only, set] = useState(false)
+  useEffect(() => { set(new URLSearchParams(window.location.search).get('only') === 'project') }, [])
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
-      <SchoolActionsCard actions={ACTIONS} childName="Teo" />
+      <SchoolActionsCard key={String(only)} actions={only ? ACTIONS.slice(0, 1) : ACTIONS} childName="Teo" />
     </div>
   )
 }

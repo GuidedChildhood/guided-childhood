@@ -1,6 +1,7 @@
 import ScriptsLibrary from '@/components/scripts/ScriptsLibrary'
 import { STAGE_META, type ScriptRow, type StageId } from '@/components/scripts/library-meta'
 import { CATEGORY_META } from '@/components/scripts/library-meta'
+import { momentFor } from '@/lib/scripts/moments'
 
 // Dev harness for the Scripts page shelves. The real page reads the family
 // from Supabase; this draws the same view from a fixture: an 8 to 10 year old
@@ -37,6 +38,14 @@ export default async function ScriptsPageHarness({ searchParams }: { searchParam
   const chips = Object.keys(CATEGORY_META).filter(k => counts.get(k)).map(k => ({ key: k, label: CATEGORY_META[k].label, n: counts.get(k)! }))
   return (
     <ScriptsLibrary
+      momentCards={scripts.filter(s => s.stage_id === 'builder').map(s => ({
+        sort_order: s.sort_order, title: s.title, situation: s.situation,
+        say: paid === '0' && !s.is_free ? null : 'I can see you want to finish. You get to save it now, and we will play again tomorrow after school.',
+        pushBack: paid === '0' && !s.is_free ? null : 'Stay calm and say it once more, the same words. Then put the controller on the shelf together. No new deal tonight.',
+        moment: momentFor(s), locked: paid === '0' && !s.is_free,
+      }))}
+      pinned={isFresh ? [] : [1, 4]}
+      askBack={isFresh ? null : { id: 'n1', title: 'Screen time is up and the game is not finished', kind: 'timer_end' }}
       isPaid={paid !== '0'}
       scripts={scripts}
       completed={isFresh ? [] : [4, 6, 8]}

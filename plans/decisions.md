@@ -32,28 +32,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
 | `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-22 | 128 |
-| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-17 | 142 |
+| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-19 | 158 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-11-06 · 6 November 2026: every Etsy download is in the app, free for parent and child · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: Etsy listing photos in the Canva look, varied per product · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: the five build next Etsy packs, built · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: the Guided Times has its own app edition · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: Google Play and Microsoft Store packaging, payments stay on the web · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: endings at a natural stopping point, not a warning · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: UTMs kept with the sign up, TikTok and YouTube channels · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: no name or email address in a URL · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: real photos first, filled in, on every listing · `plans/decisions-archive/2026-11.md`
-- 2026-11-07 · 7 November 2026: a question for DiGi never rides in the URL as words · `plans/decisions-archive/2026-11.md`
-- 2026-11-07 · 7 November 2026: the two lessons stop teaching the warning · `plans/decisions-archive/2026-11.md`
-- 2026-11-09 · 9 November 2026: 388 and 389 applied, and three that were live with no ledger row · `plans/decisions-archive/2026-11.md`
-- 2026-11-09 · 9 November 2026: the usual rows, thirty everyday flashpoints headed off · `plans/decisions-archive/2026-11.md`
-- 2026-11-09 · 9 November 2026: main green again after 1452 and 1458 · `plans/decisions-archive/2026-11.md`
-- 2026-11-09 · 9 November 2026: one click lesson tracking, audited, not built · `plans/decisions-archive/2026-11.md`
-- 2026-11-09 · 9 November 2026: the pilot teacher's French arrives in the languages tab · `plans/decisions-archive/2026-11.md`
 - 2026-11-09 · 9 November 2026: tracking approved, bridge b reversed for delivery records · `plans/decisions-archive/2026-11.md`
 - 2026-11-10 · 10 November 2026: the walkthrough campaign, 20 drafts and three built · `plans/decisions-archive/2026-11.md`
 - 2026-11-10 · 10 November 2026: French media mirrors into our storage, from GitHub · `plans/decisions-archive/2026-11.md`
@@ -158,96 +142,26 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-11-17 · 17 November 2026: the RSHE mapping page leads with the answer · `plans/decisions-archive/2026-11.md`
 - 2026-11-17 · 17 November 2026: the 1.4 remake and its parent film are built · `plans/decisions-archive/2026-11.md`
 - 2026-11-17 · 17 November 2026: the passport record book, every step on paper · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: the child's passport page, the weekly email reminder, and honest evidence · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: the remade 1.6, 1.5 and 1.4 are live in the app · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: the Stage 2 film 2.1 is built, and kept out of the app · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: 2.1 goes to YouTube and the family account only · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: 2.1 is live on YouTube · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: the remade films come out, and the format is on hold · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: French lesson films, pilot started; both curricula reviewed · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: the top of the Quests page, redrawn · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: children on Quests are their letter on their colour, not their buddy · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: Quests setup is a settings list, not fourteen screens of cards · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 Nov 2026: the Evidence Reveal is the default for research led posts · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: the starter page's three fixes are drawn the way the app draws them · `plans/decisions-archive/2026-11.md`
+- 2026-11-19 · 19 November 2026: search foundations (Phase 1 of the SEO plan) · `plans/decisions-archive/2026-11.md`
+- 2026-11-19 · 19 Nov 2026: posting slots, the Sunday issue and the daily numbers · `plans/decisions-archive/2026-11.md`
+- 2026-11-19 · 19 November 2026: homework and projects get reminders that lead up to the day · `plans/decisions-archive/2026-11.md`
+- 2026-11-19 · 19 November 2026: the walkthrough fixes Justin chose, and two promises brought into line · `plans/decisions-archive/2026-11.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 18 November 2026: the child's passport page, the weekly email reminder, and honest evidence
-
-- Justin: "do them in order as you recommend". (1) The child's passport shows their page step by step in kid words, next step lit, earlier pages as gentle catch up; talks show as "A talk with your grown up", never the script title. (2) The reminder rides the weekly email (pace line plus print the steps), no new push, because the 17 October no new push decision stands. (3) Five evidence claims were verified at source. Two were corrected: skills go with more risk, not less, and enabling parenting goes with more opportunities and more risks. The passport now says plainly that no study shows a programme like this makes children safer. Guard: check-stage-stickers. PR 1623.
-
-## 18 November 2026: the remade 1.6, 1.5 and 1.4 are live in the app
-
-- On Justin's "Go ahead with all". Each film's four segments point at new uploads (checked to serve byte for byte), with new durations and a plain poster.
-- 1.6's row described the old film and claimed growth during sleep as fact: title, keyword, knowledge intention, misconception, parent note and both pause cards now match the remake. 1.5 and 1.4 already matched.
-- Rollback values and the new links: `content/child-films/parent-reaction-series/app-swap-2026-11-18.md`. PR 1618.
-
-## 18 November 2026: the Stage 2 film 2.1 is built, and kept out of the app
-
-- Strangers in games, with Bloop, from the 2.1 script plus the "let's chat somewhere else" move from the verified Roblox pack. 19 pictures, 37 lines checked by transcript (three redone). 70.5 credits against 71 quoted.
-- Not in the app: as the only active Stage 2 lesson, finishing it would award the whole Stage 2 passport (`/api/parent-lessons/complete`). Waits on Justin: more Stage 2 films first, or a passport rule change. PR 1618.
-
-## 18 November 2026: 2.1 goes to YouTube and the family account only
-
-- Justin's choice. No `parent_lessons` row for 2.1 and no change to the passport rule, so one Stage 2 film cannot award the whole Stage 2 passport. Revisit when more Stage 2 films exist.
-
-## 18 November 2026: 2.1 is live on YouTube
-
-- https://youtu.be/UPbRSQzYEGg on the Guided Childhood channel. Public, made for kids, English subtitles and the thumbnail on. Published only after YouTube's checks came back clean. The copy is in `2.1-pieces/youtube-post.md`.
-
-## 18 November 2026: the remade films come out, and the format is on hold
-
-- Justin made 2.1 private on YouTube. He said the voice was too AI, the sound wasn't right and there was no animation. The app's 1.6, 1.5 and 1.4 went back to their old films the same afternoon, restored from the rollback table in `app-swap-2026-11-18.md`.
-- No more films in the stills plus AI voice format, and nothing public until Justin has heard it. Next: settle a real voice and some movement before any remake.
-
-## 18 November 2026: French lesson films, pilot started; both curricula reviewed
-Justin: rebuild her lesson video with our friends, better animation, correct voices, for every lesson. Pilot on Year 3 Colours lesson 1: native French word recordings (Higgsfield, ElevenLabs engine), Nova whispers and Bloop shouts in a code animated film, our own song kit for ACE-Step (the rap program, his choice). 2.55 credits so far. Reviews of the digital (about 7.5) and French (about 8 for Years 3 and 4) schemes are in plans/, musts await his yes. Plan: plans/2026-11-18-french-lesson-films-plan.md.
-
-## 18 November 2026: the top of the Quests page, redrawn
-
-- Justin, with a screenshot: the top "needs expert attention, better Happy News styled icons, easier to use".
-- The caught up strip now has a drawn trophy on a sage plate, the headline "All caught up", and one row of remind chips, each showing the child's buddy.
-- Each child row now shows the buddy the child picked in their own app, on their stage colour (`components/quests/ChildBuddy.tsx`, the same picture the child sees). Then name and "0 of 10 today", a full width bar, and stars in words ("No stars yet this week", not "0 = 0 min").
-- The card heading is now "Today". No data, API or child app change.
-
-## 18 November 2026: children on Quests are their letter on their colour, not their buddy
-
-- Justin asked whether children should have icons and whether there was a better way. He chose the letter disc: the child's first letter on their stage colour, the same disc the child switcher draws on every page.
-- Why it replaces the buddy picture from PR 1629: a child who never picked a buddy shows DiGi, so two children could wear the same face, and the parent app had two ways of drawing one child.
-- `components/quests/ChildDisc.tsx` replaces `ChildBuddy.tsx`. No data change.
-
-## 18 November 2026: Quests setup is a settings list, not fourteen screens of cards
-
-- Justin: make /dashboard/quests/setup "super easy to follow and easy to read", following the best apps.
-- It measured 14.8 phone screens and 110 taps for a two child family. Most of it copied pages that already exist: the job list and both idea lists (Add a job), the routines (their own page), the balance card (Stats).
-- Now: the child picker and the stars card, then three grouped rows in the Apple Settings style. Jobs and Routines link to their pages. Rewards, Do this first and messages, Learning games, Their app and Print open in place with an "All settings" back row. 3 screens, 16 taps. The "a lot for one day" advice only shows when the day is heavy.
-- The stars card keeps only an Approve button, and only when something is waiting. The deal guard now holds every page that mounts the job composer, and fails if Add a job ever stops mounting it.
-- No data or API change. `components/quests/SettingsList.tsx`.
-
-## 18 Nov 2026: the Evidence Reveal is the default for research led posts
-
-Every evidence pack now carries three hooks of different kinds with one CHOSEN, a DISRUPT, REVEAL, REFRAME, INVITE storyboard with a cover, and CARD TEXT with TIMING and VISUAL lines. The pack checks read hooks and storyboard for uncleared figures, dashes and causal wording (qa.mjs check 8b); a pack with no HOOKS passes and is flagged, so work in flight is not stopped. The look moves to black and white editorial paper with one yellow highlight. Cadence "every other day" sits under the 17 Nov cap of three a week until Justin says otherwise. Skill: .claude/skills/evidence-reveal. ChatGPT's v3 motion files for 055 to 061 are on HOLD (wrong AI label on three, unreadable caveats, 12 fps, no end hold); the Claude cards stay the approved visuals.
-
-## 18 November 2026: the starter page's three fixes are drawn the way the app draws them
-
-- Justin, with a screenshot: still clunky, "the graphics need to be way more stylish and in fit with app". Good Inside is not on Mobbin; Alma (stacked turned cards), X (the notification lifted off the screen) and Finch/Duolingo (progress as the app's own marks) set the shape.
-- Stars: the child's ask behind, the parent's card in front. Words: "Not this" struck through behind, "Say this" in the script finish on top, with Practise with DiGi and Fridge card. Check in: the real five faces (now `components/daily/CheckFace.tsx`, shared with the app), six weeks climbing, ending on the real rest rule. The pink bars and "Stamped in the passport" went: the check in has neither. `components/starter/FixArt.tsx`. PR 1633.
-
-## 19 November 2026: search foundations (Phase 1 of the SEO plan)
-
-- Justin: Google and AI search become the main way parents find us. Plan: plans/2026-11-19-seo-and-app-safety-pages-plan.md, PR 1635. Phases ship one at a time with a preview check.
-- His answers: the Digital Health Check is left alone for now (not a lead, no app data on it); free tool pages lead to the stage check; the existing email course signup is reused unchanged; all age pages indexed if each carries genuinely different advice.
-- Phase 1: every public page builds its metadata through `lib/seo/meta.ts` (canonical, its own share card; the brand was printed twice in a dozen titles), private pages noindexed, AI crawlers named in robots, real sitemap dates, Organization JSON-LD site wide, FAQPage on /join, SoftwareApplication on the home page, `/llms.txt`, the Google verification slot (`lib/config/site.ts`), and `ai_source` on PostHog events from ChatGPT, Perplexity, Gemini, Claude and Copilot.
-- Found: PostHog has never run on the live site (NEXT_PUBLIC_POSTHOG_KEY is not set in Vercel). Setup steps went to Justin.
-
-## 19 Nov 2026: posting slots, the Sunday issue and the daily numbers
-
-- Personal LinkedIn posts go in Monday, Wednesday and Friday slots at 08:00 UK time, at most three in a calendar week. A booking Justin already made in LinkedIn counts towards its week and is never moved, so the week with the 29 Nov booking has two free slots and the week with the 6 Dec booking has two.
-- The Sunday 22 Nov newsletter is approved by Justin; the long form running order slides a week if issue 1 has not gone out.
-- `daily.mjs summary` opens with TODAY IN NUMBERS: discovered, cleared, held, packs produced, stages failed, and Metricool named as NOT CONNECTED.
-- Recovered the 18 and 19 Nov radar runs from the Drive patch (the scheduled session's git commit was refused). The 19 Nov afternoon run committed normally, so the refusal is intermittent, not constant.
-## 19 November 2026: homework and projects get reminders that lead up to the day
-
-- Justin snapped the Anderson shelter letter (due 1 December): the date went in, but it was on the bell at once, came in as two items, and nothing helped it get started.
-- Homework and deadlines now get a week before and 3 days before when there is room (worked out from the day it was added), plus the night before as always. Parent push, the child's own app for homework, and the same alerts inside the calendar file. Apple style chips on a new "Coming up" block above the week turn each on or off.
-- The bell waits for the first reminder; due dates read "Tue 1 Dec · 12 days to go". The letter reader merges near duplicates (same kind, same date, two shared words).
-- Migration 401 (`remind_days`) must be applied for the chips to save; until then the automatic plan runs. `lib/school/lead-up.ts`, PR 1641.
-## 19 November 2026: the walkthrough fixes Justin chose, and two promises brought into line
-
-- The three New in Guided Childhood posts run on Sunday mornings at 10:00 (22 Nov, 29 Nov, 6 Dec); the family week pack takes Free Saturday 21 Nov.
-- The stage check intro says "a confident, capable 16", not "a safe" one, and the save screen says "four days free", not "four days of everything", to match FreeDoor and the upgrade page.
-- Posts 10 and 18 re-rendered. Post 4 says outside comes first; `ref-kid-jobs` now pays outside play what the templates pay. Its film is re-rendered on the Mac.
 
 ## 22 November 2026: design tells guard, and the app safety pages (Phase 2)
 
@@ -257,6 +171,7 @@ Every evidence pack now carries three hooks of different kinds with one CHOSEN, 
 ## 22 November 2026: the school parent pack (Phase 3)
 
 - `/schools/parent-pack?school=<name or code>`: a newsletter blurb with a copy button, a QR code to download, and the free tools (stage check, app guide, guides, printables). A school with a code (migration 353) gets its own `/s/<code>`, which remembers it on the family's profile; any other name gets a short `/go/<slug>` that forwards to the stage check with UTM tags, so PostHog counts it per school. Name cleaned, school versions noindex. `npm run school-pack-test`, in CI. PR 1644.
+
 ## 22 November 2026: the iPhone service films, four, from the real app
 
 - Justin asked for Apple-style iPhone walkthroughs of DiGi on the hardest questions (and how it is tracked), Quests, Scripts, and the charts and school help. All four are built: real fixture screens recorded frame by frame with the film family's names, in a drawn iPhone, one headline per beat, ending on the stage check. 27 to 43 seconds each. No model credits.
@@ -268,3 +183,13 @@ Every evidence pack now carries three hooks of different kinds with one CHOSEN, 
 
 - Phase 4 checks all green (build, tsc, every guard, posthog 13/13, app-safety 6/6, school-pack 4/4). `SEO-SETUP-GUIDE.md` at the repo root: Search Console (Domain property, DNS verify, both sitemaps, ten URLs to request), Bing import, the PostHog Search dashboard, the weekly 15 minutes, next builds and risks.
 - Reviewed the 21 October "Gum app SEO plan" session. Its weekly report read only literal sitemap paths, so it could not see the 220 app pages: `sitemapUrls` now reads `lib/app-safety/apps.ts` and AGES, and the never shown list folds age pages to one line per app. gum stays optional until Search Console has a few weeks of data; no pull has been committed yet.
+## 22 November 2026: the homework reminders film and its posts
+
+- Justin: "run on this session", the walkthrough of the school snap and homework reminders. Made as the fifth iPhone service film (32.8s) with the 19 November kit: real screens, example family, no generated imagery.
+- Pack: `content/packs/2026-11-22-homework-reminders/` (film, Instagram, Facebook, TikTok captions, one LinkedIn post in Justin's voice, flagged AMBER for his check). Drafts; Justin posts.
+- The recorder gained a per scene `clock` and a `file` action (a photo into the snap card). The child's slim home line drops the star so it stays on one line. Migration 401 was applied the same day.
+## 22 November 2026: scripts reach the parent at the moment
+
+- The scripts page opens on My scripts (up to five pinned) and "What is happening?" with eight moment tiles. A tile opens one card at a time with the line to say first. Migration 402 (script_pins, script_nudges), applied live.
+- Script reminders are capped at two a week, never two within 20 hours (Justin's choice). The turning it off words ride on the existing timer end push. A Sunday push sends the words for this week. A one tap "did it work" the morning after decides what is sent next. PR 1649.
+- The timer page now explains why to use the timer every time.
