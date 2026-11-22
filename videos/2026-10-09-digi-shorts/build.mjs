@@ -64,7 +64,7 @@ for (const [i, sh] of C.shots.entries()) {
   }
   const bezel = sh.bezel ? `<div class="bezel" style="width:${SW + 28}px;height:${SH + 28}px"></div>` : ''
   html += `<div id="${id}" class="shot${sh.ground === 'white' ? ' white' : ''}">` +
-    (sh.src ? `<div id="${id}-cam" class="cam">${bezel}<div class="screenbox${sh.bezel ? ' framed' : ''}" style="width:${SW}px;height:${(sh.clipH || sh.srcH || SH) - (sh.cropTop || 0)}px"><div class="crop" style="transform:translateY(${-(sh.cropTop || 0)}px)">${screen}${(sh.inScreen || []).map((o, j) => `<div id="${id}-in${j}" class="inscreen ${o.cls || ''}" style="left:${o.x}px;top:${o.y}px;width:${o.w}px;height:${o.h}px"></div>`).join('')}</div></div></div>` : '')
+    (sh.src ? `<div id="${id}-cam" class="cam">${sh.tilt ? `<div id="${id}-tilt" class="tilt" style="width:${SW + 28}px;height:${SH + 28}px">` : ''}${bezel}<div class="screenbox${sh.bezel ? ' framed' : ''}" style="width:${SW}px;height:${(sh.clipH || sh.srcH || SH) - (sh.cropTop || 0)}px"><div class="crop" style="transform:translateY(${-(sh.cropTop || 0)}px)">${screen}${(sh.inScreen || []).map((o, j) => `<div id="${id}-in${j}" class="inscreen ${o.cls || ''}" style="left:${o.x}px;top:${o.y}px;width:${o.w}px;height:${o.h}px"></div>`).join('')}</div></div>${sh.tilt ? `<div id="${id}-sheen" class="sheen"></div></div>` : ''}</div>` : '')
   for (const [j, o] of (sh.overlays || []).entries()) {
     const style = `left:${o.x ?? 90}px;top:${o.y}px;width:${o.w ?? W - 180}px;text-align:${o.align || 'center'}`
     if (o.kind === 'pill') html += `<div id="${id}-o${j}" class="ov pillwrap" style="${style}"><span class="pill">${o.typed ? esc(o.text).split(' ').map((w, k) => k < (o.typedFrom || 0) ? w : `<span class="pw">${w}</span>`).join(' ') : esc(o.text)}</span></div>`
@@ -100,6 +100,14 @@ for (const [i, sh] of C.shots.entries()) {
   for (const k of (sh.src ? keys.slice(1) : [])) {
     const c = camXY(k)
     to(`#${id}-cam`, { x: c.x, y: c.y, scale: c.scale, duration: k.dur ?? 0.7, ease: k.ease || 'power3.inOut' }, s + k.t)
+  }
+  // The 3D hero turn (22 November 2026): a drawn phone, turned in space, settles
+  // to face the viewer while light crosses the glass. The screen is the real recording.
+  if (sh.src && sh.tilt) {
+    const t0 = sh.tilt[0]
+    set(`#${id}-tilt`, { rotationX: t0.rx || 0, rotationY: t0.ry || 0, rotationZ: t0.rz || 0, transformPerspective: 1100, transformOrigin: '50% 50%' }, s)
+    for (const k of sh.tilt.slice(1)) to(`#${id}-tilt`, { rotationX: k.rx || 0, rotationY: k.ry || 0, rotationZ: k.rz || 0, duration: k.dur ?? 1.2, ease: k.ease || 'power3.inOut' }, s + k.t)
+    fromTo(`#${id}-sheen`, { xPercent: -140 }, { xPercent: 160, duration: d * 0.8, ease: 'power1.inOut' }, s + 0.1)
   }
   // The hold drift: at most 1.5 percent, linear, never while a line moves.
   for (const k of (sh.src ? keys : []).filter((k) => k.drift)) {
@@ -218,6 +226,10 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .cam{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
 .screenbox{position:relative;overflow:hidden;background:#fff;box-shadow:0 40px 90px rgba(122,90,14,0.22)}
 .screenbox.framed{border-radius:44px;position:absolute;left:14px;top:14px}
+.tilt{position:relative;transform-style:preserve-3d;will-change:transform}
+.tilt .bezel{box-shadow:0 60px 110px rgba(122,90,14,0.30),0 18px 30px rgba(26,26,46,0.16),inset 0 0 0 2px #2b2b34,-5px 3px 0 #2a2a33,-9px 5px 0 #1b1b22}
+.tilt .screenbox{box-shadow:none}
+.sheen{position:absolute;left:14px;top:14px;right:14px;bottom:14px;border-radius:44px;overflow:hidden;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.34) 50%,transparent 62%);mix-blend-mode:screen}
 .bezel{position:absolute;left:0;top:0;border-radius:58px;background:#0E0E12;box-shadow:0 40px 90px rgba(122,90,14,0.28),inset 0 0 0 2px #2b2b34}
 .scr{display:block}
 .crop{position:relative}

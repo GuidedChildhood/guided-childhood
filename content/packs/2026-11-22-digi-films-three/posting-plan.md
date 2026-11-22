@@ -60,3 +60,12 @@ Any slot works; none depends on another.
 - The script cards are live rows 204, 9611 and 417, copied word for word into `app/ref-script-deck`.
 - The tracker, check back faces and Sorted are the live check in screens.
 - Science: Livingstone et al. 2017 (J Communication), Hellfeldt et al. 2020 (IJERPH), Ofcom 2026, Carter et al. 2016 (JAMA Pediatrics), UK Chief Medical Officers 2019. All checked 22 November.
+
+## The 3D opening and the voice sample (22 November, later)
+
+`films/roblox-strangers-3d-voice-sample.mp4` is a sample, not for posting yet.
+
+- The 3D opening: after the hook, a drawn phone turns in space and settles flat while the question types into the real app. It is the engine's new `tilt` option, so any film can have it.
+- The voice: Tamsin, the voice of the lesson films, at the same slower pace, laid over the first half minute with the music dipping under her. One take, not yet cut beat by beat.
+
+Sample line: "A stranger messaged her on Roblox. She's nine. DiGi never gives a yes or a no. It starts from your child, and what has worked in your house before. Then two plain steps, and the exact words to say tonight. And it checks back, until it is sorted."

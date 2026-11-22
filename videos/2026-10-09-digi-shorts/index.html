@@ -15,6 +15,10 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#FDF6DE}
 .cam{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
 .screenbox{position:relative;overflow:hidden;background:#fff;box-shadow:0 40px 90px rgba(122,90,14,0.22)}
 .screenbox.framed{border-radius:44px;position:absolute;left:14px;top:14px}
+.tilt{position:relative;transform-style:preserve-3d;will-change:transform}
+.tilt .bezel{box-shadow:0 60px 110px rgba(122,90,14,0.30),0 18px 30px rgba(26,26,46,0.16),inset 0 0 0 2px #2b2b34,-5px 3px 0 #2a2a33,-9px 5px 0 #1b1b22}
+.tilt .screenbox{box-shadow:none}
+.sheen{position:absolute;left:14px;top:14px;right:14px;bottom:14px;border-radius:44px;overflow:hidden;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.34) 50%,transparent 62%);mix-blend-mode:screen}
 .bezel{position:absolute;left:0;top:0;border-radius:58px;background:#0E0E12;box-shadow:0 40px 90px rgba(122,90,14,0.28),inset 0 0 0 2px #2b2b34}
 .scr{display:block}
 .crop{position:relative}
@@ -79,144 +83,152 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#FDF6DE}
 .end-url{font-family:plexMono,monospace;font-weight:600;font-size:42px;letter-spacing:.06em;color:#3A3A52;margin-top:34px}
 .logo{display:inline-flex;align-items:center;gap:30px}.logo .mark{display:inline-flex;align-items:center;justify-content:center;background:#EDC35F}.logo .bars{display:inline-flex;align-items:flex-end}.logo .word{font-weight:800;letter-spacing:-.02em;white-space:nowrap}
 </style></head><body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="58.700" data-width="1080" data-height="1920" data-fps="30">
+<div id="root" data-composition-id="main" data-start="0" data-duration="59.900" data-width="1080" data-height="1920" data-fps="30">
 <div id="stage"><div class="ground"></div>
-<div id="hook" class="shot"><div id="hook-o0" class="ov band" style="left:90px;top:300px;width:900px;text-align:center">Back in her room at night?</div><div id="hook-o1" class="ov pillwrap" style="left:90px;top:560px;width:900px;text-align:center"><span class="pill"><span class="pw">She's</span> <span class="pw">14</span> <span class="pw">and</span> <span class="pw">wants</span> <span class="pw">her</span> <span class="pw">phone</span> <span class="pw">back</span> <span class="pw">in</span> <span class="pw">her</span> <span class="pw">room</span> <span class="pw">at</span> <span class="pw">night.</span> <span class="pw">Says</span> <span class="pw">I</span> <span class="pw">don't</span> <span class="pw">trust</span> <span class="pw">her.</span></span></div><div id="hook-o2" class="ov eyebrow" style="left:90px;top:1300px;width:900px;text-align:center">An example family. Real app screens, example replies.</div></div>
-<div id="think" class="shot white"><div id="think-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="think-v" class="scr" src="assets/rec/three-c-chat.mp4" muted playsinline data-start="6.500" data-duration="3.000" data-media-start="2.600" data-track-index="0" style="width:390px;height:844px"></video></div></div></div><div id="think-o0" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>It</b></span> <span class="cw"><b>starts</b></span> <span class="cw"><b>from</b></span> <span class="cw"><b>Maya:</b></span> <span class="cw"><b>14,</b></span> <span class="cw"><b>Stage</b></span> <span class="cw"><b>4,</b></span> <span class="cw"><b>and</b></span> <span class="cw"><b>what</b></span> <span class="cw"><b>you</b></span> <span class="cw"><b>told</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>before.</b></span></div></div></div>
-<div id="reply1" class="shot white"><div id="reply1-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="reply1-v" class="scr" src="assets/rec/three-c-chat.mp4" muted playsinline data-start="9.500" data-duration="4.400" data-media-start="7.600" data-track-index="1" style="width:390px;height:844px"></video><div id="reply1-in0" class="inscreen underline" style="left:57px;top:429px;width:220px;height:3px"></div></div></div></div><div id="reply1-o0" class="ov" style="left:90px;top:1270px;width:900px;text-align:center"><span class="label">Illustrative reply</span></div><div id="reply1-o1" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw chl"><i class="sweep"></i><b>Never</b></span> <span class="cw"><b>a</b></span> <span class="cw"><b>yes</b></span> <span class="cw"><b>or</b></span> <span class="cw"><b>no.</b></span> <span class="cw"><b>A</b></span> <span class="cw"><b>plan</b></span> <span class="cw"><b>for</b></span> <span class="cw"><b>her</b></span> <span class="cw"><b>age.</b></span></div></div></div>
-<div id="reply2" class="shot white"><div id="reply2-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="reply2-v" class="scr" src="assets/rec/three-c-chat.mp4" muted playsinline data-start="13.900" data-duration="3.000" data-media-start="12.600" data-track-index="0" style="width:390px;height:844px"></video><div id="reply2-in0" class="inscreen underline" style="left:57px;top:197px;width:220px;height:3px"></div></div></div></div><div id="reply2-o0" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>The</b></span> <span class="cw chl"><i class="sweep"></i><b>solution,</b></span> <span class="cw"><b>in</b></span> <span class="cw"><b>two</b></span> <span class="cw"><b>plain</b></span> <span class="cw"><b>steps.</b></span></div></div></div>
-<div id="tracked" class="shot white"><div id="tracked-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="tracked-v" class="scr" src="assets/rec/three-c-chat.mp4" muted playsinline data-start="16.900" data-duration="2.800" data-media-start="12.800" data-track-index="1" style="width:390px;height:844px"></video></div></div></div><div id="tracked-o0" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>It</b></span> <span class="cw"><b>goes</b></span> <span class="cw"><b>on</b></span> <span class="cw"><b>Maya's</b></span> <span class="cw"><b>check</b></span> <span class="cw"><b>in,</b></span> <span class="cw"><b>and</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>will</b></span> <span class="cw"><b>ask</b></span> <span class="cw"><b>how</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>went.</b></span></div></div></div>
-<div id="tonight" class="shot white"><div id="tonight-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="tonight-v" class="scr" src="assets/rec/three-c-chat.mp4" muted playsinline data-start="19.700" data-duration="2.800" data-media-start="16.600" data-track-index="0" style="width:390px;height:844px"></video></div></div></div><div id="tonight-o0" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>And</b></span> <span class="cw"><b>one</b></span> <span class="cw"><b>thing</b></span> <span class="cw"><b>to</b></span> <span class="cw"><b>try</b></span> <span class="cw chl"><i class="sweep"></i><b>tonight.</b></span></div></div></div>
-<div id="deck" class="shot"><div id="deck-cam" class="cam"><div class="screenbox" style="width:390px;height:1000px"><div class="crop" style="transform:translateY(0px)"><video id="deck-v" class="scr" src="assets/rec/three-c-deck.mp4" muted playsinline data-start="22.500" data-duration="6.800" data-media-start="3.000" data-track-index="1" style="width:390px;height:1000px"></video></div></div></div><div id="deck-o0" class="ov veil" style="height:420px;background:linear-gradient(#F9F8F6 0,#F9F8F6 72%,transparent)"></div><div id="deck-o1" class="ov veil" style="height:640px;background:linear-gradient(#F9F8F6 0,#F9F8F6 72%,transparent)"></div><div id="deck-o2" class="ov band" style="left:90px;top:430px;width:900px;text-align:center">The words to say, tonight</div><div id="deck-o3" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>The</b></span> <span class="cw"><b>exact</b></span> <span class="cw chl"><i class="sweep"></i><b>words,</b></span> <span class="cw"><b>one</b></span> <span class="cw"><b>card</b></span> <span class="cw"><b>at</b></span> <span class="cw"><b>a</b></span> <span class="cw"><b>time.</b></span></div></div></div>
-<div id="followup" class="shot"><div id="followup-cam" class="cam"><div class="screenbox" style="width:390px;height:454px"><div class="crop" style="transform:translateY(-390px)"><video id="followup-v" class="scr" src="assets/rec/three-c-followup.mp4" muted playsinline data-start="29.300" data-duration="5.000" data-media-start="5.000" data-track-index="0" style="width:390px;height:844px"></video><div id="followup-in0" class="inscreen ripple" style="left:234px;top:233px;width:44px;height:44px"></div></div></div></div><div id="followup-o0" class="ov markerwrap" style="left:90px;top:430px;width:900px;text-align:center"><span class="marker">A few days on. Illustrative</span></div><div id="followup-o1" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>It</b></span> <span class="cw"><b>checks</b></span> <span class="cw"><b>back</b></span> <span class="cw"><b>until</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>works.</b></span></div></div></div>
-<div id="great" class="shot"><div id="great-cam" class="cam"><div class="screenbox" style="width:390px;height:252px"><div class="crop" style="transform:translateY(-748px)"><video id="great-v" class="scr" src="assets/rec/three-c-checkin.mp4" muted playsinline data-start="34.300" data-duration="1.800" data-media-start="0.900" data-track-index="1" style="width:390px;height:1000px"></video><div id="great-in0" class="inscreen ripple" style="left:297px;top:52px;width:44px;height:44px"></div></div></div></div><div id="great-o0" class="ov markerwrap" style="left:90px;top:430px;width:900px;text-align:center"><span class="marker">A week on. Illustrative</span></div><div id="great-o1" class="ov" style="left:90px;top:620px;width:900px;text-align:center"><span class="label">This parent's own rating</span></div></div>
-<div id="held" class="shot"><div id="held-cam" class="cam"><div class="screenbox" style="width:390px;height:252px"><div class="crop" style="transform:translateY(-748px)"><video id="held-v" class="scr" src="assets/rec/three-c-checkin.mp4" muted playsinline data-start="36.100" data-duration="3.400" data-media-start="4.200" data-track-index="0" style="width:390px;height:1000px"></video></div></div></div><div id="held-o0" class="ov markerwrap" style="left:90px;top:430px;width:900px;text-align:center"><span class="marker">A week on. Illustrative</span></div><div id="held-o1" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw chl"><i class="sweep"></i><b>Connection</b></span> <span class="cw"><b>is</b></span> <span class="cw"><b>the</b></span> <span class="cw"><b>protection.</b></span> <span class="cw"><b>The</b></span> <span class="cw"><b>plan</b></span> <span class="cw"><b>keeps</b></span> <span class="cw"><b>going</b></span> <span class="cw"><b>until</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>holds.</b></span></div></div></div>
-<div id="inputs" class="shot"><div id="inputs-o0" class="ov inputs" style="top:300px"><div class="in-eye">What DiGi used. Example family</div><div class="in-title">Every answer starts from your family</div><div class="in-row" id="inputs-o0-r0"><span class="in-k">Your child</span><span class="in-v">Maya, 14, Stage 4</span></div><div class="in-row" id="inputs-o0-r1"><span class="in-k">What you raised before</span><span class="in-v">Endless YouTube, sorted in September</span></div><div class="in-row" id="inputs-o0-r2"><span class="in-k">What worked for your family</span><span class="in-v">A trial, with a date to review it</span></div><div class="in-row" id="inputs-o0-r3"><span class="in-k">How it is going</span><span class="in-v">Your own rating at every check in</span></div><div class="in-note" id="inputs-o0-n">Never a yes or no. Safeguarding comes first. Every answer built on reviewed research.</div></div></div>
-<div id="science" class="shot"><div id="science-o0" class="ov science" style="top:420px"><div class="sc-eye">The research behind it</div><div class="sc-claim">A phone in the bedroom at night, even unused, came with 1.8 times the odds of too little sleep.</div><div class="sc-rule" id="science-o0-rule"></div><div class="sc-cite">Carter and others, 2016, JAMA Pediatrics. 20 studies, 125,198 children aged 6 to 19.</div><div class="sc-note">UK Chief Medical Officers, 2019: "Leave phones outside the bedroom when it is bedtime."</div></div></div>
-<div id="end" class="shot"><div id="end-o0" class="ov digi" style="left:405px;top:120px;width:270px;height:270px"><video id="end-o0-v" src="assets/digi/digi-idle-dc3673e0.mp4" muted playsinline loop data-start="53.100" data-duration="5.600" data-track-index="2"></video></div><div id="end-o1" class="ov endcard" style="top:420px"><div class="end-logo"><span class="logo"><span class="mark" style="width:64px;height:64px;border-radius:18.7px"><span class="bars" style="gap:4.8px;height:29.3px"><span style="width:5.9px;height:10.5px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:18.9px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:29.3px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:16.8px;background:#fff;border-radius:2.7px;display:inline-block"></span></span></span><span class="word" style="font-size:50px">Guided Childhood</span></span></div><div class="end-tag">One plan for screens, phones and AI.</div><div class="end-eyebrow">Bedtime screens?</div><div class="end-line">What stage is your child?</div><div class="end-sub">Three questions, no sign up. See what to do tonight.</div><div class="end-btn" id="end-o1-btn">Find my child's stage</div><div class="end-url">guidedchildhood.com/v/bedroom-phone</div><div class="end-slate">An example family. Real app screens, example replies.</div></div></div>
+<div id="hook" class="shot"><div id="hook-o0" class="ov band" style="left:90px;top:300px;width:900px;text-align:center">A stranger messaged her.</div><div id="hook-o1" class="ov pillwrap" style="left:90px;top:560px;width:900px;text-align:center"><span class="pill"><span class="pw">A</span> <span class="pw">stranger</span> <span class="pw">messaged</span> <span class="pw">Ava</span> <span class="pw">on</span> <span class="pw">Roblox.</span> <span class="pw">She's</span> <span class="pw">9.</span> <span class="pw">What</span> <span class="pw">do</span> <span class="pw">I</span> <span class="pw">do?</span></span></div><div id="hook-o2" class="ov eyebrow" style="left:90px;top:1300px;width:900px;text-align:center">An example family. Real app screens, example replies.</div></div>
+<div id="hero" class="shot"><div id="hero-cam" class="cam"><div id="hero-tilt" class="tilt" style="width:418px;height:872px"><div class="bezel" style="width:418px;height:872px"></div><div class="screenbox framed" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="hero-v" class="scr" src="assets/rec/three-a-chat.mp4" muted playsinline data-start="5.400" data-duration="2.300" data-media-start="0.300" data-track-index="0" style="width:390px;height:844px"></video></div></div><div id="hero-sheen" class="sheen"></div></div></div></div>
+<div id="think" class="shot white"><div id="think-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="think-v" class="scr" src="assets/rec/three-a-chat.mp4" muted playsinline data-start="7.700" data-duration="3.000" data-media-start="2.600" data-track-index="1" style="width:390px;height:844px"></video></div></div></div><div id="think-o0" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>It</b></span> <span class="cw"><b>starts</b></span> <span class="cw"><b>from</b></span> <span class="cw"><b>Ava:</b></span> <span class="cw"><b>9,</b></span> <span class="cw"><b>Stage</b></span> <span class="cw"><b>2,</b></span> <span class="cw"><b>and</b></span> <span class="cw"><b>what</b></span> <span class="cw"><b>you</b></span> <span class="cw"><b>told</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>before.</b></span></div></div></div>
+<div id="reply1" class="shot white"><div id="reply1-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="reply1-v" class="scr" src="assets/rec/three-a-chat.mp4" muted playsinline data-start="10.700" data-duration="4.400" data-media-start="7.600" data-track-index="0" style="width:390px;height:844px"></video><div id="reply1-in0" class="inscreen underline" style="left:57px;top:400px;width:220px;height:3px"></div></div></div></div><div id="reply1-o0" class="ov" style="left:90px;top:1270px;width:900px;text-align:center"><span class="label">Illustrative reply</span></div><div id="reply1-o1" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw chl"><i class="sweep"></i><b>Never</b></span> <span class="cw"><b>a</b></span> <span class="cw"><b>yes</b></span> <span class="cw"><b>or</b></span> <span class="cw"><b>no.</b></span> <span class="cw"><b>A</b></span> <span class="cw"><b>plan</b></span> <span class="cw"><b>for</b></span> <span class="cw"><b>her</b></span> <span class="cw"><b>age.</b></span></div></div></div>
+<div id="reply2" class="shot white"><div id="reply2-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="reply2-v" class="scr" src="assets/rec/three-a-chat.mp4" muted playsinline data-start="15.100" data-duration="3.000" data-media-start="12.600" data-track-index="1" style="width:390px;height:844px"></video><div id="reply2-in0" class="inscreen underline" style="left:57px;top:262px;width:220px;height:3px"></div></div></div></div><div id="reply2-o0" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>The</b></span> <span class="cw chl"><i class="sweep"></i><b>solution,</b></span> <span class="cw"><b>in</b></span> <span class="cw"><b>two</b></span> <span class="cw"><b>plain</b></span> <span class="cw"><b>steps.</b></span></div></div></div>
+<div id="tracked" class="shot white"><div id="tracked-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="tracked-v" class="scr" src="assets/rec/three-a-chat.mp4" muted playsinline data-start="18.100" data-duration="2.800" data-media-start="12.800" data-track-index="0" style="width:390px;height:844px"></video></div></div></div><div id="tracked-o0" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>It</b></span> <span class="cw"><b>goes</b></span> <span class="cw"><b>on</b></span> <span class="cw"><b>Ava's</b></span> <span class="cw"><b>check</b></span> <span class="cw"><b>in,</b></span> <span class="cw"><b>and</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>will</b></span> <span class="cw"><b>ask</b></span> <span class="cw"><b>how</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>went.</b></span></div></div></div>
+<div id="tonight" class="shot white"><div id="tonight-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="tonight-v" class="scr" src="assets/rec/three-a-chat.mp4" muted playsinline data-start="20.900" data-duration="2.800" data-media-start="16.600" data-track-index="1" style="width:390px;height:844px"></video></div></div></div><div id="tonight-o0" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>And</b></span> <span class="cw"><b>one</b></span> <span class="cw"><b>thing</b></span> <span class="cw"><b>to</b></span> <span class="cw"><b>try</b></span> <span class="cw chl"><i class="sweep"></i><b>tonight.</b></span></div></div></div>
+<div id="deck" class="shot"><div id="deck-cam" class="cam"><div class="screenbox" style="width:390px;height:1000px"><div class="crop" style="transform:translateY(0px)"><video id="deck-v" class="scr" src="assets/rec/three-a-deck.mp4" muted playsinline data-start="23.700" data-duration="6.800" data-media-start="3.000" data-track-index="0" style="width:390px;height:1000px"></video></div></div></div><div id="deck-o0" class="ov veil" style="height:420px;background:linear-gradient(#F9F8F6 0,#F9F8F6 72%,transparent)"></div><div id="deck-o1" class="ov veil" style="height:640px;background:linear-gradient(#F9F8F6 0,#F9F8F6 72%,transparent)"></div><div id="deck-o2" class="ov band" style="left:90px;top:430px;width:900px;text-align:center">The words to say, tonight</div><div id="deck-o3" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>The</b></span> <span class="cw"><b>exact</b></span> <span class="cw chl"><i class="sweep"></i><b>words,</b></span> <span class="cw"><b>one</b></span> <span class="cw"><b>card</b></span> <span class="cw"><b>at</b></span> <span class="cw"><b>a</b></span> <span class="cw"><b>time.</b></span></div></div></div>
+<div id="followup" class="shot"><div id="followup-cam" class="cam"><div class="screenbox" style="width:390px;height:454px"><div class="crop" style="transform:translateY(-390px)"><video id="followup-v" class="scr" src="assets/rec/three-a-followup.mp4" muted playsinline data-start="30.500" data-duration="5.000" data-media-start="5.000" data-track-index="1" style="width:390px;height:844px"></video><div id="followup-in0" class="inscreen ripple" style="left:234px;top:233px;width:44px;height:44px"></div></div></div></div><div id="followup-o0" class="ov markerwrap" style="left:90px;top:430px;width:900px;text-align:center"><span class="marker">A few days on. Illustrative</span></div><div id="followup-o1" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw"><b>It</b></span> <span class="cw"><b>checks</b></span> <span class="cw"><b>back</b></span> <span class="cw"><b>until</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>works.</b></span></div></div></div>
+<div id="great" class="shot"><div id="great-cam" class="cam"><div class="screenbox" style="width:390px;height:252px"><div class="crop" style="transform:translateY(-748px)"><video id="great-v" class="scr" src="assets/rec/three-a-checkin.mp4" muted playsinline data-start="35.500" data-duration="1.800" data-media-start="0.900" data-track-index="0" style="width:390px;height:1000px"></video><div id="great-in0" class="inscreen ripple" style="left:297px;top:52px;width:44px;height:44px"></div></div></div></div><div id="great-o0" class="ov markerwrap" style="left:90px;top:430px;width:900px;text-align:center"><span class="marker">A week on. Illustrative</span></div><div id="great-o1" class="ov" style="left:90px;top:620px;width:900px;text-align:center"><span class="label">This parent's own rating</span></div></div>
+<div id="held" class="shot"><div id="held-cam" class="cam"><div class="screenbox" style="width:390px;height:252px"><div class="crop" style="transform:translateY(-748px)"><video id="held-v" class="scr" src="assets/rec/three-a-checkin.mp4" muted playsinline data-start="37.300" data-duration="3.400" data-media-start="4.200" data-track-index="1" style="width:390px;height:1000px"></video></div></div></div><div id="held-o0" class="ov markerwrap" style="left:90px;top:430px;width:900px;text-align:center"><span class="marker">A week on. Illustrative</span></div><div id="held-o1" class="ov capwrap" style="top:1395px"><div class="cap"><span class="cw chl"><i class="sweep"></i><b>Connection</b></span> <span class="cw"><b>is</b></span> <span class="cw"><b>the</b></span> <span class="cw"><b>protection.</b></span> <span class="cw"><b>The</b></span> <span class="cw"><b>plan</b></span> <span class="cw"><b>keeps</b></span> <span class="cw"><b>going</b></span> <span class="cw"><b>until</b></span> <span class="cw"><b>it</b></span> <span class="cw"><b>holds.</b></span></div></div></div>
+<div id="inputs" class="shot"><div id="inputs-o0" class="ov inputs" style="top:300px"><div class="in-eye">What DiGi used. Example family</div><div class="in-title">Every answer starts from your family</div><div class="in-row" id="inputs-o0-r0"><span class="in-k">Your child</span><span class="in-v">Ava, 9, Stage 2</span></div><div class="in-row" id="inputs-o0-r1"><span class="in-k">What you raised before</span><span class="in-v">Coming off screens, sorted in October</span></div><div class="in-row" id="inputs-o0-r2"><span class="in-k">What worked for your family</span><span class="in-v">Deciding the ending before the tablet goes on</span></div><div class="in-row" id="inputs-o0-r3"><span class="in-k">How it is going</span><span class="in-v">Your own rating at every check in</span></div><div class="in-note" id="inputs-o0-n">Never a yes or no. Safeguarding comes first. Every answer built on reviewed research.</div></div></div>
+<div id="science" class="shot"><div id="science-o0" class="ov science" style="top:420px"><div class="sc-eye">The research behind it</div><div class="sc-claim">Restricting contact cut the risks, and the good with it. Guiding opened up the good. So the plan does both.</div><div class="sc-rule" id="science-o0-rule"></div><div class="sc-cite">Livingstone and others, 2017, Journal of Communication. 6,400 parents in 8 countries, children aged 6 to 14.</div></div></div>
+<div id="end" class="shot"><div id="end-o0" class="ov digi" style="left:405px;top:120px;width:270px;height:270px"><video id="end-o0-v" src="assets/digi/digi-idle-dc3673e0.mp4" muted playsinline loop data-start="54.300" data-duration="5.600" data-track-index="2"></video></div><div id="end-o1" class="ov endcard" style="top:420px"><div class="end-logo"><span class="logo"><span class="mark" style="width:64px;height:64px;border-radius:18.7px"><span class="bars" style="gap:4.8px;height:29.3px"><span style="width:5.9px;height:10.5px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:18.9px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:29.3px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:16.8px;background:#fff;border-radius:2.7px;display:inline-block"></span></span></span><span class="word" style="font-size:50px">Guided Childhood</span></span></div><div class="end-tag">One plan for screens, phones and AI.</div><div class="end-eyebrow">Who they talk to in games?</div><div class="end-line">What stage is your child?</div><div class="end-sub">Three questions, no sign up. See what to do tonight.</div><div class="end-btn" id="end-o1-btn">Find my child's stage</div><div class="end-url">guidedchildhood.com/v/roblox-strangers</div><div class="end-slate">An example family. Real app screens, example replies.</div></div></div>
 <div id="rail" class="rail" style="top:236px"><div class="rail-line" style="left:110px;width:246.66666666666663px"><div id="rail-f1" class="rail-fill"></div></div><div class="rail-line" style="left:356.66666666666663px;width:246.66666666666663px"><div id="rail-f2" class="rail-fill"></div></div><div class="rail-line" style="left:603.3333333333333px;width:246.66666666666674px"><div id="rail-f3" class="rail-fill"></div></div><div class="rail-dot" style="left:110px"><div id="rail-d0" class="rail-done"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div id="rail-l0" class="rail-lab" style="left:110px">Asked DiGi</div><div class="rail-dot" style="left:356.66666666666663px"><div id="rail-d1" class="rail-done"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div id="rail-l1" class="rail-lab" style="left:356.66666666666663px">The words</div><div class="rail-dot" style="left:603.3333333333333px"><div id="rail-d2" class="rail-done"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div id="rail-l2" class="rail-lab" style="left:603.3333333333333px">Checked in</div><div class="rail-dot" style="left:850px"><div id="rail-d3" class="rail-done"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div id="rail-l3" class="rail-lab" style="left:850px">Sorted</div></div>
 </div>
-<audio id="music" src="assets/music-leberch.mp3" data-audio-group="music" data-start="0" data-duration="58.700" data-media-start="12.300" data-track-index="4" data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":1,"v":0.2},{"t":6.5,"v":0.14},{"t":46.699999999999996,"v":0.14},{"t":47.199999999999996,"v":0.26},{"t":56.199999999999996,"v":0.26},{"t":58.699999999999996,"v":0}]}]}'></audio>
+<audio id="music" src="assets/music-leberch.mp3" data-audio-group="music" data-start="0" data-duration="59.900" data-media-start="12.300" data-track-index="4" data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":1,"v":0.2},{"t":6.5,"v":0.14},{"t":47.9,"v":0.14},{"t":48.4,"v":0.26},{"t":57.4,"v":0.26},{"t":59.9,"v":0}]}]}'></audio>
 <audio id="sfx-1" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="0.300" data-duration="0.05" data-track-index="5" data-volume="0.15"></audio>
 <audio id="sfx-2" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="1.100" data-duration="0.05" data-track-index="6" data-volume="0.14"></audio>
-<audio id="sfx-3" src="assets/sfx/sfx-send.mp3" data-audio-group="sfx" data-start="6.550" data-duration="0.42" data-track-index="7" data-volume="0.35"></audio>
-<audio id="sfx-4" src="assets/sfx/sfx-dots.mp3" data-audio-group="sfx" data-start="7.100" data-duration="0.7" data-track-index="8" data-volume="0.16"></audio>
-<audio id="sfx-5" src="assets/sfx/sfx-pop.mp3" data-audio-group="sfx" data-start="9.550" data-duration="0.16" data-track-index="5" data-volume="0.35"></audio>
-<audio id="sfx-6" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="9.850" data-duration="0.73" data-track-index="6" data-volume="0.14"></audio>
-<audio id="sfx-7" src="assets/sfx/sfx-shimmer.mp3" data-audio-group="sfx" data-start="10.500" data-duration="0.9" data-track-index="7" data-volume="0.14"></audio>
-<audio id="sfx-8" src="assets/sfx/sfx-whoosh.mp3" data-audio-group="sfx" data-start="22.500" data-duration="0.6" data-track-index="8" data-volume="0.16"></audio>
-<audio id="sfx-9" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="24.000" data-duration="0.73" data-track-index="5" data-volume="0.2"></audio>
-<audio id="sfx-10" src="assets/sfx/sfx-shimmer.mp3" data-audio-group="sfx" data-start="24.100" data-duration="0.9" data-track-index="6" data-volume="0.16"></audio>
-<audio id="sfx-11" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="30.500" data-duration="0.05" data-track-index="7" data-volume="0.45"></audio>
-<audio id="sfx-12" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="30.800" data-duration="0.73" data-track-index="8" data-volume="0.2"></audio>
-<audio id="sfx-13" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="34.900" data-duration="0.05" data-track-index="5" data-volume="0.45"></audio>
-<audio id="sfx-14" src="assets/sfx/sfx-chime.mp3" data-audio-group="sfx" data-start="35.400" data-duration="1.4" data-track-index="6" data-volume="0.4"></audio>
-<audio id="sfx-15" src="assets/sfx/sfx-whoosh.mp3" data-audio-group="sfx" data-start="39.600" data-duration="0.6" data-track-index="7" data-volume="0.14"></audio>
-<audio id="sfx-16" src="assets/sfx/sfx-land.mp3" data-audio-group="sfx" data-start="53.350" data-duration="0.3" data-track-index="8" data-volume="0.32"></audio>
-<audio id="sfx-17" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="56.200" data-duration="0.05" data-track-index="5" data-volume="0.38"></audio>
+<audio id="sfx-3" src="assets/sfx/sfx-send.mp3" data-audio-group="sfx" data-start="7.750" data-duration="0.42" data-track-index="7" data-volume="0.35"></audio>
+<audio id="sfx-4" src="assets/sfx/sfx-dots.mp3" data-audio-group="sfx" data-start="8.300" data-duration="0.7" data-track-index="8" data-volume="0.16"></audio>
+<audio id="sfx-5" src="assets/sfx/sfx-pop.mp3" data-audio-group="sfx" data-start="10.750" data-duration="0.16" data-track-index="5" data-volume="0.35"></audio>
+<audio id="sfx-6" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="11.050" data-duration="0.73" data-track-index="6" data-volume="0.14"></audio>
+<audio id="sfx-7" src="assets/sfx/sfx-shimmer.mp3" data-audio-group="sfx" data-start="11.700" data-duration="0.9" data-track-index="7" data-volume="0.14"></audio>
+<audio id="sfx-8" src="assets/sfx/sfx-whoosh.mp3" data-audio-group="sfx" data-start="23.700" data-duration="0.6" data-track-index="8" data-volume="0.16"></audio>
+<audio id="sfx-9" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="25.200" data-duration="0.73" data-track-index="5" data-volume="0.2"></audio>
+<audio id="sfx-10" src="assets/sfx/sfx-shimmer.mp3" data-audio-group="sfx" data-start="25.300" data-duration="0.9" data-track-index="6" data-volume="0.16"></audio>
+<audio id="sfx-11" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="31.700" data-duration="0.05" data-track-index="7" data-volume="0.45"></audio>
+<audio id="sfx-12" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="32.000" data-duration="0.73" data-track-index="8" data-volume="0.2"></audio>
+<audio id="sfx-13" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="36.100" data-duration="0.05" data-track-index="5" data-volume="0.45"></audio>
+<audio id="sfx-14" src="assets/sfx/sfx-chime.mp3" data-audio-group="sfx" data-start="36.600" data-duration="1.4" data-track-index="6" data-volume="0.4"></audio>
+<audio id="sfx-15" src="assets/sfx/sfx-whoosh.mp3" data-audio-group="sfx" data-start="40.800" data-duration="0.6" data-track-index="7" data-volume="0.14"></audio>
+<audio id="sfx-16" src="assets/sfx/sfx-land.mp3" data-audio-group="sfx" data-start="54.550" data-duration="0.3" data-track-index="8" data-volume="0.32"></audio>
+<audio id="sfx-17" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="57.400" data-duration="0.05" data-track-index="5" data-volume="0.38"></audio>
 </div>
 <script>
 window.__timelines = window.__timelines || {};
 var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
 tl.set("#hook",{"opacity":1},0.000);
-tl.to("#hook",{"opacity":0,"duration":0.2,"ease":"power1.in"},6.300);
+tl.to("#hook",{"opacity":0,"duration":0.2,"ease":"power1.in"},5.200);
 tl.fromTo("#hook-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},0.000);
 tl.fromTo("#hook-o1 .pw",{"opacity":0},{"opacity":1,"duration":0.12,"stagger":0.17,"ease":"none"},0.700);
 tl.fromTo("#hook-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},0.500);
 tl.fromTo("#hook-o2",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},3.400);
-tl.fromTo("#think",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},6.500);
-tl.to("#think",{"opacity":0,"duration":0.2,"ease":"power1.in"},9.300);
-tl.set("#think-cam",{"x":13.5,"y":436,"scale":2.7,"transformOrigin":"0 0"},6.500);
-tl.set("#think-o0",{"opacity":1},6.800);
-tl.fromTo("#think-o0 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},6.800);
-tl.fromTo("#think-o0 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},8.380);
-tl.set("#reply1",{"opacity":1},9.500);
-tl.to("#reply1",{"opacity":0,"duration":0.2,"ease":"power1.in"},13.700);
-tl.set("#reply1-cam",{"x":-6,"y":-547.5999999999999,"scale":2.8,"transformOrigin":"0 0"},9.500);
-tl.fromTo("#reply1-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},9.700);
-tl.set("#reply1-o1",{"opacity":1},10.100);
-tl.fromTo("#reply1-o1 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},10.100);
-tl.fromTo("#reply1-o1 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},11.350);
-tl.fromTo("#reply1-in0",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},10.500);
-tl.to("#reply1-in0",{"opacity":0,"duration":0.25},13.800);
-tl.fromTo("#reply2",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},13.900);
-tl.to("#reply2",{"opacity":0,"duration":0.2,"ease":"power1.in"},16.700);
-tl.set("#reply2-cam",{"x":-6,"y":102,"scale":2.8,"transformOrigin":"0 0"},13.900);
-tl.set("#reply2-o0",{"opacity":1},14.200);
-tl.fromTo("#reply2-o0 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},14.200);
-tl.fromTo("#reply2-o0 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},15.010);
-tl.fromTo("#reply2-in0",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},14.400);
-tl.to("#reply2-in0",{"opacity":0,"duration":0.25},16.800);
-tl.fromTo("#tracked",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},16.900);
-tl.to("#tracked",{"opacity":0,"duration":0.2,"ease":"power1.in"},19.500);
-tl.set("#tracked-cam",{"x":-6,"y":-256.4,"scale":2.8,"transformOrigin":"0 0"},16.900);
-tl.set("#tracked-o0",{"opacity":1},17.200);
-tl.fromTo("#tracked-o0 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},17.200);
-tl.fromTo("#tracked-o0 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},18.780);
-tl.fromTo("#tonight",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},19.700);
-tl.to("#tonight",{"opacity":0,"duration":0.2,"ease":"power1.in"},22.300);
-tl.set("#tonight-cam",{"x":-6,"y":-40.799999999999955,"scale":2.8,"transformOrigin":"0 0"},19.700);
-tl.set("#tonight-o0",{"opacity":1},20.000);
-tl.fromTo("#tonight-o0 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},20.000);
-tl.fromTo("#tonight-o0 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},20.810);
-tl.fromTo("#deck",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},22.500);
-tl.to("#deck",{"opacity":0,"duration":0.2,"ease":"power1.in"},29.100);
-tl.set("#deck-cam",{"x":13.5,"y":-398.1,"scale":2.7,"transformOrigin":"0 0"},22.500);
-tl.to("#deck-cam",{"x":-64.5,"y":-763.2,"scale":3.1,"duration":0.8,"ease":"power3.inOut"},23.500);
-tl.set("#deck-o0",{"opacity":1},22.500);
-tl.fromTo("#deck-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},23.500);
-tl.fromTo("#deck-o2",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},23.800);
-tl.set("#deck-o3",{"opacity":1},24.300);
-tl.fromTo("#deck-o3 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},24.300);
-tl.fromTo("#deck-o3 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},25.330);
-tl.fromTo("#followup",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},29.300);
-tl.to("#followup",{"opacity":0,"duration":0.2,"ease":"power1.in"},34.100);
-tl.set("#followup-cam",{"x":-25.5,"y":571.5,"scale":2.9,"transformOrigin":"0 0"},29.300);
-tl.set("#followup-o0",{"opacity":1},29.300);
-tl.set("#followup-o1",{"opacity":1},30.900);
-tl.fromTo("#followup-o1 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},30.900);
-tl.fromTo("#followup-o1 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},31.710);
-tl.fromTo("#followup-in0",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%","immediateRender":false},30.500);
-tl.fromTo("#great",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},34.300);
-tl.to("#great",{"opacity":0,"duration":0.2,"ease":"power1.in"},35.900);
-tl.set("#great-cam",{"x":-25.5,"y":687.5,"scale":2.9,"transformOrigin":"0 0"},34.300);
-tl.fromTo("#great-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},34.300);
-tl.fromTo("#great-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},34.900);
-tl.fromTo("#great-in0",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%","immediateRender":false},34.900);
-tl.set("#held",{"opacity":1},36.100);
-tl.to("#held",{"opacity":0,"duration":0.2,"ease":"power1.in"},39.300);
-tl.set("#held-cam",{"x":-25.5,"y":687.5,"scale":2.9,"transformOrigin":"0 0"},36.100);
-tl.set("#held-o0",{"opacity":1},36.100);
-tl.set("#held-o1",{"opacity":1},36.300);
-tl.fromTo("#held-o1 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},36.300);
-tl.fromTo("#held-o1 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},37.660);
-tl.fromTo("#inputs",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},39.500);
-tl.to("#inputs",{"opacity":0,"duration":0.2,"ease":"power1.in"},46.300);
-tl.fromTo("#inputs-o0",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.5,"ease":"power2.out"},39.600);
-tl.fromTo("#inputs-o0-r0",{"opacity":0,"x":-30,"filter":"blur(6px)"},{"opacity":1,"x":0,"filter":"blur(0px)","duration":0.5,"ease":"power3.out"},40.300);
-tl.fromTo("#inputs-o0-r1",{"opacity":0,"x":-30,"filter":"blur(6px)"},{"opacity":1,"x":0,"filter":"blur(0px)","duration":0.5,"ease":"power3.out"},41.150);
-tl.fromTo("#inputs-o0-r2",{"opacity":0,"x":-30,"filter":"blur(6px)"},{"opacity":1,"x":0,"filter":"blur(0px)","duration":0.5,"ease":"power3.out"},42.000);
-tl.fromTo("#inputs-o0-r3",{"opacity":0,"x":-30,"filter":"blur(6px)"},{"opacity":1,"x":0,"filter":"blur(0px)","duration":0.5,"ease":"power3.out"},42.850);
-tl.fromTo("#inputs-o0-n",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.5,"ease":"power2.out"},43.900);
-tl.fromTo("#science",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},46.500);
-tl.to("#science",{"opacity":0,"duration":0.2,"ease":"power1.in"},52.900);
-tl.fromTo("#science-o0",{"opacity":0,"y":24,"filter":"blur(8px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.6,"ease":"power3.out"},46.600);
-tl.fromTo("#science-o0-rule",{"scaleX":0},{"scaleX":1,"duration":0.6,"ease":"power2.inOut"},47.500);
-tl.fromTo("#end",{"opacity":0},{"opacity":1,"duration":0.25,"ease":"power1.out"},53.100);
-tl.fromTo("#end-o0",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.45,"ease":"back.out(1.6)"},53.100);
-tl.fromTo("#end-o1",{"opacity":0,"y":18},{"opacity":1,"y":0,"duration":0.6,"ease":"power2.out"},53.400);
-tl.to("#end-o1-btn",{"y":5,"boxShadow":"0 1px 0 #000","duration":0.09,"yoyo":true,"repeat":1},56.200);
-tl.fromTo("#rail",{"opacity":0,"y":-24},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},9.600);
-tl.to("#rail",{"opacity":0,"duration":0.3},39.200);
-tl.fromTo("#rail-d0",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},9.850);
-tl.fromTo("#rail-l0",{"opacity":0.42},{"opacity":1,"duration":0.3},9.850);
-tl.fromTo("#rail-f1",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut"},23.500);
-tl.fromTo("#rail-d1",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},24.000);
-tl.fromTo("#rail-l1",{"opacity":0.42},{"opacity":1,"duration":0.3},24.000);
-tl.fromTo("#rail-f2",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut"},30.300);
-tl.fromTo("#rail-d2",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},30.800);
-tl.fromTo("#rail-l2",{"opacity":0.42},{"opacity":1,"duration":0.3},30.800);
-tl.fromTo("#rail-f3",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut"},34.900);
-tl.fromTo("#rail-d3",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},35.400);
-tl.fromTo("#rail-l3",{"opacity":0.42},{"opacity":1,"duration":0.3},35.400);
+tl.fromTo("#hero",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},5.400);
+tl.to("#hero",{"opacity":0,"duration":0.2,"ease":"power1.in"},7.500);
+tl.set("#hero-cam",{"x":216.05,"y":224.19999999999993,"scale":1.55,"transformOrigin":"0 0"},5.400);
+tl.to("#hero-cam",{"x":122,"y":200,"scale":2,"duration":1.4,"ease":"power3.inOut"},6.300);
+tl.set("#hero-tilt",{"rotationX":14,"rotationY":-32,"rotationZ":4,"transformPerspective":1100,"transformOrigin":"50% 50%"},5.400);
+tl.to("#hero-tilt",{"rotationX":0,"rotationY":0,"rotationZ":0,"duration":1.7,"ease":"power3.inOut"},5.550);
+tl.fromTo("#hero-sheen",{"xPercent":-140},{"xPercent":160,"duration":1.8399999999999999,"ease":"power1.inOut"},5.500);
+tl.fromTo("#think",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},7.700);
+tl.to("#think",{"opacity":0,"duration":0.2,"ease":"power1.in"},10.500);
+tl.set("#think-cam",{"x":13.5,"y":436,"scale":2.7,"transformOrigin":"0 0"},7.700);
+tl.set("#think-o0",{"opacity":1},8.000);
+tl.fromTo("#think-o0 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},8.000);
+tl.fromTo("#think-o0 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},9.580);
+tl.set("#reply1",{"opacity":1},10.700);
+tl.to("#reply1",{"opacity":0,"duration":0.2,"ease":"power1.in"},14.900);
+tl.set("#reply1-cam",{"x":-6,"y":-466.39999999999986,"scale":2.8,"transformOrigin":"0 0"},10.700);
+tl.fromTo("#reply1-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},10.900);
+tl.set("#reply1-o1",{"opacity":1},11.300);
+tl.fromTo("#reply1-o1 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},11.300);
+tl.fromTo("#reply1-o1 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},12.550);
+tl.fromTo("#reply1-in0",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},11.700);
+tl.to("#reply1-in0",{"opacity":0,"duration":0.25},15.000);
+tl.fromTo("#reply2",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},15.100);
+tl.to("#reply2",{"opacity":0,"duration":0.2,"ease":"power1.in"},17.900);
+tl.set("#reply2-cam",{"x":-6,"y":-80,"scale":2.8,"transformOrigin":"0 0"},15.100);
+tl.set("#reply2-o0",{"opacity":1},15.400);
+tl.fromTo("#reply2-o0 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},15.400);
+tl.fromTo("#reply2-o0 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},16.210);
+tl.fromTo("#reply2-in0",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},15.600);
+tl.to("#reply2-in0",{"opacity":0,"duration":0.25},18.000);
+tl.fromTo("#tracked",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},18.100);
+tl.to("#tracked",{"opacity":0,"duration":0.2,"ease":"power1.in"},20.700);
+tl.set("#tracked-cam",{"x":-6,"y":-346,"scale":2.8,"transformOrigin":"0 0"},18.100);
+tl.set("#tracked-o0",{"opacity":1},18.400);
+tl.fromTo("#tracked-o0 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},18.400);
+tl.fromTo("#tracked-o0 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},19.980);
+tl.fromTo("#tonight",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},20.900);
+tl.to("#tonight",{"opacity":0,"duration":0.2,"ease":"power1.in"},23.500);
+tl.set("#tonight-cam",{"x":-6,"y":-40.799999999999955,"scale":2.8,"transformOrigin":"0 0"},20.900);
+tl.set("#tonight-o0",{"opacity":1},21.200);
+tl.fromTo("#tonight-o0 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},21.200);
+tl.fromTo("#tonight-o0 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},22.010);
+tl.fromTo("#deck",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},23.700);
+tl.to("#deck",{"opacity":0,"duration":0.2,"ease":"power1.in"},30.300);
+tl.set("#deck-cam",{"x":13.5,"y":-398.1,"scale":2.7,"transformOrigin":"0 0"},23.700);
+tl.to("#deck-cam",{"x":-64.5,"y":-850,"scale":3.1,"duration":0.8,"ease":"power3.inOut"},24.700);
+tl.set("#deck-o0",{"opacity":1},23.700);
+tl.fromTo("#deck-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},24.700);
+tl.fromTo("#deck-o2",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},25.000);
+tl.set("#deck-o3",{"opacity":1},25.500);
+tl.fromTo("#deck-o3 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},25.500);
+tl.fromTo("#deck-o3 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},26.530);
+tl.fromTo("#followup",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},30.500);
+tl.to("#followup",{"opacity":0,"duration":0.2,"ease":"power1.in"},35.300);
+tl.set("#followup-cam",{"x":-25.5,"y":571.5,"scale":2.9,"transformOrigin":"0 0"},30.500);
+tl.set("#followup-o0",{"opacity":1},30.500);
+tl.set("#followup-o1",{"opacity":1},32.100);
+tl.fromTo("#followup-o1 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},32.100);
+tl.fromTo("#followup-o1 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},32.910);
+tl.fromTo("#followup-in0",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%","immediateRender":false},31.700);
+tl.fromTo("#great",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},35.500);
+tl.to("#great",{"opacity":0,"duration":0.2,"ease":"power1.in"},37.100);
+tl.set("#great-cam",{"x":-25.5,"y":687.5,"scale":2.9,"transformOrigin":"0 0"},35.500);
+tl.fromTo("#great-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},35.500);
+tl.fromTo("#great-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},36.100);
+tl.fromTo("#great-in0",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%","immediateRender":false},36.100);
+tl.set("#held",{"opacity":1},37.300);
+tl.to("#held",{"opacity":0,"duration":0.2,"ease":"power1.in"},40.500);
+tl.set("#held-cam",{"x":-25.5,"y":687.5,"scale":2.9,"transformOrigin":"0 0"},37.300);
+tl.set("#held-o0",{"opacity":1},37.300);
+tl.set("#held-o1",{"opacity":1},37.500);
+tl.fromTo("#held-o1 .cw",{"opacity":0,"y":16,"filter":"blur(6px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.38,"stagger":0.11,"ease":"power2.out"},37.500);
+tl.fromTo("#held-o1 .sweep",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut","stagger":0.15},38.860);
+tl.fromTo("#inputs",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},40.700);
+tl.to("#inputs",{"opacity":0,"duration":0.2,"ease":"power1.in"},47.500);
+tl.fromTo("#inputs-o0",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.5,"ease":"power2.out"},40.800);
+tl.fromTo("#inputs-o0-r0",{"opacity":0,"x":-30,"filter":"blur(6px)"},{"opacity":1,"x":0,"filter":"blur(0px)","duration":0.5,"ease":"power3.out"},41.500);
+tl.fromTo("#inputs-o0-r1",{"opacity":0,"x":-30,"filter":"blur(6px)"},{"opacity":1,"x":0,"filter":"blur(0px)","duration":0.5,"ease":"power3.out"},42.350);
+tl.fromTo("#inputs-o0-r2",{"opacity":0,"x":-30,"filter":"blur(6px)"},{"opacity":1,"x":0,"filter":"blur(0px)","duration":0.5,"ease":"power3.out"},43.200);
+tl.fromTo("#inputs-o0-r3",{"opacity":0,"x":-30,"filter":"blur(6px)"},{"opacity":1,"x":0,"filter":"blur(0px)","duration":0.5,"ease":"power3.out"},44.050);
+tl.fromTo("#inputs-o0-n",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.5,"ease":"power2.out"},45.100);
+tl.fromTo("#science",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},47.700);
+tl.to("#science",{"opacity":0,"duration":0.2,"ease":"power1.in"},54.100);
+tl.fromTo("#science-o0",{"opacity":0,"y":24,"filter":"blur(8px)"},{"opacity":1,"y":0,"filter":"blur(0px)","duration":0.6,"ease":"power3.out"},47.800);
+tl.fromTo("#science-o0-rule",{"scaleX":0},{"scaleX":1,"duration":0.6,"ease":"power2.inOut"},48.700);
+tl.fromTo("#end",{"opacity":0},{"opacity":1,"duration":0.25,"ease":"power1.out"},54.300);
+tl.fromTo("#end-o0",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.45,"ease":"back.out(1.6)"},54.300);
+tl.fromTo("#end-o1",{"opacity":0,"y":18},{"opacity":1,"y":0,"duration":0.6,"ease":"power2.out"},54.600);
+tl.to("#end-o1-btn",{"y":5,"boxShadow":"0 1px 0 #000","duration":0.09,"yoyo":true,"repeat":1},57.400);
+tl.fromTo("#rail",{"opacity":0,"y":-24},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},10.800);
+tl.to("#rail",{"opacity":0,"duration":0.3},40.400);
+tl.fromTo("#rail-d0",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},11.050);
+tl.fromTo("#rail-l0",{"opacity":0.42},{"opacity":1,"duration":0.3},11.050);
+tl.fromTo("#rail-f1",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut"},24.700);
+tl.fromTo("#rail-d1",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},25.200);
+tl.fromTo("#rail-l1",{"opacity":0.42},{"opacity":1,"duration":0.3},25.200);
+tl.fromTo("#rail-f2",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut"},31.500);
+tl.fromTo("#rail-d2",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},32.000);
+tl.fromTo("#rail-l2",{"opacity":0.42},{"opacity":1,"duration":0.3},32.000);
+tl.fromTo("#rail-f3",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut"},36.100);
+tl.fromTo("#rail-d3",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},36.600);
+tl.fromTo("#rail-l3",{"opacity":0.42},{"opacity":1,"duration":0.3},36.600);
 </script></body></html>

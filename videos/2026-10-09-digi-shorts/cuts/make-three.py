@@ -29,11 +29,15 @@ for k, f in F.items():
   cap = lambda text, t0=0.5, t1=None: {'kind': 'caption', 'text': text, 'y': 1395, 't0': t0, **({'t1': t1} if t1 else {})}
   ul = lambda y, t0, t1: {'cls': 'underline', 'x': 57, 'y': y + 12, 'w': 220, 'h': 3, 't0': t0, 't1': t1}
   shots = [
-   {'id': 'hook', 'dur': 6.5, 'overlays': [
+   {'id': 'hook', 'dur': 5.4, 'overlays': [
      {'kind': 'band', 'text': f['band'], 'y': 300, 't0': 0},
      {'kind': 'pill', 'text': f['q'], 'y': 560, 't0': 0.5, 'typed': 0.17},
      {'kind': 'eyebrow', 'text': SLATE, 'y': 1300, 't0': 3.4}],
     'sfx': [{'name': 'sfx-tap', 'at': 0.3, 'vol': 0.15}, {'name': 'sfx-tap', 'at': 1.1, 'vol': 0.14}]},
+   {'id': 'hero', 'dur': 2.3, 'src': rec('chat'), 'mediaStart': 0.3, 'bezel': True, 'fadeIn': 0.3,
+    'cam': [{'t': 0, 'S': 1.55, 'fx': 209, 'fy': 436, 'py': 900}, {'t': 0.9, 'S': 2.0, 'fx': 209, 'fy': 300, 'py': 800, 'dur': 1.4}],
+    'tilt': [{'rx': 14, 'ry': -32, 'rz': 4}, {'t': 0.15, 'rx': 0, 'ry': 0, 'rz': 0, 'dur': 1.7}],
+    'overlays': []},
    {'id': 'think', 'dur': 3.0, 'src': rec('chat'), 'mediaStart': 2.6, 'ground': 'white', 'fadeIn': 0.15,
     'cam': [{'t': 0, 'S': 2.7, 'fx': 195, 'fy': 120, 'py': 760}],
     'overlays': [cap(f"It starts from *{f['child']}*: {f['age']}, Stage {f['stage']}, and what you told it before.", 0.3)],
