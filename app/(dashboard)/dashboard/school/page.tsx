@@ -72,6 +72,21 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
     }
   } catch { /* pre 182, every routine is school time */ }
 
+  // The early reminder plan for homework and deadlines (lib/school/lead-up.ts):
+  // created_at is always there and fixes the automatic plan; remind_days is the
+  // parent's own choice and lands with migration 401, so it is guarded the same
+  // way. An error reads as the automatic plan.
+  const leadInfo = new Map<string, { created_at: string | null; remind_days: number[] | null; remind_saved: boolean }>()
+  try {
+    const { data } = await supabase.from('school_actions').select('id, created_at').eq('user_id', user.id).eq('status', 'open')
+    for (const r of (data ?? []) as { id: string; created_at?: string | null }[]) leadInfo.set(String(r.id), { created_at: r.created_at ?? null, remind_days: null, remind_saved: false })
+    const { data: chosen, error } = await supabase.from('school_actions').select('id, remind_days').eq('user_id', user.id).eq('status', 'open')
+    if (!error) for (const r of (chosen ?? []) as { id: string; remind_days?: number[] | null }[]) {
+      const held = leadInfo.get(String(r.id))
+      if (held) { held.remind_days = r.remind_days ?? null; held.remind_saved = true }
+    }
+  } catch { /* pre 401, the automatic plan */ }
+
   const region = await getFamilyRegion(supabase, user.id)
 
   const actions: SchoolAction[] = (actionsResult.data ?? []).map(a => {
@@ -86,6 +101,9 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
         ? childNames.get((a as { child_id?: string | null }).child_id as string) ?? null
         : null,
       runs_in_holidays: runsInHolidays.get(String(a.id)) ?? false,
+      created_at: leadInfo.get(String(a.id))?.created_at ?? null,
+      remind_days: leadInfo.get(String(a.id))?.remind_days ?? null,
+      remind_ready: leadInfo.get(String(a.id))?.remind_saved ?? false,
     }
   })
   const childName = childResult.child?.name ?? null

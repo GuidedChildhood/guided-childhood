@@ -1,0 +1,37 @@
+{
+ "name": "digi-q3",
+ "url": "/ref-digi-chat?kids=1",
+ "swap": {
+  "Stage 3": "Stage 2",
+  "11 to 13": "8 to 10",
+  "'s mood drops after Instagram. What do I say tonight?": "'s friends all have phones. What do I say tonight?"
+ },
+ "seconds": 12,
+ "stubs": [
+  {
+   "match": "/api/digi",
+   "method": "POST",
+   "delayMs": 1600,
+   "wordMs": 28,
+   "body": "When a child goes quiet after seeing something, it is usually because they are worried about getting in trouble.\n\n**Say she is not in trouble, first.** Tell Ava she can tell you anything she sees, and you will never be cross with her for telling.\n\n**Let her pick the moment.** Side by side works better than face to face: the car, a walk, drawing together.\n\nWhat they come across online is on Ava's check in now, and I will check back in three days. The words are in [Finding Something Upsetting on Their Device](/dashboard/scripts/1f245e3b-1a06-4d2f-a8a9-61f41381f5f5).\n\n**Tonight.** Tell her once that she can always tell you, then leave it there."
+  }
+ ],
+ "actions": [
+  {
+   "at": 300,
+   "do": "type",
+   "selector": "textarea",
+   "text": "She saw something upsetting online and won't talk about it.",
+   "charMs": 24
+  },
+  {
+   "at": 2066,
+   "do": "press",
+   "key": "Enter"
+  },
+  {
+   "at": 9000,
+   "do": "scrollChat"
+  }
+ ]
+}

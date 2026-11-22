@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
 import ScriptFinder from '@/components/scripts/ScriptFinder'
+import ScriptMoments, { type MomentCard, type AskBack } from '@/components/scripts/ScriptMoments'
 import { chunky, pill, INK_EDGE } from '@/components/scripts/card-system'
 import { momentImageForTitle } from '@/lib/content/moment-images'
 import { CATEGORY_META, scriptEmoji, type StageId, type ScriptRow, STAGE_META } from '@/components/scripts/library-meta'
@@ -15,6 +16,10 @@ type Pick = { sort_order: number; title: string; situation: string; is_free: boo
 type Group = { stageId: StageId; meta: (typeof STAGE_META)[StageId]; items: ScriptRow[] }
 
 export type ScriptsLibraryProps = {
+  /** The moment tiles and My scripts, at the top. Optional so fixtures still render. */
+  momentCards?: MomentCard[]
+  pinned?: number[]
+  askBack?: AskBack | null
   isPaid: boolean
   scripts: ScriptRow[]
   completed: number[]
@@ -158,6 +163,10 @@ export default function ScriptsLibrary(props: ScriptsLibraryProps) {
           no fit, ask DiGi and it lands in the founder insights to be written.
           Seeded from DiGi's "scripts for moments like this", capped at a
           sentence: this is a search box, not a transcript. */}
+      {props.momentCards && props.momentCards.length > 0 && (
+        <ScriptMoments cards={props.momentCards} pinned={props.pinned ?? []} childQS={childQS} askBack={props.askBack ?? null} />
+      )}
+
       <ScriptFinder
         scripts={scripts.map(s => ({ sort_order: s.sort_order, title: s.title, situation: s.situation, category: s.category, is_free: s.is_free }))}
         isPaid={isPaid}
@@ -227,10 +236,18 @@ export default function ScriptsLibrary(props: ScriptsLibraryProps) {
               )}
             </div>
           </Link>
+          {/* One pick leads. The rest are a tap away, so the page is one
+              screen shorter and the lead is not competing with its runners up
+              (22 November 2026 design pass). */}
           {morePicks.length > 0 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {morePicks.map(pick => row(pick.sort_order, pick.title, pick.situation, pick.reason, { isFree: pick.is_free }))}
-            </div>
+            <details>
+              <summary style={{ cursor: 'pointer', listStyle: 'none', minHeight: 44, display: 'flex', alignItems: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+                {morePicks.length} more picked for {childName ?? 'your child'}
+              </summary>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: 6 }}>
+                {morePicks.map(pick => row(pick.sort_order, pick.title, pick.situation, pick.reason, { isFree: pick.is_free }))}
+              </div>
+            </details>
           )}
         </section>
       )}
@@ -244,7 +261,7 @@ export default function ScriptsLibrary(props: ScriptsLibraryProps) {
         <section style={{ marginBottom: '28px' }}>
           {shelfHead('Worth another go', 'Ones you have met before', 'A second look at the right time is how the words stick.')}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {revisit.map(r => {
+            {revisit.slice(0, 2).map(r => {
               const sc = scriptBySort.get(r.sort_order)!
               return row(r.sort_order, sc.title, sc.situation, r.line, { isFree: sc.is_free, tone: 'sage', noTick: true })
             })}
@@ -257,11 +274,16 @@ export default function ScriptsLibrary(props: ScriptsLibraryProps) {
           buttons, so the page stays a server component and a filtered view has
           a URL a parent can send (the chip row reasoning is unchanged: Mobbin
           showed chips, not tabs, for a library past five topics). */}
-      <section style={{ marginBottom: '24px' }}>
-        {shelfHead(
-          theirGroup ? `Stage ${theirGroup.meta.num}: ${theirGroup.meta.label} · ${theirGroup.meta.ages}` : 'Every script',
-          childName && theirGroup && !askedStage ? `For ${childName}'s age` : theirGroup ? 'For this age' : 'Browse by topic',
-        )}
+      {/* FOLDED WHEN THE MOMENTS LEAD (22 November 2026). Justin: the grid of
+          identical cards was the wall he did not want, and the moment tiles at
+          the top now find the same scripts faster. So on the plain page the
+          whole age grid is one tap away; a topic chip in the link, or arriving
+          from the pathway, opens it, because then the grid is what they came for. */}
+      <details open={!(props.momentCards && props.momentCards.length > 0) || Boolean(activeCat) || Boolean(askedStage)} style={{ marginBottom: '24px' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', background: 'var(--white)', border: INK_EDGE, borderRadius: 'var(--radius-btn)', padding: '10px 16px', marginBottom: 14 }}>
+          <span>{childName && theirGroup && !askedStage ? `Every script for ${childName}'s age` : theirGroup ? 'Every script for this age' : 'Every script'}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)' }}>{theirGroup ? theirGroup.items.length : scripts.length}</span>
+        </summary>
         <div style={{
           display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4, marginBottom: 14,
           marginLeft: -20, marginRight: -20, paddingLeft: 20, paddingRight: 20,
@@ -316,7 +338,7 @@ export default function ScriptsLibrary(props: ScriptsLibraryProps) {
             Nothing in that one yet. Try another, or search above for the moment you are actually in.
           </p>
         ) : null}
-      </section>
+      </details>
 
       {/* Every other age, in one fold. A parent is nearly always after the
           child they have; the younger and older stages are there for a sibling,

@@ -1,0 +1,177 @@
+{
+ "name": "homework-reminders-fb",
+ "eyebrow": "School · Guided Childhood",
+ "slate": "Example family",
+ "segs": [
+  {
+   "rec": "hw-snap",
+   "from": 0,
+   "dur": 3.6,
+   "head": "The school project you remember the night before.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.5,
+     "fy": 95
+    },
+    {
+     "t": 3.6,
+     "s": 1.56,
+     "fy": 95
+    }
+   ]
+  },
+  {
+   "rec": "hw-snap",
+   "from": 2.5,
+   "dur": 4.5,
+   "head": "Snap the letter. DiGi finds the date.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.56,
+     "fy": 95
+    },
+    {
+     "t": 2.0,
+     "s": 1.4,
+     "fy": 210
+    },
+    {
+     "t": 4.5,
+     "s": 1.44,
+     "fy": 220
+    }
+   ]
+  },
+  {
+   "rec": "hw-snap",
+   "from": 8.0,
+   "dur": 3.4,
+   "head": "One tap. It is in your week.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.44,
+     "fy": 220
+    },
+    {
+     "t": 1.0,
+     "s": 1.6,
+     "fy": 150
+    },
+    {
+     "t": 3.4,
+     "s": 1.66,
+     "fy": 150
+    }
+   ]
+  },
+  {
+   "rec": "hw-coming",
+   "from": 0.5,
+   "dur": 4.0,
+   "head": "Due in 12 days. So no alert today.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.4,
+     "fy": 200
+    },
+    {
+     "t": 4.0,
+     "s": 1.46,
+     "fy": 210
+    }
+   ]
+  },
+  {
+   "rec": "hw-coming",
+   "from": 4.5,
+   "dur": 5.6,
+   "head": "A week before. 3 days before. You choose.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.46,
+     "fy": 210
+    },
+    {
+     "t": 1.2,
+     "s": 1.7,
+     "fy": 250
+    },
+    {
+     "t": 5.6,
+     "s": 1.72,
+     "fy": 250
+    }
+   ]
+  },
+  {
+   "rec": "hw-coming",
+   "from": 10.1,
+   "dur": 2.5,
+   "head": "And always the night before.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.72,
+     "fy": 250
+    },
+    {
+     "t": 2.5,
+     "s": 1.78,
+     "fy": 280
+    }
+   ]
+  },
+  {
+   "rec": "hw-kid",
+   "from": 0.5,
+   "dur": 4.2,
+   "head": "A week later, their own app says it too.",
+   "slate": "Example family · Illustrative time",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.4,
+     "fy": 110
+    },
+    {
+     "t": 1.4,
+     "s": 1.6,
+     "fy": 110
+    },
+    {
+     "t": 4.2,
+     "s": 1.62,
+     "fy": 110
+    }
+   ]
+  },
+  {
+   "rec": "hw-kid",
+   "from": 2.2,
+   "dur": 2.4,
+   "head": "Starting is their job too.",
+   "slate": "Example family · Illustrative time",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.62,
+     "fy": 110
+    },
+    {
+     "t": 2.4,
+     "s": 1.66,
+     "fy": 110
+    }
+   ]
+  }
+ ],
+ "end": 6.0,
+ "url": "guidedchildhood.com/v/hw-reminders-fb",
+ "cta": "What stage is your child? <mark>Three questions, no sign up.</mark> See what to do tonight.",
+ "endSlate": "Example family"
+}

@@ -1,0 +1,1421 @@
+{
+  "app/(dashboard)/dashboard/admin/asks/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/(dashboard)/dashboard/admin/email/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/admin/health/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/(dashboard)/dashboard/admin/planet/[n]/PlanetDesk.tsx": {
+    "dot-meta-line": 8
+  },
+  "app/(dashboard)/dashboard/admin/planet/[n]/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/admin/planet/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/(dashboard)/dashboard/admin/referrals/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/admin/schools/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/admin/videos/VideoLinks.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/(dashboard)/dashboard/admin/wisdom/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/agreement/page.tsx": {
+    "dot-meta-line": 5
+  },
+  "app/(dashboard)/dashboard/agreement/print/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/(dashboard)/dashboard/ai-module/page.tsx": {
+    "arrow-glyph": 1
+  },
+  "app/(dashboard)/dashboard/checkin/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "app/(dashboard)/dashboard/daily/DailyDeckViewer.tsx": {
+    "arrow-glyph": 2
+  },
+  "app/(dashboard)/dashboard/devices/page.tsx": {
+    "dot-meta-line": 5,
+    "edge-stripe": 1
+  },
+  "app/(dashboard)/dashboard/digi/DigiChat.tsx": {
+    "arrow-glyph": 2,
+    "dot-meta-line": 2
+  },
+  "app/(dashboard)/dashboard/email-check/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/explore/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/flashpoints/FlashpointActions.tsx": {
+    "arrow-glyph": 1
+  },
+  "app/(dashboard)/dashboard/flashpoints/FlashpointsView.tsx": {
+    "arrow-glyph": 1
+  },
+  "app/(dashboard)/dashboard/flashpoints/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/guide/page.tsx": {
+    "emoji-icon": 1,
+    "arrow-glyph": 1
+  },
+  "app/(dashboard)/dashboard/homework/HomeworkDecoder.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/homework/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/keepsakes/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/keepsakes/passport-print/page.tsx": {
+    "dot-meta-line": 4,
+    "tiny-text": 10
+  },
+  "app/(dashboard)/dashboard/keepsakes/passport-print/record/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/keepsakes/passport-print/stickers/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/keepsakes/passport-print/zine/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/layout.tsx": {
+    "glass": 1
+  },
+  "app/(dashboard)/dashboard/learning/LearningYear.tsx": {
+    "dot-meta-line": 1,
+    "edge-stripe": 1
+  },
+  "app/(dashboard)/dashboard/learning/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/lessons/LessonsBrowser.tsx": {
+    "emoji-icon": 4,
+    "glass": 2,
+    "dot-meta-line": 16,
+    "tiny-text": 2,
+    "arrow-glyph": 1
+  },
+  "app/(dashboard)/dashboard/lessons/[id]/page.tsx": {
+    "dot-meta-line": 6,
+    "emoji-icon": 1
+  },
+  "app/(dashboard)/dashboard/lessons/heads-up/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/lessons/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/lessons/path/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/lessons/together/LessonSendButton.tsx": {
+    "emoji-icon": 1
+  },
+  "app/(dashboard)/dashboard/lessons/together/[code]/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/(dashboard)/dashboard/moments/MomentsGrid.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/(dashboard)/dashboard/new-script/NewScriptForm.tsx": {
+    "dot-meta-line": 5
+  },
+  "app/(dashboard)/dashboard/notifications/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/orders/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/page.tsx": {
+    "emoji-icon": 2,
+    "dot-meta-line": 1,
+    "arrow-glyph": 5
+  },
+  "app/(dashboard)/dashboard/pathway/check/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/pathway/moments/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/pathway/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/(dashboard)/dashboard/phone-setup/page.tsx": {
+    "dot-meta-line": 2,
+    "arrow-glyph": 2
+  },
+  "app/(dashboard)/dashboard/printables/PrintableActions.tsx": {
+    "dot-meta-line": 4,
+    "emoji-icon": 3
+  },
+  "app/(dashboard)/dashboard/printables/builder/BucketBuilder.tsx": {
+    "emoji-icon": 3,
+    "tiny-text": 1,
+    "dot-meta-line": 1,
+    "glass": 1
+  },
+  "app/(dashboard)/dashboard/printables/builder/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/printables/friends/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/printables/learning/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/printables/page.tsx": {
+    "dot-meta-line": 1,
+    "arrow-glyph": 4
+  },
+  "app/(dashboard)/dashboard/printables/star-chart/StarChartBuilder.tsx": {
+    "emoji-icon": 1,
+    "tiny-text": 1,
+    "glass": 1
+  },
+  "app/(dashboard)/dashboard/printables/star-chart/page.tsx": {
+    "dot-meta-line": 1,
+    "emoji-icon": 1
+  },
+  "app/(dashboard)/dashboard/quests/QuestManager.tsx": {
+    "dot-meta-line": 8,
+    "emoji-icon": 9,
+    "arrow-glyph": 2
+  },
+  "app/(dashboard)/dashboard/quests/contract/page.tsx": {
+    "emoji-icon": 2
+  },
+  "app/(dashboard)/dashboard/quests/crafts/CraftPack.tsx": {
+    "emoji-icon": 5,
+    "dot-meta-line": 9
+  },
+  "app/(dashboard)/dashboard/quests/crafts/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/quests/manage/ManageJobs.tsx": {
+    "emoji-icon": 2,
+    "dot-meta-line": 1,
+    "arrow-glyph": 1
+  },
+  "app/(dashboard)/dashboard/quests/manage/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/quests/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/quests/play/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/(dashboard)/dashboard/quests/print/page.tsx": {
+    "emoji-icon": 7
+  },
+  "app/(dashboard)/dashboard/quests/routines/AddRoutine.tsx": {
+    "emoji-icon": 1
+  },
+  "app/(dashboard)/dashboard/quests/routines/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/quests/setup/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/quests/timer/page.tsx": {
+    "dot-meta-line": 1,
+    "arrow-glyph": 1
+  },
+  "app/(dashboard)/dashboard/scripts/[id]/deck/DeckViewer.tsx": {
+    "arrow-glyph": 4
+  },
+  "app/(dashboard)/dashboard/secondary/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/settings/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/setup/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/social-settings/page.tsx": {
+    "dot-meta-line": 1,
+    "arrow-glyph": 2
+  },
+  "app/(dashboard)/dashboard/stats/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/strands/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/tonight/page.tsx": {
+    "arrow-glyph": 2
+  },
+  "app/(dashboard)/dashboard/toolbox/page.tsx": {
+    "arrow-glyph": 1
+  },
+  "app/(dashboard)/dashboard/tracker/TrackerForm.tsx": {
+    "emoji-icon": 1
+  },
+  "app/(dashboard)/dashboard/what-is-working/page.tsx": {
+    "dot-meta-line": 3,
+    "arrow-glyph": 1
+  },
+  "app/(dashboard)/dashboard/word/WordCard.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(dashboard)/dashboard/word/page.tsx": {
+    "arrow-glyph": 1
+  },
+  "app/(marketing)/ban-workarounds/page.tsx": {
+    "arrow-glyph": 33,
+    "glass": 1,
+    "dot-meta-line": 4,
+    "tiny-text": 1
+  },
+  "app/(marketing)/connectors/muse/page.tsx": {
+    "arrow-glyph": 1
+  },
+  "app/(marketing)/contact/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(marketing)/digi-squad/lesson/page.tsx": {
+    "dot-meta-line": 2,
+    "emoji-icon": 1,
+    "glass": 1,
+    "tiny-text": 1,
+    "arrow-glyph": 1
+  },
+  "app/(marketing)/digi-squad/page.tsx": {
+    "glass": 1,
+    "dot-meta-line": 6,
+    "tiny-text": 1
+  },
+  "app/(marketing)/digitalwellbeing/page.tsx": {
+    "glass": 1,
+    "dot-meta-line": 3,
+    "arrow-glyph": 2,
+    "tiny-text": 1
+  },
+  "app/(marketing)/etsy-bonus/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/(marketing)/free/[slug]/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(marketing)/free/family-week/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(marketing)/free/guided-times/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(marketing)/free/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(marketing)/free/planet-post/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(marketing)/from-school/[module]/[token]/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/(marketing)/join/page.tsx": {
+    "glass": 1,
+    "arrow-glyph": 9,
+    "tiny-text": 15,
+    "light-weight": 6,
+    "dot-meta-line": 4,
+    "edge-stripe": 1
+  },
+  "app/(marketing)/passport/page.tsx": {
+    "dot-meta-line": 1,
+    "edge-stripe": 1
+  },
+  "app/(marketing)/pathway/page.tsx": {
+    "glass": 1,
+    "arrow-glyph": 3,
+    "light-weight": 2,
+    "tiny-text": 14,
+    "dot-meta-line": 3
+  },
+  "app/(marketing)/privacy/page.tsx": {
+    "arrow-glyph": 1
+  },
+  "app/(marketing)/scripts/PrintButton.tsx": {
+    "tiny-text": 1
+  },
+  "app/(marketing)/scripts/page.tsx": {
+    "glass": 1,
+    "arrow-glyph": 3,
+    "dot-meta-line": 4,
+    "light-weight": 1,
+    "tiny-text": 8
+  },
+  "app/(marketing)/starter-pack/Mocks.tsx": {
+    "dot-meta-line": 2,
+    "tiny-text": 1
+  },
+  "app/(marketing)/starter-pack/ResultScreen.tsx": {
+    "arrow-glyph": 2,
+    "dot-meta-line": 2
+  },
+  "app/(marketing)/starter-pack/page.tsx": {
+    "arrow-glyph": 1,
+    "light-weight": 1
+  },
+  "app/(marketing)/terms/page.tsx": {
+    "arrow-glyph": 1
+  },
+  "app/dev/add-job/page.tsx": {
+    "dot-meta-line": 6
+  },
+  "app/dev/age-up/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/ask-for-job/page.tsx": {
+    "emoji-icon": 2
+  },
+  "app/dev/balance-today/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/dev/child-day/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/device-sweep/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/digi-welcome/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/dev/kid-deal/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "app/dev/kid-printables/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/dev/kid-week/page.tsx": {
+    "dot-meta-line": 1,
+    "tiny-text": 1
+  },
+  "app/dev/learning-sheet-tabs/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/lesson-player/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/dev/magnet-email/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/moments-home/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/dev/notification-cards/page.tsx": {
+    "dot-meta-line": 2,
+    "emoji-icon": 2
+  },
+  "app/dev/parent-timer/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/passport-sections/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/dev/passport-steps/page.tsx": {
+    "emoji-icon": 2
+  },
+  "app/dev/passport-todo/page.tsx": {
+    "emoji-icon": 2
+  },
+  "app/dev/quest-game/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/quest-status-remind/page.tsx": {
+    "emoji-icon": 2
+  },
+  "app/dev/school-chest/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/sticker-land/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/term-preview/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/weekly-review-email/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/welcome-email/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/dev/what-is-working/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/globals.css": {
+    "tiny-text": 2
+  },
+  "app/k/[token]/KidQuestScreen.tsx": {
+    "emoji-icon": 32,
+    "dot-meta-line": 4,
+    "purple-gradient": 1,
+    "arrow-glyph": 3
+  },
+  "app/k/[token]/adventures/[code]/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/k/[token]/balance/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/k/[token]/jobs/KidJobsScreen.tsx": {
+    "emoji-icon": 3
+  },
+  "app/k/[token]/jobs/KidSwapSheet.tsx": {
+    "emoji-icon": 1
+  },
+  "app/k/[token]/lesson/[mission]/page.tsx": {
+    "emoji-icon": 2
+  },
+  "app/k/[token]/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/k/[token]/print/page.tsx": {
+    "emoji-icon": 2
+  },
+  "app/k/[token]/star-chart/page.tsx": {
+    "emoji-icon": 2
+  },
+  "app/k/[token]/tell/page.tsx": {
+    "edge-stripe": 1
+  },
+  "app/k/[token]/tutor/[id]/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/m/[id]/page.tsx": {
+    "dot-meta-line": 1,
+    "edge-stripe": 1
+  },
+  "app/onboarding/page.tsx": {
+    "edge-stripe": 2
+  },
+  "app/page.tsx": {
+    "dot-meta-line": 15,
+    "glass": 1,
+    "tiny-text": 19,
+    "arrow-glyph": 1
+  },
+  "app/ref-application/page.tsx": {
+    "emoji-icon": 1,
+    "dot-meta-line": 1
+  },
+  "app/ref-baseline-checkin/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/ref-buttons/page.tsx": {
+    "arrow-glyph": 1,
+    "dot-meta-line": 1
+  },
+  "app/ref-catchup/page.tsx": {
+    "emoji-icon": 3,
+    "dot-meta-line": 1
+  },
+  "app/ref-checkin-acknowledge/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/ref-checkin-waiting/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/ref-day-tick/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/ref-email-back-to-school/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/ref-friends-poster/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/ref-kid-five/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "app/ref-kid-week/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/ref-needs-you/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "app/ref-passport-book/page.tsx": {
+    "emoji-icon": 1
+  },
+  "app/ref-timer-nudge/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/ref-upgrade-block/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/say/[id]/opengraph-image.tsx": {
+    "edge-stripe": 1
+  },
+  "app/say/[id]/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "app/verify/[code]/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "components/UpdateBanner.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/access/TwoDoors.tsx": {
+    "dot-meta-line": 3
+  },
+  "components/admin/WisdomReview.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/agreement/AgreementBuilder.tsx": {
+    "emoji-icon": 3,
+    "arrow-glyph": 5,
+    "dot-meta-line": 2
+  },
+  "components/balance/BalanceReport.tsx": {
+    "emoji-icon": 1,
+    "bouncy-ease": 1,
+    "dot-meta-line": 5
+  },
+  "components/cards/MomentCard.tsx": {
+    "emoji-icon": 1,
+    "arrow-glyph": 7
+  },
+  "components/celebrate/BalanceInsight.tsx": {
+    "emoji-icon": 1
+  },
+  "components/celebrate/HappyScene.tsx": {
+    "emoji-icon": 1
+  },
+  "components/daily/AddMomentHere.tsx": {
+    "emoji-icon": 1
+  },
+  "components/daily/ChildDayStrip.tsx": {
+    "emoji-icon": 1,
+    "dot-meta-line": 1
+  },
+  "components/daily/ConcernCheckIn.tsx": {
+    "dot-meta-line": 2,
+    "arrow-glyph": 2
+  },
+  "components/daily/DayTickFlow.tsx": {
+    "emoji-icon": 2
+  },
+  "components/daily/MomentTimeline.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/daily/TodayPathBig.tsx": {
+    "bouncy-ease": 1,
+    "emoji-icon": 1,
+    "arrow-glyph": 1
+  },
+  "components/daily/TodayPathStrip.tsx": {
+    "emoji-icon": 1,
+    "bouncy-ease": 1,
+    "dot-meta-line": 1,
+    "arrow-glyph": 2
+  },
+  "components/dashboard/NavTabs.tsx": {
+    "glass": 2
+  },
+  "components/deal/FamilyDealSheet.tsx": {
+    "dot-meta-line": 3
+  },
+  "components/devices/GuideBody.tsx": {
+    "edge-stripe": 1
+  },
+  "components/devices/YourScreens.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/digi/DigiPrompts.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/digi/DigiStreakWidget.tsx": {
+    "bouncy-ease": 1,
+    "arrow-glyph": 1
+  },
+  "components/digi/DigiWelcomeSheet.tsx": {
+    "arrow-glyph": 4
+  },
+  "components/digi/WeeklyReviewCard.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/digi/WeeklyRoundup.tsx": {
+    "edge-stripe": 1,
+    "dot-meta-line": 1,
+    "arrow-glyph": 3
+  },
+  "components/home/DayCheckup.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/home/DigiGreeting.tsx": {
+    "arrow-glyph": 2,
+    "dot-meta-line": 1
+  },
+  "components/home/HandoverPrompt.tsx": {
+    "glass": 1
+  },
+  "components/home/HomeLive.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/home/HomeRows.tsx": {
+    "dot-meta-line": 2
+  },
+  "components/home/IssueOfTheWeek.tsx": {
+    "dot-meta-line": 1,
+    "arrow-glyph": 1
+  },
+  "components/home/PassportPeek.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/home/SchoolWindowCard.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/home/TrialCountdown.tsx": {
+    "emoji-icon": 1,
+    "dot-meta-line": 1
+  },
+  "components/insights/InsightsBoard.tsx": {
+    "dot-meta-line": 9,
+    "arrow-glyph": 1,
+    "edge-stripe": 1
+  },
+  "components/insights/MembersPanel.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/kid/HomeworkHelp.tsx": {
+    "emoji-icon": 2,
+    "dot-meta-line": 1
+  },
+  "components/kid/KidAskForJob.tsx": {
+    "emoji-icon": 3
+  },
+  "components/kid/KidAskScreenTime.tsx": {
+    "dot-meta-line": 1,
+    "tiny-text": 1
+  },
+  "components/kid/KidContract.tsx": {
+    "emoji-icon": 1
+  },
+  "components/kid/KidDayDone.tsx": {
+    "bouncy-ease": 3,
+    "emoji-icon": 1
+  },
+  "components/kid/KidFiveADay.tsx": {
+    "emoji-icon": 3,
+    "dot-meta-line": 2
+  },
+  "components/kid/KidFriendArrival.tsx": {
+    "bouncy-ease": 3
+  },
+  "components/kid/KidFriendsParade.tsx": {
+    "bouncy-ease": 2,
+    "emoji-icon": 1
+  },
+  "components/kid/KidGrownUpLink.tsx": {
+    "emoji-icon": 3
+  },
+  "components/kid/KidLessonList.tsx": {
+    "dot-meta-line": 2,
+    "arrow-glyph": 2,
+    "emoji-icon": 3
+  },
+  "components/kid/KidMission.tsx": {
+    "tiny-text": 1
+  },
+  "components/kid/KidPath.tsx": {
+    "emoji-icon": 18,
+    "dot-meta-line": 14,
+    "arrow-glyph": 7
+  },
+  "components/kid/KidPrintPage.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/kid/KidPrintables.tsx": {
+    "tiny-text": 2,
+    "emoji-icon": 3,
+    "dot-meta-line": 2
+  },
+  "components/kid/KidRoad.tsx": {
+    "edge-stripe": 1
+  },
+  "components/kid/KidSchoolAddSheet.tsx": {
+    "emoji-icon": 1
+  },
+  "components/kid/KidSchoolWeek.tsx": {
+    "dot-meta-line": 1,
+    "edge-stripe": 1,
+    "emoji-icon": 2
+  },
+  "components/kid/KidSheetPaper.tsx": {
+    "tiny-text": 4
+  },
+  "components/kid/KidSquadIntro.tsx": {
+    "dot-meta-line": 1,
+    "emoji-icon": 3
+  },
+  "components/kid/KidStepSheet.tsx": {
+    "emoji-icon": 1
+  },
+  "components/kid/KidStickerLand.tsx": {
+    "bouncy-ease": 4,
+    "emoji-icon": 6
+  },
+  "components/kid/KidStickers.tsx": {
+    "bouncy-ease": 2,
+    "emoji-icon": 4
+  },
+  "components/kid/KidTermPreview.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/kid/KidTickBurst.tsx": {
+    "bouncy-ease": 1
+  },
+  "components/kid/KidTodayList.tsx": {
+    "emoji-icon": 5,
+    "dot-meta-line": 3
+  },
+  "components/kid/KidTodayReturn.tsx": {
+    "emoji-icon": 1
+  },
+  "components/kid/KidWaitingAsks.tsx": {
+    "emoji-icon": 1
+  },
+  "components/kid/KidWeekCalendar.tsx": {
+    "tiny-text": 3
+  },
+  "components/kid/KidWinPop.tsx": {
+    "bouncy-ease": 3,
+    "emoji-icon": 3,
+    "tiny-text": 1
+  },
+  "components/kid/KidWins.tsx": {
+    "emoji-icon": 1
+  },
+  "components/learning/LearningSheet.tsx": {
+    "emoji-icon": 1,
+    "dot-meta-line": 1
+  },
+  "components/lessons/CharacterIntro.tsx": {
+    "edge-stripe": 1,
+    "tiny-text": 1,
+    "dot-meta-line": 1
+  },
+  "components/lessons/DigiJuniorPause.tsx": {
+    "dot-meta-line": 1,
+    "arrow-glyph": 1
+  },
+  "components/lessons/ParentLessonPlayer.tsx": {
+    "dot-meta-line": 3,
+    "edge-stripe": 1,
+    "bouncy-ease": 1,
+    "emoji-icon": 2
+  },
+  "components/lessons/SlidePlayer.tsx": {
+    "dot-meta-line": 1,
+    "edge-stripe": 1
+  },
+  "components/marketing/AnnouncementBar.tsx": {
+    "tiny-text": 1
+  },
+  "components/marketing/DigiGreeter.tsx": {
+    "bouncy-ease": 1,
+    "edge-stripe": 1
+  },
+  "components/marketing/FlipCards.tsx": {
+    "tiny-text": 5
+  },
+  "components/marketing/FounderBadge.tsx": {
+    "tiny-text": 1,
+    "dot-meta-line": 2
+  },
+  "components/marketing/MagnetGate.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/marketing/PassportPages.tsx": {
+    "dot-meta-line": 3,
+    "tiny-text": 2
+  },
+  "components/marketing/PassportSection.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/notifications/NotificationCard.tsx": {
+    "emoji-icon": 1,
+    "arrow-glyph": 1
+  },
+  "components/onboarding/RevealCard.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/onboarding/WelcomeWalkthrough.tsx": {
+    "dot-meta-line": 5,
+    "bouncy-ease": 1
+  },
+  "components/passport/Application.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/passport/BalanceZone.tsx": {
+    "emoji-icon": 1,
+    "dot-meta-line": 1
+  },
+  "components/passport/ParentStageCheck.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/passport/PassportOrderCard.tsx": {
+    "dot-meta-line": 2
+  },
+  "components/passport/PassportPageDetail.tsx": {
+    "dot-meta-line": 2
+  },
+  "components/passport/RecordBook.tsx": {
+    "tiny-text": 5,
+    "dot-meta-line": 1
+  },
+  "components/passport/StageStickerCards.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/passport/StickerPrintSheet.tsx": {
+    "dot-meta-line": 2
+  },
+  "components/pathway/FiveADayReport.tsx": {
+    "emoji-icon": 1
+  },
+  "components/pathway/IsItWorkingReport.tsx": {
+    "arrow-glyph": 2
+  },
+  "components/pathway/LiteracyCheckIn.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/pathway/PassportBook.tsx": {
+    "bouncy-ease": 1,
+    "tiny-text": 1,
+    "arrow-glyph": 5,
+    "glass": 1
+  },
+  "components/pathway/PassportToDo.tsx": {
+    "dot-meta-line": 1,
+    "tiny-text": 1,
+    "arrow-glyph": 1
+  },
+  "components/pathway/PassportZineSheet.tsx": {
+    "tiny-text": 21,
+    "dot-meta-line": 2
+  },
+  "components/pathway/PathwayEvidence.tsx": {
+    "arrow-glyph": 1,
+    "edge-stripe": 1
+  },
+  "components/pathway/PathwayIntro.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/pathway/SocialMediaReadiness.tsx": {
+    "edge-stripe": 1,
+    "arrow-glyph": 2
+  },
+  "components/pathway/StageAreas.tsx": {
+    "tiny-text": 1
+  },
+  "components/pathway/StageChildStrip.tsx": {
+    "tiny-text": 1
+  },
+  "components/pathway/StageReadiness.tsx": {
+    "arrow-glyph": 2
+  },
+  "components/pathway/StageRoad.tsx": {
+    "dot-meta-line": 1,
+    "arrow-glyph": 5,
+    "edge-stripe": 1
+  },
+  "components/pathway/StageSlots.tsx": {
+    "tiny-text": 1
+  },
+  "components/planet/MissionBoard.tsx": {
+    "emoji-icon": 1
+  },
+  "components/planet/PlanetFriends.tsx": {
+    "bouncy-ease": 1,
+    "emoji-icon": 6
+  },
+  "components/planet/SelfBuilder.tsx": {
+    "emoji-icon": 2
+  },
+  "components/printables/BucketSheet.tsx": {
+    "dot-meta-line": 1,
+    "emoji-icon": 1
+  },
+  "components/printables/CurriculumSheet.tsx": {
+    "dot-meta-line": 2
+  },
+  "components/printables/FriendsPoster.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/printables/SchoolWeekSheet.tsx": {
+    "tiny-text": 2
+  },
+  "components/printables/StarChartSheet.tsx": {
+    "tiny-text": 1
+  },
+  "components/printables/drawn/BalanceWheelSheet.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/printables/drawn/HappyPaper.tsx": {
+    "emoji-icon": 1
+  },
+  "components/printables/drawn/HelpingHandSheet.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/printables/drawn/KindnessPostcardsSheet.tsx": {
+    "tiny-text": 1,
+    "dot-meta-line": 1
+  },
+  "components/printables/drawn/MissionSheet.tsx": {
+    "dot-meta-line": 4
+  },
+  "components/printables/drawn/PhonesToBedSheet.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/printables/drawn/ReadyForMyPhoneSheet.tsx": {
+    "dot-meta-line": 1,
+    "tiny-text": 1
+  },
+  "components/printables/drawn/ScreenTimeDealSheet.tsx": {
+    "dot-meta-line": 2,
+    "emoji-icon": 1,
+    "tiny-text": 2
+  },
+  "components/printables/news/PlanetPost.tsx": {
+    "dot-meta-line": 3
+  },
+  "components/quest-games/BattleView.tsx": {
+    "dot-meta-line": 1,
+    "edge-stripe": 1
+  },
+  "components/quest-games/CoinsView.tsx": {
+    "bouncy-ease": 3,
+    "dot-meta-line": 2
+  },
+  "components/quest-games/FishingView.tsx": {
+    "bouncy-ease": 2,
+    "emoji-icon": 2,
+    "dot-meta-line": 1
+  },
+  "components/quest-games/QuestGamePlayer.tsx": {
+    "emoji-icon": 2,
+    "dot-meta-line": 2,
+    "edge-stripe": 1
+  },
+  "components/quest-games/TraceView.tsx": {
+    "dot-meta-line": 1,
+    "edge-stripe": 1
+  },
+  "components/quest-games/WheelView.tsx": {
+    "bouncy-ease": 3,
+    "dot-meta-line": 3
+  },
+  "components/quests/AskPopup.tsx": {
+    "emoji-icon": 1
+  },
+  "components/quests/BalanceScales.tsx": {
+    "emoji-icon": 1
+  },
+  "components/quests/ChildPing.tsx": {
+    "emoji-icon": 2
+  },
+  "components/quests/DeviceTimeCard.tsx": {
+    "emoji-icon": 2,
+    "arrow-glyph": 1
+  },
+  "components/quests/FridgeChartLog.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/quests/JobBalance.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/quests/JobBoardRow.tsx": {
+    "emoji-icon": 1,
+    "dot-meta-line": 1
+  },
+  "components/quests/JobComposer.tsx": {
+    "emoji-icon": 2,
+    "dot-meta-line": 1
+  },
+  "components/quests/JobGuideCard.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/quests/JobPicker.tsx": {
+    "emoji-icon": 1,
+    "tiny-text": 2,
+    "dot-meta-line": 2
+  },
+  "components/quests/ParentDeviceTime.tsx": {
+    "dot-meta-line": 4,
+    "emoji-icon": 2,
+    "arrow-glyph": 3
+  },
+  "components/quests/PrintablesToConfirm.tsx": {
+    "emoji-icon": 1
+  },
+  "components/quests/QuestBoard.tsx": {
+    "emoji-icon": 6,
+    "dot-meta-line": 3,
+    "arrow-glyph": 1
+  },
+  "components/quests/QuestStatusBoard.tsx": {
+    "emoji-icon": 3,
+    "dot-meta-line": 4
+  },
+  "components/quests/SpotSomethingGood.tsx": {
+    "emoji-icon": 4
+  },
+  "components/quests/StarSummary.tsx": {
+    "emoji-icon": 4
+  },
+  "components/quests/TimeEarnedPrompt.tsx": {
+    "emoji-icon": 1
+  },
+  "components/quests/TimeTiersCard.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/rightnow/RightNowButton.tsx": {
+    "emoji-icon": 2,
+    "arrow-glyph": 2
+  },
+  "components/school/SchoolActionsCard.tsx": {
+    "emoji-icon": 2,
+    "dot-meta-line": 9,
+    "arrow-glyph": 1
+  },
+  "components/school/SchoolLetterbox.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/school/SchoolPromoCard.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/school/SchoolWeek.tsx": {
+    "dot-meta-line": 2
+  },
+  "components/scripts/PublicScriptView.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/scripts/RehearseWithDigi.tsx": {
+    "dot-meta-line": 3,
+    "emoji-icon": 2,
+    "arrow-glyph": 1
+  },
+  "components/scripts/ScriptDetailView.tsx": {
+    "dot-meta-line": 5,
+    "arrow-glyph": 7
+  },
+  "components/scripts/ScriptFinder.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/scripts/ScriptsLibrary.tsx": {
+    "emoji-icon": 1,
+    "dot-meta-line": 1
+  },
+  "components/shop/OrdersBoard.tsx": {
+    "dot-meta-line": 1
+  },
+  "components/shop/Shop.tsx": {
+    "emoji-icon": 1,
+    "dot-meta-line": 1,
+    "tiny-text": 1
+  },
+  "components/starter/FixArt.tsx": {
+    "tiny-text": 3
+  },
+  "components/starter/StickyJoin.tsx": {
+    "glass": 1,
+    "arrow-glyph": 1
+  },
+  "components/tools/ToolCard.tsx": {
+    "arrow-glyph": 2
+  },
+  "components/tracker/WorkingOn.tsx": {
+    "arrow-glyph": 1
+  },
+  "components/ui/BetaTag.tsx": {
+    "tiny-text": 1
+  },
+  "shared/components/AnimatedIntro.tsx": {
+    "bouncy-ease": 3,
+    "edge-stripe": 1
+  },
+  "shared/components/DigiCharacter.tsx": {
+    "bouncy-ease": 6
+  },
+  "shared/components/FriendPlate.tsx": {
+    "bouncy-ease": 9
+  },
+  "shared/components/LessonPlayer.tsx": {
+    "edge-stripe": 3,
+    "dot-meta-line": 6,
+    "bouncy-ease": 2,
+    "emoji-icon": 4,
+    "arrow-glyph": 1,
+    "tiny-text": 1
+  },
+  "shared/components/PassportPage.tsx": {
+    "bouncy-ease": 1,
+    "dot-meta-line": 1,
+    "tiny-text": 4
+  },
+  "shared/components/PrintBrand.tsx": {
+    "tiny-text": 1,
+    "dot-meta-line": 1
+  },
+  "shared/components/interactives/index.tsx": {
+    "dot-meta-line": 9,
+    "bouncy-ease": 2,
+    "arrow-glyph": 1
+  },
+  "schools/app/curriculum/page.tsx": {
+    "dot-meta-line": 3,
+    "arrow-glyph": 2
+  },
+  "schools/app/draw/DrawForm.tsx": {
+    "emoji-icon": 1
+  },
+  "schools/app/hub/YourSchoolPanel.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/hub/ai-governance/Dashboard.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/hub/computing-mapping/page.tsx": {
+    "arrow-glyph": 1,
+    "dot-meta-line": 2
+  },
+  "schools/app/hub/coverage/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "schools/app/hub/cpd/page.tsx": {
+    "dot-meta-line": 18
+  },
+  "schools/app/hub/data-protection/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/hub/dsl/page.tsx": {
+    "dot-meta-line": 4
+  },
+  "schools/app/hub/induction/page.tsx": {
+    "dot-meta-line": 2,
+    "arrow-glyph": 1
+  },
+  "schools/app/hub/page.tsx": {
+    "dot-meta-line": 2,
+    "arrow-glyph": 3
+  },
+  "schools/app/hub/parents/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "schools/app/hub/policy/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/hub/progress/page.tsx": {
+    "dot-meta-line": 7,
+    "edge-stripe": 1
+  },
+  "schools/app/hub/progression/page.tsx": {
+    "dot-meta-line": 4
+  },
+  "schools/app/hub/rshe-mapping/RequirementList.tsx": {
+    "arrow-glyph": 1,
+    "dot-meta-line": 3
+  },
+  "schools/app/hub/rshe-mapping/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "schools/app/hub/subject-lead/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/hub/tracker/HubTracker.tsx": {
+    "tiny-text": 1,
+    "dot-meta-line": 5,
+    "edge-stripe": 1,
+    "arrow-glyph": 1
+  },
+  "schools/app/hub/tracker/TickDemo.tsx": {
+    "bouncy-ease": 1
+  },
+  "schools/app/hub/tracker/page.tsx": {
+    "edge-stripe": 1
+  },
+  "schools/app/hub/vocabulary/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "schools/app/hub/year-plan/page.tsx": {
+    "dot-meta-line": 1,
+    "edge-stripe": 1
+  },
+  "schools/app/languages/fr/FrenchFriends.tsx": {
+    "bouncy-ease": 3
+  },
+  "schools/app/languages/fr/[unit]/[lesson]/page.tsx": {
+    "edge-stripe": 1,
+    "dot-meta-line": 4
+  },
+  "schools/app/languages/fr/[unit]/[lesson]/teach/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/languages/fr/[unit]/page.tsx": {
+    "dot-meta-line": 14
+  },
+  "schools/app/languages/fr/[unit]/plans/page.tsx": {
+    "dot-meta-line": 9,
+    "arrow-glyph": 1
+  },
+  "schools/app/languages/fr/_ui.tsx": {
+    "arrow-glyph": 1,
+    "edge-stripe": 1
+  },
+  "schools/app/languages/fr/approach/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "schools/app/languages/fr/assessment/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "schools/app/languages/fr/culture/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "schools/app/languages/fr/curriculum/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "schools/app/languages/fr/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "schools/app/languages/fr/plan/page.tsx": {
+    "edge-stripe": 1,
+    "dot-meta-line": 2
+  },
+  "schools/app/languages/fr/print/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/languages/fr/progress/page.tsx": {
+    "dot-meta-line": 5
+  },
+  "schools/app/languages/layout.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/languages/page.tsx": {
+    "dot-meta-line": 4,
+    "edge-stripe": 1
+  },
+  "schools/app/lesson/[module]/gate/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/lesson/[module]/page.tsx": {
+    "dot-meta-line": 5,
+    "edge-stripe": 5,
+    "arrow-glyph": 2
+  },
+  "schools/app/lesson/[module]/run/page.tsx": {
+    "dot-meta-line": 11,
+    "arrow-glyph": 1
+  },
+  "schools/app/page.tsx": {
+    "arrow-glyph": 2,
+    "dot-meta-line": 6,
+    "emoji-icon": 2
+  },
+  "schools/app/philosophy/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/pilot/PilotForm.tsx": {
+    "emoji-icon": 1
+  },
+  "schools/app/pricing/InvoiceForm.tsx": {
+    "emoji-icon": 1,
+    "dot-meta-line": 3
+  },
+  "schools/app/pricing/page.tsx": {
+    "dot-meta-line": 2
+  },
+  "schools/app/print/[module]/booklet/page.tsx": {
+    "dot-meta-line": 12
+  },
+  "schools/app/print/[module]/organiser/page.tsx": {
+    "dot-meta-line": 7,
+    "edge-stripe": 1
+  },
+  "schools/app/print/[module]/overview/page.tsx": {
+    "dot-meta-line": 6
+  },
+  "schools/app/print/[module]/page.tsx": {
+    "dot-meta-line": 25
+  },
+  "schools/app/print/[module]/record/page.tsx": {
+    "dot-meta-line": 3
+  },
+  "schools/app/print/page.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/print/passport/[stage]/page.tsx": {
+    "tiny-text": 9,
+    "dot-meta-line": 6
+  },
+  "schools/app/print/passport/page.tsx": {
+    "dot-meta-line": 1,
+    "arrow-glyph": 1
+  },
+  "schools/app/taster/TasterBar.tsx": {
+    "dot-meta-line": 1
+  },
+  "schools/app/teach/[module]/page.tsx": {
+    "dot-meta-line": 4
+  },
+  "schools/app/workshops/WorkshopForm.tsx": {
+    "emoji-icon": 1
+  },
+  "schools/app/workshops/page.tsx": {
+    "dot-meta-line": 1,
+    "arrow-glyph": 1
+  },
+  "schools/components/InShort.tsx": {
+    "edge-stripe": 1
+  },
+  "schools/components/LegalDocument.tsx": {
+    "dot-meta-line": 2
+  },
+  "schools/components/QuizSheet.tsx": {
+    "tiny-text": 1,
+    "arrow-glyph": 2,
+    "dot-meta-line": 4
+  },
+  "schools/components/SiteNav.tsx": {
+    "emoji-icon": 1,
+    "glass": 2
+  },
+  "schools/components/YourSchoolLead.tsx": {
+    "edge-stripe": 1
+  },
+  "schools/components/home/HeroWall.tsx": {
+    "bouncy-ease": 2,
+    "emoji-icon": 1,
+    "tiny-text": 1
+  },
+  "schools/components/home/LessonOpens.tsx": {
+    "dot-meta-line": 2
+  },
+  "schools/components/print/kit.tsx": {
+    "tiny-text": 5,
+    "dot-meta-line": 1,
+    "emoji-icon": 1
+  },
+  "schools/components/records/RecordLesson.tsx": {
+    "dot-meta-line": 5,
+    "edge-stripe": 1
+  },
+  "schools/components/tracker/TrackerPanel.tsx": {
+    "tiny-text": 1,
+    "arrow-glyph": 2
+  }
+}

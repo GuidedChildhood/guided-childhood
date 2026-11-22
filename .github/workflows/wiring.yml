@@ -28,6 +28,11 @@ jobs:
       # up, and not connected to the list Google is handed. Plus the gum SEO
       # wrapper's tests, which fake gum so they need no Google login.
       - run: node scripts/check-sitemap-coverage.mjs
+      # NO NEW DESIGN THAT READS AS MACHINE MADE (Justin, 19 November 2026).
+      # A ratchet over the visual tells of generated sites and the checkable
+      # parts of Apple's HIG: old pages keep what they have, new code adds none.
+      # The checklist is .claude/skills/uiux-pro-max/design-tells.md.
+      - run: node scripts/check-design-tells.mjs
       - run: node --test scripts/seo-gum.test.mjs
       # Every Etsy download is in the app, free for parent and child (Justin,
       # 6 November 2026). A new pack fails here until it has an app edition.
@@ -231,6 +236,9 @@ jobs:
       # from the address bar, a family moved between schools, a card trial
       # counted as paying, a table a browser can reach.
       - run: node --experimental-strip-types scripts/check-school-link.mjs
+      # Homework lead-up: a week and three days before when there is room, the
+      # bell waits for the first reminder, and one letter never makes two items.
+      - run: node --experimental-strip-types scripts/check-school-lead-up.mjs
       # Homework help: under 10 never reaches the model, nobody gets a chat,
       # the homework is never stored, and the hint never carries the answer.
       - run: node --experimental-strip-types scripts/check-homework-help.mjs
@@ -791,6 +799,9 @@ jobs:
         with:
           node-version: '22'
       - run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts lib/analytics/ai-source.test.ts
+      # The free check on the app safety pages: never a score, never a verdict,
+      # and the page addresses parse to our pages and nothing else.
+      - run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/app-safety/trust.test.ts lib/school/parent-pack.test.ts
       # The UTMs kept with a sign up and a pilot request (migration 388): only
       # slugs about the post, never an email or a number, and the database
       # checking the same pattern. Plain node too.

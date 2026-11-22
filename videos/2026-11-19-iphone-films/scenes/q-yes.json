@@ -1,0 +1,16 @@
+{
+ "name": "q-yes",
+ "url": "/dev/parent-timer",
+ "seconds": 7,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 2600,
+   "do": "tap",
+   "selector": "button",
+   "text": "Yes"
+  }
+ ]
+}

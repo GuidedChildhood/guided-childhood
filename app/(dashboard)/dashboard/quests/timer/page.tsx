@@ -87,6 +87,34 @@ export default async function TimerPage() {
 
       <ParentDeviceTime userId={user.id} />
 
+      {/* WHY EVERY TIME (Justin, 22 November 2026: "show importance of using
+          timer system, make sure it is explained on the right page and show
+          the benefits"). Below the timer, so starting one is never pushed
+          down. Every line is something the product really does: the cron in
+          app/api/cron/device-time tells both phones and, at most twice a week,
+          sends the parent the words; the balance is on /dashboard/stats. */}
+      <section aria-labelledby="timer-why" style={{ marginTop: 26, background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '18px 18px 16px' }}>
+        <p className="eyebrow" style={{ marginBottom: 3 }}>Why it is worth it</p>
+        <h2 id="timer-why" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 12px' }}>
+          Use the timer every time
+        </h2>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 12 }}>
+          {[
+            ['The clock says stop, not you', 'When time is up, their own device tells them as well as you. The argument is with the timer, which is much easier to accept.'],
+            ['The words arrive with it', 'If stopping is hard, the alert that tells you time is up can carry the line to say. At most twice a week, so it stays useful.'],
+            ['Stars become real minutes', 'Jobs are checked before it starts, and every minute counts in the week and the balance, so earning stars means something.'],
+            ['Fair and the same for everyone', 'One countdown on both phones. No guessing how long it has been, and no "you said twenty".'],
+          ].map(([head, body]) => (
+            <li key={head}>
+              <span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>{head}</span>
+                <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{body}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <Link
         href="/dashboard/stats"
         className="btn btn-outline"

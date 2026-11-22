@@ -24,7 +24,7 @@ opens with an index giving the line number of every entry, so one decision is a
   each point against our goal and philosophy, then adopt, adapt, park or
   decline it, with the reason. Never act on advice because of who gave it.
 
-- Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (Anthropic's skill; our tokens always win where they conflict)
+- Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (our tokens win on conflict) + uiux-pro-max/design-tells.md (`npm run design-tells`)
 - Verifying any UI           → .claude/skills/webapp-testing (Playwright screenshots, tap every button) alongside the Chrome DevTools check
 - Anything DiGi              → digi/01-philosophy.md (DIGI_MODEL env var, default claude-fable-5-1)
 - Characters / lessons       → digi-squad/README.md (DiGi plus the Planet Friends: Pebble, Bloop, Orbit, Nova, Cosmo)

@@ -1,0 +1,117 @@
+{
+ "eyebrow": "Scripts \u00b7 Guided Childhood",
+ "slate": "Example family",
+ "segs": [
+  {
+   "rec": "s-shelves",
+   "from": 0,
+   "dur": 2.6,
+   "head": "The words for the moments you dread.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.04,
+     "fy": 300
+    },
+    {
+     "t": 2.6,
+     "s": 1.08,
+     "fy": 300
+    }
+   ]
+  },
+  {
+   "rec": "s-shelves",
+   "from": 2.6,
+   "dur": 3.6,
+   "head": "Picked for your child.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.12,
+     "fy": 330
+    },
+    {
+     "t": 3.6,
+     "s": 1.16,
+     "fy": 330
+    }
+   ]
+  },
+  {
+   "rec": "s-shelves",
+   "from": 6.2,
+   "dur": 3.4,
+   "head": "The ones worth another go.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.12,
+     "fy": 330
+    },
+    {
+     "t": 3.4,
+     "s": 1.16,
+     "fy": 330
+    }
+   ]
+  },
+  {
+   "rec": "s-shelves",
+   "from": 9.6,
+   "dur": 2.9,
+   "head": "Every one, by age.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.12,
+     "fy": 330
+    },
+    {
+     "t": 2.9,
+     "s": 1.16,
+     "fy": 330
+    }
+   ]
+  },
+  {
+   "rec": "s-deck",
+   "from": 0.4,
+   "dur": 4.6,
+   "head": "One card at a time. Say this.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.1,
+     "fy": 420
+    },
+    {
+     "t": 4.6,
+     "s": 1.16,
+     "fy": 430
+    }
+   ]
+  },
+  {
+   "rec": "s-deck",
+   "from": 5.0,
+   "dur": 5.5,
+   "head": "Then one thing to try tonight.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.16,
+     "fy": 430
+    },
+    {
+     "t": 5.5,
+     "s": 1.2,
+     "fy": 420
+    }
+   ]
+  }
+ ],
+ "name": "scripts-the-words",
+ "end": 4.2,
+ "url": "Link in bio"
+}

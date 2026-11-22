@@ -27,7 +27,7 @@ const to = (sel, b, t) => TL.push(`tl.to(${J(sel)},${J(b)},${at(t)});`)
 const set = (sel, a, t) => TL.push(`tl.set(${J(sel)},${J(a)},${at(t)});`)
 
 // ── Guards ──────────────────────────────────────────────────────────────────
-const TEXT_KEYS = new Set(['text', 'eyebrow', 'line', 'sub', 'title', 'url', 'button', 'label', 'body', 'tagline'])
+const TEXT_KEYS = new Set(['text', 'eyebrow', 'line', 'sub', 'title', 'url', 'button', 'label', 'body', 'tagline', 'claim', 'cite', 'note', 'k', 'v'])
 ;(function walk(v, path) {
   if (typeof v === 'string' && TEXT_KEYS.has(path.split('.').pop())) {
     if (/[–—−]/.test(v) || /\s-\s/.test(v)) throw new Error(`dash in ${path}: ${v}`)
@@ -73,6 +73,14 @@ for (const [i, sh] of C.shots.entries()) {
     // A numbered step card (the learns film, 4 November 2026): one beat, one
     // plain line saying what DiGi does, so the story reads with the sound off.
     else if (o.kind === 'step') html += `<div id="${id}-o${j}" class="ov stepwrap" style="${style}"><div class="step">${o.n != null ? `<span class="step-n">${esc(o.n)}</span>` : ''}<span class="step-body">${o.eyebrow ? `<span class="step-eye">${esc(o.eyebrow)}</span>` : ''}<span class="step-t">${esc(o.text)}</span></span></div></div>`
+    // A motion caption (the three films, 22 November 2026): one plain line on
+    // how it works, its words arriving at reading pace, with a butter sweep
+    // behind the words wrapped in *stars*. Sits at the foot, inside the safe zone.
+    else if (o.kind === 'caption') html += `<div id="${id}-o${j}" class="ov capwrap" style="top:${o.y ?? 1400}px">${o.eyebrow ? `<div class="cap-eye">${esc(o.eyebrow)}</div>` : ''}<div class="cap">${String(o.text).split(' ').map((w) => { const hl = /^\*.*\*[.,]?$/.test(w); const t = w.replace(/\*/g, ''); return `<span class="cw${hl ? ' chl' : ''}">${hl ? '<i class="sweep"></i>' : ''}<b>${esc(t)}</b></span>` }).join(' ')}</div></div>`
+    // What DiGi starts from: the family's own inputs, one row at a time, then the guardrails line.
+    else if (o.kind === 'inputs') html += `<div id="${id}-o${j}" class="ov inputs" style="top:${o.y ?? 330}px"><div class="in-eye">${esc(o.eyebrow)}</div><div class="in-title">${esc(o.title)}</div>${o.rows.map((r, k) => `<div class="in-row" id="${id}-o${j}-r${k}"><span class="in-k">${esc(r.k)}</span><span class="in-v">${esc(r.v)}</span></div>`).join('')}${o.note ? `<div class="in-note" id="${id}-o${j}-n">${esc(o.note)}</div>` : ''}${o.sub ? `<div class="in-sub" id="${id}-o${j}-s">${esc(o.sub)}</div>` : ''}</div>`
+    // The science card: one verified study whose ages match the film's child.
+    else if (o.kind === 'science') html += `<div id="${id}-o${j}" class="ov science" style="top:${o.y ?? 380}px"><div class="sc-eye">${esc(o.eyebrow)}</div><div class="sc-claim">${esc(o.claim)}</div><div class="sc-rule" id="${id}-o${j}-rule"></div><div class="sc-cite">${esc(o.cite)}</div>${o.note ? `<div class="sc-note">${esc(o.note)}</div>` : ''}</div>`
     else if (o.kind === 'marker') html += `<div id="${id}-o${j}" class="ov markerwrap" style="${style}"><span class="marker">${esc(o.text)}</span></div>`
     else if (o.kind === 'label') html += `<div id="${id}-o${j}" class="ov" style="${style}"><span class="label">${esc(o.text)}</span></div>`
     // A caption bar across the foot of the frame, so a label never sits on top of a line of UI text.
@@ -109,6 +117,27 @@ for (const [i, sh] of C.shots.entries()) {
     // A typed pill: the bubble lands, then its words arrive at reading pace,
     // so the opening moves while it holds long enough to be read.
     if (o.kind === 'pill' && o.typed) fromTo(`${sel} .pw`, { opacity: 0 }, { opacity: 1, duration: 0.12, stagger: o.typed, ease: 'none' }, t0 + 0.2)
+    if (o.kind === 'caption') {
+      set(sel, { opacity: 1 }, t0)
+      fromTo(`${sel} .cw`, { opacity: 0, y: 16, filter: 'blur(6px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.38, stagger: o.pace ?? 0.11, ease: 'power2.out' }, t0)
+      const nw = String(o.text).split(' ').length
+      fromTo(`${sel} .sweep`, { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: 'power2.inOut', stagger: 0.15 }, t0 + nw * (o.pace ?? 0.11) + 0.15)
+      if (o.t1 != null) to(sel, { opacity: 0, y: -8, duration: 0.3 }, t1 - 0.3)
+      continue
+    }
+    if (o.kind === 'inputs') {
+      fromTo(sel, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, t0)
+      o.rows.forEach((_, k) => fromTo(`${sel}-r${k}`, { opacity: 0, x: -30, filter: 'blur(6px)' }, { opacity: 1, x: 0, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, t0 + 0.7 + k * (o.gap ?? 0.9)))
+      const tn = t0 + 0.7 + o.rows.length * (o.gap ?? 0.9) + 0.2
+      if (o.note) fromTo(`${sel}-n`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, tn)
+      if (o.sub) fromTo(`${sel}-s`, { opacity: 0 }, { opacity: 1, duration: 0.5 }, tn + 0.6)
+      continue
+    }
+    if (o.kind === 'science') {
+      fromTo(sel, { opacity: 0, y: 24, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6, ease: 'power3.out' }, t0)
+      fromTo(`${sel}-rule`, { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: 'power2.inOut' }, t0 + 0.9)
+      continue
+    }
     if (o.kind === 'step') { fromTo(sel, { opacity: 0, y: 26, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6, ease: 'power3.out' }, t0); if (o.t1 != null) to(sel, { opacity: 0, y: -10, duration: 0.3 }, t1 - 0.3); continue }
     if (o.kind === 'hook') set(sel, { opacity: 1 }, t0)
     if (o.kind === 'hook') fromTo(`${sel} .hw`, { opacity: 0, y: 14, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4, stagger: 0.06, ease: 'power2.out' }, t0)
@@ -217,6 +246,26 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .lower{left:0;top:auto;bottom:0;width:1080px;padding:26px 40px 30px;background:#FDF6DE;border-top:3px solid #1A1A2E;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:31px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E}
 .veil{left:0;top:0;width:1080px}
 .ov{position:absolute;opacity:0}
+.capwrap{left:70px;width:940px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.cap-eye{font-family:plexMono,monospace;font-weight:600;font-size:28px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E;margin-bottom:14px}
+.cap{background:#FFFFFF;border:3px solid #1A1A2E;border-radius:34px;box-shadow:0 6px 0 #1A1A2E,0 30px 70px rgba(26,26,46,.14);padding:26px 38px;font-weight:800;font-size:56px;line-height:1.22;color:#1A1A2E;max-width:940px}
+.cw{display:inline-block;position:relative}.cw b{position:relative;font-weight:inherit}
+.cw .sweep{position:absolute;left:-6px;right:-6px;top:12%;bottom:6%;background:#EDC35F;border-radius:10px;transform-origin:0 50%;transform:scaleX(0)}
+.inputs{left:80px;width:920px;background:#FFFFFF;border:3px solid #1A1A2E;border-radius:44px;box-shadow:0 7px 0 #1A1A2E,0 40px 90px rgba(26,26,46,.14);padding:52px 56px}
+.in-eye{font-family:plexMono,monospace;font-weight:600;font-size:28px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E}
+.in-title{font-weight:900;font-size:70px;line-height:1.06;letter-spacing:-.02em;margin:14px 0 30px}
+.in-row{display:flex;flex-direction:column;gap:4px;padding:22px 0;border-top:2px dashed rgba(26,26,46,.18)}
+.in-k{font-family:plexMono,monospace;font-weight:600;font-size:26px;letter-spacing:.12em;text-transform:uppercase;color:#52526A}
+.in-v{font-weight:800;font-size:46px;line-height:1.18;color:#1A1A2E}
+.in-note{margin-top:26px;background:#FDF6DE;border-radius:24px;padding:24px 28px;font-weight:800;font-size:40px;line-height:1.25;color:#1A1A2E}
+.in-sub{margin-top:18px;font-family:plexMono,monospace;font-weight:600;font-size:24px;letter-spacing:.1em;text-transform:uppercase;color:#52526A}
+.science{left:80px;width:920px;text-align:left}
+.sc-eye{font-family:plexMono,monospace;font-weight:600;font-size:30px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E}
+.sc-claim{font-weight:900;font-size:74px;line-height:1.1;letter-spacing:-.02em;margin-top:22px;color:#1A1A2E}
+.sc-rule{height:8px;width:260px;background:#EDC35F;border-radius:4px;margin:42px 0 34px;transform-origin:0 50%;transform:scaleX(0)}
+.sc-cite{font-weight:700;font-size:40px;line-height:1.3;color:#3A3A52}
+.sc-note{margin-top:28px;font-family:plexMono,monospace;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#52526A;line-height:1.5}
+
 .eyebrow{font-family:plexMono,monospace;font-weight:600;font-size:32px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E}
 .hook{font-weight:900;font-size:104px;line-height:1.02;letter-spacing:-.03em}
 .hook .hw{display:inline-block;opacity:0}
