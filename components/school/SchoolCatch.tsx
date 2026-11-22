@@ -54,7 +54,7 @@ const KIND_EMOJI: Record<string, string> = {
 }
 
 const cardStyle: React.CSSProperties = {
-  background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+  background: 'var(--tint-butter)', border: 'var(--edge)', boxShadow: 'var(--lift)',
   borderRadius: 'var(--radius-card)', padding: '22px', marginBottom: '20px',
 }
 
