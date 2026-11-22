@@ -13,7 +13,7 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import {
   LENSES, ingest, alerts, answer, addTask, renderDashboard, loadState, saveState, addDays, daysBetween,
-  recordAnswer, readAnswers, pulseLine, pulseFromRows, stageCheckLine, firstWeekLine, renderReport,
+  recordAnswer, readAnswers, shortTitle, notWorking, justinTodo, pulseLine, pulseFromRows, stageCheckLine, firstWeekLine, renderReport,
 } from './review-board.mjs'
 
 const SCRIPT = new URL('./review-board.mjs', import.meta.url).pathname
@@ -57,7 +57,7 @@ test('dates add and count across a month', () => {
 
 test('alerts on an empty board say it has not run, in one line', () => {
   const out = alerts(loadState())
-  assert.match(out, /has not run yet/)
+  assert.match(out, /has never run/)
   assert.equal(out.split('\n').length, 1)
 })
 
@@ -127,7 +127,8 @@ test('alerts ask about Justin tasks once a day, and go quiet once asked', () => 
   answer(state, 'asked', 'ico-registration')
   out = alerts(state)
   assert.doesNotMatch(out, /AskUserQuestion/)
-  assert.match(out, /GREEN/)
+  assert.match(out, /What you need to do: 1 task for Justin, all asked about today\./)
+  assert.match(out, /^Not working: nothing\.$/m)
 })
 
 test('a past due Justin task turns the alert red, and a snooze hides it', () => {
@@ -135,11 +136,11 @@ test('a past due Justin task turns the alert red, and a snooze hides it', () => 
   const state = loadState()
   ingest(state, sampleRun('2026-10-16'))
   let out = alerts(state)
-  assert.match(out, /^REVIEW BOARD: RED/)
+  assert.match(out, /^REVIEW BOARD\. What you need to do: 1 task for Justin, 1 late\./)
   assert.match(out, /2 days late/)
   answer(state, 'snooze', 'ico-registration', '7')
   out = alerts(state)
-  assert.doesNotMatch(out, /RED/)
+  assert.equal(out, 'REVIEW BOARD. Nothing for Justin to do, nothing broken.')
 })
 
 test('a stale board is amber, and the alert stays short', () => {
@@ -149,8 +150,8 @@ test('a stale board is amber, and the alert stays short', () => {
   for (let i = 0; i < 9; i++) addTask(state, { owner: 'justin', title: `Thing ${i}` })
   const out = alerts(state)
   assert.match(out, /has not run for 16 days/)
-  assert.ok(out.split('\n').length <= 12, `alerts printed ${out.split('\n').length} lines`)
-  assert.equal((out.match(/^\s+\[/gm) || []).length, 4, 'at most four questions, the AskUserQuestion limit')
+  assert.ok(out.split('\n').length <= 5, `alerts printed ${out.split('\n').length} lines`)
+  assert.equal((out.match(/\[[a-z0-9-]+\] [A-Z]/g) || []).length, 4, 'at most four questions, the AskUserQuestion limit')
 })
 
 test('done, drop and add record the answer', () => {
@@ -174,9 +175,67 @@ test('the dashboard draws every lens, escapes text, and has no dashes in its cop
   const html = renderDashboard(state)
   for (const l of LENSES) assert.ok(html.includes(`id="lens-${l.id}"`), `missing ${l.id}`)
   assert.ok(!html.includes('<script>alert'), 'text must be escaped')
-  const text = html.replace(/<style>[\s\S]*?<\/style>/, '').replace(/<[^>]+>/g, ' ')
+  const text = html.replace(/<style>[\s\S]*?<\/style>/, '').replace(/<script>[\s\S]*?<\/script>/, '').replace(/<[^>]+>/g, ' ')
   assert.ok(!/[–—]/.test(text), 'no en or em dashes in the copy')
   assert.ok(!/\s-\s/.test(text), 'no spaced hyphens used as dashes in the copy')
+})
+
+test('the dashboard leads with Justin\'s tasks and what is not working, and folds the rest', () => {
+  process.env.REVIEW_BOARD_TODAY = '2026-10-22'
+  const state = loadState()
+  ingest(state, sampleRun('2026-10-16'))
+  const html = renderDashboard(state)
+  const todo = html.slice(html.indexOf('id="todo-h"'), html.indexOf('id="broken-h"'))
+  assert.match(todo, /data-id="ico-registration"/)
+  assert.match(todo, /data-verb="done">Done</)
+  assert.match(todo, /data-verb="notyet">Not yet</)
+  assert.match(todo, /2 days late/)
+  assert.doesNotMatch(todo, /paywall-copy|chatbot/, 'Claude\'s tasks are not his to do')
+  assert.match(html, /Nothing is broken\./)
+  const fold = html.indexOf('<details class="fold"')
+  assert.ok(fold > html.indexOf('id="broken-h"'), 'everything else sits below the two headings')
+  assert.ok(html.indexOf('id="lens-value-above-ai"') > fold, 'the scores are folded away')
+  assert.match(html, /npm run review-board -- ' \+ btn\.dataset\.verb/, 'the buttons give the command answers are recorded with')
+})
+
+test('not working names only real breakages: a stale board, a lens that dropped, Claude\'s late top fix', () => {
+  const state = loadState()
+  ingest(state, sampleRun('2026-10-16'))
+  assert.deepEqual(notWorking(state), [], 'scores below ten are not breakages, and nothing is late yet')
+  const second = sampleRun('2026-10-16')
+  second.scorecards.find(c => c.lens === 'marketing').score = 4
+  second.scorecards.find(c => c.lens === 'ux-expert').score = 9
+  process.env.REVIEW_BOARD_TODAY = '2026-11-01'
+  const fresh = loadState()
+  ingest(fresh, sampleRun('2026-10-09'))
+  ingest(fresh, second)
+  const out = notWorking(fresh)
+  assert.match(out[0], /has not run for 16 days/)
+  assert.ok(out.some(l => l === 'Marketing dropped from 6 to 4 at the last run.'))
+  assert.ok(!out.some(l => /UX expert/.test(l)), 'a rise is not news')
+  assert.ok(out.some(l => /^Claude's top fix is \d+ days late: name what a chatbot cannot do on the paywall\.$/.test(l)))
+  const alert = alerts(fresh)
+  assert.ok(alert.split('\n').length <= 5)
+  assert.match(alert, /^Not working: The Friday board/m)
+})
+
+test('a long task title becomes one plain line that leads with the action', () => {
+  assert.equal(shortTitle('Step to ten for solves problem: the advice is already proactive in code (flashpoint heads ups, the week brief), but nobody has been seen using it, so sit beside one real parent for their first day and note where they stop, so we know it helps.'),
+    'Sit beside one real parent for their first day and note where they stop')
+  assert.equal(shortTitle('Run the Fable 5.2 compare button, and if it passes switch DIGI_MODEL.'), 'Run the Fable 5.2 compare button')
+  assert.equal(shortTitle('Step to ten for x: the 13 November run saved nothing, so make the routine write a stub.', 100, 'problem'), 'The 13 November run saved nothing')
+  const long = shortTitle('Post '.padEnd(300, 'word '))
+  assert.ok(long.length <= 101 && long.endsWith('…'))
+})
+
+test('Justin\'s list is late first, then priority, and leaves out snoozed and Claude tasks', () => {
+  process.env.REVIEW_BOARD_TODAY = '2026-10-22'
+  const state = loadState()
+  ingest(state, sampleRun('2026-10-16'))
+  addTask(state, { owner: 'justin', title: 'Urgent but not late', priority: '1' })
+  addTask(state, { owner: 'justin', title: 'Snoozed one' })
+  answer(state, 'snooze', 'snoozed-one', '3')
+  assert.deepEqual(justinTodo(state).map(t => t.id), ['ico-registration', 'urgent-but-not-late'])
 })
 
 test('the CLI alerts command never fails, even on a broken file', () => {
