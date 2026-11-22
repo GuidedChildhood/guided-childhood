@@ -1,10 +1,14 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 
-export const metadata = {
-  title: 'For investors · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'For investors',
   description: 'Guided Childhood is the calm operating system for modern parenting. A short overview for investors.',
-}
+  path: '/investor',
+  noindex: true,
+})
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }

@@ -24,7 +24,7 @@ opens with an index giving the line number of every entry, so one decision is a
   each point against our goal and philosophy, then adopt, adapt, park or
   decline it, with the reason. Never act on advice because of who gave it.
 
-- Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (Anthropic's skill; our tokens always win where they conflict)
+- Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (our tokens win on conflict) + uiux-pro-max/design-tells.md (`npm run design-tells`)
 - Verifying any UI           → .claude/skills/webapp-testing (Playwright screenshots, tap every button) alongside the Chrome DevTools check
 - Anything DiGi              → digi/01-philosophy.md (DIGI_MODEL env var, default claude-fable-5-1)
 - Characters / lessons       → digi-squad/README.md (DiGi plus the Planet Friends: Pebble, Bloop, Orbit, Nova, Cosmo)
@@ -37,6 +37,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - ANY social visual, carousel, campaign image, thumbnail or image generation brief → read and follow brand/GDC_SOCIAL_VISUAL_SYSTEM.md first, and use the approved existing brand assets as the source of truth (never a regenerated character, never an invented screen)
 - The week's social cards (Sunday batch, the pinned GDC posts page) → .claude/skills/social-week
 - The weekly scores out of ten, the task list, the session start alert → .claude/skills/review-board (answer the alert's questions with AskUserQuestion first)
+- Research led posts, cards, films, Stage 2 checks → .claude/skills/evidence-reveal
 - The Monday research sweep, what is new and whether it proves anything we built → .claude/skills/research-radar (it is allowed to find nothing, and a finding with no proof path never becomes content)
 - The week's LinkedIn posts, or any analytics screenshot → .claude/skills/linkedin-week (evidence is content/analytics/, newest file wins)
 - Family Instagram / Facebook → .claude/skills/family-social + content/brand-story/ (the family voice, NOT Justin's; four anchor days; every service claim needs a proof path)

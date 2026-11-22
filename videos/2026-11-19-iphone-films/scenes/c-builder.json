@@ -1,0 +1,17 @@
+{
+ "name": "c-builder",
+ "url": "/ref-star-chart-sheet",
+ "seconds": 6.5,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 1800,
+   "do": "scroll",
+   "to": 8720,
+   "ms": 2600
+  }
+ ],
+ "scrollY": 8400
+}

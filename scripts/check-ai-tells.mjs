@@ -96,6 +96,18 @@ const PHRASES = [
   'truth be told', 'plays a crucial role', 'plays a vital role',
   'a testament to', 'it goes without saying', 'needless to say',
   'the bottom line is', 'when it comes to',
+  // Wikipedia's "Signs of AI writing" (WikiProject AI Cleanup), added 22
+  // November 2026: the entries a person would not say aloud. Its weaker
+  // signals (single overused words such as "crucial", transition words) are
+  // in ai-tells.md for the ear, not here, because the page itself says they
+  // are unreliable on their own.
+  'serves as a', 'stands as a', 'a pivotal', 'pivotal moment', 'rich tapestry',
+  'tapestry of', 'underscores the', 'underscoring the', 'evolving landscape',
+  'indelible mark', 'deeply rooted', 'setting the stage for', 'in summary,',
+  'despite these challenges', 'nestled in', 'in the heart of', 'boasts a',
+  'a diverse array', 'groundbreaking', 'as of my last update',
+  'as an ai language model', 'based on available information',
+  'while specific details are limited', 'would you like me to',
 ]
 
 // ── THE CORRECTION SHAPES ───────────────────────────────────────────────────
@@ -112,6 +124,12 @@ const SHAPES = [
   [/\bhere(?:'s| is) why (?:that|this) matters\b/i, 'signposting'],
   [/\bthe key takeaway\b/i, 'signposting'],
   [/\blet me explain\b/i, 'signposting'],
+  // Wikipedia's "Signs of AI writing": a sentence that ends on a tacked on
+  // "-ing" clause claiming an effect nobody showed ("..., ensuring families
+  // feel supported"), and the "no X, no Y, just Z" triplet.
+  [/,\s+(?:ensuring|highlighting|underscoring|fostering|reflecting|showcasing)\b/i, 'a tacked on "-ing" clause claiming an effect'],
+  [/\bno [\w']+(?: [\w']+)?, no [\w']+(?: [\w']+)?,? just\b/i, 'the "no X, no Y, just Z" triplet'],
+  [/\[(?:your|insert) [^\]]{1,30}\]|\b20\d\d-XX-XX\b|oaicite/i, 'a leftover placeholder or chat artefact'],
 ]
 
 // A fenced code block or an indented block is not copy, and a link's target is

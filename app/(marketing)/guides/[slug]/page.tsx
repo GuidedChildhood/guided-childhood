@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { CSSProperties } from 'react'
 import { SITE_URL } from '@/lib/config/site'
+import { pageMetadata } from '@/lib/seo/meta'
 import { GUIDES, guideBySlug, STAGE_CHECK_HOOK } from '@/lib/content/guides'
 
 // One guide. Everything below the intro comes from the guide's DEVICE_ISSUES
@@ -19,12 +20,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const guide = guideBySlug(slug)
   if (!guide) return {}
-  return {
-    title: `${guide.question} · Guided Childhood`,
+  return pageMetadata({
+    title: guide.question,
     description: guide.description,
-    alternates: { canonical: `/guides/${guide.slug}` },
-    openGraph: { title: guide.question, description: guide.description, type: 'article' },
-  }
+    path: `/guides/${guide.slug}`,
+    type: 'article',
+  })
 }
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '44px 16px 80px' }

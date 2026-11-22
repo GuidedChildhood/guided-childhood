@@ -1,0 +1,34 @@
+{
+ "name": "q-ask",
+ "url": "/ref-ask-first",
+ "seconds": 8,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 300,
+   "do": "scroll",
+   "to": 720,
+   "ms": 10
+  },
+  {
+   "at": 1500,
+   "do": "tap",
+   "selector": "button",
+   "text": "TV"
+  },
+  {
+   "at": 3800,
+   "do": "tap",
+   "selector": "button",
+   "text": "Ask for"
+  },
+  {
+   "at": 5200,
+   "do": "scroll",
+   "to": 0,
+   "ms": 1400
+  }
+ ]
+}

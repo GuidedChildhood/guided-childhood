@@ -8,6 +8,7 @@ import { bandOf } from '@/lib/concerns/bands'
 import { SILVER_RUN, TOP_BAND } from '@/lib/concerns/resting'
 import { checkinOutcome, ATTENTION_BAND, type CheckinOutcome } from '@/lib/concerns/outcome'
 import DigiAskLink from '@/components/digi/DigiAskLink'
+import Face from './CheckFace'
 
 // A running check in, not a one day question: this card asks about whatever
 // is still open, however many days it has been coming up, and keeps asking
@@ -548,42 +549,8 @@ export default function ConcernCheckIn({
   // waiting ones on crayon paper, last time on grey, today on butter with a
   // catch light and a chunky ink ledge under it (the wrapper in the row), so
   // the chosen one sits up off the row the way every house button does.
-  function Face({ band, filled, past, size = 40 }: { band: number; filled: boolean; past: boolean; size?: number }) {
-    const fill = filled ? 'var(--terracotta)' : past ? '#DCD7CB' : '#FEF7E0'
-    const op = filled ? 1 : past ? 0.8 : 0.62
-    const mouth = [
-      'M13 28.5 Q20 21.5 27 28.5',
-      'M13.5 27.5 Q20 23.5 26.5 27.5',
-      'M13.5 26.5 L26.5 26.5',
-      'M13.5 24 Q20 30.5 26.5 24',
-      'M12.5 23 Q20 34 27.5 23 Z',
-    ][Math.min(5, Math.max(1, band)) - 1]
-    const grin = band === 5
-    return (
-      <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden style={{ display: 'block' }}>
-        <circle cx="20" cy="20" r="17.5" fill={fill} stroke="var(--ink)" strokeOpacity={op} strokeWidth={filled ? 2.2 : 1.8} />
-        {grin ? (
-          <>
-            <path d="M11 16.5 Q14 12.5 17 16.5" fill="none" stroke="var(--ink)" strokeOpacity={op} strokeWidth="2.1" strokeLinecap="round" />
-            <path d="M23 16.5 Q26 12.5 29 16.5" fill="none" stroke="var(--ink)" strokeOpacity={op} strokeWidth="2.1" strokeLinecap="round" />
-          </>
-        ) : (
-          <>
-            <circle cx="14" cy="16.5" r="2.1" fill="var(--ink)" fillOpacity={op} />
-            <circle cx="26" cy="16.5" r="2.1" fill="var(--ink)" fillOpacity={op} />
-          </>
-        )}
-        {band === 1 && (
-          <>
-            <path d="M10.5 11.5 L16 13.5" stroke="var(--ink)" strokeOpacity={op} strokeWidth="2" strokeLinecap="round" />
-            <path d="M29.5 11.5 L24 13.5" stroke="var(--ink)" strokeOpacity={op} strokeWidth="2" strokeLinecap="round" />
-          </>
-        )}
-        <path d={mouth} fill={grin ? 'var(--ink)' : 'none'} fillOpacity={op} stroke="var(--ink)" strokeOpacity={op} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-        {filled && <circle cx="13" cy="10.5" r="2.4" fill="#fff" fillOpacity="0.85" />}
-      </svg>
-    )
-  }
+  // Face now lives in components/daily/CheckFace, shared with the starter
+  // pack result page so the picture a parent sees before paying is this one.
 
 
   // Group by child when there is more than one, so a parent always knows whose

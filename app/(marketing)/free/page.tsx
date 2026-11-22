@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import type { CSSProperties } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,10 +12,11 @@ import { listedTasters, tasterPreview, pagesWord } from '@/lib/magnets/tasters'
 // free, full on Etsy"). The tasters come from content/printables/free-tasters.json,
 // so a new pack joins this page by joining that file.
 
-export const metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Free printables for kids and screens',
   description: 'Free, print at home activities that help kids and grown ups get screen time right together, and a free taster of every printable pack.',
-}
+  path: '/free',
+})
 
 const NEWSPAPERS = [
   {

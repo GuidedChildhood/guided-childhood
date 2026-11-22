@@ -1,0 +1,108 @@
+<!doctype html>
+<!--
+  The iPhone service film stage, 1080 x 1920. One real app recording plays
+  inside a drawn iPhone; the headline, the slate and the camera move around it.
+  render.mjs loads this page with ?film=<name>, then calls window.seek(t) for
+  every frame and screenshots it. Nothing here is generated: the screen is the
+  real app, recorded frame by frame by tools/record2.mjs from a fixture page.
+-->
+<html><head><meta charset="utf-8">
+<style>
+@font-face { font-family: Nunito; src: url('../../app/fonts/nunito-latin-wght-normal.woff2') format('woff2'); font-weight: 200 1000; }
+@font-face { font-family: Plex; src: url('../../app/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2'); font-weight: 600; }
+:root { --cream:#F9F8F6; --ink:#1A1A2E; --soft:#52526A; --butter:#EDC35F; --butter-dk:#C99A28; --tint:#FFF6DE; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--cream); }
+#stage { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+  background: radial-gradient(900px 700px at 50% 1250px, #FFF3D4 0%, rgba(255,243,212,0) 70%), var(--cream); }
+.text { position: absolute; left: 90px; right: 90px; top: 300px; text-align: center; }
+.eyebrow { font: 600 26px/1 Plex, monospace; letter-spacing: .16em; text-transform: uppercase; color: var(--butter-dk); }
+.head { font: 900 74px/1.05 Nunito, sans-serif; letter-spacing: -.025em; color: var(--ink); margin-top: 22px; text-wrap: balance; }
+.slate { font: 600 21px/1 Plex, monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--soft); margin-top: 22px; opacity: .8; }
+#cam { position: absolute; left: 0; right: 0; top: 600px; bottom: 0; overflow: hidden; }
+#phone { position: absolute; left: 50%; top: 24px; width: 600px; height: 1262px; margin-left: -300px;
+  border-radius: 92px; background: #111118; padding: 16px;
+  box-shadow: 0 0 0 3px #2A2A35, 0 50px 90px rgba(26,26,46,.22), 0 12px 30px rgba(26,26,46,.18); will-change: transform; }
+#screen { position: relative; width: 568px; height: 1230px; border-radius: 76px; overflow: hidden; background: #fff; }
+#screen img { position: absolute; left: 0; top: 0; width: 568px; height: 1230px; object-fit: cover; object-position: top; }
+#island { position: absolute; top: 18px; left: 50%; width: 150px; height: 42px; margin-left: -75px; border-radius: 22px; background: #000; z-index: 5; }
+#status { position: absolute; top: 0; left: 0; right: 0; height: 74px; z-index: 4; background: linear-gradient(#fff 70%, rgba(255,255,255,0)); }
+#status b { position: absolute; top: 26px; left: 54px; font: 800 24px/1 Nunito, sans-serif; color: #000; }
+#status i { position: absolute; top: 28px; right: 50px; width: 44px; height: 20px; border-radius: 6px; border: 2.5px solid #000; }
+#status i::after { content: ''; position: absolute; inset: 2px 8px 2px 2px; background: #000; border-radius: 2px; }
+#shot { position: absolute; left: 0; right: 0; top: 74px; bottom: 0; overflow: hidden; }
+#shot img { top: 0; height: auto; }
+#end { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 34px; text-align: center; padding: 0 90px; background: var(--cream); opacity: 0; }
+.mark { display: flex; align-items: center; gap: 22px; }
+.mark .sq { width: 104px; height: 104px; border-radius: 26px; background: var(--butter); display: flex; align-items: flex-end; justify-content: center; gap: 9px; padding-bottom: 24px; box-shadow: 0 6px 0 var(--butter-dk); }
+.mark .sq span { width: 13px; background: #fff; border-radius: 4px; }
+.mark .name { font: 900 64px/1 Nunito, sans-serif; color: var(--ink); letter-spacing: -.02em; }
+.line { font: 800 46px/1.15 Nunito, sans-serif; color: var(--ink); max-width: 820px; }
+.cta { font: 900 60px/1.08 Nunito, sans-serif; color: var(--ink); max-width: 860px; }
+.cta mark { background: none; color: var(--ink); box-shadow: inset 0 -18px 0 var(--butter); }
+.url { font: 600 30px/1 Plex, monospace; letter-spacing: .08em; color: var(--soft); }
+</style></head>
+<body><div id="stage">
+  <div class="text"><div class="eyebrow" id="eyebrow"></div><div class="head" id="head"></div><div class="slate" id="slate"></div></div>
+  <div id="cam"><div id="phone"><div id="screen"><div id="island"></div><div id="status"><b>19:42</b><i></i></div>
+    <div id="shot"><img id="a"><img id="b"></div></div></div></div>
+  <div id="end"><div class="mark"><div class="sq"><span style="height:20px"></span><span style="height:36px"></span><span style="height:56px"></span><span style="height:32px"></span></div><div class="name">Guided Childhood</div></div>
+    <div class="line" id="tagline">One plan for screens, phones and AI.</div>
+    <div class="cta" id="cta">What stage is your child? <mark>Three questions, no sign up.</mark></div>
+    <div class="url" id="url">Link in bio</div></div>
+</div>
+<script>
+// Film data is injected by render.mjs as window.FILM before seek() is called.
+const ease = (k) => (k <= 0 ? 0 : k >= 1 ? 1 : k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2)
+const lerp = (a, b, k) => a + (b - a) * k
+const $ = (id) => document.getElementById(id)
+const K = 568 / 390 // screen pixels per app css pixel
+function frameSrc(seg, lt) {
+  const n = Math.min(seg.frames - 1, Math.max(0, Math.round((seg.from + lt) * 30)))
+  return `renders/rec/${seg.rec}/f-${String(n).padStart(5, '0')}.jpg`
+}
+function camAt(seg, lt) {
+  const keys = seg.cam || [{ t: 0, s: 1, fy: 420 }]
+  let a = keys[0], b = keys[0]
+  for (const k of keys) { if (k.t <= lt) a = k; if (k.t >= lt) { b = k; break } b = k }
+  const k = a === b ? 0 : ease((lt - a.t) / ((b.t - a.t) || 1))
+  return { s: lerp(a.s, b.s, k), fy: lerp(a.fy, b.fy, k), up: lerp(a.up || 0, b.up || 0, k) }
+}
+window.seek = (t) => {
+  const F = window.FILM
+  let start = 0, i = 0
+  for (; i < F.segs.length; i++) { if (t < start + F.segs[i].dur) break; start += F.segs[i].dur }
+  const endStart = F.segs.reduce((s, x) => s + x.dur, 0)
+  const inEnd = t >= endStart
+  // End card: fades up over half a second, the lines arriving in turn.
+  const ek = inEnd ? ease((t - endStart) / .5) : 0
+  $('end').style.opacity = ek
+  if (inEnd) {
+    const lt = t - endStart
+    ;['tagline', 'cta', 'url'].forEach((id, n) => { const k = ease((lt - .35 - n * .3) / .5); $(id).style.opacity = k; $(id).style.transform = `translateY(${(1 - k) * 26}px)` })
+    return
+  }
+  const seg = F.segs[i], lt = t - start
+  // Screen: this segment's frame, with the last one fading under it for the first quarter second.
+  $('a').src = frameSrc(seg, lt)
+  $('a').style.top = `${-(seg.shift || 0) * K}px`
+  const fade = false && i > 0 && lt < .25
+  $('b').style.display = fade ? 'block' : 'none'
+  if (fade) { const p = F.segs[i - 1]; $('b').src = frameSrc(p, p.dur - .001); $('a').style.opacity = ease(lt / .25); $('b').style.zIndex = 0; $('a').style.zIndex = 1 } else $('a').style.opacity = 1
+  // Camera: scale about the focus point on the screen.
+  const c = camAt(seg, lt)
+  const originY = 16 + 74 + c.fy * K
+  $('phone').style.transformOrigin = `50% ${originY}px`
+  $('phone').style.transform = `translateY(${((c.s - 1) * -(originY - 520) - c.up) / c.s}px) scale(${c.s})`
+  // Headline: a new line rises in; the old one fades just before.
+  const heads = []; let acc = 0
+  F.segs.forEach((s) => { if (s.head && (!heads.length || heads[heads.length - 1].head !== s.head)) heads.push({ at: acc, head: s.head, eyebrow: s.eyebrow ?? F.eyebrow, slate: s.slate ?? F.slate }); acc += s.dur })
+  let h = heads[0]; let next = null
+  for (let n = 0; n < heads.length; n++) if (heads[n].at <= t) { h = heads[n]; next = heads[n + 1] || null }
+  const hk = ease((t - h.at) / .45), outk = next ? ease((next.at - t) / .18) : 1
+  const op = Math.min(hk, outk)
+  $('head').textContent = h.head; $('eyebrow').textContent = h.eyebrow || ''; $('slate').textContent = h.slate || ''
+  for (const id of ['head', 'eyebrow', 'slate']) { $(id).style.opacity = id === 'slate' ? op * .8 : op }
+  $('head').style.transform = `translateY(${(1 - hk) * 28}px)`
+}
+</script></body></html>

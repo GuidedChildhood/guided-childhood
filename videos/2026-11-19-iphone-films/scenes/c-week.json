@@ -1,0 +1,16 @@
+{
+ "name": "c-week",
+ "url": "/ref-school-card",
+ "seconds": 7,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 1500,
+   "do": "scroll",
+   "to": 560,
+   "ms": 3000
+  }
+ ]
+}

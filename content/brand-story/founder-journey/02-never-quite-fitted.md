@@ -83,6 +83,12 @@ The handwriting photo, slow push in, three plates:
 
 # 2b · The table (optional swap for post 2)
 
+**Scheduled 19 November 2026, 19:00, on the brand accounts** (The Guided
+Childhood Facebook Page and @guidedchildhood), a day later than planned, at
+Justin's word on 18 November. The text card is `images/02b-card-dinner-table.jpg`
+and the caption is below, word for word. Before scheduling, Business Suite's
+published and scheduled posts were searched and the scene had not run before.
+
 **Privacy: AMBER. Approved by Justin, 7 November 2026.** 2b runs on Wednesday 18 November in place of post 2. Two AMBER items at once: the maths
 table incident with his father, and feeling like a failure at school. It also
 puts his dad in a hard light, so a word with his dad first may be kind. The

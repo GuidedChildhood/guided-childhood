@@ -20,7 +20,7 @@
 |---|---|---|
 | 1 | THE ROAD TO 16. A birthday is not a training course. | The five Planet Friends on the gold pathway, the passport at the end |
 | 2 | Five stages. One job each. 4 to 7, calm screen offs. 8 to 10, healthy habits. 11 to 13, knows how it works. 13 to 15, owns their footprint. 16, ready for the world. | One band a stage, each with its friend |
-| 3 | Each stage ends in a stamp. The stamps fill in from what you already do: jobs, check ins and lessons. | None |
+| 3 | Each stage ends in a stamp. A stamp comes from the lessons, the talks you have together, and their big check. | None |
 | 4 | Fifteen lessons before the first account. Social Media Ready runs from 8 to 16. The lesson is how it works. | None |
 | 5 | Want it real? There is a printed one. | The keepsakes screen: The printed passport |
 | 6 | Find the stage first. | The stage result: "Sam's pathway is ready." |
@@ -42,7 +42,7 @@ Nobody goes from nothing to everything in one birthday and comes out
 knowing what to do with it.
 
 The passport gets a stamp as each stage is done. The stamps fill in from
-things you were doing anyway: jobs, check ins and lessons.
+the lessons, the talks you have together, and their big check.
 
 11 of 13. What stage is your child? Three questions, no sign up. The link is
 in our bio.

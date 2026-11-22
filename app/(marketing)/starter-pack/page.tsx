@@ -879,7 +879,7 @@ export default function StarterPackPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
               {[
                 { n: '1', title: 'Tell us about your child', sub: 'Their age and the screen battle you are facing right now' },
-                { n: '2', title: 'We build their pathway', sub: 'A plan for their exact age, step by step to a safe, capable 16' },
+                { n: '2', title: 'We build their pathway', sub: 'A plan for their exact age, step by step to a confident, capable 16' },
                 { n: '3', title: 'Start tonight, free', sub: 'The words to say, lessons for their age, and a plan for both of you' },
               ].map(item => (
                 <div key={item.n} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '16px 18px' }}>
@@ -942,8 +942,12 @@ export default function StarterPackPage() {
                   counting: it names what is asked for, which stays true
                   whatever the form does next. This whole day has been about
                   screens that say things that are nearly true. */}
-              {oneTap ? 'One tap and it is yours, with four days of everything free. No card.'
-                      : 'Your email and a password, and it is yours. Four days of everything free, no card.'}
+              {/* "Four days free", not "four days of everything" (19 November
+                  2026, Justin chose it): the free days carry the starter
+                  scripts and DiGi on a daily limit (lib/access.ts), which is
+                  what FreeDoor and the upgrade page already say. */}
+              {oneTap ? 'One tap and it is yours, with four days free. No card.'
+                      : 'Your email and a password, and it is yours. Four days free, no card.'}
             </p>
 
             {/* Above the email, not below it. The Mobbin sweep of account

@@ -35,6 +35,13 @@ const read = (f) => blank(readFileSync(f, 'utf8'))
 const composer = read('components/quests/JobComposer.tsx')
 const manage = read('app/(dashboard)/dashboard/quests/manage/ManageJobs.tsx')
 const quests = read('app/(dashboard)/dashboard/quests/QuestManager.tsx')
+// Every parent page that mounts the job composer is held to A and B. The
+// setup page stopped mounting it on 18 November 2026 (adding a job lives on
+// Add a job only), so it drops out of these two rules by having nothing to
+// hold, and comes straight back under them if the composer is ever mounted
+// there again. Add a job must always mount it: that is checked below.
+const composerPages = [['ManageJobs', manage], ['QuestManager', quests]].filter(([, src]) => /<JobComposer\b/.test(src))
+if (!composerPages.some(([n]) => n === 'ManageJobs')) problems.push('A/B: Add a job (ManageJobs) no longer mounts the job composer')
 const kidCard = read('components/quests/DeviceTimeCard.tsx')
 const kidPage = read('app/k/[token]/page.tsx')
 const kidScreen = read('app/k/[token]/KidQuestScreen.tsx')
@@ -47,7 +54,7 @@ const home = read('app/(dashboard)/dashboard/page.tsx')
 if (!/Make it a family job/.test(composer) || !/setFamilyJob\(v => !v\)/.test(composer)) problems.push('A: the composer has no family job chip')
 else if (!/familyJob: boolean\) => void/.test(composer) || !/\n\s+asFamily,\n\s+\)/.test(composer)) problems.push('A: the composer does not pass the family job choice out with the add')
 else ok.push('A: the composer offers the family job and passes the choice with the add')
-for (const [name, src] of [['ManageJobs', manage], ['QuestManager', quests]]) {
+for (const [name, src] of composerPages) {
   const sends = (src.match(/is_family_job: familyJob/g) || []).length
   if (sends === 0) problems.push(`A: ${name} does not send is_family_job from the composer`)
   else ok.push(`A: ${name} sends is_family_job from the composer (${sends} mount${sends === 1 ? '' : 's'})`)
@@ -76,7 +83,7 @@ if (r.status !== 0) {
   if (!/assessJobLoad\(ageBand, \[\]\)\.maxJobs/.test(composer)) problems.push('B: the composer does not read the age sweet spot for its nudge')
   else if (!/enough for the first week/.test(composer) || !/get used to the deal, then add the life jobs/.test(composer)) problems.push('B: the composer does not say the first week line')
   else ok.push('B: the composer nudges at the age sweet spot and names the first week')
-  for (const [name, src] of [['ManageJobs', manage], ['QuestManager', quests]]) {
+  for (const [name, src] of composerPages) {
     if (!/<JobComposer[\s\S]{0,400}?ageBand=\{/.test(src)) problems.push(`B: ${name} mounts the composer without the age band`)
     else ok.push(`B: ${name} gives the composer the age band`)
   }

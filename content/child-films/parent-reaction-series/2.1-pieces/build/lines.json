@@ -1,0 +1,353 @@
+{
+ "voice": {
+  "model": "seed_audio",
+  "voice_type": "preset",
+  "voice_id": "9eb5a147-c322-4f8a-8bc5-a30679dfaf5c",
+  "speech_rate": -10
+ },
+ "film": "2.1",
+ "hook": "The trick every gamer aged 8 to 10 should know",
+ "family_ids": [
+  "c08",
+  "c09",
+  "c10",
+  "c11",
+  "c18",
+  "c19",
+  "c22"
+ ],
+ "book_line": "One piece is never just one piece. A few minutes, on the sofa.",
+ "thumb_title": "One piece is never just one piece",
+ "thumb_pic": "q08",
+ "screen": {
+  "file": "screen.png",
+  "crop": "iw:ih:0:0"
+ },
+ "cards": {
+  "ask1": [
+   "Grown up, ask:",
+   "Which three pieces did DiGi join up, and what did they make?",
+   "Older child: why is it cleverer to ask for three pieces in three places than all three at once?"
+  ],
+  "ask2": [
+   "Grown up, say these one at a time. Piece, or not a piece?",
+   "my favourite dinner \u00b7 the name of our street \u00b7 my football team \u00b7 the day I was born",
+   "Slip a wrong one in on purpose."
+  ]
+ },
+ "child": [
+  {
+   "id": "c01",
+   "seg": "A",
+   "pics": [
+    "q01"
+   ],
+   "text": "Hello, you two. Yes, both of you, grown up as well. And Bloop, who has lost a jigsaw piece again."
+  },
+  {
+   "id": "c02",
+   "seg": "A",
+   "pics": [
+    "q01"
+   ],
+   "text": "By the end of this, you'll spot a trick that works on grown ups every day."
+  },
+  {
+   "id": "c03",
+   "seg": "A",
+   "pics": [
+    "q02"
+   ],
+   "text": "Three slow breaths, out longer than in. Breathe in for four. And out for six. Once more. This is a spotting job, and a fast brain walks straight past small things."
+  },
+  {
+   "id": "c04",
+   "seg": "A",
+   "pics": [
+    "q03"
+   ],
+   "product_only": true,
+   "text": "Remember the shield? Your name, where you live, your school, your photos, all kept behind it. Tonight, things are asking to come out."
+  },
+  {
+   "id": "c05",
+   "seg": "A",
+   "pics": [
+    "q04"
+   ],
+   "word": "JIGSAW",
+   "text": "Today's word is jigsaw. Small pieces that join up into a picture. And tonight, the picture is you."
+  },
+  {
+   "id": "c06",
+   "seg": "A",
+   "pics": [
+    "q05"
+   ],
+   "word": "MONDAY",
+   "text": "Here's how it works. Monday. A game ends, and a box pops up: put your real name on the leaderboard. So you do."
+  },
+  {
+   "id": "c07",
+   "seg": "A",
+   "pics": [
+    "q06"
+   ],
+   "word": "TUESDAY",
+   "text": "Tuesday. A quiz. What animal are you? Pop in your birthday. Otter."
+  },
+  {
+   "id": "c08",
+   "seg": "A",
+   "pics": [
+    "q07"
+   ],
+   "word": "WEDNESDAY",
+   "text": "Wednesday. Someone in your team chat, nice to you for weeks, asks: which school do you go to? My cousin might be there. And you nearly answer, because it would feel rude not to."
+  },
+  {
+   "id": "c09",
+   "seg": "A",
+   "pics": [
+    "q08"
+   ],
+   "text": "Three little things, and not one of them felt like anything. Now watch them join."
+  },
+  {
+   "id": "c10",
+   "seg": "A",
+   "pics": [
+    "q08"
+   ],
+   "text": "Your name. Your birthday. Your school. That's enough to answer the little questions when someone taps forgot my password on your account. Somebody walking in through the front door."
+  },
+  {
+   "id": "c11",
+   "seg": "A",
+   "pics": [
+    "q09"
+   ],
+   "word": "Nobody asks like this.",
+   "text": "Here's the bit to keep. Nobody asks for all three at once. You'd spot it straight away."
+  },
+  {
+   "id": "c12",
+   "seg": "A",
+   "pics": [
+    "q09"
+   ],
+   "text": "So it comes one piece at a time, on different days, and every piece feels like nothing. That isn't you missing something. That's the trick, working as it was built. And a trick you can see has stopped working."
+  },
+  {
+   "id": "c13",
+   "seg": "A",
+   "pics": [
+    "q19"
+   ],
+   "card": "ask1",
+   "text": "Pause me here. Grown up, ask the question on the screen. I'll wait."
+  },
+  {
+   "id": "c14",
+   "seg": "B",
+   "pics": [
+    "q10"
+   ],
+   "text": "So how do you catch a piece? Three questions. Could this help somebody find me? Get into something of mine? Pretend to be me? If even one answer is yes, it's a piece. And pieces stay on your side of the screen."
+  },
+  {
+   "id": "c15",
+   "seg": "B",
+   "pics": [
+    "q11"
+   ],
+   "text": "Six things are always a yes, so you don't even need the test. Full name. School. Address. Phone number. Passwords. Any photo that shows where you live or learn."
+  },
+  {
+   "id": "c16",
+   "seg": "B",
+   "pics": [
+    "q11"
+   ],
+   "text": "Sometimes they do have to go in somewhere, like a school account. That's fine, because a grown up is doing it with you. On your own, they stay out."
+  },
+  {
+   "id": "c17",
+   "seg": "B",
+   "pics": [
+    "q12"
+   ],
+   "text": "A piece hardly ever looks like a question. It comes wrapped in something good. Free coins. A fun quiz. Somebody being really friendly. When something lovely turns up with a box underneath, that's your moment."
+  },
+  {
+   "id": "c18",
+   "seg": "B",
+   "pics": [
+    "q13"
+   ],
+   "word": "let's chat somewhere else",
+   "text": "And there's one move to know by name. Someone from a game says: let's chat somewhere else. Or: don't tell anyone."
+  },
+  {
+   "id": "c19",
+   "seg": "B",
+   "pics": [
+    "q13"
+   ],
+   "text": "That's always a check with your grown up moment. Every time. Even if they've been lovely."
+  },
+  {
+   "id": "c20",
+   "seg": "B",
+   "pics": [
+    "q14"
+   ],
+   "word": "nah, not that one",
+   "text": "You're not being rude, and you're not deciding alone. In a chat you can say: nah, not that one, what's your best score? A box, you just shut. Then you mention it to your grown up. That's checking, not telling on anyone."
+  },
+  {
+   "id": "c21",
+   "seg": "B",
+   "pics": [
+    "q19"
+   ],
+   "card": "ask2",
+   "text": "Pause me again. Grown up, say a few things out loud, one at a time. Piece, or not a piece?"
+  },
+  {
+   "id": "c22",
+   "seg": "B",
+   "pics": [
+    "q15"
+   ],
+   "word": "One piece is never just one piece!",
+   "text": "Out loud, both of you. Grown up first. One piece is never just one piece!"
+  },
+  {
+   "id": "c23",
+   "seg": "B",
+   "pics": [
+    "q15"
+   ],
+   "word": "One piece is never just one piece!",
+   "text": "Again, together. One piece is never just one piece!"
+  },
+  {
+   "id": "c24",
+   "seg": "B",
+   "pics": [
+    "q15"
+   ],
+   "word": "One piece is never just one piece!",
+   "text": "Last one, properly loud. One piece is never just one piece!"
+  },
+  {
+   "id": "c25",
+   "seg": "C",
+   "pics": [
+    "q16"
+   ],
+   "text": "Tonight, play Five Pieces. Your grown up asks you five friendly questions. Some are pieces, some are just nice. A point for every piece you catch."
+  },
+  {
+   "id": "c26",
+   "seg": "C",
+   "pics": [
+    "q16"
+   ],
+   "text": "Then swap, and see if you can catch them out. Grown ups, let yourself get caught. It's the best bit."
+  },
+  {
+   "id": "c27",
+   "seg": "C",
+   "pics": [
+    "q17"
+   ],
+   "text": "One last thing, and it matters most. If you're thinking, I've already put some of that in somewhere, then good. Go and tell a grown up you trust. Tonight, or next week."
+  },
+  {
+   "id": "c28",
+   "seg": "C",
+   "pics": [
+    "q17"
+   ],
+   "text": "Usually that's the person sitting next to you. A teacher counts. A nan or an auntie counts. And Childline is free, on oh eight hundred, eleven eleven, any time.",
+   "cap": "Usually that's the person sitting next to you. A teacher counts. A nan or an auntie counts. And Childline is free, on 0800 1111, any time."
+  },
+  {
+   "id": "c29",
+   "seg": "C",
+   "pics": [
+    "q17"
+   ],
+   "text": "Nothing is ruined. Some of it you change, some you take down. And you will never, ever be in trouble for telling."
+  },
+  {
+   "id": "c30",
+   "seg": "C",
+   "pics": [
+    "q18"
+   ],
+   "text": "Oh, Bloop. There it was. One piece is never just one piece."
+  },
+  {
+   "id": "c31",
+   "seg": "C",
+   "pics": [
+    "q18"
+   ],
+   "text": "Goodbye from Didgee. See you next time."
+  }
+ ],
+ "parent": [
+  {
+   "id": "a01",
+   "pics": [
+    "q07"
+   ],
+   "text": "More than half of children who game online sometimes play with people they've never met.",
+   "cap": "More than half of children who game online sometimes play with people they've never met. (Ofcom, Growing Up Gaming, October 2026)"
+  },
+  {
+   "id": "a02",
+   "pics": [
+    "words"
+   ],
+   "eye": "The risk is one move",
+   "big": "The game is where it starts. The private app is where it happens.",
+   "text": "Most of those people are other children. The risk is one move."
+  },
+  {
+   "id": "a03",
+   "pics": [
+    "q13"
+   ],
+   "text": "Then someone friendly says: let's chat somewhere else. And once chat leaves the game, nobody is moderating it.",
+   "cap": "Then someone friendly says: let's chat somewhere else. Once chat leaves the game, \"no one is moderating it\" (CEOP)."
+  },
+  {
+   "id": "a04",
+   "pics": [
+    "words"
+   ],
+   "eye": "The promise to make tonight",
+   "big": "If anyone asks you to move to another app, come and tell me. You won't lose the game for telling me.",
+   "text": "So make one promise tonight, before anything happens. If anyone asks you to move to another app, come and tell me. You won't lose the game for telling me."
+  },
+  {
+   "id": "a05",
+   "pics": [
+    "q08"
+   ],
+   "text": "Their film teaches the other half: private details get collected one small piece at a time, and how to spot it."
+  },
+  {
+   "id": "a06",
+   "pics": [
+    "screen"
+   ],
+   "text": "It's a few minutes on the sofa. In Guided Childhood, you can book a time to watch it together."
+  }
+ ],
+ "ages": "8 to 10"
+}
