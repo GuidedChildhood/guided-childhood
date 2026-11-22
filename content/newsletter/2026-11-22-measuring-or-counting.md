@@ -1,6 +1,6 @@
 # Sunday 22 November: Are we measuring childhood risk, or just counting headlines?
 
-**Status:** DRAFT for Justin. Claude evidence and editorial review below. Not approved, not scheduled. LinkedIn native newsletter (and the same issue on Substack), prepared in the LinkedIn editor after approval, not uploaded through Metricool.
+**Status:** APPROVED by Justin on 19 November ("newslettter apprived goes sinday"), for Sunday 22 November. LinkedIn native newsletter, published by Justin in the LinkedIn editor (and the same issue on Substack). Not a Metricool post. Text is final: any change goes back through Claude.
 
 **Subject line options**
 1. Are we measuring childhood risk, or just counting headlines?
