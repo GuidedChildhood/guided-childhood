@@ -193,3 +193,11 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The scripts page opens on My scripts (up to five pinned) and "What is happening?" with eight moment tiles. A tile opens one card at a time with the line to say first. Migration 402 (script_pins, script_nudges), applied live.
 - Script reminders are capped at two a week, never two within 20 hours (Justin's choice). The turning it off words ride on the existing timer end push. A Sunday push sends the words for this week. A one tap "did it work" the morning after decides what is sent next. PR 1649.
 - The timer page now explains why to use the timer every time.
+
+## 22 November 2026: migration sweep, 397 ran but was never recorded
+
+- Candidates past 394: 395, 396, 397, 398, 399, 400. Every one is live. Only 397 (`public.parent_answers`) had no ledger row, so a row was written for it; nothing was applied.
+- 397 was proved live by its own shape, not by its absence from the ledger: the table carries 397's six columns plus 399's `lead_id`, RLS on with no policies, no grant to anon or authenticated, and 399 only alters `parent_answers`, so 399 being applied means 397 ran first. Same pattern as 381 to 383: a missing ledger row is not evidence a migration did not run.
+- 395, 396, 398 and 400 were each checked by their own object rather than their ledger row (`parent_nudge_log`, the two `starter_leads` consent columns, the four value `video_link_events` kind check, `watch_bookings` and `parent_lessons.after_prompt`). All present.
+- 377 is resolved. The planet lane took the handback and renamed the newspaper ledger to `planet_issue_events`; `public.planet_events` keeps the children's shape. Repo file and live database agree.
+- The duplicate 394 ledger row (version 20261112090300) is deleted, on Justin's say so. One row left, the one carrying the real SQL.
