@@ -82,6 +82,23 @@ comment reply skill already bans several of these as reflexes.
 **Too many words with no cost.** A paragraph nobody would be annoyed to lose.
 If cutting it changes nothing, it was machine filler.
 
+**Wikipedia's overused words** (Signs of AI writing, WikiProject AI Cleanup,
+checked 22 November 2026). Normal English one at a time, a tell in clusters.
+The older set: crucial, intricate, interplay, meticulous, vibrant, garner,
+bolster, showcase, foster, enhance, align with, robust. The set Wikipedia now
+sees most: challenge, clearer, dependable, echoed, matters, multifaceted,
+practical, prioritise, quietly, steady, universally. Two in a paragraph, rewrite
+it. The phrases from the same page that a person would never say aloud ("serves
+as a", "a testament to", "evolving landscape", ", ensuring families feel
+supported", "no X, no Y, just Z") are in the hard list and the guard fails them.
+
+**Vague attribution.** "Experts say", "research shows", "several studies" with
+one source or none. Name the source or cut the claim; evidence or silence.
+
+**Bold label lists and Title Case Headings.** "**Screen time**: how long..." on
+every bullet, and Every Word Capitalised in a heading. Sentence case, and a
+label only where a reader scans for it.
+
 ## The meter, for the soft half
 
 Justin, 9 November 2026, asked how to avoid AI detection, since detectors look

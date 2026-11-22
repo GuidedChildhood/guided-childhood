@@ -45,7 +45,14 @@ export const TRACKED_PATHS = [
   '/contact',
   '/privacy',
   '/terms',
+  // The app safety pages (19 November 2026): the hub, and every
+  // /is-<app>-safe and /is-<app>-safe-for-<age>-year-old page, matched by
+  // TRACKED_PATTERN below because there are two hundred of them.
+  '/app-safety-guide',
 ] as const
+
+/** Public pages that come in families too large to list one by one. */
+export const TRACKED_PATTERN = /^\/is-[a-z0-9-]+-safe(?:-for-\d{1,2}-year-old)?$/
 
 /** The stage check's steps, the only values stage_check_step may carry. */
 export const STAGE_CHECK_STEPS = ['intro', 'q1', 'q2', 'q4', 'reassure', 'result', 'account'] as const
@@ -64,6 +71,9 @@ const OWN_EVENTS: Record<string, string[]> = {
   // public page of a visit that came from an AI answer engine. The value is a
   // short name from AI_SOURCES (lib/analytics/ai-source.ts), never a URL.
   ai_referral: ['ai_source'],
+  // The free check on an app page was finished. Which app, and nothing else:
+  // never the child's age, the answers or the result.
+  mini_check_done: ['app'],
 }
 
 /**
@@ -97,6 +107,7 @@ export function isTrackedPath(pathname: string | null | undefined): boolean {
   if (!pathname) return false
   const path = pathname.split(/[?#]/)[0].replace(/\/+$/, '') || '/'
   if (path === '/') return true
+  if (TRACKED_PATTERN.test(path)) return true
   return TRACKED_PATHS.some(p => path === p || path.startsWith(`${p}/`))
 }
 
@@ -152,6 +163,7 @@ export function cleanEvent(event: CaptureResult | null, ownHost: string): Captur
     if (!allowed) return null
     properties = Object.fromEntries(Object.entries(properties).filter(([k]) => k.startsWith('$') || SDK_KEYS.has(k) || k in VISIT_KEYS || allowed.includes(k)))
     if (event.event === 'stage_check_step' && !(STAGE_CHECK_STEPS as readonly unknown[]).includes(properties.step)) return null
+    if (event.event === 'mini_check_done' && (typeof properties.app !== 'string' || !/^[a-z0-9-]{1,30}$/.test(properties.app))) return null
     if (event.event === 'link_click') {
       const { to, label } = properties
       if (label !== undefined && (typeof label !== 'string' || label.length > 40 || !TRACK_LABEL.test(label))) return null

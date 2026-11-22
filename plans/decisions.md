@@ -249,6 +249,10 @@ Every evidence pack now carries three hooks of different kinds with one CHOSEN, 
 - The stage check intro says "a confident, capable 16", not "a safe" one, and the save screen says "four days free", not "four days of everything", to match FreeDoor and the upgrade page.
 - Posts 10 and 18 re-rendered. Post 4 says outside comes first; `ref-kid-jobs` now pays outside play what the templates pay. Its film is re-rendered on the Mac.
 
+## 22 November 2026: design tells guard, and the app safety pages (Phase 2)
+
+- Justin: nothing should look AI made; Apple standard. `npm run design-tells` (ratchet over twelve visual tells, in CI) and the checklist in `.claude/skills/uiux-pro-max/design-tells.md`; Wikipedia's Signs of AI writing phrases joined `check-ai-tells.mjs`. Our own mono eyebrows, "→" and "·" are flagged as the next wave of defaults: rationed on new pages, old ones untouched.
+- Phase 2: 20 apps in `lib/app-safety/apps.ts`, 220 static pages at `/is-<app>-safe(-for-<age>-year-old)`, hub `/app-safety-guide`, the TRUST check (no score, no verdict). Every fact sourced; 61 unconfirmed points in `plans/2026-11-22-app-safety-review-list.md`. Lead CTA the stage check, email capture the existing Starter Pack magnet. Compared against main: every existing page identical. PR 1644.
 ## 22 November 2026: the iPhone service films, four, from the real app
 
 - Justin asked for Apple-style iPhone walkthroughs of DiGi on the hardest questions (and how it is tracked), Quests, Scripts, and the charts and school help. All four are built: real fixture screens recorded frame by frame with the film family's names, in a drawn iPhone, one headline per beat, ending on the stage check. 27 to 43 seconds each. No model credits.
