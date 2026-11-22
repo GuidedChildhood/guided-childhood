@@ -1,0 +1,91 @@
+{
+  "name": "2026-11-23-wed-spot-the-trick",
+  "size": "portrait",
+  "lead": "orbit",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "hook",
+      "type": "hook",
+      "lead": "orbit",
+      "tag": "1 / 8",
+      "eyebrow": "One study. Properly explained.",
+      "headline": "Can you spot<br>a trick before<br><mark>it finds you?</mark>",
+      "second": "We read<br>the study."
+    },
+    {
+      "name": "concession",
+      "type": "big",
+      "eyebrow": "First, the fair point",
+      "headline": "Knowing a trick<br>is not the same<br>as never<br>falling for it.",
+      "body": "And this study was run with adults, not children.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "what-they-did",
+      "type": "stat",
+      "eyebrow": "What the researchers did",
+      "value": "5",
+      "unit": " short videos",
+      "body": "Each one explained a single trick used to mislead people online, before anyone met it for real."
+    },
+    {
+      "name": "tricks",
+      "type": "list",
+      "eyebrow": "The five tricks",
+      "headline": "What the videos named",
+      "items": [
+        "Emotional words built to wind you up",
+        "Arguments that contradict themselves",
+        "Only two choices, when there are more",
+        "Pinning the blame on one person or group",
+        "Attacking the person, not the point"
+      ]
+    },
+    {
+      "name": "finding",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "What they found",
+      "headline": "People got<br>better at<br>spotting it.",
+      "body": "Across six controlled studies with 6,464 adults in the United States, those who watched a video were better at recognising the trick straight afterwards.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "reading",
+      "type": "quote",
+      "eyebrow": "The honest reading",
+      "quote": "Promising, not proven. It measured spotting the trick, in adults, straight after watching.",
+      "attrib": "Science Advances, 2022. Not a test on children."
+    },
+    {
+      "name": "tonight",
+      "type": "script",
+      "eyebrow": "The tonight line",
+      "headline": "Name the trick together",
+      "not": "You cannot believe everything you see online.",
+      "say": "What is this one trying to make you feel? Why might someone want that?"
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the next advert that makes you both stop and stare.",
+      "send": "Send it to the parent who worries about what their child believes online."
+    }
+  ],
+  "post": {
+    "date": "2026-11-25",
+    "day": "Wednesday 25 November",
+    "time": "10:00",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Send this to the parent who worries about what their child believes online.\n\nFair point first: knowing how a trick works is not the same as never falling for it. And the study below was run with adults, not children. Both of those matter.\n\nHere is what it did. Researchers made five short videos. Each one explained a single trick used to mislead people online, before anyone met it for real: emotional words built to wind you up, arguments that contradict themselves, being offered only two choices when there are more, pinning the blame on one person or group, and attacking the person and not the point.\n\nAcross six controlled studies with 6,464 adults in the United States, those who watched one were better at recognising the trick straight afterwards than those who watched an unrelated video.\n\nThe honest reading: it measured spotting the trick, in adults, straight after watching. It did not follow anyone for months and it did not test children. So we would call it promising, not proven.\n\nIt is still the bit we find hopeful. A trick is easier to see once somebody has named it for you.\n\nTonight: pick one advert, there are plenty about this week, and ask \"What is this one trying to make you feel? Why might someone want that?\"\n\nWhat was the first thing online that you remember being fooled by?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Send this to the parent who worries about what their child believes online.\n\nFair point first: knowing how a trick works is not the same as never falling for it. And the study below was run with adults, not children. Both of those matter.\n\nHere is what it did. Researchers made five short videos. Each one explained a single trick used to mislead people online, before anyone met it for real: emotional words built to wind you up, arguments that contradict themselves, being offered only two choices when there are more, pinning the blame on one person or group, and attacking the person and not the point.\n\nAcross six controlled studies with 6,464 adults in the United States, those who watched one were better at recognising the trick straight afterwards than those who watched an unrelated video.\n\nThe honest reading: it measured spotting the trick, in adults, straight after watching. It did not follow anyone for months and it did not test children. So we would call it promising, not proven.\n\nIt is still the bit we find hopeful. A trick is easier to see once somebody has named it for you.\n\nTonight: pick one advert, there are plenty about this week, and ask \"What is this one trying to make you feel? Why might someone want that?\"\n\nWhat was the first thing online that you remember being fooled by?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack",
+    "alt": "Card one of eight. A large headline asks whether you can spot a trick before it finds you, with the blue planet friend Orbit beside it. The later cards give the fair point, what the researchers did, the five tricks the videos named, what they found, an honest reading, and one question to ask tonight.",
+    "first_comment": "Source: Roozenbeek, van der Linden, Goldberg, Rathje and Lewandowsky, Psychological inoculation improves resilience against misinformation on social media, Science Advances, 2022. Six controlled studies with 6,464 adults in the United States, plus a field test on YouTube. It measured whether people could recognise a manipulation technique straight after watching a short video. It did not test children and it did not measure long term behaviour."
+  }
+}
