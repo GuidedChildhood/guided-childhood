@@ -201,3 +201,11 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 395, 396, 398 and 400 were each checked by their own object rather than their ledger row (`parent_nudge_log`, the two `starter_leads` consent columns, the four value `video_link_events` kind check, `watch_bookings` and `parent_lessons.after_prompt`). All present.
 - 377 is resolved. The planet lane took the handback and renamed the newspaper ledger to `planet_issue_events`; `public.planet_events` keeps the children's shape. Repo file and live database agree.
 - The duplicate 394 ledger row (version 20261112090300) is deleted, on Justin's say so. One row left, the one carrying the real SQL.
+
+## 22 November 2026: GTA VI approved, the week of 23 November cut to three
+
+- Justin: "gta approved, drop 24th and 062 this week and add to next week after".
+- GTA VI carousel approved for Mon 23 Nov 08:00 and given GDC 064, because a published post spends a number. ChatGPT's provisional 064 to 066 are void.
+- Week of 23 Nov: 064, 061, then the Sun 29 native booking. 059 moves to Wed 2 Dec, and 062 to Mon 7 Dec, because the week of 30 Nov already holds 063 and the 6 Dec booking.
+- 062 and 063 are still not approved. Detail is in content/metricool-reconciliation-2026-11-22.md.
+
