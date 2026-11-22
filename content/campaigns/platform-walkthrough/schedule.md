@@ -31,6 +31,19 @@ or "Post text, LinkedIn" in that draft.
 | Friday 18 December, 19:00 | 19 | Parents 12 of 13 | Reel: Their side of it | Guided Childhood Instagram and Facebook, TikTok | `built/19-the-childs-app/their-side-of-it.mp4` | `19-the-childs-app.md` | `tour-19`, `tour-19-fb`, `tour-19-tt` |
 | Sunday 20 December, 19:30 | 20 | Parents 13 of 13 | Carousel: Everything, in one swipe | Guided Childhood Instagram and Facebook | `built/20-everything-in-one-swipe/` | `20-everything-in-one-swipe.md` | `tour-20`, `tour-20-fb`, `tour-20-li` |
 
+## Added 19 November: the family week pack and New in Guided Childhood
+
+Justin chose Sunday mornings for the three new posts (`content/campaigns/new-in-the-app/`).
+
+| When | What | Where | Upload | Captions | Links to make first |
+|---|---|---|---|---|---|
+| Saturday 21 November | Free Saturday: the family week pack carousel (PR 1607) | Guided Childhood Instagram and Facebook | `tools/social-cards/out/free-family-week/` | `content/campaigns/family-week/carousel.md` | DM word WEEK |
+| Sunday 22 November, 10:00 | New 2 of 3: the twelve things parents ask us for help with | Guided Childhood Instagram and Facebook | `content/campaigns/new-in-the-app/built/new-02-what-would-you-like-help-with/` | `02-what-would-you-like-help-with.md` | `new-02`, `new-02-fb` |
+| Sunday 29 November, 10:00 | New 1 of 3: the school letter | Guided Childhood Instagram and Facebook | `content/campaigns/new-in-the-app/built/new-01-the-school-letter/` | `01-the-school-letter.md` | `new-01`, `new-01-fb` |
+| Sunday 6 December, 10:00 | New 3 of 3: watch it together | Guided Childhood Instagram and Facebook | `content/campaigns/new-in-the-app/built/new-03-watch-it-together/` | `03-watch-it-together.md` | `new-03`, `new-03-fb` |
+
+Fixed on 19 November: post 10 (the free days line) and post 18 (where stamps come from, and the burgundy passport) are re-rendered. Post 4 needs the Mac render before Sunday 22 November: the steps are at the foot of `04-the-star-quest.md`.
+
 ## Before the first post, Tuesday 17 November
 
 0. **Post 1 was re-laid on 17 November** (PR 1611): the worry screen in it was the old one. Upload `the-plan-in-thirty-seconds.mp4`, never the `-v1` file. Posts 4, 10 and 18 need fixes before their dates: `plans/2026-11-17-instagram-walkthrough-plan.md` section 3.

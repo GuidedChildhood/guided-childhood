@@ -237,3 +237,8 @@ Every evidence pack now carries three hooks of different kinds with one CHOSEN, 
 - Homework and deadlines now get a week before and 3 days before when there is room (worked out from the day it was added), plus the night before as always. Parent push, the child's own app for homework, and the same alerts inside the calendar file. Apple style chips on a new "Coming up" block above the week turn each on or off.
 - The bell waits for the first reminder; due dates read "Tue 1 Dec · 12 days to go". The letter reader merges near duplicates (same kind, same date, two shared words).
 - Migration 401 (`remind_days`) must be applied for the chips to save; until then the automatic plan runs. `lib/school/lead-up.ts`, PR 1641.
+## 19 November 2026: the walkthrough fixes Justin chose, and two promises brought into line
+
+- The three New in Guided Childhood posts run on Sunday mornings at 10:00 (22 Nov, 29 Nov, 6 Dec); the family week pack takes Free Saturday 21 Nov.
+- The stage check intro says "a confident, capable 16", not "a safe" one, and the save screen says "four days free", not "four days of everything", to match FreeDoor and the upgrade page.
+- Posts 10 and 18 re-rendered. Post 4 says outside comes first; `ref-kid-jobs` now pays outside play what the templates pay. Its film is re-rendered on the Mac.
