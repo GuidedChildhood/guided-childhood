@@ -2779,6 +2779,22 @@ export default function KidQuestScreen({
                 )
               })}
 
+              {/* Me v my grown up (22 November 2026): a two player game on one
+                  device, the questions from the child's own lessons, every one
+                  ending on a talking point. Nothing saved, no stars. */}
+              {activeLessonTab === 'games' && (
+                <a href={`/k/${token}/versus`} onClick={() => playKidSound('tap')} style={bigCardShell(false)}>
+                  <CardFace
+                    seed="me-v-my-grown-up" done={false}
+                    emoji="🤝" isNew
+                    title="Me v my grown up"
+                    subtitle="Race your grown up to the right answer, then talk about it."
+                    pill="2 players"
+                    actionIcon="🤝"
+                  />
+                </a>
+              )}
+
               {/* Planet Friends, the digital toy: the child's own Planet Friends
                   on a home planet that grows while the child is away. After the
                   games, so the games stay first. Tier 1 and 2 only in slice 1
