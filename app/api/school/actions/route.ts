@@ -223,7 +223,8 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ ok: true })
   }
 
-  if (!['done', 'dismissed'].includes(status)) {
+  // 'open' puts back one ticked by mistake (the Next up card's Put it back).
+  if (!['done', 'dismissed', 'open'].includes(status)) {
     return NextResponse.json({ error: 'missing or invalid id / status' }, { status: 400 })
   }
   const { error } = await supabase

@@ -7,7 +7,7 @@ import CopyText from '@/components/schools/CopyText'
 import PlainHeader from '@/components/marketing/PlainHeader'
 import { appBySlug } from '@/lib/app-safety/apps'
 import { HUB_PATH, appPath } from '@/lib/app-safety/content'
-import { blurb, candidateCode, cleanSchoolName, packLink, startLink, trackedPath, PACK_PATH, type PackSchool } from '@/lib/school/parent-pack'
+import { blurb, candidateCode, displayName, packLink, startLink, trackedPath, PACK_PATH, type PackSchool } from '@/lib/school/parent-pack'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pageMetadata } from '@/lib/seo/meta'
 
@@ -23,10 +23,11 @@ import { pageMetadata } from '@/lib/seo/meta'
 type Props = { searchParams: Promise<{ pack?: string | string[]; school?: string | string[] }> }
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v)
+// ?pack=<slug> is the share link; ?school= is what the form sends and older links carry.
+const schoolParam = (p: { pack?: string | string[]; school?: string | string[] }) => one(p.pack) ?? one(p.school)
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const q = await searchParams
-  const school = one(q.pack) ?? one(q.school)
+  const school = schoolParam(await searchParams)
   return pageMetadata({
     title: 'The parent pack for schools: free guides to share with families',
     description: 'A short piece for your school newsletter, a QR code and links to free guides on the apps children ask for, with your school\'s own tracked link.',
@@ -43,7 +44,7 @@ async function resolveSchool(raw: string | undefined): Promise<PackSchool> {
       .from('school_links').select('code, school_name').eq('code', code).eq('active', true).maybeSingle()
     if (data) return { kind: 'linked', code: data.code, name: data.school_name }
   } catch { /* no database here: fall back to the name the school typed */ }
-  const name = cleanSchoolName(raw)
+  const name = displayName(raw)
   return name ? { kind: 'named', slug: code, name } : { kind: 'none' }
 }
 
@@ -58,8 +59,7 @@ const LINK: CSSProperties = { color: 'var(--ink)', textDecorationColor: 'var(--t
 const FEATURED = ['roblox', 'youtube', 'tiktok', 'whatsapp', 'snapchat', 'minecraft']
 
 export default async function ParentPack({ searchParams }: Props) {
-  const q = await searchParams
-  const school = await resolveSchool(one(q.pack) ?? one(q.school))
+  const school = await resolveSchool(schoolParam(await searchParams))
   const start = startLink(school)
   const text = blurb(school)
   const qrSvg = await QRCode.toString(start, {
