@@ -1,0 +1,39 @@
+name: IndexNow
+
+# Tell Bing (and so ChatGPT search and Copilot) which public pages changed,
+# after main deploys. The script and why: scripts/indexnow.mjs. It sends only
+# URLs whose sitemap lastmod is recent, and never fails: a missed ping only
+# means the page is found by the next crawl.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lib/app-safety/**'
+      - 'lib/content/guides.ts'
+      - 'app/sitemap.ts'
+      - 'app/(marketing)/**'
+  workflow_dispatch:
+    inputs:
+      all:
+        description: 'Send every URL in the sitemap (the first run, or after a big change)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: true
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Vercel builds main in a few minutes; ping once the new sitemap is live.
+      - if: github.event_name == 'push'
+        run: sleep 420
+      - run: node scripts/indexnow.mjs ${{ inputs.all && '--all' || '--days 2' }}

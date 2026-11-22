@@ -43,7 +43,7 @@
     "radar-dashboard": "node scripts/radar/dashboard.mjs",
     "digi-handoff-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/digi/prompt-token.test.ts",
     "watch-bookings-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/lessons/watch-bookings.test.ts",
-    "posthog-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts lib/analytics/ai-source.test.ts",
+    "posthog-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts lib/analytics/ai-source.test.ts lib/analytics/speed-policy.test.ts",
     "answer-beat-test": "node --experimental-strip-types scripts/answer-beat.test.mjs",
     "taster-guard": "node --experimental-strip-types scripts/check-taster-wall.mjs",
     "picker-guard": "node scripts/check-job-picker.mjs",
@@ -106,13 +106,16 @@
     "radar-reconcile": "node scripts/radar/publication.mjs reconcile",
     "radar-publication-test": "node scripts/radar/test-publication.mjs",
     "linkedin-analytics": "node scripts/analytics/linkedin.mjs",
-    "child-link-guard": "node scripts/check-child-link-open.mjs"
+    "child-link-guard": "node scripts/check-child-link-open.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
+    "indexnow-test": "node --test scripts/indexnow.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",
     "@gc/shared": "file:./shared",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.1",
+    "@vercel/speed-insights": "2.1.0",
     "gsap": "^3.15.0",
     "next": "16.2.9",
     "pdf-lib": "^1.17.1",

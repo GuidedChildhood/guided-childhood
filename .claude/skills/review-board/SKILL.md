@@ -1,6 +1,6 @@
 ---
 name: review-board
-description: The weekly review board. Eleven agents score Guided Childhood out of ten (value above AI, solves the problem, right audience, will pay over AI, simplicity, keeps coming back, marketing, UX, competitors, AI and tools, business running), a skeptic challenges every nine and ten, and the chief of staff turns the gaps into one task list. Writes the scores, the tasks and the dashboard. Use when the Friday routine fires, or whenever Justin says "run the board", "review the platform", "how are we scoring", "weekly review", or asks whether a lens is at ten yet. Never builds anything itself.
+description: The weekly review board. Twelve agents score Guided Childhood out of ten (value above AI, solves the problem, right audience, will pay over AI, simplicity, keeps coming back, marketing, UX, competitors, AI and tools, search, business running), a skeptic challenges every nine and ten, and the chief of staff turns the gaps into one task list. Writes the scores, the tasks and the dashboard. Use when the Friday routine fires, or whenever Justin says "run the board", "review the platform", "how are we scoring", "weekly review", or asks whether a lens is at ten yet. Never builds anything itself.
 ---
 
 # The review board
@@ -19,7 +19,7 @@ becomes a task, and a normal session builds the task.
 
 | What | Where |
 | --- | --- |
-| The eleven agents | `.claude/agents/review-*.md` |
+| The twelve agents | `.claude/agents/review-*.md` |
 | The scorecard shape every lens returns | `.claude/skills/review-board/scorecard-contract.md` |
 | Every week's scores | `plans/review-board/scorecard.json` |
 | The task list | `plans/review-board/tasks.json`, plus answers in `plans/review-board/answers/` |
@@ -66,13 +66,13 @@ becomes a task, and a normal session builds the task.
 6. Write it to a scratch file as **the brief**: today's date, the week in
    twenty lines, the real behaviour line, and per lens its last score and top gap.
 
-## Phase 1: the ten lenses, in parallel
+## Phase 1: the eleven lenses, in parallel
 
-Launch all ten in ONE message, each with `subagent_type` set to its agent:
+Launch all eleven in ONE message, each with `subagent_type` set to its agent:
 `review-value-above-ai`, `review-solves-problem`, `review-right-audience`,
 `review-will-pay`, `review-simplicity-flow`, `review-keeps-coming-back`,
 `review-marketing`, `review-ux-expert`, `review-competitor-watch`,
-`review-ai-tools-watch`.
+`review-ai-tools-watch`, `review-search` (added 22 November 2026: Google, Bing and AI answers, eight parts of search).
 
 Each prompt is: the brief, its own previous score and top gap, today's date,
 and "Return only the scorecard, exactly as the contract says." Do not add your
@@ -104,7 +104,7 @@ still runs every week, because a closed lens can reopen.
 
 ## Phase 3: the chief of staff
 
-Launch `review-chief-of-staff` with: the brief, all ten scorecards after the
+Launch `review-chief-of-staff` with: the brief, all eleven scorecards after the
 skeptic, the skeptic verdicts, the open pull requests, and the current
 `npm run review-board -- list --all` output. It returns its own scorecard
 (`business-running`), the round up, the one thing, the task list (filtered
@@ -118,7 +118,7 @@ non negotiable. Fix the JSON rather than pass a bad list through.
 ## Phase 4: write it down
 
 1. Assemble the run file in the scratchpad:
-   `{ "date", "report": "plans/review-board/runs/<date>.md", "pulse_line": "<the line from Phase 0>", "scorecards": [ten], "skeptic": [...], "chief": {...} }`
+   `{ "date", "report": "plans/review-board/runs/<date>.md", "pulse_line": "<the line from Phase 0>", "scorecards": [eleven], "skeptic": [...], "chief": {...} }`
 2. `npm run review-board -- ingest <run file>`. This writes the scores and the
    tasks, folds in every answer Justin gave this week, writes the full report
    to `plans/review-board/runs/<date>.md` (score table, every lens's strengths,
@@ -137,7 +137,7 @@ non negotiable. Fix the JSON rather than pass a bad list through.
    `npm run review-board -- set-url <url>`. If the Artifact tool is not
    available, say so in the pull request and the hand over.
 2. Commit to `claude/review-board-<date>`, push, and open a pull request titled
-   `Review board <date>: <n> of 11 at ten`. It touches only
+   `Review board <date>: <n> of 12 at ten`. It touches only
    `plans/review-board/`, so it is quick to merge, and the session alerts
    only see the new tasks once it has merged. Say that in the body.
 3. Add one decisions entry only if the board changed a decision. Scores are
