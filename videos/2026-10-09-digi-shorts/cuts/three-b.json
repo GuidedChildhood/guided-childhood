@@ -1,0 +1,578 @@
+{
+ "name": "three-b",
+ "music": {
+  "file": "music-leberch.mp3",
+  "mediaStart": 12.3,
+  "lane": [
+   [
+    0,
+    0
+   ],
+   [
+    1.0,
+    0.2
+   ],
+   [
+    6.5,
+    0.14
+   ],
+   [
+    46.699999999999996,
+    0.14
+   ],
+   [
+    47.199999999999996,
+    0.26
+   ],
+   [
+    56.199999999999996,
+    0.26
+   ],
+   [
+    58.699999999999996,
+    0
+   ]
+  ]
+ },
+ "rail": {
+  "y": 236,
+  "from": "reply1",
+  "fromT": 0.1,
+  "until": "held",
+  "steps": [
+   {
+    "label": "Asked DiGi",
+    "shot": "reply1",
+    "t": 0.35,
+    "vol": 0.14
+   },
+   {
+    "label": "The words",
+    "shot": "deck",
+    "t": 1.5
+   },
+   {
+    "label": "Checked in",
+    "shot": "followup",
+    "t": 1.5
+   },
+   {
+    "label": "Sorted",
+    "shot": "great",
+    "t": 1.1,
+    "silent": true
+   }
+  ]
+ },
+ "shots": [
+  {
+   "id": "hook",
+   "dur": 6.5,
+   "overlays": [
+    {
+     "kind": "band",
+     "text": "Taken out of the class chat.",
+     "y": 300,
+     "t0": 0
+    },
+    {
+     "kind": "pill",
+     "text": "All hell has broken loose on the Year 6 group chat. Sam's been taken out of it.",
+     "y": 560,
+     "t0": 0.5,
+     "typed": 0.17
+    },
+    {
+     "kind": "eyebrow",
+     "text": "An example family. Real app screens, example replies.",
+     "y": 1300,
+     "t0": 3.4
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.3,
+     "vol": 0.15
+    },
+    {
+     "name": "sfx-tap",
+     "at": 1.1,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "think",
+   "dur": 3.0,
+   "src": "rec/three-b-chat.mp4",
+   "mediaStart": 2.6,
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.7,
+     "fx": 195,
+     "fy": 120,
+     "py": 760
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "It starts from *Sam*: 11, Stage 3, and what you told it before.",
+     "y": 1395,
+     "t0": 0.3
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-send",
+     "at": 0.05,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-dots",
+     "at": 0.6,
+     "vol": 0.16
+    }
+   ]
+  },
+  {
+   "id": "reply1",
+   "dur": 4.4,
+   "src": "rec/three-b-chat.mp4",
+   "mediaStart": 7.6,
+   "ground": "white",
+   "fadeIn": 0,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 467,
+     "py": 760
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "underline",
+     "x": 57,
+     "y": 429,
+     "w": 220,
+     "h": 3,
+     "t0": 1.0,
+     "t1": 4.3
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "label",
+     "text": "Illustrative reply",
+     "y": 1270,
+     "t0": 0.2
+    },
+    {
+     "kind": "caption",
+     "text": "*Never* a yes or no. A plan for him age.",
+     "y": 1395,
+     "t0": 0.6
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.05,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-shimmer",
+     "at": 1.0,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "reply2",
+   "dur": 3.0,
+   "src": "rec/three-b-chat.mp4",
+   "mediaStart": 12.6,
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 175,
+     "py": 760
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "underline",
+     "x": 57,
+     "y": 137,
+     "w": 220,
+     "h": 3,
+     "t0": 0.5,
+     "t1": 2.9
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "The *solution*, in two plain steps.",
+     "y": 1395,
+     "t0": 0.3
+    }
+   ]
+  },
+  {
+   "id": "tracked",
+   "dur": 2.8,
+   "src": "rec/three-b-chat.mp4",
+   "mediaStart": 12.8,
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 305,
+     "py": 760
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "It goes on Sam's *check in*, and it will ask how it went.",
+     "y": 1395,
+     "t0": 0.3
+    }
+   ]
+  },
+  {
+   "id": "tonight",
+   "dur": 2.8,
+   "src": "rec/three-b-chat.mp4",
+   "mediaStart": 16.6,
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 195,
+     "py": 760
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "And one thing to try *tonight*.",
+     "y": 1395,
+     "t0": 0.3
+    }
+   ]
+  },
+  {
+   "id": "deck",
+   "dur": 6.8,
+   "src": "rec/three-b-deck.mp4",
+   "srcH": 1000,
+   "mediaStart": 3.0,
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.7,
+     "fx": 195,
+     "fy": 303,
+     "py": 420
+    },
+    {
+     "t": 1.0,
+     "S": 3.1,
+     "fx": 195,
+     "fy": 600,
+     "py": 1010,
+     "dur": 0.8
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 420,
+     "t0": 0
+    },
+    {
+     "kind": "veil",
+     "h": 640,
+     "t0": 1.0,
+     "fade": true
+    },
+    {
+     "kind": "band",
+     "text": "The words to say, tonight",
+     "y": 430,
+     "t0": 1.3
+    },
+    {
+     "kind": "caption",
+     "text": "The exact *words*, one card at a time.",
+     "y": 1395,
+     "t0": 1.8
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-whoosh",
+     "at": 0,
+     "vol": 0.16
+    },
+    {
+     "name": "sfx-shimmer",
+     "at": 1.6,
+     "vol": 0.16
+    }
+   ]
+  },
+  {
+   "id": "followup",
+   "dur": 5.0,
+   "src": "rec/three-b-followup.mp4",
+   "mediaStart": 5.0,
+   "cropTop": 390,
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 165,
+     "py": 1050
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A few days on. Illustrative",
+     "y": 430,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "caption",
+     "text": "It *checks back* until it works.",
+     "y": 1395,
+     "t0": 1.6
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "ripple",
+     "x": 234,
+     "y": 233,
+     "w": 44,
+     "h": 44,
+     "t0": 1.2
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 1.2,
+     "vol": 0.45
+    }
+   ]
+  },
+  {
+   "id": "great",
+   "dur": 1.8,
+   "src": "rec/three-b-checkin.mp4",
+   "mediaStart": 0.9,
+   "srcH": 1000,
+   "clipH": 1000,
+   "cropTop": 748,
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 125,
+     "py": 1050
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A week on. Illustrative",
+     "y": 430,
+     "t0": 0
+    },
+    {
+     "kind": "label",
+     "text": "This parent's own rating",
+     "y": 620,
+     "t0": 0.6
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "ripple",
+     "x": 297,
+     "y": 52,
+     "w": 44,
+     "h": 44,
+     "t0": 0.6
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.6,
+     "vol": 0.45
+    },
+    {
+     "name": "sfx-chime",
+     "at": 1.1,
+     "vol": 0.4
+    }
+   ]
+  },
+  {
+   "id": "held",
+   "dur": 3.4,
+   "src": "rec/three-b-checkin.mp4",
+   "mediaStart": 4.2,
+   "srcH": 1000,
+   "clipH": 1000,
+   "cropTop": 748,
+   "fadeIn": 0,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 125,
+     "py": 1050
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A week on. Illustrative",
+     "y": 430,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "caption",
+     "text": "*Connection* is the protection. The plan keeps going until it holds.",
+     "y": 1395,
+     "t0": 0.2
+    }
+   ]
+  },
+  {
+   "id": "inputs",
+   "dur": 7.0,
+   "fadeIn": 0.3,
+   "overlays": [
+    {
+     "kind": "inputs",
+     "y": 300,
+     "t0": 0.1,
+     "eyebrow": "What DiGi used. Example family",
+     "title": "Every answer starts from your family",
+     "rows": [
+      {
+       "k": "Your child",
+       "v": "Sam, 11, Stage 3"
+      },
+      {
+       "k": "What you raised before",
+       "v": "Asking for a phone, still on the list"
+      },
+      {
+       "k": "What worked for your family",
+       "v": "Talking it through on the walk to school"
+      },
+      {
+       "k": "How it is going",
+       "v": "Your own rating at every check in"
+      }
+     ],
+     "note": "Never a yes or no. Safeguarding comes first. Every answer built on reviewed research.",
+     "gap": 0.85
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-whoosh",
+     "at": 0.1,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "science",
+   "dur": 6.6,
+   "fadeIn": 0.3,
+   "overlays": [
+    {
+     "kind": "science",
+     "y": 420,
+     "t0": 0.1,
+     "eyebrow": "The research behind it",
+     "claim": "Children bullied online who felt supported at home showed fewer signs of anxiety and low mood.",
+     "cite": "Hellfeldt and others, 2020, International Journal of Environmental Research and Public Health. 1,707 pupils aged 10 to 13.",
+     "note": "64% of 8 to 17s were added or invited to a group chat in four weeks. Ofcom, 2026."
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "dur": 5.6,
+   "overlays": [
+    {
+     "kind": "digi",
+     "x": 405,
+     "y": 120,
+     "size": 270,
+     "t0": 0
+    },
+    {
+     "kind": "end",
+     "y": 420,
+     "eyebrow": "Group chats?",
+     "line": "What stage is your child?",
+     "sub": "Three questions, no sign up. See what to do tonight.",
+     "button": "Find my child's stage",
+     "url": "guidedchildhood.com/v/group-chat",
+     "slate": "An example family. Real app screens, example replies.",
+     "t0": 0.3,
+     "pressAt": 2.8,
+     "tagline": "One plan for screens, phones and AI."
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.25,
+     "vol": 0.32
+    },
+    {
+     "name": "sfx-tap",
+     "at": 3.1,
+     "vol": 0.38
+    }
+   ]
+  }
+ ]
+}
