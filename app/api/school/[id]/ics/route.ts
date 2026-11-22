@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { LEAD_KINDS, leadDays } from '@/lib/school/lead-up'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 // A calendar file for one school action, so a parent or child can add it to
@@ -30,7 +31,7 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ id: string
   const admin = createAdminClient()
   const { data: a } = await admin
     .from('school_actions')
-    .select('id, title, detail, due_date, due_time, recurs_weekday')
+    .select('id, kind, title, detail, due_date, due_time, recurs_weekday, created_at')
     .eq('id', id)
     .maybeSingle()
   if (!a) return NextResponse.json({ error: 'not found' }, { status: 404 })
@@ -52,6 +53,27 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ id: string
     startDate = String(a.due_date).replace(/-/g, '')
   } else {
     startDate = ymd(new Date())
+  }
+
+  // EARLY ALERTS IN THE PHONE'S OWN CALENDAR (19 November 2026). A homework
+  // or deadline item carries the same lead-up plan as the push reminders
+  // (lib/school/lead-up.ts): a week before and three days before when there is
+  // room, or what the parent chose, plus the night before at about a quarter
+  // to eight. So a parent who only ever uses Apple or Google Calendar still
+  // gets the project started. remind_days is read on its own (migration 401).
+  let remindDays: number[] | null = null
+  try {
+    const { data, error } = await admin.from('school_actions').select('remind_days').eq('id', id).maybeSingle()
+    if (!error) remindDays = (data as { remind_days?: number[] | null } | null)?.remind_days ?? null
+  } catch { /* pre 401 */ }
+  const leadAlarms: string[] = []
+  if ((a.recurs_weekday === null || a.recurs_weekday === undefined) && a.due_date && LEAD_KINDS.has(String(a.kind))) {
+    const today = new Date().toISOString().slice(0, 10)
+    const days = leadDays({ kind: String(a.kind), due_date: String(a.due_date), created_at: (a.created_at as string | null) ?? null, remind_days: remindDays }, today)
+    for (const d of [...days, 1]) {
+      leadAlarms.push('BEGIN:VALARM', d === 1 ? 'TRIGGER:-PT12H' : `TRIGGER:-P${d}D`, 'ACTION:DISPLAY',
+        `DESCRIPTION:${String(a.title).replace(/([,;\\])/g, '\\$1')} ${d === 1 ? 'is due tomorrow' : d === 7 ? 'is due in a week' : `is due in ${d} days`}`, 'END:VALARM')
+    }
   }
 
   const esc = (s: string) => s.replace(/([,;\\])/g, '\\$1').replace(/\n/g, '\\n')
@@ -77,6 +99,7 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ id: string
     'ACTION:DISPLAY',
     `DESCRIPTION:${esc(String(a.title))}`,
     'END:VALARM',
+    ...leadAlarms,
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n')
