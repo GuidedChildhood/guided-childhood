@@ -22,6 +22,7 @@ import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
 import { isChildVisible, isHeldForHolidays, type ChildVisibleAction } from '@/lib/school/child-items'
+import { LEAD_KINDS, daysBetween, showFrom } from '@/lib/school/lead-up'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
@@ -232,7 +233,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // only the parent. Only ever the items meant for the child.
     supabase
       .from('school_actions')
-      .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child, cleared_on')
+      .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child, cleared_on, created_at')
       .eq('user_id', link.user_id)
       .eq('status', 'open'),
     // Which routines keep going in the school holidays. Read on its own and
@@ -775,8 +776,19 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
         && !isHeldForHolidays(hold, tomorrowDay, region)
       // A routine cleared for today steps back from today, but still shows a
       // tomorrow heads up if it comes round again tomorrow.
-      const when: 'today' | 'tomorrow' | null =
-        dueToday && cleared !== today ? 'today' : dueTomorrow ? 'tomorrow' : null
+      // COMING UP (19 November 2026). Homework due further off joins the line
+      // from its first early reminder, the same day the grown up's phone hears
+      // about it (lib/school/lead-up.ts), so a two week project is the child's
+      // to start too, not only something the parent remembers for them.
+      let daysLeft: number | undefined
+      let soon = false
+      if (!isRoutine && a.due_date && LEAD_KINDS.has(String(a.kind))) {
+        const left = daysBetween(today, String(a.due_date))
+        const from = showFrom({ kind: String(a.kind), due_date: String(a.due_date), created_at: (a as { created_at?: string | null }).created_at ?? null }, today)
+        if (left >= 2 && from && today >= from) { soon = true; daysLeft = left }
+      }
+      const when: 'today' | 'tomorrow' | 'soon' | null =
+        dueToday && cleared !== today ? 'today' : dueTomorrow ? 'tomorrow' : soon ? 'soon' : null
       if (!when) return null
       return {
         id: a.id as string,
@@ -784,9 +796,10 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
         kind: a.kind as string,
         time: typeof a.due_time === 'string' ? (a.due_time as string).slice(0, 5) : null,
         when,
+        ...(daysLeft != null ? { daysLeft } : {}),
       }
     })
-    .filter((x): x is { id: string; title: string; kind: string; time: string | null; when: 'today' | 'tomorrow' } => x !== null)
+    .filter((x): x is { id: string; title: string; kind: string; time: string | null; when: 'today' | 'tomorrow' | 'soon'; daysLeft?: number } => x !== null)
 
   // Is there a week worth opening? The link to it only appears when there is
   // something on it, because a door onto an empty room is worse than no door.
