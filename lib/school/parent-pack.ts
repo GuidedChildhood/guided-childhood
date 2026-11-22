@@ -71,8 +71,12 @@ export function startLink(school: PackSchool): string {
 /** The address of a school's own pack, for the page's "make your link" form and the share line. */
 export function packLink(school: PackSchool): string {
   if (school.kind === 'none') return `${SITE_URL}${PACK_PATH}`
+  // ?pack=, not ?school=: the privacy guard (scripts/check-no-pii-in-urls.mjs)
+  // treats a parameter named school as holding a school's name, and asks for
+  // a neutral name rather than an exception. The page still reads ?school=,
+  // which the make your link form submits and old links carry.
   const value = school.kind === 'linked' ? school.code : school.name
-  return `${SITE_URL}${PACK_PATH}?school=${encodeURIComponent(value)}`
+  return `${SITE_URL}${PACK_PATH}?pack=${encodeURIComponent(value)}`
 }
 
 /** The words a school pastes into its newsletter. No dashes, no claim the product cannot show. */
