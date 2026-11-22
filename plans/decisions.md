@@ -308,3 +308,11 @@ Every evidence pack now carries three hooks of different kinds with one CHOSEN, 
 - The three New in Guided Childhood posts run on Sunday mornings at 10:00 (22 Nov, 29 Nov, 6 Dec); the family week pack takes Free Saturday 21 Nov.
 - The stage check intro says "a confident, capable 16", not "a safe" one, and the save screen says "four days free", not "four days of everything", to match FreeDoor and the upgrade page.
 - Posts 10 and 18 re-rendered. Post 4 says outside comes first; `ref-kid-jobs` now pays outside play what the templates pay. Its film is re-rendered on the Mac.
+
+## 22 November 2026: migration sweep, 397 ran but was never recorded
+
+- Candidates past 394: 395, 396, 397, 398, 399, 400. Every one is live. Only 397 (`public.parent_answers`) had no ledger row, so a row was written for it; nothing was applied.
+- 397 was proved live by its own shape, not by its absence from the ledger: the table carries 397's six columns plus 399's `lead_id`, RLS on with no policies, no grant to anon or authenticated, and 399 only alters `parent_answers`, so 399 being applied means 397 ran first. Same pattern as 381 to 383: a missing ledger row is not evidence a migration did not run.
+- 395, 396, 398 and 400 were each checked by their own object rather than their ledger row (`parent_nudge_log`, the two `starter_leads` consent columns, the four value `video_link_events` kind check, `watch_bookings` and `parent_lessons.after_prompt`). All present.
+- 377 is resolved. The planet lane took the handback and renamed the newspaper ledger to `planet_issue_events`; `public.planet_events` keeps the children's shape. Repo file and live database agree.
+- Still open: my duplicate ledger row for 394 (version 20261112090300). The Supabase confirmation has now timed out four times. Harmless, both rows name the same migration.
