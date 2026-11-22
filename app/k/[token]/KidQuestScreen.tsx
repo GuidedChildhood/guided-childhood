@@ -3461,7 +3461,7 @@ export function KidSchoolBanner({ items, token, weekCount, slim = false }: {
     const sub = todayItems.length > 0
       ? (tomorrowItems.length > 0 ? `Today. Tomorrow: ${tomorrowItems.length} more` : 'Today')
       : tomorrowItems.length > 0 ? 'Tomorrow, get it ready tonight'
-      : soonLine(soonItems[0])
+      : `Due in ${soonItems[0].daysLeft} days, a little bit at a time`
     return (
       <a
         data-school-slim

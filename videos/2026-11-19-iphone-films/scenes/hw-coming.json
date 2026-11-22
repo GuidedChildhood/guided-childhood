@@ -1,0 +1,13 @@
+{
+ "name": "hw-coming",
+ "url": "/dev/school-reminders",
+ "seconds": 13,
+ "clock": "2026-11-19",
+ "stubs": [
+  { "match": "/api/school/actions", "method": "PATCH", "json": true, "body": "{\"ok\":true}" }
+ ],
+ "actions": [
+  { "at": 6500, "do": "tap", "selector": "[aria-label=Reminders] button", "text": "3 days" },
+  { "at": 8300, "do": "tap", "selector": "[aria-label=Reminders] button", "text": "3 days" }
+ ]
+}
