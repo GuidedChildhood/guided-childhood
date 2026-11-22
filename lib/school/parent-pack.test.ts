@@ -30,7 +30,7 @@ test('a linked school starts at its own /s/ link; a named one at its short /go/ 
 })
 
 test('the pack link and the blurb', () => {
-  assert.match(packLink(NAMED), /\/schools\/parent-pack\?school=Oak%20Hill%20Academy$/)
+  assert.match(packLink(NAMED), /\/schools\/parent-pack\?pack=Oak%20Hill%20Academy$/)
   const b = blurb(LINKED)
   assert.match(b, /\/s\/st-marys-primary/)
   assert.doesNotMatch(b, /[‐-―]|\s-\s/, 'no dashes in the copy a school pastes')

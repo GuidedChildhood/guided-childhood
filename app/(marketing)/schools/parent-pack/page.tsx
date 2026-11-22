@@ -20,12 +20,13 @@ import { pageMetadata } from '@/lib/seo/meta'
 // link. A school's own pack is out of the search index: there could be a
 // thousand of them and they are for that school's families, not for search.
 
-type Props = { searchParams: Promise<{ school?: string | string[] }> }
+type Props = { searchParams: Promise<{ pack?: string | string[]; school?: string | string[] }> }
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v)
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const school = one((await searchParams).school)
+  const q = await searchParams
+  const school = one(q.pack) ?? one(q.school)
   return pageMetadata({
     title: 'The parent pack for schools: free guides to share with families',
     description: 'A short piece for your school newsletter, a QR code and links to free guides on the apps children ask for, with your school\'s own tracked link.',
@@ -57,7 +58,8 @@ const LINK: CSSProperties = { color: 'var(--ink)', textDecorationColor: 'var(--t
 const FEATURED = ['roblox', 'youtube', 'tiktok', 'whatsapp', 'snapchat', 'minecraft']
 
 export default async function ParentPack({ searchParams }: Props) {
-  const school = await resolveSchool(one((await searchParams).school))
+  const q = await searchParams
+  const school = await resolveSchool(one(q.pack) ?? one(q.school))
   const start = startLink(school)
   const text = blurb(school)
   const qrSvg = await QRCode.toString(start, {
