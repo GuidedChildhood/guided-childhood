@@ -462,7 +462,7 @@
     "tiny-text": 2
   },
   "app/k/[token]/KidQuestScreen.tsx": {
-    "emoji-icon": 31,
+    "emoji-icon": 32,
     "dot-meta-line": 4,
     "purple-gradient": 1,
     "arrow-glyph": 3
@@ -1090,7 +1090,7 @@
   },
   "components/school/SchoolActionsCard.tsx": {
     "emoji-icon": 2,
-    "dot-meta-line": 6,
+    "dot-meta-line": 9,
     "arrow-glyph": 1
   },
   "components/school/SchoolLetterbox.tsx": {

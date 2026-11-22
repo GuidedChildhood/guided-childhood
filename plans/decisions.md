@@ -253,6 +253,10 @@ Every evidence pack now carries three hooks of different kinds with one CHOSEN, 
 
 - Justin: nothing should look AI made; Apple standard. `npm run design-tells` (ratchet over twelve visual tells, in CI) and the checklist in `.claude/skills/uiux-pro-max/design-tells.md`; Wikipedia's Signs of AI writing phrases joined `check-ai-tells.mjs`. Our own mono eyebrows, "→" and "·" are flagged as the next wave of defaults: rationed on new pages, old ones untouched.
 - Phase 2: 20 apps in `lib/app-safety/apps.ts`, 220 static pages at `/is-<app>-safe(-for-<age>-year-old)`, hub `/app-safety-guide`, the TRUST check (no score, no verdict). Every fact sourced; 61 unconfirmed points in `plans/2026-11-22-app-safety-review-list.md`. Lead CTA the stage check, email capture the existing Starter Pack magnet. Compared against main: every existing page identical. PR 1644.
+
+## 22 November 2026: the school parent pack (Phase 3)
+
+- `/schools/parent-pack?school=<name or code>`: a newsletter blurb with a copy button, a QR code to download, and the free tools (stage check, app guide, guides, printables). A school with a code (migration 353) gets its own `/s/<code>`, which remembers it on the family's profile; any other name gets a short `/go/<slug>` that forwards to the stage check with UTM tags, so PostHog counts it per school. Name cleaned, school versions noindex. `npm run school-pack-test`, in CI. PR 1644.
 ## 22 November 2026: the iPhone service films, four, from the real app
 
 - Justin asked for Apple-style iPhone walkthroughs of DiGi on the hardest questions (and how it is tracked), Quests, Scripts, and the charts and school help. All four are built: real fixture screens recorded frame by frame with the film family's names, in a drawn iPhone, one headline per beat, ending on the stage check. 27 to 43 seconds each. No model credits.
