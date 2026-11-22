@@ -192,17 +192,17 @@ export default function SchoolCatch() {
         letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
         margin: '0 0 8px',
       }}>
-        {pitching ? 'Nothing to set up' : 'From school'}
+        {pitching ? 'Add from school' : 'From school'}
       </p>
       <h2 style={{
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
         color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.25, margin: '0 0 8px',
       }}>
-        {pitching ? 'Snap it and DiGi reads it' : 'What DiGi read'}
+        {pitching ? 'Snap it. We find the date and keep on top of it.' : 'What DiGi read'}
       </h2>
       {pitching && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
-          Take the picture, or pick a screenshot you already have. The kit days, payments and deadlines come out of it as reminders, the night before and again in the morning.
+          A screenshot of a ClassDojo or school app message, a photo of a letter, or the email itself. Homework, a jamboree, an inset day: DiGi picks out the date, adds it to your calendar below and reminds you the night before and again in the morning.
         </p>
       )}
 
@@ -217,6 +217,12 @@ export default function SchoolCatch() {
             >
               {reading ? 'Reading it...' : '📷  Photo or screenshot'}
             </button>
+            {/* FORWARD AN EMAIL, one tap to the letterbox below (17 November
+                2026, Justin: "have the forward email option as a button"). The
+                screenshot stays first: it needs nothing set up. */}
+            <a href="#letterbox" style={{ ...quietButton, textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
+              ✉️  Forward an email
+            </a>
             <button
               onClick={() => setMode(m => (m === 'paste' ? 'idle' : 'paste'))}
               disabled={reading}

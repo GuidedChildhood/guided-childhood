@@ -231,6 +231,9 @@ jobs:
       # from the address bar, a family moved between schools, a card trial
       # counted as paying, a table a browser can reach.
       - run: node --experimental-strip-types scripts/check-school-link.mjs
+      # Homework lead-up: a week and three days before when there is room, the
+      # bell waits for the first reminder, and one letter never makes two items.
+      - run: node --experimental-strip-types scripts/check-school-lead-up.mjs
       # Homework help: under 10 never reaches the model, nobody gets a chat,
       # the homework is never stored, and the hint never carries the answer.
       - run: node --experimental-strip-types scripts/check-homework-help.mjs
@@ -258,6 +261,9 @@ jobs:
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs
+      # KS2 French: the scheme's two class toys reach our pages only as our
+      # Planet Friends, Nova and Bloop, mapped as fr.json is read (17 November 2026).
+      - run: node --experimental-strip-types scripts/check-french-friends.mjs
       # The curriculum map is public and the lessons are not, so every card
       # must say which doors open. A comment describing that bug did not stop
       # it shipping; this does.
@@ -514,6 +520,11 @@ jobs:
       # typecheck, and adding the count to a slot looks like an improvement
       # right up until you remember who else is holding the phone.
       - run: node scripts/check-passport-readonly.mjs
+      # The paper passport and the app say the same thing: one Planet Friend
+      # sticker per stage, earned by the one stamp rule (lessons, talks, the
+      # big check), the same "Stage done" line on both sides, and the real
+      # burgundy book rather than the old shop photograph (17 November 2026).
+      - run: node --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs scripts/check-stage-stickers.mjs
       # The four things count everything the family is taught, the AI
       # modules included, and start at one declared age each. See the header
       # of check-readiness-areas.mjs.
@@ -782,7 +793,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts
+      - run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts lib/analytics/ai-source.test.ts
       # The UTMs kept with a sign up and a pilot request (migration 388): only
       # slugs about the post, never an email or a number, and the database
       # checking the same pattern. Plain node too.

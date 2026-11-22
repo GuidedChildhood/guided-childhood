@@ -82,7 +82,7 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 053 | Judging the evidence, or whose side people are on (Meta, Odgers) | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, Justin wrote it, scrutiny applied | 2026-11-05 judging the evidence pack |
 
-| 054 | A new meta-analysis says the effect is much bigger, and why we are not using it | **CLAIMED 9 Nov for the Research Radar handoff GDC-RR-0754a1641c.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-0754a1641c.json |
+| 054 | A new meta-analysis says the effect is much bigger, and why we are not using it | **POSTED.** Justin confirmed 18 November ("54 gone out"). **No URL captured**, so this row rests on his word rather than on a checked link. Was: claimed 9 Nov for the Research Radar handoff GDC-RR-0754a1641c, Claude reviewed, approved | research-register/handoffs/handoff-GDC-RR-0754a1641c.json |
 
 | 055 | The government asked its own scientists whether social media harms children. Their answer was that nobody has run the experiment. | **CLAIMED 10 Nov for the Research Radar handoff GDC-RR-e22bd17322.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-e22bd17322.json |
 
@@ -96,7 +96,13 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 060 | Europe's draft law allows a social media account at 13, capped at one hour a day (EU KIDS Act, feedback window) | **CLAIMED 16 Nov by the Monday LinkedIn pass.** v1, written fresh, not a rewrite of the retired 025. Recruit strangers, planned Mon 23 Nov, must go before 26 Nov. Not approved, not posted | content/packs/2026-11-16-linkedin-week/linkedin.md |
 
-**Next free number: 061.**
+| 061 | Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped. | **CLAIMED 17 Nov for the Research Radar handoff GDC-RR-9a82e5d5b3.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.json |
+
+| 062 | Ask 13 and 14 year olds how they protect themselves online and about a third say they talk to an adult. By 17 and 18 it is fewer than one in five. | **CLAIMED 18 Nov for the Research Radar handoff GDC-RR-553f7dc067.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-553f7dc067.json |
+
+| 063 | Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow. | **CLAIMED 19 Nov for the Research Radar handoff GDC-RR-540fff2c03.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-540fff2c03.json |
+
+**Next free number: 064.**
 
 **Why Claude claimed 054 rather than leaving it to ChatGPT.** The handoff tells
 Stage 2 to claim the next free number here before writing. ChatGPT cannot write

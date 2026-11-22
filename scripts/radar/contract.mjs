@@ -51,7 +51,9 @@ import { join } from 'node:path'
 import * as reg from './register.mjs'
 
 export const REPO = process.env.RADAR_REPO || process.cwd()
-export const POST_REGISTER = join(REPO, 'content/gdc-post-register.md')
+// RADAR_POST_REGISTER lets the pipeline test read a throwaway copy, so its
+// fixture record (GDC 054) can stay unposted there after the real one went out.
+export const POST_REGISTER = process.env.RADAR_POST_REGISTER || join(REPO, 'content/gdc-post-register.md')
 
 /**
  * The Drive files this pipeline owns, by role. Identified on 10 November.

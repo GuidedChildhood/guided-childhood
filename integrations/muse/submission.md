@@ -111,9 +111,11 @@ keep them.
   or SOC 2: none is a written process of ours yet.
 - **International transfers:** Standard contractual clauses (in the
   Anthropic, Vercel and Supabase data processing terms).
-- **Government or third party requests:** No documented process. True as of
-  22 October 2026; it becomes Published process once the privacy policy says
-  what we do with a police or court request.
+- **Government or third party requests:** Published process, since 19
+  November 2026: the privacy policy section "If the police, a court or anyone
+  else asks for your data" (check it is lawful, give only what it requires,
+  tell the person, keep a record). Until then the answer was No documented
+  process.
 - **Personal data passed to an AI model:** AI model from a non restricted
   origin. The question goes to Claude (Anthropic, United States) to write the
   answer.

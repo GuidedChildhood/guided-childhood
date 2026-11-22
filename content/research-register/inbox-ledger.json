@@ -143,6 +143,88 @@
      ]
     }
    ]
+  },
+  "a8d273fca3cbd36754584a2fccd0c83c6b98c4af6a6b733a6632c60b21167fe0": {
+   "batchId": "2026-11-14-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-14T08:00:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1-5sDsk1l2wqp26nmMjoBl1J3CK9mONYjV_x_3yzMWRw",
+   "driveTitle": "1-5sDsk1l2wqp26nmMjoBl1J3CK9mONYjV_x_3yzMWRw__candidates",
+   "ingestedAt": "2026-11-17T09:21:23.230Z",
+   "results": [
+    {
+     "candidateId": "C-2026-11-14-01",
+     "title": "SAFE-Teen: Evaluating Chatbot Safety Across Adolescent Mental Health Conversations",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-9a82e5d5b3",
+     "band": "PERIPHERAL",
+     "score": -2,
+     "reasons": [],
+     "warnings": []
+    }
+   ]
+  },
+  "5fb875b9be09cc60240d795a9ea4d12936f86201e6125440baf87ac47f1f2602": {
+   "batchId": "2026-11-17-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-17T08:00:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1h40H-BB3TK-FMfv_BGl2-eIhhfoilj11S1TWKnLOrgM",
+   "driveTitle": "1h40H-BB3TK-FMfv_BGl2-eIhhfoilj11S1TWKnLOrgM__candidates",
+   "ingestedAt": "2026-11-17T09:21:23.231Z",
+   "results": []
+  },
+  "ebb5d89eebb352a9bb4cef4b5874c18b92aa68245b0298e5e4f6a5d7637ccdc9": {
+   "batchId": "2026-11-15-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-15T08:00:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1lH6D8xwV4SmP2Ci70qqEN7UF90HMBPm8cti1ddVPu8M",
+   "driveTitle": "1lH6D8xwV4SmP2Ci70qqEN7UF90HMBPm8cti1ddVPu8M__candidates",
+   "ingestedAt": "2026-11-17T09:21:23.232Z",
+   "results": []
+  },
+  "4944cce88aca546ec391ee800fbf20c620b7d6f01ab0bb0280c845b82ab16a09": {
+   "batchId": "2026-11-16-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-16T08:18:07Z",
+   "readAs": "as sent",
+   "driveFileId": "1uZGYWrJAqorsoXd4ZXsTovpS_a98UbxJRM5u7cdqxDQ",
+   "driveTitle": "1uZGYWrJAqorsoXd4ZXsTovpS_a98UbxJRM5u7cdqxDQ__candidates",
+   "ingestedAt": "2026-11-17T09:21:23.250Z",
+   "results": [
+    {
+     "candidateId": "C-2026-11-16-01",
+     "title": "2026 Into the Light Index on Global Child Sexual Exploitation and Abuse",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-5577da5988",
+     "band": "PERIPHERAL",
+     "score": 0,
+     "reasons": [],
+     "warnings": []
+    }
+   ]
+  },
+  "1088ffa14184b9a4917f3ba558a858ef33032edcc80f9ecc94c8e7e5b9c1303a": {
+   "batchId": "2026-11-18-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-18T08:00:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1ycdWOBf2ADg7-GcOH6asAMA1kye0ZerbiSMLohJLJpE",
+   "driveTitle": "1ycdWOBf2ADg7-GcOH6asAMA1kye0ZerbiSMLohJLJpE__candidates",
+   "ingestedAt": "2026-11-18T09:21:08.900Z",
+   "results": []
+  },
+  "6bd02083c1212b7fa5c319c5b5244086b03d2d444d7dd860223753c188e4c038": {
+   "batchId": "2026-11-19-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-19T08:02:37Z",
+   "readAs": "as sent",
+   "driveFileId": "1lFLGzTjYZ8-VYyQNuN-16ANpIZjnxrxAQ8PtXnlzOMU",
+   "driveTitle": "1lFLGzTjYZ8-VYyQNuN-16ANpIZjnxrxAQ8PtXnlzOMU__candidates",
+   "ingestedAt": "2026-11-19T09:22:45.844Z",
+   "results": []
   }
  },
  "candidates": {
@@ -262,6 +344,30 @@
    ],
    "batchId": "2026-11-16-claude-directed-justin",
    "at": "2026-11-16T13:42:42.969Z"
+  },
+  "2026-11-14-chatgpt-0800/C-2026-11-14-01": {
+   "candidateId": "C-2026-11-14-01",
+   "title": "SAFE-Teen: Evaluating Chatbot Safety Across Adolescent Mental Health Conversations",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-9a82e5d5b3",
+   "band": "PERIPHERAL",
+   "score": -2,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-14-chatgpt-0800",
+   "at": "2026-11-17T09:21:23.230Z"
+  },
+  "2026-11-16-chatgpt-0800/C-2026-11-16-01": {
+   "candidateId": "C-2026-11-16-01",
+   "title": "2026 Into the Light Index on Global Child Sexual Exploitation and Abuse",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-5577da5988",
+   "band": "PERIPHERAL",
+   "score": 0,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-16-chatgpt-0800",
+   "at": "2026-11-17T09:21:23.250Z"
   }
  }
 }

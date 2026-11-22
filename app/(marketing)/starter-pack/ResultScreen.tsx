@@ -503,6 +503,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <Fixes
             kid={kid || 'Your child'}
             words={stage.script.sayThis}
+            notThis={stage.script.notThis}
             concern={concern}
             afterStars={
               <Fold label={`How the time works, and the ${base} minute start`} tone="card">

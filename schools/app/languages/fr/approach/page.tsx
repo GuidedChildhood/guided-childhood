@@ -1,5 +1,7 @@
 import { PAGE } from '@gc/shared/page-scale'
 import { FR_HANDBOOK, FR_PAGE } from '@/lib/languages/french'
+import { FRIENDS_ANCHOR, FRIENDS_PAIR } from '@/lib/languages/fr-friends'
+import { FrenchFriendsCard } from '../FrenchFriends'
 import { body, Callout, card, Cards, Crumbs, Flow, Fold, FoldStyles, langEyebrow, Part, small } from '../_ui'
 
 // /languages/fr/approach: HOW THE LESSONS WORK, AND WHY (11 November 2026).
@@ -8,7 +10,12 @@ import { body, Callout, card, Cards, Crumbs, Flow, Fold, FoldStyles, langEyebrow
 // the same shape. This page is that shape and the reasons for it, written by
 // the scheme's author on her own site and synced here: the seven steps, her
 // answers to "why do we do it this way", the activities and what each is for,
-// the two class toys, and the four levels of work.
+// the two class friends, and the four levels of work.
+//
+// THE TWO CLASS FRIENDS (17 November 2026). Her two toys are played on our
+// pages by Nova and Bloop, dressed up for French (lib/languages/fr-friends.ts
+// maps her text as it is read), with the whisper or shout moment above her
+// description. The anchor keeps its old name so existing links still land.
 //
 // Her reasons fold away one line each, because a teacher reads one or two of
 // them, not thirteen.
@@ -19,7 +26,7 @@ export default function FrenchApproach() {
   const P = FR_PAGE
   const H = FR_HANDBOOK
   const acts = P.activities ?? {}
-  const games = (acts.lesson ?? []).filter(r => r[0] !== 'Marie and Pierre')
+  const games = (acts.lesson ?? []).filter(r => r[0] !== FRIENDS_PAIR)
   return (
     <div style={{ maxWidth: '920px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       <div>
@@ -88,8 +95,9 @@ export default function FrenchApproach() {
       )}
 
       {H.marie && H.marie.length > 0 && (
-        <Part id="marie-and-pierre" title="Marie and Pierre">
-          <p style={{ ...body, margin: 0 }}>The two toys at the heart of the lessons.</p>
+        <Part id={FRIENDS_ANCHOR} title={FRIENDS_PAIR}>
+          <p style={{ ...body, margin: 0 }}>Two Planet Friends at the heart of the lessons, dressed up for French. Try them here.</p>
+          <FrenchFriendsCard />
           <Cards rows={H.marie} />
         </Part>
       )}

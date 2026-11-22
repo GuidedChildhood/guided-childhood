@@ -1,0 +1,192 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-17",
+ "startedAt": "2026-11-17T09:21:22.751Z",
+ "stages": [
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 19,
+    "total": 94
+   },
+   "at": "2026-11-17T09:24:39.807Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 4,
+    "confirmed": 4,
+    "unconfirmed": []
+   },
+   "at": "2026-11-17T09:24:40.767Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "4 reviewed of a raised cap of 5 (Justin, 17 Nov). Cleared: GDC-RR-9a82e5d5b3 SAFE-Teen chatbot simulation preprint, EDIT, full text read. HOLD: GDC-RR-5577da5988 Childlight index (not UK; NCMEC's own breakdown does not support the 8,411 percent AI abuse material framing), GDC-RR-e14aa2cd50 Hungarian cohort (ages 18 months to 3, below our customer, mother reported both sides). HOLD, not storable: GDC-RR-29a4765c83 Meta and Haidt, a news report with no primary record confirmed; the court filing was not read and Gelman's blog refused the fetch (403). Not reopened: GDC-RR-34b3878324 HOLD, GDC-RR-e1a6cd5229 HOLD, GDC-RR-b3cbb73e58 REJECT stand from 11 and 12 Nov reviews, nothing new. Fixed: a register guard bug had moved 5 reviewed records off HOLD or REJECTED; restored. 9 ADJACENT records still wait."
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:31:19.702Z",
+   "commit": "a1c213ac",
+   "attempts": 2
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [
+     {
+      "researchId": "GDC-RR-9a82e5d5b3",
+      "gdcPostNumber": "061",
+      "handoffVersion": 1
+     }
+    ],
+    "alreadyCurrent": [],
+    "duplicateCheck": {
+     "GDC-RR-9a82e5d5b3": "NEW"
+    },
+    "queue": [
+     "GDC-RR-9a82e5d5b3"
+    ]
+   },
+   "at": "2026-11-17T09:31:24.878Z",
+   "commit": "a1c213ac",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "four CANDIDATES documents read (14, 15, 16, 17 Nov; none had been read because no morning run committed since 13 Nov). Two candidates taken in: SAFE-Teen and the Childlight index. 15 and 17 Nov were empty. No brief yet for 17 Nov; the 16 Nov brief agrees with the register. The LinkedIn numbers inbox is empty."
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:31:44.801Z",
+   "commit": "a1c213ac",
+   "attempts": 2
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "pushed claude/radar-2026-11-17 at 4992de15 once .claude/settings.json on main was valid and allowed git (Justin, 09:51); draft PR 1601. Earlier refusals were the session permission check, not GitHub."
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:55:18.642Z",
+   "commit": "4992de15",
+   "attempts": 2
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "stamped at pushed commit 4992de15: queue (1 story), number list and GDC 061 handoff JSON each BYTE IDENTICAL by code; GDC 061 handoff Doc and the start here Doc TEXT IDENTICAL by verifyDocExport. Old queue, number list and start here retitled ZZ SUPERSEDED; four inbox documents retitled ZZ INGESTED; the fallback patch retitled ZZ NOT NEEDED."
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:55:18.737Z",
+   "commit": "4992de15",
+   "attempts": 2
+  },
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "after the sync: every Drive role Stage 2 reads is current"
+   ],
+   "detail": null,
+   "at": "2026-11-17T09:55:23.278Z",
+   "commit": "4992de15",
+   "attempts": 3
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-061 (GDC-RR-9a82e5d5b3): v1 from ChatGPT passed QA; Claude edit v2 (proof path, two not this but that shapes, rhythm) passed QA 0 failures, reviewed PASS, Drive copy TEXT IDENTICAL, research card still and motion verified and in the Approval Desk, ASSETS READY"
+   ],
+   "detail": null,
+   "at": "2026-11-17T13:33:52.301Z",
+   "commit": "7ea416a3",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "1 pack found in Stage 2 (GDC-061 v1), automatic checks PASS; v2 Claude edit also PASS"
+   ],
+   "detail": null,
+   "at": "2026-11-17T13:33:52.397Z",
+   "commit": "7ea416a3",
+   "attempts": 4
+  },
+  {
+   "stage": "ASSETS",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-061: research card by default for an evidence post; still PNG and 14 second MP4 rendered by the motion engine from the pack CARD TEXT, card gate PASS, every frame check PASS, frames looked at, both uploaded to the Founder Approval Desk with conversion off, sizes match"
+   ],
+   "detail": null,
+   "at": "2026-11-17T14:11:56.952Z",
+   "commit": "427fa677",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-061 v2 READY FOR JUSTIN Doc, card still and motion, METRICOOL HANDOFF GDC-061 (draft permitted, scheduling not permitted) all in the Founder Approval Desk; approval sheet regenerated and TEXT IDENTICAL; Post Desk version 21 with GDC-061 on top; start here CURRENT TEXT IDENTICAL, queue manifest BYTE IDENTICAL; superseded copies retitled ZZ"
+   ],
+   "detail": null,
+   "at": "2026-11-17T14:11:57.057Z",
+   "commit": "427fa677",
+   "attempts": 3
+  },
+  {
+   "stage": "METRICOOL HANDOFF",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-061 handoff written, radar-reconcile PASS (0 to settle, 9 to note), copied to Drive as METRICOOL HANDOFF GDC-061 and read back TEXT IDENTICAL; it was the first for 061 so nothing to retire"
+   ],
+   "detail": null,
+   "at": "2026-11-17T14:11:57.181Z",
+   "commit": "427fa677",
+   "attempts": 1
+  },
+  {
+   "stage": "FLOW CHECK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "1 yes, CANDIDATES 2026-11-17 batch read this morning (it held no candidates). 2 yes, morning stages logged and start here CURRENT dated today. 3 yes, GDC-061 was the one story under WHAT TO WRITE and its pack was in Stage 2. 4 yes, the pack was checked and METRICOOL HANDOFF GDC-061 is in the Approval Desk. 5 yesterday's 14:30 ChatGPT step cannot be seen from here, not reported as done"
+   ],
+   "detail": null,
+   "at": "2026-11-17T14:11:57.278Z",
+   "commit": "427fa677",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-17T14:11:57.310Z"
+}

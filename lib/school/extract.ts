@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { mergeNearDuplicates } from './merge-items'
 
 // THE ONE SCHOOL EXTRACTOR.
 //
@@ -53,7 +54,7 @@ function buildPrompt(schoolName: string, subject: string, body: string, hasImage
   const source = hasImage
     ? 'this photo of a school letter, note or screen'
     : 'this school message'
-  return `Extract actionable items for a parent from ${source} from ${schoolName}. Only real actions a parent must do or remember: kit to bring (coat, PE kit, water bottle, wellies), payments due, homework or practice (times tables, reading), events and trips with dates, deadlines, important notices. Ignore newsletters with no action. Exception: if the message is only a notification that a message, post or update is waiting inside an app (ClassDojo, Tapestry, Seesaw, Arbor, ParentPay and similar) and the content itself is not included, return exactly one notice item telling the parent to check that app, naming the sender if given, for example {"kind":"notice","title":"Check ClassDojo message from Miss Smith","detail":"ClassDojo says a new message is waiting in the app.","due_date":null}. Today is ${today}.${hasImage ? ' Read every date you can see. If a date is written as a weekday without a year, work it out from today.' : ''}
+  return `Extract actionable items for a parent from ${source} from ${schoolName}. Only real actions a parent must do or remember: kit to bring (coat, PE kit, water bottle, wellies), payments due, homework or practice (times tables, reading), events and trips with dates, deadlines, important notices. Ignore newsletters with no action. Exception: if the message is only a notification that a message, post or update is waiting inside an app (ClassDojo, Tapestry, Seesaw, Arbor, ParentPay and similar) and the content itself is not included, return exactly one notice item telling the parent to check that app, naming the sender if given, for example {"kind":"notice","title":"Check ClassDojo message from Miss Smith","detail":"ClassDojo says a new message is waiting in the app.","due_date":null}. One item per piece of work: a project to make and hand in on the same day is ONE homework item, never one to build it and another to hand it in. Put what to bring or make in the detail. Today is ${today}.${hasImage ? ' Read every date you can see. If a date is written as a weekday without a year, work it out from today.' : ''}
 
 ${subject ? `Subject: ${subject}\n\n` : ''}${body.slice(0, 4000)}
 
@@ -64,7 +65,7 @@ Return ONLY a JSON array (empty if no actions): [{"kind":"kit|payment|homework|e
  *  coerced, because a guessed kind on a school deadline is worse than nothing. */
 export function validateItems(raw: unknown): ExtractedItem[] {
   if (!Array.isArray(raw)) return []
-  return raw
+  return mergeNearDuplicates(raw
     .filter((i): i is ExtractedItem =>
       Boolean(i) && typeof i === 'object'
       && (SCHOOL_KINDS as readonly string[]).includes((i as ExtractedItem).kind)
@@ -75,7 +76,7 @@ export function validateItems(raw: unknown): ExtractedItem[] {
       title: i.title.trim().slice(0, 120),
       detail: typeof i.detail === 'string' ? i.detail.trim().slice(0, 300) : null,
       due_date: typeof i.due_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(i.due_date) ? i.due_date : null,
-    }))
+    })))
 }
 
 export type ExtractInput = {
@@ -97,8 +98,22 @@ export type ExtractInput = {
  * behind it (non-negotiable 2 in CLAUDE.md).
  */
 export async function extractSchoolItems(input: ExtractInput): Promise<ExtractedItem[]> {
+  return (await readSchoolMessage(input)).items
+}
+
+/**
+ * The same read, saying whether any model answered at all.
+ *
+ * The photo path needs the difference (17 November 2026, Justin: "make sure
+ * all works"). An empty list from a model that read the picture means nothing
+ * needed doing. An empty list because no model could be reached means it was
+ * never read, and telling a parent holding an inset day letter "nothing in
+ * there needed doing" is the worst possible answer. The email webhook keeps
+ * using extractSchoolItems, which must never throw or differ.
+ */
+export async function readSchoolMessage(input: ExtractInput): Promise<{ items: ExtractedItem[]; reached: boolean }> {
   const { schoolName, subject = '', body = '', image } = input
-  if (!body.trim() && !image) return []
+  if (!body.trim() && !image) return { items: [], reached: true }
 
   const prompt = buildPrompt(schoolName, subject, body, Boolean(image))
   const content: Anthropic.MessageParam['content'] = image
@@ -118,9 +133,9 @@ export async function extractSchoolItems(input: ExtractInput): Promise<Extracted
       })
       const text = res.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('')
       const match = text.match(/\[[\s\S]*\]/)
-      if (!match) return []
-      return validateItems(JSON.parse(match[0]))
+      if (!match) return { items: [], reached: true }
+      return { items: validateItems(JSON.parse(match[0])), reached: true }
     } catch { /* try the next model in the ladder */ }
   }
-  return []
+  return { items: [], reached: false }
 }

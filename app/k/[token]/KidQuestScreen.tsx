@@ -46,6 +46,7 @@ import KidSquadIntro, { squadIntroSeen, squadIntroDue } from '@/components/kid/K
 import StreakBar from '@/components/kid/StreakBar'
 import KidWins, { type WinRecord } from '@/components/kid/KidWins'
 import KidPassport from '@/components/kid/KidPassport'
+import type { KidSteps } from '@/lib/pathway/record-book-server'
 import KidFriendArrival from '@/components/kid/KidFriendArrival'
 import KidFriendsParade from '@/components/kid/KidFriendsParade'
 import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
@@ -73,7 +74,7 @@ type Goal = { title: string; stars_needed: number; daily_stars: number | null; a
 export type KidMission = { id: string; title: string; stars: number; status: string; opensOn?: string | null }
 export type KidAdventure = { code: string; title: string; catchphrase: string; stageId: number; posterUrl?: string | null; done: boolean; timesCompleted: number }
 export type KidAsk = { id: string; title: string; emoji: string; status: string }
-export type KidSchoolToday = { id: string; title: string; kind: string; time: string | null; when?: 'today' | 'tomorrow' }
+export type KidSchoolToday = { id: string; title: string; kind: string; time: string | null; when?: 'today' | 'tomorrow' | 'soon'; daysLeft?: number }
 
 // The child's own choices: a squad buddy who greets them, and an accent colour.
 // Small, known sets, so the app stays on brand whatever they pick.
@@ -112,7 +113,7 @@ export default function KidQuestScreen({
   tutorLesson = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
-  fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null,
+  fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null, kidSteps = null,
   dailyStickers = null,
   sinceItems = [], lastSeenAt = null, grownUpLabel = null, watchTime = null,
 }: {
@@ -136,6 +137,8 @@ export default function KidQuestScreen({
   /** The real book, read only, for the passport takeover. Null when it could
    *  not be built, and the takeover is the sticker book alone. */
   kidBook?: { stamps: KidBookStamp[]; currentStage: number | null } | null
+  /** The child's own page, step by step (lib/pathway/record-book-server.ts kidStepsFrom). */
+  kidSteps?: KidSteps | null
   // How many Planet Friends this child has earned, the further of the passport
   // stages and the streak unlock, so the picker only offers earned Friends.
   earnedStages?: number
@@ -2124,6 +2127,7 @@ export default function KidQuestScreen({
             passportCode={passportCode}
             stageId={stageId}
             book={kidBook}
+            steps={kidSteps}
           />
         )}
 
@@ -3441,6 +3445,9 @@ export function KidSchoolBanner({ items, token, weekCount, slim = false }: {
   // items lead and can go red as a timed one nears.
   const todayItems = items.filter(i => (i.when ?? 'today') === 'today')
   const tomorrowItems = items.filter(i => i.when === 'tomorrow')
+  // Homework further off, from its first early reminder (lib/school/lead-up.ts).
+  const soonItems = items.filter(i => i.when === 'soon').sort((a, b) => (a.daysLeft ?? 99) - (b.daysLeft ?? 99))
+  const soonLine = (i: KidSchoolToday) => `Due in ${i.daysLeft} days, a little bit at a time ⭐`
   const anyUrgent = todayItems.some(i => urgentOf(i.time))
 
   // THE SLIM LINE (13 October 2026). Justin moved the five a day to the top,
@@ -3448,12 +3455,13 @@ export function KidSchoolBanner({ items, token, weekCount, slim = false }: {
   // tomorrow as a count, the time chip going red as a timed one nears, and the
   // whole line the door to the week, where the full list and adding live.
   if (slim) {
-    const lead = todayItems.length > 0 ? todayItems : tomorrowItems
+    const lead = todayItems.length > 0 ? todayItems : tomorrowItems.length > 0 ? tomorrowItems : soonItems.slice(0, 1)
     const hotTime = todayItems.find(i => urgentOf(i.time))?.time ?? null
     const names = lead.slice(0, 2).map(i => i.title).join(', ') + (lead.length > 2 ? ` and ${lead.length - 2} more` : '')
     const sub = todayItems.length > 0
       ? (tomorrowItems.length > 0 ? `Today. Tomorrow: ${tomorrowItems.length} more` : 'Today')
-      : 'Tomorrow, get it ready tonight'
+      : tomorrowItems.length > 0 ? 'Tomorrow, get it ready tonight'
+      : soonLine(soonItems[0])
     return (
       <a
         data-school-slim
@@ -3533,6 +3541,23 @@ export function KidSchoolBanner({ items, token, weekCount, slim = false }: {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {tomorrowItems.map(i => row(i, false))}
+          </div>
+        </div>
+      )}
+
+      {soonItems.length > 0 && (
+        <div style={{ marginTop: todayItems.length + tomorrowItems.length > 0 ? '12px' : 0, paddingTop: todayItems.length + tomorrowItems.length > 0 ? '12px' : 0, borderTop: todayItems.length + tomorrowItems.length > 0 ? '1px solid var(--border)' : 'none' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, color: 'var(--ink)', marginBottom: '9px' }}>
+            <HappyIcon name="calendar" size={26} />
+            Coming up
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {soonItems.map(i => (
+              <div key={i.id}>
+                {row(i, false)}
+                <span style={{ display: 'block', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginLeft: 34 }}>{soonLine(i)}</span>
+              </div>
+            ))}
           </div>
         </div>
       )}

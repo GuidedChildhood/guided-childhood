@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import StarChartSheet, { MAX_ROWS } from '@/components/printables/StarChartSheet'
+import StarChartSheet, { MAX_ROWS, penRows } from '@/components/printables/StarChartSheet'
+import SchoolWeekSheet, { type SchoolItem } from '@/components/printables/SchoolWeekSheet'
 import KidBackLink from '@/components/kid/KidBackLink'
 import { HAPPY, HappyMasthead, Burst } from '@/components/kid/HappyNewsBits'
 import { printOrOpen, packForUrl, tickPrintableStep, fiveADayHref } from '@/lib/kid/print-anywhere'
@@ -30,6 +31,21 @@ import { printOrOpen, packForUrl, tickPrintableStep, fiveADayHref } from '@/lib/
 type Job = { emoji: string; text: string; stars: number }
 
 const POOL: { group: string; jobs: Job[] }[] = [
+  // THE ONES EVERY HOUSE FIGHTS ABOUT, first (Justin, 17 November 2026, from
+  // his own three: TV asked for first thing, the room, hair and shoes at
+  // leaving time, homework checked, the reading record). Written as what the
+  // child does, never as what they must not do, so every row is a star to win.
+  {
+    group: 'The morning and school ones, worth 2 stars',
+    jobs: [
+      { emoji: '📺', text: 'TV waits till I am dressed and fed', stars: 2 },
+      { emoji: '👟', text: 'Hair done, shoes on, at the door on time', stars: 2 },
+      { emoji: '📖', text: 'Reading done and record signed', stars: 2 },
+      { emoji: '✏️', text: 'Homework done and shown to a grown up', stars: 2 },
+      { emoji: '🛏️', text: 'Room reset: floor clear before tea', stars: 2 },
+      { emoji: '🎒', text: 'Bag packed the night before', stars: 2 },
+    ],
+  },
   {
     group: 'Every day, worth 1 star',
     jobs: [
@@ -78,6 +94,10 @@ export default function StarChartBuilder({
   kidToken = null,
   rateByChild = {},
   defaultRate = 5,
+  fullDaysByChild = {},
+  defaultChildId = null,
+  schoolKids = [],
+  schoolItemsByWeek = {},
 }: {
   /** The family's real active jobs, straight off the quests board. */
   yourJobs?: YourJob[]
@@ -121,6 +141,14 @@ export default function StarChartBuilder({
    */
   rateByChild?: Record<string, number>
   defaultRate?: number
+  /** Full days each child has in the app, for the Planet Friends trail. */
+  fullDaysByChild?: Record<string, number>
+  /** The child a one child family's sheet is for (there is no switcher). */
+  defaultChildId?: string | null
+  /** Every child's first name, for the Our school week sheet's columns. */
+  schoolKids?: string[]
+  /** What school told us, per week start, placed by day and child. */
+  schoolItemsByWeek?: Record<string, SchoolItem[]>
 } = {}) {
   const router = useRouter()
   const [childName, setChildName] = useState(defaultChildName)
@@ -141,6 +169,12 @@ export default function StarChartBuilder({
   // The deal printed on the sheet follows the chosen child's own rate. A one
   // child family has no switcher, so the default carries their rate instead.
   const rate = (forChild && rateByChild[forChild]) || defaultRate
+  // The family's school week prints between the chart and the cut outs on the
+  // parent's print. On by default, one tap to leave it out. Never on the
+  // child's own print, which is that child's chart alone.
+  const [withSchool, setWithSchool] = useState(true)
+  const progressFor = forChild ?? defaultChildId
+  const fullDays = progressFor && progressFor in fullDaysByChild ? fullDaysByChild[progressFor] : null
 
   const [picked, setPicked] = useState<Job[]>(
     // Their own jobs lead. Falling back to our menu only when a family has set
@@ -170,7 +204,7 @@ export default function StarChartBuilder({
 
   // Whatever is left of the eleven rows prints as a blank line, so the chart
   // always fills the page and there is still room for a Tuesday afterthought.
-  const blanks = Math.max(0, MAX_ROWS - picked.length)
+  const blanks = penRows(picked.length)
   const name = childName.trim()
 
   return (
@@ -417,15 +451,20 @@ export default function StarChartBuilder({
 
       {/* The sheet itself, the SHARED one. What is on screen here is exactly
           what prints, and exactly what the child's own print page prints.
-          On a narrow phone the seven day columns crush the headers into each
-          other, so the preview scrolls sideways instead; print ignores the
-          wrapper entirely, the A4 page being wider than the minimum anyway. */}
-      <style>{`@media print { .sheet-scroll { overflow: visible !important } .sheet-scroll > div { min-width: 0 !important } }`}</style>
-      <div className="sheet-scroll" style={{ overflowX: 'auto' }}>
-        <div style={{ minWidth: 560 }}>
-          <StarChartSheet name={name} weekLabel={week?.label ?? null} jobs={picked} starMinutes={rate} />
-        </div>
-      </div>
+          Page one sits in SheetScale, so a phone sees the whole A4 page shrunk
+          to fit rather than a sideways scroll (17 November 2026). */}
+      {variant === 'parent' && (
+        <label className="no-print" style={{ display: 'flex', alignItems: 'center', gap: 10, minHeight: 44, margin: '0 0 10px', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', cursor: 'pointer' }}>
+          <input type="checkbox" checked={withSchool} onChange={e => setWithSchool(e.target.checked)} style={{ width: 20, height: 20, accentColor: 'var(--ink)' }} />
+          Add Our school week: reading, homework, front seat rota and the Sunday check
+        </label>
+      )}
+      <StarChartSheet
+        name={name} weekLabel={week?.label ?? null} jobs={picked} starMinutes={rate} fullDays={fullDays}
+        extraPage={variant === 'parent' && withSchool
+          ? <SchoolWeekSheet kids={schoolKids} weekLabel={week?.label ?? null} items={(week && schoolItemsByWeek[week.start]) || []} />
+          : null}
+      />
 
       {/* One tidy action bar, fixed low on the screen the Mobbin way, so the
           print button is always in reach however far the menu runs. */}

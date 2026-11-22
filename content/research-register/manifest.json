@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-13T09:24:34.232Z",
+ "generatedAt": "2026-11-19T09:38:27.431Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -9,42 +9,66 @@
   "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
  ],
  "counts": {
-  "total": 72,
+  "total": 129,
   "byStatus": {
-   "DISCOVERED": 46,
-   "APPROVED": 2,
-   "HOLD": 5,
-   "ASSETS READY": 3,
-   "REJECTED": 4,
-   "VERIFIED": 11,
-   "EDITORIAL READY": 1
+   "DISCOVERED": 89,
+   "APPROVED": 7,
+   "HOLD": 13,
+   "REJECTED": 6,
+   "VERIFIED": 12,
+   "EDITORIAL READY": 2
   }
  },
  "queue": [
   {
-   "researchId": "GDC-RR-f0fb8386cd",
-   "title": "Parent Comfort With Artificial Intelligence–Led Behavioral Therapy for Their Child",
-   "proposedTitle": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
+   "researchId": "GDC-RR-553f7dc067",
+   "title": "Digital Encounters and Protection Pathways Across Adolescence: Age- and Gender-Related Patterns in 26,297 European Adolescents Digital encounters and protection pathways",
+   "proposedTitle": "Ask 13 and 14 year olds how they protect themselves online and about a third say they talk to an adult. By 17 and 18 it is fewer than one in five.",
    "editorialPriority": "BANK",
-   "urgency": "Medium. Published ten days ago and current, and the subject is live.",
+   "urgency": "Low to moderate. Bank it. The Commission data are from spring 2026 and the preprint was posted on 17 November, so it is current for some weeks.",
    "claudeStatus": "CLAUDE REVIEWED",
    "claudeVerdict": "EDIT",
    "recommendedPlatforms": [
-    "LinkedIn post"
+    "LinkedIn"
    ],
-   "gdcPostNumber": "059",
-   "primaryUrl": "https://doi.org/10.1001/jamapediatrics.2026.4939",
-   "doi": "10.1001/jamapediatrics.2026.4939",
-   "publishedDate": "2026-11-02",
+   "gdcPostNumber": "062",
+   "primaryUrl": "https://doi.org/10.21203/rs.3.rs-11441481/v1",
+   "doi": "10.21203/rs.3.rs-11441481/v1",
+   "publishedDate": "2026-11-17",
    "design": "cross-sectional",
-   "figuresCleared": 11,
+   "figuresCleared": 7,
    "handoffDoc": null,
    "handoffJsonDriveFileId": null,
-   "handoffVersion": 3,
-   "handoffSourceCommit": "3496218754ea6c65604192c2ce00471d897e11d1",
-   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json",
-   "firstFound": "2026-11-12T14:45:32.751Z",
-   "registerVersion": 14
+   "handoffVersion": 1,
+   "handoffSourceCommit": "bca36accd7a18b2b879e27e0f2ad7e007529b6a8",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-553f7dc067.json",
+   "firstFound": "2026-11-18T09:22:15.128Z",
+   "registerVersion": 10
+  },
+  {
+   "researchId": "GDC-RR-540fff2c03",
+   "title": "News, Politics, Societal Issues, and Hate on Youths’ Donated Social Media Feeds",
+   "proposedTitle": "Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow.",
+   "editorialPriority": "BANK",
+   "urgency": "Low to moderate. Bank it. Posted 18 November 2026, current for some weeks.",
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeVerdict": "EDIT",
+   "recommendedPlatforms": [
+    "LinkedIn"
+   ],
+   "gdcPostNumber": "063",
+   "primaryUrl": "https://doi.org/10.31234/osf.io/j73bg",
+   "doi": "10.31234/osf.io/j73bg",
+   "publishedDate": "2026-11-18",
+   "design": null,
+   "figuresCleared": 6,
+   "handoffDoc": null,
+   "handoffJsonDriveFileId": null,
+   "handoffVersion": 1,
+   "handoffSourceCommit": "5bb2df0318dc86dcdd525a65011bd7d73ca8a0b7",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-540fff2c03.json",
+   "firstFound": "2026-11-19T09:35:09.220Z",
+   "registerVersion": 9
   }
  ],
  "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"

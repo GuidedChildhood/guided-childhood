@@ -32,54 +32,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
 | `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-22 | 128 |
-| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-14 | 100 |
+| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-17 | 142 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-10-16 · 16 October 2026: the child can ask to change the deal (PR 1344, migration 381) · `plans/decisions-archive/2026-10.md`
-- 2026-10-16 · 16 October 2026: Kairoo upgraded to the competitor to watch · `plans/decisions-archive/2026-10.md`
-- 2026-10-17 · 17 October 2026: the passport journey, nine decisions as recommended · `plans/decisions-archive/2026-10.md`
-- 2026-10-17 · 17 October 2026: Today path gets a Done bar, a green for jobs all approved, and a finish line (migration 382) · `plans/decisions-archive/2026-10.md`
-- 2026-10-17 · 17 October 2026: Today path redesigned, less gold, Happy News crayon (PR 1345) · `plans/decisions-archive/2026-10.md`
-- 2026-10-17 · 17 October 2026: migration 378 applied · `plans/decisions-archive/2026-10.md`
-- 2026-10-17 · 17 October 2026: Homework page asks about the evening, not the child's word (PR 1354) · `plans/decisions-archive/2026-10.md`
-- 2026-10-18 · 18 October 2026: migration 382 applied and read back · `plans/decisions-archive/2026-10.md`
-- 2026-10-18 · 18 October 2026: GDC-044, the ban is a teaching instrument · `plans/decisions-archive/2026-10.md`
-- 2026-10-18 · 18 October 2026: GDC-044 v2, the post was betting on the wrong commitment · `plans/decisions-archive/2026-10.md`
-- 2026-10-19 · 19 October 2026: the ad studio skill, cards A and C first, 381 confirmed live · `plans/decisions-archive/2026-10.md`
-- 2026-10-20 · 20 October 2026: the ad campaign council · `plans/decisions-archive/2026-10.md`
-- 2026-10-20 · 20 October 2026, the Meta Muse connector · `plans/decisions-archive/2026-10.md`
-- 2026-10-20 · 20 October 2026: the reply when a school already uses Common Sense · `plans/decisions-archive/2026-10.md`
-- 2026-10-21 · 21 October 2026: an email gate on the free standalone lessons · `plans/decisions-archive/2026-10.md`
-- 2026-10-21 · 21 October 2026: tests never use up a pilot place · `plans/decisions-archive/2026-10.md`
-- 2026-10-21 · 2026-10-21, PostHog on the public pages only · `plans/decisions-archive/2026-10.md`
-- 2026-10-21 · 2026-10-21, SEO through gum for both apps · `plans/decisions-archive/2026-10.md`
-- 2026-10-21 · 21 October 2026: the stage check knows someone who has been before · `plans/decisions-archive/2026-10.md`
-- 2026-10-22 · 22 October 2026: three motions from the Prompt Motion gallery · `plans/decisions-archive/2026-10.md`
-- 2026-11-01 · 1 November 2026: "Ask us for help" on the homework page, demand before build · `plans/decisions-archive/2026-11.md`
-- 2026-11-02 · 2 November 2026: DiGi's Monday failures fixed at the cause, and an email per new signup · `plans/decisions-archive/2026-11.md`
-- 2026-11-02 · 2 November 2026: DiGi learns from its failed tests, Justin taps approve · `plans/decisions-archive/2026-11.md`
-- 2026-11-02 · 2026-11-02, the Guides section, first three guides · `plans/decisions-archive/2026-11.md`
-- 2026-11-02 · 2026-11-02, click tracking, a Guides section, no community yet · `plans/decisions-archive/2026-11.md`
-- 2026-11-03 · 3 November 2026: the school window push changes every school day · `plans/decisions-archive/2026-11.md`
-- 2026-11-04 · 4 November 2026: Film 10, DiGi learns you · `plans/decisions-archive/2026-11.md`
-- 2026-11-04 · 4 November 2026, the Muse connector submitted and locked to a key · `plans/decisions-archive/2026-11.md`
-- 2026-11-04 · 4 November 2026: workshops page and enquiry built, hidden until DBS and insurance · `plans/decisions-archive/2026-11.md`
-- 2026-11-04 · 4 November 2026: the Etsy Christmas line and Free Saturday · `plans/decisions-archive/2026-11.md`
-- 2026-11-05 · 5 November 2026, the Road to 16 guide and its claim · `plans/decisions-archive/2026-11.md`
-- 2026-11-05 · 5 November 2026: Etsy branding v2 chosen, the Passport leads the shop · `plans/decisions-archive/2026-11.md`
-- 2026-11-05 · 5 November 2026: the app's platform guides match the Road to 16 evidence check · `plans/decisions-archive/2026-11.md`
-- 2026-11-05 · 5 November 2026: the printed Passport, made to order through Etsy · `plans/decisions-archive/2026-11.md`
-- 2026-11-05 · 5 November 2026: email landing pages, and schools share every lesson with parents · `plans/decisions-archive/2026-11.md`
-- 2026-11-05 · 5 November 2026: every reminder opens the part of the app it is about · `plans/decisions-archive/2026-11.md`
-- 2026-11-05 · 5 November 2026: Say This, the script cards deck · `plans/decisions-archive/2026-11.md`
-- 2026-11-05 · 5 November 2026: the app's copies of the five Passport packs match the Etsy ones · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: Robux DiGi short and the five step phone carousel built, review weighed · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: the rest of the Etsy paid line, built · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: the week of 9 November approved as recommended · `plans/decisions-archive/2026-11.md`
-- 2026-11-06 · 6 November 2026: the first 20 sign ups, four doors and a link for each · `plans/decisions-archive/2026-11.md`
 - 2026-11-06 · 6 November 2026: every Etsy download is in the app, free for parent and child · `plans/decisions-archive/2026-11.md`
 - 2026-11-06 · 6 November 2026: Etsy listing photos in the Canva look, varied per product · `plans/decisions-archive/2026-11.md`
 - 2026-11-06 · 6 November 2026: the five build next Etsy packs, built · `plans/decisions-archive/2026-11.md`
@@ -158,202 +116,136 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-11-14 · 14 November 2026: the pathway is ready page, in pictures · `plans/decisions-archive/2026-11.md`
 - 2026-11-14 · 14 November 2026: Tell us about your child, asked after joining · `plans/decisions-archive/2026-11.md`
 - 2026-11-14 · 14 November 2026: child films, Justin's four answers and the 1.3 test · `plans/decisions-archive/2026-11.md`
+- 2026-11-15 · 15 November 2026: the Quests page is the day, and setup has its own page · `plans/decisions-archive/2026-11.md`
+- 2026-11-15 · 15 November 2026: no balance score, and play pays the same with praise · `plans/decisions-archive/2026-11.md`
+- 2026-11-15 · 15 November 2026: Rachel first, and the promises match the code · `plans/decisions-archive/2026-11.md`
+- 2026-11-15 · 15 November 2026: French sync issue 1537 closed by hand, and her new progression tables · `plans/decisions-archive/2026-11.md`
+- 2026-11-15 · 15 November 2026: "our guide", never "healthy", across the app · `plans/decisions-archive/2026-11.md`
+- 2026-11-15 · 15 November 2026: ask the parent who stopped · `plans/decisions-archive/2026-11.md`
+- 2026-11-15 · 15 November 2026: French is in every school's licence, and the gaps against the paid schemes · `plans/decisions-archive/2026-11.md`
+- 2026-11-15 · 15 November 2026: one French lesson is free to open · `plans/decisions-archive/2026-11.md`
+- 2026-11-15 · 15 November 2026: the plan choice waits for the first check in · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: every printable on guidedchildhood.com/free · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: the worry question asks what parents want help with · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: DiGi's recorded voice is Tamsin, a little slower · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: the advert funnel counts the pathway and the save screen · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: the premium motion engine for research cards · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: four older games point to their Etsy listings · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: the topic email course is offered on the stage check result page · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: lesson films from what parents react to, the map and the 1.6 pair · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: film 1.3 re-voiced in Tamsin, the cost measured · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: the 1.6 remake and its parent film are built · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: Watch together booking, planned for approval · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: the warm ring sent · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: six tiles first, and this is just the start · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: the COUNTDOWN link rides on the Business Suite auto reply · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: films 1.1, 1.5, 1.2 and 1.4 re-voiced in Tamsin · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: the child films go on the Guided Childhood YouTube channel · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: the drop off asks skip the weekly floor and reach stage check visitors · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: weekly ad loop, round 1 read, left out wins, round 2 is left out by school year · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: Watch together booking built (migration 400, not applied) · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: 1.4 keeps its line, old labels stay, and a second voice test · `plans/decisions-archive/2026-11.md`
+- 2026-11-16 · 16 November 2026: DiGi's films re-voiced in Isla · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: migration 400 applied and read back · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: the fridge star chart, redesigned to match the app · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: the Scripts page is three shelves, and every script looks after the parent too · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: migration 400 applied and read back · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 Nov 2026: three personal LinkedIn posts a week, from Wed 18 Nov · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: KS2 French gets our Planet Friends, Nova and Bloop · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: the passport shows the real book and the five Planet Friend stickers · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: the 1.5 remake and its parent film are built · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: the walkthrough checked against the week, post 1 re-laid, three new posts · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: the RSHE mapping page leads with the answer · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: the 1.4 remake and its parent film are built · `plans/decisions-archive/2026-11.md`
+- 2026-11-17 · 17 November 2026: the passport record book, every step on paper · `plans/decisions-archive/2026-11.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
 
-## 16 November 2026: every printable on guidedchildhood.com/free
+## 18 November 2026: the child's passport page, the weekly email reminder, and honest evidence
 
-- Justin: "all printables should be free", then "make them all available on a page at the link" (the first link in the Instagram bio). Asked which he meant; he chose a taster for the eight £1.99 mini packs (live on Etsy since 11 November), not the whole thing, and to keep the six held tasters off the index (retired characters, the under fives game, the teachers' pack). They still open by direct link.
-- The mini packs are three or four pages, so their taster is one page (two for the Routine Picture Cards): the headline page free, the rest on Etsy. The half rule still holds for every pack.
-- New in content/printables/free-tasters.json: partOf (the page links to the bigger pack's taster) and letterSource (a US Letter taster too). The email series leaves out page emails a short taster has no page for.
-- Not changed: the 27 live taster pages and files. A to Z Showdown, the Ice Cream Shop, the School Year Planner and Word Fishing are now live on Etsy but still say no-listing; flipping them is a follow up.
+- Justin: "do them in order as you recommend". (1) The child's passport shows their page step by step in kid words, next step lit, earlier pages as gentle catch up; talks show as "A talk with your grown up", never the script title. (2) The reminder rides the weekly email (pace line plus print the steps), no new push, because the 17 October no new push decision stands. (3) Five evidence claims were verified at source. Two were corrected: skills go with more risk, not less, and enabling parenting goes with more opportunities and more risks. The passport now says plainly that no study shows a programme like this makes children safer. Guard: check-stage-stickers. PR 1623.
 
-## 15 November 2026: the Quests page is the day, and setup has its own page
+## 18 November 2026: the remade 1.6, 1.5 and 1.4 are live in the app
 
-- Justin, with a screenshot: "seems way too much". Measured on a phone with a two child family: 17 screens, 124 things to tap. Now 2 screens and 16 on a quiet day.
-- The page keeps one job: what is waiting on me, each child today, add a job, the timer, give a star, then one quiet list. QuestManager moved whole to `/dashboard/quests/setup`; old `?tab=` and `?add_child=` links are sent on.
-- Waiting ticks showed twice on a busy day. The lower queue now stays folded until Turn one down is tapped, and the two cards tell each other when a tick is answered.
-- Research (sources in the PR): no body gives a screen to outdoor ratio or a balance score, so this page shows none, and the age guide is worded as our steer. `weekBalance()`'s 0 to 100 figure and the "healthy ceiling" wording elsewhere are for Justin to decide.
-- No migration, no API change, child app untouched. PR 1551.
+- On Justin's "Go ahead with all". Each film's four segments point at new uploads (checked to serve byte for byte), with new durations and a plain poster.
+- 1.6's row described the old film and claimed growth during sleep as fact: title, keyword, knowledge intention, misconception, parent note and both pause cards now match the remake. 1.5 and 1.4 already matched.
+- Rollback values and the new links: `content/child-films/parent-reaction-series/app-swap-2026-11-18.md`. PR 1618.
 
-## 15 November 2026: no balance score, and play pays the same with praise
+## 18 November 2026: the Stage 2 film 2.1 is built, and kept out of the app
 
-- Justin's two answers after the Quests research. One: the 0 to 100 weekly balance figure goes; the round up shows two plain tallies (minutes on screens, minutes earned by jobs and play) and holds screens against "our guide". No health body gives a ratio, and it broke "no composite scores".
-- Two: play and outside jobs still lead every list but earn what any job their size earns (defaults 2, was 3 to 5). An expected reward for something a child already enjoys can lower their own interest; specific praise raises it (Deci, Koestner and Ryan 1999). So every yes now prompts the parent to say what they saw.
-- New jobs only. A family's existing jobs keep their stars; no migration. Homepage, guide and child copy changed from "pays the most" to "leads the list".
-- Not done, for Justin: "healthy guide" wording is still in about twenty other places (pace card, timer push, DiGi, lessons).
+- Strangers in games, with Bloop, from the 2.1 script plus the "let's chat somewhere else" move from the verified Roblox pack. 19 pictures, 37 lines checked by transcript (three redone). 70.5 credits against 71 quoted.
+- Not in the app: as the only active Stage 2 lesson, finishing it would award the whole Stage 2 passport (`/api/parent-lessons/complete`). Waits on Justin: more Stage 2 films first, or a passport rule change. PR 1618.
 
-## 15 November 2026: Rachel first, and the promises match the code
+## 18 November 2026: 2.1 goes to YouTube and the family account only
 
-- Justin: Rachel is the one live family. The five families task reopens as "Rachel through one full week, then four more". Read only check: no finished day since 28 September and the day's tick and its record stop together, so nobody ticked rather than ticks being lost.
-- The reminder prompt said three a day while the cap is two. It now reads the number from `DAILY_NUDGE_CAP`, setup says "at most two", and `check-nudge-cap` fails if they drift.
-- Setup's child step says "Send them their own link. It opens their app, nothing to download, no password", held by the new `check-child-link-open`.
-- "You just follow the path" on a family's first day on Home and in the welcome email. The price card and upgrade page say the four free days carry DiGi a few times a day and the starter scripts.
-- Later the same day: Rachael (her spelling) signed in once on 10 November and never chose a plan, so the choose screen is the last thing she saw and she never reached Home. Her free days were reset to 19 November on Justin's yes. Whether the choice moves later is Justin's to decide.
-- Justin kept school, French and Etsy builds going (no pause). Five questions for Rachel in `plans/2026-11-15-rachel-five-questions.md`.
+- Justin's choice. No `parent_lessons` row for 2.1 and no change to the passport rule, so one Stage 2 film cannot award the whole Stage 2 passport. Revisit when more Stage 2 films exist.
 
-## 15 November 2026: French sync issue 1537 closed by hand, and her new progression tables
+## 18 November 2026: 2.1 is live on YouTube
 
-The sync could not open its own pull request (the repository setting is still off), so it left issue 1537. Her data is brought in here instead. Her site also changed its "grow" table into one sentence growing half term by half term, plus a lesson by lesson table for one unit; the old shape check would have turned tonight's run red, so the sync now reads both as rows of three and the curriculum page shows them. The unit page links the new phonics mat. PR to follow.
+- https://youtu.be/UPbRSQzYEGg on the Guided Childhood channel. Public, made for kids, English subtitles and the thumbnail on. Published only after YouTube's checks came back clean. The copy is in `2.1-pieces/youtube-post.md`.
 
-## 15 November 2026: "our guide", never "healthy", across the app
+## 18 November 2026: the remade films come out, and the format is on hold
 
-- Justin said yes to finishing the wording. About 45 lines in 23 files (timer, pushes, pace card, parent report, DiGi's context, the child's timer card, three emails, one quiz option) now say "our guide" or "today's guide" where they said healthy guide, amount, level or range.
-- Reason: the daily minutes are our own steer set under the published guidance. WHO 2020 gives no screen number for ages 5 to 17, so "healthy" claimed more than we can show. The three emails now say "set under what the WHO, AAP, Canadian guidelines and RCPCH say", not "drawn straight from".
-- The area name "Healthy balance" (passport, lessons) is a title, not a claim about a number, and stays.
-- Board tasks due 21 November (walkthrough campaign, one family's first day, first paying family, Fable 5.2 compare) snoozed a week at his word.
+- Justin made 2.1 private on YouTube. He said the voice was too AI, the sound wasn't right and there was no animation. The app's 1.6, 1.5 and 1.4 went back to their old films the same afternoon, restored from the rollback table in `app-swap-2026-11-18.md`.
+- No more films in the stills plus AI voice format, and nothing public until Justin has heard it. Next: settle a real voice and some movement before any remake.
 
-## 15 November 2026: ask the parent who stopped
+## 18 November 2026: French lesson films, pilot started; both curricula reviewed
+Justin: rebuild her lesson video with our friends, better animation, correct voices, for every lesson. Pilot on Year 3 Colours lesson 1: native French word recordings (Higgsfield, ElevenLabs engine), Nova whispers and Bloop shouts in a code animated film, our own song kit for ACE-Step (the rap program, his choice). 2.55 credits so far. Reviews of the digital (about 7.5) and French (about 8 for Years 3 and 4) schemes are in plans/, musts await his yes. Plan: plans/2026-11-18-french-lesson-films-plan.md.
 
-- Justin: capture the questions, keep nudging if unanswered, alert him on his phone. `/tell-us` opens from a signed email link with no sign in; question one is one tap. Answers go to `parent_answers` (migration 397, applied live), push to Justin's phone and show at the top of the founder asks page.
-- Three emails, then silence: day three, four days later, a week after that. Any answer, a first check in or a finished day stops them. Accounts under 45 days old only. They ride the one programme email a week floor.
-- Plan in `plans/2026-11-15-ask-the-parent-who-stopped.md`. PR 1558.
+## 18 November 2026: the top of the Quests page, redrawn
 
-## 15 November 2026: French is in every school's licence, and the gaps against the paid schemes
+- Justin, with a screenshot: the top "needs expert attention, better Happy News styled icons, easier to use".
+- The caught up strip now has a drawn trophy on a sage plate, the headline "All caught up", and one row of remind chips, each showing the child's buddy.
+- Each child row now shows the buddy the child picked in their own app, on their stage colour (`components/quests/ChildBuddy.tsx`, the same picture the child sees). Then name and "0 of 10 today", a full width bar, and stars in words ("No stars yet this week", not "0 = 0 min").
+- The card heading is now "Today". No data, API or child app change.
 
-Justin: "all schools get french", the author agreed, under our branding. A school's scheme code now opens French with no second code: the proxy mints the French cookie from the scheme cookie, French only, rechecked against the scheme list on every request. It is on the pricing list and the Hub. From the review of Oak, Kapow, Jigsaw, Project Evolve, Twinkl and Language Angels: a subject lead kit (deep dive questions with the page that answers each, a pupil voice sheet, a staff audit, how the lessons are designed), an end of year "can say" list per year on the year plan from each lesson's own outcome, In short on nine long Hub pages, and the SEND page corrected. Not built: adapted versions of the printable sheets (each needs writing), pupil voice recorded online (needs a legal version), songs and a home practice site. PR 1557.
+## 18 November 2026: children on Quests are their letter on their colour, not their buddy
 
-## 15 November 2026: one French lesson is free to open
+- Justin asked whether children should have icons and whether there was a better way. He chose the letter disc: the child's first letter on their stage colour, the same disc the child switcher draws on every page.
+- Why it replaces the buddy picture from PR 1629: a child who never picked a buddy shows DiGi, so two children could wear the same face, and the parent app had two ways of drawing one child.
+- `components/quests/ChildDisc.tsx` replaces `ChildBuddy.tsx`. No data change.
 
-Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach screen open with no code, and the media route serves that one lesson's deck. Everything beside it still needs a code: exact paths, checked in `scripts/check-languages-door.mjs`. A visitor sees a line saying what it is and gets no record step and no links into gated pages. Linked from the pricing page. PR 1557.
+## 18 November 2026: Quests setup is a settings list, not fourteen screens of cards
 
-## 15 November 2026: the plan choice waits for the first check in
+- Justin: make /dashboard/quests/setup "super easy to follow and easy to read", following the best apps.
+- It measured 14.8 phone screens and 110 taps for a two child family. Most of it copied pages that already exist: the job list and both idea lists (Add a job), the routines (their own page), the balance card (Stats).
+- Now: the child picker and the stars card, then three grouped rows in the Apple Settings style. Jobs and Routines link to their pages. Rewards, Do this first and messages, Learning games, Their app and Print open in place with an "All settings" back row. 3 screens, 16 taps. The "a lot for one day" advice only shows when the day is heavy.
+- The stars card keeps only an Approve button, and only when something is waiting. The deal guard now holds every page that mounts the job composer, and fails if Add a job ever stops mounting it.
+- No data or API change. `components/quests/SettingsList.tsx`.
 
-- Justin's yes. A new parent now goes straight in free and lands on setup, whose first step is the home screen and reminders. The founder or free choice is owed only after their first check in (`needsPlanChoice`). It reverses the 14 August placement at the end of sign up, because the one live family left at that screen before seeing the product.
-- Still its own route behind the middleware, so once owed it cannot be skipped. A parent who never checks in meets the upgrade page when the free days end.
-- Homepage line and THE STORY section 9 changed to match. No migration.
+## 18 Nov 2026: the Evidence Reveal is the default for research led posts
 
-## 16 November 2026: the worry question asks what parents want help with
+Every evidence pack now carries three hooks of different kinds with one CHOSEN, a DISRUPT, REVEAL, REFRAME, INVITE storyboard with a cover, and CARD TEXT with TIMING and VISUAL lines. The pack checks read hooks and storyboard for uncleared figures, dashes and causal wording (qa.mjs check 8b); a pack with no HOOKS passes and is flagged, so work in flight is not stopped. The look moves to black and white editorial paper with one yellow highlight. Cadence "every other day" sits under the 17 Nov cap of three a week until Justin says otherwise. Skill: .claude/skills/evidence-reveal. ChatGPT's v3 motion files for 055 to 061 are on HOLD (wrong AI label on three, unreadable caveats, 12 fps, no end hold); the Claude cards stay the approved visuals.
 
-- Justin, with the stage check grid: match it to what parents raise most, make it clear we bring the solutions, and do not break the daily tracking. The grid is now the twelve the problem sweep ranked (Mumsnet log plus UK surveys and Ofcom; Reddit and Facebook groups unreadable, stated), each tile with one line of what we bring. Question: "What would you like help with?"
-- New: Who they talk to in games, Group chats, They get round the rules, Homework on screens, Endless YouTube, Spending in games. Folded, not deleted: Controller fights, Mood after screens, Morning TV, in RETIRED_WORRIES so families who picked them keep everything.
-- Every tile still becomes a concern, a check in row, a focus strip and a script filter (check-focus-labels). No migration. `plans/2026-11-16-worry-question-top-12.md`.
+## 18 November 2026: the starter page's three fixes are drawn the way the app draws them
 
-## 16 November 2026: DiGi's recorded voice is Tamsin, a little slower
+- Justin, with a screenshot: still clunky, "the graphics need to be way more stylish and in fit with app". Good Inside is not on Mobbin; Alma (stacked turned cards), X (the notification lifted off the screen) and Finch/Duolingo (progress as the app's own marks) set the shape.
+- Stars: the child's ask behind, the parent's card in front. Words: "Not this" struck through behind, "Say this" in the script finish on top, with Practise with DiGi and Fridge card. Check in: the real five faces (now `components/daily/CheckFace.tsx`, shared with the app), six weeks climbing, ending on the real rest rule. The pink bars and "Stamped in the passport" went: the check in has neither. `components/starter/FixArt.tsx`. PR 1633.
 
-- Justin chose by ear from six samples of the same 1.3 passage: Tamsin (Higgsfield preset 9eb5a147, seed_audio, speech rate minus 10, about 118 words a minute). Replaces Mabel (films) and Imogen (social) for every new recording.
-- The name is written "Didgee" in spoken text, matching the app. The ten films say it three ways today.
-- The app's live speech (the phone's British voice) is unchanged. Samples and ids: `content/child-films/voice-test/`. PR 1570.
+## 19 November 2026: search foundations (Phase 1 of the SEO plan)
 
-## 16 November 2026: the advert funnel counts the pathway and the save screen
+- Justin: Google and AI search become the main way parents find us. Plan: plans/2026-11-19-seo-and-app-safety-pages-plan.md, PR 1635. Phases ship one at a time with a preview check.
+- His answers: the Digital Health Check is left alone for now (not a lead, no app data on it); free tool pages lead to the stage check; the existing email course signup is reused unchanged; all age pages indexed if each carries genuinely different advice.
+- Phase 1: every public page builds its metadata through `lib/seo/meta.ts` (canonical, its own share card; the brand was printed twice in a dozen titles), private pages noindexed, AI crawlers named in robots, real sitemap dates, Organization JSON-LD site wide, FAQPage on /join, SoftwareApplication on the home page, `/llms.txt`, the Google verification slot (`lib/config/site.ts`), and `ai_source` on PostHog events from ChatGPT, Perplexity, Gemini, Claude and Copilot.
+- Found: PostHog has never run on the live site (NEXT_PUBLIC_POSTHOG_KEY is not set in Vercel). Setup steps went to Justin.
 
-- After the one tap first question, 8 of 119 advert visitors started the stage check and none made an account, with nothing to say where they stopped (PostHog is not on for the live site). Justin said yes to counting it.
-- `video_link_events` gains two kinds, `pathway` and `save` (migration 398), counted once per browser per follow against the code the start was counted against, so per link it reads opened, started, pathway, save, account. Existing counts filter by kind and are unchanged. PR 1569.
+## 19 November 2026: homework and projects get reminders that lead up to the day
 
-## 16 November 2026: the premium motion engine for research cards
+- Justin snapped the Anderson shelter letter (due 1 December): the date went in, but it was on the bell at once, came in as two items, and nothing helped it get started.
+- Homework and deadlines now get a week before and 3 days before when there is room (worked out from the day it was added), plus the night before as always. Parent push, the child's own app for homework, and the same alerts inside the calendar file. Apple style chips on a new "Coming up" block above the week turn each on or off.
+- The bell waits for the first reminder; due dates read "Tue 1 Dec · 12 days to go". The letter reader merges near duplicates (same kind, same date, two shared words).
+- Migration 401 (`remind_days`) must be applied for the chips to save; until then the automatic plan runs. `lib/school/lead-up.ts`, PR 1641.
+## 19 November 2026: the walkthrough fixes Justin chose, and two promises brought into line
 
-- Justin asked for a Remotion engine making a PNG and a 14 second MP4 per approved story, 1080 by 1350, warm ivory, navy, restrained yellow. This brief settles the look for evidence posts, open since 12 November.
-- Built in `tools/motion-engine/` as its own package. HyperFrames films stay a separate lane.
-- Its gate refuses uncleared numbers, causal wording, a missing source or limitation and any record not Claude reviewed. It records files through `assets.mjs`; Drive, Metricool and the post register are unchanged.
-- No Higgsfield footage generated: that spends credits and waits on Justin.
+- The three New in Guided Childhood posts run on Sunday mornings at 10:00 (22 Nov, 29 Nov, 6 Dec); the family week pack takes Free Saturday 21 Nov.
+- The stage check intro says "a confident, capable 16", not "a safe" one, and the save screen says "four days free", not "four days of everything", to match FreeDoor and the upgrade page.
+- Posts 10 and 18 re-rendered. Post 4 says outside comes first; `ref-kid-jobs` now pays outside play what the templates pay. Its film is re-rendered on the Mac.
 
-### 16 November 2026: the researcher watch and the parent problems map
+## 22 November 2026: the iPhone service films, four, from the real app
 
-`npm run radar-people` (scripts/radar/people.mjs) lists new papers by Odgers,
-Haidt and Knibbs (Europe PMC, Crossref) and Haidt's After Babel feed into
-content/research-watch/, for a Claude review: SUPPORT, CHALLENGE, CONTEXT or
-SKIP, a challenge only on the evidence. LinkedIn likes and reposts cannot be
-read. Knibbs is not named beside our advice. parent-issues.md maps ten common
-parent problems to a radar stream, our belief and a real product surface.
-Runs in the Monday radar sweep.
-
-## 16 November 2026: four older games point to their Etsy listings
-
-- A to Z Showdown (4614794043), Ice Cream Shop (4614808978), School Year Planner (4614796575) and Word Fishing (4614809538) went live on Etsy around 11 to 14 November, so their free taster rows move from no-listing to live and the rebuilt taster bands now link to the listing.
-
-## 16 November 2026: the topic email course is offered on the stage check result page
-
-- Justin chose it on 14 November. A child aged 10 to 12 (or an Explorer run saved before the age question) sees "The first group chat" on the result page: one email box, one button, "Start the seven emails". Day 1 goes at once, then one a morning from the email cron as kind `series`.
-- Asking is the consent: the button and the line under it name the seven emails and the odd note after, so the lead is marked `marketing_consent` true like a ticked box (396). No second box, because nothing else is given in exchange.
-- No migration. The start row in `lead_email_log` is the clock and its unique key stops a second press restarting the week. The copy lives in `lib/courses/registry.ts`, tested word for word against the checked pack, so the next topic is a new entry. PR 1573.
-
-## 16 November 2026: lesson films from what parents react to, the map and the 1.6 pair
-
-- The last 30 posts from Family IT Guy and the two clinicians, read for subject only and grouped: `content/child-films/parent-reaction-series/subjects-2026-11-16.md`. The cybertrauma account posts on LinkedIn, not Instagram, so her 30 came from there. 32 of 90 are not ours.
-- First three subjects, each with a film already: bedtime phones (1.6 remake), "is this real?" (1.5), seen something upsetting (1.4, the largest group). Roblox strangers is the first new film after them.
-- The 1.6 child and parent scripts are drafted in Tamsin's voice. Nothing generated: the pair is quoted at about 97 credits and waits on Justin.
-- The watch together booking is a plan with four questions for Justin, not built. Plan: `plans/week-of-2026-11-16-lesson-films-from-parent-reactions-plan.md`. PR 1576.
-
-## 16 November 2026: film 1.3 re-voiced in Tamsin, the cost measured
-
-- All 44 lines regenerated in DiGi's voice, pictures slowed to fit, both public cuts and the subtitles rebuilt. 20.9 credits for the film, measured from the balance. About 21 a film for the other four.
-- The generator pads lines with long silences and twice dropped a narration phrase; `revoice.py` trims the silences, and every line is transcribed against its words before the build.
-- `content/child-films/1.3-release-test/`. PR 1570. Nothing uploaded.
-
-## 16 November 2026: the 1.6 remake and its parent film are built
-
-- On Justin's yes to the quote: 24 pictures of Pebble and DiGi from the reference art, 38 lines in Tamsin's voice, every line checked by transcript (two redone). 68.7 credits against 97 quoted.
-- Cuts: the product film with its A, B, C segments, YouTube with subtitles and the stage check, a 9:16 family cut, and the parent film in three shapes, one real product screen in it.
-- No closing promise, no screen as villain, one line about the body that claims nothing. Nobody has listened with sound on; not swapped into the product. `content/child-films/parent-reaction-series/1.6-sleep/`. PR 1576.
-
-## 16 November 2026: Watch together booking, planned for approval
-
-- Justin's fuller brief: book, remind, show on the child's app at the time, change or cancel, an after prompt. Plan with privacy and safeguarding and five questions: `plans/2026-11-16-watch-together-booking-plan.md`. Nothing built. Migration 399 noted as free.
-
-## 16 November 2026: the warm ring sent
-
-- Justin asked for the 30 "A small favour, one parent" emails (drafted 6 November, never sent) to go. Sent from justin@thesocialbillboard.com, one each, with two fixes: the link was a Google redirect and is now plain guidedchildhood.com/v/warm-ring, and "a free tool" became "three questions, free" because the product itself has a trial, not a free tier. Old drafts deleted.
-- Count stage checks on the founder page under `warm-ring`. Some 2021 addresses will bounce.
-
-## 16 November 2026: six tiles first, and this is just the start
-
-Amendment 3. `shared/schools-progression.ts` gives each lesson a suggested year and the earlier lessons it builds on, read from each lesson's own prior knowledge lines. The scheme's order is kept inside each key stage and cut into years so nothing lands before what it builds on; `scripts/check-progression.mjs` holds that. `/hub/progression` shows it year by year and as four threads; `/hub/year-plan` now goes year by year where it used to lay a whole key stage over three terms. It is a suggestion and every page says so. KS3 still opens on ks3-27 and KS4 on ks4-29, as the scheme orders them: reordering is Justin's call and was not made here. PR 1496.
-
-## 16 November 2026: the COUNTDOWN link rides on the Business Suite auto reply
-
-After Justin completed Meta's identity check, Instagram messages joined the Business Suite inbox, but this account offers no keyword replies. Justin chose "Add to auto reply": the existing first message reply now carries the free countdown link (`src=ig-dm`), and its Instagram channel, which had been off, is on. The previous wording is kept in `content/packs/2026-11-28-free-saturday/christmas-countdown.md` to restore after Christmas. ManyChat stays the upgrade for a reply to the word alone. PR 1535.
-- Justin: do not overwhelm parents; reassure them we drive it and keep asking. The stage check shows the six most common worries, the other six one tap away ("See 6 more"); a ticked tile never folds away. The question asks for what is on their mind today, even just one.
-- Under the grid: we bring up the next ones for their age (age prompts, the age up cron) and anything they mention to DiGi is added and tracked (concerns written by DiGi, Moments, Right now). "Not sure yet?" starts them on Coming off screens, the most common.
-
-## 16 November 2026: films 1.1, 1.5, 1.2 and 1.4 re-voiced in Tamsin
-
-- All four first release films now exist in DiGi's voice in both public shapes (YouTube with the stage check end card, a vertical cut for the family account), with subtitles and thumbnails. 99.4 credits for the four, measured from the balance.
-- The 1.3 scripts became one shared tool, `content/child-films/revoice/`, with each film's settings in its folder's `film.json`. Folders: `content/child-films/1.*-release/`. Nothing uploaded.
-
-## 16 November 2026: the child films go on the Guided Childhood YouTube channel
-
-- Justin named the channel for the five re-voiced films. Each upload still needs made for kids set, which turns off end screens and comments, so the stage check end card built into each film is the only call to action. Recorded in the inventory. PR 1588.
-
-## 16 November 2026: the drop off asks skip the weekly floor and reach stage check visitors
-
-- The three "what stopped you" emails (PR 1558) ran for the first time this morning and held both due asks on the one a week floor, Rachael's among them. Justin: "skip the rule". They now send as a new kind, `ask`: no floor, a stop still holds, three per account ever.
-- Justin: "Yes, two short emails". A stage check visitor who never made an account is asked on day 2 and four days later, three short questions, one tap first, answers on the founder's asks page and a push to his phone. Not sent to anyone running a topic course.
-- Migration 399 lets parent_answers hold a lead. Until it is applied no lead link goes out, because its answer could not be saved.
-- Found on the way: migration 396 (consent) is not applied on the live database. The course and the lead asks read every column so they work either way. PRs 1584 and this one.
-
-## 16 November 2026: weekly ad loop, round 1 read, left out wins, round 2 is left out by school year
-
-- Round 1 (live 12 to 16 November, £19.96, 16,542 reached): left out began 8 stage checks from 6,438 reached, 1.2 per thousand at £1.78 a check, every one after the one tap question one went in on 14 November. The other five began none and are retired. No signups yet from the 8, so the next leak sits after the check.
-- Round 2 is left out three times with only the school year changed (Year 5, 6, 7; proven rule 10), left out itself as the control. Gate passed, the old hallway scene reused, no Higgsfield credits spent. Not loaded: the three link codes must be made on the founder links page first, and loading is Justin's word.
-- Competitors: Kairoo has no live UK adverts (its generated families never reached 30 days). Four Qustodio adverts past 80 days logged. Nobody says what left out says.
-
-## 16 November 2026: Watch together booking built (migration 400, not applied)
-
-- On Justin's go ahead, with his five answers: book from a film page (three suggestions plus another time), the film leads the child's page at the time and never before, a parent push fifteen minutes before, one daytime buzz for the child (never after 19:00), change or cancel, a calendar file with no child's name, and a Tonight prompt after watching (stored on parent_lessons).
-- Home gets its own small card for a booking in the next hour or one that slipped by yesterday, because next up only draws after the day's habit is ticked.
-- Every read answers "no booking" until migration 400 is applied, so nothing changes for families before then. Applying it and deploying wait for Justin. PR 1589.
-## 16 November 2026: 1.4 keeps its line, old labels stay, and a second voice test
-
-- Justin: leave "They'll remember it forever." in 1.4, and leave the dashed labels inside the old drawings for now.
-- Tamsin on Seed Audio does not sound real enough to him. Nine samples of the same 1.3 opening on ElevenLabs and MiniMax wait for his ear in `content/child-films/voice-test-2/`, at about 0.15 credits each. A real recorded voice is the other option. PR 1588.
-
-### 16 November 2026: one post ready a day, research card by default
-
-Justin: aim for one post ready every day; he posts 3 or 4 a week and picks
-which. Every evidence post now gets a research card by default (still plus
-14 second motion, plain paper, contrarian headline inside what the study
-shows); text only only when there is no single clean finding. Media is
-attached to the existing Metricool draft through mediaToAttach, never
-scheduled without his time. GDC 057 and 059 approved with cards (PR 1591).
-## 16 November 2026: DiGi's films re-voiced in Isla
-
-- Justin heard Tamsin as not real enough and chose Isla on ElevenLabs by ear (sample 5 of nine). All five first release films (1.1, 1.2, 1.3, 1.4, 1.5) are now in Isla's voice in both public shapes, subtitles rebuilt. DiGi's voice row in `digi-squad/README.md` now names Isla.
-- Every line was transcribed against its words before the build; one 1.4 line ("Screens" heard as "Screams") was redone.
-- About 52 credits for the four, so roughly 0.25 a line, not the 0.15 quoted. Nothing uploaded. PR 1588 and its follow up.
-
-## 17 November 2026: migration 400 applied and read back
-
-- On Justin's yes. Live: watch_bookings with row level security on, no browser grants or policies (service role only), four indexes, no rows; parent_lessons.after_prompt set on all ten films. Last migration recorded: 400_watch_bookings.
-- PR 1589 (the booking code) merged the same morning, so booking is live once main deploys. Next: one live test, a film booked a few minutes ahead for one child.
+- Justin asked for Apple-style iPhone walkthroughs of DiGi on the hardest questions (and how it is tracked), Quests, Scripts, and the charts and school help. All four are built: real fixture screens recorded frame by frame with the film family's names, in a drawn iPhone, one headline per beat, ending on the stage check. 27 to 43 seconds each. No model credits.
+- No music baked in: trending sounds are added in the app at upload. The shortlist comes from TikTok's Commercial Music Library (UK, 7 days) through the Higgsfield connector.
+- The engine is `videos/2026-11-19-iphone-films/`. The pack and captions are in `content/packs/2026-11-19-iphone-films/posting-plan.md`.
+- Scheduling in Meta Business Suite stays with Justin, because no connected tool can schedule organic posts. The posting queue page carries the whole drip feed.

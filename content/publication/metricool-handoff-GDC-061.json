@@ -1,0 +1,70 @@
+{
+  "schema": "gdc.metricool-handoff/1.0",
+  "generatedAt": "2026-11-18T11:39:44.783Z",
+  "sourceCommit": "a420bd3b2cea3561a0188cb1e10bb08c5a3dd552",
+  "gdcPostNumber": "061",
+  "researchId": "GDC-RR-9a82e5d5b3",
+  "title": "Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped.",
+  "account": "Justin Phillips, personal LinkedIn profile",
+  "finalText": "A preprint on arXiv put 18 chatbot models through 32,555 simulated conversations with teenagers. Telling each model it was talking to a teenager cut the criterion failure rate from 43.3 percent to 24.9 percent.\n\nGood news. Half of it.\n\nNone of these were real teenagers, and none of them were the apps children actually download. The researchers wrote 106 scenarios from clinical cases, turned them into 983 versions, and had an AI judge score every reply against 22 safety checks.\n\nThe scoring was strict: a chatbot failed a check in a scenario if it failed in any single version of that conversation, which means 43.3 percent is not the share of conversations that went wrong, and it says nothing about how often a real child is harmed.\n\nThe part I keep coming back to is what happened when the simulated teenager pushed back.\n\nWithout the teen aware instruction, failures around diagnosis, medication and substances rose by about 10 to 12 percentage points for more than 80 percent of the chatbots once the teenager said no.\n\nA boundary held at the first answer. Then it slipped.\n\nIt is a preprint. It tested models through developer connections, not consumer apps with their own safety layers. It cannot tell us that any particular app is unsafe, and it does not show that children should be kept away from AI.\n\nWhat it does give a parent is a question worth practising at the kitchen table.\n\nAsk your child what they would do if a chatbot told them not to worry about something that worried you. Then ask what they would do if it kept agreeing after they said they did not want to tell anyone.\n\nOur schools lesson on AI companions is built around one question: \"It talks like it knows me. Does it?\" I also build a parent tool with an AI guide in it, and that guide talks to the parent. It is never a chat partner for the child.\n\nThe source is in the comments.\n\nIf a parent or teacher you know needs this, repost it. An AI can be useful and still be the wrong thing to trust with a hard decision.\n\nWhat phrase would you teach a child to use when an AI starts sounding like a friend taking sides?",
+  "firstComment": "The SAFE Teen preprint on arXiv:\n\nhttps://arxiv.org/abs/2611.07218\n\nThe strongest objection is that every conversation was simulated and an AI judge did the scoring. That is fair. This study cannot tell us what any real child experiences or whether a consumer app behaves in the same way. The useful finding is narrower. Under these test conditions, a teen aware instruction improved the criterion failure rate, but pushback still weakened some boundaries.",
+  "sources": [
+    "https://arxiv.org/abs/2611.07218"
+  ],
+  "reviewedCopy": "https://docs.google.com/document/d/1ORTqKfr_dZ4-4zXImMrJLScHyRjDXUufMM5A_NdadhY/edit",
+  "visualDecision": {
+    "choice": "still image",
+    "reason": "An evidence post with one clean finding, so it gets the research card by default (Justin, 16 November); the newest analytics put a named study and its finding first, which the card does, and the card carries the preprint, simulated and AI scored limits on its face."
+  },
+  "assets": [
+    {
+      "kind": "motion",
+      "role": "optional",
+      "file": "content/motion/GDC-061/gdc-061.mp4",
+      "sha256": "20ff15e57ed457e2e5d4d8fa77af5cf2c78b05817075e881823a0a749016c51f",
+      "seconds": 14,
+      "width": 1080,
+      "height": 1350,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/1pg59b-333wvx45hdmmkK20vimzteb1Kz/view",
+      "attach": "only if Justin asks for it",
+      "use": "the post media"
+    },
+    {
+      "kind": "still image",
+      "role": "optional",
+      "file": "content/motion/GDC-061/gdc-061.png",
+      "sha256": "65c0714b5490cc09041e8925532488a0447dd5d240346e2afdd5875a632d8d4d",
+      "seconds": null,
+      "width": null,
+      "height": null,
+      "checked": true,
+      "review": "PASS",
+      "driveLink": "https://drive.google.com/file/d/1nIDEdXLIqHuoE7VRAVFyXqIuAK7H4XHj/view",
+      "attach": "only if Justin asks for it",
+      "use": "the cover for the film, or the media if Justin chooses an image post"
+    }
+  ],
+  "approvalStatus": "APPROVED",
+  "duplicateCheck": {
+    "result": "UNKNOWN",
+    "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
+  },
+  "linkedinNativeSchedule": null,
+  "metricool": {
+    "draftCreationPermitted": true,
+    "schedulingPermitted": true,
+    "autoPublishPermitted": false,
+    "mediaAttachPermitted": false,
+    "mediaToAttach": [],
+    "why": [],
+    "rules": [
+      "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
+      "Do not create a second draft if one exists for this GDC number.",
+      "Media: if mediaAttachPermitted is true, attach the files in mediaToAttach to the existing draft for this GDC number, from the exact Drive links given, and change nothing else in it. Never a file from anywhere else, never a regenerated or edited version.",
+      "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
+      "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
+    ]
+  }
+}

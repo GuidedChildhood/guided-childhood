@@ -1,0 +1,16 @@
+{
+ "name": "c-chart",
+ "url": "/ref-star-chart-sheet",
+ "seconds": 8,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 1500,
+   "do": "scroll",
+   "to": 1100,
+   "ms": 4500
+  }
+ ]
+}

@@ -5,12 +5,15 @@ import { GUIDES } from '@/lib/content/guides'
 import { listedTasters } from '@/lib/magnets/tasters'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
+  // lastModified only where we know it. Every entry used to say "changed
+  // today" on every deploy, which teaches Google to ignore the field for the
+  // whole site. A page with a real date (a guide's `updated`) says so; the
+  // rest leave it out, which Google reads as "no claim" (19 November 2026).
+  const routes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']; updated?: string }[] = [
     { path: '', priority: 1, changeFrequency: 'weekly' },
     { path: '/starter-pack', priority: 0.9, changeFrequency: 'weekly' },
     { path: '/scripts', priority: 0.7, changeFrequency: 'weekly' },
     { path: '/pathway', priority: 0.7, changeFrequency: 'monthly' },
-    { path: '/get-started', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/join', priority: 0.6, changeFrequency: 'monthly' },
     { path: '/digi-squad', priority: 0.5, changeFrequency: 'monthly' },
     { path: '/ban-workarounds', priority: 0.5, changeFrequency: 'monthly' },
@@ -24,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/evidence', priority: 0.6, changeFrequency: 'monthly' },
     { path: '/free', priority: 0.6, changeFrequency: 'weekly' },
     { path: '/free/planet-post', priority: 0.5, changeFrequency: 'monthly' },
+    { path: '/free/family-week', priority: 0.5, changeFrequency: 'monthly' },
     { path: '/free/guided-times', priority: 0.5, changeFrequency: 'monthly' },
     { path: '/guides', priority: 0.7, changeFrequency: 'weekly' },
     // Where the parent emails about the child's app and the family agreement
@@ -32,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/agreement', priority: 0.6, changeFrequency: 'monthly' },
     // Every guide, from lib/content/guides.ts, so a new one is listed the day
     // it ships (plans/2026-11-02-guides-plan.md).
-    ...GUIDES.map(g => ({ path: `/guides/${g.slug}`, priority: 0.7, changeFrequency: 'monthly' as const })),
+    ...GUIDES.map(g => ({ path: `/guides/${g.slug}`, priority: 0.7, changeFrequency: 'monthly' as const, updated: g.updated })),
     // Every promoted free taster, from content/printables/free-tasters.json (11
     // November 2026), so a pack joins the sitemap the day it joins that file.
     // Holds are left out: they work by direct link but are not promoted.
@@ -41,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return routes.map(r => ({
     url: `${BASE_URL}${r.path}`,
-    lastModified: new Date(),
+    ...(r.updated ? { lastModified: new Date(r.updated) } : {}),
     changeFrequency: r.changeFrequency,
     priority: r.priority,
   }))

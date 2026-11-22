@@ -23,6 +23,8 @@
 
 import type { CaptureResult } from 'posthog-js'
 
+import { isAiSource } from './ai-source'
+
 /** The public pages: the home page and the marketing group, the stage check first. */
 export const TRACKED_PATHS = [
   '/starter-pack',
@@ -58,6 +60,19 @@ const OWN_EVENTS: Record<string, string[]> = {
   // check can be told apart. Never the link's text: on the stage check
   // result the text can carry the child's name.
   link_click: ['to', 'label'],
+  // Justin, 19 November 2026: see AI search traffic. Fired once, on the first
+  // public page of a visit that came from an AI answer engine. The value is a
+  // short name from AI_SOURCES (lib/analytics/ai-source.ts), never a URL.
+  ai_referral: ['ai_source'],
+}
+
+/**
+ * Properties registered once per visit and carried on every event after it, so
+ * a stage check step can be read by where the visit came from. Each must be
+ * checked here: a value that fails is dropped, the event is kept.
+ */
+const VISIT_KEYS: Record<string, (v: unknown) => boolean> = {
+  ai_source: isAiSource,
 }
 
 /** A data-track label: short, lower case, words joined by hyphens. */
@@ -130,11 +145,12 @@ export function cleanEvent(event: CaptureResult | null, ownHost: string): Captur
   const props = event.properties || {}
   if (!isTrackedPath(pageOf(props, ownHost))) return null
 
-  let properties = props
+  let properties = Object.fromEntries(Object.entries(props).filter(([k, v]) => !(k in VISIT_KEYS) || VISIT_KEYS[k](v)))
+  if (event.event === 'ai_referral' && !isAiSource(properties.ai_source)) return null
   if (!SDK_EVENTS.has(event.event)) {
     const allowed = OWN_EVENTS[event.event]
     if (!allowed) return null
-    properties = Object.fromEntries(Object.entries(props).filter(([k]) => k.startsWith('$') || SDK_KEYS.has(k) || allowed.includes(k)))
+    properties = Object.fromEntries(Object.entries(properties).filter(([k]) => k.startsWith('$') || SDK_KEYS.has(k) || k in VISIT_KEYS || allowed.includes(k)))
     if (event.event === 'stage_check_step' && !(STAGE_CHECK_STEPS as readonly unknown[]).includes(properties.step)) return null
     if (event.event === 'link_click') {
       const { to, label } = properties

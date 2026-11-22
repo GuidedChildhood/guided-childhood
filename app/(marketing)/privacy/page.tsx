@@ -1,18 +1,24 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { companyLine } from '@/lib/content/contact'
 
-export const metadata = {
-  title: 'Privacy Policy · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Privacy policy',
   description: 'How Guided Childhood collects, uses and protects your family’s information, and your rights under UK data protection law.',
-}
+  path: '/privacy',
+})
 
 // Bumped 8 August 2026: the child section now describes the optional birthday
 // and interests, which the app had been collecting while this page said it did
 // not ask for a date of birth. A policy that changes and keeps its old date is
 // the same problem one level up, so the date moves with the words.
 // Bumped 20 October 2026: the section on asking us through Meta's Muse.
-const EFFECTIVE = '21 October 2026'
+// Bumped 19 November 2026: what we do when the police, a court or anyone else
+// asks for data. Meta's Muse review asks how such requests are handled, and
+// "no documented process" was the honest answer until this section existed.
+const EFFECTIVE = '19 November 2026'
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '10px' }
@@ -90,6 +96,20 @@ export default function PrivacyPage() {
       <h2 style={H2}>If you ask us through Muse</h2>
       <p style={P}>
         You can ask DiGi questions inside Meta’s Muse assistant without a Guided Childhood account. Muse sends us your question and, if you give it, your child’s age, and we send back a next step and the words to say. We do not keep the question or the age. We count that a question was asked, and when, and nothing else. The one exception is safety: if our automatic check flags an answer, we keep that question and answer, with nothing that identifies you, so a person can review it. Please do not include your child’s name, school or where you live. What Muse itself keeps is covered by Meta’s own privacy policy, not this one.
+      </p>
+
+      <h2 style={H2}>If the police, a court or anyone else asks for your data</h2>
+      <p style={P}>
+        We only hand over information when the law requires it, such as a court order, a warrant or a request we are legally bound to answer. When a request comes in, this is what we do:
+      </p>
+      <ul>
+        <li style={LI}><strong>Check it is real and lawful.</strong> We confirm who it comes from, that they have the authority to ask, and the legal basis they are relying on.</li>
+        <li style={LI}><strong>Give only what it requires.</strong> If a request asks for more than the law allows, or more than it needs, we ask for it to be narrowed, and we refuse a request that is not lawful.</li>
+        <li style={LI}><strong>Tell you.</strong> We let you know about a request for your information, unless the law forbids it or telling you would put a child at risk.</li>
+        <li style={LI}><strong>Keep a record.</strong> We note every request, who made it, and exactly what we gave.</li>
+      </ul>
+      <p style={P}>
+        We never hand over information because someone asked informally, and we never sell it or give it to anyone for marketing. Much of what you might expect us to hold, we simply do not keep, so there is often nothing to give.
       </p>
 
       <h2 style={H2}>How long we keep it</h2>

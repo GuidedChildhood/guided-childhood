@@ -1,4 +1,5 @@
 import raw from './fr.json'
+import { friendlyDeep } from './fr-friends'
 
 // THE FRENCH SCHEME, READ (9 November 2026).
 //
@@ -167,9 +168,12 @@ const data = raw as unknown as Raw
 
 export const FR_ORIGIN = data.origin
 
-/** The handbook: her own words about the scheme, for a head or a subject lead. */
-export const FR_PAGE: FrenchPage = data.page ?? {}
-export const FR_HANDBOOK: FrenchHandbook = data.handbook ?? {}
+/** The handbook: her own words about the scheme, for a head or a subject lead.
+ *  Read through friendlyDeep, so her two class toys arrive as our Planet
+ *  Friends, Nova and Bloop (fr-friends.ts). Never map in fr.json: the nightly
+ *  sync rewrites it. */
+export const FR_PAGE: FrenchPage = friendlyDeep(data.page ?? {})
+export const FR_HANDBOOK: FrenchHandbook = friendlyDeep(data.handbook ?? {})
 
 /** "a → b → c" as its steps. She writes a progression as one arrowed line. */
 export function flowSteps(s: string | undefined): string[] {
@@ -200,7 +204,10 @@ export type FrenchUnit = {
 const keyOf = (year: number, ht: number) => `y${year}-ht${ht}`
 
 export const FRENCH_UNITS: FrenchUnit[] = data.curriculum.order.map(key => {
-  const plan = data.curriculum.units[key]
+  // Her unit summaries and lesson text name the two class toys too, so both
+  // halves of a unit are read through the same mapping. Slide titles (the
+  // sequence) and file names are hers and stay as they are.
+  const plan = friendlyDeep(data.curriculum.units[key])
   const year = Number(String(plan.year).replace(/\D/g, ''))
   const ht = Number(plan.ht)
   const listed = data.years.find(y => y.year === year)?.units.find(u => u.ht === ht)
@@ -214,7 +221,7 @@ export const FRENCH_UNITS: FrenchUnit[] = data.curriculum.order.map(key => {
     ready: plan.ready === true,
     plan,
     slug,
-    deck: slug ? data.units[slug] ?? null : null,
+    deck: slug && data.units[slug] ? friendlyDeep(data.units[slug]) : null,
   }
 })
 

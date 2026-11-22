@@ -8,6 +8,7 @@ import MarkReadOnEnd from '@/components/scripts/MarkReadOnEnd'
 import ShareScript from '@/components/scripts/ShareScript'
 import TakeoverReader from '@/components/ui/TakeoverReader'
 import { card, cardPad, eyebrow, chunky, INK_EDGE } from '@/components/scripts/card-system'
+import ParentSupport from '@/components/scripts/ParentSupport'
 import HappyIcon from '@/components/kid/HappyIcon'
 import DigiAskLink from '@/components/digi/DigiAskLink'
 
@@ -264,6 +265,11 @@ export default function ScriptDetailView({
             </p>
           </div>
         )}
+
+        {/* The part about the parent, not the child: calm first, the moment,
+            repair, guilt. Closed until wanted, and placed just before the
+            rehearsal it points at (components/scripts/ParentSupport.tsx). */}
+        <ParentSupport />
 
         {/* Rehearse the words with DiGi before the real conversation */}
         <RehearseWithDigi

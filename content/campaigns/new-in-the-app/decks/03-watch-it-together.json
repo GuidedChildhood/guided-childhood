@@ -1,0 +1,24 @@
+{
+ "name": "new-03-watch-it-together",
+ "size": "portrait",
+ "lead": "pebble",
+ "eyebrow": "New in Guided Childhood &middot; 3 of 3",
+ "cards": [
+  { "name": "cover", "type": "hook", "scale": "h-l",
+    "headline": "We kept saying<br>we would watch it<br><mark>together.</mark>" },
+  { "name": "book", "type": "shot", "headline": "So now you book it. Pick a time.",
+    "image": "content/campaigns/new-in-the-app/screens/watch-book.png", "width": 760, "top": 440 },
+  { "name": "booked", "type": "shot", "headline": "You get a reminder fifteen minutes before.",
+    "image": "content/campaigns/new-in-the-app/screens/watch-booked.png", "width": 720, "top": 420 },
+  { "name": "home", "type": "shot", "headline": "It waits on your home page.",
+    "image": "content/campaigns/new-in-the-app/screens/watch-home.png", "width": 760, "top": 460 },
+  { "name": "their-side", "type": "shot", "headline": "At the time, it is the first thing on their page.",
+    "image": "content/campaigns/new-in-the-app/screens/watch-child.png", "width": 720, "top": 460 },
+  { "name": "missed", "type": "text",
+    "headline": "Missed it? It happens. Pick another time.",
+    "body": "Short films for 4 to 7 year olds, made to watch side by side, with one thing to do after." },
+  { "name": "ask", "type": "ask",
+    "save": "Save it for a rainy Saturday.",
+    "send": "Send it to the grown up who does bedtime." }
+ ]
+}

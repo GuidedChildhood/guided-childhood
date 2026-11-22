@@ -7,7 +7,8 @@ import { emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { weeklyDigestEmail } from '@/lib/email/templates'
 import { getWeekParentReport } from '@/lib/balance/week-report'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { loadPassportToday } from '@/lib/pathway/passport-today'
+import { loadPassportToday, kidOf } from '@/lib/pathway/passport-today'
+import { stagePace, paceLine } from '@/lib/pathway/pace'
 import { SITE_URL } from '@/lib/config/site'
 import {
   adminClient, cronAuthorised, daysSince, deadline, deliverOnce, digestKey,
@@ -145,12 +146,24 @@ async function handler(req: NextRequest) {
       // Each child's passport page, one row each, from the one function the
       // passport card on Home reads (lib/pathway/passport-today.ts). Fail soft
       // per child: a passport read that errors drops that row, never the email.
-      const passport: { line: string; nextLine: string; href: string; img: string }[] = []
+      const passport: { line: string; nextLine: string; href: string; img: string; pace?: string | null; recordHref?: string | null }[] = []
       for (const k of kids) {
         const t = await loadPassportToday(supabase, { userId: profile.id, child: k, paid: false }).catch(() => null)
         if (!t) continue
+        // THE GENTLE REMINDER (17 November 2026, plan part 4). Justin asked for
+        // reminders from time to time so a stage gets done in good time. The
+        // 17 October decision stands (no new push: five texts a week raised
+        // opt outs by 58 percent), so the reminder rides the one weekly email
+        // that already carries the passport: the page's own pace line, the
+        // same words as the passport page, and the printed steps. Nothing is
+        // added for a page that is already stamped.
+        const dobRaw = k.date_of_birth ? new Date(k.date_of_birth) : null
+        const left = Math.max(0, t.count.lessons.total - t.count.lessons.done) + Math.max(0, t.count.scripts.total - t.count.scripts.done)
+        const pace = t.stamped ? null : paceLine(stagePace(t.stageNum, left, dobRaw && !Number.isNaN(dobRaw.getTime()) ? dobRaw : null), kidOf(k.name), t.stageNum)
         passport.push({
           line: t.line, nextLine: t.nextLine,
+          pace,
+          recordHref: t.stamped ? null : `${SITE_URL}/dashboard/keepsakes/passport-print/record?child=${encodeURIComponent(k.id)}&src=email_digest`,
           href: `${SITE_URL}/dashboard/pathway?open=${t.stageNum}&child=${encodeURIComponent(k.id)}&src=email_digest#page`,
           img: `${SITE_URL}${t.emailImg}`,
         })

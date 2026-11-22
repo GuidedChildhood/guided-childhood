@@ -622,12 +622,12 @@
       ],
       "proof": "plans/week-of-2026-11-02-first-20-signups-plan.md lines 138 and 387; product pulse 12 November (day done rate 0%, last completed day 28 September, revenue £0)",
       "due": "2026-11-19",
-      "status": "done",
+      "status": "open",
       "created": "2026-11-12",
-      "asked": "2026-11-14",
+      "asked": "2026-11-17",
       "snooze_until": null,
-      "closed": "2026-11-14",
-      "note": "Justin, 14 November: done"
+      "closed": null,
+      "note": "Justin, 17 November: the earlier done meant the 30 warm ring emails went out (16 November). Five families are not yet running. First reply in; Justin to ring."
     },
     {
       "id": "board-routine-saves-its-run",

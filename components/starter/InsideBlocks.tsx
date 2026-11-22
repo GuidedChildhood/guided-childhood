@@ -2,7 +2,9 @@ import type { CSSProperties, ReactNode } from 'react'
 import MethodIcon, { METHOD, type MethodId } from './MethodIcon'
 import { STAGES } from '@/lib/content/stages'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
-import { MockAsk, MockDigi, MockProgress } from '@/app/(marketing)/starter-pack/Mocks'
+import PassportCover from '@/components/passport/PassportCover'
+import { MockDigi } from '@/app/(marketing)/starter-pack/Mocks'
+import { StarsArt, WordsArt, CheckArt } from './FixArt'
 
 // THE PATHWAY IS READY PAGE, SAID IN PICTURES.
 //
@@ -67,54 +69,7 @@ export function Passport({ here, kid }: { here: number; kid?: string }) {
           The shop photo of the printed booklet was a different object with a
           different title, so it went. */}
       <div className="wow-fu" aria-hidden style={{ display: 'flex', justifyContent: 'center', margin: '-2px 0 26px' }}>
-        <div style={{
-          width: 214, minHeight: 290, boxSizing: 'border-box',
-          background: 'linear-gradient(160deg, var(--passport-cover-hi) 0%, var(--passport-cover) 55%, var(--passport-cover-lo) 100%)',
-          borderRadius: '12px 16px 16px 12px', padding: '24px 16px 18px', textAlign: 'center',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between',
-          boxShadow: 'inset 0 0 0 2px var(--passport-foil-rule), inset 0 0 0 5px var(--passport-foil-line), inset 10px 0 20px rgba(0,0,0,0.25), 0 14px 30px rgba(26,26,46,0.18)',
-          transform: 'rotate(-2deg)',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
-              Digital Childhood Passport
-            </div>
-            <div style={{ width: 36, height: 1.5, background: 'var(--passport-foil-rule)', margin: '8px auto 0' }} />
-          </div>
-          <div>
-            <div style={{
-              width: 58, height: 58, borderRadius: '50%', margin: '0 auto 12px',
-              border: '2px solid var(--passport-foil)', boxShadow: 'inset 0 0 0 3px var(--passport-foil-wash)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 3, height: 24 }}>
-                {[5, 9, 14, 8].map((h, i) => (
-                  <div key={i} style={{ width: 4.5, height: (h / 14) * 24, background: 'var(--terracotta)', borderRadius: 2 }} />
-                ))}
-              </div>
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta)', lineHeight: 1.15, letterSpacing: '0.02em', maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {kid || 'Our family'}
-            </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--passport-foil-text)', marginTop: 6 }}>
-              The journey to 16
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
-            {STAGE_CHARACTERS.map(c => (
-              <span key={c.key} style={{
-                width: 24, height: 24, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
-                background: 'var(--passport-foil-fill)', border: '1.5px solid var(--passport-foil-soft)',
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <img src={c.cutout} alt="" width={24} height={24} style={{
-                  width: '100%', height: '100%', objectFit: 'contain',
-                  filter: 'grayscale(1) brightness(1.35) sepia(0.7) hue-rotate(-8deg) opacity(0.42)',
-                }} />
-              </span>
-            ))}
-          </div>
-        </div>
+        <PassportCover kid={kid} />
       </div>
       <ol className="wow-fu" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: 4, position: 'relative', textAlign: 'center' }}>
         <span aria-hidden style={{ position: 'absolute', left: '10%', right: '10%', top: 29, height: 2, background: 'var(--border)' }} />
@@ -165,25 +120,20 @@ function Fix({ instead, title, children }: { instead: string; title: string; chi
 
 /** Three fixes. `afterStars` is the fold that holds the time number and the
  *  honest notes about it, which stay on the page one tap in. */
-export function Fixes({ kid, words, concern, afterStars }: { kid: string; words: string; concern: string; afterStars?: ReactNode }) {
+export function Fixes({ kid, words, notThis, concern, afterStars }: { kid: string; words: string; notThis: string; concern: string; afterStars?: ReactNode }) {
   return (
     <section aria-labelledby="ready-fixes" data-ready-fixes>
       <Head eyebrow="What it fixes" title="Three things, starting tonight." id="ready-fixes" />
       <ul style={{ margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 40 }}>
         <Fix instead="Instead of rows about more time" title="Stars they earn.">
-          <MockAsk kid={kid} />
+          <StarsArt kid={kid} />
           {afterStars && <div style={{ marginTop: 12 }}>{afterStars}</div>}
         </Fix>
         <Fix instead="Instead of not knowing what to say" title="The words, ready.">
-          <p style={{
-            margin: 0, background: 'var(--tint-butter)', borderRadius: 'var(--radius-card)', padding: '18px 20px',
-            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45,
-          }}>
-            &ldquo;{words}&rdquo;
-          </p>
+          <WordsArt words={words} notThis={notThis} />
         </Fix>
         <Fix instead="Instead of guessing if it works" title="Ten seconds a day.">
-          <MockProgress concern={concern} />
+          <CheckArt concern={concern} />
         </Fix>
       </ul>
     </section>

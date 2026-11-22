@@ -1,0 +1,79 @@
+{
+  "name": "free-family-week",
+  "size": "portrait",
+  "lead": "digi",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "cover",
+      "type": "printable",
+      "eyebrow": "Free printable · ages 4 to 12",
+      "headline": "Six fights in every house.<br><mark>One fridge</mark> settles them.",
+      "image": "tools/social-cards/assets/family-week/star-chart.png",
+      "width": 520,
+      "scale": "h-s"
+    },
+    {
+      "name": "tv-first-thing",
+      "type": "printable",
+      "eyebrow": "1 · The TV before school",
+      "headline": "Ready first.<br>Then the TV.",
+      "image": "tools/social-cards/assets/family-week/morning.png",
+      "width": 640,
+      "scale": "h-m"
+    },
+    {
+      "name": "door-and-room",
+      "type": "printable",
+      "eyebrow": "2 and 3 · The door, the bedroom floor",
+      "headline": "Hair done, shoes on,<br>room reset. A star each.",
+      "image": "tools/social-cards/assets/family-week/jobs.png",
+      "width": 900,
+      "scale": "h-s"
+    },
+    {
+      "name": "front-seat",
+      "type": "printable",
+      "eyebrow": "4 · The front seat",
+      "headline": "Decided on Sunday.<br>Not at the car door.",
+      "image": "tools/social-cards/assets/family-week/front-seat.png",
+      "width": 760,
+      "scale": "h-m"
+    },
+    {
+      "name": "reading-homework",
+      "type": "printable",
+      "eyebrow": "5 · Reading record and homework",
+      "headline": "A tick a night,<br>for each child.",
+      "image": "tools/social-cards/assets/family-week/reading.png",
+      "width": 900,
+      "scale": "h-m"
+    },
+    {
+      "name": "school-emails",
+      "type": "printable",
+      "eyebrow": "6 · The school email nobody read",
+      "headline": "Ten minutes on Sunday.<br>Nothing found on Friday.",
+      "image": "tools/social-cards/assets/family-week/sunday.png",
+      "width": 640,
+      "scale": "h-m"
+    },
+    {
+      "name": "free",
+      "type": "text",
+      "tone": "ink",
+      "eyebrow": "Free, just your email",
+      "headline": "Both sheets,<br>plus gold stars",
+      "body": "Print it on Sunday and fill it in together. In the Guided Childhood app it fills itself in: your own jobs, and the dates from school emails you forward.",
+      "scale": "h-m"
+    },
+    {
+      "name": "send",
+      "type": "cta",
+      "eyebrow": "Before you go",
+      "headline": "Send this to the parent who does the school run.",
+      "body": "Want both sheets? Send us the word WEEK and we'll message you the link.",
+      "pill": "DM us WEEK"
+    }
+  ]
+}
