@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import { defaultLeadDays } from '@/lib/school/lead-up'
 import { useRouter } from 'next/navigation'
 import { preparePhoto } from '@/lib/school/photo'
 
@@ -85,6 +86,10 @@ export default function SchoolCatch() {
   const [chosen, setChosen] = useState<Set<number>>(new Set())
   const [saving, setSaving] = useState(false)
   const [savedCount, setSavedCount] = useState<number | null>(null)
+  // Did anything just added earn early reminders (lib/school/lead-up.ts)? The
+  // confirmation used to promise only the night before, which undersold a
+  // project due in a fortnight (marketing review, 22 November 2026).
+  const [savedLead, setSavedLead] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -141,6 +146,7 @@ export default function SchoolCatch() {
     if (!found) return
     setSaving(true)
     let saved = 0
+    let lead = false
     try {
       for (const [i, item] of found.entries()) {
         if (!chosen.has(i)) continue
@@ -154,9 +160,13 @@ export default function SchoolCatch() {
             due_date: item.due_date ?? null,
           }),
         })
-        if (res.ok) saved += 1
+        if (res.ok) {
+          saved += 1
+          if (defaultLeadDays(item.kind, item.due_date ?? null, new Date().toISOString()).length > 0) lead = true
+        }
       }
       setSavedCount(saved)
+      setSavedLead(lead)
       setFound(null)
       setMode('idle')
       setPasted('')
@@ -373,7 +383,9 @@ export default function SchoolCatch() {
             {savedCount === 1 ? 'Added. It is in your week.' : `Added all ${savedCount}. They are in your week.`}
           </div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
-            You will get a reminder the night before and again in the morning.
+            {savedLead
+              ? 'Reminders lead up to the day, then the night before and again in the morning.'
+              : 'You will get a reminder the night before and again in the morning.'}
           </p>
           <button onClick={reset} style={quietButton}>Do another</button>
         </div>

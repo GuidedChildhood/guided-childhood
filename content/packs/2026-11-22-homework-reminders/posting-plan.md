@@ -6,19 +6,23 @@ Every screen is the real app, recorded frame by frame from its fixture page with
 
 | Film | Length | File |
 |---|---|---|
-| Homework: snap the project letter, reminders that lead up to the day | 32.8s | `films/homework-reminders.mp4` |
+| Homework: snap the project letter, reminders that lead up to the day | 36.2s | `films/homework-reminders.mp4` (Instagram, TikTok, LinkedIn) |
+| The same film with the Facebook link on the end card | 36.2s | `films/homework-reminders-fb.mp4` |
 
-1080 x 1920, silent, ends on the stage check card. Short enough to run uncut on TikTok.
+1080 x 1920, silent, ends on the stage check card, held six seconds. Short enough to run uncut on TikTok.
+
+This is a breadth film: the stage check has no homework tile, so judge it on saves and follows, and put no paid spend behind it on stage check starts.
 
 ## What it shows, beat by beat
 
-1. "The project letter that lives on the fridge." The Snap it card.
-2. "Snap it. DiGi finds the date." A photo goes in, the card reads Anderson shelter project, Tue 1 Dec.
+1. "The school project you remember the night before." The Snap it card.
+2. "Snap the letter. DiGi finds the date." A photo goes in, the card reads Anderson shelter project, Tue 1 Dec.
 3. "One tap. It is in your week." Add this reminder.
 4. "Due in 12 days. So no alert today." The Coming up card on the school page.
 5. "A week before. 3 days before. You choose." The 3 days button tapped off and on.
 6. "And always the night before."
-7. "Their own app says it too." The child's home line: Due in 5 days, a little bit at a time.
+7. "A week later, their own app says it too." The child's Coming up card: Due in 5 days, a little bit at a time. Labelled illustrative time.
+8. "Starting is their job too."
 
 ## Proof path for every claim
 
@@ -38,7 +42,7 @@ None baked in. Add a calm trending instrumental at upload, from the shortlist in
 
 The project letter comes home on a Monday. It goes on the fridge. You remember it the night before, with no shoebox in the house.
 
-Snap the letter. DiGi finds the date and puts it in your week. Nothing pings today. You get a reminder a week before and again 3 days before, and always the night before. Their own app says it too, so starting is their job as well as yours.
+Snap the letter. DiGi finds the date and puts it in your week. Nothing pings today. When there is time, you get a reminder a week before and again 3 days before, and always the night before. Their own app says it too, so starting is their job as well as yours.
 
 What stage is your child? Three questions, no sign up. Link in bio.
 
@@ -48,7 +52,7 @@ The same text, ending: What stage is your child? Three questions, no sign up. gu
 
 ## Caption, TikTok
 
-The school project you remember the night before. Snap the letter once. A reminder a week before, 3 days before, and the night before. On their app too. Built on research. Link in bio.
+The school project you remember the night before. Snap the letter once. A reminder a week before and 3 days before when there is time, and always the night before. On their app too. Link in bio.
 
 ## LinkedIn, Justin's voice
 
@@ -68,9 +72,8 @@ Post the film natively. No link in the body. The link goes in the first comment.
 > And the night before is too late for cardboard and glue.
 >
 > What a project needs is the middle.
-> A nudge to start. A nudge to check. Then the night before.
 >
-> I struggled with homework as a child. I do not want the last night to be where my children meet theirs.
+> I struggled with homework as a child. I do not want my children to meet a project for the first time the night before.
 >
 > So this week we changed it.
 >
@@ -84,7 +87,7 @@ Post the film natively. No link in the body. The link goes in the first comment.
 >
 > It will not build the shelter. That is still cardboard on the kitchen floor.
 >
-> But nobody finds out the night before.
+> But the night before is no longer the first anyone hears of it.
 >
 > When do school projects get remembered in your house?
 
@@ -94,7 +97,7 @@ For Justin to check before posting (AMBER): the post tells the true story of the
 
 ## Labels on screen
 
-"Example family" on every beat. No DiGi reply and no rating appear, so no other label is needed.
+"Example family" on every beat and on the end card, and "Illustrative time" on the child's screen, which is a week later.
 
 ## Checked
 
@@ -102,7 +105,18 @@ For Justin to check before posting (AMBER): the post tells the true story of the
 - The fixture's names are swapped to Ava by `tools/names.json`. The school on the photographed letter is made up and never appears on screen.
 - The dates agree across the film: recorded on a 19 November evening, due Tue 1 Dec, 12 days to go. The child's screen is a week later, Due in 5 days.
 - No dashes, no outcome words, no child's face, no synthetic person.
-- Not yet done: the marketer review `product-shorts` asks for. Run it on Justin's word.
+- The marketer review ran on 22 November and was weighed point by point. Adopted:
+  - the app's own confirmation now says reminders lead up to the day (it promised only the night before, against the film's own headline);
+  - the hook is the parent's moment, not the object;
+  - a time marker on the child's screen;
+  - a six second end card with the slate and "See what to do tonight";
+  - a Facebook version with its link on the card;
+  - "nothing due" this week under "no alert today";
+  - the child's line shown once;
+  - "Built on research" dropped from TikTok, because this feature cites no study;
+  - two LinkedIn lines softened.
+- Also fixed from the review: the child's app now follows the parent's own reminder choice.
+- Declined: nothing. Parked: a homework worry tile on the stage check, which is a product decision for Justin.
 
 ## Links to make (Admin, Film links)
 

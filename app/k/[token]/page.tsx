@@ -244,7 +244,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // also what holds every routine in August before the column exists.
     soft(supabase
       .from('school_actions')
-      .select('id, runs_in_holidays')
+      .select('id, runs_in_holidays, remind_days')
       .eq('user_id', link.user_id)
       .eq('status', 'open')),
 
@@ -757,9 +757,13 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // reminder eventually turns up on a nine year old's phone.
 
   const runsInHolidays = new Map<string, boolean>()
+  const remindDays = new Map<string, number[] | null>()
   if (runsInHolidaysRes && !runsInHolidaysRes.error) {
-    for (const r of (runsInHolidaysRes.data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+    for (const r of (runsInHolidaysRes.data ?? []) as { id: string; runs_in_holidays?: boolean | null; remind_days?: number[] | null }[]) {
       runsInHolidays.set(String(r.id), r.runs_in_holidays === true)
+      // The parent's own early reminder choice (migration 401), so the child's
+      // line starts the day the parent's phone hears of it, not before.
+      remindDays.set(String(r.id), r.remind_days ?? null)
     }
   } /* else pre 182, every routine is school time */
 
@@ -784,7 +788,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       let soon = false
       if (!isRoutine && a.due_date && LEAD_KINDS.has(String(a.kind))) {
         const left = daysBetween(today, String(a.due_date))
-        const from = showFrom({ kind: String(a.kind), due_date: String(a.due_date), created_at: (a as { created_at?: string | null }).created_at ?? null }, today)
+        const from = showFrom({ kind: String(a.kind), due_date: String(a.due_date), created_at: (a as { created_at?: string | null }).created_at ?? null, remind_days: remindDays.get(String(a.id)) ?? null }, today)
         if (left >= 2 && from && today >= from) { soon = true; daysLeft = left }
       }
       const when: 'today' | 'tomorrow' | 'soon' | null =
