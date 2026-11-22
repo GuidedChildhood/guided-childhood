@@ -16,17 +16,23 @@ export type MomentKey =
   | 'turning-off' | 'bedtime' | 'mornings' | 'meals'
   | 'siblings' | 'online' | 'phone' | 'feelings'
 
-export type Moment = { key: MomentKey; label: string; emoji: string; tint: string; hint: string }
+import { momentImageSrc } from '@/lib/content/moment-images'
+
+export type Moment = { key: MomentKey; label: string; emoji: string; tint: string; hint: string; art: string | null }
+
+// The house art, never emoji: the hand drawn picture book tiles where one fits
+// the moment, and a Planet Friend where none does (phones, online, feelings).
+const FRIEND = (k: string) => `/digi-squad/friends/${k}.png`
 
 export const MOMENTS: Moment[] = [
-  { key: 'turning-off', label: 'Turning it off', emoji: '⏰', tint: 'var(--stage-1)', hint: 'Time is up and they will not stop' },
-  { key: 'bedtime', label: 'Bedtime', emoji: '🌙', tint: 'var(--stage-3)', hint: 'Screens, sleep and one more video' },
-  { key: 'mornings', label: 'School mornings', emoji: '🎒', tint: 'var(--stage-2)', hint: 'Getting out of the door' },
-  { key: 'meals', label: 'Mealtimes', emoji: '🍽️', tint: 'var(--tint-sage)', hint: 'Phones and the table' },
-  { key: 'siblings', label: 'Brothers and sisters', emoji: '🤝', tint: 'var(--stage-5)', hint: 'Sharing, turns and fairness' },
-  { key: 'phone', label: 'Phones and social media', emoji: '📱', tint: 'var(--stage-4)', hint: 'Everyone else has one' },
-  { key: 'online', label: 'Something online', emoji: '🛡️', tint: 'var(--tint-blue, var(--stage-3))', hint: 'Seen, sent or said online' },
-  { key: 'feelings', label: 'Big feelings', emoji: '💛', tint: 'var(--tint-butter, var(--stage-1))', hint: 'Meltdowns, moods and slammed doors' },
+  { key: 'turning-off', label: 'Turning it off', emoji: '⏰', tint: 'var(--stage-1)', hint: 'Time is up and they will not stop', art: momentImageSrc('tv_eve') },
+  { key: 'bedtime', label: 'Bedtime', emoji: '🌙', tint: 'var(--stage-3)', hint: 'Screens, sleep and one more video', art: momentImageSrc('bedtime') },
+  { key: 'mornings', label: 'School mornings', emoji: '🎒', tint: 'var(--stage-2)', hint: 'Getting out of the door', art: momentImageSrc('morning') },
+  { key: 'meals', label: 'Mealtimes', emoji: '🍽️', tint: 'var(--tint-sage)', hint: 'Phones and the table', art: momentImageSrc('dinner') },
+  { key: 'siblings', label: 'Brothers and sisters', emoji: '🤝', tint: 'var(--stage-5)', hint: 'Sharing, turns and fairness', art: momentImageSrc('fighting') },
+  { key: 'phone', label: 'Phones and social media', emoji: '📱', tint: 'var(--stage-4)', hint: 'Everyone else has one', art: FRIEND('orbit') },
+  { key: 'online', label: 'Something online', emoji: '🛡️', tint: 'var(--tint-blue, var(--stage-3))', hint: 'Seen, sent or said online', art: FRIEND('nova') },
+  { key: 'feelings', label: 'Big feelings', emoji: '💛', tint: 'var(--tint-butter, var(--stage-1))', hint: 'Meltdowns, moods and slammed doors', art: FRIEND('cosmo') },
 ]
 
 // Read in this order: the first that matches wins.
