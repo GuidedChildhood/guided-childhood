@@ -309,3 +309,8 @@ Every evidence pack now carries three hooks of different kinds with one CHOSEN, 
 - The Sunday 22 Nov newsletter is approved by Justin; the long form running order slides a week if issue 1 has not gone out.
 - `daily.mjs summary` opens with TODAY IN NUMBERS: discovered, cleared, held, packs produced, stages failed, and Metricool named as NOT CONNECTED.
 - Recovered the 18 and 19 Nov radar runs from the Drive patch (the scheduled session's git commit was refused). The 19 Nov afternoon run committed normally, so the refusal is intermittent, not constant.
+## 19 November 2026: the walkthrough fixes Justin chose, and two promises brought into line
+
+- The three New in Guided Childhood posts run on Sunday mornings at 10:00 (22 Nov, 29 Nov, 6 Dec); the family week pack takes Free Saturday 21 Nov.
+- The stage check intro says "a confident, capable 16", not "a safe" one, and the save screen says "four days free", not "four days of everything", to match FreeDoor and the upgrade page.
+- Posts 10 and 18 re-rendered. Post 4 says outside comes first; `ref-kid-jobs` now pays outside play what the templates pay. Its film is re-rendered on the Mac.
