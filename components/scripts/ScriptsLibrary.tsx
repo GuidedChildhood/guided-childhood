@@ -236,10 +236,18 @@ export default function ScriptsLibrary(props: ScriptsLibraryProps) {
               )}
             </div>
           </Link>
+          {/* One pick leads. The rest are a tap away, so the page is one
+              screen shorter and the lead is not competing with its runners up
+              (22 November 2026 design pass). */}
           {morePicks.length > 0 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {morePicks.map(pick => row(pick.sort_order, pick.title, pick.situation, pick.reason, { isFree: pick.is_free }))}
-            </div>
+            <details>
+              <summary style={{ cursor: 'pointer', listStyle: 'none', minHeight: 44, display: 'flex', alignItems: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+                {morePicks.length} more picked for {childName ?? 'your child'}
+              </summary>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: 6 }}>
+                {morePicks.map(pick => row(pick.sort_order, pick.title, pick.situation, pick.reason, { isFree: pick.is_free }))}
+              </div>
+            </details>
           )}
         </section>
       )}
@@ -253,7 +261,7 @@ export default function ScriptsLibrary(props: ScriptsLibraryProps) {
         <section style={{ marginBottom: '28px' }}>
           {shelfHead('Worth another go', 'Ones you have met before', 'A second look at the right time is how the words stick.')}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {revisit.map(r => {
+            {revisit.slice(0, 2).map(r => {
               const sc = scriptBySort.get(r.sort_order)!
               return row(r.sort_order, sc.title, sc.situation, r.line, { isFree: sc.is_free, tone: 'sage', noTick: true })
             })}
