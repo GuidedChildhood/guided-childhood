@@ -48,6 +48,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // one per app and age, from lib/app-safety/apps.ts, each dated by when its
     // facts were last checked against the company's own pages.
     { path: '/app-safety-guide', priority: 0.8, changeFrequency: 'weekly' },
+    // The parent pack schools send home (Phase 3, 22 November 2026). A school's
+    // own ?school= version is noindex; this plain page is the one listed.
+    { path: '/schools/parent-pack', priority: 0.5, changeFrequency: 'monthly' },
     ...APPS.flatMap(a => [
       { path: appPath(a.slug), priority: 0.8, changeFrequency: 'monthly' as const, updated: a.checked },
       ...AGES.map(age => ({ path: agePath(a.slug, age), priority: 0.6, changeFrequency: 'monthly' as const, updated: a.checked })),

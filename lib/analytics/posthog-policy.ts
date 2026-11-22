@@ -49,6 +49,9 @@ export const TRACKED_PATHS = [
   // /is-<app>-safe and /is-<app>-safe-for-<age>-year-old page, matched by
   // TRACKED_PATTERN below because there are two hundred of them.
   '/app-safety-guide',
+  // The school parent pack (22 November 2026). Its ?school= is stripped like
+  // every query; the school arrives as utm_campaign, which is kept.
+  '/schools/parent-pack',
 ] as const
 
 /** Public pages that come in families too large to list one by one. */
