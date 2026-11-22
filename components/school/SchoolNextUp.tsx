@@ -8,6 +8,7 @@ import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 import { isHeldForHolidays } from '@/lib/school/child-items'
 import type { Region } from '@/lib/learning/holidays'
 import { nextUp, whenWords, countLine, type UpEntry } from '@/lib/school/next-up'
+import { momentImageSrc } from '@/lib/content/moment-images'
 
 // NEXT UP: the one answer the calendar page opens on.
 //
@@ -57,16 +58,47 @@ function parts(iso: string | null): { dow: string; day: string; month: string } 
   return { dow: DAYS[local.getDay()], day: String(d), month: MONTHS[m - 1] }
 }
 
+// COLOUR SAYS WHAT KIND OF THING IT IS (22 November 2026, Justin: "add some
+// colour to match site so design is super friendly"). The same five pastels
+// the full card's kind chips already use, so yellow is kit here and there.
+// The date tile and the chip carry the strong pastel, the row its soft tint.
+// How soon it is stays with the words and the pill, so colour never has to
+// mean two things at once. Overdue alone overrides it, in the danger pair.
+const KIND_LOOK: Record<string, { soft: string; bold: string; ink: string; art: string | null }> = {
+  kit: { soft: 'var(--stage-1)', bold: 'var(--stage-1-bold)', ink: 'var(--stage-1-text)', art: 'bag' },
+  bring: { soft: 'var(--stage-1)', bold: 'var(--stage-1-bold)', ink: 'var(--stage-1-text)', art: 'bag' },
+  homework: { soft: 'var(--stage-2)', bold: 'var(--stage-2-bold)', ink: 'var(--stage-2-text)', art: 'homework' },
+  payment: { soft: 'var(--stage-3)', bold: 'var(--stage-3-bold)', ink: 'var(--stage-3-text)', art: null },
+  deadline: { soft: 'var(--stage-4)', bold: 'var(--stage-4-bold)', ink: 'var(--stage-4-text)', art: null },
+  event: { soft: 'var(--stage-5)', bold: 'var(--stage-5-bold)', ink: 'var(--stage-5-text)', art: 'dropoff' },
+  notice: { soft: 'var(--tint-green)', bold: 'var(--tint-sage)', ink: 'var(--sage-ink)', art: null },
+}
+function look(e: Entry) {
+  if (e.days != null && e.days < 0) return { soft: 'var(--danger-bg)', bold: 'var(--danger-bg)', ink: 'var(--danger)', art: KIND_LOOK[e.item.kind]?.art ?? null }
+  return KIND_LOOK[e.item.kind] ?? KIND_LOOK.notice
+}
+
+function KindChip({ e }: { e: Entry }) {
+  const l = look(e)
+  return (
+    <span style={{
+      display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xs)',
+      background: l.bold, color: l.ink, borderRadius: 'var(--radius-pill)', padding: '1px 9px', verticalAlign: 'middle',
+    }}>{KIND_WORD[e.item.kind] ?? 'Note'}</span>
+  )
+}
+
 function tone(days: number | null): { bg: string; ink: string } {
   if (days != null && days < 0) return { bg: 'var(--danger-bg)', ink: 'var(--danger)' }
   if (days === 0) return { bg: 'var(--terracotta)', ink: 'var(--ink)' }
   if (days === 1) return { bg: 'var(--terracotta-lt)', ink: 'var(--ink)' }
-  return { bg: 'var(--cream)', ink: 'var(--ink)' }
+  return { bg: 'var(--white)', ink: 'var(--ink)' }
 }
 
 function DateTile({ entry, big = false }: { entry: Entry; big?: boolean }) {
   const p = parts(entry.dateIso)
-  const t = tone(entry.days)
+  const l = look(entry)
+  const t = { bg: l.bold, ink: l.ink }
   const size = big ? 76 : 58
   return (
     <div aria-hidden style={{
@@ -98,7 +130,7 @@ function Tick({ size = 22 }: { size?: number }) {
 function meta(e: Entry): string {
   const bits: string[] = []
   if (e.item.child_name) bits.push(e.item.child_name)
-  bits.push(e.routine ? `Every ${DAY_FULL[e.item.recurs_weekday as number]}` : (KIND_WORD[e.item.kind] ?? 'Note'))
+  if (e.routine) bits.push(`Every ${DAY_FULL[e.item.recurs_weekday as number]}`)
   const time = e.item.due_time ? String(e.item.due_time).slice(0, 5) : null
   if (time) bits.push(time)
   return bits.join(', ')
@@ -195,7 +227,7 @@ export default function SchoolNextUp({ actions, region = 'uk' }: { actions: Scho
 
   const row = (e: Entry) => (
     <div key={e.item.id} ref={setRef(e.item.id)} style={{
-      display: 'flex', alignItems: 'center', gap: 12, background: 'var(--white)', border: 'var(--edge)',
+      display: 'flex', alignItems: 'center', gap: 12, background: look(e).soft, border: 'var(--edge)',
       borderRadius: 'var(--radius-card)', padding: '10px 12px', marginBottom: 10, overflow: 'hidden',
     }}>
       <DateTile entry={e} />
@@ -205,12 +237,12 @@ export default function SchoolNextUp({ actions, region = 'uk' }: { actions: Scho
         </p>
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, margin: '2px 0 0' }}>
           <strong style={{ color: e.days != null && e.days < 0 ? 'var(--danger)' : 'var(--ink)' }}>{whenWords(e.days)}</strong>
-          {', '}{meta(e)}
+          {meta(e) ? `, ${meta(e)}` : ''}{' '}<KindChip e={e} />
         </p>
       </div>
       <button onClick={() => tick(e)} aria-label={`Done: ${e.item.title}`} style={{
-        width: 48, minWidth: 48, height: 48, borderRadius: '50%', border: 'var(--edge)', background: 'var(--cream)',
-        color: 'var(--ink)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        width: 48, minWidth: 48, height: 48, borderRadius: '50%', border: 'var(--edge)', background: 'var(--white)',
+        color: 'var(--sage-ink)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       }}>
         <Tick />
       </button>
@@ -220,7 +252,12 @@ export default function SchoolNextUp({ actions, region = 'uk' }: { actions: Scho
   return (
     <section aria-label="Coming up from school">
       {/* The one line that proves nothing is missed. */}
-      <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: lists.overdue.length ? 'var(--danger)' : 'var(--ink-soft)', margin: '0 0 14px' }}>
+      <p style={{
+        display: 'inline-block', fontSize: 'var(--text-base)', fontWeight: 800, margin: '0 0 14px', padding: '6px 14px',
+        borderRadius: 'var(--radius-pill)', border: 'var(--edge)',
+        background: lists.overdue.length ? 'var(--danger-bg)' : 'var(--tint-green)',
+        color: lists.overdue.length ? 'var(--danger)' : 'var(--sage-ink)',
+      }}>
         {countLine(lists)}
       </p>
 
@@ -241,12 +278,20 @@ export default function SchoolNextUp({ actions, region = 'uk' }: { actions: Scho
 
       {hero ? (
         <div key={hero.item.id} ref={setRef(hero.item.id)} style={{
-          background: 'var(--white)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
-          padding: '18px 16px 16px', marginBottom: 16, overflow: 'hidden',
+          background: look(hero).soft, border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
+          padding: '18px 16px 16px', marginBottom: 16, overflow: 'hidden', position: 'relative',
         }}>
+          {/* The house picture for this kind of thing, where there is one. */}
+          {look(hero).art && momentImageSrc(look(hero).art as string) && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={momentImageSrc(look(hero).art as string) as string} alt="" width={68} height={68} style={{
+              position: 'absolute', top: 12, right: 12, width: 68, height: 68, borderRadius: '50%', border: 'var(--edge)',
+              objectFit: 'cover', background: 'var(--cream)',
+            }} />
+          )}
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <DateTile entry={hero} big />
-            <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ flex: 1, minWidth: 0, paddingRight: look(hero).art ? 64 : 0 }}>
               <span style={{
                 display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
                 background: tone(hero.days).bg, color: tone(hero.days).ink, border: 'var(--edge)',
@@ -257,7 +302,7 @@ export default function SchoolNextUp({ actions, region = 'uk' }: { actions: Scho
               <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.25rem, 5.4vw, 1.6rem)', letterSpacing: '-0.02em', lineHeight: 1.15, color: 'var(--ink)', margin: 0, overflowWrap: 'anywhere' }}>
                 {hero.item.title}
               </h2>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '4px 0 0' }}>{meta(hero)}</p>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '6px 0 0' }}>{meta(hero)}{meta(hero) ? ' ' : ''}<KindChip e={hero} /></p>
             </div>
           </div>
           {hero.item.detail && (
@@ -298,7 +343,7 @@ export default function SchoolNextUp({ actions, region = 'uk' }: { actions: Scho
         <div style={{ marginBottom: 4 }}>
           <button onClick={() => setShowLater(v => !v)} aria-expanded={showLater} style={{
             width: '100%', minHeight: 48, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-            background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '0 16px', cursor: 'pointer',
+            background: 'var(--tint-blue)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '0 16px', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: showLater ? 10 : 0,
           }}>
             <span>Later and every week</span>
