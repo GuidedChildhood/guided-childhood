@@ -1,0 +1,28 @@
+{
+ "name": "s-shelves",
+ "url": "/dev/scripts-page",
+ "seconds": 12.5,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 2600,
+   "do": "scroll",
+   "to": 560,
+   "ms": 1300
+  },
+  {
+   "at": 6200,
+   "do": "scroll",
+   "to": 1160,
+   "ms": 1300
+  },
+  {
+   "at": 9600,
+   "do": "scroll",
+   "to": 1880,
+   "ms": 1300
+  }
+ ]
+}

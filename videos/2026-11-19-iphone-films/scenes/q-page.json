@@ -1,0 +1,16 @@
+{
+ "name": "q-page",
+ "url": "/dev/quests-page",
+ "seconds": 4.5,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 1500,
+   "do": "scroll",
+   "to": 180,
+   "ms": 1800
+  }
+ ]
+}

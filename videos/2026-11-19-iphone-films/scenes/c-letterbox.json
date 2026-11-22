@@ -1,0 +1,9 @@
+{
+ "name": "c-letterbox",
+ "url": "/dev/school-letterbox",
+ "seconds": 4.5,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": []
+}

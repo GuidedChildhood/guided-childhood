@@ -1,0 +1,29 @@
+{
+ "name": "s-deck",
+ "url": "/ref-script-deck",
+ "seconds": 10.5,
+ "swap": {
+  "Andy": "Sam"
+ },
+ "actions": [
+  {
+   "at": 3000,
+   "do": "jsclick",
+   "selector": "button",
+   "text": "Next \u2192"
+  },
+  {
+   "at": 5800,
+   "do": "jsclick",
+   "selector": "button",
+   "text": "Next \u2192"
+  },
+  {
+   "at": 8400,
+   "do": "jsclick",
+   "selector": "button",
+   "text": "Next \u2192"
+  }
+ ],
+ "anims": true
+}
