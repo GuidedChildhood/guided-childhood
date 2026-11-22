@@ -49,7 +49,7 @@ export const LETTERS: { id: LetterId; letter: string; name: string; means: strin
 ]
 
 /** The few facts about an app the check needs. */
-export type CheckApp = { name: string; minAge: number; firstControl: string | null; hasUnderAgeOption: boolean; underAgeText: string }
+export type CheckApp = { name: string; minAge: number; rule: string; firstControl: string | null; hasUnderAgeOption: boolean; underAgeText: string }
 
 export type Answers = { age: number; use: Use; worries: Worry[] }
 
@@ -70,10 +70,10 @@ export function checkTrust(app: CheckApp, a: Answers): CheckResult {
 
   const timing = ((): [Status, string] => {
     if (under && (a.use === 'most-days' || a.use === 'lots')) {
-      return ['start', `${app.name} sets its own minimum age at ${app.minAge}, and it is already part of most days. A flat no now tends to send it out of sight. Agree a version for now instead: ${app.hasUnderAgeOption ? app.underAgeText : 'on a shared screen, in a shared room, with you nearby'}, and the age you will both revisit it.`]
+      return ['start', `${app.rule}, and it is already part of most days. A flat no now tends to send it out of sight. Agree a version for now instead: ${app.hasUnderAgeOption ? app.underAgeText : 'on a shared screen, in a shared room, with you nearby'}, and the age you will both revisit it.`]
     }
-    if (under && using) return ['work', `${app.name}'s own minimum age is ${app.minAge}. Keep it to times you are around, and agree out loud what changes at ${app.minAge}, so the birthday is a step you planned rather than a door that suddenly opens.`]
-    if (under) return ['work', `${app.name}'s own minimum age is ${app.minAge}. That gives you time. Agree now what having it will look like, so the ask arrives into a plan rather than an argument.`]
+    if (under && using) return ['work', `${app.rule}. Keep it to times you are around, and agree out loud what changes at ${app.minAge}, so the birthday is a step you planned rather than a door that suddenly opens.`]
+    if (under) return ['work', `${app.rule}. That gives you time. Agree now what having it will look like, so the ask arrives into a plan rather than an argument.`]
     if (has('time') || a.use === 'lots') return ['work', `Pick the times it is for, and the times it is not, such as school mornings and the hour before bed. A time agreed in advance is easier to keep than five more minutes negotiated at the door.`]
     return ['ok', `Age and timing look settled. Keep the agreed times written down so they hold when a friend's rules are different.`]
   })()

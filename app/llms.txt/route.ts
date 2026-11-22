@@ -61,7 +61,7 @@ export function GET() {
     '## App safety guide',
     '',
     link(HUB_PATH, 'Is it safe for my child?', 'every app below with its own minimum age, its ratings with sources, the settings to switch on first, and a page for each age from 6 to 15'),
-    ...APPS.map(a => link(appPath(a.slug), `Is ${a.name} safe for children?`, `its own minimum age is ${a.minAge.value}`)),
+    ...APPS.map(a => link(appPath(a.slug), `Is ${a.name} safe for children?`, a.minAge.checked ? `its own minimum age: ${a.minAge.label}` : 'its minimum age is in its own terms')),
     '',
     '## Free printables',
     '',

@@ -27,7 +27,21 @@ export type AppEntry = {
   /** One plain sentence: what the app is, for a parent who has never opened it. */
   whatItIs: string
   minAge: {
-    value: number
+    /** The minimum age the terms set, or null when they set none (Minecraft, YouTube Kids). */
+    value: number | null
+    /** What the fact box shows: "13", "None set", "18, held by an adult". */
+    label: string
+    /**
+     * The age the advice is worked out from. Usually the minimum age. Where
+     * the terms set none it is the age the maker's own rules change (Minecraft's
+     * child account ends at 13), and 0 where children use it on an adult's
+     * account by design (Netflix Kids profiles).
+     */
+    gapAge: number
+    /** Optional: the age a service is built up to (YouTube Kids, 12). */
+    maxAge?: number
+    /** The rule in one clause, for the free check: "TikTok sets its own minimum age at 13". */
+    rule: string
     /** What the terms allow under that age (a supervised account, parent consent), or ''. */
     note: string
     sourceName: string
@@ -43,6 +57,8 @@ export type AppEntry = {
   /** Three to five, described as design ("strangers can send message requests"), never as harm. */
   risks: { title: string; detail: string; sourceUrl: string }[]
   controls: { name: string; what: string; sourceUrl: string }[]
+  /** The setting named in the direct answer, when the first control's name does not read well there. */
+  leadControl?: string
   setupSteps: { sourceUrl: string; steps: string[] }
   /** What a child under the minimum age can use instead, if the maker offers anything. */
   underAge: { text: string; sourceUrl: string }
@@ -60,3 +76,8 @@ export type Age = (typeof AGES)[number]
 
 /** The marker the review list is built from. One spelling, so a search finds every one. */
 export const REVIEW_MARK = 'TODO-JP-REVIEW'
+
+/** "a 9 year old", "an 8 year old", "an 11 year old". */
+export function aAge(age: number): string {
+  return `${age === 8 || age === 11 || age === 18 ? 'an' : 'a'} ${age} year old`
+}

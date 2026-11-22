@@ -6,7 +6,7 @@ import { checkTrust, type CheckApp } from './trust'
 import { gapFor } from './ages'
 import { parseSegment, appPath, agePath } from './content'
 
-const TIKTOK: CheckApp = { name: 'TikTok', minAge: 13, firstControl: 'Family Pairing', hasUnderAgeOption: false, underAgeText: '' }
+const TIKTOK: CheckApp = { name: 'TikTok', minAge: 13, rule: 'TikTok sets its own minimum age at 13', firstControl: 'Family Pairing', hasUnderAgeOption: false, underAgeText: '' }
 
 test('never a verdict and never a score: five letters, each a status and a step', () => {
   const r = checkTrust(TIKTOK, { age: 9, use: 'lots', worries: ['strangers', 'sleep'] })

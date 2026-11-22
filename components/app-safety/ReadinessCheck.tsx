@@ -4,7 +4,7 @@ import { useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 
 import { track } from '@/components/Analytics'
-import { AGES } from '@/lib/app-safety/types'
+import { AGES, aAge } from '@/lib/app-safety/types'
 import { checkTrust, USE_OPTIONS, WORRY_OPTIONS, type CheckApp, type Use, type Worry, type Status } from '@/lib/app-safety/trust'
 
 // The free check on every app page (lib/app-safety/trust.ts has the why).
@@ -21,6 +21,8 @@ type Step = 'age' | 'use' | 'worries' | 'result'
 const STEPS: Step[] = ['age', 'use', 'worries', 'result']
 
 const STATUS_LABEL: Record<Status, string> = { start: 'Start here', work: 'Worth working on', ok: 'In place' }
+// Every place to start first, then what is worth working on, then what is in place.
+const RANK: Record<Status, number> = { start: 0, work: 1, ok: 2 }
 
 const wrap: CSSProperties = { background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'clamp(20px, 4vw, 28px)' }
 const q: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', lineHeight: 1.25, color: 'var(--ink)', margin: '0 0 6px' }
@@ -79,7 +81,7 @@ export default function ReadinessCheck({ app, slug, presetAge }: { app: CheckApp
         <div>
           <p style={q}>How much do they use {app.name} now?</p>
           <p style={sub}>
-            {age ? `For a ${age} year old. ` : ''}
+            {age ? `For ${aAge(age)}. ` : ''}
             <button type="button" onClick={() => setStep('age')} style={{ background: 'none', border: 'none', padding: 0, color: 'var(--ink)', textDecoration: 'underline', cursor: 'pointer', font: 'inherit' }}>Change age</button>
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -124,7 +126,7 @@ export default function ReadinessCheck({ app, slug, presetAge }: { app: CheckApp
           <p style={q}>Where to start with {app.name} at {age}</p>
           <p style={sub}>Built from your answers and {app.name}&apos;s own rules. Five areas, the first one to start on at the top.</p>
           <ol style={{ listStyle: 'none', padding: 0, margin: '0 0 22px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {[...result.letters].sort((a, b) => (a.id === result.lead ? -1 : b.id === result.lead ? 1 : 0)).map(l => {
+            {[...result.letters].sort((a, b) => (a.id === result.lead ? -1 : b.id === result.lead ? 1 : RANK[a.status] - RANK[b.status])).map(l => {
               const lead = l.id === result.lead
               return (
                 <li key={l.id} style={{ background: lead ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1.5px solid ${lead ? 'var(--terracotta-dark)' : 'var(--border)'}`, borderRadius: '16px', padding: '16px 18px' }}>

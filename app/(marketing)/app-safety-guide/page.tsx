@@ -6,7 +6,7 @@ import PlainHeader from '@/components/marketing/PlainHeader'
 import { SITE_URL } from '@/lib/config/site'
 import { APPS } from '@/lib/app-safety/apps'
 import { HUB_PATH, agePath, appPath } from '@/lib/app-safety/content'
-import { AGES, type AppCategory } from '@/lib/app-safety/types'
+import { AGES, aAge, type AppCategory } from '@/lib/app-safety/types'
 import { JsonLd } from '@/lib/seo/json-ld'
 import { pageMetadata } from '@/lib/seo/meta'
 
@@ -47,7 +47,7 @@ export default function AppSafetyGuide() {
           Is it safe for my child?
         </h1>
         <p style={{ fontSize: 'var(--text-lg)', lineHeight: 1.65, color: 'var(--ink)', margin: '0 0 12px', maxWidth: '62ch' }}>
-          Every app here sets its own minimum age, and most say 13. That is the company&apos;s rule for an account, not a sign a child is ready. Each page gives the rule and the ratings with their sources, the settings to switch on first, and a free check for your child&apos;s exact age.
+          Most of these apps set their own minimum age, usually 13. That is the company&apos;s rule for an account, not a sign a child is ready. Each page gives the rule and the ratings with their sources, the settings to switch on first, and a free check for your child&apos;s exact age.
         </p>
         <p style={SMALL}>{APPS.length} apps, ages 6 to 15. Checked against each company&apos;s own pages.</p>
 
@@ -62,18 +62,18 @@ export default function AppSafetyGuide() {
                   <li key={a.slug} style={{ padding: '16px 0', borderTop: '1px solid var(--border)' }}>
                     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
                       <Link href={appPath(a.slug)} style={{ ...LINK, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)' }}>Is {a.name} safe?</Link>
-                      <span style={SMALL}>Its own minimum age: {a.minAge.value}</span>
+                      <span style={SMALL}>Its own minimum age: {a.minAge.checked ? a.minAge.label : 'see its terms'}</span>
                     </div>
                     <p style={{ ...SMALL, margin: '4px 0 8px' }}>{a.whatItIs}</p>
-                    <p style={{ ...SMALL, margin: 0 }}>
-                      By age:{' '}
-                      {AGES.map((age, i) => (
-                        <span key={age}>
-                          <Link href={agePath(a.slug, age)} aria-label={`Is ${a.name} safe for a ${age} year old?`} style={{ ...LINK, display: 'inline-block', minWidth: '24px', padding: '6px 2px' }}>{age}</Link>
-                          {i < AGES.length - 1 ? ', ' : ''}
-                        </span>
+                    <nav aria-label={`${a.name} by age`} style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                      <span style={{ ...SMALL, marginRight: '4px' }}>By age</span>
+                      {AGES.map(age => (
+                        <Link key={age} href={agePath(a.slug, age)} aria-label={`Is ${a.name} safe for ${aAge(age)}?`}
+                          style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '44px', height: '44px', borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--white)', color: 'var(--ink)', fontWeight: 700, fontSize: 'var(--text-sm)', textDecoration: 'none' }}>
+                          {age}
+                        </Link>
                       ))}
-                    </p>
+                    </nav>
                   </li>
                 ))}
               </ul>

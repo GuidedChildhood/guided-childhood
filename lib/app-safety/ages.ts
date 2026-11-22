@@ -1,7 +1,7 @@
 import { bandForYears } from '@/lib/children/age'
 import { getStageFromAgeBand } from '@/lib/content/stages'
 
-import type { Age, AppEntry } from './types'
+import { aAge, type Age, type AppEntry } from './types'
 
 // WHAT IS DIFFERENT ABOUT EACH AGE.
 //
@@ -100,21 +100,34 @@ export function stageFor(age: number) {
 
 /** One sentence placing this age against this app's own rules, for the direct answer. */
 export function gapSentence(app: AppEntry, age: number): string {
-  const min = app.minAge.value
-  switch (gapFor(age, min)) {
-    case 'designed-for':
-      return `${app.name} allows children of ${age}${app.minAge.note ? ` (${lowerFirst(app.minAge.note)})` : ''}, so the question is how it is set up rather than whether it is allowed.`
-    case 'well-under':
-      return `A ${age} year old is ${min - age} years below the age ${app.name} sets for its own accounts${app.underAge.text ? `, and ${app.maker} offers ${lowerFirst(app.underAge.text)}` : ''}.`
-    case 'under':
-      return `A ${age} year old is ${min - age} years below the age ${app.name} sets for its own accounts, which is often when the asking starts.`
-    case 'nearly':
-      return `A ${age} year old is one year below the age ${app.name} sets for its own accounts, so this is the year to agree what having it will look like.`
-    case 'at':
-      return `${age} is the age ${app.name} sets for its own accounts, which means a child can sign up, not that every child is ready to.`
-    case 'past':
-      return `A ${age} year old is past the age ${app.name} sets for its own accounts, so the work now is the settings and the habits rather than the yes or no.`
+  const min = app.minAge.gapAge
+  const child = aAge(age)
+  const years = (n: number) => `${n} year${n === 1 ? '' : 's'}`
+  if (app.minAge.maxAge !== undefined && age > app.minAge.maxAge) {
+    return `${app.name} is built for children up to ${app.minAge.maxAge}, so at ${age} the question is usually what comes next rather than whether it is allowed.`
   }
+  const gap = gapFor(age, min)
+  if (gap === 'designed-for') return `${app.minAge.rule}, so at ${age} the question is how it is set up rather than whether it is allowed.`
+  // No single minimum age (Minecraft, Fortnite, Among Us): the maker's own rule does the talking.
+  if (app.minAge.value === null) {
+    return age < min
+      ? `${app.minAge.rule}, so at ${age} your child is inside that rule for ${years(min - age)} more.`
+      : `${app.minAge.rule}, and at ${age} your child is past that line, so the work now is the settings and the habits.`
+  }
+  const sets = app.minAge.checked
+    ? `the age ${app.name} sets for its own accounts`
+    : `the age ${app.name} usually sets for its own accounts, which we could not yet confirm for the UK`
+  switch (gap) {
+    case 'well-under': return `${cap(child)} is ${years(min - age)} below ${sets}.`
+    case 'under': return `${cap(child)} is ${years(min - age)} below ${sets}, which is often when the asking starts.`
+    case 'nearly': return `${cap(child)} is one year below ${sets}, so this is the year to agree what having it will look like.`
+    case 'at': return `${age} is ${sets}, which means a child can sign up, not that every child is ready to.`
+    default: return `${cap(child)} is past ${sets}, so the work now is the settings and the habits rather than the yes or no.`
+  }
+}
+
+function cap(s: string): string {
+  return s[0].toUpperCase() + s.slice(1)
 }
 
 function lowerFirst(s: string): string {

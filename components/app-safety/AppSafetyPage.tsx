@@ -7,8 +7,8 @@ import { SITE_URL } from '@/lib/config/site'
 import { JsonLd, faqPage } from '@/lib/seo/json-ld'
 import { appBySlug } from '@/lib/app-safety/apps'
 import { AGE_NOTES } from '@/lib/app-safety/ages'
-import { HUB_PATH, agePath, appPath, directAnswer, faqs, gapLabel, nearbyAges, stageFor } from '@/lib/app-safety/content'
-import { AGES, type Age, type AppEntry, type Sourced } from '@/lib/app-safety/types'
+import { HUB_PATH, agePath, appPath, directAnswer, faqs, gapLabel, leadControl, nearbyAges, shortRating, stageFor } from '@/lib/app-safety/content'
+import { AGES, aAge, type Age, type AppEntry, type Sourced } from '@/lib/app-safety/types'
 
 // One app page, with or without an age. Server rendered: everything a search
 // engine or an AI tool reads is in the HTML; only the free check runs in the
@@ -36,16 +36,16 @@ function Fact({ label, value, url }: { label: string; value: ReactNode; url?: st
 
 function rating(r: Sourced<string>): ReactNode {
   if (!r.checked || !r.value) return <span style={{ ...SMALL, fontWeight: 600 }}>See the listing</span>
-  return r.value.toLowerCase() === 'none' ? 'No PEGI rating' : r.value
+  return r.value.toLowerCase() === 'none' ? 'Not rated' : shortRating(r.value)
 }
 
 export default function AppSafetyPage({ app, age }: { app: AppEntry; age: Age | null }) {
-  const title = age ? `Is ${app.name} safe for a ${age} year old?` : `Is ${app.name} safe for children?`
+  const title = age ? `Is ${app.name} safe for ${aAge(age)}?` : `Is ${app.name} safe for children?`
   const answer = directAnswer(app, age)
   const qa = faqs(app, age)
   const note = age ? AGE_NOTES[age] : null
   const stage = age ? stageFor(age) : null
-  const under = age !== null && age < app.minAge.value
+  const under = age !== null && age < app.minAge.gapAge
   const url = `${SITE_URL}${age ? agePath(app.slug, age) : appPath(app.slug)}`
   const similar = app.similar.map(appBySlug).filter((a): a is AppEntry => !!a)
 
@@ -79,7 +79,7 @@ export default function AppSafetyPage({ app, age }: { app: AppEntry; age: Age | 
       <p style={SMALL}>{app.whatItIs} Checked against {app.maker}&apos;s own pages on {formatDate(app.checked)}.</p>
 
       <dl style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', columnGap: '24px', margin: '26px 0 34px' }}>
-        <Fact label="Its own minimum age" value={app.minAge.checked ? String(app.minAge.value) : <span style={{ ...SMALL, fontWeight: 600 }}>See its terms</span>} url={app.minAge.sourceUrl} />
+        <Fact label="Its own minimum age" value={app.minAge.checked ? app.minAge.label : <span style={{ ...SMALL, fontWeight: 600 }}>See its terms</span>} url={app.minAge.sourceUrl} />
         <Fact label="App Store" value={rating(app.ratings.appStore)} url={app.ratings.appStore.url || undefined} />
         <Fact label="Google Play" value={rating(app.ratings.googlePlay)} url={app.ratings.googlePlay.url || undefined} />
         <Fact label="PEGI" value={rating(app.ratings.pegi)} url={app.ratings.pegi.url || undefined} />
@@ -115,20 +115,20 @@ export default function AppSafetyPage({ app, age }: { app: AppEntry; age: Age | 
         <ReadinessCheck
           slug={app.slug}
           presetAge={age}
-          app={{ name: app.name, minAge: app.minAge.value, firstControl: app.controls[0]?.name ?? null, hasUnderAgeOption: !!app.underAge.text, underAgeText: lowerFirst(app.underAge.text) }}
+          app={{ name: app.name, minAge: app.minAge.gapAge, rule: app.minAge.rule, firstControl: leadControl(app), hasUnderAgeOption: !!app.underAge.text, underAgeText: lowerFirst(app.underAge.text) }}
         />
       </div>
 
       {under && app.underAge.text && (
         <section aria-labelledby="younger">
-          <h2 id="younger" style={H2}>Under {app.minAge.value}: what {app.maker} offers instead</h2>
+          <h2 id="younger" style={H2}>Under {app.minAge.gapAge}: what {app.maker} offers instead</h2>
           <p style={P}>{app.underAge.text}{app.underAge.sourceUrl && <> <a href={app.underAge.sourceUrl} rel="noopener" target="_blank" style={LINK}>Source</a></>}</p>
         </section>
       )}
 
       <section aria-labelledby="setup">
-        <h2 id="setup" style={H2}>{age ? `Setting up ${app.name} for a ${age} year old` : `Setting up ${app.name} for your child`}</h2>
-        <p style={P}>{under ? `If ${app.name} is part of your child's life before ${app.minAge.value}, set it up together, with these steps done before they use it on their own.` : 'Do these together, side by side, before they use it on their own. Your child seeing what each setting does is half the point.'}</p>
+        <h2 id="setup" style={H2}>{age ? `Setting up ${app.name} for ${aAge(age)}` : `Setting up ${app.name} for your child`}</h2>
+        <p style={P}>{under ? `If ${app.name} is part of your child's life before ${app.minAge.gapAge}, set it up together, with these steps done before they use it on their own.` : 'Do these together, side by side, before they use it on their own. Your child seeing what each setting does is half the point.'}</p>
         <ol style={{ margin: '0 0 12px', paddingLeft: '22px', maxWidth: '64ch' }}>
           {app.setupSteps.steps.map((s, i) => (
             <li key={i} style={{ ...P, margin: '0 0 10px', paddingLeft: '4px' }}>{s}</li>
@@ -195,11 +195,11 @@ export default function AppSafetyPage({ app, age }: { app: AppEntry; age: Age | 
         <h2 id="more" style={{ ...H2, fontSize: 'var(--text-xl)', margin: '0 0 12px' }}>More on this</h2>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {age && nearbyAges(age).map(a => (
-            <li key={a}><Link href={agePath(app.slug, a)} style={LINK}>Is {app.name} safe for a {a} year old?</Link></li>
+            <li key={a}><Link href={agePath(app.slug, a)} style={LINK}>Is {app.name} safe for {aAge(a)}?</Link></li>
           ))}
           {age && <li><Link href={appPath(app.slug)} style={LINK}>{app.name} at every age</Link></li>}
           {similar.map(s => (
-            <li key={s.slug}><Link href={age ? agePath(s.slug, age) : appPath(s.slug)} style={LINK}>Is {s.name} safe{age ? ` for a ${age} year old` : ' for children'}?</Link></li>
+            <li key={s.slug}><Link href={age ? agePath(s.slug, age) : appPath(s.slug)} style={LINK}>Is {s.name} safe{age ? ` for ${aAge(age)}` : ' for children'}?</Link></li>
           ))}
           <li><Link href={HUB_PATH} style={LINK}>Every app in the guide</Link></li>
         </ul>

@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import AppSafetyPage from '@/components/app-safety/AppSafetyPage'
 import { APPS, appBySlug } from '@/lib/app-safety/apps'
 import { agePath, appPath, directAnswer, parseSegment } from '@/lib/app-safety/content'
-import { AGES, type Age } from '@/lib/app-safety/types'
+import { AGES, aAge, type Age } from '@/lib/app-safety/types'
 import { pageMetadata } from '@/lib/seo/meta'
 
 // THE APP SAFETY PAGES: /is-<app>-safe and /is-<app>-safe-for-<age>-year-old.
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!hit) return {}
   const { app, age } = hit
   return pageMetadata({
-    title: age ? `Is ${app.name} safe for a ${age} year old? A UK parent's guide` : `Is ${app.name} safe for children? Age rules and settings`,
+    title: age ? `Is ${app.name} safe for ${aAge(age)}? A UK parent's guide` : `Is ${app.name} safe for children? Age rules and settings`,
     description: trimTo(directAnswer(app, age), 158),
     path: age ? agePath(app.slug, age) : appPath(app.slug),
     type: 'article',
