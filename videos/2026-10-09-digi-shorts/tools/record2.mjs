@@ -72,6 +72,9 @@ for (let f = 0; f < N; f++) {
     else if (e.do === 'tap' || e.do === 'click') {
       const { x, y } = await page.evaluate(({ sel, nth, text }) => { let els = [...document.querySelectorAll(sel)]; if (text) els = els.filter((el) => el.textContent.trim().includes(text)); const r = els[nth || 0].getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 } }, { sel: e.selector, nth: e.nth || 0, text: e.text || null })
       await page.mouse.click(x, y)
+    } else if (e.do === 'jsclick') {
+      // A control below the fold (the script deck's Next): click it in the page, no scroll.
+      await page.evaluate(({ sel, text }) => { const el = [...document.querySelectorAll(sel)].find((x) => x.textContent.trim().includes(text)); el && el.click() }, { sel: e.selector, text: e.text })
     } else if (e.do === 'scroll') {
       // A page scroll eased over frames (smooth scrolling runs on the real clock).
       tween = { from: await page.evaluate(() => window.scrollY), to: e.to, f0: f, n: Math.round(((e.ms || 800) * FPS) / 1000) }
