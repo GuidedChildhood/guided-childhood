@@ -130,7 +130,7 @@ export default function RecordLesson({ subject, lessonKey, statements = [], leve
     })
   }
 
-  const assess = (payload: { judgement?: string; objectiveMarks?: unknown; levels?: unknown; note?: string; quiz?: unknown }, done: string) => {
+  const assess = (payload: { judgement?: string; objectiveMarks?: unknown; levels?: unknown; note?: string; quiz?: unknown; wouldChange?: string }, done: string) => {
     if (!current) return
     setError(''); setSaved('')
     start(async () => {
@@ -217,7 +217,7 @@ export default function RecordLesson({ subject, lessonKey, statements = [], leve
           )}
           {subject === 'digital' && (
             <Judge key={current.id} objectives={objectives} descriptors={descriptors} delivery={current} pending={pending}
-              onSave={(judgement, objectiveMarks, note, quiz) => assess({ judgement, objectiveMarks, note, quiz }, 'Saved.')} />
+              onSave={(judgement, objectiveMarks, note, quiz, wouldChange) => assess({ judgement, objectiveMarks, note, quiz, wouldChange }, wouldChange.trim() && wouldChange.trim() !== (current.wouldChange ?? '') ? 'Saved. Thank you: we read every one.' : 'Saved.')} />
           )}
 
           {saved && <p className="gc-rec-saved" role="status">{saved}</p>}
@@ -313,7 +313,7 @@ function Levels({ statements, levelNames, levelKey, delivery, pending, onSave }:
 /** Digital: the teacher's judgement of the class, and by objective if wanted. */
 function Judge({ objectives, descriptors, delivery, pending, onSave }: {
   objectives: string[]; descriptors: Descriptors | null; delivery: Delivery; pending: boolean
-  onSave: (judgement: string | undefined, objectiveMarks: Record<string, Judgement>, note: string, quiz: QuizDraft) => void
+  onSave: (judgement: string | undefined, objectiveMarks: Record<string, Judgement>, note: string, quiz: QuizDraft, wouldChange: string) => void
 }) {
   const start = (JUDGEMENTS as string[]).includes(delivery.assessment) ? delivery.assessment as Judgement : null
   const [judgement, setJudgement] = useState<Judgement | null>(start)
@@ -323,6 +323,7 @@ function Judge({ objectives, descriptors, delivery, pending, onSave }: {
     return out
   })
   const [note, setNote] = useState(delivery.note ?? '')
+  const [change, setChange] = useState(delivery.wouldChange ?? '')
   // The quiz counts ride along on every save, because a save replaces the
   // whole assessment: a judgement tapped after the counts must not lose them.
   const [quiz, setQuiz] = useState<QuizDraft>(() => {
@@ -335,11 +336,11 @@ function Judge({ objectives, descriptors, delivery, pending, onSave }: {
   // nothing a teacher typed is ever thrown away without them seeing it.
   const cleaned = cleanQuizCounts(quiz)
   const quizOk = !!cleaned && (quiz.starter === '' || cleaned.starter !== null) && (quiz.exit === '' || cleaned.exit !== null)
-  const pick = (j: Judgement) => { setJudgement(j); onSave(j, marks, note, quiz) }
+  const pick = (j: Judgement) => { setJudgement(j); onSave(j, marks, note, quiz, change) }
   const pickMark = (i: number, j: Judgement) => {
     const next = { ...marks, [String(i)]: j }
     setMarks(next)
-    onSave(judgement ?? undefined, next, note, quiz)
+    onSave(judgement ?? undefined, next, note, quiz, change)
   }
   return (
     <div className="gc-rec-next">
@@ -394,7 +395,24 @@ function Judge({ objectives, descriptors, delivery, pending, onSave }: {
         </div>
         {quizTyped && !quizOk && <p className="gc-rec-quiet" style={{ margin: 0 }}>Add how many pupils were in the room, and a count no larger than that.</p>}
         <div className="gc-rec-row">
-          <button type="button" className="btn btn-outline" onClick={() => onSave(judgement ?? undefined, marks, note, quiz)} disabled={pending || (quizTyped && !quizOk)}>Save the counts</button>
+          <button type="button" className="btn btn-outline" onClick={() => onSave(judgement ?? undefined, marks, note, quiz, change)} disabled={pending || (quizTyped && !quizOk)}>Save the counts</button>
+        </div>
+      </details>
+
+      {/* WHAT WOULD YOU CHANGE? (22 November 2026). The note is for the
+          teacher's own record; this line is for us. Every line written goes to
+          Justin in a weekly digest with the revisit counts per lesson, so each
+          lesson taught anywhere can improve the lesson. Migration 403, plan
+          plans/2026-11-22-lesson-shape-vs-french-scheme.md. */}
+      <details className="gc-rec-more" open={delivery.wouldChange ? true : undefined}>
+        <summary>What would you change about this lesson?</summary>
+        <label className="gc-rec-field">
+          <textarea value={change} onChange={e => setChange(e.target.value.slice(0, 280))} rows={3} maxLength={280} aria-describedby="gc-rec-change-help"
+            placeholder="A slide that ran long, a question that confused them, a game they wanted more of" />
+          <span id="gc-rec-change-help" className="gc-rec-help">This goes to the people who write the lessons, and we read every one. No pupil names. {280 - change.length} characters left.</span>
+        </label>
+        <div className="gc-rec-row">
+          <button type="button" className="btn btn-outline" onClick={() => onSave(judgement ?? undefined, marks, note, quiz, change)} disabled={pending || !change.trim()}>Send it to us</button>
         </div>
       </details>
 
@@ -405,7 +423,7 @@ function Judge({ objectives, descriptors, delivery, pending, onSave }: {
           <span id="gc-rec-note-help" className="gc-rec-help">For your own record. No pupil names. {280 - note.length} characters left.</span>
         </label>
         <div className="gc-rec-row">
-          <button type="button" className="btn btn-outline" onClick={() => onSave(judgement ?? undefined, marks, note, quiz)} disabled={pending}>Save the note</button>
+          <button type="button" className="btn btn-outline" onClick={() => onSave(judgement ?? undefined, marks, note, quiz, change)} disabled={pending}>Save the note</button>
         </div>
       </details>
     </div>
