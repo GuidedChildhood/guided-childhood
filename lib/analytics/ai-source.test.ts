@@ -46,3 +46,12 @@ test('ai_referral passes with a known source and is dropped without one', () => 
   assert.equal(cleanEvent(ev('ai_referral', { $current_url: `https://${HOST}/` }), HOST), null)
   assert.equal(cleanEvent(ev('ai_referral', { $current_url: `https://${HOST}/dashboard`, ai_source: 'gemini' }), HOST), null)
 })
+
+test('the app safety pages are tracked, and mini_check_done carries only an app slug', async () => {
+  const { isTrackedPath } = await import('./posthog-policy')
+  for (const p of ['/app-safety-guide', '/is-tiktok-safe', '/is-youtube-kids-safe-for-7-year-old']) assert.ok(isTrackedPath(p), p)
+  for (const p of ['/is-tiktok', '/is-tiktok-safe-for-seven', '/is-tiktok-safe/extra']) assert.ok(!isTrackedPath(p), p)
+  const ok = cleanEvent(ev('mini_check_done', { $current_url: `https://${HOST}/is-roblox-safe`, app: 'roblox', age: 9, worries: ['strangers'] }), HOST)
+  assert.deepEqual(Object.keys(ok?.properties ?? {}).filter(k => !k.startsWith('$')), ['app'], 'the age and the answers never leave')
+  assert.equal(cleanEvent(ev('mini_check_done', { $current_url: `https://${HOST}/is-roblox-safe`, app: 'Roblox for Sam aged 9' }), HOST), null)
+})

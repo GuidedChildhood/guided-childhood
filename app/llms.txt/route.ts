@@ -1,6 +1,8 @@
 import { SITE_URL } from '@/lib/config/site'
 import { GUIDES } from '@/lib/content/guides'
 import { listedTasters } from '@/lib/magnets/tasters'
+import { APPS } from '@/lib/app-safety/apps'
+import { HUB_PATH, appPath } from '@/lib/app-safety/content'
 
 // /llms.txt: A PLAIN SUMMARY FOR AI ANSWER ENGINES.
 //
@@ -55,6 +57,11 @@ export function GET() {
     '## Guides',
     '',
     ...GUIDES.map(g => link(`/guides/${g.slug}`, g.question, `${g.ages}. ${g.description}`)),
+    '',
+    '## App safety guide',
+    '',
+    link(HUB_PATH, 'Is it safe for my child?', 'every app below with its own minimum age, its ratings with sources, the settings to switch on first, and a page for each age from 6 to 15'),
+    ...APPS.map(a => link(appPath(a.slug), `Is ${a.name} safe for children?`, `its own minimum age is ${a.minAge.value}`)),
     '',
     '## Free printables',
     '',

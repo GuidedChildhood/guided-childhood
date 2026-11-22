@@ -71,6 +71,7 @@ function start(): Promise<PostHog> {
 export function track(event: 'stage_check_step', props: { step: (typeof STAGE_CHECK_STEPS)[number] }): void
 export function track(event: 'account_created'): void
 export function track(event: 'link_click', props: { to?: string; label?: string }): void
+export function track(event: 'mini_check_done', props: { app: string }): void
 export function track(event: string, props?: Record<string, unknown>) {
   if (!KEY || !isTrackedPath(window.location.pathname)) return
   start().then(ph => ph.capture(event, props)).catch(() => {})

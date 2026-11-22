@@ -3,6 +3,9 @@ import type { MetadataRoute } from 'next'
 import { SITE_URL as BASE_URL } from '@/lib/config/site'
 import { GUIDES } from '@/lib/content/guides'
 import { listedTasters } from '@/lib/magnets/tasters'
+import { APPS } from '@/lib/app-safety/apps'
+import { agePath, appPath } from '@/lib/app-safety/content'
+import { AGES } from '@/lib/app-safety/types'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // lastModified only where we know it. Every entry used to say "changed
@@ -41,6 +44,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // November 2026), so a pack joins the sitemap the day it joins that file.
     // Holds are left out: they work by direct link but are not promoted.
     ...listedTasters().map(t => ({ path: `/free/${t.slug}`, priority: 0.5, changeFrequency: 'monthly' as const })),
+    // The app safety pages (19 November 2026): the hub, one page per app and
+    // one per app and age, from lib/app-safety/apps.ts, each dated by when its
+    // facts were last checked against the company's own pages.
+    { path: '/app-safety-guide', priority: 0.8, changeFrequency: 'weekly' },
+    ...APPS.flatMap(a => [
+      { path: appPath(a.slug), priority: 0.8, changeFrequency: 'monthly' as const, updated: a.checked },
+      ...AGES.map(age => ({ path: agePath(a.slug, age), priority: 0.6, changeFrequency: 'monthly' as const, updated: a.checked })),
+    ]),
   ]
 
   return routes.map(r => ({
