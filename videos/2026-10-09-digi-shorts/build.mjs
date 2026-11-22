@@ -258,9 +258,11 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .lower{left:0;top:auto;bottom:0;width:1080px;padding:26px 40px 30px;background:#FDF6DE;border-top:3px solid #1A1A2E;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:31px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E}
 .veil{left:0;top:0;width:1080px}
 .ov{position:absolute;opacity:0}
-.capwrap{left:70px;width:940px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.capwrap{isolation:isolate;left:70px;width:940px;display:flex;flex-direction:column;align-items:center;text-align:center}
+/* A soft ground under the caption so no line of the app shows through behind it (22 November 2026). */
+.capwrap::before{content:'';position:absolute;left:-70px;width:1080px;top:-150px;height:760px;background:linear-gradient(rgba(249,248,246,0),#F9F8F6 26%);z-index:-1}
 .cap-eye{font-family:plexMono,monospace;font-weight:600;font-size:28px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E;margin-bottom:14px}
-.cap{background:#FFFFFF;border:3px solid #1A1A2E;border-radius:34px;box-shadow:0 6px 0 #1A1A2E,0 30px 70px rgba(26,26,46,.14);padding:26px 38px;font-weight:800;font-size:56px;line-height:1.22;color:#1A1A2E;max-width:940px}
+.cap{background:#FFFFFF;border:3px solid #1A1A2E;border-radius:34px;box-shadow:0 6px 0 #1A1A2E,0 30px 70px rgba(26,26,46,.14);padding:30px 46px;font-weight:800;font-size:72px;line-height:1.18;color:#1A1A2E;max-width:940px}
 .cw{display:inline-block;position:relative}.cw b{position:relative;font-weight:inherit}
 .cw .sweep{position:absolute;left:-6px;right:-6px;top:12%;bottom:6%;background:#EDC35F;border-radius:10px;transform-origin:0 50%;transform:scaleX(0)}
 .inputs{left:80px;width:920px;background:#FFFFFF;border:3px solid #1A1A2E;border-radius:44px;box-shadow:0 7px 0 #1A1A2E,0 40px 90px rgba(26,26,46,.14);padding:52px 56px}
