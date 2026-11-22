@@ -55,6 +55,11 @@ export type Worry = {
   promise: string
 }
 
+// 'Homework and school' was 'Homework on screens' until 22 November 2026.
+// Justin widened it, the same id and slug, when the school snap and the
+// homework reminders shipped (PR 1641): the tile now covers the project that
+// is remembered the night before as well as the homework that lives on a
+// screen, so the grid stays at the twelve set on 16 November.
 export const WORRIES: Worry[] = [
   { id: 'wont_put_down', label: 'Coming off screens', icon: 'wont_put_down', tint: 'var(--stage-3-bold)', promise: 'A calm ending, not a nightly row' },
   { id: 'asking_for_phone', label: 'Asking for a phone', icon: 'asking_for_phone', tint: 'var(--stage-2-bold)', promise: 'Know when they are truly ready' },
@@ -64,7 +69,7 @@ export const WORRIES: Worry[] = [
   { id: 'bedtime_screens', label: 'Bedtime screens', icon: 'bedtime_screens', tint: 'var(--stage-5-bold)', promise: 'Screens out of bedrooms, no war' },
   { id: 'group_chats', label: 'Group chats', icon: 'group_chats', tint: 'var(--stage-1-bold)', promise: 'Calm rules for WhatsApp and groups' },
   { id: 'getting_round', label: 'They get round the rules', icon: 'getting_round', tint: 'var(--stage-4-bold)', promise: 'A plan they help write, so it holds' },
-  { id: 'homework_screens', label: 'Homework on screens', icon: 'homework_screens', tint: 'var(--stage-1-bold)', promise: 'School work and free time kept apart' },
+  { id: 'homework_screens', label: 'Homework and school', icon: 'homework_screens', tint: 'var(--stage-1-bold)', promise: 'School work remembered and kept apart' },
   { id: 'endless_youtube', label: 'Endless YouTube', icon: 'endless_youtube', tint: 'var(--stage-3-bold)', promise: 'Autoplay off, and a clear finish' },
   { id: 'game_spending', label: 'Spending in games', icon: 'game_spending', tint: 'var(--stage-2-bold)', promise: 'Pocket money rules that stick' },
   { id: 'ai_chatbots', label: 'AI chatbots', icon: 'ai_chatbots', tint: 'var(--stage-5-bold)', promise: 'Clear rules for AI, by age' },
