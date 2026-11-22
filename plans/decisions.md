@@ -201,3 +201,10 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 395, 396, 398 and 400 were each checked by their own object rather than their ledger row (`parent_nudge_log`, the two `starter_leads` consent columns, the four value `video_link_events` kind check, `watch_bookings` and `parent_lessons.after_prompt`). All present.
 - 377 is resolved. The planet lane took the handback and renamed the newspaper ledger to `planet_issue_events`; `public.planet_events` keeps the children's shape. Repo file and live database agree.
 - The duplicate 394 ledger row (version 20261112090300) is deleted, on Justin's say so. One row left, the one carrying the real SQL.
+
+## 22 November 2026: the school page opens on Next up, and the photo reader keeps every date
+
+- The school page is three parts: Next up (one large card, then the next seven days as rows that tick away, overdue held on top, one count line), Add from school (photo first, Type it in beside it), and one fold for the week grid, routines and forwarding. Rule in lib/school/next-up.ts. Mobbin: Future Pro, Givingli, Slack Later.
+- The photo reader now treats every dated thing as an item (inset days, term dates, non uniform days), has room for twenty items, and keeps the finished items of a reply that was cut short. A photo that finds nothing offers Type it in.
+- The full calendar card now follows the server after a refresh, so a photo add shows in the list without a reload.
+- Scripts: phones, something online and big feelings have their own picture book tiles (Higgsfield, 2.25 credits, Justin said yes).

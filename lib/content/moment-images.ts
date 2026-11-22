@@ -41,6 +41,13 @@ const MOMENT_ART: Record<string, string> = {
   fighting:  ART_BASE + 'hf_20260712_195619_6c3c845c-755f-4608-8575-528cc01bc831.png',
   bedtime:   ART_BASE + 'hf_20260712_195628_1bbd76a4-02cd-4793-bbdd-c7ee4c609ac4.png',
   sleep:     ART_BASE + 'hf_20260712_195630_048877a9-a9ed-4168-b3aa-750694b07b44.png',
+  // 22 November 2026, for the scripts page: the three moments that had no tile
+  // and borrowed a Planet Friend. Same hand, made with two of the tiles above
+  // as the style reference. Not in MOMENT_IMAGE_SLUGS: they are not timeline
+  // moments and have no file in /public/moments.
+  phone:     ART_BASE + 'hf_20261122_141241_716bc2f7-375d-4898-af05-4fda9cb29f9c.png',
+  online:    ART_BASE + 'hf_20261122_141243_8f3e28ac-6eaa-4f55-b49d-70af3fb82f22.png',
+  feelings:  ART_BASE + 'hf_20261122_141246_dcee37b0-6063-4d5f-90d5-1a3d560c1c01.png',
 }
 
 export function momentImageSrc(slug: string): string | null {
