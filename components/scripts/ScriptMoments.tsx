@@ -175,6 +175,7 @@ export default function ScriptMoments({ cards, pinned: initialPins, childQS, ask
       <h2 id="moments-head" style={headStyle}>What is happening?</h2>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 12px' }}>
         Tap the moment. The words come up one at a time, the line to say first.
+        {' '}Using the <Link href="/dashboard/quests/timer" style={{ color: 'var(--ink)', fontWeight: 800 }}>screen timer</Link>? When it ends, the turning it off words can come to your phone.
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 156px), 1fr))', gap: 10 }}>
         {tiles.map(t => (
