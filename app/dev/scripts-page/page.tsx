@@ -45,6 +45,7 @@ export default async function ScriptsPageHarness({ searchParams }: { searchParam
         moment: momentFor(s), locked: paid === '0' && !s.is_free,
       }))}
       pinned={isFresh ? [] : [1, 4]}
+      askBack={isFresh ? null : { id: 'n1', title: 'Screen time is up and the game is not finished', kind: 'timer_end' }}
       isPaid={paid !== '0'}
       scripts={scripts}
       completed={isFresh ? [] : [4, 6, 8]}

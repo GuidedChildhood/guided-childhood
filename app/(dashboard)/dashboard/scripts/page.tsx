@@ -221,6 +221,20 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     const { data: pinRows } = await supabase.from('script_pins').select('script_sort_order').eq('user_id', user.id).order('created_at')
     pinned = (pinRows ?? []).map(r => r.script_sort_order as number)
   } catch { /* before migration 402: no pins yet */ }
+  // The last script reminder from the past four days, not yet answered.
+  let askBack: { id: string; title: string; kind: 'timer_end' | 'weekly' } | null = null
+  try {
+    const { data: nudge } = await supabase.from('script_nudges')
+      .select('id, script_sort_order, kind, sent_at')
+      .eq('user_id', user.id).is('worked', null)
+      .gte('sent_at', new Date(Date.now() - 4 * 86400000).toISOString())
+      .order('sent_at', { ascending: false }).limit(1).maybeSingle()
+    // Ask the morning after, not the minute it was sent.
+    if (nudge && Date.now() - new Date(nudge.sent_at as string).getTime() > 6 * 3600000) {
+      const t = (scriptsData ?? []).find(r => r.sort_order === nudge.script_sort_order)
+      if (t) askBack = { id: nudge.id as string, title: t.title as string, kind: nudge.kind as 'timer_end' | 'weekly' }
+    }
+  } catch { /* before migration 402 */ }
   const cardStage = askedStage ?? currentStageId
   const momentCards: MomentCard[] = (scriptsData ?? [])
     .filter(r => !cardStage || r.stage_id === cardStage || pinned.includes(r.sort_order as number))
@@ -241,6 +255,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     <ScriptsLibrary
       momentCards={momentCards}
       pinned={pinned}
+      askBack={askBack}
       isPaid={isPaid}
       scripts={scripts}
       completed={[...completedOrders]}

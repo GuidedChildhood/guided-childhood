@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
 import ScriptFinder from '@/components/scripts/ScriptFinder'
-import ScriptMoments, { type MomentCard } from '@/components/scripts/ScriptMoments'
+import ScriptMoments, { type MomentCard, type AskBack } from '@/components/scripts/ScriptMoments'
 import { chunky, pill, INK_EDGE } from '@/components/scripts/card-system'
 import { momentImageForTitle } from '@/lib/content/moment-images'
 import { CATEGORY_META, scriptEmoji, type StageId, type ScriptRow, STAGE_META } from '@/components/scripts/library-meta'
@@ -19,6 +19,7 @@ export type ScriptsLibraryProps = {
   /** The moment tiles and My scripts, at the top. Optional so fixtures still render. */
   momentCards?: MomentCard[]
   pinned?: number[]
+  askBack?: AskBack | null
   isPaid: boolean
   scripts: ScriptRow[]
   completed: number[]
@@ -163,7 +164,7 @@ export default function ScriptsLibrary(props: ScriptsLibraryProps) {
           Seeded from DiGi's "scripts for moments like this", capped at a
           sentence: this is a search box, not a transcript. */}
       {props.momentCards && props.momentCards.length > 0 && (
-        <ScriptMoments cards={props.momentCards} pinned={props.pinned ?? []} childQS={childQS} />
+        <ScriptMoments cards={props.momentCards} pinned={props.pinned ?? []} childQS={childQS} askBack={props.askBack ?? null} />
       )}
 
       <ScriptFinder

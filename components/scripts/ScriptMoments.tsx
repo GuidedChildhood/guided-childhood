@@ -36,11 +36,22 @@ export type MomentCard = {
 
 const MAX_PINS = 5
 
-export default function ScriptMoments({ cards, pinned: initialPins, childQS }: {
+export type AskBack = { id: string; title: string; kind: 'timer_end' | 'weekly' }
+
+const ANSWERS: { key: 'worked' | 'sort_of' | 'not_this_time'; label: string; thanks: string }[] = [
+  { key: 'worked', label: 'It worked', thanks: 'Brilliant. Those words stay in the mix for you.' },
+  { key: 'sort_of', label: 'Sort of', thanks: 'Thanks. Have a look at "if they push back" for next time.' },
+  { key: 'not_this_time', label: 'Not this time', thanks: 'Thanks for saying. We will not send that one again and will try another.' },
+]
+
+export default function ScriptMoments({ cards, pinned: initialPins, childQS, askBack = null }: {
   cards: MomentCard[]
   pinned: number[]
   childQS: string | null
+  /** The last script reminder, sent in the past few days and not yet answered. */
+  askBack?: AskBack | null
 }) {
+  const [answered, setAnswered] = useState<string | null>(null)
   const [pins, setPins] = useState<number[]>(initialPins)
   const [stack, setStack] = useState<{ title: string; items: MomentCard[] } | null>(null)
   const [at, setAt] = useState(0)
@@ -104,8 +115,40 @@ export default function ScriptMoments({ cards, pinned: initialPins, childQS }: {
   const tiles = MOMENTS.map(m => ({ ...m, items: cards.filter(c => c.moment === m.key) })).filter(t => t.items.length > 0)
   const card = stack ? stack.items[at] : null
 
+  async function answer(key: typeof ANSWERS[number]['key']) {
+    if (!askBack) return
+    setAnswered(ANSWERS.find(a => a.key === key)?.thanks ?? 'Thanks.')
+    try {
+      await fetch('/api/scripts/nudges', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: askBack.id, worked: key }),
+      })
+    } catch { /* the thanks still stands; it can be asked again */ }
+  }
+
   return (
     <section aria-labelledby="moments-head" style={{ marginBottom: 28 }}>
+      {/* DID IT WORK? One tap, the morning after the words were sent. The
+          answer decides what is sent next. */}
+      {askBack && (
+        <div style={{ background: 'var(--butter-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px', marginBottom: 22 }}>
+          <p className="eyebrow" style={{ marginBottom: 4 }}>{askBack.kind === 'timer_end' ? 'When the timer ended' : 'Your words this week'}</p>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25, margin: '0 0 10px' }}>
+            How did &ldquo;{askBack.title}&rdquo; go?
+          </p>
+          {answered ? (
+            <p role="status" style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', margin: 0 }}>{answered}</p>
+          ) : (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {ANSWERS.map(a => (
+                <button key={a.key} type="button" onClick={() => answer(a.key)} style={{ ...chunky(a.key === 'worked' ? 'butter' : 'white'), minHeight: 44 }}>{a.label}</button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {mine.length > 0 && (
         <div style={{ marginBottom: 22 }}>
           <p className="eyebrow" style={{ marginBottom: 3 }}>Kept to hand</p>
