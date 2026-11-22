@@ -60,3 +60,13 @@ Any slot works; none depends on another.
 - The script cards are live rows 204, 9611 and 417, copied word for word into `app/ref-script-deck`.
 - The tracker, check back faces and Sorted are the live check in screens.
 - Science: Livingstone et al. 2017 (J Communication), Hellfeldt et al. 2020 (IJERPH), Ofcom 2026, Carter et al. 2016 (JAMA Pediatrics), UK Chief Medical Officers 2019. All checked 22 November.
+
+## The simpler cut, the 3D opening and the voice (22 November, later)
+
+`films/roblox-strangers-simple-imogen-sample.mp4` is a sample, not for posting yet.
+
+- Simpler text (Justin: too much on screen): one short line per beat, larger, on a clear ground so no app text shows behind it. The inputs card is three rows and the research is one line.
+- The 3D opening: after the hook, a drawn phone turns in space and settles flat while the question types into the real app. It is the engine's `tilt` option.
+- The voice: Justin chose Imogen on the more natural engine, for a calm British presenter sound. Tamsin on the first engine sounded too synthetic for this. One take over the opening, not yet cut beat by beat.
+
+Voice line: "A stranger messaged her on Roblox. She's nine. So, what do you actually say tonight? You ask DiGi. It doesn't tell you to ban it, and it doesn't tell you it's fine. It looks at your child, and what's worked in your house before. Then it gives you two steps, and the words to use. And a few days later, it asks you how it went."
