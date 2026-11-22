@@ -201,3 +201,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 395, 396, 398 and 400 were each checked by their own object rather than their ledger row (`parent_nudge_log`, the two `starter_leads` consent columns, the four value `video_link_events` kind check, `watch_bookings` and `parent_lessons.after_prompt`). All present.
 - 377 is resolved. The planet lane took the handback and renamed the newspaper ledger to `planet_issue_events`; `public.planet_events` keeps the children's shape. Repo file and live database agree.
 - The duplicate 394 ledger row (version 20261112090300) is deleted, on Justin's say so. One row left, the one carrying the real SQL.
+
+### 22 November 2026: teachers can say what they would change, and Justin gets it weekly (migration 403, not applied)
+- The digital lesson record gains one optional line, "What would you change about this lesson?", saved to `schools.lesson_records.would_change` (280 characters, no pupil names). Every line written goes to Justin in a Monday 07:17 digest beside the revisit counts per lesson, so every lesson taught anywhere can improve the lesson. Taken from the French scheme, whose author changes each lesson after she runs it.
+- Reads and saves fall back cleanly until 403 is applied, so the deploy can land first. Apply 403 after the PR merges. PR 1658.

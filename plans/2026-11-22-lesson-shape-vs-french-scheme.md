@@ -43,4 +43,4 @@ it. But four things from hers are worth taking, best first:
    starter (the friend says hello, the I can on screen), so the class settles
    the same way each time. Small.
 
-Nothing here is built: it needs Justin's yes, and 1 needs a migration number.
+Justin said yes to 1 on 22 November. Built: migration 403 (schools.lesson_records.would_change), the box on the digital lesson record ("What would you change about this lesson?", sent with "Send it to us"), and the Monday digest to Justin at 07:17 (app/api/cron/lesson-changes, rules in lib/school/lesson-changes.ts, `npm run lesson-changes-test`). A week with no line and no revisit sends nothing. 2 to 4 still wait.
