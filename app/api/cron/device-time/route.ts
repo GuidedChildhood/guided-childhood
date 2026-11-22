@@ -6,6 +6,8 @@ import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { sendPush } from '@/lib/push/send'
+import { prepareNudge } from '@/lib/scripts/nudge-server'
+import { pushLine } from '@/lib/scripts/nudge'
 
 // The parent's eyes on device time, every minute. Two jobs:
 //
@@ -49,9 +51,9 @@ async function handler(request: Request) {
   // fade after a few seconds, and asks the push service to deliver now rather
   // than batching it. Reserved for the timer finishing, which is the only alert
   // here with a deadline: it is worth nothing if it lands after the argument.
-  async function push(userId: string, title: string, body: string, urgent = false) {
+  async function push(userId: string, title: string, body: string, urgent = false, url = '/dashboard/quests/timer') {
     try {
-      await sendPush({ userId, title, body, url: '/dashboard/quests/timer', urgent })
+      await sendPush({ userId, title, body, url, urgent })
     } catch { /* best effort per session */ }
   }
 
@@ -97,11 +99,24 @@ async function handler(request: Request) {
           true,
         )
       } else {
+        // THE WORDS FOR THE MOMENT, on the push they already get (18 November
+        // 2026, plans/2026-11-18-scripts-system.md). The end of the timer is
+        // exactly when "five more minutes" starts, so the turning it off line
+        // rides along: no extra notification, at most two a week (Justin's
+        // choice), rotated, never one they said did not land. Without a fit,
+        // or over the cap, the push is exactly what it was.
+        let words: Awaited<ReturnType<typeof prepareNudge>> = null
+        try {
+          words = await prepareNudge(admin, s.user_id as string, { kind: 'timer_end', childId: cid, moment: 'turning-off' })
+        } catch { /* the plain push still goes */ }
         await push(
           s.user_id as string,
           `${kid.name}'s screen time is up ⏰`,
-          `The ${deviceLabel(s.device as string)} timer has finished. Time to set the next quests.`,
+          words
+            ? `The ${deviceLabel(s.device as string)} timer has finished. If stopping is hard, try: "${pushLine(words.say, 110)}"`
+            : `The ${deviceLabel(s.device as string)} timer has finished. Time to set the next quests.`,
           true,
+          words ? `/dashboard/scripts/${words.sortOrder}?from=timer` : '/dashboard/quests/timer',
         )
       }
 
