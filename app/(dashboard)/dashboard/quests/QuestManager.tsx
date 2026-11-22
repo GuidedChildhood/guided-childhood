@@ -9,6 +9,8 @@ import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'r
 import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_FIRST_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
+import { assessJobLoad } from '@/lib/quests/job-load'
+import SettingsList from '@/components/quests/SettingsList'
 import JobBalance from '@/components/quests/JobBalance'
 import JobComposer from '@/components/quests/JobComposer'
 import ChildPing from '@/components/quests/ChildPing'
@@ -42,7 +44,7 @@ function printableForAsk(title: string) {
   ) ?? null
 }
 
-type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
+type QuestTab = 'home' | 'messages' | 'manage' | 'rewards' | 'games' | 'share'
 const TABS: { key: QuestTab; label: string; icon: HappyIconName; hint: string }[] = [
   { key: 'manage', label: 'Quests', icon: 'jobs', hint: 'Set the tasks' },
   { key: 'rewards', label: 'Rewards', icon: 'wins', hint: 'Prizes to save for' },
@@ -167,7 +169,7 @@ export default function QuestManager() {
   // still live rather than a long wall of ticked off rows.
   const [showParentDone, setShowParentDone] = useState(false)
   const [contactsSupported, setContactsSupported] = useState(false)
-  const [tab, setTab] = useState<QuestTab>('manage')
+  const [tab, setTab] = useState<QuestTab>('home')
   const [asksList, setAsksList] = useState<Ask[]>([])
   const [banks, setBanks] = useState<Bank[]>([])
   const [spends, setSpends] = useState<Spend[]>([])
@@ -209,7 +211,10 @@ export default function QuestManager() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const t = params.get('tab')
-    if (t === 'share' || t === 'rewards' || t === 'games' || t === 'manage') setTab(t)
+    if (t === 'share' || t === 'rewards' || t === 'games' || t === 'messages') setTab(t)
+    // 'manage' was the old default tab, the job list. The jobs live on
+    // /dashboard/quests/manage now, so an old link opens the settings list.
+    else if (t === 'manage') setTab('home')
     // An empty ?add_child= opens the form blank: the stage check's welcome
     // back card sends a signed in parent here to Check another child.
     if (params.get('add_child') !== null) {
@@ -861,7 +866,7 @@ export default function QuestManager() {
         <>
           {/* The star system at a glance: rate, stars and minutes, what is
               waiting, what is to do, the goal, the timer, one glance. */}
-          {(() => {
+          {tab === 'home' && (() => {
             const today = new Date().toISOString().slice(0, 10)
             const tickedToday = new Set(ticks.filter(t => t.tick_date === today).map(t => t.quest_id))
             const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
@@ -896,27 +901,11 @@ export default function QuestManager() {
                   // Set tasks means set tasks. It lands on the child's own list
                   // with the add a job composer already open, rather than at the
                   // top of a tab strip with the real job somewhere below.
-                  setAddOpen(true)
-                  goToSection('my-todo', 'manage')
+                  window.location.href = `/dashboard/quests/manage?child=${activeChild ?? ''}`
                 }}
-                onTodo={() => { setAddOpen(true); goToSection('my-todo', 'manage') }}
+                onTodo={() => { window.location.href = `/dashboard/quests/manage?child=${activeChild ?? ''}` }}
                 onScreenTime={() => { window.location.href = '/dashboard/stats' }}
-                onShare={() => goToSection('quest-tabs', 'share')}
-              />
-            )
-          })()}
-
-          {/* DiGi's read on today's job load: the science backed check that jobs
-              stay a helpful dose, not a swamp, with a spread across the week
-              nudge when the day runs heavy. */}
-          {(() => {
-            const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
-            return (
-              <JobBalance
-                childName={child.name}
-                ageBand={child.age_band}
-                jobsDueToday={dueToday.map(q => ({ title: q.title, stars: q.stars }))}
-                onReview={() => goToSection('quest-tabs', 'manage')}
+                onShare={() => setTab('share')}
               />
             )
           })()}
@@ -955,15 +944,53 @@ export default function QuestManager() {
               and stats, with no countdown on the screen at all. It also made a
               duplicate id with the real timer card. They all point at
               /dashboard/quests/timer now. */}
-          <Link href="/dashboard/stats" style={{ ...card, display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
-            <Plate name="balance" size={48} icon={36} tint="var(--terracotta-lt)" radius={14} />
-            <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>Balance and stats</span>
-              <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>See {child.name}&apos;s screen time by type this week, our guide, and the off screen wins.</span>
-            </span>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>›</span>
-          </Link>
 
+
+          {/* ── THE SETTINGS LIST (18 November 2026) ──────────────────────────
+              Justin: make this page "super easy to follow and easy to read,
+              following the best app experiences". It measured 14.8 phone
+              screens and 110 things to tap, and most of it was a second copy
+              of pages that already exist: the job list and both idea lists
+              (Add a job owns those), the routines (their own page), the
+              balance (Stats). Apple's Settings, Greenlight's child settings
+              and GoHenry's: a few grouped rows, one line each, every row one
+              place. A row either goes to the page that owns the thing or opens
+              its section here with a back row. Nothing was removed from the
+              product, only the copies of it. */}
+          {tab === 'home' ? (
+            <SettingsList
+              groups={[
+                { title: 'Jobs', rows: [
+                  { icon: 'jobs', label: 'Jobs', sub: `${childQuests.length} job${childQuests.length === 1 ? '' : 's'} · add, agree and send`, href: `/dashboard/quests/manage?child=${activeChild ?? ''}` },
+                  { icon: 'calendar', label: 'Routines', sub: 'School mornings, bedtime, the weekend', href: '/dashboard/quests/routines' },
+                  { icon: 'ask', label: 'Do this first and messages', sub: `Put a job at the top, or buzz ${child.name}'s phone`, onClick: () => setTab('messages') },
+                ] },
+                { title: 'Stars and rewards', rows: [
+                  { icon: 'wins', label: 'Rewards and stars', sub: goals.find(g => g.child_id === activeChild && !g.achieved_at)?.title ? `Saving for ${goals.find(g => g.child_id === activeChild && !g.achieved_at)!.title}` : 'Set something to save for', onClick: () => setTab('rewards') },
+                  { icon: 'balance', label: 'Balance and stats', sub: 'Screen time this week, and the off screen wins', href: '/dashboard/stats' },
+                  { icon: 'games', label: 'Learning games', sub: 'Play together and earn stars', onClick: () => setTab('games') },
+                ] },
+                { title: `${child.name}'s side`, rows: [
+                  { icon: 'tell', label: 'Their app', sub: link ? 'Their link and QR code' : 'Not on their phone yet', badge: link ? undefined : 'Send it', onClick: () => setTab('share') },
+                  { icon: 'print', label: 'Print', sub: 'Quest sheet, device contract, game pack', onClick: () => { setHandMode('paper'); setTab('share') } },
+                ] },
+              ]}
+            />
+          ) : (
+            <button
+              onClick={() => { setTab('home'); window.scrollTo({ top: 0 }) }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, minHeight: 44, marginBottom: 8, background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)' }}
+            >
+              ‹ All settings
+            </button>
+          )}
+          {tab !== 'home' && (
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '0 0 14px' }}>
+              {({ messages: 'Do this first and messages', rewards: 'Rewards and stars', games: 'Learning games', share: handMode === 'paper' ? 'Print' : 'Their app', manage: 'Jobs', home: '' } as Record<QuestTab, string>)[tab]}
+            </h2>
+          )}
+
+          {tab === 'share' && (<>
           {/* Hand it over: the one decision, made simple. To their phone,
               or onto paper. Everything else lives in the tabs below. */}
           <div style={card}>
@@ -1109,36 +1136,29 @@ export default function QuestManager() {
               </div>
             )}
           </div>
+          </>)}
 
-          {/* The front door: four big labelled buttons with an icon and a line
-              of what each is for, so a parent knows exactly where to go. */}
-          {/* Two across at the normal root, one across at Larger Text: a 10em
-              track is half a phone at 16px and the whole of one at 40px. */}
-          <div id="quest-tabs" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 10em), 1fr))', gap: '8px', marginBottom: '18px', scrollMarginTop: '80px' }}>
-            {TABS.map(t => {
-              const on = tab === t.key
-              return (
-                <button
-                  key={t.key}
-                  onClick={() => setTab(t.key)}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left', cursor: 'pointer',
-                    background: on ? 'var(--terracotta-lt)' : '#fff',
-                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
-                    borderRadius: 'var(--radius-btn)', padding: '12px 14px',
-                  }}
-                >
-                  <Plate name={t.icon} size={42} icon={30} tint={on ? '#fff' : 'var(--cream)'} />
-                  <span style={{ minWidth: 0 }}>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{t.label}</span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.hint}</span>
-                  </span>
-                </button>
-              )
-            })}
-          </div>
+          {/* DiGi's read on today's job load: the science backed check that jobs
+              stay a helpful dose, not a swamp, with a spread across the week
+              nudge when the day runs heavy. */}
+          {(() => {
+            const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
+            // Only when it has something to say. A card reading "balanced"
+            // every visit is a card a parent learns to scroll past
+            // (18 November 2026, the settings page simplified).
+            if (tab !== 'home' || !assessJobLoad(child.age_band, dueToday.map(q => ({ title: q.title, stars: q.stars }))).suggestSpread) return null
+            return (
+              <JobBalance
+                childName={child.name}
+                ageBand={child.age_band}
+                jobsDueToday={dueToday.map(q => ({ title: q.title, stars: q.stars }))}
+                onReview={() => { window.location.href = `/dashboard/quests/manage?child=${activeChild ?? ''}&tab=theirs` }}
+              />
+            )
+          })()}
 
-          {tab === 'manage' && (
+
+          {tab === 'messages' && (
           <>
               {/* The daily buzz, on the tab a parent actually returns to,
                   rather than buried in the hand it over tab. */}
@@ -1176,121 +1196,6 @@ export default function QuestManager() {
               <span style={{ color: 'var(--ink)', opacity: 0.7, fontSize: 'var(--text-lg)', flexShrink: 0 }}>→</span>
             </button>
           )}
-          {/* All quests done today: the whole thing lights up */}
-          {allDoneToday && (
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '12px',
-              background: 'var(--stage-1-bold)', border: 'var(--edge)',
-              borderRadius: 'var(--radius-btn)', padding: '16px 18px', marginBottom: '16px',
-              boxShadow: 'var(--lift)',
-            }}>
-              <Plate name="cheer" size={48} icon={36} radius={14} />
-              <span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--stage-1-text)' }}>
-                  Every quest done today
-                </span>
-                <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--stage-1-text)', opacity: 0.85, marginTop: '2px' }}>
-                  {child.name} cleared the lot. The stars are theirs.
-                </span>
-              </span>
-            </div>
-          )}
-          {/* The child's own quest pitches: set the stars and rhythm, one
-              tap makes it a real quest, their page tells them the news */}
-          {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').length > 0 && (
-            <div style={{ ...card, background: 'var(--tint-blue)' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
-                {child.name} pitched these quests
-              </div>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-                Their own ideas, from their quest page.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').map(a => {
-                  const stars = askStars[a.id] ?? 2
-                  const schedule = askSchedule[a.id] ?? 'once'
-                  const sheet = printableForAsk(a.title)
-                  return (
-                    <div key={a.id} style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                        <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{a.emoji}</span>
-                        <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
-                          {a.title}
-                        </span>
-                      </div>
-                      {/* A printable ask gets a real print link, so the parent
-                          can open the sheet the moment their child asks, then
-                          set what the finished page is worth and add it. */}
-                      {sheet && (
-                        <a
-                          href={`/api/printables/${sheet.key}/pdf`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px',
-                            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-                            borderRadius: '11px', padding: '9px 15px',
-                            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
-                            boxShadow: '0 3px 0 var(--terracotta-dark)',
-                          }}
-                        >
-                          🖨️ Print {sheet.title}
-                        </a>
-                      )}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 44, height: 44, borderRadius: '12px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800, fontSize: 'var(--text-lg)' }}>−</button>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {stars}</span>
-                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.min(10, stars + 1) }))} style={{ width: 44, height: 44, borderRadius: '12px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800, fontSize: 'var(--text-lg)' }}>+</button>
-                        </span>
-                        <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
-                          {(['once', 'daily', 'weekdays', 'weekend'] as const).map(s => (
-                            <button
-                              key={s}
-                              onClick={() => setAskSchedule(prev => ({ ...prev, [a.id]: s }))}
-                              style={{
-                                padding: '6px 12px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
-                                border: 'var(--edge)',
-                                background: schedule === s ? 'var(--terracotta)' : '#fff',
-                                color: schedule === s ? 'var(--ink)' : 'var(--ink-soft)',
-                                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                              }}
-                            >
-                              {SCHEDULE_LABELS[s]}
-                            </button>
-                          ))}
-                        </span>
-                        <span style={{ display: 'inline-flex', gap: '8px', marginLeft: 'auto' }}>
-                          <button
-                            onClick={() => decideAsk(a, 'added')}
-                            style={{
-                              background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-                              borderRadius: '10px', padding: '8px 16px', cursor: 'pointer',
-                              fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
-                              boxShadow: '0 3px 0 var(--terracotta-dark)',
-                            }}
-                          >
-                            Add it
-                          </button>
-                          <button
-                            onClick={() => decideAsk(a, 'declined')}
-                            style={{
-                              background: 'none', border: 'var(--edge)', borderRadius: '10px',
-                              padding: '8px 12px', cursor: 'pointer',
-                              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)',
-                            }}
-                          >
-                            Not now
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-
           {/* Do this first: the spotted it prompt and the printed contract */}
           <div style={card}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
@@ -1354,657 +1259,10 @@ export default function QuestManager() {
             </a>
           </div>
 
-          <div id="my-todo" style={{ ...card, scrollMarginTop: '80px', ...(allDoneToday ? { borderColor: 'var(--terracotta)' } : {}) }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-                {child.name}&apos;s quests
-              </div>
-              {/* The obvious way in. Adding a job is the single thing a parent
-                  comes to this card to do, and it used to mean scrolling past
-                  two screens of ideas to reach a lone input at the bottom. */}
-              <button
-                onClick={() => setAddOpen(o => { if (!o) setAddOpenedByParent(true); return !o })}
-                style={{
-                  background: addOpen ? '#fff' : 'var(--terracotta)', color: 'var(--ink)',
-                  border: addOpen ? 'var(--edge)' : 'none', borderRadius: 'var(--radius-tile)',
-                  padding: '10px 16px', cursor: 'pointer',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                  boxShadow: addOpen ? 'none' : '0 3px 0 var(--terracotta-dark)',
-                }}
-              >
-                {addOpen ? 'Close' : '+ Add a job'}
-              </button>
-            </div>
-
-            {/* The three things a parent opens Manage jobs to do, said once,
-                at the top, where they land. Before this the card opened
-                straight into the list and the routines lived two screens
-                further down, so the only visible action was Done. */}
-            {(() => {
-              // Jobs the child has actually ticked and that are waiting on the
-              // parent's yes. Nothing else.
-              //
-              // This used to count every quest not yet approved today, which is
-              // a completely different set: it swept in jobs nobody had
-              // touched, one off games never played, everything. So the pill
-              // read "Confirm 18 done" while five were genuinely waiting, and
-              // tapping it dropped a parent into a long list where most rows
-              // needed nothing from them. A number that promises a queue has to
-              // BE the queue, or it teaches a parent to ignore it.
-              //
-              // Same source the star summary already uses for its waiting
-              // count, so the two agree by construction rather than by luck.
-              const outstanding = ticks.filter(t => t.child_id === activeChild && t.status === 'pending').length
-              const pill: CSSProperties = {
-                display: 'inline-flex', alignItems: 'center', gap: '6px',
-                background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
-                padding: '8px 14px', cursor: 'pointer', textDecoration: 'none',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                color: 'var(--ink)', maxWidth: '100%', textAlign: 'left',
-              }
-              const go = (id: string) => {
-                try {
-                  const el = document.getElementById(id)
-                  if (!el) return
-                  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
-                  el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
-                } catch { /* no target */ }
-              }
-              return (
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
-                  <button type="button" onClick={() => go('jobs-list')} style={pill}>
-                    {/* Not "All done today" when the queue is empty: a family
-                        can have nothing waiting on them and still have a whole
-                        day's jobs untouched, and telling them it is all done
-                        would be a plain untruth. */}
-                    ✅ {outstanding > 0 ? `Confirm ${outstanding} done` : 'Nothing to confirm'}
-                  </button>
-                  {/* The whole list, named and counted. It has always been
-                      down there, but the only pill that reached it was the
-                      confirm queue, so "show me every job we have" had no
-                      button of its own. */}
-                  <button type="button" onClick={() => go('jobs-list')} style={pill}>
-                    📋 All {childQuests.length} job{childQuests.length === 1 ? '' : 's'}
-                  </button>
-                  <button type="button" onClick={() => go('routines')} style={pill}>
-                    🌅 Add a routine
-                  </button>
-                  <Link href="/dashboard/school" style={pill}>
-                    🎒 School reminders
-                  </Link>
-                </div>
-              )
-            })()}
-
-            {addOpen && (
-              <div style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px', marginBottom: '12px' }}>
-                {/* Add a job means add a job, not only write one from scratch.
-                    Most parents want a ready made one, and asking them to type
-                    out "one hour of outside play" when we already have it is
-                    work we invented. Play first, because play is what screens crowd out
-                    stars and is the job families most often forget counts. */}
-                {/* Their own jobs first, before our ideas.
-                    Removing a job only sets active false, so the app was
-                    already holding every job this family has ever used and
-                    never once offered them back. A parent who took reading off
-                    over the summer had to retype it in September. Nothing here
-                    is new data, it is data we were sitting on.
-                    This is also the honest version of "run the same as
-                    yesterday": the board already repeats daily on its own
-                    schedule, so the only thing that ever needs putting back is
-                    what somebody turned off. */}
-                {(() => {
-                  const mine = previous.filter(q => q.child_id === activeChild || q.child_id === null)
-                  if (mine.length === 0) return null
-                  return (
-                    <>
-                      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: '8px', flexWrap: 'wrap' }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-                          You have used these before
-                        </span>
-                        {mine.length > 1 && (
-                          <button
-                            type="button"
-                            onClick={() => { mine.forEach(q => addQuest({ title: q.title, emoji: q.emoji, stars: q.stars, schedule: q.schedule })) }}
-                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}
-                          >
-                            Put all {mine.length} back
-                          </button>
-                        )}
-                      </div>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px', marginBottom: '12px' }}>
-                        {mine.slice(0, 10).map(q => (
-                          <button
-                            key={q.id}
-                            onClick={() => addQuest({ title: q.title, emoji: q.emoji, stars: q.stars, schedule: q.schedule })}
-                            style={{
-                              display: 'flex', alignItems: 'center', gap: '7px',
-                              border: 'var(--edge)', borderRadius: 'var(--radius-pill)', background: '#fff',
-                              padding: '8px 13px', cursor: 'pointer',
-                              fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)',
-                            }}
-                          >
-                            <span aria-hidden style={{ fontSize: 'var(--text-base)', lineHeight: 1 }}>{q.emoji}</span>
-                            {q.title}
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐{q.stars}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </>
-                  )
-                })()}
-
-                {templatesUnused.length > 0 && (
-                  <>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
-                      {previous.some(q => q.child_id === activeChild || q.child_id === null) ? 'Or start from an idea' : 'Tap one to add it'}
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: '7px', marginBottom: '12px' }}>
-                      {[...templatesUnused].sort((a, b) => Number(!!b.play) - Number(!!a.play)).slice(0, 6).map(t => (
-                        <button
-                          key={t.title}
-                          onClick={() => addQuest(t)}
-                          style={{
-                            display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left',
-                            padding: '10px 11px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
-                            background: '#fff', border: 'var(--edge)',
-                          }}
-                        >
-                          <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{t.emoji}</span>
-                          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25 }}>
-                            {t.title}
-                          </span>
-                          <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-                            ⭐{t.stars}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                    <button
-                      onClick={() => document.getElementById('all-ideas')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                      style={{
-                        background: 'none', border: 'none', padding: '10px 0', minHeight: 44, marginBottom: '4px', cursor: 'pointer', textAlign: 'left',
-                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)',
-                      }}
-                    >
-                      See all {templatesUnused.length} ideas, and the whole week routines →
-                    </button>
-                  </>
-                )}
-
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
-                  Or write your own
-                </div>
-                <JobComposer
-                  countToday={childQuests.length}
-                  ageBand={child?.age_band ?? null}
-                  childName={child?.name ?? null}
-                  autoFocus={addOpenedByParent}
-                  onAdd={(t, when, band, days, familyJob) => addQuest({ title: t, emoji: familyJob ? '🏠' : '⭐', stars: 1, schedule: when, band, schedule_days: days, is_family_job: familyJob })}
-                  help="Worth one star, or make it a family job. The stars and days can be changed later."
-                />
-              </div>
-            )}
-
-            {childQuests.length === 0 && !addOpen && (
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
-                No quests yet. Press add a job, or pick from the ideas below.
-              </p>
-            )}
-            <div id="jobs-list" style={{ display: 'flex', flexDirection: 'column', gap: '8px', scrollMarginTop: '80px' }}>
-              {/* Still to do first, done today sinks to the bottom and dims,
-                  so the live list is always what is left. A stable sort keeps
-                  the order within each group, and a freshly added quest, being
-                  not done, lands at the top. */}
-              {(() => {
-                const isDone = (q: typeof childQuests[number]) => approvedTodayIds.has(q.id) || ticked === q.id
-                const sorted = [...childQuests].sort((a, b) => Number(isDone(a)) - Number(isDone(b)))
-                const openL = sorted.filter(x => !isDone(x))
-                const doneL = sorted.filter(x => isDone(x))
-                const row = (q: typeof childQuests[number]) => {
-                const editing = editingId === q.id
-                const sheet = printableForAsk(q.title)
-                const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
-                return (
-                  <div key={q.id} style={{
-                    borderRadius: 'var(--radius-tile)', background: doneToday ? 'var(--cream)' : '#fff', border: 'var(--edge)',
-                    padding: '12px 14px', opacity: doneToday ? 0.72 : 1, transition: 'opacity 0.3s',
-                  }}>
-                    {/* The row wraps rather than crushes. Three buttons and an
-                        emoji take about 300px, so on a phone the title was left
-                        roughly forty pixels and broke one word per line, with
-                        the Print button sitting on top of the words. Asking the
-                        title for at least 180px means the button group drops to
-                        its own line the moment there is not room for both,
-                        which needs no media query in an inline style world. */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>{q.emoji}</span>
-                      <span style={{ flex: '1 1 180px', minWidth: 0 }}>
-                        <span style={{ display: 'block', fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3, overflowWrap: 'anywhere' }}>{q.title}</span>
-                        <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
-                          {SCHEDULE_LABELS[q.schedule] ?? q.schedule} · ⭐ {q.stars}{q.blocks_screens ? ' · 📵 before screens' : ''}
-                        </span>
-                      </span>
-                      {/* The actions travel together, so they wrap as one block
-                          and never split across two lines. */}
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, marginLeft: 'auto' }}>
-                        {/* A print quest carries a real print link, so the sheet
-                            is one tap away whenever the parent is ready. */}
-                        {sheet && (
-                          <a
-                            href={`/api/printables/${sheet.key}/pdf`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title={`Open ${sheet.title} to print`}
-                            style={{
-                              background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-                              border: 'none', borderRadius: '10px',
-                              padding: '7px 12px', flexShrink: 0, boxShadow: '0 2px 0 var(--terracotta-dark)',
-                              fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, whiteSpace: 'nowrap',
-                            }}
-                          >
-                            🖨️ Print
-                          </a>
-                        )}
-                        <button
-                          onClick={() => !doneToday && tickForThem(q.id)}
-                          disabled={doneToday}
-                          title={doneToday ? 'Done and stars landed' : 'Check they did it, then tap to land the stars'}
-                          style={{
-                            background: doneToday ? 'var(--retro-green)' : 'var(--terracotta)',
-                            border: 'var(--edge)', borderRadius: '10px', boxShadow: doneToday ? 'none' : 'var(--lift)',
-                            padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
-                            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, color: doneToday ? '#fff' : 'var(--ink)', whiteSpace: 'nowrap',
-                          }}
-                        >
-                          {doneToday ? 'Done ✓' : 'Done?'}
-                        </button>
-                        <button
-                          onClick={() => setEditingId(editing ? null : q.id)}
-                          style={{
-                            background: 'none', border: 'var(--edge)', borderRadius: '10px',
-                            padding: '7px 10px', cursor: 'pointer', flexShrink: 0,
-                            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', whiteSpace: 'nowrap',
-                          }}
-                        >
-                          {editing ? 'Close' : 'Edit'}
-                        </button>
-                      </span>
-                    </div>
-
-                    {editing && (
-                      <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: 'var(--edge)' }}>
-                        {/* Rename. The API has always accepted a title patch, the
-                            panel simply never offered one, so a parent who typed
-                            a job wrong had to delete it and add it again, losing
-                            every tick and the streak with it. Fixing a typo
-                            should not cost a child their run. */}
-                        <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
-                          <input
-                            defaultValue={q.title}
-                            onBlur={e => {
-                              const next = e.target.value.trim()
-                              if (next && next !== q.title) editQuest(q.id, { title: next })
-                            }}
-                            onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
-                            aria-label="Job name"
-                            style={{
-                              flex: 1, minWidth: 0, padding: '11px 13px', borderRadius: 'var(--radius-tile)',
-                              border: 'var(--edge)', background: '#fff',
-                              fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
-                            }}
-                            maxLength={120}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {editing && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                          <button onClick={() => editQuest(q.id, { stars: q.stars - 1 })} disabled={q.stars <= 1} style={{ width: 44, height: 44, borderRadius: '12px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800, fontSize: 'var(--text-lg)' }}>−</button>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {q.stars}</span>
-                          <button onClick={() => editQuest(q.id, { stars: q.stars + 1 })} disabled={q.stars >= 10} style={{ width: 44, height: 44, borderRadius: '12px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800, fontSize: 'var(--text-lg)' }}>+</button>
-                        </span>
-                        <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
-                          {(['daily', 'weekdays', 'weekend', 'once'] as const).map(s => {
-                            const activeDays = (q.schedule_days?.length ?? 0) > 0
-                            return (
-                              <button
-                                key={s}
-                                onClick={() => editQuest(q.id, { schedule: s, schedule_days: null })}
-                                style={{
-                                  padding: '6px 12px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
-                                  border: 'var(--edge)',
-                                  background: (!activeDays && q.schedule === s) ? 'var(--terracotta)' : '#fff',
-                                  color: (!activeDays && q.schedule === s) ? 'var(--ink)' : 'var(--ink-soft)',
-                                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                                }}
-                              >
-                                {SCHEDULE_LABELS[s]}
-                              </button>
-                            )
-                          })}
-                        </span>
-                        {/* Or pick exact days: how three times a week is really set. */}
-                        {/* Seven chips, one row, the row's full width: each chip
-                            is 44 tall and as wide as a seventh of the card, so
-                            a thumb lands on one day and never on its neighbour. */}
-                        <span style={{ display: 'flex', gap: '4px', alignItems: 'center', width: '100%', maxWidth: '340px' }}>
-                          {[[1, 'M'], [2, 'T'], [3, 'W'], [4, 'T'], [5, 'F'], [6, 'S'], [0, 'S']].map(([n, l]) => {
-                            const on = (q.schedule_days ?? []).includes(n as number)
-                            return (
-                              <button
-                                key={`${n}`}
-                                onClick={() => {
-                                  const cur = q.schedule_days ?? []
-                                  const next = on ? cur.filter(d => d !== n) : [...cur, n as number]
-                                  editQuest(q.id, { schedule_days: next.length ? next : null })
-                                }}
-                                title="Pick the exact days"
-                                style={{
-                                  // tap-ok: a seventh of the row wide, 44 tall, 4px apart
-                                  flex: '1 1 0', minWidth: 0, height: 44, borderRadius: '10px', cursor: 'pointer',
-                                  border: on ? '1.5px solid var(--terracotta)' : 'var(--edge)',
-                                  background: on ? 'var(--terracotta)' : '#fff',
-                                  color: on ? 'var(--ink)' : 'var(--ink-muted)',
-                                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                                }}
-                              >
-                                {l}
-                              </button>
-                            )
-                          })}
-                        </span>
-                        <SaveChip state={saveState[q.id] ?? null} />
-                        <button
-                          onClick={() => editQuest(q.id, { blocks_screens: !q.blocks_screens })}
-                          title="Screens wait until this one is done and approved"
-                          style={{
-                            padding: '6px 12px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
-                            border: `2px solid ${q.blocks_screens ? 'var(--terracotta)' : 'var(--ink)'}`,
-                            background: q.blocks_screens ? 'var(--terracotta-lt)' : '#fff',
-                            color: q.blocks_screens ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
-                            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                          }}
-                        >
-                          📵 Screens wait{q.blocks_screens ? ' ✓' : ''}
-                        </button>
-                        <button onClick={() => removeQuest(q.id)} style={{
-                          marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer',
-                          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--danger)', fontWeight: 700,
-                        }}>
-                          Remove quest
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  )
-                }
-                return (
-                  <>
-                    {openL.map(row)}
-                    {doneL.length > 0 && (
-                      <>
-                        {/* Done today, folded away to keep the live list short */}
-                        <button
-                          onClick={() => setShowParentDone(s => !s)}
-                          style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-                            width: '100%', cursor: 'pointer', textAlign: 'left',
-                            background: 'var(--cream)', border: 'var(--edge)',
-                            borderRadius: 'var(--radius-tile)', padding: '11px 14px',
-                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
-                          }}
-                        >
-                          <span>✓ {doneL.length} done today</span>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)' }}>
-                            {showParentDone ? 'Hide ▲' : 'Show ▼'}
-                          </span>
-                        </button>
-                        {showParentDone && doneL.map(row)}
-                      </>
-                    )}
-                  </>
-                )
-              })()}
-            </div>
-          </div>
-
-          {/* Routines: a whole moment of the week, jobs shown before they land */}
-          <div id="routines" style={{ ...card, scrollMarginTop: '80px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
-              Routines
-            </div>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-              Add a whole moment of the week: the school morning, the bedtime wind down, the weekend reset.
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '10px' }}>
-              {ROUTINE_PACKS.map(pack => {
-                const already = pack.tasks.filter(t => childQuests.some(q => q.title === t.title)).length
-                const allIn = already === pack.tasks.length
-                const open = openRoutine === pack.key
-                const picked = pickedTitles(pack)
-                const toAdd = pack.tasks.filter(t => picked.includes(t.title) && !childQuests.some(q => q.title === t.title)).length
-                return (
-                  <div key={pack.key} style={{ border: 'var(--edge)', borderRadius: '15px', padding: '13px 14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-                      <span style={{ fontSize: 'var(--text-xl)' }}>{pack.emoji}</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{pack.name}</span>
-                    </div>
-                    <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0, flex: 1 }}>{pack.blurb}</p>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: allIn ? 'var(--retro-green-dark, #2F8F6B)' : 'var(--ink-muted)' }}>
-                      {allIn ? `On · ${pack.tasks.length} jobs` : `${pack.tasks.length} jobs${already > 0 ? ` · ${already} already set` : ''}`}
-                    </div>
-
-                    {/* See the jobs before they land. A bundle nobody can look
-                        inside is a bundle a parent has to undo afterwards. */}
-                    {!allIn && (
-                      <button
-                        onClick={() => setOpenRoutine(open ? null : pack.key)}
-                        aria-expanded={open}
-                        style={{
-                          background: 'none', border: 'none', padding: '10px 0', minHeight: 44, cursor: 'pointer', textAlign: 'left',
-                          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                          color: 'var(--terracotta-dark)',
-                        }}
-                      >
-                        {open ? 'Hide the jobs ▲' : `See the ${pack.tasks.length} jobs ▼`}
-                      </button>
-                    )}
-
-                    {!allIn && open && (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderTop: '2px dotted rgba(26,26,46,0.18)', paddingTop: '8px' }}>
-                        {pack.tasks.map(t => {
-                          const onBoard = childQuests.some(q => q.title === t.title)
-                          const ticked = onBoard || picked.includes(t.title)
-                          return (
-                            <label
-                              key={t.title}
-                              style={{
-                                display: 'flex', alignItems: 'flex-start', gap: '9px',
-                                padding: '6px 2px', cursor: onBoard ? 'default' : 'pointer',
-                                opacity: onBoard ? 0.6 : 1,
-                              }}
-                            >
-                              <input
-                                type="checkbox"
-                                checked={ticked}
-                                disabled={onBoard}
-                                onChange={() => togglePick(pack, t.title)}
-                                style={{ width: 18, height: 18, marginTop: 2, flexShrink: 0, accentColor: 'var(--terracotta-dark)' }}
-                              />
-                              <span style={{ flex: 1, minWidth: 0 }}>
-                                <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
-                                  {t.emoji} {t.title}
-                                </span>
-                                <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
-                                  {onBoard ? 'Already set' : `${SCHEDULE_LABELS[t.schedule] ?? t.schedule} · ⭐ ${t.stars}`}
-                                </span>
-                              </span>
-                            </label>
-                          )
-                        })}
-                      </div>
-                    )}
-
-                    {allIn ? (
-                      <button
-                        onClick={() => removeRoutine(pack)}
-                        disabled={removingRoutine === pack.key}
-                        style={{
-                          width: '100%', padding: '10px', borderRadius: 'var(--radius-tile)',
-                          border: 'var(--edge)', background: '#fff',
-                          cursor: removingRoutine === pack.key ? 'default' : 'pointer',
-                          color: 'var(--ink-soft)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                        }}
-                      >
-                        {removingRoutine === pack.key ? 'Turning off…' : 'Turn off'}
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => addRoutine(pack)}
-                        disabled={addingRoutine === pack.key || toAdd === 0}
-                        style={{
-                          width: '100%', padding: '10px', borderRadius: 'var(--radius-tile)', border: 'none',
-                          cursor: addingRoutine === pack.key || toAdd === 0 ? 'default' : 'pointer',
-                          background: toAdd === 0 ? 'var(--border)' : 'var(--terracotta)',
-                          color: toAdd === 0 ? 'var(--ink-muted)' : 'var(--ink)',
-                          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                          boxShadow: toAdd === 0 ? 'none' : '0 3px 0 var(--terracotta-dark)',
-                        }}
-                      >
-                        {/* The button counts what will actually land, so a
-                            parent who unticked two can see it before tapping. */}
-                        {addingRoutine === pack.key ? 'Adding…'
-                          : toAdd === 0 ? 'Tick at least one'
-                          : open || already > 0 ? `Add ${toAdd} job${toAdd === 1 ? '' : 's'}`
-                          : 'Add this routine'}
-                      </button>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Templates: play and outside lead the list */}
-          {templatesUnused.length > 0 && (
-            <div id="all-ideas" style={{ ...card, scrollMarginTop: '80px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
-                Play comes first
-              </div>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-                {PLAY_FIRST_WHY}
-              </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '10px', marginBottom: '18px' }}>
-                {templatesUnused.filter(t => t.play).map(t => (
-                  <button
-                    key={t.title}
-                    onClick={() => addQuest(t)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: '11px', height: '100%',
-                      padding: '12px 13px', borderRadius: '15px', cursor: 'pointer', textAlign: 'left',
-                      border: 'var(--edge)', background: 'var(--terracotta-lt)',
-                    }}
-                  >
-                    <Plate emoji={t.emoji} size={38} radius={11} />
-                    <span style={{ flex: 1, minWidth: 0 }}>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25 }}>
-                        {t.title}
-                      </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-                        ⭐ {t.stars}
-                      </span>
-                    </span>
-                    <span style={{
-                      width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
-                      background: 'var(--terracotta)', color: 'var(--ink)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', lineHeight: 1,
-                      boxShadow: '0 2px 0 var(--terracotta-dark)',
-                    }}>+</span>
-                  </button>
-                ))}
-              </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
-                Everyday quest ideas, tap to add
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '10px' }}>
-                {templatesUnused.filter(t => !t.play).map(t => (
-                  <button
-                    key={t.title}
-                    onClick={() => addQuest(t)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: '11px', height: '100%',
-                      padding: '11px 13px', borderRadius: '15px', cursor: 'pointer', textAlign: 'left',
-                      border: 'var(--edge)', background: '#fff',
-                    }}
-                  >
-                    <Plate emoji={t.emoji} size={34} radius={10} tint="var(--cream)" />
-                    <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
-                      {t.title}
-                    </span>
-                    <span style={{
-                      width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
-                      background: 'var(--cream)', color: 'var(--terracotta-dark)', border: 'var(--edge)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', lineHeight: 1,
-                    }}>+</span>
-                  </button>
-                ))}
-              </div>
-              <div style={{ marginTop: '14px' }}>
-                <JobComposer
-                  countToday={childQuests.length}
-                  ageBand={child?.age_band ?? null}
-                  childName={child?.name ?? null}
-                  tone="cream"
-                  placeholder="Or write your own quest"
-                  onAdd={(t, when, band, days, familyJob) => addQuest({ title: t, emoji: familyJob ? '🏠' : '⭐', stars: 1, schedule: when, band, schedule_days: days, is_family_job: familyJob })}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Completed: everything approved this week, the tasks the parent
-              agreed the stars for after the child ticked them off */}
-          {completed.length > 0 && (
-            <div style={card}>
-              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '12px' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--stage-1-text)' }}>
-                  Done and starred this week
-                </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-                  ⭐ {starsThisWeek}
-                </div>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {completed.slice(0, 12).map((t, i) => {
-                  const q = questById.get(t.quest_id)
-                  const when = new Date(`${t.tick_date}T00:00:00`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
-                  return (
-                    <div key={`${t.quest_id}-${t.tick_date}-${i}`} style={{
-                      display: 'flex', alignItems: 'center', gap: '4px 11px', flexWrap: 'wrap',
-                      padding: '10px 13px', borderRadius: 'var(--radius-tile)',
-                      background: 'var(--tint-green)', border: 'var(--edge)',
-                    }}>
-                      <Plate emoji={q?.emoji ?? '⭐'} size={30} radius={9} />
-                      <span style={{ flex: '1 1 8em', minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
-                        {q?.title ?? 'Completed quest'}
-                      </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', flexShrink: 0 }}>
-                        {when}
-                      </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0 }}>
-                        ⭐ {q?.stars ?? 1}
-                      </span>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
+          {/* The job list, the composer, the routines and both idea lists that
+              used to follow here were copies of /dashboard/quests/manage and
+              /dashboard/quests/routines. They are rows in the settings list
+              now (18 November 2026). */}
           </>
           )}
 

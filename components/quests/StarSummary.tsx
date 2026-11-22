@@ -25,7 +25,7 @@ function fmt(ms: number): string {
 
 export default function StarSummary({
   childName, balanceStars, weekStars, pending, todo, goal, timerRunning,
-  sessionEndsAt, onApprove, onTodo, onScreenTime, onShare,
+  sessionEndsAt, onApprove, onTodo,
   goalReached = false, goalAchieved = false, onGoalDone, onSetGoal, onDismissGoalDone,
   starMinutes = STAR_MINUTES,
 }: {
@@ -247,11 +247,16 @@ export default function StarSummary({
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
-        {bigBtn(pending > 0 ? 'wins' : 'jobs', pending > 0 ? `Approve ${pending}` : 'Set tasks', onApprove, pending > 0)}
-        {bigBtn('time', 'Screen time', onScreenTime)}
-        {bigBtn('tell', `Share to ${childName}`, onShare)}
-      </div>
+      {/* Only an approve is left here. Set tasks, Screen time and Share are
+          rows in the settings list directly below this card (18 November
+          2026), and three big buttons repeating three rows was the busiest
+          thing on the page. A tick waiting on the parent still gets its
+          button, because that is the one thing with a person waiting. */}
+      {pending > 0 && (
+        <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
+          {bigBtn('wins', `Approve ${pending}`, onApprove, true)}
+        </div>
+      )}
     </div>
   )
 }

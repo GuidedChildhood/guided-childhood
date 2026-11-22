@@ -1,12 +1,14 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { GUIDES } from '@/lib/content/guides'
 
-export const metadata = {
-  title: 'Guides for parents · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Guides for parents',
   description: 'Plain answers to the screen and phone questions UK parents ask most, each built from the scripts and research inside Guided Childhood.',
-  alternates: { canonical: '/guides' },
-}
+  path: '/guides',
+})
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '44px 16px 80px' }
 const EYEBROW: CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', margin: '0 0 10px' }

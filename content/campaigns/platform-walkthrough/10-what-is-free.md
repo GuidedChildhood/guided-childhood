@@ -20,7 +20,7 @@
 - Headline: What is free. And what it costs after.
 - Three lines, as a list:
   - The stage check. Three questions, no sign up.
-  - Then four days of everything. No card.
+  - Then four days free, no card: the starter scripts, three DiGi questions a day, the check in and their app.
   - After that, £12.99 a month.
 - Pill: What stage is your child?
 
@@ -29,8 +29,8 @@
 Nobody likes finding the price at the end, so here it is in the middle.
 
 1. The stage check is free. Three questions, no sign up.
-2. Save your result and you get four days of everything. No card.
-3. Everything means everything: the scripts, DiGi, the jobs board, the child's app.
+2. Save your result and you get four days free. No card.
+3. The four days carry the starter scripts, three DiGi questions a day, the check in and your child's app.
 4. After the four days it is £12.99 a month.
 5. The first fifty families pay £7.99 and keep that rate for as long as they stay.
 
@@ -49,9 +49,9 @@ the walk through.
 The stage check is free and needs no sign up. It is three questions and it
 tells you which of five stages your child is at.
 
-If you save the result, you get an account with four days of everything
-open. No card. That is the scripts, DiGi, the jobs board and your child's
-own app.
+If you save the result, you get an account with four days free. No card.
+That is the starter scripts, three DiGi questions a day, the check in and
+your child's own app.
 
 After the four days it is £12.99 a month. The first fifty families pay £7.99
 and keep that rate for as long as they stay. That fifty is counted by the
@@ -74,10 +74,10 @@ What would it need to do in four days for you to keep it?
 ## Proof
 
 - "Three questions, two minutes. See your child's stage before you make an account.": the live stage check intro.
-- "One tap and it is yours, with four days of everything free. No card.": the save screen in `app/(marketing)/starter-pack/page.tsx`.
+- "One tap and it is yours, with four days free. No card.": the save screen (it said "of everything" until 19 November; changed to match `components/access/FreeDoor.tsx` and the upgrade page) in `app/(marketing)/starter-pack/page.tsx`.
 - `TRIAL_DAYS = 4` in `lib/access.ts`; no free tier after it, `lib/content/free-script-limit.ts`.
 - £7.99 founder rate for the first fifty, then £12.99: the save screen and `/join`. The cap is counted in Stripe (THE-STORY section 7).
-- During the four days DiGi takes three messages a day (`platform_config.trial_digi_daily_limit`). The card says "everything" because every part is open; the caption can add the three a day line if Justin wants it exact.
+- During the four days DiGi takes three messages a day (`platform_config.trial_digi_daily_limit`) and the scripts are the starter set (`lib/access.ts` `inStarterTrial`). The card says so, word for word with `FreeDoor.tsx` (19 November).
 
 ## Checks
 

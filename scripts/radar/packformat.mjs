@@ -55,6 +55,10 @@ const SECTIONS = {
   'REEL SCRIPT': ['reel', 'script'],
   'EVIDENCE NOTES': ['evidence', 'notes'],
   'VISUAL BRIEF': ['visual', 'brief'],
+  // The Evidence Reveal (Justin, 18 November 2026): three hooks with the one
+  // chosen, and the Disrupt, Reveal, Reframe, Invite storyboard.
+  'HOOKS': ['reveal', 'hooks'],
+  'STORYBOARD': ['reveal', 'storyboard'],
   // The five lines a research card is built from (tools/motion-engine).
   // Optional: only an evidence post whose visual is a still or motion has one.
   'CARD TEXT': ['card', 'text'],
@@ -86,11 +90,17 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     '=== REEL SCRIPT ===',
     '(Only if the handoff asks for a Reel or Short. Spoken lines as Justin would say them, and the on screen words. Otherwise NOT RECOMMENDED and why.)',
     '',
+    '=== HOOKS ===',
+    '(Three openings, each a different kind: reversal, missing variable, comparison, uncomfortable question, overlooked finding or practical consequence. One per line, as TYPE: the hook. Mark the one used CHOSEN, and say in one line why the other two lost. No hook may imply a cause the study did not show, inflate the risk, misdescribe who was studied or drop a qualification the finding needs.)',
+    '',
+    '=== STORYBOARD ===',
+    '(Four beats, with seconds that suit the story: DISRUPT, the chosen hook on screen; REVEAL, the finding with its figure; REFRAME, what it does and does not mean, with the limit; INVITE, the question or the practical step. Then COVER: the static frame that works alone. Then CAROUSEL: slide by slide if a carousel helps, otherwise NOT RECOMMENDED. Every essential claim readable with the sound off.)',
+    '',
     '=== VISUAL BRIEF ===',
     '(What the card shows. Approved brand assets only.)',
     '',
     '=== CARD TEXT ===',
-    '(Every evidence post has a card by default. Five lines. HEADLINE is contrarian: it turns the obvious reading round and stays inside what the study shows. Lines: HEADLINE: under 110 characters. FINDING: under 110, the figure exactly as cleared. CONTEXT: under 140. SOURCE: journal and date. LIMITATION: one line, in the record\'s own words. Under 45 words in all. Write NOT RECOMMENDED only when the story has no single clean finding, and say why.)',
+    '(Every evidence post has a card by default. Five lines. HEADLINE is contrarian: it turns the obvious reading round and stays inside what the study shows. Lines: HEADLINE: under 110 characters. FINDING: under 110, the figure exactly as cleared. CONTEXT: under 140. SOURCE: journal and date. LIMITATION: one line, in the record\'s own words. Under 45 words in all. Then two production lines that are not counted: TIMING: seconds for each beat. VISUAL: black and white editorial paper, one restrained yellow highlight, what moves and when. Write NOT RECOMMENDED only when the story has no single clean finding, and say why.)',
     '',
     '=== ASSETS USED ===',
     '(One approved asset per line, or NONE if the post goes out as text only.)',
@@ -165,7 +175,7 @@ export function parsePackText(text) {
   // CARD TEXT arrives as five labelled lines. Read them into fields so the
   // pack checks can put them through the same gate the engine uses.
   if (pack.card?.text) {
-    const want = { HEADLINE: 'headline', FINDING: 'finding', CONTEXT: 'context', SOURCE: 'source', LIMITATION: 'limitation' }
+    const want = { HEADLINE: 'headline', FINDING: 'finding', CONTEXT: 'context', SOURCE: 'source', LIMITATION: 'limitation', TIMING: 'timing', VISUAL: 'visual' }
     for (const l of pack.card.text.split('\n')) {
       const m = l.replace(/^[-*•\s]+/, '').match(/^([A-Z]+)\s*:\s*(.+)$/)
       if (m && want[m[1]]) pack.card[want[m[1]]] = m[2].trim()
@@ -240,6 +250,10 @@ export function stage2Brief({ links = {} } = {}) {
   line('  Every evidence pack ends with the CARD TEXT section: HEADLINE, FINDING, CONTEXT, SOURCE, LIMITATION, under 45 words in all.')
   line('  The HEADLINE reverses the obvious expectation and stays defensible: it must be true of the study as reviewed, with no causal wording and no figure outside the list.')
   line('  Write NOT RECOMMENDED under CARD TEXT only when the story has no single clean finding, and say why.')
+  line('  THE EVIDENCE REVEAL: challenge an assumption without stretching the evidence. Write three hooks of different kinds under HOOKS and mark the one used CHOSEN.')
+  line('  Reject any hook that implies a cause the study did not show, inflates the risk, misdescribes who was studied or drops a needed qualification. The check reads every hook for figures and causal words.')
+  line('  Then the STORYBOARD: DISRUPT, REVEAL, REFRAME, INVITE, with seconds that suit the story, a COVER that works as a still, and a CAROUSEL only where it helps.')
+  line('  CARD TEXT adds TIMING and VISUAL lines. The look is black and white editorial paper with one restrained yellow highlight and slow, deliberate motion. Nothing essential depends on sound.')
   line()
   line('THE NUMBER RULE')
   line('  Post numbers are claimed in GitHub and nowhere else. You cannot write to GitHub.')

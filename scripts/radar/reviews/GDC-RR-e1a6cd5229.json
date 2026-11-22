@@ -1,74 +1,66 @@
 {
   "studyId": "GDC-RR-e1a6cd5229",
-  "reviewedAt": "2026-11-11T12:33:03Z",
-  "reviewedBy": "Claude Code, scheduled morning run, second firing, 11 November 2026",
-  "verdict": "HOLD",
+  "reviewedAt": "2026-11-19T09:35:27Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 19 November 2026",
+  "verdict": "REJECT",
   "editorialPriority": "LOW",
   "proposedTitle": null,
   "proposedAngle": null,
   "verifiedStatistics": [],
   "recommendedPlatforms": [],
-  "urgency": "None. Held until the full text has been read.",
-  "reviewBasis": "The abstract only, read in this run in two places that agree: the PubMed record 43000569 and the abstract the publisher deposited with Crossref for DOI 10.1007/s00431-026-07569-z. The full text was not read. Crossref lists the article under a Creative Commons licence, so it is open, but the Springer article page and PDF both answered the container with a browser challenge page, and the fetch tool was turned away for want of cookies. No figure is cleared from an abstract alone.",
+  "urgency": "None. Rejected.",
+  "reviewBasis": "The full text, read in this run from the open access Europe PMC copy, PMC13745404 (European Journal of Pediatrics, CC BY): abstract, introduction, methods including the sample definitions and variables, the opening of the results including the matched transition samples, the strengths and limitations section and the conclusions. This replaces the abstract only review of 12 November, which held the record because the full text could not be reached.",
   "claims": [
     {
-      "claim": "Once family circumstances are accounted for, children in single parent households do not have measurably different screen time.",
+      "claim": "After adjustment, living in a single parent household was not significantly associated with screen time.",
+      "status": "VERIFIED",
+      "basis": "Read in the abstract and results: B = 11.98 minutes a week, 95% CI minus 7.41 to 31.37, multilevel models in 8,471 children with at least two waves."
+    },
+    {
+      "claim": "Moving between two parent and single parent households did not change screen time.",
       "status": "QUALIFIED",
-      "basis": "Abstract: after full adjustment the association was not statistically significant, in the Longitudinal Study of Australian Children, ages 6 to 13, 8,706 children at baseline. Qualified because only the abstract was read, a result that is not significant is not proof of no difference, and how screen time was measured and who reported it is not in the abstract."
+      "basis": "No significant change in 701 children who moved from two parents to one and 278 who moved from one to two, each matched to stable peers. The intervals are very wide (minus 94.48 to 131.39 and minus 247.58 to 148.64 minutes a week), so the study cannot rule out a change of one or two hours a week. Absence of evidence, not evidence of absence."
     },
     {
-      "claim": "A child moving between a two parent and a single parent household does not change their screen time.",
-      "status": "QUALIFIED",
-      "basis": "Abstract: neither direction of transition was associated with a change, using matched comparison children. The confidence intervals printed in the abstract are very wide, which says the number of children who made a transition was small. The honest reading is that no change was detected, not that there is none."
+      "claim": "Each additional sibling was associated with lower screen time.",
+      "status": "VERIFIED",
+      "basis": "B = minus 22.71 minutes a week, 95% CI minus 30.18 to minus 15.25. An association, about twenty minutes a week, not a cause."
     },
     {
-      "claim": "Each extra sibling goes with less screen time.",
-      "status": "QUALIFIED",
-      "basis": "Abstract: an association of roughly twenty minutes a week less for each additional sibling. Small beside a week of screen time, observational, and the abstract does not say why. Not read in the full text."
-    },
-    {
-      "claim": "The analysis was planned in advance.",
-      "status": "REQUIRES SOURCE",
-      "basis": "The abstract calls the models pre registered. The registration itself was not found or read in this run."
-    },
-    {
-      "claim": "Single parents can stop worrying about screens, or having brothers and sisters protects a child from screens.",
+      "claim": "The findings describe children's screen use today.",
       "status": "UNSUPPORTED",
-      "basis": "Neither is in the abstract. The study measures amount of time, not what the time was spent on or what it did, and the sibling result is an association."
+      "basis": "The authors' own limitations: data collected 2006 to 2016, television, video games and computers, and it 'might not fully represent current patterns', including smartphones and streaming. For our customer, whose question is the phone and social media, this is the deciding point."
     }
   ],
   "notQuotable": [
-    "every figure in the abstract, including the sample size, the minutes per week and the confidence intervals: the full text was not read and nothing is cleared",
-    "any statement that family breakdown does or does not affect a child on screens",
-    "any statement that siblings reduce screen time as cause and effect",
-    "any carrying of the result across to UK families"
+    "any figure from this paper: the record is rejected and nothing is cleared",
+    "any statement that separation or divorce does not affect children's screens",
+    "any statement that siblings reduce screen time"
   ],
-  "evidenceConfidence": "MODERATE that the abstract says what is written here: it was read in two independent records that agree. NOT ASSESSED as evidence, because the methods, the measure of screen time and the limitations are in a full text that could not be reached.",
+  "evidenceConfidence": "HIGH that the paper says what is written here. LOW as evidence for our parent: parent reported minutes of television, games and computer use from 2006 to 2016, before smartphones reached this age group, Australian, with transition results too imprecise to say anything either way.",
   "limitations": [
-    "Abstract only. The methods, results tables and the authors own limitations were not read.",
-    "Australian children. Nothing on the UK.",
-    "How screen time was measured, and whether a parent or the child reported it, is not stated in the abstract.",
-    "The confidence intervals for the two transition results are very wide, so the study could not rule out changes of an hour or more a week in either direction.",
-    "It measures amount of screen time only. Nothing on content, context or what a family does together.",
-    "Ages 6 to 13. Nothing on older teenagers.",
-    "Observational, even with matching. Unmeasured differences between families remain possible."
+    "Data collected 2006 to 2016; the authors say it may not represent smartphone, social media or streaming use.",
+    "Parent reported screen minutes, subject to recall and social desirability bias.",
+    "Quantity only, no content or context, no co viewing.",
+    "Waves two years apart, so the timing of a transition and any short term response is missed.",
+    "Australian children aged about 6 to 13; nothing on the UK or on teenagers.",
+    "Transition estimates have very wide intervals.",
+    "Observational, even with matching."
   ],
   "contradictoryEvidence": [
-    "From the same abstract: the authors open by saying children screen time does vary by family structure in earlier cross sectional work. Their finding is that the difference is largely explained by sociodemographic factors, which is not the same as there being no difference in what families live with.",
-    "From the same abstract: the transition estimates point in opposite directions with intervals that span zero widely, so they do not agree with each other on anything beyond no detectable change.",
-    "The earlier cross sectional studies the abstract refers to were not read in this run."
+    "From the same paper: the introduction cites cross sectional work finding higher screen time in single parent homes; this study says that gap is explained by sociodemographic factors, chiefly maternal education. Two readings of the same pattern.",
+    "No outside study was read against it in this run."
   ],
   "whatThisDoesNotProve": [
-    "That family structure has no effect on a child digital life.",
-    "That more siblings cause less screen time.",
-    "Anything about harm, benefit, or what children do on screens.",
+    "Anything about phones or social media.",
+    "That family change has no effect on children.",
     "Anything about UK families.",
-    "Anything about what a parent should do."
+    "That having siblings causes less screen time."
   ],
-  "mediaMisrepresentation": "Coverage was not searched in this run.",
+  "mediaMisrepresentation": "Coverage was not searched in this run. None is expected.",
   "gdcBeliefs": [
-    "Evidence or silence. An abstract is a pointer, not a source.",
-    "It neither flatters nor cuts against what we sell. Its use to us would be to keep blame off single parents, and that needs the full text first."
+    "Evidence or silence: a null result on pre smartphone data does not speak to the parent we serve.",
+    "Connection is the protection is about the relationship, not household shape, and this paper measures neither connection nor the plan."
   ],
   "productImplications": {
     "digitalPathwayOS": "No change.",
@@ -77,10 +69,9 @@
     "digi": "No change.",
     "historyChecker": "No change."
   },
-  "recommendedAudience": "Nobody yet.",
+  "recommendedAudience": "Nobody.",
   "unresolvedQuestions": [
-    "The full text. It is open access, so the PDF can be left in Drive and ingested with ingest.mjs, after which this review is redone from the paper.",
-    "How many children made each transition."
+    "A replication on recent LSAC waves or another cohort with smartphone era data would be worth a new record."
   ],
   "storedAt": "scripts/radar/reviews/GDC-RR-e1a6cd5229.json"
 }

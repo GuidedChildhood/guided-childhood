@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/lib/seo/meta'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { LandingTop, LandingCta, TickList, Steps, Section, EYEBROW, BODY } from '@/components/marketing/EmailLanding'
@@ -23,19 +24,11 @@ const SIGN_IN = `/login?next=${encodeURIComponent(NEXT)}`
 const TITLE = 'Your child’s own app: jobs earn stars, stars buy screen time'
 const DESCRIPTION = 'The star quest is your child’s own app on their home screen. Jobs earn stars, outside and play jobs earn the most, and stars buy screen time on rules you set. No app store, no login for them.'
 
-export const metadata: Metadata = {
-  title: 'The star quest, your child’s own app',
+export const metadata: Metadata = pageMetadata({
+  title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: '/kids-app' },
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: '/kids-app',
-    type: 'website',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Guided Childhood, the star quest' }],
-  },
-  twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION, images: ['/og.png'] },
-}
+  path: '/kids-app',
+})
 
 const SEES = [
   { title: 'Today’s jobs', body: 'The jobs you have agreed, with outside and play jobs paying the most stars.' },

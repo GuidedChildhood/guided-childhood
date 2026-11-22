@@ -32,6 +32,7 @@ const EXCLUDED = {
   '/investor-deck': 'off the funnel, moving to its own subdomain (plans/domain-longterm.md)',
   '/connectors/muse': 'connector documentation for Meta reviewers, not a parent page',
   '/digi-squad/lesson': 'an early lesson demo; the real lessons live in the child app',
+  '/get-started': 'redirects to /starter-pack, which is listed; a redirect in a sitemap is a wasted crawl',
 }
 
 function* pages(dir) {

@@ -5,7 +5,7 @@ NEW film of the series, for subject group D in `../subjects-2026-11-16.md`
 (strangers and contact in games: Family IT Guy's strongest topic). Built from
 the approved script `content/lesson-scripts/stage-2-films/2.1-what-we-keep-private-online.md`
 (v3) and the verified Roblox pack `content/packs/2026-11-13-roblox-pilot/pack.md`.
-Draft 1, 17 November 2026. NOT RECORDED. Nothing generated.
+17 November 2026, recorded and built 18 November: see README.md. The words as recorded are in build/lines.json.
 
 ## What it takes from 2.1, and what it adds
 
@@ -66,7 +66,7 @@ DIDGEE: By the end of this, you'll spot a trick that works on grown ups every da
 
 **2. Calm me** (q02)
 PICTURE: Bloop and DiGi breathing slowly, a soft glow growing and shrinking.
-DIDGEE: Three breaths, out longer than in. In, two, three, four. Out, two, three, four, five, six. Once more. This is a spotting job, and a fast brain walks straight past small things.
+DIDGEE: Three slow breaths, out longer than in. Breathe in for four. And out for six. Once more. This is a spotting job, and a fast brain walks straight past small things.
 
 **3. Remember when** [PRODUCT ONLY] (q03)
 PICTURE: Bloop looking at a small drawn shield pinned on the wall.
@@ -104,7 +104,7 @@ DIDGEE: Pause me here. Grown up, ask the question on the screen. I'll wait.
 
 **8. The piece test** (q10)
 WORDS ON SCREEN: Could this help somebody FIND me? · GET INTO something of mine? · PRETEND to be me?
-DIDGEE: So how do you catch a piece? Three questions. Could this help somebody find me? Get into something of mine? Pretend to be me? One yes, and it's a piece. Pieces stay on your side of the screen.
+DIDGEE: So how do you catch a piece? Three questions. Could this help somebody find me? Get into something of mine? Pretend to be me? If even one answer is yes, it's a piece. And pieces stay on your side of the screen.
 
 **9. The six things** (q11)
 WORDS ON SCREEN: Full name · School · Address · Phone number · Passwords · A photo of where you live or learn
@@ -149,8 +149,8 @@ DIDGEE: Usually that's the person sitting next to you. A teacher counts. A nan o
 DIDGEE: Nothing is ruined. Some of it you change, some you take down. And you will never, ever be in trouble for telling.
 
 **16. Goodbye** (q18)
-PICTURE: Bloop finds the missing jigsaw piece stuck to its own foot, pops it in, the picture complete. DiGi waves.
-DIDGEE: Oh, Bloop. It was on your foot. One piece is never just one piece.
+PICTURE: Bloop holds up the missing jigsaw piece, found at last, beside the finished puzzle. DiGi waves.
+DIDGEE: Oh, Bloop. There it was. One piece is never just one piece.
 DIDGEE: Goodbye from Didgee. See you next time.
 
 No line after this. No promise beyond never in trouble for telling.

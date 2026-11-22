@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-17T09:31:24.875Z",
+ "generatedAt": "2026-11-19T09:38:27.431Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -9,41 +9,66 @@
   "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
  ],
  "counts": {
-  "total": 94,
+  "total": 129,
   "byStatus": {
-   "DISCOVERED": 62,
-   "APPROVED": 6,
-   "HOLD": 11,
-   "REJECTED": 5,
-   "VERIFIED": 9,
-   "EDITORIAL READY": 1
+   "DISCOVERED": 89,
+   "APPROVED": 7,
+   "HOLD": 13,
+   "REJECTED": 6,
+   "VERIFIED": 12,
+   "EDITORIAL READY": 2
   }
  },
  "queue": [
   {
-   "researchId": "GDC-RR-9a82e5d5b3",
-   "title": "SAFE-Teen: Evaluating Chatbot Safety Across Adolescent Mental Health Conversations",
-   "proposedTitle": "Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped.",
+   "researchId": "GDC-RR-553f7dc067",
+   "title": "Digital Encounters and Protection Pathways Across Adolescence: Age- and Gender-Related Patterns in 26,297 European Adolescents Digital encounters and protection pathways",
+   "proposedTitle": "Ask 13 and 14 year olds how they protect themselves online and about a third say they talk to an adult. By 17 and 18 it is fewer than one in five.",
    "editorialPriority": "BANK",
-   "urgency": "Low. Bank it. A preprint, so it can be posted any week while it is current, saying it is a preprint.",
+   "urgency": "Low to moderate. Bank it. The Commission data are from spring 2026 and the preprint was posted on 17 November, so it is current for some weeks.",
    "claudeStatus": "CLAUDE REVIEWED",
    "claudeVerdict": "EDIT",
    "recommendedPlatforms": [
     "LinkedIn"
    ],
-   "gdcPostNumber": "061",
-   "primaryUrl": "https://arxiv.org/abs/2611.07218",
-   "doi": null,
-   "publishedDate": "2026-11-04",
-   "design": null,
-   "figuresCleared": 9,
+   "gdcPostNumber": "062",
+   "primaryUrl": "https://doi.org/10.21203/rs.3.rs-11441481/v1",
+   "doi": "10.21203/rs.3.rs-11441481/v1",
+   "publishedDate": "2026-11-17",
+   "design": "cross-sectional",
+   "figuresCleared": 7,
    "handoffDoc": null,
    "handoffJsonDriveFileId": null,
    "handoffVersion": 1,
-   "handoffSourceCommit": "a1c213acb9a6aa7409d5d5953c210a397514f1bd",
-   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.json",
-   "firstFound": "2026-11-17T09:21:23.223Z",
+   "handoffSourceCommit": "bca36accd7a18b2b879e27e0f2ad7e007529b6a8",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-553f7dc067.json",
+   "firstFound": "2026-11-18T09:22:15.128Z",
    "registerVersion": 10
+  },
+  {
+   "researchId": "GDC-RR-540fff2c03",
+   "title": "News, Politics, Societal Issues, and Hate on Youths’ Donated Social Media Feeds",
+   "proposedTitle": "Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow.",
+   "editorialPriority": "BANK",
+   "urgency": "Low to moderate. Bank it. Posted 18 November 2026, current for some weeks.",
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeVerdict": "EDIT",
+   "recommendedPlatforms": [
+    "LinkedIn"
+   ],
+   "gdcPostNumber": "063",
+   "primaryUrl": "https://doi.org/10.31234/osf.io/j73bg",
+   "doi": "10.31234/osf.io/j73bg",
+   "publishedDate": "2026-11-18",
+   "design": null,
+   "figuresCleared": 6,
+   "handoffDoc": null,
+   "handoffJsonDriveFileId": null,
+   "handoffVersion": 1,
+   "handoffSourceCommit": "5bb2df0318dc86dcdd525a65011bd7d73ca8a0b7",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-540fff2c03.json",
+   "firstFound": "2026-11-19T09:35:09.220Z",
+   "registerVersion": 9
   }
  ],
  "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"

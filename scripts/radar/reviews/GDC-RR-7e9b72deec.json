@@ -1,0 +1,84 @@
+{
+ "studyId": "GDC-RR-7e9b72deec",
+ "reviewedAt": "2026-11-18T09:28:00Z",
+ "reviewedBy": "Claude Code, scheduled morning run, 18 November 2026",
+ "verdict": "HOLD",
+ "editorialPriority": "BANK",
+ "proposedTitle": null,
+ "proposedAngle": null,
+ "reviewBasis": "The PubMed record for PMID 43008768, read in this run through the NCBI E-utilities: the structured abstract and the declaration of interests. The DOI resolves to The Lancet, licensed CC BY, but the full text could not be reached in this run (the publisher and ScienceDirect refused the fetch and there is no PubMed Central copy yet). The companion cost effectiveness paper, PMID 43009380, was read the same way. Peer reviewed, published November 2026.",
+ "claims": [
+  {
+   "claim": "A cluster randomised controlled trial in 80 Tanzanian sub-wards compared ParentApp with a control app on water, sanitation and hygiene, both on a low cost Android phone.",
+   "status": "VERIFIED",
+   "basis": "Abstract, methods."
+  },
+  {
+   "claim": "2,396 caregiver and adolescent pairs were recruited, adolescents aged 10 to 17, and 89.5 percent of adolescents were analysed at 18 months.",
+   "status": "VERIFIED",
+   "basis": "Abstract, findings."
+  },
+  {
+   "claim": "Girls in ParentApp clusters had less past month sexual violence than girls in control clusters, incidence rate ratio 0.43, 95 percent interval 0.21 to 0.86.",
+   "status": "QUALIFIED",
+   "basis": "Abstract, findings. The interval is wide, the abstract does not say whether this is at 5 months, 18 months or pooled, and gives no counts or rates per arm, so the absolute size of the change cannot be stated from what was read. There was no effect for boys, 1.21, 0.59 to 2.43."
+  },
+  {
+   "claim": "Past month physical abuse, verbal abuse and neglect were lower in ParentApp clusters, adolescent report IRR 0.92 and caregiver report 0.87.",
+   "status": "VERIFIED",
+   "basis": "Abstract, findings. Roughly an 8 and a 13 percent relative reduction, both reported by participants who knew which app they had."
+  },
+  {
+   "claim": "A parenting app prevents abuse of children.",
+   "status": "UNSUPPORTED",
+   "basis": "The programme was blended: one in person session, WhatsApp group support and the app, in Tanzania. The trial cannot separate the app from the human support, and the authors frame the result for countries such as Tanzania."
+  }
+ ],
+ "verifiedStatistics": [],
+ "notQuotable": [
+  "Any figure until the full text has been read and the time point and absolute rates behind the girls result are known",
+  "Any claim that an app on its own reduces abuse",
+  "Any suggestion that this applies to UK families",
+  "The names of any authors"
+ ],
+ "recommendedPlatforms": [],
+ "urgency": "Low. Bank it. Recheck when a PubMed Central copy appears; the article is CC BY so one is likely.",
+ "evidenceConfidence": "HIGH that the abstract says what is written here. MODERATE as evidence from what could be read: randomised, active control, high retention and a registered protocol, but self reported outcomes with participants who could not be masked, a wide interval on the headline result, and a trial run by the programme's own developers.",
+ "limitations": [
+  "Full text not read in this run, so the discussion's limitations, the time point of the girls result, the absolute rates and the handling of multiple outcomes were not checked.",
+  "Outcomes were self reported by adolescents and caregivers who knew which programme they received.",
+  "The headline girls result has a wide interval, 0.21 to 0.86, and there was no effect for boys.",
+  "Developer led: the declaration of interests says the chief executive and chief of solutions of Parenting for Lifelong Health are authors, another author chairs its board unpaid, and the company that builds the app is led by an author. No author takes personal profit.",
+  "Tanzania, with phones provided. Our customer is a UK parent of a child aged 4 to 16.",
+  "Blended delivery: the app came with an in person session and WhatsApp group support."
+ ],
+ "contradictoryEvidence": [
+  "No effect on sexual violence for boys, so the headline does not hold across the sample.",
+  "The maltreatment effect, while precise, is modest: about an 8 percent relative reduction by adolescent report."
+ ],
+ "whatThisDoesNotProve": [
+  "That a parenting app works for UK families.",
+  "That an app alone, without people, prevents abuse.",
+  "Anything about phones, social media or screen time.",
+  "That Guided Childhood or any other app reduces harm."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run. The likely overstatement is 'an app halved sexual violence against children', which drops the girls only, wide interval and blended delivery qualifiers. A finding that flatters a parent app gets more scrutiny, not less.",
+ "gdcBeliefs": [
+  "Connection is the protection: the programme works on the caregiver and adolescent relationship, which is our thesis, so this gets more scrutiny, not less.",
+  "Never allow or deny. Not relevant until the figures are cleared."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "No change.",
+  "parentTool": "No change while held.",
+  "digi": "No change.",
+  "historyChecker": "No change."
+ },
+ "recommendedAudience": "None while held.",
+ "unresolvedQuestions": [
+  "At which follow up was the girls result measured, and what were the rates in each arm?",
+  "How many outcomes were tested and how was multiplicity handled?",
+  "What share of families engaged with the app, and does the effect track engagement?"
+ ],
+ "storedAt": "scripts/radar/reviews/GDC-RR-7e9b72deec.json"
+}

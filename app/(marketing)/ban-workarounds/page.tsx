@@ -1,10 +1,12 @@
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Ban Workarounds | Guided Childhood',
-  description: 'The under-16 social media ban starts Spring 2027. Workarounds are already happening. What they are, why they are dangerous, and how to lock down every account.',
-}
+export const metadata: Metadata = pageMetadata({
+  title: 'Under 16 ban workarounds, and how to lock accounts down',
+  description: 'The under 16 social media ban is planned for spring 2027 and workarounds are already happening. What children try, why it matters, and how to lock down every account.',
+  path: '/ban-workarounds',
+})
 
 const WORKAROUNDS = [
   {

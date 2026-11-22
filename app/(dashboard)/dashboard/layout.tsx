@@ -55,7 +55,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           .eq('user_id', user.id).eq('status', 'pending'),
         supabase.from('quest_requests').select('id', { count: 'exact', head: true })
           .eq('user_id', user.id).eq('status', 'pending'),
-        supabase.from('profiles').select('full_name, subscription_tier, subscription_status').eq('id', user.id).single(),
+        supabase.from('profiles').select('full_name, subscription_tier, subscription_status, home_screen_at').eq('id', user.id).single(),
         // Every child, for the switcher rail below. In this wave rather than a
         // separate await for the same reason the profile is: the layout renders
         // on every navigation, so an extra round trip here is an extra round
@@ -73,7 +73,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const digiWord = (wordRes as { count: number | null }).count ?? 0
   const pendingAsks = (ticksRes.count ?? 0) + (asksRes.count ?? 0) + ((sheetsRes as { count: number | null }).count ?? 0)
   const kids = ((kidsRes as { data: { id: string; name: string | null; is_primary: boolean | null; age_band: string | null }[] | null }).data) ?? []
-  const profile = (profileRes as { data: { full_name: string | null; subscription_tier: string | null; subscription_status: string | null } | null }).data
+  const profile = (profileRes as { data: { full_name: string | null; subscription_tier: string | null; subscription_status: string | null; home_screen_at?: string | null } | null }).data
 
   // A subscription that is mid retry is still a subscription, so it must not
   // wear an Upgrade chip. See lib/access.ts: past_due keeps everything while
@@ -268,7 +268,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
       {/* Install prompt: Android gets the real install event, iPhone gets
           the guided two taps (Apple allows no automatic prompt) */}
-      <InstallPrompt />
+      {/* Told whether this ACCOUNT already has the app on a home screen
+          (profiles.home_screen_at, written the first time it opens installed
+          anywhere). A laptop tab cannot see an install on the phone, and that
+          is why the banner kept asking (Justin, 18 November 2026). */}
+      <InstallPrompt installedOnAccount={Boolean(profile?.home_screen_at)} />
       <AppBadge />
 
       {/* The guided rail: while setup is unfinished, a Next step bar walks the
