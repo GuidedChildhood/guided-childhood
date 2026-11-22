@@ -46,6 +46,10 @@
   ],
   "crons": [
     {
+      "path": "/api/cron/script-week",
+      "schedule": "21 18 * * 0"
+    },
+    {
       "path": "/api/cron/device-time",
       "schedule": "* * * * *"
     },
