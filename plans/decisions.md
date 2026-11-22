@@ -231,6 +231,12 @@ Every evidence pack now carries three hooks of different kinds with one CHOSEN, 
 - Phase 1: every public page builds its metadata through `lib/seo/meta.ts` (canonical, its own share card; the brand was printed twice in a dozen titles), private pages noindexed, AI crawlers named in robots, real sitemap dates, Organization JSON-LD site wide, FAQPage on /join, SoftwareApplication on the home page, `/llms.txt`, the Google verification slot (`lib/config/site.ts`), and `ai_source` on PostHog events from ChatGPT, Perplexity, Gemini, Claude and Copilot.
 - Found: PostHog has never run on the live site (NEXT_PUBLIC_POSTHOG_KEY is not set in Vercel). Setup steps went to Justin.
 
+## 19 Nov 2026: posting slots, the Sunday issue and the daily numbers
+
+- Personal LinkedIn posts go in Monday, Wednesday and Friday slots at 08:00 UK time, at most three in a calendar week. A booking Justin already made in LinkedIn counts towards its week and is never moved, so the week with the 29 Nov booking has two free slots and the week with the 6 Dec booking has two.
+- The Sunday 22 Nov newsletter is approved by Justin; the long form running order slides a week if issue 1 has not gone out.
+- `daily.mjs summary` opens with TODAY IN NUMBERS: discovered, cleared, held, packs produced, stages failed, and Metricool named as NOT CONNECTED.
+- Recovered the 18 and 19 Nov radar runs from the Drive patch (the scheduled session's git commit was refused). The 19 Nov afternoon run committed normally, so the refusal is intermittent, not constant.
 ## 19 November 2026: homework and projects get reminders that lead up to the day
 
 - Justin snapped the Anderson shelter letter (due 1 December): the date went in, but it was on the bell at once, came in as two items, and nothing helped it get started.
