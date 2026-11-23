@@ -271,6 +271,12 @@ Titles only. Open the archive at the line number in its own index for the full e
 
 - Justin asked for the one headline re-cut after reminders moved to 4pm (PR 1670). All three screens were re-recorded from the current app, so the card, the confirmation and the headline agree. Both cuts are now 36.7s; captions and the LinkedIn list updated. Two stale "night before" lines on the school promo card and the letterbox went too.
 
+## 23 November 2026: 403 and 404 are live, 404 had no ledger row
+
+- Both were applied by the sessions that wrote them. 404 was recorded, not re-run: the script wording, the `expert_knowledge` finding and both `kid_homework_help_uses` columns with their comments are already exactly what the file asks for.
+- 404's two text updates are guarded on the old wording, so a no-op is indistinguishable from applied unless you look. Both were checked from the other side: the old strings are gone and the new ones are present, one row each.
+- The Bastani knowledge row's embedding is null, which is 404 doing its job. The daily sweep at 06:40 UTC (`/api/cron/knowledge-embed`) refills it. Until it does, DiGi cannot reach that row by vector search.
+- Ledger now agrees with the repo to 404.
 ### 23 November 2026: schools reference pages fold behind a summary, and pilot emails 3 and 4
 - The staff briefings, safeguarding crosswalk, parent pack, philosophy and run sheet now open on a summary card and jump chips, with every section folded in one shared `RefFold`. Printing opens every fold, so paper keeps the full text. On a phone they are now 3 to 7 screens instead of 18 to 28; the run sheet opens on Teach this lesson.
 - Pilot emails 3 (three weeks in, one reply question) and 4 (before the term ends: record, choice, a quote and a trust name) are written and saved as Mailchimp drafts for Justin to add to journey 762. Pilot email 1 in the paused journey now carries the parent pack line.
