@@ -220,3 +220,12 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The photo reader now treats every dated thing as an item (inset days, term dates, non uniform days), has room for twenty items, and keeps the finished items of a reply that was cut short. A photo that finds nothing offers Type it in.
 - The full calendar card now follows the server after a refresh, so a photo add shows in the list without a reload.
 - Scripts: phones, something online and big feelings have their own picture book tiles (Higgsfield, 2.25 credits, Justin said yes).
+
+## 23 November 2026: weekly ad loop, round 1 closed and round 3 prepared
+
+- Round 1 final read: left out finished on 20 stage checks begun from 9,794 reached, 2.0 per thousand at £1.39 a check (£27.89). It stays the control. No signups from any card. Round 2 was never loaded, so nothing to read.
+- Round 3 (Justin, 22 November: "Prepare round 3") is three cards against left out, one mechanic each: one line of the free script (`r3-left-out-line`), the founder in the first person on a plain card (`r3-founder-origin`), and moment then reassurance then the free thing (`r3-left-out-seen`). Deck `2026-11-23-round-3`, pack `content/packs/2026-11-23-round-3`. Gate passed, no new scene, no credits spent.
+- Card 1 shows the NOT THIS line because the first SAY THIS sentence cannot be cropped whole at any phone width. Card 3 is one card because the uploader has no carousel. Both are Justin's to overrule.
+- Nothing loaded, nothing spent. Suggested split £10 a card over 7 days; an even split needs one ad set per card, which the uploader does not do yet.
+- Competitors: nobody in the UK library says our lines. Ten long runners from the 22 November read are in the swipe file and six are on the watchlist.
+

@@ -1,0 +1,85 @@
+{
+  "name": "2026-11-23-round-3",
+  "round": "2026-11-23-round-3",
+  "template": "ad",
+  "layout": "stacked",
+  "cards": [
+    {
+      "name": "left-out-one-line",
+      "src": "r3-left-out-line",
+      "headline": "Everyone is on Snapchat. <mark>They are not.</mark>",
+      "screen": {
+        "image": "content/ads/screens/say-snapchat.png",
+        "points": 360.1,
+        "crop": [
+          1.9,
+          884,
+          356.3,
+          114
+        ],
+        "maxWidth": 600
+      },
+      "ad": {
+        "text": "The plans get made on Snapchat, and your ten year old is not on it. Most of us reach for the same line, that real friends will tell them anyway. It does not land, because they are not making it up.\n\nThere are better words for that conversation. They start with believing them, and they end with working out who would text them. The script is free.\n\nGuided Childhood gives you the words for your child's stage, and the plan from here to sixteen. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/left-out-hallway.jpg",
+        "x": 0.66
+      }
+    },
+    {
+      "name": "founder-origin",
+      "src": "r3-founder-origin",
+      "headline": "The same argument every evening. <mark>So I built this.</mark>",
+      "screen": {
+        "image": "content/ads/screens/say-snapchat.png",
+        "points": 360.1,
+        "crop": [
+          1.9,
+          300.4,
+          356.3,
+          569.7
+        ]
+      },
+      "ad": {
+        "text": "I am a dad of three, and we were having the same argument every evening.\n\nSo I built three questions that tell you what stage your child is at, and the words to say tonight. This is one of them, for the night everyone else is on Snapchat.\n\nIt is free and there is no card. Justin, Guided Childhood.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up."
+    },
+    {
+      "name": "left-out-seen",
+      "src": "r3-left-out-seen",
+      "headline": "Everyone is on Snapchat. <mark>You are not on your own.</mark>",
+      "screen": {
+        "image": "content/ads/screens/say-snapchat.png",
+        "points": 360.1,
+        "crop": [
+          1.9,
+          1.9,
+          356.3,
+          306
+        ],
+        "maxWidth": 540
+      },
+      "ad": {
+        "text": "The plans get made on Snapchat, and your ten year old is not on it. They are not making that up.\n\nYou are not on your own with this, and you are not being too strict. Snapchat is thirteen and up, so the no belongs to the app and not to you.\n\nThere are free words for that conversation, written for your child's age. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/left-out-hallway.jpg",
+        "x": 0.68
+      },
+      "h": 80
+    }
+  ]
+}
