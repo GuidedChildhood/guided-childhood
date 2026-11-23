@@ -68,3 +68,19 @@ published. Nothing else was changed.
 
 - 054 and 058: approved; 054 posted on Justin's word. Links still needed.
 - 060, EU KIDS Act: the feedback window closes 26 Nov. Not approved, not booked.
+
+## Justin's decisions, 22 November afternoon
+
+"gta approved, drop 24th and 062 this week and add to next week after"
+
+| Week | Mon 08:00 | Wed 08:00 | Fri 08:00 | Already booked natively |
+|---|---|---|---|---|
+| 23 Nov | 23: GTA VI, now GDC 064, approved | 25: GDC 061, approved | none (062 moved) | Sun 29, 08:45 |
+| 30 Nov | 30: GDC 063, **not approved** | 2 Dec: GDC 059, approved | none | Sun 6 Dec, 08:30 |
+| 7 Dec | 7: GDC 062, **not approved** | open | open | |
+
+059 is now booked for Wednesday 2 December. 062 can't go in the week of 30 November
+as well, because with the 6 December booking that week would have four posts, so it
+moves to Monday 7 December. ChatGPT's provisional 2 Dec, 4 Dec and 7 Dec stories
+come out of the queue until they clear the radar and get real numbers. 062 and 063
+still need Justin's approval before their dates.

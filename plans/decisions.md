@@ -209,6 +209,13 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 377 is resolved. The planet lane took the handback and renamed the newspaper ledger to `planet_issue_events`; `public.planet_events` keeps the children's shape. Repo file and live database agree.
 - The duplicate 394 ledger row (version 20261112090300) is deleted, on Justin's say so. One row left, the one carrying the real SQL.
 
+## 22 November 2026: GTA VI approved, the week of 23 November cut to three
+
+- Justin: "gta approved, drop 24th and 062 this week and add to next week after".
+- GTA VI carousel approved for Mon 23 Nov 08:00 and given GDC 064, because a published post spends a number. ChatGPT's provisional 064 to 066 are void.
+- Week of 23 Nov: 064, 061, then the Sun 29 native booking. 059 moves to Wed 2 Dec, and 062 to Mon 7 Dec, because the week of 30 Nov already holds 063 and the 6 Dec booking.
+- 062 and 063 are still not approved. Detail is in content/metricool-reconciliation-2026-11-22.md.
+
 ## 22 November 2026: search joins the review board, Speed Insights, IndexNow
 
 - Justin: ten out of ten on every part of search, kept under review until it holds. Search is lens 11 of the Friday board (`review-search`, eight parts, mean rounded down); business running moves to 12. Unknown data scores 0, never guessed. A weekly board beats a loop: search moves in weeks.
@@ -229,3 +236,20 @@ Titles only. Open the archive at the line number in its own index for the full e
 - GDC 060 (EU KIDS Act, recruit strangers) is written for the first time; the 16 November pass claimed the number and left no copy. GDC 067 (YouGov, 77 percent back the ban and split 45 to 46 on whether it works, start an argument) is new.
 - Two because post-picker found no free slot before 9 December under the three a week rule, and the reserve was short only of argument posts and anything on the ban. Australia one year on was dropped: esafety.gov.au returned 503, so no figure could be read at source.
 - The KIDS Act feedback window closes 3 December, not 26 November. 060 still needs a slot Justin has to free. PR 1669.
+## 23 November 2026: GDC 062 and 063 approved
+
+- Justin: "062 and 063 approved". 063 goes Mon 30 Nov 08:00, 062 Mon 7 Dec 08:00.
+- Recorded in the post register only. The radar pipeline approve gate needs a pack at ASSETS READY, and neither pack reached Claude QA (only the Evidence Reveal motion files are in Drive), so the pipeline status was left as it is rather than forced.
+
+## 23 November 2026: Monday radar, hints not answers (GDC 065, 066)
+
+- Two findings survived: Stanford SCALE's November review of 52 controlled studies of AI and schoolwork, and RAND's survey of what US parents tell teenagers about AI and homework. Both PDFs read in full, 22 claims verified. Nine candidates killed, reasons in `content/research-radar-log.md`.
+- The review contains a trial where answers beat hints, against the one our hint card and script 261 rest on. The pack opens on that. Whether to soften the script's "why it works" and the migration 263 row is Justin's call; nothing in the product was changed.
+- The routine's stored brief still says to open on the question. The 11 November analytics say named body and finding first, so the posts follow that. Pack `content/packs/2026-11-23-hints-not-answers/`. PR 1668.
+### 23 November 2026: Oak call, lead with PSHE plus parent engagement for trusts
+- Oak's partnerships lead: EdTech now enters schools at trust level, where gatekeepers hear from 10 to 20 companies a week. Lead with what few do, PSHE and parent engagement, not "a new product". Oak's API is free for commercial use and updated for the latest RSHE. A case study tier opens once pilots are running. Notes: `plans/2026-11-23-oak-call-notes.md`.
+## 23 November 2026: adding a school reminder is first on the page, any day, and reminders go at 4pm and 7:20
+
+- Justin: adding should be easy and one of the first tasks; he could only choose today; default reminders 16:00 the day before and 07:20 that morning on the phones.
+- "Add a reminder" sits under the page heading. The sheet has a day strip (Today, Tomorrow, twelve more days, then Another date) and opens on tomorrow; the week card's "+ Add reminder" was locked to today and now uses it too.
+- Reminders moved from 17:00 and 07:05 UTC to 16:00 and 07:20 UK time all year: each schedule fires at both UTC hours and the route sends only in the London hour. Plan: plans/2026-11-23-add-reminder-easy.md.
