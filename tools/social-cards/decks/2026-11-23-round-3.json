@@ -3,6 +3,11 @@
   "round": "2026-11-23-round-3",
   "template": "ad",
   "layout": "stacked",
+  "adset": {
+    "perCard": true,
+    "dailyBudgetPence": 143,
+    "note": "£10 a card over 7 days, each card in its own ad set so Meta cannot move one card's money to another (Justin, 23 November 2026)."
+  },
   "cards": [
     {
       "name": "left-out-one-line",
