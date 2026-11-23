@@ -279,7 +279,7 @@ export default function SchoolLetterbox() {
         <p style={eyebrowStyle}>School emails</p>
         <h2 style={headingStyle}>Let DiGi catch the school emails</h2>
         <p style={bodyStyle}>
-          You get a private address of your own. Forward the school&apos;s emails to it and the kit days, trips, payments and deadlines turn into reminders here, and on your phone the night before.
+          You get a private address of your own. Forward the school&apos;s emails to it and the kit days, trips, payments and deadlines turn into reminders here, and on your phone at 4pm the day before.
         </p>
         <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 18px' }}>
           {[

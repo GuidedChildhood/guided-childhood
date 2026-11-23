@@ -1,10 +1,13 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 
-export const metadata = {
-  title: 'The Full Pathway · Ages 4 to 16 | Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'The full pathway, ages 4 to 16',
   description: 'Five stages. Twenty units. Ten minutes each. The complete digital parenting programme from first screens to genuine independence.',
-}
+  path: '/pathway',
+})
 
 const STAGE_PALETTE = [
   { bg: 'var(--stage-1)', border: 'var(--stage-1)', deep: 'var(--terracotta)', light: 'var(--terracotta-lt)', tag: 'var(--terracotta)' },

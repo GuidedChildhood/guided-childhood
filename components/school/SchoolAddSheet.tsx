@@ -61,7 +61,7 @@ export type NewReminder = {
 }
 
 export default function SchoolAddSheet({
-  dateIso, dow, dayLabel, childName, kids = [], defaultChildId = null, onCancel, onAdd, initial = null,
+  dateIso: dateProp, dow: dowProp, dayLabel: dayLabelProp, childName, kids = [], defaultChildId = null, onCancel, onAdd, initial = null, pickDate = false,
 }: {
   /** The day that was tapped, as YYYY-MM-DD. */
   dateIso: string
@@ -81,6 +81,12 @@ export default function SchoolAddSheet({
   kids?: { id: string; name: string | null; hasApp?: boolean }[]
   /** Preselected owner, normally the child the parent has open. */
   defaultChildId?: string | null
+  /**
+   * Opened without a day being tapped (Type it in on the school page, 22
+   * November 2026), so the sheet asks for the day itself. From the week grid
+   * the day is the one that was tapped and no picker shows, as before.
+   */
+  pickDate?: boolean
   onCancel: () => void
   onAdd: (r: NewReminder) => Promise<void> | void
   /** Editing an existing reminder: the sheet opens filled in and the button
@@ -88,6 +94,17 @@ export default function SchoolAddSheet({
    *  simply stop it edit it if wrong." Null is a fresh add, as before. */
   initial?: { title: string; kind: string; repeats: boolean; time: string | null; toChild: boolean; runsInHolidays: boolean } | null
 }) {
+  // Opens on TOMORROW when the day is the parent's to choose: a reminder for
+  // today is the rare case, and "+ Add reminder" used to be locked to today
+  // (Justin, 23 November 2026: "it seems I can only select the day we are on").
+  const dayAfter = (iso: string, n: number) => { const [y, m, d] = iso.split('-').map(Number); const t = new Date(y, m - 1, d + n); return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}` }
+  const [pickedDate, setPickedDate] = useState(pickDate && !initial ? dayAfter(dateProp, 1) : dateProp)
+  const dateIso = pickDate && /^\d{4}-\d{2}-\d{2}$/.test(pickedDate) ? pickedDate : dateProp
+  const pickedLocal = (() => { const [y, m, d] = dateIso.split('-').map(Number); return new Date(y, (m || 1) - 1, d || 1) })()
+  const dow = pickDate ? pickedLocal.getDay() : dowProp
+  const dayLabel = pickDate
+    ? pickedLocal.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
+    : dayLabelProp
   const [title, setTitle] = useState(initial?.title ?? '')
   const [kind, setKind] = useState(initial?.kind ?? 'notice')
   const [repeats, setRepeats] = useState(initial?.repeats ?? false)
@@ -264,6 +281,57 @@ export default function SchoolAddSheet({
             "every Thursday" is what a parent means and "repeats: true" with a
             separate day picker is what a form means. */}
         <span style={LABEL}>When</span>
+        {pickDate && (
+          <>
+            {/* THE DAY STRIP. Today, Tomorrow and the next twelve days as
+                tiles to tap, the way WHOOP and Apple Fitness draw a run of
+                days, because a bare date box means a wheel and three spins to
+                say "Thursday". Anything further off is one tap on Another date. */}
+            <div role="radiogroup" aria-label="The day" style={{ display: 'flex', gap: 8, overflowX: 'auto', padding: '2px 2px 10px', margin: '0 -2px 2px', WebkitOverflowScrolling: 'touch' }}>
+              {Array.from({ length: 14 }, (_, n) => {
+                const iso = dayAfter(dateProp, n)
+                const [y, m, d] = iso.split('-').map(Number)
+                const dt = new Date(y, m - 1, d)
+                const on = iso === pickedDate
+                return (
+                  <button
+                    key={iso} type="button" role="radio" aria-checked={on}
+                    aria-label={dt.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}
+                    onClick={() => setPickedDate(iso)}
+                    style={{
+                      flex: '0 0 auto', minWidth: n < 2 ? 92 : 56, minHeight: 60, cursor: 'pointer',
+                      borderRadius: 'var(--radius-tile)', border: 'var(--edge)', padding: '6px 10px',
+                      background: on ? 'var(--butter)' : 'var(--white)', boxShadow: on ? 'var(--lift)' : 'none',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2,
+                    }}
+                  >
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+                      {n === 0 ? 'Today' : n === 1 ? 'Tomorrow' : DAY_NAMES[dt.getDay()].slice(0, 3)}
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+                      {dt.getDate()}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)' }}>
+              Another date
+              <input
+                type="date"
+                aria-label="Another date"
+                value={pickedDate}
+                min={dateProp}
+                onChange={e => { if (e.target.value) setPickedDate(e.target.value) }}
+                style={{
+                  flex: 1, minHeight: 44, padding: '8px 12px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)',
+                  fontSize: 'var(--text-base)', fontFamily: 'var(--font-body)', fontWeight: 700, color: 'var(--ink)',
+                  background: 'var(--cream)',
+                }}
+              />
+            </label>
+          </>
+        )}
         <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
           {[
             { on: false, top: 'Just this day', sub: dayLabel },
@@ -396,6 +464,11 @@ export default function SchoolAddSheet({
           </span>
         </button>
         )}
+
+        {/* The default, said once so nobody has to set it (23 November 2026). */}
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 12px' }}>
+          🔔 We remind you at 4pm the day before and at 7:20 that morning.
+        </p>
 
         <div style={{ display: 'flex', gap: 8 }}>
           <button

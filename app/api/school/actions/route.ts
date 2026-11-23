@@ -141,7 +141,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const { id, status, clear_today, edit } = await req.json()
+  const { id, status, clear_today, edit, remind_days } = await req.json()
   if (!id) return NextResponse.json({ error: 'missing id' }, { status: 400 })
 
   const supabase = await createClient()
@@ -200,6 +200,18 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ ok: true, action: data ?? null })
   }
 
+  // The early reminders for a homework or deadline item (lib/school/lead-up.ts):
+  // the chips on the school card, a week before and three days before. Only
+  // those two values are kept. Before migration 401 the column is missing, the
+  // update errors and the item keeps the automatic plan, said plainly.
+  if (Array.isArray(remind_days)) {
+    const days = [...new Set(remind_days.filter((d: unknown) => d === 7 || d === 3))].sort((a, b) => b - a)
+    const { error } = await supabase
+      .from('school_actions').update({ remind_days: days }).eq('id', id).eq('user_id', user.id)
+    if (error) return NextResponse.json({ error: 'Reminder choices are not switched on yet', pending: true }, { status: 503 })
+    return NextResponse.json({ ok: true, remind_days: days })
+  }
+
   // Clear a weekly routine for today only: it stays open and comes back on its
   // next day, rather than being marked done or removed. The date is stamped
   // server side so a client clock can never fake it.
@@ -211,7 +223,8 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ ok: true })
   }
 
-  if (!['done', 'dismissed'].includes(status)) {
+  // 'open' puts back one ticked by mistake (the Next up card's Put it back).
+  if (!['done', 'dismissed', 'open'].includes(status)) {
     return NextResponse.json({ error: 'missing or invalid id / status' }, { status: 400 })
   }
   const { error } = await supabase

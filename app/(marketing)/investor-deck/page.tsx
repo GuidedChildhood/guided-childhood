@@ -1,10 +1,14 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 
-export const metadata = {
-  title: 'Investor deck · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Investor deck',
   description: 'Request the Guided Childhood investor deck.',
-}
+  path: '/investor-deck',
+  noindex: true,
+})
 
 const WRAP: CSSProperties = { maxWidth: '680px', margin: '0 auto', padding: '64px 22px 90px', textAlign: 'center' }
 

@@ -85,3 +85,23 @@ export const SITE_URL = 'https://www.guidedchildhood.com'
 // Trailing slash is stripped, because half these call sites build `${APP}/path`
 // and a value ending in / silently produced a double slash.
 export const APP_ORIGIN = (process.env.NEXT_PUBLIC_APP_URL ?? SITE_URL).replace(/\/+$/, '')
+
+// ── 19 NOVEMBER 2026: THE GOOGLE SEARCH CONSOLE VERIFICATION CODE ───────────
+//
+// Where the meta tag Google asks for goes. Google shows a tag like
+//
+//   <meta name="google-site-verification" content="AbC123xyz..." />
+//
+// and only the part inside content="..." is needed. Two ways to give it to the
+// site, either works:
+//
+//   1. In Vercel: project guided-childhood, Settings, Environment Variables,
+//      add NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION with that code, then redeploy.
+//   2. Paste the code between the quotes on the line below and push.
+//
+// Empty means no tag is printed. The root layout reads this
+// (verification.google), so the tag lands on every page, the home page
+// included, which is the one Google checks. DNS verification of the Domain
+// property is the recommended route (SEO-SETUP-GUIDE.md); this is the
+// fallback.
+export const GOOGLE_SITE_VERIFICATION = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || ''

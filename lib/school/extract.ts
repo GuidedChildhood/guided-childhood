@@ -1,5 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { mergeNearDuplicates } from './merge-items'
+import { parseItemArray } from './parse-items'
 
 // THE ONE SCHOOL EXTRACTOR.
 //
@@ -53,7 +55,13 @@ function buildPrompt(schoolName: string, subject: string, body: string, hasImage
   const source = hasImage
     ? 'this photo of a school letter, note or screen'
     : 'this school message'
-  return `Extract actionable items for a parent from ${source} from ${schoolName}. Only real actions a parent must do or remember: kit to bring (coat, PE kit, water bottle, wellies), payments due, homework or practice (times tables, reading), events and trips with dates, deadlines, important notices. Ignore newsletters with no action. Exception: if the message is only a notification that a message, post or update is waiting inside an app (ClassDojo, Tapestry, Seesaw, Arbor, ParentPay and similar) and the content itself is not included, return exactly one notice item telling the parent to check that app, naming the sender if given, for example {"kind":"notice","title":"Check ClassDojo message from Miss Smith","detail":"ClassDojo says a new message is waiting in the app.","due_date":null}. Today is ${today}.${hasImage ? ' Read every date you can see. If a date is written as a weekday without a year, work it out from today.' : ''}
+  // EVERY DATED THING COUNTS (22 November 2026). Justin snapped a letter with a
+  // date in it and got nothing back. The prompt used to ask only for "real
+  // actions" and to ignore anything with no action, so an inset day, a term
+  // date or a non uniform day, a date with nothing to do but know it, could be
+  // dropped. A parent who misses an inset day has been let down as badly as
+  // one who misses a payment, so a date a family needs to know is an item.
+  return `Read ${source} from ${schoolName} and list everything a parent needs to do or needs to know about. That means: kit to bring (coat, PE kit, water bottle, wellies), payments due, homework or practice (times tables, reading), deadlines and forms to return, and EVERY dated thing: events, trips, performances, parents evenings, photo days, non uniform days, inset days, school closures, early finishes, the first and last day of term and half term. A date a family needs to know is an item even when there is nothing to do but remember it: use kind "event" for those, or "notice" for a closure or inset day. If the message lists several dates, return one item for each date. Leave out only general news with no date and no action. Exception: if the message is only a notification that a message, post or update is waiting inside an app (ClassDojo, Tapestry, Seesaw, Arbor, ParentPay and similar) and the content itself is not included, return exactly one notice item telling the parent to check that app, naming the sender if given, for example {"kind":"notice","title":"Check ClassDojo message from Miss Smith","detail":"ClassDojo says a new message is waiting in the app.","due_date":null}. One item per piece of work: a project to make and hand in on the same day is ONE homework item, never one to build it and another to hand it in. Put what to bring or make in the detail. Today is ${today}. A date written without a year means the next time that date comes round from today. For a range of days (a trip, a holiday, a book fair week) use the first day as the date and say the range in the detail.${hasImage ? ' Read every date you can see, including dates in tables, lists, small print and handwriting.' : ''}
 
 ${subject ? `Subject: ${subject}\n\n` : ''}${body.slice(0, 4000)}
 
@@ -64,7 +72,7 @@ Return ONLY a JSON array (empty if no actions): [{"kind":"kit|payment|homework|e
  *  coerced, because a guessed kind on a school deadline is worse than nothing. */
 export function validateItems(raw: unknown): ExtractedItem[] {
   if (!Array.isArray(raw)) return []
-  return raw
+  return mergeNearDuplicates(raw
     .filter((i): i is ExtractedItem =>
       Boolean(i) && typeof i === 'object'
       && (SCHOOL_KINDS as readonly string[]).includes((i as ExtractedItem).kind)
@@ -75,7 +83,7 @@ export function validateItems(raw: unknown): ExtractedItem[] {
       title: i.title.trim().slice(0, 120),
       detail: typeof i.detail === 'string' ? i.detail.trim().slice(0, 300) : null,
       due_date: typeof i.due_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(i.due_date) ? i.due_date : null,
-    }))
+    })))
 }
 
 export type ExtractInput = {
@@ -127,13 +135,13 @@ export async function readSchoolMessage(input: ExtractInput): Promise<{ items: E
     try {
       const res = await anthropic.messages.create({
         model,
-        max_tokens: 600,
+        // Room for a term dates letter: twenty items is about 1,500 tokens.
+        max_tokens: 2000,
         messages: [{ role: 'user', content }],
       })
       const text = res.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('')
-      const match = text.match(/\[[\s\S]*\]/)
-      if (!match) return { items: [], reached: true }
-      return { items: validateItems(JSON.parse(match[0])), reached: true }
+      // A reply cut short keeps every finished item (lib/school/parse-items.ts).
+      return { items: validateItems(parseItemArray(text)), reached: true }
     } catch { /* try the next model in the ladder */ }
   }
   return { items: [], reached: false }

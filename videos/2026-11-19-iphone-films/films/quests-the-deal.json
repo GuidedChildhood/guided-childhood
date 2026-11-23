@@ -1,0 +1,105 @@
+{
+ "eyebrow": "Quests \u00b7 Guided Childhood",
+ "slate": "Example family",
+ "segs": [
+  {
+   "rec": "q-page",
+   "from": 0,
+   "dur": 4.5,
+   "head": "Screen time, with a price on it.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1,
+     "fy": 330
+    },
+    {
+     "t": 4.5,
+     "s": 1.06,
+     "fy": 330
+    }
+   ]
+  },
+  {
+   "rec": "q-board",
+   "from": 0.8,
+   "dur": 6.2,
+   "head": "Family jobs pay nothing. The rest pay stars.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.18,
+     "fy": 300
+    },
+    {
+     "t": 6.2,
+     "s": 1.24,
+     "fy": 330
+    }
+   ]
+  },
+  {
+   "rec": "q-kid",
+   "from": 0.5,
+   "dur": 7,
+   "head": "They see the day on their own app.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.18,
+     "fy": 330
+    },
+    {
+     "t": 7,
+     "s": 1.22,
+     "fy": 360
+    }
+   ]
+  },
+  {
+   "rec": "q-ask",
+   "from": 0,
+   "dur": 8,
+   "head": "They ask. You decide.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.15,
+     "fy": 420
+    },
+    {
+     "t": 4.8,
+     "s": 1.2,
+     "fy": 440
+    },
+    {
+     "t": 6.4,
+     "s": 1.2,
+     "fy": 200
+    }
+   ]
+  },
+  {
+   "rec": "q-yes",
+   "from": 0.5,
+   "dur": 6.5,
+   "head": "Yes on your phone. The stars pay for it.",
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.18,
+     "fy": 260
+    },
+    {
+     "t": 6.5,
+     "s": 1.28,
+     "fy": 280
+    }
+   ],
+   "shift": 62
+  }
+ ],
+ "name": "quests-the-deal",
+ "end": 4.2,
+ "url": "Link in bio"
+}

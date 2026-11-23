@@ -1,0 +1,15 @@
+{
+ "name": "hw-snap",
+ "url": "/dev/school-catch",
+ "seconds": 12,
+ "clock": "2026-11-19",
+ "stubs": [
+  { "match": "/api/school/catch", "method": "POST", "json": true, "delayMs": 1500,
+    "body": "{\"ok\":true,\"items\":[{\"kind\":\"homework\",\"title\":\"Anderson shelter project\",\"detail\":\"Make a model shelter at home, shoebox size, and bring it in.\",\"due_date\":\"2026-12-01\"}]}" },
+  { "match": "/api/school/actions", "method": "POST", "json": true, "delayMs": 300, "body": "{\"ok\":true,\"action\":{\"id\":\"00000000-0000-4000-8000-000000000001\"}}" }
+ ],
+ "actions": [
+  { "at": 2600, "do": "file", "selector": "input[type=file]", "path": "assets/example-letter.png" },
+  { "at": 8200, "do": "tap", "selector": "button", "text": "Add this reminder" }
+ ]
+}

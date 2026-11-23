@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import type { Metadata } from 'next'
 import { PAGE } from '@gc/shared/page-scale'
+import { RefFold, JumpChips, RefGroup, RefPageKit } from '@/components/RefFold'
 
 // THE PHILOSOPHY PAGE, open to the world by design (the open map decision
 // extended, 31 August 2026): a head, a journalist or a hostile expert can
@@ -195,110 +196,88 @@ const SCHOOLS_PROOF = [
   },
 ]
 
+const STANDS = [
+  'Never allow or deny. Every answer in every lesson is a calibrated pathway, because judgement is the thing being taught.',
+  'Staged, because the science is staged. Skills arrive when the evidence and the frameworks say a child can hold them, not at a marketing age.',
+  'Assessment is Demonstrated or Not Yet. Never pass or fail, never a percentage, never a score stored against a child, and Not Yet simply rolls forward.',
+  'School and home teach one message. Lessons in class earn credit toward the same passport to sixteen a family follows in the parents app.',
+  'No pupil data, ever. No child accounts, no logins, no tracking. Paper carries the pupil work and one code opens the curriculum for a whole school.',
+  'The ban is not the plan. It removes the apps until sixteen. The years before sixteen are exactly when the judgement has to be built, and that is the job this curriculum does.',
+]
+
+// Each named voice is one fold: the name and who they are on the closed line,
+// what they hold and where we align and differ inside (batch 5).
+function VoiceFold({ v, differLabel }: { v: Voice; differLabel: string }) {
+  return (
+    <RefFold title={v.name} hint={v.who}>
+      <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}>{v.holds}</p>
+      <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '6px' }}><strong style={{ color: 'var(--green-dark)' }}>Where we align:</strong> {v.align}</p>
+      <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}><strong style={{ color: 'var(--terracotta-dark)' }}>{differLabel}</strong> {v.differ}</p>
+      <a href={v.source.href} style={srcLink} target="_blank" rel="noopener noreferrer">Source: {v.source.label} ↗</a>
+    </RefFold>
+  )
+}
+
 export default function PhilosophyPage() {
   return (
     <main style={{ background: 'var(--cream)', minHeight: '100vh' }}>
+      <RefPageKit />
 
-      <div style={{ maxWidth: '880px', margin: '0 auto', padding: '56px 20px 100px' }}>
+      <div style={{ maxWidth: '760px', margin: '0 auto', padding: 'var(--space-7) var(--space-4) var(--space-7)' }}>
         {/* Hero */}
         <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '10px' }}>Our philosophy · every claim sourced</p>
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.hero, color: 'var(--ink)', marginBottom: 'var(--space-4)', maxWidth: '18ch' }}>
           Readiness is taught. So we teach it.
         </h1>
-        <p style={{ ...body, fontSize: 'var(--text-lg)', marginBottom: '14px' }}>
-          The under 16 social media ban is coming, and it will take the apps. It will not build the judgement a young person uses the day full access arrives, or at a friend&rsquo;s house the evening before. We believe that judgement is a taught skill, built in stages across the whole of childhood, earned onto a passport a child is proud of, and practised before it is needed.
-        </p>
-        <p style={{ ...body, marginBottom: '40px' }}>
-          This page shows where that belief comes from: the regulators we are mapped to, the scientists whose findings shaped the staging, the clinicians whose practice shaped the scripts, and the schools whose methods shaped the lessons. For each one we say where we align and where we differ, because a scheme that only quotes its friends agreeing has not been honest with you.
+        <p style={{ ...body, fontSize: 'var(--text-lg)', marginBottom: 'var(--space-5)' }}>
+          The under 16 ban will take the apps. It will not build the judgement a young person needs the day full access arrives. We believe that judgement is taught, in stages, and practised before it is needed.
         </p>
 
-        {/* Regulators */}
-        <section style={{ marginBottom: '48px' }}>
-          <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>First, the law of the land</p>
-          <h2 style={h2}>The regulators</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-            {REGULATORS.map(v => (
-              <article key={v.name} style={card}>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '2px' }}>{v.name}</h3>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '10px' }}>{v.who}</p>
-                <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}>{v.holds}</p>
-                <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '6px' }}><strong style={{ color: 'var(--green-dark)' }}>Where we align:</strong> {v.align}</p>
-                <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}><strong style={{ color: 'var(--terracotta-dark)' }}>Where we differ:</strong> {v.differ}</p>
-                <a href={v.source.href} style={srcLink} target="_blank" rel="noopener noreferrer">Source: {v.source.label} ↗</a>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* Scientists */}
-        <section style={{ marginBottom: '48px' }}>
-          <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>Then, the evidence, including the parts that cut against us</p>
-          <h2 style={h2}>The scientists</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-            {SCIENTISTS.map(v => (
-              <article key={v.name} style={card}>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '2px' }}>{v.name}</h3>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '10px' }}>{v.who}</p>
-                <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}>{v.holds}</p>
-                <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '6px' }}><strong style={{ color: 'var(--green-dark)' }}>Where we align:</strong> {v.align}</p>
-                <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}><strong style={{ color: 'var(--terracotta-dark)' }}>Where we hold back:</strong> {v.differ}</p>
-                <a href={v.source.href} style={srcLink} target="_blank" rel="noopener noreferrer">Source: {v.source.label} ↗</a>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* Practitioners */}
-        <section style={{ marginBottom: '48px' }}>
-          <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>Then, the people in the room with children</p>
-          <h2 style={h2}>The practitioners</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-            {PRACTITIONERS.map(v => (
-              <article key={v.name} style={card}>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '2px' }}>{v.name}</h3>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '10px' }}>{v.who}</p>
-                <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}>{v.holds}</p>
-                <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '6px' }}><strong style={{ color: 'var(--green-dark)' }}>Where we align:</strong> {v.align}</p>
-                <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}><strong style={{ color: 'var(--terracotta-dark)' }}>The honest line:</strong> {v.differ}</p>
-                <a href={v.source.href} style={srcLink} target="_blank" rel="noopener noreferrer">Source: {v.source.label} ↗</a>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* Schools proof */}
-        <section style={{ marginBottom: '48px' }}>
-          <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>Then, the classrooms that prove the method</p>
-          <h2 style={h2}>Built the way the best schools teach</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 'var(--space-3)' }}>
-            {SCHOOLS_PROOF.map(s => (
-              <article key={s.title} style={{ ...card, display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{s.title}</h3>
-                <p style={{ ...body, fontSize: 'var(--text-base)' }}>{s.body}</p>
-                <a href={s.source.href} style={{ ...srcLink, marginTop: 'auto' }} target="_blank" rel="noopener noreferrer">Source: {s.source.label} ↗</a>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* Where we stand */}
-        <section style={{ marginBottom: '48px' }}>
-          <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>And finally, us</p>
+        {/* Where we stand: the summary card, first (batch 5) */}
+        <section style={{ marginBottom: 'var(--space-5)' }}>
           <h2 style={h2}>Where we stand</h2>
           <div style={{ ...card, background: 'var(--stage-1, #FDF4D9)', border: '2px solid var(--terracotta)' }}>
             <ul style={{ margin: 0, paddingLeft: '22px', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-              {[
-                'Never allow or deny. Every answer in every lesson is a calibrated pathway, because judgement is the thing being taught.',
-                'Staged, because the science is staged. Skills arrive when the evidence and the frameworks say a child can hold them, not at a marketing age.',
-                'Assessment is Demonstrated or Not Yet. Never pass or fail, never a percentage, never a score stored against a child, and Not Yet simply rolls forward.',
-                'School and home teach one message. Lessons in class earn credit toward the same passport to sixteen a family follows in the parents app.',
-                'No pupil data, ever. No child accounts, no logins, no tracking. Paper carries the pupil work and one code opens the curriculum for a whole school.',
-                'The ban is not the plan. It removes the apps until sixteen. The years before sixteen are exactly when the judgement has to be built, and that is the job this curriculum does.',
-              ].map(line => (
+              {STANDS.map(line => (
                 <li key={line} style={{ ...body, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{line}</li>
               ))}
             </ul>
           </div>
+        </section>
+
+        <p style={{ ...body, marginBottom: 'var(--space-3)' }}>
+          Where it comes from, with where we align and where we differ for each source.
+        </p>
+        <JumpChips items={[
+          { href: '#regulators', label: 'The regulators' },
+          { href: '#scientists', label: 'The scientists' },
+          { href: '#practitioners', label: 'The practitioners' },
+          { href: '#schools', label: 'The best schools' },
+        ]} />
+
+        <section>
+          <RefGroup id="regulators">The regulators: first, the law of the land</RefGroup>
+          {REGULATORS.map(v => <VoiceFold key={v.name} v={v} differLabel="Where we differ:" />)}
+        </section>
+
+        <section>
+          <RefGroup id="scientists">The scientists: including the parts that cut against us</RefGroup>
+          {SCIENTISTS.map(v => <VoiceFold key={v.name} v={v} differLabel="Where we hold back:" />)}
+        </section>
+
+        <section>
+          <RefGroup id="practitioners">The practitioners: the people in the room with children</RefGroup>
+          {PRACTITIONERS.map(v => <VoiceFold key={v.name} v={v} differLabel="The honest line:" />)}
+        </section>
+
+        <section style={{ marginBottom: 'var(--space-6)' }}>
+          <RefGroup id="schools">Built the way the best schools teach</RefGroup>
+          {SCHOOLS_PROOF.map(s => (
+            <RefFold key={s.title} title={s.title}>
+              <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}>{s.body}</p>
+              <a href={s.source.href} style={srcLink} target="_blank" rel="noopener noreferrer">Source: {s.source.label} ↗</a>
+            </RefFold>
+          ))}
         </section>
 
         {/* What we never say */}

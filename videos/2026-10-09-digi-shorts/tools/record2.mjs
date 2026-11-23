@@ -49,7 +49,7 @@ if (S.scrollTo) await page.evaluate(({ text, offset }) => { const el = [...docum
 if (S.preAdvanceMs) await page.clock.runFor(S.preAdvanceMs)
 for (let i = 0; i < 20; i++) { await page.clock.runFor(50); await page.waitForTimeout(20) }
 
-const events = []
+const events = [], measures = []
 for (const a of S.actions || []) {
   if (a.do === 'type') [...a.text].forEach((ch, i) => events.push({ at: a.at + i * (a.charMs || 45), do: 'char', ch, selector: a.selector }))
   else events.push(a)
@@ -72,6 +72,13 @@ for (let f = 0; f < N; f++) {
     else if (e.do === 'tap' || e.do === 'click') {
       const { x, y } = await page.evaluate(({ sel, nth, text }) => { let els = [...document.querySelectorAll(sel)]; if (text) els = els.filter((el) => el.textContent.trim().includes(text)); const r = els[nth || 0].getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 } }, { sel: e.selector, nth: e.nth || 0, text: e.text || null })
       await page.mouse.click(x, y)
+    } else if (e.do === 'jsclick') {
+      // A control below the fold (the script deck's Next): click it in the page, no scroll.
+      await page.evaluate(({ sel, text }) => { const el = [...document.querySelectorAll(sel)].find((x) => x.textContent.trim().includes(text)); el && el.click() }, { sel: e.selector, text: e.text })
+    } else if (e.do === 'measure') {
+      // Where the reply's bold lead ins and its script link sit on screen right
+      // now, in app pixels, so a cut can frame them without hand tuning.
+      measures.push({ at: e.at, ...(await page.evaluate((texts) => { const top = (el) => Math.round(el.getBoundingClientRect().top); const leaf = [...document.querySelectorAll('p,div,span,strong,b,h3,h4,li')].filter((el) => el.children.length === 0); return { text: Object.fromEntries((texts || []).map((t) => { const el = leaf.find((x) => x.textContent.trim().startsWith(t)); return [t, el ? top(el) : null] })), link: [...document.querySelectorAll('a[href*="/dashboard/scripts/"]')].map(top) } }, e.texts)) })
     } else if (e.do === 'scroll') {
       // A page scroll eased over frames (smooth scrolling runs on the real clock).
       tween = { from: await page.evaluate(() => window.scrollY), to: e.to, f0: f, n: Math.round(((e.ms || 800) * FPS) / 1000) }
@@ -94,6 +101,7 @@ for (let f = 0; f < N; f++) {
   if (f % 60 === 0) console.log(`frame ${f}/${N}`)
 }
 await browser.close()
+if (measures.length) (await import('node:fs')).writeFileSync(`${dir}measure.json`, JSON.stringify(measures, null, 1))
 const out = `${root}assets/rec/${S.name}.mp4`
 execSync(`ffmpeg -v error -y -framerate ${FPS} -i ${dir}f-%05d.jpg -vf "format=yuv420p" -c:v libx264 -crf 14 -preset slow ${out}`)
 console.log(`${S.name}: ${N} frames, ${S.seconds}s -> assets/rec/${S.name}.mp4`)

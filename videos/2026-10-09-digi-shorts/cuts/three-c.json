@@ -1,0 +1,601 @@
+{
+ "name": "three-c",
+ "music": {
+  "file": "music-leberch.mp3",
+  "mediaStart": 12.3,
+  "lane": [
+   [
+    0,
+    0
+   ],
+   [
+    1.0,
+    0.2
+   ],
+   [
+    6.5,
+    0.14
+   ],
+   [
+    45.7,
+    0.14
+   ],
+   [
+    46.2,
+    0.26
+   ],
+   [
+    55.2,
+    0.26
+   ],
+   [
+    57.7,
+    0
+   ]
+  ]
+ },
+ "rail": {
+  "y": 236,
+  "from": "reply1",
+  "fromT": 0.1,
+  "until": "held",
+  "steps": [
+   {
+    "label": "Asked DiGi",
+    "shot": "reply1",
+    "t": 0.35,
+    "vol": 0.14
+   },
+   {
+    "label": "The words",
+    "shot": "deck",
+    "t": 1.5
+   },
+   {
+    "label": "Checked in",
+    "shot": "followup",
+    "t": 1.5
+   },
+   {
+    "label": "Sorted",
+    "shot": "great",
+    "t": 1.1,
+    "silent": true
+   }
+  ]
+ },
+ "shots": [
+  {
+   "id": "hook",
+   "dur": 5.4,
+   "overlays": [
+    {
+     "kind": "band",
+     "text": "Back in her room at night?",
+     "y": 300,
+     "t0": 0
+    },
+    {
+     "kind": "pill",
+     "text": "She's 14 and wants her phone back in her room at night. Says I don't trust her.",
+     "y": 560,
+     "t0": 0.5,
+     "typed": 0.17
+    },
+    {
+     "kind": "eyebrow",
+     "text": "An example family. Real app screens, example replies.",
+     "y": 1300,
+     "t0": 3.4
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.3,
+     "vol": 0.15
+    },
+    {
+     "name": "sfx-tap",
+     "at": 1.1,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "hero",
+   "dur": 2.3,
+   "src": "rec/three-c-chat.mp4",
+   "mediaStart": 0.3,
+   "bezel": true,
+   "fadeIn": 0.3,
+   "cam": [
+    {
+     "t": 0,
+     "S": 1.55,
+     "fx": 209,
+     "fy": 436,
+     "py": 900
+    },
+    {
+     "t": 0.9,
+     "S": 2.0,
+     "fx": 209,
+     "fy": 300,
+     "py": 800,
+     "dur": 1.4
+    }
+   ],
+   "tilt": [
+    {
+     "rx": 14,
+     "ry": -32,
+     "rz": 4
+    },
+    {
+     "t": 0.15,
+     "rx": 0,
+     "ry": 0,
+     "rz": 0,
+     "dur": 1.7
+    }
+   ],
+   "overlays": []
+  },
+  {
+   "id": "think",
+   "dur": 3.0,
+   "src": "rec/three-c-chat.mp4",
+   "mediaStart": 2.6,
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.7,
+     "fx": 195,
+     "fy": 120,
+     "py": 760
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "It starts with *Maya*.",
+     "y": 1395,
+     "t0": 0.3
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-send",
+     "at": 0.05,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-dots",
+     "at": 0.6,
+     "vol": 0.16
+    }
+   ]
+  },
+  {
+   "id": "reply1",
+   "dur": 4.4,
+   "src": "rec/three-c-chat.mp4",
+   "mediaStart": 7.6,
+   "ground": "white",
+   "fadeIn": 0,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 467,
+     "py": 760
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "underline",
+     "x": 57,
+     "y": 429,
+     "w": 220,
+     "h": 3,
+     "t0": 1.0,
+     "t1": 4.3
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "label",
+     "text": "Example reply",
+     "y": 1270,
+     "t0": 0.2
+    },
+    {
+     "kind": "caption",
+     "text": "*Never* a yes or no.",
+     "y": 1395,
+     "t0": 0.6
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.05,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-shimmer",
+     "at": 1.0,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "reply2",
+   "dur": 3.0,
+   "src": "rec/three-c-chat.mp4",
+   "mediaStart": 12.6,
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 235,
+     "py": 760
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "underline",
+     "x": 57,
+     "y": 197,
+     "w": 220,
+     "h": 3,
+     "t0": 0.5,
+     "t1": 2.9
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "Two plain *steps*.",
+     "y": 1395,
+     "t0": 0.3
+    }
+   ]
+  },
+  {
+   "id": "tracked",
+   "dur": 2.8,
+   "src": "rec/three-c-chat.mp4",
+   "mediaStart": 12.8,
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 363,
+     "py": 760
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "Then it *checks* back.",
+     "y": 1395,
+     "t0": 0.3
+    }
+   ]
+  },
+  {
+   "id": "tonight",
+   "dur": 2.8,
+   "src": "rec/three-c-chat.mp4",
+   "mediaStart": 16.6,
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 286,
+     "py": 760
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "One thing for *tonight*.",
+     "y": 1395,
+     "t0": 0.3
+    }
+   ]
+  },
+  {
+   "id": "deck",
+   "dur": 6.8,
+   "src": "rec/three-c-deck.mp4",
+   "srcH": 1000,
+   "mediaStart": 3.0,
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.7,
+     "fx": 195,
+     "fy": 303,
+     "py": 420
+    },
+    {
+     "t": 1.0,
+     "S": 3.1,
+     "fx": 195,
+     "fy": 572,
+     "py": 1010,
+     "dur": 0.8
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 420,
+     "t0": 0
+    },
+    {
+     "kind": "veil",
+     "h": 640,
+     "t0": 1.0,
+     "fade": true
+    },
+    {
+     "kind": "caption",
+     "text": "The exact *words*.",
+     "y": 1395,
+     "t0": 1.8
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-whoosh",
+     "at": 0,
+     "vol": 0.16
+    },
+    {
+     "name": "sfx-shimmer",
+     "at": 1.6,
+     "vol": 0.16
+    }
+   ]
+  },
+  {
+   "id": "followup",
+   "dur": 5.0,
+   "src": "rec/three-c-followup.mp4",
+   "mediaStart": 5.0,
+   "cropTop": 390,
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 165,
+     "py": 1050
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A few days later",
+     "y": 430,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "caption",
+     "text": "How did it *go*?",
+     "y": 1395,
+     "t0": 1.6
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "ripple",
+     "x": 234,
+     "y": 233,
+     "w": 44,
+     "h": 44,
+     "t0": 1.2
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 1.2,
+     "vol": 0.45
+    }
+   ]
+  },
+  {
+   "id": "great",
+   "dur": 1.8,
+   "src": "rec/three-c-checkin.mp4",
+   "mediaStart": 0.9,
+   "srcH": 1000,
+   "clipH": 1000,
+   "cropTop": 748,
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 125,
+     "py": 1050
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A week later",
+     "y": 430,
+     "t0": 0
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "ripple",
+     "x": 297,
+     "y": 52,
+     "w": 44,
+     "h": 44,
+     "t0": 0.6
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.6,
+     "vol": 0.45
+    },
+    {
+     "name": "sfx-chime",
+     "at": 1.1,
+     "vol": 0.4
+    }
+   ]
+  },
+  {
+   "id": "held",
+   "dur": 3.4,
+   "src": "rec/three-c-checkin.mp4",
+   "mediaStart": 4.2,
+   "srcH": 1000,
+   "clipH": 1000,
+   "cropTop": 748,
+   "fadeIn": 0,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 125,
+     "py": 1050
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A week later",
+     "y": 430,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "caption",
+     "text": "*Sorted.*",
+     "y": 1395,
+     "t0": 0.2
+    }
+   ]
+  },
+  {
+   "id": "inputs",
+   "dur": 6.0,
+   "fadeIn": 0.3,
+   "overlays": [
+    {
+     "kind": "inputs",
+     "y": 300,
+     "t0": 0.1,
+     "eyebrow": "Example family",
+     "title": "DiGi learns your family",
+     "rows": [
+      {
+       "k": "Your child",
+       "v": "Maya, 14"
+      },
+      {
+       "k": "What worked before",
+       "v": "A trial with a review date"
+      },
+      {
+       "k": "How it went",
+       "v": "Your own rating"
+      }
+     ],
+     "note": "Never a yes or no. Safety first.",
+     "gap": 1.1
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-whoosh",
+     "at": 0.1,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "science",
+   "dur": 5.4,
+   "fadeIn": 0.3,
+   "overlays": [
+    {
+     "kind": "science",
+     "y": 420,
+     "t0": 0.1,
+     "eyebrow": "The research",
+     "claim": "A phone in the bedroom is linked to less sleep.",
+     "cite": "Carter, 2016. 125,198 children aged 6 to 19."
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "dur": 5.6,
+   "overlays": [
+    {
+     "kind": "digi",
+     "x": 405,
+     "y": 120,
+     "size": 270,
+     "t0": 0
+    },
+    {
+     "kind": "end",
+     "y": 420,
+     "eyebrow": "Bedtime screens?",
+     "line": "What stage is your child?",
+     "sub": "Three questions. No sign up.",
+     "button": "Find my child's stage",
+     "url": "guidedchildhood.com/v/bedroom-phone",
+     "slate": "An example family. Real app screens, example replies.",
+     "t0": 0.3,
+     "pressAt": 2.8,
+     "tagline": "One plan for screens, phones and AI."
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.25,
+     "vol": 0.32
+    },
+    {
+     "name": "sfx-tap",
+     "at": 3.1,
+     "vol": 0.38
+    }
+   ]
+  }
+ ]
+}

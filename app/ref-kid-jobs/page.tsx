@@ -14,10 +14,14 @@ import type { WaitingAsk } from '@/components/kid/KidWaitingAsks'
 
 export const dynamic = 'force-dynamic'
 
+// Outside play pays what lib/quests/templates.ts pays it, and sits first
+// (19 November 2026): since 15 November play earns the same stars as any job,
+// and this fixture still paid five, which a walkthrough film showed as
+// "Outside pays the most".
 const QUESTS = [
+  { id: 'c', title: 'One hour of outside play', emoji: '🌳', stars: 2, play: true },
   { id: 'a', title: 'Make your bed', emoji: '🛏️', stars: 2 },
   { id: 'b', title: 'Feed the dog before school', emoji: '🐕', stars: 3, blocks_screens: true },
-  { id: 'c', title: 'One hour of outside play', emoji: '⚽', stars: 5 },
   { id: 'd', title: 'Shoes on and by the door', emoji: '👟', stars: 1 },
   { id: 'e', title: 'Twenty minutes lost in a book', emoji: '📚', stars: 3 },
   { id: 'f', title: 'Empty the dishwasher', emoji: '🫧', stars: 1 },

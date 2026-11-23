@@ -8,7 +8,7 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 import Button from '@/components/ui/Button'
 import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
 import HappyIcon from '@/components/kid/HappyIcon'
-import ChildBuddy from '@/components/quests/ChildBuddy'
+import ChildDisc from '@/components/quests/ChildDisc'
 import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
 import { DEVICES, ACTIVITIES, asksActivity, type ActivityKey } from '@/lib/quests/device-time'
 import type { FamilyDevice } from '@/lib/devices/family'
@@ -22,7 +22,7 @@ import type { FamilyDevice } from '@/lib/devices/family'
 // The saving goal is NOT here. StarSummary owns it, bar and redeem button
 // together, one screen up the same page.
 
-type Child = { id: string; name: string; buddy?: string | null; age_band?: string | null }
+type Child = { id: string; name: string; age_band?: string | null }
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null }
 type Tick = { id: string; quest_id: string; child_id: string | null; tick_date: string; status: string }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
@@ -397,9 +397,9 @@ export default function QuestBoard({ foldQueue = false }: {
                   cursor: 'pointer', textAlign: 'left',
                 }}
               >
-                {/* Their face: the buddy they chose in their own app, on their
-                    stage colour (components/quests/ChildBuddy.tsx). */}
-                <ChildBuddy buddy={c.buddy} ageBand={c.age_band} size={42} />
+                {/* Their letter on their colour, the same disc as the child
+                    switcher (components/quests/ChildDisc.tsx). */}
+                <ChildDisc name={c.name} ageBand={c.age_band} size={42} />
                 <span style={{ flex: 1, minWidth: 0 }}>
                   {/* REDRAWN 18 NOVEMBER 2026, top to bottom in the order a
                       parent reads it across a kitchen:

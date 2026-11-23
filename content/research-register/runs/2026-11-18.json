@@ -1,0 +1,166 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-18",
+ "startedAt": "2026-11-18T09:21:08.873Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-18T09:21:08.873Z",
+   "commit": "bca36acc",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 21,
+    "total": 115
+   },
+   "at": "2026-11-18T09:22:15.368Z",
+   "commit": "bca36acc",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 5,
+    "confirmed": 5,
+    "unconfirmed": []
+   },
+   "at": "2026-11-18T09:22:16.468Z",
+   "commit": "bca36acc",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 reviewed of a raised cap of 5 (Justin, 17 Nov); stopped at 3 because the rest are thin or off topic. Cleared, EDIT: GDC-RR-553f7dc067 Eurobarometer 579 youth survey, every figure read in the European Commission's own weighted tables (volume B, Q10, Q11, Q12), preprint full text read. HOLD: GDC-RR-7e9b72deec Lancet ParentApp trial in Tanzania (full text unreachable, girls result interval 0.21 to 0.86 with time point and rates unread, developer led, not UK); GDC-RR-925d3c951a Norwegian online sexual experiences preprint (49 percent bundles voluntary and abusive acts, cross sectional, heavy missingness, sensitive). Rechecked, not reopened: GDC-RR-29a4765c83 Meta and Haidt, primary court record still not reachable (The Verge blocks the fetch, Gelman blog 403, docket search found no exhibit). GDC-RR-34b3878324 and GDC-RR-e1a6cd5229 HOLD and GDC-RR-b3cbb73e58 REJECT stand, nothing new. 11 ADJACENT records wait."
+   ],
+   "detail": null,
+   "at": "2026-11-18T09:32:02.714Z",
+   "commit": "bca36acc",
+   "attempts": 2
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [
+     {
+      "researchId": "GDC-RR-553f7dc067",
+      "gdcPostNumber": "062",
+      "handoffVersion": 1
+     }
+    ],
+    "alreadyCurrent": [],
+    "duplicateCheck": {
+     "GDC-RR-553f7dc067": "NEW"
+    },
+    "queue": [
+     "GDC-RR-553f7dc067"
+    ]
+   },
+   "at": "2026-11-18T09:32:09.308Z",
+   "commit": "bca36acc",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack waiting in Stage 2: every PACK document there is already CLAUDE REVIEWED; no CHATGPT FEEDBACK document; LinkedIn numbers inbox empty; no ChatGPT daily brief since 16 Nov"
+   ],
+   "detail": null,
+   "at": "2026-11-18T09:32:24.245Z",
+   "commit": "bca36acc",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "CANDIDATES 2026-11-18 read: an empty batch from ChatGPT's 08:00 task. No daily brief written since 16 Nov, so nothing to reconcile and no disagreement recorded. Posting pack read."
+   ],
+   "detail": null,
+   "at": "2026-11-18T09:32:24.315Z",
+   "commit": "bca36acc",
+   "attempts": 2
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "not done: no commit exists to stamp the copies with (git commit refused by the session permission check). The start here document in Drive still shows the 17 Nov queue, so ChatGPT will not see GDC-062 until this work is committed and synced."
+   ],
+   "detail": null,
+   "at": "2026-11-18T09:33:06.032Z",
+   "commit": "bca36acc",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "unchanged today: no new pack reached ASSETS READY. GDC-061 from yesterday is still READY FOR JUSTIN. Post Desk and Radar Desk not republished, because neither can be built from a clean commit while git commit is refused."
+   ],
+   "detail": null,
+   "at": "2026-11-18T09:33:14.043Z",
+   "commit": "bca36acc",
+   "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "afternoon dry run push to claude/radar-push-check accepted at 13:22 London"
+   ],
+   "detail": null,
+   "at": "2026-11-18T13:23:46.479Z",
+   "commit": "4a5f3ec9",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack was waiting in the Stage 2 folder: the only PACK documents there are 054, 058, 059 and 061, all already CLAUDE REVIEWED; ChatGPT wrote no new pack today"
+   ],
+   "detail": null,
+   "at": "2026-11-18T13:23:46.568Z",
+   "commit": "4a5f3ec9",
+   "attempts": 1
+  },
+  {
+   "stage": "FLOW CHECK",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "1 yes, CANDIDATES 2026-11-18 is in the inbox, not yet ingested on GitHub. 2 no, the morning run's push was refused and its work is only in the FOR JUSTIN patch in Stage 2 (file 1onUDCtZN9djcy9_IaxeimBaLny5iybBg, 531 KB), so main has no 18 Nov morning log. 3 no new pack. 4 nothing new to check. 5 the 14:30 ChatGPT step cannot be seen from here"
+   ],
+   "detail": null,
+   "at": "2026-11-18T13:23:46.666Z",
+   "commit": "4a5f3ec9",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-18T13:23:46.700Z"
+}

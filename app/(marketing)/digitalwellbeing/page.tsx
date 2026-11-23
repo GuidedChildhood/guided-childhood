@@ -1,10 +1,12 @@
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Free Digital Health Check | Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Free Digital Health Check',
   description: 'Five minutes. No signup. Find out where the gaps are in your child\'s digital life and get a personalised starting point from Guided Childhood.',
-}
+  path: '/digitalwellbeing',
+})
 
 const AREAS = [
   { label: 'Screen routines', desc: 'TV, bedtime, mealtimes, morning', color: 'var(--stage-1)', text: 'var(--terracotta)' },

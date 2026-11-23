@@ -5,6 +5,9 @@ import { getFamilyRegion } from '@/lib/learning/region'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolLetterbox from '@/components/school/SchoolLetterbox'
 import SchoolCatch from '@/components/school/SchoolCatch'
+import SchoolNextUp from '@/components/school/SchoolNextUp'
+import SchoolMore from '@/components/school/SchoolMore'
+import SchoolQuickAdd from '@/components/school/SchoolQuickAdd'
 import { getChildren } from '@/lib/children/server'
 
 // The school section: your live alerts first (the things you need to know,
@@ -72,6 +75,21 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
     }
   } catch { /* pre 182, every routine is school time */ }
 
+  // The early reminder plan for homework and deadlines (lib/school/lead-up.ts):
+  // created_at is always there and fixes the automatic plan; remind_days is the
+  // parent's own choice and lands with migration 401, so it is guarded the same
+  // way. An error reads as the automatic plan.
+  const leadInfo = new Map<string, { created_at: string | null; remind_days: number[] | null; remind_saved: boolean }>()
+  try {
+    const { data } = await supabase.from('school_actions').select('id, created_at').eq('user_id', user.id).eq('status', 'open')
+    for (const r of (data ?? []) as { id: string; created_at?: string | null }[]) leadInfo.set(String(r.id), { created_at: r.created_at ?? null, remind_days: null, remind_saved: false })
+    const { data: chosen, error } = await supabase.from('school_actions').select('id, remind_days').eq('user_id', user.id).eq('status', 'open')
+    if (!error) for (const r of (chosen ?? []) as { id: string; remind_days?: number[] | null }[]) {
+      const held = leadInfo.get(String(r.id))
+      if (held) { held.remind_days = r.remind_days ?? null; held.remind_saved = true }
+    }
+  } catch { /* pre 401, the automatic plan */ }
+
   const region = await getFamilyRegion(supabase, user.id)
 
   const actions: SchoolAction[] = (actionsResult.data ?? []).map(a => {
@@ -86,52 +104,56 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
         ? childNames.get((a as { child_id?: string | null }).child_id as string) ?? null
         : null,
       runs_in_holidays: runsInHolidays.get(String(a.id)) ?? false,
+      created_at: leadInfo.get(String(a.id))?.created_at ?? null,
+      remind_days: leadInfo.get(String(a.id))?.remind_days ?? null,
+      remind_ready: leadInfo.get(String(a.id))?.remind_saved ?? false,
     }
   })
   const childName = childResult.child?.name ?? null
 
+  const kids = ((allChildrenResult.data ?? []) as { id: string; name: string | null; no_phone?: boolean | null }[]).map(k => ({
+    id: k.id, name: k.name,
+    // Their app is on a phone: linked, and not marked as having none.
+    hasApp: k.no_phone !== true && (kidLinksResult.data ?? []).some(l => l.child_id === k.id),
+  }))
+
+  // THE PAGE IN THREE PARTS (22 November 2026, Justin: "super simple ... makes
+  // sure nothing is missed ... a parent's best friend"). What is next, with a
+  // tick. One button to add from school. Everything else folded to one line.
+  // plans/2026-11-22-calendar-next-up.md has the references and the reasoning.
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 48px' }}>
-      <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '10px' }}>School</p>
-      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }}>
-        Your school calendar
+      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '8px' }}>
+        Coming up at school
       </h1>
-      <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-lg)', lineHeight: 1.6, marginBottom: '20px', maxWidth: '46ch' }}>
-        Everything from school in one place, and we keep on top of it for you. Tick a thing off to clear it, or add a weekly routine so the PE kit is never forgotten.
-      </p>
 
-      {/* ADD FROM SCHOOL COMES FIRST (17 November 2026). Justin, tapping the
-          Calendar on Home: when it opens, the first thing should say a parent
-          can add a reminder, a screenshot or a letter, and we pick the date and
-          keep on top of it, with forwarding an email as a button. The routing
-          line that used to sit here said the same thing twice; the card now
-          carries both ways in. */}
-      <SchoolCatch />
+      {/* First on the page: add one by hand, any day (23 November 2026). */}
+      <SchoolQuickAdd />
 
-      <div style={{ height: 22 }} />
+      <SchoolNextUp actions={actions} region={region} />
 
-      {/* Live alerts, stored in school_actions, shown here in the app itself */}
-      <div id="school-actions" style={{ marginBottom: '28px' }}>
-        <SchoolActionsCard
-          actions={actions}
-          childName={childName}
-          kids={((allChildrenResult.data ?? []) as { id: string; name: string | null; no_phone?: boolean | null }[]).map(k => ({
-            id: k.id, name: k.name,
-            // Their app is on a phone: linked, and not marked as having none.
-            hasApp: k.no_phone !== true && (kidLinksResult.data ?? []).some(l => l.child_id === k.id),
-          }))}
-          region={region}
-        />
-      </div>
+      <div style={{ height: 18 }} />
 
-      {/* The letterbox, live since 17 September 2026.
-          This is where the Home promo card has always pointed, and until now
-          what it landed on was a dashed box saying the feature was coming. The
-          setup itself lives here rather than in Settings, because this is the
-          page a parent is on when they think about school. */}
-      <div id="letterbox" style={{ scrollMarginTop: 80 }}>
-        <SchoolLetterbox />
-      </div>
+      {/* ADD FROM SCHOOL: a photo or a screenshot first, since it needs
+          nothing set up (17 November 2026), now with typing it in beside it. */}
+      <SchoolCatch kids={kids} childName={childName} />
+
+      <SchoolMore
+        label="Week view, routines and settings"
+        hint="The whole week, weekly routines, your child's phone, email forwarding"
+        ids={['school-actions', 'letterbox']}
+      >
+        {/* The full card: the week as a grid, routines, send to a child's
+            phone, early reminders, the calendar download. Unchanged. */}
+        <div id="school-actions" style={{ marginBottom: '28px', scrollMarginTop: 80 }}>
+          <SchoolActionsCard actions={actions} childName={childName} kids={kids} region={region} />
+        </div>
+
+        {/* The letterbox setup, live since 17 September 2026. */}
+        <div id="letterbox" style={{ scrollMarginTop: 80 }}>
+          <SchoolLetterbox />
+        </div>
+      </SchoolMore>
     </div>
   )
 }

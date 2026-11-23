@@ -1,0 +1,51 @@
+name: IndexNow
+
+# Tell Bing (and so ChatGPT search and Copilot) which public pages changed,
+# after main deploys. The script and why: scripts/indexnow.mjs. It sends only
+# URLs whose sitemap lastmod is recent, and never fails: a missed ping only
+# means the page is found by the next crawl.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lib/app-safety/**'
+      - 'lib/content/guides.ts'
+      - 'app/sitemap.ts'
+      - 'app/(marketing)/**'
+  # Once a day as well: a deploy that took longer than the wait below is
+  # caught here, since the script sends anything whose lastmod is recent.
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+    inputs:
+      all:
+        description: 'Send every URL in the sitemap (the first run, or after a big change)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: true
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Vercel builds main in a few minutes, longer when several merges queue
+      # (22 November: the first ping beat the deploy and Bing answered 403,
+      # because the key file was not live yet). Wait for the key file, then
+      # give the new sitemap time to land.
+      - if: github.event_name == 'push'
+        run: |
+          for i in $(seq 1 40); do
+            curl -fsS -m 10 https://www.guidedchildhood.com/$(node -e "import('./scripts/indexnow.mjs').then(m=>console.log(m.KEY))").txt >/dev/null && break
+            sleep 30
+          done
+          sleep 600
+      - run: node scripts/indexnow.mjs ${{ inputs.all && '--all' || '--days 2' }}

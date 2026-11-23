@@ -11,10 +11,10 @@
 // exact, so it is code and not a prompt:
 //
 //   alerts     what the SessionStart hook prints. It never throws and never
-//              prints more than a dozen lines, because every session pays for
+//              prints more than five lines, because every session pays for
 //              it on every turn. Each task is asked about at most once a day,
 //              so five sessions in a day do not nag five times.
-//   ingest     takes one weekly run (the ten lens scorecards, the skeptic's
+//   ingest     takes one weekly run (the eleven lens scorecards, the skeptic's
 //              verdicts, the chief of staff's task list) and writes it into
 //              scorecard.json and tasks.json, then redraws the dashboard.
 //   done, notyet, snooze, drop, add, list
@@ -47,7 +47,8 @@ export const LENSES = [
   { id: 'ux-expert', n: 8, name: 'UX expert', question: 'Would the screens sit beside the best family apps?' },
   { id: 'competitor-watch', n: 9, name: 'Competitor watch', question: 'What did they ship, and what can we use?' },
   { id: 'ai-tools-watch', n: 10, name: 'AI and tools watch', question: 'What new AI or tool would help us?' },
-  { id: 'business-running', n: 11, name: 'Business running', question: 'Is everything moving, and is nothing stuck?' },
+  { id: 'search', n: 11, name: 'Search', question: 'Do parents find us in Google and AI answers, and reach the stage check?' },
+  { id: 'business-running', n: 12, name: 'Business running', question: 'Is everything moving, and is nothing stuck?' },
 ]
 const LENS_IDS = new Set(LENSES.map(l => l.id))
 
@@ -299,58 +300,107 @@ export function addTask(state, { owner, title, due, priority, size }) {
   return task
 }
 
-// ── the session start alert ──────────────────────────────────────────────────
+// ── the two things Justin needs to know ─────────────────────────────────────
+//
+// Justin, 22 November 2026: "make review board super easy to read and simple
+// with just what I need to do and if anything I need to be aware of not
+// working." The alert and the dashboard both say exactly two things, from the
+// same two functions, so they can never disagree: his own open tasks, most
+// urgent first, and the real breakages or risks. Everything else is folded.
+
+// Words a clause opens with when it is background ("the advice is already
+// proactive in code") rather than the thing to do ("sit beside one parent").
+const CONTEXT_OPENERS = new Set(['the', 'a', 'an', 'this', 'that', 'it', 'its', "it's", 'pr', 'nobody', 'we', 'our', 'there', 'these', 'those', 'already', 'still'])
 
 /**
- * The text the SessionStart hook adds to every session. Short on purpose: it
- * is paid for on every turn. Green and quiet when there is nothing to ask.
+ * A task title cut to one plain line. `action` picks the first clause that is
+ * something to do; `problem` keeps the opening clause, which on a fix is what
+ * is broken. The full title stays one tap away on the dashboard.
+ */
+export function shortTitle(title, max = 100, mode = 'action') {
+  const body = String(title ?? '')
+    .replace(/^Step to ten for [^:]+:\s*/i, '')
+    .replace(/\s*\([^)]*\)/g, '')
+    .trim()
+  const clauses = body.split(/, so |, but |, and |, or |; |\. /).map(c => c.trim()).filter(Boolean)
+  const opener = c => c.split(/\s+/)[0].toLowerCase().replace(/[^a-z']/g, '')
+  let t = (mode === 'action' && clauses.find(c => !CONTEXT_OPENERS.has(opener(c)) && !/^\d/.test(c))) || clauses[0] || body
+  t = t.replace(/[.,;:\s]+$/, '')
+  if (t.length > max) t = t.slice(0, t.lastIndexOf(' ', max - 1)).replace(/[.,;:\s]+$/, '').replace(/\s+(and|or|the|a|to|of|in|at|for)$/i, '') + '…'
+  return t.charAt(0).toUpperCase() + t.slice(1)
+}
+
+const lowerFirst = t => /^[A-Z][a-z]/.test(t) ? t.charAt(0).toLowerCase() + t.slice(1) : t
+
+/** Justin's waiting tasks: late first, then priority, then soonest due. */
+export function justinTodo(state, on = today()) {
+  return state.tasks.tasks
+    .filter(t => t.owner === 'justin' && isWaiting(t, on))
+    .sort((a, b) => ((a.due < on) === (b.due < on) ? 0 : a.due < on ? -1 : 1)
+      || a.priority - b.priority || a.due.localeCompare(b.due))
+}
+
+/** How late or how soon, in words. */
+export function whenText(t, on = today()) {
+  if (t.due < on) {
+    const d = daysBetween(t.due, on)
+    return `${d} day${d === 1 ? '' : 's'} late`
+  }
+  if (t.due === on) return 'due today'
+  return `due ${fmtDate(t.due)}`
+}
+
+/**
+ * Only what is really broken or at risk, each one plain line saying what it
+ * means for Justin. Never a score that merely sits below ten.
+ */
+export function notWorking(state, on = today()) {
+  const runs = state.board.runs
+  const run = lastRun(state.board)
+  const out = []
+  if (!run) return ['The weekly board has never run, so there are no scores yet.']
+  const age = daysBetween(run.date, on)
+  if (age > STALE_AFTER_DAYS) out.push(`The Friday board has not run for ${age} days, so the scores are old. The routine has probably failed.`)
+  const prev = runs.length > 1 ? runs[runs.length - 2] : null
+  if (prev) {
+    for (const l of LENSES) {
+      const s = run.scores[l.id]
+      const b = prev.scores[l.id]
+      if (Number.isInteger(s) && Number.isInteger(b) && s < b) out.push(`${l.name} dropped from ${b} to ${s} at the last run.`)
+    }
+  }
+  const claudeLate = state.tasks.tasks.filter(t => t.owner === 'claude' && isWaiting(t, on) && t.due < on)
+  const topLate = claudeLate.filter(t => t.priority === 1)
+  for (const t of topLate) out.push(`Claude's top fix is ${whenText(t, on)}: ${lowerFirst(shortTitle(t.title, 100, 'problem'))}.`)
+  const rest = claudeLate.length - topLate.length
+  if (rest > 0) out.push(`${rest} more of Claude's own tasks are late, so the scores will not move until a session picks them up.`)
+  return out
+}
+
+/**
+ * The text the SessionStart hook adds to every session. At most five lines,
+ * because every session pays for it on every turn. Each task is put to Justin
+ * at most once a day, at most four at a time (the AskUserQuestion limit).
  */
 export function alerts(state) {
   const on = today()
   const run = lastRun(state.board)
-  const open = state.tasks.tasks.filter(t => isWaiting(t, on))
-  const justin = open.filter(t => t.owner === 'justin')
-  const overdue = justin.filter(t => t.due < on)
-  const toAsk = justin
-    .filter(t => t.asked !== on)
-    .sort((a, b) => (a.due < on) === (b.due < on) ? (a.priority - b.priority) || a.due.localeCompare(b.due) : (a.due < on ? -1 : 1))
-    .slice(0, MAX_ASK)
-  const claude = open.filter(t => t.owner === 'claude')
-  const claudeLate = claude.filter(t => t.due < on)
+  const todo = justinTodo(state, on)
+  const broken = notWorking(state, on)
+  if (!run) return 'REVIEW BOARD. Not working: the weekly board has never run. Run it with the review-board skill when Justin asks, or wait for the Friday routine.'
+  if (!todo.length && !broken.length) return 'REVIEW BOARD. Nothing for Justin to do, nothing broken.'
 
+  const late = todo.filter(t => t.due < on).length
+  const toAsk = todo.filter(t => t.asked !== on).slice(0, MAX_ASK)
   const lines = []
-  if (!run) {
-    lines.push('REVIEW BOARD: AMBER. The weekly board has not run yet. Run it with the review-board skill when Justin asks, or wait for the Friday routine.')
-    return lines.join('\n')
-  }
-  const age = daysBetween(run.date, on)
-  const tens = Object.values(run.scores).filter(s => s === 10).length
-  const total = Object.keys(run.scores).length
-  const lowest = Object.entries(run.scores).sort((a, b) => a[1] - b[1]).slice(0, 2)
-    .map(([id, s]) => `${LENSES.find(l => l.id === id)?.name ?? id} ${s}`).join(', ')
-
-  const red = overdue.length > 0
-  const amber = age > STALE_AFTER_DAYS || claudeLate.length > 0
-  const state_ = red ? 'RED' : amber ? 'AMBER' : 'QUESTIONS'
-
-  if (!toAsk.length && !red && !amber) {
-    lines.push(`REVIEW BOARD: GREEN. ${tens} of ${total} lenses at ten (run ${run.date}). Nothing to ask Justin today.`)
-    return lines.join('\n')
-  }
-
-  lines.push(`REVIEW BOARD: ${state_}. ${tens} of ${total} lenses at ten, lowest ${lowest} (run ${run.date}, ${age} days ago).`)
-  if (red) lines.push(`RED: ${overdue.length} of Justin's tasks are past due.`)
-  if (age > STALE_AFTER_DAYS) lines.push(`AMBER: the board has not run for ${age} days. The weekly routine may have failed; say so to Justin.`)
-  if (claudeLate.length) lines.push(`AMBER: ${claudeLate.length} of Claude's own tasks are past due (npm run review-board -- list).`)
+  lines.push(todo.length
+    ? `REVIEW BOARD. What you need to do: ${todo.length} task${todo.length === 1 ? '' : 's'} for Justin${late ? `, ${late} late` : ''}${toAsk.length ? '' : ', all asked about today'}.`
+    : 'REVIEW BOARD. What you need to do: nothing for Justin.')
   if (toAsk.length) {
-    lines.push(`Before starting on Justin's request, ask him with AskUserQuestion, one question per task, options Done, Not yet, Snooze a week, Drop it:`)
-    for (const t of toAsk) {
-      const late = t.due < on ? `, ${daysBetween(t.due, on)} days late` : `, due ${t.due}`
-      lines.push(`  [${t.id}] ${t.title}${late}`)
-    }
-    lines.push('Record each answer: npm run review-board -- done|notyet|drop <id> [note], or snooze <id> 7. Commit the files it writes in plans/review-board/answers with this session\'s work, so later sessions see them. Then do what he asked.')
-    lines.push('A scheduled routine with nobody to answer skips the questions.')
+    lines.push(`Before his request, ask with AskUserQuestion, one question each, options Done, Not yet, Snooze a week, Drop it: ${toAsk.map(t => `[${t.id}] ${shortTitle(t.title, 90)} (${whenText(t, on)})`).join('; ')}.`)
+    lines.push('Record each: npm run review-board -- done|notyet|drop <id> [note], or snooze <id> 7, and commit plans/review-board/answers with this session\'s work. A routine with nobody to answer skips this.')
   }
+  lines.push(broken.length ? `Not working: ${broken.join(' ')}` : 'Not working: nothing.')
   if (state.board.dashboard_url) lines.push(`Dashboard: ${state.board.dashboard_url}`)
   return lines.join('\n')
 }
@@ -466,66 +516,48 @@ export function renderDashboard(state) {
   const runs = state.board.runs
   const run = lastRun(state.board)
   const prev = runs.length > 1 ? runs[runs.length - 2] : null
-  const open = state.tasks.tasks.filter(t => t.status === 'open')
-  const justin = open.filter(t => t.owner === 'justin')
-  const claude = open.filter(t => t.owner === 'claude')
-  const overdueJ = justin.filter(t => isWaiting(t, on) && t.due < on)
+  const todo = justinTodo(state, on)
+  const late = todo.filter(t => t.due < on).length
+  const broken = notWorking(state, on)
+  const snoozed = state.tasks.tasks.filter(t => t.owner === 'justin' && t.status === 'open' && !isWaiting(t, on))
+  const claude = state.tasks.tasks.filter(t => t.owner === 'claude' && t.status === 'open')
   const doneRecent = state.tasks.tasks.filter(t => t.status === 'done' && t.closed && daysBetween(t.closed, on) <= 14)
-
   const tens = run ? Object.values(run.scores).filter(s => s === 10).length : 0
   const total = run ? Object.keys(run.scores).length : LENSES.length
-  const age = run ? daysBetween(run.date, on) : null
-  const health = !run ? 'amber' : overdueJ.length ? 'red' : age > STALE_AFTER_DAYS ? 'amber' : 'green'
-  const healthWord = { red: 'Needs you', amber: 'Check', green: 'All clear' }[health]
-  const healthLine = !run
-    ? 'The board has not run yet.'
-    : overdueJ.length
-      ? `${overdueJ.length} of your tasks ${overdueJ.length === 1 ? 'is' : 'are'} past due.`
-      : age > STALE_AFTER_DAYS
-        ? `The last run was ${age} days ago. The Friday routine may have missed.`
-        : justin.length
-          ? `${justin.length} task${justin.length === 1 ? '' : 's'} waiting on you, none late.`
-          : 'Nothing is waiting on you.'
 
-  const heldTen = id => runs.length >= 2 && runs.slice(-2).every(r => r.scores[id] === 10)
+  const summary = [
+    todo.length ? `${todo.length} thing${todo.length === 1 ? '' : 's'} for you${late ? `, ${late} late` : ''}.` : 'Nothing for you to do.',
+    broken.length ? `${broken.length} thing${broken.length === 1 ? '' : 's'} not working.` : 'Nothing broken.',
+  ].join(' ')
 
-  const cards = LENSES.map(l => {
+  const todoRow = t => `<li class="todo${t.due < on ? ' late' : ''}" data-id="${esc(t.id)}">
+  <details class="todo-text"><summary><span class="todo-title">${esc(shortTitle(t.title))}</span><span class="when">${esc(whenText(t, on))}</span></summary><p class="full">${esc(t.title)}</p></details>
+  <div class="answer"><button type="button" class="btn yes" data-verb="done">Done</button><button type="button" class="btn no" data-verb="notyet">Not yet</button></div>
+  <p class="copied" hidden></p>
+</li>`
+
+  const lensCard = l => {
     const score = run?.scores[l.id]
     const has = Number.isInteger(score)
     const before = prev?.scores[l.id]
     const delta = has && Number.isInteger(before) ? score - before : null
-    const chip = delta === null ? '<span class="chip">first score</span>'
-      : delta > 0 ? `<span class="chip up">up ${delta}</span>`
-        : delta < 0 ? `<span class="chip down">down ${-delta}</span>`
-          : '<span class="chip">no change</span>'
+    const chip = delta === null ? '' : delta > 0 ? `<span class="chip up">up ${delta}</span>` : delta < 0 ? `<span class="chip down">down ${-delta}</span>` : ''
     const history = runs.map(r => r.scores[l.id]).filter(Number.isInteger)
     const sk = run?.skeptic?.[l.id]
     return `<article class="lens ${has ? band(score) : 'none'}" id="lens-${l.id}">
-  <header class="lens-head"><span class="lens-n">${String(l.n).padStart(2, '0')}</span><h3>${esc(l.name)}</h3>${heldTen(l.id) ? '<span class="chip ten">held ten</span>' : ''}</header>
-  <p class="lens-q">${esc(l.question)}</p>
-  <div class="lens-score"><span class="big">${has ? score : '?'}</span><span class="of">out of 10</span>${has ? chip : ''}</div>
+  <header class="lens-head"><h3>${esc(l.name)}</h3><span class="big">${has ? score : '?'}</span>${chip}</header>
   ${has ? ladder(score) : ''}
-  ${history.length ? spark(history) : ''}
+  ${history.length > 1 ? spark(history) : ''}
   ${run?.headlines[l.id] ? `<p class="lens-line">${esc(run.headlines[l.id])}</p>` : ''}
   ${sk ? `<p class="lens-skeptic">The skeptic took it from ${sk.from} to ${score}: ${esc(sk.reason)}</p>` : ''}
   ${run?.top_gap[l.id] ? `<p class="lens-gap"><span class="label">To reach ten</span>${esc(run.top_gap[l.id])}</p>` : ''}
 </article>`
-  }).join('\n')
-
-  const taskRow = t => {
-    const late = t.due < on && isWaiting(t, on)
-    const snoozed = t.snooze_until && t.snooze_until > on
-    const when = snoozed ? `snoozed to ${fmtDate(t.snooze_until)}` : late ? `${daysBetween(t.due, on)} days late` : `due ${fmtDate(t.due)}`
-    return `<li class="task${late ? ' late' : ''}${snoozed ? ' snoozed' : ''}">
-  <span class="pri p${t.priority}">P${t.priority}</span>
-  <div class="task-body"><p class="task-title">${esc(t.title)}</p>
-  <p class="task-meta"><span class="mono">${esc(t.id)}</span> · ${esc(t.size)} · ${when}${t.lenses?.length ? ' · ' + t.lenses.map(id => esc(LENSES.find(l => l.id === id)?.name ?? id)).join(', ') : ''}</p></div>
-</li>`
   }
+
+  const plainList = (items, meta) => items.length
+    ? `<ul class="plain">${items.map(t => `<li><span>${esc(shortTitle(t.title))}</span><span class="when">${esc(meta(t))}</span></li>`).join('')}</ul>`
+    : '<p class="empty">None.</p>'
   const byPri = (a, b) => a.priority - b.priority || a.due.localeCompare(b.due)
-  const list = (items, empty) => items.length
-    ? `<ul class="tasks">${[...items].sort(byPri).map(taskRow).join('\n')}</ul>`
-    : `<p class="empty">${empty}</p>`
 
   const history = runs.length
     ? `<div class="table-wrap"><table class="history"><thead><tr><th scope="col">Lens</th>${runs.map(r => `<th scope="col">${fmtDate(r.date)}</th>`).join('')}</tr></thead><tbody>${LENSES.map(l => `<tr><th scope="row">${esc(l.name)}</th>${runs.map(r => {
@@ -534,72 +566,85 @@ export function renderDashboard(state) {
     }).join('')}</tr>`).join('')}</tbody></table></div>`
     : '<p class="empty">The first run fills this in.</p>'
 
+  const fold = (title, sub, body, open = false) => `<details class="fold"${open ? ' open' : ''}><summary><span class="fold-title">${title}</span><span class="fold-sub">${sub}</span></summary><div class="fold-body">${body}</div></details>`
+
   return `<title>Review Board</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Nunito:wght@400;600;700;800;900&display=swap">
 <style>
-/* Layout: a school report pinned to the fridge. Health first, then the one thing,
-   then eleven subjects each with its ten rung ladder, then who owes what. */
+/* Ten seconds on a phone: what Justin needs to do, then what is not working.
+   Everything else is folded below, one tap to open. */
 :root {
   --bg: #F1EFEA; --card: #FFFFFF; --ink: #1A1A2E; --ink-soft: #52526A; --muted: #65657C;
   --line: #EAEAF0; --butter: #EDC35F; --butter-dark: #C99A28; --butter-lt: #FEF7E0;
-  --ok: #2F8F6B; --ok-lt: #E6F4EE; --warn: #B7791F; --warn-lt: #FDF3DD; --bad: #C94F3D; --bad-lt: #FBECE9;
-  --rung-off: #E7E3D8;
+  --ok: #2F8F6B; --ok-lt: #E6F4EE; --ok-dark: #1F6B4F; --warn: #B7791F; --bad: #C94F3D; --bad-lt: #FBECE9;
+  --rung-off: #E7E3D8; --yes-ink: #FFFFFF; --btn-line: #D9D6CC;
   --display: 'Nunito', ui-rounded, 'Segoe UI', system-ui, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #1B1812; --card: #26221A; --ink: #F4F1E8; --ink-soft: #CFC9B8; --muted: #ABA591;
-  --line: #3A3428; --butter: #EDC35F; --butter-dark: #C99A28; --butter-lt: #3A3018;
-  --ok: #5CC49B; --ok-lt: #1D3229; --warn: #E6B45A; --warn-lt: #3A2F17; --bad: #EE8A78; --bad-lt: #3D221D;
-  --rung-off: #3A3428; color-scheme: dark; } }
+  --line: #3A3428; --butter-lt: #3A3018; --ok: #5CC49B; --ok-lt: #1D3229; --ok-dark: #2F7A5C;
+  --warn: #E6B45A; --bad: #EE8A78; --bad-lt: #3D221D; --rung-off: #3A3428; --btn-line: #4A4334; --yes-ink: #1A1A2E; color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #1B1812; --card: #26221A; --ink: #F4F1E8; --ink-soft: #CFC9B8; --muted: #ABA591;
-  --line: #3A3428; --butter: #EDC35F; --butter-dark: #C99A28; --butter-lt: #3A3018;
-  --ok: #5CC49B; --ok-lt: #1D3229; --warn: #E6B45A; --warn-lt: #3A2F17; --bad: #EE8A78; --bad-lt: #3D221D;
-  --rung-off: #3A3428; color-scheme: dark; }
-body { background: var(--bg); color: var(--ink); font-family: var(--display); font-size: 16px; line-height: 1.5; }
-.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px; display: grid; gap: 28px; }
+  --line: #3A3428; --butter-lt: #3A3018; --ok: #5CC49B; --ok-lt: #1D3229; --ok-dark: #2F7A5C;
+  --warn: #E6B45A; --bad: #EE8A78; --bad-lt: #3D221D; --rung-off: #3A3428; --btn-line: #4A4334; --yes-ink: #1A1A2E; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--display); font-size: 17px; line-height: 1.45; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px 56px; display: grid; gap: 22px; }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
 p { margin: 0; }
-.eyebrow, .label, .chip, .lens-n, .pri, .mono, .history th[scope="col"] { font-family: var(--mono); letter-spacing: .04em; }
+.eyebrow, .label, .chip, .when, .fold-sub, .history th[scope="col"] { font-family: var(--mono); letter-spacing: .03em; }
 .eyebrow { font-size: 12px; text-transform: uppercase; color: var(--muted); }
-.top { display: grid; gap: 16px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: stretch; }
-.title h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 900; line-height: 1.05; }
-.title p { color: var(--ink-soft); margin-top: 8px; max-width: 60ch; }
-.tally { font-variant-numeric: tabular-nums; margin-top: 16px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-.tally .big { font-size: 56px; font-weight: 900; line-height: 1; }
-.tally .of { color: var(--ink-soft); font-weight: 700; }
-.health { border-radius: 16px; padding: 18px 20px; display: grid; gap: 6px; align-content: center; border: 2px solid; }
-.health.green { background: var(--ok-lt); border-color: var(--ok); }
-.health.amber { background: var(--warn-lt); border-color: var(--warn); }
-.health.red { background: var(--bad-lt); border-color: var(--bad); }
-.health .state { font-weight: 900; font-size: 22px; display: flex; align-items: center; gap: 10px; }
-.dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
-.green .dot { background: var(--ok); } .amber .dot { background: var(--warn); } .red .dot { background: var(--bad); }
-.health p { color: var(--ink-soft); }
-.one { background: var(--butter); color: #1A1A2E; border-radius: 16px; padding: 18px 20px; box-shadow: 0 5px 0 var(--butter-dark); display: grid; gap: 4px; }
+.head h1 { font-size: clamp(28px, 7vw, 38px); font-weight: 900; line-height: 1.1; margin-top: 4px; }
+.head .summary { color: var(--ink-soft); font-weight: 700; margin-top: 6px; }
+section > h2 { font-size: 22px; font-weight: 900; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.count { font-family: var(--mono); font-size: 13px; font-weight: 600; background: var(--butter); color: #1A1A2E; border-radius: 999px; padding: 2px 10px; }
+.todos { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.todo { background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--butter); border-radius: 16px; padding: 14px; display: grid; gap: 12px; }
+.todo.late { border-left-color: var(--bad); }
+.todo-text summary { list-style: none; cursor: pointer; display: grid; gap: 4px; }
+.todo-text summary::-webkit-details-marker { display: none; }
+.todo-title { font-weight: 800; font-size: 18px; }
+.when { font-size: 13px; color: var(--muted); }
+.todo.late .when { color: var(--bad); font-weight: 600; }
+.full { margin-top: 8px; color: var(--ink-soft); font-size: 15px; }
+.answer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { font: inherit; font-weight: 800; font-size: 17px; min-height: 48px; border-radius: 16px; cursor: pointer; border: 2px solid transparent; }
+.btn.yes { background: var(--ok); color: var(--yes-ink); box-shadow: 0 5px 0 var(--ok-dark); }
+.btn.no { background: var(--card); color: var(--ink); border-color: var(--btn-line); box-shadow: 0 5px 0 var(--btn-line); }
+.btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-line); }
+.btn:focus-visible, summary:focus-visible { outline: 3px solid var(--butter-dark); outline-offset: 2px; }
+.copied { font-size: 14px; color: var(--ink-soft); background: var(--butter-lt); border-radius: 10px; padding: 8px 10px; overflow-wrap: anywhere; }
+.copied code { font-family: var(--mono); font-size: 13px; user-select: all; }
+.alerts { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.alerts li { background: var(--bad-lt); border-radius: 14px; padding: 12px 14px; font-weight: 700; display: flex; gap: 10px; }
+.alerts li::before { content: ''; flex: none; width: 10px; height: 10px; margin-top: 7px; border-radius: 50%; background: var(--bad); }
+.clear { background: var(--ok-lt); border-radius: 14px; padding: 12px 14px; font-weight: 700; color: var(--ink); }
+.empty { color: var(--muted); }
+.fold { background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+.fold > summary { cursor: pointer; padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 12px; list-style: none; }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::after { content: '+'; grid-column: 2; grid-row: 1 / span 2; font-weight: 900; font-size: 24px; line-height: 1; color: var(--muted); }
+.fold[open] > summary::after { content: '×'; }
+.fold-title { font-weight: 900; font-size: 18px; grid-column: 1; }
+.fold-sub { font-size: 12px; color: var(--muted); grid-column: 1; }
+.fold-body { padding: 0 16px 16px; display: grid; gap: 14px; }
+.fold .fold { border-color: var(--line); background: var(--bg); }
+.one { background: var(--butter); color: #1A1A2E; border-radius: 14px; padding: 12px 14px; font-weight: 800; box-shadow: 0 5px 0 var(--butter-dark); }
 .one .eyebrow { color: #52422A; }
-.one p.text { font-size: 20px; font-weight: 800; }
-section > h2 { font-size: 24px; font-weight: 900; margin-bottom: 12px; }
-section > .sub { color: var(--ink-soft); margin: -6px 0 14px; }
-.grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
-.lens { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
-.lens.ten { border-color: var(--ok); }
-.lens-head { display: flex; align-items: center; gap: 8px; }
-.lens-head h3 { font-size: 17px; font-weight: 800; flex: 1; }
-.lens-n { font-size: 12px; color: var(--muted); }
-.lens-q { color: var(--muted); font-size: 14px; }
-.lens-score { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
-.lens-score .big { font-size: 40px; font-weight: 900; line-height: 1; }
-.lens.low .big { color: var(--bad); } .lens.mid .big { color: var(--warn); } .lens.close .big { color: var(--ink); } .lens.ten .big { color: var(--ok); }
-.lens-score .of { color: var(--muted); font-size: 13px; font-weight: 700; }
-.chip { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: var(--bg); color: var(--ink-soft); white-space: nowrap; }
-.chip.up, .chip.ten { background: var(--ok-lt); color: var(--ok); }
-.chip.down { background: var(--bad-lt); color: var(--bad); }
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+.lens { background: var(--bg); border-radius: 14px; padding: 12px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.lens-head { display: flex; align-items: baseline; gap: 8px; }
+.lens-head h3 { font-size: 16px; font-weight: 800; flex: 1; }
+.lens-head .big { font-size: 26px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.lens.low .big { color: var(--bad); } .lens.mid .big { color: var(--warn); } .lens.ten .big { color: var(--ok); }
+.chip { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--card); color: var(--ink-soft); white-space: nowrap; }
+.chip.up { background: var(--ok-lt); color: var(--ok); } .chip.down { background: var(--bad-lt); color: var(--bad); }
 .ladder { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; }
-.rung { height: 8px; border-radius: 3px; background: var(--rung-off); }
+.rung { height: 6px; border-radius: 3px; background: var(--rung-off); }
 .lens.low .rung.on { background: var(--bad); } .lens.mid .rung.on { background: var(--warn); }
 .lens.close .rung.on { background: var(--butter); } .lens.ten .rung.on { background: var(--ok); }
 .spark { display: block; }
@@ -607,73 +652,75 @@ section > .sub { color: var(--ink-soft); margin: -6px 0 14px; }
 .spark-line { fill: none; stroke: var(--ink-soft); stroke-width: 1.8; stroke-linejoin: round; }
 .spark-area { fill: var(--butter-lt); }
 .spark-dot { fill: var(--butter-dark); }
-.lens-line { font-size: 15px; }
+.lens-line { font-size: 14px; }
 .lens-skeptic { font-size: 13px; color: var(--ink-soft); font-style: italic; }
 .lens-gap { font-size: 14px; background: var(--butter-lt); border-radius: 10px; padding: 8px 10px; display: grid; gap: 2px; }
 .label { font-size: 11px; text-transform: uppercase; color: var(--muted); }
-.two { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
-.panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; min-width: 0; }
-.panel h2 { font-size: 20px; font-weight: 900; margin-bottom: 4px; }
-.panel .sub { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
-.tasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.task { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border-radius: 12px; background: var(--bg); }
-.task.late { background: var(--bad-lt); }
-.task.snoozed { opacity: .7; }
-.task-body { min-width: 0; }
-.task-title { font-weight: 700; }
-.task-meta { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
-.task.late .task-meta { color: var(--bad); }
-.mono { font-size: 12px; }
-.pri { font-size: 11px; font-weight: 600; padding: 3px 7px; border-radius: 8px; background: var(--line); color: var(--ink-soft); flex: none; }
-.pri.p1 { background: var(--butter); color: #1A1A2E; }
-.empty { color: var(--muted); }
-.roundup p { max-width: 68ch; white-space: pre-line; }
-.table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.plain li { display: grid; gap: 2px; padding-bottom: 8px; border-bottom: 1px solid var(--line); font-size: 15px; }
+.plain li:last-child { border-bottom: 0; padding-bottom: 0; }
+.roundup { white-space: pre-line; color: var(--ink-soft); font-size: 15px; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
 .history { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; }
-.history th, .history td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: center; white-space: nowrap; }
+.history th, .history td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: center; white-space: nowrap; }
 .history th[scope="row"] { text-align: left; font-weight: 700; }
 .history th[scope="col"] { font-size: 12px; color: var(--muted); font-weight: 600; }
-.history td.low { color: var(--bad); font-weight: 800; } .history td.mid { color: var(--warn); font-weight: 800; }
-.history td.ten { color: var(--ok); font-weight: 900; }
+.history td.low { color: var(--bad); font-weight: 800; } .history td.mid { color: var(--warn); font-weight: 800; } .history td.ten { color: var(--ok); font-weight: 900; }
 .how { color: var(--ink-soft); font-size: 14px; display: grid; gap: 6px; }
-.how code { font-family: var(--mono); font-size: 13px; background: var(--card); padding: 1px 6px; border-radius: 6px; border: 1px solid var(--line); }
-@media (max-width: 720px) { .top { grid-template-columns: minmax(0, 1fr); } .tally .big { font-size: 44px; } }
+.how code { font-family: var(--mono); font-size: 13px; }
 </style>
 <main class="wrap">
-  <div class="top">
-    <div class="title">
-      <p class="eyebrow">Guided Childhood · weekly review board${run ? ` · run ${fmtDate(run.date)}` : ''}</p>
-      <h1>Review Board</h1>
-      <p>Eleven lenses score the platform out of ten every week. A lens is finished when it holds ten for two weeks running, and any ten has to survive the skeptic first.</p>
-      <div class="tally"><span class="big">${tens}</span><span class="of">of ${total} lenses at ten</span></div>
-    </div>
-    <div class="health ${health}">
-      <p class="eyebrow">Today, ${fmtDate(on)}</p>
-      <p class="state"><span class="dot"></span>${healthWord}</p>
-      <p>${esc(healthLine)}</p>
-      ${claude.length ? `<p>${claude.length} task${claude.length === 1 ? '' : 's'} on Claude's list.</p>` : ''}
-    </div>
-  </div>
-  ${run?.one_thing ? `<div class="one"><p class="eyebrow">The one thing this week</p><p class="text">${esc(run.one_thing)}</p></div>` : ''}
-  <section>
-    <h2>The eleven lenses</h2>
-    <div class="grid">
-${cards}
-    </div>
+  <header class="head">
+    <p class="eyebrow">Review board · ${fmtDate(on)}</p>
+    <h1>Your week, simply</h1>
+    <p class="summary">${esc(summary)}</p>
+  </header>
+
+  <section aria-labelledby="todo-h">
+    <h2 id="todo-h">What you need to do${todo.length ? ` <span class="count">${todo.length}</span>` : ''}</h2>
+    ${todo.length ? `<ul class="todos">${todo.map(todoRow).join('\n')}</ul>` : '<p class="clear">Nothing waiting on you.</p>'}
   </section>
-  <div class="two">
-    <div class="panel"><h2>Waiting on you</h2><p class="sub">Only you can do these. Every Claude session asks about them once a day.</p>${list(justin, 'Nothing is waiting on you.')}</div>
-    <div class="panel"><h2>Claude's list</h2><p class="sub">Any session can pick these up, one at a time, when your request leaves room.</p>${list(claude, 'Nothing on Claude\'s list.')}</div>
-  </div>
-  ${doneRecent.length ? `<div class="panel"><h2>Done in the last fortnight</h2><ul class="tasks">${doneRecent.map(t => `<li class="task"><span class="pri">done</span><div class="task-body"><p class="task-title">${esc(t.title)}</p><p class="task-meta">${fmtDate(t.closed)}${t.note ? ' · ' + esc(t.note) : ''}</p></div></li>`).join('')}</ul></div>` : ''}
-  ${run?.roundup ? `<section class="roundup"><h2>The round up</h2><div class="panel"><p>${esc(run.roundup)}</p></div></section>` : ''}
-  <section><h2>Every week so far</h2>${history}</section>
-  <section class="how"><h2>How this works</h2>
-    <p>The board runs every Friday morning. Ten lens agents score the platform, the skeptic challenges any nine or ten, and the chief of staff turns the gaps into the two lists above.</p>
-    <p>At the start of every Claude session you are asked about anything waiting on you, at most once a day per task. Your answers are recorded and this page is redrawn.</p>
-    ${run?.report ? `<p>Full report for this run: <code>${esc(run.report)}</code></p>` : ''}
+
+  <section aria-labelledby="broken-h">
+    <h2 id="broken-h">Not working, worth knowing</h2>
+    ${broken.length ? `<ul class="alerts">${broken.map(b => `<li>${esc(b)}</li>`).join('')}</ul>` : '<p class="clear">Nothing is broken.</p>'}
   </section>
+
+  ${fold('Everything else', run ? `${tens} of ${total} at ten · run ${fmtDate(run.date)}` : 'no run yet', `
+    ${run?.one_thing ? `<div class="one"><p class="eyebrow">The one thing this week</p><p>${esc(run.one_thing)}</p></div>` : ''}
+    ${fold('The twelve scores', `${tens} of ${total} at ten`, `<div class="grid">${LENSES.map(lensCard).join('\n')}</div>`)}
+    ${fold("Claude's list", `${claude.length} open`, plainList([...claude].sort(byPri), t => whenText(t, on)))}
+    ${snoozed.length ? fold('Your snoozed tasks', `${snoozed.length}`, plainList(snoozed, t => `back ${fmtDate(t.snooze_until)}`)) : ''}
+    ${doneRecent.length ? fold('Done in the last fortnight', `${doneRecent.length}`, plainList(doneRecent, t => `done ${fmtDate(t.closed)}`)) : ''}
+    ${run?.roundup ? fold('The round up', 'from the chief of staff', `<p class="roundup">${esc(run.roundup)}</p>`) : ''}
+    ${fold('Every week so far', `${runs.length} run${runs.length === 1 ? '' : 's'}`, history)}
+    <div class="how">
+      <p>The board runs every Friday. Twelve lenses score the platform out of ten, a skeptic challenges any nine or ten, and the chief of staff turns the gaps into the tasks above.</p>
+      <p>Done and Not yet copy a line for Claude. Paste it into any Claude session and your answer is recorded. Every session also asks you once a day.</p>
+      ${run?.report ? `<p>Full report, with strengths, gaps and sources: <code>${esc(run.report)}</code></p>` : ''}
+    </div>
+  `)}
 </main>
+<script>
+document.querySelectorAll('.todo .btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var row = btn.closest('.todo');
+    var line = 'npm run review-board -- ' + btn.dataset.verb + ' ' + row.dataset.id;
+    var note = row.querySelector('.copied');
+    var show = function (copied) {
+      note.hidden = false;
+      note.innerHTML = '';
+      note.append(copied ? 'Copied. Paste it into any Claude session: ' : 'Paste this into any Claude session: ');
+      var c = document.createElement('code');
+      c.textContent = line;
+      note.append(c);
+    };
+    try {
+      navigator.clipboard.writeText(line).then(function () { show(true); }, function () { show(false); });
+    } catch (e) { show(false); }
+  });
+});
+</script>
 `
 }
 

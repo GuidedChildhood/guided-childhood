@@ -22,6 +22,7 @@ import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
 import { isChildVisible, isHeldForHolidays, type ChildVisibleAction } from '@/lib/school/child-items'
+import { LEAD_KINDS, daysBetween, showFrom } from '@/lib/school/lead-up'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
@@ -232,7 +233,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // only the parent. Only ever the items meant for the child.
     supabase
       .from('school_actions')
-      .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child, cleared_on')
+      .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child, cleared_on, created_at')
       .eq('user_id', link.user_id)
       .eq('status', 'open'),
     // Which routines keep going in the school holidays. Read on its own and
@@ -243,7 +244,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // also what holds every routine in August before the column exists.
     soft(supabase
       .from('school_actions')
-      .select('id, runs_in_holidays')
+      .select('id, runs_in_holidays, remind_days')
       .eq('user_id', link.user_id)
       .eq('status', 'open')),
 
@@ -756,9 +757,13 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // reminder eventually turns up on a nine year old's phone.
 
   const runsInHolidays = new Map<string, boolean>()
+  const remindDays = new Map<string, number[] | null>()
   if (runsInHolidaysRes && !runsInHolidaysRes.error) {
-    for (const r of (runsInHolidaysRes.data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+    for (const r of (runsInHolidaysRes.data ?? []) as { id: string; runs_in_holidays?: boolean | null; remind_days?: number[] | null }[]) {
       runsInHolidays.set(String(r.id), r.runs_in_holidays === true)
+      // The parent's own early reminder choice (migration 401), so the child's
+      // line starts the day the parent's phone hears of it, not before.
+      remindDays.set(String(r.id), r.remind_days ?? null)
     }
   } /* else pre 182, every routine is school time */
 
@@ -775,8 +780,19 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
         && !isHeldForHolidays(hold, tomorrowDay, region)
       // A routine cleared for today steps back from today, but still shows a
       // tomorrow heads up if it comes round again tomorrow.
-      const when: 'today' | 'tomorrow' | null =
-        dueToday && cleared !== today ? 'today' : dueTomorrow ? 'tomorrow' : null
+      // COMING UP (19 November 2026). Homework due further off joins the line
+      // from its first early reminder, the same day the grown up's phone hears
+      // about it (lib/school/lead-up.ts), so a two week project is the child's
+      // to start too, not only something the parent remembers for them.
+      let daysLeft: number | undefined
+      let soon = false
+      if (!isRoutine && a.due_date && LEAD_KINDS.has(String(a.kind))) {
+        const left = daysBetween(today, String(a.due_date))
+        const from = showFrom({ kind: String(a.kind), due_date: String(a.due_date), created_at: (a as { created_at?: string | null }).created_at ?? null, remind_days: remindDays.get(String(a.id)) ?? null }, today)
+        if (left >= 2 && from && today >= from) { soon = true; daysLeft = left }
+      }
+      const when: 'today' | 'tomorrow' | 'soon' | null =
+        dueToday && cleared !== today ? 'today' : dueTomorrow ? 'tomorrow' : soon ? 'soon' : null
       if (!when) return null
       return {
         id: a.id as string,
@@ -784,9 +800,10 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
         kind: a.kind as string,
         time: typeof a.due_time === 'string' ? (a.due_time as string).slice(0, 5) : null,
         when,
+        ...(daysLeft != null ? { daysLeft } : {}),
       }
     })
-    .filter((x): x is { id: string; title: string; kind: string; time: string | null; when: 'today' | 'tomorrow' } => x !== null)
+    .filter((x): x is { id: string; title: string; kind: string; time: string | null; when: 'today' | 'tomorrow' | 'soon'; daysLeft?: number } => x !== null)
 
   // Is there a week worth opening? The link to it only appears when there is
   // something on it, because a door onto an empty room is worse than no door.

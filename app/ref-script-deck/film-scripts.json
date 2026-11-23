@@ -1,0 +1,101 @@
+{
+ "6": {
+  "sort_order": 6,
+  "stage_id": "builder",
+  "category": "family-rules",
+  "title": "Asking to watch YouTube unsupervised",
+  "situation": "When a child wants to watch YouTube in their room on their own.",
+  "say_this": "YouTube is built to keep you watching. That is not your fault, it is how it works. For now, can we keep it in the living room so I can see what comes up? When you are older and we both feel confident about it, we can talk about moving it.",
+  "not_this": "I do not trust you on there alone.",
+  "why_it_works": "Locating the device in a shared space is a structural intervention, not a surveillance one. The child hears \"I trust you, I do not trust the algorithm.\" That is a meaningful distinction that builds rather than erodes the relationship.",
+  "tonight": "Move one device to a common area this week. Say nothing more about it."
+ },
+ "105": {
+  "sort_order": 105,
+  "stage_id": "builder",
+  "category": "screen-time",
+  "title": "Sneaking screen time",
+  "situation": "When a child has been sneaking screen time, either getting up early, using a device after lights out, or hiding what they are doing.",
+  "say_this": "I found out you had the screen on when you were not supposed to. I'm not going to shout, but I do want to understand why. Can you tell me what was going on?",
+  "not_this": "That's it, screens are gone for a month.",
+  "why_it_works": "Sneaking usually means the child feels the limit is either unfair or unachievable, and responding with curiosity gets you closer to solving the actual problem. A blanket punishment that feels disproportionate drives the behaviour underground rather than building honesty. The goal is a child who comes to you when they are struggling, and that only happens when they believe you will listen before you react.",
+  "tonight": "Have a calm ten-minute conversation tonight to find out whether the current screen time arrangement is working for your child and adjust anything that seems genuinely unreasonable."
+ },
+ "108": {
+  "sort_order": 108,
+  "stage_id": "explorer",
+  "category": "screen-time",
+  "title": "Homework on a device with constant distraction",
+  "situation": "A child is supposed to be doing homework on a laptop or tablet, but keeps switching tabs, checking messages, or watching videos.",
+  "say_this": "How is the homework going? Let's have a look together. I find it really hard to focus with notifications going off too, so let's put the phone face down and put the laptop on do not disturb while you finish this.",
+  "not_this": "You're never going to get anywhere if you can't focus.",
+  "why_it_works": "Multitasking during study is one of the most researched productivity killers there is, reducing comprehension and increasing time on task significantly. Empathising with how hard it is to focus rather than criticising creates a shared problem rather than a character judgement. Helping them set up a distraction-free environment is more effective than expecting them to resist the pull of notifications through willpower alone.",
+  "tonight": "Tonight, try sitting with your child for just the first ten minutes of homework to help them get started without distractions, and see whether they stay on task once they have momentum."
+ },
+ "901": {
+  "sort_order": 901,
+  "stage_id": "shaper",
+  "category": "school-and-ai",
+  "title": "AI wrote their homework",
+  "situation": "When a child turns out to have used AI to write a piece of homework.",
+  "say_this": "I am not angry, I am curious. Tell me what you handed in and what you actually understand, because the grade matters less to me than whether the learning happened.",
+  "not_this": "That is cheating, plain and simple, and you are grounded for it.",
+  "why_it_works": "Leading with punishment makes them hide the next shortcut and learn nothing. Separating the tool from the learning lets you teach where AI helps and where it quietly robs them.",
+  "tonight": "Ask them to explain the topic to you in their own words, with the screen closed."
+ },
+ "903": {
+  "sort_order": 903,
+  "stage_id": "shaper",
+  "category": "school-and-ai",
+  "title": "An AI chatbot as a friend",
+  "situation": "When a child is talking to an AI chatbot as though it is a close friend.",
+  "say_this": "It makes sense that it feels good to talk to, it never gets tired or judges you. I just want you to remember it cannot actually care back, even when it sounds like it does.",
+  "not_this": "That thing is not your friend, it is a computer, stop being so weird about it.",
+  "why_it_works": "Mocking the comfort they have found makes them defensive and lonelier. Honouring why it appeals, while naming the limit, keeps real human connection as the goal without shaming them.",
+  "tonight": "Plan one face to face thing they enjoy with a real person this week."
+ },
+ "1319": {
+  "sort_order": 1319,
+  "stage_id": "explorer",
+  "category": "staying-safe",
+  "title": "Finding Something Upsetting on Their Device",
+  "situation": "When something worrying turns up on a child's phone or in their search history. Violence, adult content, or something else entirely.",
+  "say_this": "Say nothing yet. Take a breath, think about what you actually want to know, and choose a calm moment. Then: I came across something on your phone that I want to talk about. I am not angry. I want to understand what was going on.",
+  "not_this": "Do not wait until you are angry to have this conversation. And do not start by saying I went through your phone.",
+  "why_it_works": "How you open this conversation determines whether you get the truth or a wall. If the first thing they feel is shame or surveillance, they will not tell you the real story. Calm and curious lands better than shocked and accusatory. You want information, not a confession.",
+  "tonight": "Before you talk to them, decide what you actually want as the outcome. More information? A conversation about what they saw? A plan going forward? Knowing your own goal helps you stay calm when they get defensive."
+ },
+ "9600": {
+  "sort_order": 9600,
+  "stage_id": "builder",
+  "category": "social-media",
+  "title": "Everyone is on Snapchat and they are not",
+  "situation": "Your child is eight to ten and says they are being left out of plans because the arranging happens on Snapchat. This is usually true, which is what makes it hard.",
+  "say_this": "You are not making that up, and I am not going to pretend it does not matter. Plans really do happen there and being outside that is a horrible feeling. Snapchat is thirteen and up, so the answer for now is no, and that is on the app rather than on you. So the question I actually want to solve is how you hear about things. Who would text you?",
+  "not_this": "If they are real friends they will tell you anyway.",
+  "why_it_works": "The complaint is exclusion, not the app, and answering the app question leaves the real one untouched. Naming the age limit as the app's rule rather than a personal verdict takes the argument off you. Then solving the actual problem, how plans reach them, treats the child as someone with a real difficulty rather than someone asking for something silly.",
+  "tonight": "Pick one friend tonight and sort a way for them to reach your child directly, a call on your phone or a text, so being off Snapchat stops meaning being uninvited."
+ },
+ "9621": {
+  "sort_order": 9621,
+  "stage_id": "explorer",
+  "category": "gaming",
+  "title": "They have spent real money on the game",
+  "situation": "Money has gone out on skins, coins, a battle pass or a loot box. It might be a few pounds or it might be a lot, and it may have happened over weeks without either of you noticing.",
+  "say_this": "I am not cross, and I want to understand it before we sort it. Show me what you bought and what it does. Then show me what it cost, because I think the game made that quite hard to see, and I want to know whether you knew.",
+  "not_this": "That is my money you have stolen. You are never playing this again.",
+  "why_it_works": "Start with what it does rather than what it cost, and you will find out whether this was a decision or a design. Most of the time it is design. The prices are in a currency the game invented, the amounts never divide neatly into what you buy, and the offer arrives at the moment you have just lost. A child who cannot tell you the real price in pounds did not make an informed choice, and treating them as a thief for it teaches them to hide the next one.\nThe word stolen is the one to leave out even when it is technically fair, because it turns a solvable problem into a verdict about who they are. They are a child who got caught by something built by adults to catch them.\nThere is a version of this that helps rather than punishes: make them the one who can see the machinery. A child who can explain to you why the offer appeared right after they lost is a child who is much harder to sell to at fifteen, and that is worth more than the money.\nPaying it back matters too, in a way they can actually manage. The point is that the money was real, not that they are in debt to you.",
+  "tonight": "Tonight, turn off in app purchases on the device together, and put a password on the store that they do not have. Then work out one repayment they can genuinely make."
+ },
+ "9653": {
+  "sort_order": 9653,
+  "stage_id": "builder",
+  "category": "family-rules",
+  "title": "The Year 6 phone plan, before the box is opened",
+  "situation": "Year 6 has started, or is about to, and the phone question is in the air. Half their class already has one. You can feel the negotiation coming and you would rather it were a plan.",
+  "say_this": "You are probably getting a phone before secondary school, and I want us to plan it together now rather than fight about it in October. So let us decide three things while it is easy. Where it sleeps at night, which is not your bedroom. What it is for to start with. And a promise from me: if you ever show me something bad on it, the phone stays yours. Telling me never costs you the phone.",
+  "not_this": "We will see. Stop asking. If you keep going on about it you will not get one at all.",
+  "why_it_works": "The first phone lands with the move to secondary school. In the UK, ownership jumps from 56 percent of ten year olds to 83 percent of eleven year olds, and Ofcom calls starting senior school the tipping point. A parent who plans in Year 6 is planning in the one year when the phone is still an idea rather than an object, and every decision is easier before the box is opened.\n\nThree decisions carry almost all the evidence. Where it charges, because a device in the bedroom overnight, even switched off, costs sleep across 125,000 children, and the first phone shows up in sleep before it shows up anywhere else. What it is for, because a phone that starts narrow can widen, and one that starts wide cannot be narrowed without a war. And the no confiscation promise, because the Children's Commissioner found many children would not turn to their family first when something goes wrong online, and the reason is that telling has cost them the phone before.\n\nSaying all three now, out loud, in the child's hearing, does something a rule imposed in October cannot: it makes the child a co author of the plan, and children keep plans they helped write.",
+  "tonight": "Tonight, ask them where they think the phone should charge at night and why. Whatever they say, you have started the plan, and you have not said no."
+ }
+}

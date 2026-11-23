@@ -127,6 +127,11 @@ revised 9 September and 7 October 2026, and recorded in `plans/decisions.md`:
 - Buttons: 16px radius, chunky shadow. Motion: GSAP only, subtle.
 - No dashes in any customer facing copy. Not headings, not buttons, not body.
 - Justin's voice throughout: warm, plain, direct, no AI-isms.
+- Nothing that reads as machine made, to an Apple standard:
+  `npm run design-tells` passes (must fix if it fails) and the twelve point
+  screenshot review in .claude/skills/uiux-pro-max/design-tells.md holds
+  (should fix: one primary action, hierarchy by size, one accent, line length,
+  44 point targets, contrast, brief motion, nested radii).
 
 ## 6. The risk test
 

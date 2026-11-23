@@ -5,9 +5,11 @@ import localFont from 'next/font/local'
 // brand (split step 3, plans/split-plan.md).
 import '@gc/shared/tokens.css'
 import './globals.css'
-import { SITE_URL } from '@/lib/config/site'
+import { SITE_URL, GOOGLE_SITE_VERIFICATION } from '@/lib/config/site'
+import { JsonLd, ORGANIZATION } from '@/lib/seo/json-ld'
 import PwaRegister from '@/components/PwaRegister'
 import Analytics from '@/components/Analytics'
+import SpeedInsights from '@/components/SpeedInsights'
 import UpdateBanner from '@/components/UpdateBanner'
 
 // Fonts loaded through Next's font pipeline, not a CSS @import. The old import
@@ -60,7 +62,12 @@ export const metadata: Metadata = {
   // Renders <meta name="p:domain_verify"> in the head of every page, the
   // homepage included, which is where Pinterest looks. Keep it after the claim
   // succeeds: Pinterest re-checks it, and removing it unclaims the site.
-  verification: { other: { 'p:domain_verify': 'd298f85f4b0c9c4ddcc8035ba72ae378' } },
+  // Google's code comes from lib/config/site.ts (see the note there on where
+  // to paste it). Pinterest's was already here.
+  verification: {
+    ...(GOOGLE_SITE_VERIFICATION ? { google: GOOGLE_SITE_VERIFICATION } : {}),
+    other: { 'p:domain_verify': 'd298f85f4b0c9c4ddcc8035ba72ae378' },
+  },
   title: {
     default: 'Digital Literacy for Children Age 4 to 16, Research Based Pathway | Guided Childhood',
     template: '%s | Guided Childhood',
@@ -131,8 +138,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Metadata only from here, so a segment can say something different. */}
       <head />
       <body>
+        {/* Who runs the site, on every page (it used to be on the home page only). */}
+        <JsonLd data={ORGANIZATION} />
         <PwaRegister />
         <Analytics />
+        <SpeedInsights />
         <UpdateBanner />
         {children}
       </body>

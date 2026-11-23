@@ -73,18 +73,14 @@ export function plan(deck, config, env) {
   const act = `act_${String(env.META_AD_ACCOUNT_ID).replace(/^act_/, '')}`
   const round = deck.round
   const ends = new Date(Date.now() + config.days * 86400000).toISOString()
-  const calls = [
-    {
-      key: 'campaign', path: `${act}/campaigns`,
+  // One ad set for the round, or one per card (config.perCard, from the deck's
+  // `adset`) so each card gets the same money. Round 1 shared one budget and
+  // Meta gave most of it to the card already ahead, which is no test of the
+  // others (23 November 2026, round 3: £10 a card).
+  const adset = (key, name) => ({
+      key, path: `${act}/adsets`, needs: { campaign_id: 'campaign' },
       body: {
-        name: `GC ${round}`, objective: 'OUTCOME_TRAFFIC', status: PAUSED,
-        special_ad_categories: [], is_adset_budget_sharing_enabled: false,
-      },
-    },
-    {
-      key: 'adset', path: `${act}/adsets`, needs: { campaign_id: 'campaign' },
-      body: {
-        name: `GC ${round} · ${config.audienceName}`, status: PAUSED,
+        name, status: PAUSED,
         daily_budget: config.dailyBudgetPence, end_time: ends,
         billing_event: 'IMPRESSIONS', optimization_goal: 'LINK_CLICKS',
         bid_strategy: 'LOWEST_COST_WITHOUT_CAP', targeting: config.targeting,
@@ -98,8 +94,17 @@ export function plan(deck, config, env) {
         ...(config.advertiser ? { dsa_beneficiary: config.advertiser } : {}),
         ...(config.payer ? { dsa_payor: config.payer } : {}),
       },
+    })
+  const calls = [
+    {
+      key: 'campaign', path: `${act}/campaigns`,
+      body: {
+        name: `GC ${round}`, objective: 'OUTCOME_TRAFFIC', status: PAUSED,
+        special_ad_categories: [], is_adset_budget_sharing_enabled: false,
+      },
     },
   ]
+  if (!config.perCard) calls.push(adset('adset', `GC ${round} · ${config.audienceName}`))
   for (const card of deck.cards) {
     const link = linkFor(round, card, config.funnel)
     const story = {
@@ -110,6 +115,7 @@ export function plan(deck, config, env) {
       },
     }
     if (env.META_INSTAGRAM_ID) story.instagram_user_id = env.META_INSTAGRAM_ID
+    if (config.perCard) calls.push(adset(`adset:${card.src}`, `GC ${round} · ${card.name} · ${config.audienceName}`))
     calls.push(
       { key: `image:${card.src}`, path: `${act}/adimages`, image: card.file, take: 'hash' },
       {
@@ -117,7 +123,7 @@ export function plan(deck, config, env) {
         body: { name: `${round} · ${card.name}`, object_story_spec: story },
       },
       {
-        key: `ad:${card.src}`, path: `${act}/ads`, needs: { adset_id: 'adset', 'creative.creative_id': `creative:${card.src}` },
+        key: `ad:${card.src}`, path: `${act}/ads`, needs: { adset_id: config.perCard ? `adset:${card.src}` : 'adset', 'creative.creative_id': `creative:${card.src}` },
         body: { name: `${round} · ${card.name}`, status: PAUSED, creative: {} },
       },
     )
@@ -237,10 +243,20 @@ async function selfTest() {
   await run(calls, { send, receipt: half, save: () => {}, wait: 0, log: () => {} })
   if (sent.length - start !== calls.length - made) fail('the second half repeated a call')
 
+  // One ad set per card: each ad sits in its own, each paused, same money.
+  const perCard = plan(deck, { ...config, perCard: true, dailyBudgetPence: 143 }, env)
+  const r2 = {}
+  const sent2 = []
+  await run(perCard, { send: async (call, body) => { sent2.push({ call, body }); return send(call, body) }, receipt: r2, save: () => {}, wait: 0, log: () => {} })
+  const sets = sent2.filter((s) => s.call.key.startsWith('adset:'))
+  if (sets.length !== 2 || sets.some((s) => s.body.status !== PAUSED || s.body.daily_budget !== 143)) fail('per card: not one paused ad set per card at its own budget')
+  if (sent2.some((s) => s.call.key === 'adset')) fail('per card: a shared ad set was made as well')
+  for (const src of ['t-card-1', 't-card-2']) if (sent2.find((s) => s.call.key === `ad:${src}`).body.adset_id !== r2[`adset:${src}`]) fail(`per card: ad ${src} is not in its own ad set`)
+
   // No code path can switch anything on.
   const self = readFileSync(fileURLToPath(import.meta.url), 'utf8')
   if (/status:\s*['"]ACTIVE/.test(self)) fail('this file sets a status of ACTIVE somewhere')
-  console.log('ad upload self test: 8 calls for 2 cards, all paused, each ad tied to its own image and link, a second run sends nothing, a broken run picks up')
+  console.log('ad upload self test: 8 calls for 2 cards, all paused, one ad set per card when asked, each ad tied to its own image and link, a second run sends nothing, a broken run picks up')
 }
 
 const args = process.argv.slice(2)
@@ -258,7 +274,8 @@ try {
   const brandId = deck.brand || 'guided-childhood'
   const brand = JSON.parse(readFileSync(join(ROOT, 'content/ads/brands', `${brandId}.json`), 'utf8'))
   const configFile = brandId === 'guided-childhood' ? 'config.json' : `config-${brandId}.json`
-  const config = { ...JSON.parse(readFileSync(join(ROOT, 'content/ads/meta', configFile), 'utf8')), funnel: brand.funnel }
+  // A deck may set its own ad set money: { "adset": { "perCard": true, "dailyBudgetPence": 143 } }.
+  const config = { ...JSON.parse(readFileSync(join(ROOT, 'content/ads/meta', configFile), 'utf8')), ...(deck.adset || {}), funnel: brand.funnel }
   const raw = readEnv()
   const sfx = brand.meta_env_suffix || ''
   const env = { ...raw }
@@ -271,7 +288,8 @@ try {
   if (!go) {
     const calls = plan(deck, config, { META_AD_ACCOUNT_ID: env.META_AD_ACCOUNT_ID || '<ad account>', META_PAGE_ID: env.META_PAGE_ID || '<page>', META_INSTAGRAM_ID: env.META_INSTAGRAM_ID })
     console.log(`DRY RUN, nothing sent. ${calls.length} calls for ${deck.cards.length} cards, everything paused.\n`)
-    console.log(`  budget if switched on: £${(config.dailyBudgetPence / 100).toFixed(2)} a day for ${config.days} days, £${((config.dailyBudgetPence * config.days) / 100).toFixed(2)} at most`)
+    const sets = config.perCard ? deck.cards.length : 1
+    console.log(`  budget if switched on: £${(config.dailyBudgetPence / 100).toFixed(2)} a day${config.perCard ? ' per card' : ''} for ${config.days} days, £${((config.dailyBudgetPence * config.days * sets) / 100).toFixed(2)} at most`)
     console.log(`  audience: ${config.audienceName}\n`)
     for (const c of calls) {
       const done = receipt[c.key] ? `  (already made: ${receipt[c.key]})` : ''

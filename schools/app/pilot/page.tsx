@@ -22,7 +22,7 @@ import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata: Metadata = {
   title: 'Request a free pilot',
-  description: 'Teach two Guided Childhood digital literacy lessons free for one term, matched to the phase you teach. Five places, one school code, no card, no contract, no pupil data.',
+  description: 'The online side of RSHE and bringing parents with you, without the extra staff time. Teach two lessons free for one term, with the parent pack. Five places, no card, no contract, no pupil data.',
   alternates: { canonical: 'https://schools.guidedchildhood.com/pilot' },
 }
 
@@ -52,6 +52,7 @@ export default async function PilotPage({ searchParams }: { searchParams: Promis
     'Every printable for both: the pack, the pupil booklet, the organiser, the two quizzes, the learning record',
     `The compliance Hub, the RSHE mapping matrix and the ${FLAGGED_MODULES.length} staff briefings`,
     `The map of all ${MODULE_COUNT} modules, Reception to Year 13, open to read`,
+    'The parent pack for your newsletter: a blurb to copy, a QR code and free tools for families, so parents hear at home what pupils hear in class',
     'A reply within two working days, usually the same day',
   ]
 
@@ -63,6 +64,13 @@ export default async function PilotPage({ searchParams }: { searchParams: Promis
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.hero, color: 'var(--ink)', marginBottom: 'var(--space-4)', textWrap: 'balance' }}>
             Teach it for a term. Decide after.
           </h1>
+          {/* THE TWO JOBS FIRST (23 November 2026). Oak's partnerships lead:
+              schools hear from a lot of EdTech, so lead with what very few do,
+              the online side of RSHE and bringing parents with you, and the
+              staff time both cost (plans/2026-11-23-oak-call-notes.md). */}
+          <p style={{ ...body, marginBottom: '14px' }}>
+            Two parts of RSHE take far more staff time than they should: teaching the online safety content well when it is not your specialism, and bringing parents with you on phones and social media. This is built for both.
+          </p>
           <p style={{ ...body, marginBottom: '14px' }}>
             The first {PILOT_PLACES} schools get two lessons free for a term, matched to the phase they teach, with every printable and the Hub. No card, no contract, no pupil data.
           </p>
@@ -93,6 +101,9 @@ export default async function PilotPage({ searchParams }: { searchParams: Promis
             ))}
           </ul>
 
+          <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)' }}>
+            Part of a trust? Say so in the form, and we will set up a few of your schools together.
+          </p>
           <p style={{ ...body, fontSize: 'var(--text-base)' }}>
             Not ready to ask yet? <Link href={`/lesson/${TASTER_MODULES[0]}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Teach the sample lesson first</Link>. It is the real thing, nothing locked.
           </p>

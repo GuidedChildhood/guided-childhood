@@ -1,10 +1,10 @@
 # The review board
 
-Every Friday morning eleven agents score Guided Childhood out of ten, and every
+Every Friday morning twelve agents score Guided Childhood out of ten, and every
 Claude session starts by asking Justin about anything only he can do. Built
 13 October 2026 (`plans/2026-10-13-review-board-plan.md`, PR 1288).
 
-## The eleven lenses
+## The twelve lenses
 
 | # | Lens | Agent |
 | --- | --- | --- |
@@ -18,7 +18,8 @@ Claude session starts by asking Justin about anything only he can do. Built
 | 8 | UX expert | `review-ux-expert` |
 | 9 | Competitor watch | `review-competitor-watch` |
 | 10 | AI and tools watch | `review-ai-tools-watch` |
-| 11 | Business running (the chief of staff and the round up) | `review-chief-of-staff` |
+| 11 | Search (Google, Bing and AI answers, added 22 November 2026) | `review-search` |
+| 12 | Business running (the chief of staff and the round up) | `review-chief-of-staff` |
 
 Plus `review-skeptic`, who challenges every nine and ten before it stands.
 

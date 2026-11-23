@@ -1,11 +1,14 @@
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Metadata } from 'next'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
-export const metadata: Metadata = {
-  title: 'DiGi and the Planet Friends | Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'DiGi and the Planet Friends',
   description: 'Meet DiGi and the Planet Friends. DiGi the star guides every child, and a new Planet Friend grows up alongside them at each stage from 4 to 16.',
-}
+  path: '/digi-squad',
+})
 
 // The star DiGi guides the whole way. Each stage unlocks one Planet Friend who
 // grows up with the child. This is the parents app cast, the same DiGi and the
@@ -41,7 +44,7 @@ export default function DigiSquadPage() {
         <div style={{ position: 'absolute', top: '18%', right: '10%', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(242,201,76,.08)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '10%', left: '5%', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(175,220,162,.05)', pointerEvents: 'none' }} />
         <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <img src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={92} height={92} style={{ margin: '0 auto 20px', display: 'block', animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+          <Image src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={92} height={92} style={{ margin: '0 auto 20px', display: 'block', animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(242,201,76,.14)', border: '1px solid rgba(242,201,76,.3)', borderRadius: 'var(--radius-pill)', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '24px' }}>
             Meet the team
           </div>
@@ -59,7 +62,7 @@ export default function DigiSquadPage() {
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '40px' }}>
             {FRIENDS.map((f) => (
               <div key={f.key} style={{ background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 'var(--radius-btn)', padding: '16px 18px', minWidth: '132px', textAlign: 'center' }}>
-                <img src={f.img} alt={f.name} width={64} height={64} style={{ borderRadius: '50%', objectFit: 'cover', margin: '0 auto 8px', display: 'block', border: `2px solid ${f.colour}` }} />
+                <Image src={f.img} alt={f.name} width={64} height={64} style={{ borderRadius: '50%', objectFit: 'cover', margin: '0 auto 8px', display: 'block', border: `2px solid ${f.colour}` }} />
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: '#fff', fontSize: 'var(--text-md)' }}>{f.name}</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginTop: '4px' }}>{f.ages}</div>
               </div>
@@ -82,7 +85,7 @@ export default function DigiSquadPage() {
               <div style={{ order: i % 2 === 0 ? 0 : 1 }}>
                 <div style={{ background: `${f.colour}12`, border: `2px solid ${f.colour}`, borderRadius: 'var(--radius-card)', padding: '40px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '120px', height: '120px', borderRadius: '50%', background: `${f.colour}18`, pointerEvents: 'none' }} />
-                  <img src={f.img} alt={f.name} width={168} height={168} style={{ borderRadius: '50%', objectFit: 'cover', margin: '0 auto 18px', display: 'block', border: `3px solid ${f.colour}`, boxShadow: '0 8px 24px rgba(0,0,0,.12)' }} />
+                  <Image src={f.img} alt={f.name} width={168} height={168} style={{ borderRadius: '50%', objectFit: 'cover', margin: '0 auto 18px', display: 'block', border: `3px solid ${f.colour}`, boxShadow: '0 8px 24px rgba(0,0,0,.12)' }} />
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: f.colour, marginBottom: '8px' }}>Stage {f.stageId} · {f.ages}</div>
                   <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.6rem)', marginBottom: '4px', color: 'var(--ink)' }}>{f.name}</h2>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.78rem', fontWeight: 600, color: f.colour }}>{f.action}</div>
@@ -114,7 +117,7 @@ export default function DigiSquadPage() {
       <section className="section-lg" style={{ background: 'var(--deep-teal)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <img src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={72} height={72} style={{ margin: '0 auto 16px', display: 'block' }} />
+            <Image src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={72} height={72} style={{ margin: '0 auto 16px', display: 'block' }} />
             <p className="eyebrow" style={{ color: 'var(--gold)', marginBottom: '12px' }}>The guide</p>
             <h2 style={{ color: '#fff', marginBottom: '16px' }}>DiGi is with your child the whole way</h2>
             <p style={{ color: 'rgba(255,255,255,.6)', fontSize: 'var(--text-md)', maxWidth: '540px', margin: '0 auto', lineHeight: 1.65 }}>
@@ -168,7 +171,7 @@ export default function DigiSquadPage() {
 
             <div className="digi-card" style={{ padding: '24px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid var(--border)' }}>
-                <img src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={40} height={40} />
+                <Image src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={40} height={40} />
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.9rem', color: 'var(--ink)' }}>DiGi</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>After today&rsquo;s lesson with Bloop</div>
@@ -176,13 +179,13 @@ export default function DigiSquadPage() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                  <img src="/digi-squad/DiGi-star-3d.png" alt="" width={26} height={26} style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <Image src="/digi-squad/DiGi-star-3d.png" alt="" width={26} height={26} style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div className="bubble-digi">
                     Bloop helped your child see why their brain keeps wanting more screen time even when they are tired. The words they used: &ldquo;the wanting feeling.&rdquo; Your child now has a name for it.
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                  <img src="/digi-squad/DiGi-star-3d.png" alt="" width={26} height={26} style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <Image src="/digi-squad/DiGi-star-3d.png" alt="" width={26} height={26} style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div className="bubble-digi">
                     Tonight you could ask: &ldquo;What did Bloop say about why it is hard to stop?&rdquo; Just that. Let them explain it back to you.
                   </div>

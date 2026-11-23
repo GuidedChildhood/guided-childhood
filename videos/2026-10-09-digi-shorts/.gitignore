@@ -18,3 +18,8 @@ scenes/ask-child.json
 renders/sheet-poc.png
 renders/names.bak.json
 renders/*log*.txt
+# The question films' scenes, recordings and cuts are made by tools/make-film.sh
+# from cuts/films.json, so they are rebuilt, not kept.
+assets/rec/film-*.mp4
+scenes/film-*.json
+cuts/film-*.json

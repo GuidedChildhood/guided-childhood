@@ -23,7 +23,7 @@
 | 6.0 | FAMILY QUESTS. 1. You set the jobs | The parent's board: "On Ava's board", with a family job that pays no stars and "Homework done before the phone comes out" |
 | 10.6 | THEIR APP. 2. They tick them off | The child's jobs: "Feed the dog before school, worth 3 stars" |
 | 15.2 | ASK FIRST. 3. Stars turn into minutes | The ask box: "That is 6 stars on the Console." |
-| 19.6 | ON PURPOSE. 4. Outside pays the most | "One hour of outside play, worth 5 stars" |
+| 19.6 | ON PURPOSE. 4. Outside comes first | "One hour of outside play" at the top of the child's jobs |
 | 23.8 | BEDTIME, MEALS, SCHOOL. 5. Some time is not for sale. It still comes to you as an ask | The ask inside a rest window: "Screens are meant to be resting right now. Saying yes still works." |
 | 28.4 | One plan for screens, phones and AI. What stage is your child? Three questions, no sign up. `guidedchildhood.com/v/tour-04` | End card |
 
@@ -36,7 +36,7 @@ Send this to the parent who negotiates screen time forty times a day.
 1. You set real jobs. Feed the dog. Shoes by the door.
 2. Each job is worth stars, and you decide how many.
 3. Stars become minutes. One star is five minutes unless you change it.
-4. An hour outside pays more than anything else on the board.
+4. Outside play leads the list, and earns the same stars as any other job.
 5. Bedtime, mealtimes and school hours are not for sale at any price.
 
 Once the price is written down, there is nothing left to argue about.
@@ -56,8 +56,8 @@ episode, but you said.
 What ended it was writing the price down.
 
 You set real jobs and say what each one is worth in stars. Feed the dog
-before school is three. An hour of outside play is five, because the board
-pays the most for the things that get them off the screen. Stars become
+before school is three. Outside play leads the list and earns the same as any job,
+because paying extra for something they already love can make it feel like work. Stars become
 minutes, five minutes a star unless you change it for your child.
 
 Some time is theirs anyway, and some cannot be bought at all: bedtime,
@@ -90,3 +90,17 @@ What would be the first job on your board?
 - Family jobs sit outside the stars. If a beat shows one, it is labelled as unpaid.
 - The hook is the service map's own, in the family "we". It is a family screen argument, which the founder context marks amber, so it is flagged here for Justin's yes.
 - Built 10 November from the reference pages `ref-job-board`, `ref-kid-jobs`, `ref-ask-first` and `ref-ask-popup`. The time tiers screen was blank in the old capture, so the rest window ask stands in for it.
+
+
+## 19 November 2026: outside play no longer pays the most
+
+Since 15 November play earns the same stars as any other job
+(`lib/quests/templates.ts`, `PLAY_FIRST_WHY`), so "Outside pays the most" was
+no longer true. Changed: the s4 band reads "Outside comes first", its highlight
+on the star count is gone, the caption says outside leads the list, and
+`app/ref-kid-jobs` now pays outside play 2 stars and lists it first. Justin
+chose to fix it on the Mac. Before posting on Sunday 22 November:
+
+1. Re-capture `captures/wt/kid-jobs.png` from `/ref-kid-jobs` (the same crop as before).
+2. `node build.mjs cuts/walkthrough-04.json`, check s4 by eye, then `sh tools/render-both.sh walkthrough-04`.
+3. Post only the new render; keep the old one as `-v1`.

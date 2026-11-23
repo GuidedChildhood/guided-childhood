@@ -1,7 +1,4 @@
-import { db as supabase } from '@/lib/supabase/server-db'
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 import HappyIcon, { type HappyIconName } from '@gc/shared/components/HappyIcon'
 import { CRAYON, type CrayonName } from '@gc/shared/happy-news'
@@ -27,98 +24,70 @@ const eyebrow: React.CSSProperties = {
 // the parents app gives its passport and its jobs board. The disc colours
 // rotate through the crayon box so the grid reads as a cheerful scatter and
 // never as a category the head has to decode.
-type Doc = { href: string; icon: HappyIconName; disc: CrayonName; accent: string; title: string; body: string }
+// THE HUB AS A LAUNCHER (23 November 2026). Justin: Apple level, obvious
+// buttons, not too texty (plans/2026-11-23-schools-ux-review.md). It was 19
+// cards of equal weight, a long paragraph each, and a form: 971 words before
+// a head found anything. Now it asks one question, "What do you need today?",
+// and answers with six jobs. Each job opens its main page from the title and
+// its other pages from the chips under it, so every document is still one tap
+// away and none needs a paragraph to be found.
+type Link_ = { href: string; label: string }
+type Job = { icon: HappyIconName; disc: CrayonName; title: string; line: string; main: Link_; more: Link_[] }
 
-const DOCS: Doc[] = [
+const JOBS: Job[] = [
   {
-    href: '/hub/rshe-mapping', icon: 'quiz', disc: 'butter', accent: 'var(--green-dark)',
-    title: 'RSHE 2025 mapping matrix',
-    body: 'Every module mapped to the named topics of the statutory guidance that became compulsory on 1 September 2026, plus KCSIE 2026 and Education for a Connected World. The document your PSHE lead files.',
+    icon: 'calendar', disc: 'butter', title: 'Teach this week', line: 'Find the lesson for your year group.',
+    main: { href: '/start', label: 'Find my lesson' },
+    more: [
+      { href: '/curriculum', label: 'The whole map' },
+      { href: '/hub/year-plan', label: 'Year plan' },
+      { href: '/hub/progression', label: 'Progression map' },
+      { href: '/print/look-back', label: 'Look back quiz' },
+      { href: '/hub/vocabulary', label: 'Vocabulary' },
+      { href: '/languages/fr', label: 'KS2 French' },
+    ],
   },
   {
-    href: '/hub/computing-mapping', icon: 'magnifier', disc: 'sky', accent: 'var(--green-dark)',
-    title: 'The computing curriculum map',
-    body: 'Every statement of the national curriculum for computing, with the safety and digital literacy ones this scheme teaches held to phrases in the lessons, and the rest named honestly as your computing scheme’s.',
+    icon: 'quiz', disc: 'green', title: 'Show what we cover', line: 'For governors, Ofsted and a deep dive.',
+    main: { href: '/hub/rshe-mapping', label: 'RSHE mapping' },
+    more: [
+      { href: '/hub/computing-mapping', label: 'Computing map' },
+      { href: '/hub/coverage', label: 'What has been taught' },
+      { href: '/hub/subject-lead', label: 'Subject lead kit' },
+    ],
   },
   {
-    href: '/hub/policy', icon: 'read', disc: 'coral', accent: 'var(--green-dark)',
-    title: 'Policy ready text',
-    body: 'Paragraphs written to paste straight into your published RSE and online safety policy, including the parental transparency wording the 2025 guidance requires.',
+    icon: 'passport', disc: 'sky', title: 'Our records', line: 'Which class had which lesson, and how it went.',
+    main: { href: '/hub/progress', label: 'Class progress' },
+    more: [
+      { href: '/hub/tracker', label: 'Lesson tracker' },
+      { href: '/hub/passport', label: 'Passport pages' },
+    ],
   },
   {
-    href: '/hub/parents', icon: 'friends', disc: 'green', accent: 'var(--gold-dark)',
-    title: 'The parent pack',
-    body: 'The whole programme explained for parents, module by module, with our transparency promise: parents can view any material on request, and our licence explicitly permits it. Built for your consultation.',
+    icon: 'shield', disc: 'coral', title: 'Safeguarding', line: 'The DSL view of every sensitive lesson.',
+    main: { href: '/hub/dsl', label: 'Safeguarding crosswalk' },
+    more: [
+      { href: '/hub/cpd', label: 'Staff briefings' },
+      { href: '#your-school', label: 'Your safeguarding names' },
+    ],
   },
   {
-    href: '/hub/data-protection', icon: 'lock', disc: 'teal', accent: 'var(--deep-teal, #173C46)',
-    title: 'Data protection pack',
-    body: 'What we hold (almost nothing), why, and for how long. Written for your DPO: data minimisation by design, age differentiated notes per phase, and the DPIA support your records need.',
+    icon: 'friends', disc: 'pink', title: 'Parents', line: 'Bring families with you.',
+    main: { href: '/hub/parents', label: 'Parent pack' },
+    more: [
+      { href: '/hub/faq', label: 'Common questions' },
+    ],
   },
   {
-    href: '/hub/ai-governance', icon: 'magnifier', disc: 'pink', accent: 'var(--deep-teal, #173C46)',
-    title: 'AI governance',
-    body: 'Check an AI product before pupils or staff are asked to use it. Ten sections, a rating on each of eight things that matter, suggested policy wording, a draft letter to parents, and the lessons that teach whatever the review turns up.',
-  },
-  {
-    href: '/hub/dsl', icon: 'shield', disc: 'butter', accent: 'var(--coral-dark)',
-    title: 'Safeguarding crosswalk',
-    body: 'The DSL view: every safeguarding flagged module, its statutory hook and its disclosure guidance on one page, ready to reference from your safeguarding policy.',
-  },
-  {
-    href: '/hub/cpd', icon: 'homework', disc: 'sky', accent: 'var(--coral-dark)',
-    title: 'Staff briefings',
-    body: `Ten minute briefings for all ${FLAGGED_MODULES.length} safeguarding flagged modules: what the lesson covers, the tone to hold, disclosure handling, and what to watch for in the room.`,
-  },
-  {
-    href: '/hub/induction', icon: 'compass', disc: 'coral', accent: 'var(--coral-dark)',
-    title: 'The fifteen minute induction',
-    body: 'One staff meeting that starts the scheme: how a lesson runs, the print room, the flagged modules, disclosures, and the no pupil data ground rule. Run it from the projector.',
-  },
-  {
-    href: '/hub/subject-lead', icon: 'compass', disc: 'teal', accent: 'var(--green-dark)',
-    title: 'The subject lead kit',
-    body: 'Deep dive questions with the page that answers each one, a pupil voice sheet done by a show of hands, a staff confidence audit, and why every lesson has the same shape. Three pages to print.',
-  },
-  {
-    href: '/languages/fr', icon: 'compass', disc: 'coral', accent: 'var(--terracotta-dark)',
-    title: 'Included: KS2 French',
-    body: 'French for Years 3 and 4, in your licence at no extra cost. Slides with audio, songs, sheets in three versions with answers, and an assessment map. It opens with your school code and grows each half term.',
-  },
-  {
-    href: '/hub/progression', icon: 'compass', disc: 'pink', accent: 'var(--green-dark)',
-    title: 'The progression map',
-    body: 'What each year teaches, from Reception to Year 13, with the earlier lessons each one builds on and the later ones it leads to. The page for the question a subject lead is asked first.',
-  },
-  {
-    href: '/print/look-back', icon: 'quiz', disc: 'teal', accent: 'var(--green-dark)',
-    title: 'The look back quiz',
-    body: 'One sheet for the end of a term, drawn from the exit questions of the lessons a class has already been taught, with an answer copy that names the lesson each question came from.',
-  },
-  {
-    href: '/hub/year-plan', icon: 'calendar', disc: 'green', accent: 'var(--green-dark)',
-    title: 'The year at a glance',
-    body: 'A suggested year and term for every lesson. For the staffroom wall and the subject lead’s long term plan.',
-  },
-  {
-    href: '/hub/passport', icon: 'passport', disc: 'teal', accent: 'var(--gold-dark)',
-    title: 'The passport, page by page',
-    body: 'The five pages of the passport to sixteen and how far this screen has taken your classes through them. Counted here and nowhere else: no pupil, no login, no upload.',
-  },
-  {
-    href: '/hub/vocabulary', icon: 'letters', disc: 'pink', accent: 'var(--gold-dark)',
-    title: 'Whole scheme vocabulary',
-    body: 'Every keyword from every module with its pupil facing definition, in teaching order. For display walls and planning.',
-  },
-  {
-    href: '/hub/faq', icon: 'tell', disc: 'butter', accent: 'var(--ink-muted)',
-    title: 'Common questions',
-    body: 'The answers heads, governors and parents ask for most, in plain words.',
-  },
-  {
-    href: '/hub/accessibility', icon: 'access', disc: 'sky', accent: 'var(--deep-teal, #173C46)',
-    title: 'Accessibility statement',
-    body: 'How the player and the printed materials reach every learner, what we support today, and what we are still improving. Honest, dated, and updated as the product moves.',
+    icon: 'read', disc: 'teal', title: 'Staff and policy', line: 'Start the scheme and file the paperwork.',
+    main: { href: '/hub/induction', label: 'Fifteen minute induction' },
+    more: [
+      { href: '/hub/policy', label: 'Policy text' },
+      { href: '/hub/data-protection', label: 'Data protection' },
+      { href: '/hub/ai-governance', label: 'AI governance' },
+      { href: '/hub/accessibility', label: 'Accessibility' },
+    ],
   },
 ]
 
@@ -138,120 +107,58 @@ function Disc({ icon, disc }: { icon: HappyIconName; disc: CrayonName }) {
 }
 
 export default async function HubPage() {
-
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
-      <div style={{ maxWidth: '760px', margin: '0 auto' }}>
-        <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '4px' }}>Compliance, safeguarding and staff support</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-3)' }}>
-          The Hub
+      <div style={{ maxWidth: '980px', margin: '0 auto' }}>
+        <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: 'var(--space-1)' }}>The Hub</div>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-2)' }}>
+          What do you need today?
         </h1>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '580px', marginBottom: '28px' }}>
-          Everything your school needs around the lessons: the statutory mapping, the policy text,
-          the parent pack, data protection and staff briefings. Every document prints from the page,
-          and every one regenerates automatically when the curriculum changes, so nothing here can go stale.
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 var(--space-5)' }}>
+          Everything around the lessons. Every page prints.
         </p>
 
-        {/* THE LEAD. Everything else in the Hub is a document a school reads
-            once and files. The tracker is the only page that produces
-            EVIDENCE, and it was the eighth card in a grid of eleven, which is
-            where a subject lead never found it (Justin, 18 September 2026:
-            "the tracker should be more prominent"). One lead card, then the
-            documents, rather than twelve things of equal weight. */}
-        <Link className="gc-tap" href="/hub/tracker" style={{
-          display: 'block', textDecoration: 'none', marginBottom: 'var(--space-4)',
-          background: '#fff', border: '1px solid var(--border)', borderTop: '4px solid var(--green-dark)',
-          borderRadius: 'var(--radius-card)', padding: 'var(--space-4)',
-          boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 18px 44px -22px rgba(23,60,70,0.34)',
-        }}>
-          <span style={{ ...eyebrow, color: 'var(--green-dark)', display: 'block', marginBottom: '6px' }}>
-            Start here · this laptop&apos;s checklist
-          </span>
-          <span style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
-            <span aria-hidden style={{ fontSize: 'var(--text-3xl)', flexShrink: 0, lineHeight: 1 }}>✅</span>
-            <span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '6px' }}>
-                Lesson tracker →
-              </span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '12px' }}>
-                Every lesson ticks itself as you read it, print the pack, open the board, reach the finish and
-                fill the passport page. Nothing is tapped by hand, which is why the green is worth something.
-              </span>
-              <span style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
-                {[
-                  ['Achieves', 'a printable checklist of the whole scheme, lesson by lesson'],
-                  ['Helps', 'answers a deep dive on one page, no spreadsheet'],
-                  ['Never', 'who was in the room. No pupil data, no accounts'],
-                ].map(([k, v]) => (
-                  <span key={k} style={{ display: 'block', flex: '1 1 190px', minWidth: 0 }}>
-                    <span style={{ ...eyebrow, color: 'var(--ink-light)', display: 'block' }}>{k}</span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{v}</span>
-                  </span>
+        <div className="gc-hub-jobs">
+          {JOBS.map(j => (
+            <section key={j.title} className="gc-hub-job" aria-labelledby={`job-${j.disc}`}>
+              <Link href={j.main.href} className="gc-tap gc-hub-main">
+                <Disc icon={j.icon} disc={j.disc} />
+                <span style={{ minWidth: 0 }}>
+                  <span id={`job-${j.disc}`} className="gc-hub-title">{j.title}</span>
+                  <span className="gc-hub-line">{j.line}</span>
+                  <span className="gc-hub-go">{j.main.label} →</span>
+                </span>
+              </Link>
+              <ul className="gc-hub-more" aria-label={`More for ${j.title.toLowerCase()}`}>
+                {j.more.map(m => (
+                  <li key={m.href}>{m.href.startsWith('#') ? <a href={m.href} className="gc-tap">{m.label}</a> : <Link href={m.href} className="gc-tap">{m.label}</Link>}</li>
                 ))}
-              </span>
-            </span>
-          </span>
-        </Link>
-
-        {/* THE SCHOOL'S RECORD, ONE CLICK FROM THE HUB (11 November 2026). The
-            tracker above is this laptop's own ticks. The record is what the
-            Mark lesson delivered button saves for the whole school: which
-            class had which lesson, when, and how it went. It was reachable
-            only from a link inside the tracker and from the foot of a lesson,
-            so a subject lead who opened the Hub never met it. Named for what
-            it is, so "the record" means one thing on this page. */}
-        <Link className="gc-tap" href="/hub/progress" style={{
-          display: 'block', textDecoration: 'none', marginBottom: 'var(--space-2)',
-          background: 'var(--white)', border: '1px solid var(--border)', borderTop: '4px solid var(--terracotta-dark)',
-          borderRadius: 'var(--radius-card)', padding: 'var(--space-4)',
-          boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 18px 44px -22px rgba(23,60,70,0.34)',
-        }}>
-          <span style={{ ...eyebrow, color: 'var(--terracotta-dark)', display: 'block', marginBottom: 'var(--space-1)' }}>
-            Your school&apos;s record · the same on every laptop
-          </span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 'var(--space-1)' }}>
-            Class progress →
-          </span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
-            Which class has had which lesson, when, how it went and what to teach again. Every class side by
-            side, last year&apos;s record, and one spreadsheet to download. It fills itself in from the Mark lesson
-            delivered button. No pupil is named.
-          </span>
-        </Link>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 var(--space-4)' }}>
-          The same record, read against the statutory content:{' '}
-          <Link href="/hub/coverage" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>what has been taught, requirement by requirement</Link>.
-        </p>
-
-        {/* THE ONE THING ONLY THE SCHOOL CAN SAY. The lessons teach that
-            there is somebody in this building whose job is safeguarding;
-            the school supplies the name, once, on this screen, and the
-            slide that asks for it, the prep pages and the printed teacher
-            sheet carry it from then on (Justin, 20 September 2026). Second
-            card, after the record and before the documents, because it is
-            the only other thing here a school DOES rather than reads. */}
-        <YourSchoolPanel />
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--space-3)' }}>
-          {DOCS.map(d => (
-            <Link className="gc-tap" key={d.href} href={d.href} style={{
-              background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
-              padding: '18px 20px', textDecoration: 'none', display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start',
-              boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)',
-            }}>
-              <Disc icon={d.icon} disc={d.disc} />
-              <span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '4px' }}>
-                  {d.title} →
-                </span>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
-                  {d.body}
-                </span>
-              </span>
-            </Link>
+              </ul>
+            </section>
           ))}
         </div>
+
+        {/* THE ONE THING ONLY THE SCHOOL CAN SAY (20 September 2026): the
+            names the safeguarding slides carry. Below the jobs now, reached
+            from the Safeguarding job, because it is set once and the jobs are
+            what a teacher comes for. */}
+        <div style={{ marginTop: 'var(--space-6)' }}>
+          <YourSchoolPanel />
+        </div>
       </div>
+      <style>{`
+        .gc-hub-jobs { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: var(--space-3); }
+        .gc-hub-job { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-card); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); box-shadow: 0 1px 2px rgba(23,60,70,0.04), 0 14px 36px -20px rgba(23,60,70,0.30); }
+        .gc-hub-main { display: flex; gap: var(--space-3); align-items: flex-start; text-decoration: none; color: inherit; border-radius: 12px; }
+        .gc-hub-title { display: block; font-family: var(--font-display); font-weight: 900; font-size: var(--text-xl); color: var(--ink); line-height: 1.15; }
+        .gc-hub-line { display: block; font-family: var(--font-body); font-size: var(--text-base); color: var(--ink-soft); line-height: 1.45; margin-top: 4px; }
+        .gc-hub-go { display: inline-block; margin-top: var(--space-2); font-family: var(--font-display); font-weight: 800; font-size: var(--text-base); color: var(--ink); text-decoration: underline; text-decoration-color: var(--butter); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+        .gc-hub-main:hover .gc-hub-go { text-decoration-color: var(--ink); }
+        .gc-hub-more { list-style: none; margin: auto 0 0; padding: var(--space-3) 0 0; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: var(--space-2); }
+        .gc-hub-more a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); background: var(--cream); font-family: var(--font-body); font-weight: 700; font-size: var(--text-sm); color: var(--ink); text-decoration: none; }
+        .gc-hub-more a:hover { border-color: var(--ink); }
+        .gc-hub-main:focus-visible, .gc-hub-more a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+      `}</style>
     </main>
   )
 }

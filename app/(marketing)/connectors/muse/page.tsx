@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo/meta'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { SITE_URL } from '@/lib/config/site'
@@ -10,10 +12,13 @@ import { MAX_QUESTION } from '@/lib/muse/connector'
 // one we already have rather than inventing a look. The why of the connector
 // is in lib/muse/connector.ts.
 
-export const metadata = {
-  title: 'Guided Childhood for Muse · Guided Childhood',
+export const metadata: Metadata = pageMetadata({
+  title: 'Guided Childhood for Muse',
   description: 'How the Guided Childhood connector for Meta’s Muse works: ask DiGi a question about screens and phones, or find the exact words for a situation.',
-}
+  path: '/connectors/muse',
+  noindex: true,
+  absoluteTitle: true,
+})
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '10px' }

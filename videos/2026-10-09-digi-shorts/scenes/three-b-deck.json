@@ -1,0 +1,33 @@
+{
+ "name": "three-b-deck",
+ "url": "/ref-script-deck?script=9611",
+ "seconds": 12.5,
+ "height": 1000,
+ "anims": true,
+ "stubs": [
+  {
+   "match": "/api/completions",
+   "method": "POST",
+   "body": "{\"ok\":true}",
+   "json": true,
+   "delayMs": 200
+  }
+ ],
+ "actions": [
+  {
+   "at": 9000,
+   "do": "jsclick",
+   "selector": "button",
+   "text": "Next \u2192"
+  }
+ ],
+ "swap": {
+  "Teo": "Sam",
+  "Timbotee": "Sam",
+  "Alfie": "Sam",
+  "Bumble": "Sam",
+  "Olga": "Sam",
+  "Alma Rose": "Sam",
+  "Alma": "Sam"
+ }
+}

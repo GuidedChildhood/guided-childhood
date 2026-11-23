@@ -1,5 +1,7 @@
 'use client'
 
+import LeadReminders from '@/components/school/LeadReminders'
+import { daysBetween, shortDate, toGo } from '@/lib/school/lead-up'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { currentChildId } from '@/lib/children/current'
@@ -70,6 +72,11 @@ export type SchoolAction = {
   /** A routine that keeps going in the school holidays (migration 182).
    *  Missing reads as school time, which rests through the holidays. */
   runs_in_holidays?: boolean | null
+  /** When it was added, which fixes the automatic early reminder plan. */
+  created_at?: string | null
+  /** The parent's early reminder choice (migration 401). Null is the automatic plan. */
+  remind_days?: number[] | null
+  remind_ready?: boolean
 }
 
 // The child put this on the diary themselves, said plainly, because a parent
@@ -153,6 +160,11 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
   compact?: boolean
 }) {
   const [actions, setActions] = useState(initial)
+  // Follow the server when the page comes back (22 November 2026). A photo
+  // add and the Next up card above both end in router.refresh(), and this
+  // list held on to the copy it was first given, so a parent was told three
+  // things were added and then looked at a calendar without them.
+  useEffect(() => { setActions(initial) }, [initial])
   const [sendingId, setSendingId] = useState<string | null>(null)
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<string | null>(null)
@@ -164,7 +176,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
   // Which week the calendar is showing. 0 is this one, and the arrows walk it.
   // The day whose "+ Add" was tapped, and therefore the sheet that is open.
   // Null is closed.
-  const [addDay, setAddDay] = useState<{ dateIso: string; dow: number } | null>(null)
+  const [addDay, setAddDay] = useState<{ dateIso: string; dow: number; pick?: boolean } | null>(null)
 
   const [weekOffset, setWeekOffset] = useState(0)
 
@@ -619,7 +631,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
             actually reached for was the one that looked like it did nothing.
             Both now open the same sheet; this one starts on today. */}
         <button
-          onClick={() => setAddDay({ dateIso: todayIso(), dow: new Date().getDay() })}
+          onClick={() => setAddDay({ dateIso: todayIso(), dow: new Date().getDay(), pick: true })}
           style={{
             background: 'var(--terracotta)', border: 'var(--edge)', boxShadow: 'var(--lift)',
             borderRadius: 'var(--radius-pill)', padding: '8px 16px', cursor: 'pointer',
@@ -651,6 +663,37 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
           two different numbers, the fold counting what is due today and the grid
           counting the week. If the height becomes a problem again the fix is to
           put the due lists above the grid, not to fold it away. */}
+      {/* COMING UP, ABOVE THE WEEK (19 November 2026). A project due beyond
+          this week is not on the grid, and the full list is folded, so the
+          Anderson shelter project was invisible from the screen a parent opens
+          until its own week. Homework and deadlines more than a week out sit
+          here with their early reminders, the thing a parent wants to see the
+          moment the letter is snapped: we have it, and we will remind you. */}
+      {todayStr && (() => {
+        const later = oneOff
+          .filter(a => (a.kind === 'homework' || a.kind === 'deadline') && a.due_date && daysBetween(todayStr, a.due_date) >= 7)
+          .sort((a, b) => String(a.due_date).localeCompare(String(b.due_date)))
+        if (later.length === 0) return null
+        return (
+          <div style={{ marginBottom: 14 }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 8px' }}>Coming up</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {later.map(a => (
+                <div key={a.id} style={{ padding: '12px 14px 4px', borderRadius: 'var(--radius-tile)', background: 'var(--cream)', border: 'var(--edge)' }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', margin: '0 0 3px' }}>
+                    {(KIND_STYLE[a.kind] ?? KIND_STYLE.notice).label} · due {shortDate(String(a.due_date))} · {toGo(String(a.due_date), todayStr)}
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 8px' }}>
+                    {a.title}
+                    {a.child_name && <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}> · {a.child_name}</span>}
+                  </p>
+                  <LeadReminders item={a} todayIso={todayStr} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      })()}
       <SchoolWeek
         actions={actions}
         nowMs={nowMs}
@@ -678,6 +721,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
           childName={childName}
           kids={kids}
           defaultChildId={currentChildId()}
+          pickDate={addDay.pick === true}
           onCancel={() => setAddDay(null)}
           onAdd={addFromSheet}
         />
@@ -911,6 +955,8 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
                     {a.detail}
                   </p>
                 )}
+                {/* Further off than a week, the chips live in Coming up above, once. */}
+                {todayStr && a.due_date && daysBetween(todayStr, a.due_date) < 7 && <LeadReminders item={a} todayIso={todayStr} />}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
                   <button
                     onClick={() => settle(a.id, 'done')}

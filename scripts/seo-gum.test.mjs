@@ -11,7 +11,7 @@ import assert from 'node:assert/strict'
 import { mkdtempSync, writeFileSync, readFileSync, chmodSync, copyFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { windows, analyse, findRows, sitemapUrls, pull, report, main } from './seo-gum.mjs'
+import { windows, analyse, findRows, sitemapUrls, neverShownLines, pull, report, main } from './seo-gum.mjs'
 
 const CONFIG = new URL('../content/seo/config.json', import.meta.url).pathname
 
@@ -58,6 +58,9 @@ test('sitemapUrls reads both sitemap sources, home page as the bare host', () =>
   assert.ok(parents.includes('https://www.guidedchildhood.com'))
   assert.ok(parents.includes('https://www.guidedchildhood.com/starter-pack'))
   assert.ok(parents.includes('https://www.guidedchildhood.com/guides/when-should-my-child-get-a-phone'), 'guides come from lib/content/guides.ts')
+  assert.ok(parents.includes('https://www.guidedchildhood.com/is-tiktok-safe'), 'app pages come from lib/app-safety/apps.ts')
+  assert.ok(parents.includes('https://www.guidedchildhood.com/is-roblox-safe-for-9-year-old'), 'and one per app and age')
+  assert.equal(parents.filter(u => /\/is-[a-z0-9-]+-safe(-for-\d+-year-old)?$/.test(u)).length, 220, '20 apps, each with 10 ages')
   const schools = sitemapUrls(config.properties[1])
   assert.ok(schools.includes('https://schools.guidedchildhood.com'))
   assert.ok(schools.includes('https://schools.guidedchildhood.com/curriculum'))
@@ -125,4 +128,10 @@ test('submit refuses without --allow-write and sends a write with it', () => {
   assert.equal(sent[0][0], 'write')
   assert.ok(sent[0].includes('--allow-write'))
   assert.equal(JSON.parse(sent[1][3]).feedpath, 'https://schools.guidedchildhood.com/sitemap.xml')
+})
+
+test('the never shown list folds the age pages to one line per app', () => {
+  const h = 'https://www.guidedchildhood.com'
+  const lines = neverShownLines([`${h}/guides`, `${h}/is-tiktok-safe-for-9-year-old`, `${h}/is-tiktok-safe-for-6-year-old`, `${h}/is-tiktok-safe`], h)
+  assert.deepEqual(lines, ['- `/guides`', '- `/is-tiktok-safe`', '- `/is-tiktok-safe-for-N-year-old`, 2 age pages (6, 9)'])
 })

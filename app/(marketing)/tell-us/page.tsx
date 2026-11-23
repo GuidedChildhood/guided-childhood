@@ -11,7 +11,7 @@ import TellUsForm from '@/components/asks/TellUsForm'
 // (Givingli, Neo Financial, Blue Apron): a reason first, words second.
 
 export const metadata: Metadata = {
-  title: 'Tell us what stopped you | Guided Childhood',
+  title: 'Tell us what stopped you',
   robots: { index: false, follow: false },
 }
 
