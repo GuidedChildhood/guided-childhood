@@ -51,7 +51,7 @@ Our best page (pilot, 339 words) is the shape every page should have.
    lesson, Show what we cover, Safeguarding, Parents, Train staff, Our
    records. The 19 documents sit inside them. The safeguarding names form
    moves to the Safeguarding page.
-2. **Lesson page.** Teach this lesson stays the one big button. The seven
+2. **Lesson page.** (Built 23 November: 2,570 words to 651 on first view; one Teach button, Walk me through it and a Print menu, four folds that open for printing.) Teach this lesson stays the one big button. The seven
    print buttons become one "Print" button opening the print page. The 20
    screens below fold into four sections, closed by default.
 3. **Home.** Hero, three proof points, one picture of a lesson, pricing line,
