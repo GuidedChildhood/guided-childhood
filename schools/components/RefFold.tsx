@@ -49,7 +49,7 @@ export function RefPageKit() {
       <OpenFoldOnHash />
       <style>{`
         .gc-ref { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-tile); margin-bottom: var(--space-2); }
-        .gc-ref-care { border-left: 4px solid var(--coral); }
+        .gc-ref-care { border-color: var(--coral); }
         .gc-ref > summary { list-style: none; cursor: pointer; display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-3) var(--space-6) var(--space-3) var(--space-4); min-height: 44px; position: relative; }
         .gc-ref > summary::-webkit-details-marker { display: none; }
         .gc-ref > summary::after { content: '+'; position: absolute; right: var(--space-4); top: 50%; transform: translateY(-50%); font-family: var(--font-display); font-weight: 900; font-size: var(--text-xl); color: var(--ink); }
@@ -65,7 +65,7 @@ export function RefPageKit() {
         .gc-ref-jump a:hover { background: var(--butter-lt); }
         details.gc-ref[id] { scroll-margin-top: var(--space-4); }
         @media print {
-          .gc-ref { border: none; border-left: none; margin-bottom: var(--space-3); }
+          .gc-ref { border: none; margin-bottom: var(--space-3); }
           .gc-ref > summary { padding: 0; min-height: 0; }
           .gc-ref > summary::after { content: ''; }
           .gc-ref-body { padding: var(--space-1) 0 0; }
