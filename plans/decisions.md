@@ -227,3 +227,9 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The photo reader now treats every dated thing as an item (inset days, term dates, non uniform days), has room for twenty items, and keeps the finished items of a reply that was cut short. A photo that finds nothing offers Type it in.
 - The full calendar card now follows the server after a refresh, so a photo add shows in the list without a reload.
 - Scripts: phones, something online and big feelings have their own picture book tiles (Higgsfield, 2.25 credits, Justin said yes).
+
+## 23 November 2026: GDC 062 and 063 approved
+
+- Justin: "062 and 063 approved". 063 goes Mon 30 Nov 08:00, 062 Mon 7 Dec 08:00.
+- Recorded in the post register only. The radar pipeline approve gate needs a pack at ASSETS READY, and neither pack reached Claude QA (only the Evidence Reveal motion files are in Drive), so the pipeline status was left as it is rather than forced.
+
