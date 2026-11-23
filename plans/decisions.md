@@ -231,6 +231,11 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The full calendar card now follows the server after a refresh, so a photo add shows in the list without a reload.
 - Scripts: phones, something online and big feelings have their own picture book tiles (Higgsfield, 2.25 credits, Justin said yes).
 
+## 23 November 2026: Monday radar, hints not answers (GDC 065, 066)
+
+- Two findings survived: Stanford SCALE's November review of 52 controlled studies of AI and schoolwork, and RAND's survey of what US parents tell teenagers about AI and homework. Both PDFs read in full, 22 claims verified. Nine candidates killed, reasons in `content/research-radar-log.md`.
+- The review contains a trial where answers beat hints, against the one our hint card and script 261 rest on. The pack opens on that. Whether to soften the script's "why it works" and the migration 263 row is Justin's call; nothing in the product was changed.
+- The routine's stored brief still says to open on the question. The 11 November analytics say named body and finding first, so the posts follow that. Pack `content/packs/2026-11-23-hints-not-answers/`. PR 1668.
 ### 23 November 2026: Oak call, lead with PSHE plus parent engagement for trusts
 - Oak's partnerships lead: EdTech now enters schools at trust level, where gatekeepers hear from 10 to 20 companies a week. Lead with what few do, PSHE and parent engagement, not "a new product". Oak's API is free for commercial use and updated for the latest RSHE. A case study tier opens once pilots are running. Notes: `plans/2026-11-23-oak-call-notes.md`.
 ## 23 November 2026: adding a school reminder is first on the page, any day, and reminders go at 4pm and 7:20
