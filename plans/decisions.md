@@ -417,6 +417,12 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - Typing the code used to land on the whole 34 lesson map. It now lands on /start: pick your year, then one Teach button for that year's first lesson, with the rest listed in teaching order. The year is remembered in the browser only. Pilot codes see their lessons straight away. Flagged first lessons point to the staff briefing.
 - Emails 3 and 4 are saved as Mailchimp templates for journey 762. The API is read only for journey steps (Allow: GET), so Justin adds the two steps in the builder.
 
+## 23 November 2026: the app safety week moves on, and goes out automatically
+
+- Justin: "push to next week, just do next weeks if any full, no want you to do it auto". Both accounts were full this week.
+- Family posts take next week's anchor days (30 Nov, 2, 4, 5 Dec); Sunday 29's social-week batch builds their cards, and the skill now reads approved moved posts before the sheet. LinkedIn keeps three a week: L1 to L3 go out 9, 11 and 14 December. Pins 1, 3 and 5 December.
+- Automatic, not Justin posting: through Metricool, the scheduler that already holds both accounts. Claude has no Metricool access, so a Metricool API key was asked for; until then the pack file is the handoff, with scheduling and automatic publishing approved for these posts only. Earlier rule (17 Nov, Claude schedules nothing) stands for everything else. PR 1694.
+
 ### 23 November 2026: Schools v3 keeps running
 - 615 of the 634 schools in the Schools v3 series also got the 21 November invitation that ends "I will not write again". Justin chose to keep v3 running anyway (S03 is queued for 384). If complaints or unsubscribes rise, pause journey 749 first.
 ## 23 November 2026: GDC 060 and 067 approved, 060 swaps with 063
