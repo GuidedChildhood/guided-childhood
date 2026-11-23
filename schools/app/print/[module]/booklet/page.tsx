@@ -6,7 +6,9 @@ import { standaloneTitle } from '@/lib/taster'
 import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
 import { AREAS, areaOf, placementOf, pageModules } from '@gc/shared/passport-areas'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
+import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
+import { LEVELS, LEVEL_LABEL, LEVEL_NOTE, itemsFor, parseLevel, startedReason, wordBox, type BookletLevel } from '@/lib/booklet-level'
 import { homeCodeQr, homeCodeLabel } from '@/lib/qr'
 import { worksheetItems, splitSheets, SHEET_CAPACITY } from '@/lib/worksheet'
 import { friendFor, printRegister, mono, display, text, FriendArt, FriendStrip, PrintSheet, Box, WriteLines, BigBox, TickRow, BigChoice, Number, ColourStar } from '@/components/print/kit'
@@ -39,13 +41,17 @@ type TeacherNotes = {
   worksheet?: { verdict_options?: string[] }
   commitment_stem?: string
   tool?: { heading?: string }
+  keywords?: { word?: string; definition?: string }[]
 }
 type ParentNote = { family_question?: string; say_this?: string }
 
 export const revalidate = 3600
 
-export default async function PupilBookletPage({ params }: { params: Promise<{ module: string }> }) {
+export default async function PupilBookletPage({ params, searchParams }: { params: Promise<{ module: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const { module: moduleId } = await params
+  // Expected, Adapted or Inclusion (lib/booklet-level.ts). The same lesson in
+  // the same order, so a class works together whichever sheet a pupil holds.
+  const level: BookletLevel = parseLevel((await searchParams).level)
 
   const { data: lesson } = await supabase
     .from('school_lessons')
@@ -58,7 +64,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
   const concepts = slides.filter(s => s.type === 'concept') as { heading: string; body: string; emoji?: string }[]
   const quote = slides.find(s => s.type === 'quote') as { text: string; label?: string } | undefined
   const notes = (lesson.teacher_notes ?? {}) as TeacherNotes
-  const items = worksheetItems(notes)
+  const items = itemsFor(level, worksheetItems(notes))
   // The booklet used to print module 12's words on every module. The right
   // words were in the row all along: the worksheet's own verdicts and the
   // commitment stem the pack already reads.
@@ -95,7 +101,10 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
   const area = areaOf(lesson.module_id)
   const page = placement ? PASSPORT_STAGES[placement] : null
   const stickerN = placement ? pageModules(placement).find(m => m.moduleId === lesson.module_id)?.n ?? null : null
-  const footer = `${lesson.title} · pupil booklet`
+  const footer = level === 'expected' ? `${lesson.title} · pupil booklet` : `${lesson.title} · pupil booklet · ${LEVEL_LABEL[level].toLowerCase()}`
+  const words = level === 'adapted' ? wordBox(verdicts, notes.keywords) : []
+  // Inclusion points and colours at every age; Reception always did.
+  const pointAndColour = young || level === 'inclusion'
   // Verdict cards in sheets that each fit at the register's own size, so
   // every sheet keeps its footer at its foot (lib/worksheet.ts, splitSheets).
   const itemSheets = splitSheets(items, SHEET_CAPACITY[reg.key])
@@ -106,6 +115,19 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
         <span style={mono}>Pupil booklet · photocopy per pupil · colour or black and white</span>
         <PrintButton label="Print the booklet" />
       </div>
+      {/* THE THREE LEVELS, side by side on screen and never on paper, so a
+          teacher prints the right sheet for each pupil from one place. */}
+      <nav className="no-print" aria-label="Booklet level" style={{ padding: '12px 8px 0', display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
+        {LEVELS.map(l => (
+          <Link key={l} href={l === 'expected' ? `/print/${lesson.module_id}/booklet` : `/print/${lesson.module_id}/booklet?level=${l}`}
+            aria-current={l === level ? 'page' : undefined} title={LEVEL_NOTE[l]}
+            style={{ ...mono, color: l === level ? 'var(--ink)' : 'var(--ink-muted)', border: `1.5px solid ${l === level ? 'var(--ink)' : 'var(--border)'}`, background: l === level ? 'var(--butter-lt)' : 'transparent', borderRadius: 'var(--radius-pill)', padding: '6px 12px', textDecoration: 'none' }}>
+            {LEVEL_LABEL[l]}
+          </Link>
+        ))}
+        <Link href={`/print/${lesson.module_id}/support-mat`} style={{ ...mono, color: 'var(--ink-muted)', padding: '6px 4px' }}>Support mat, one for every two pupils</Link>
+        <span style={{ ...text, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', flexBasis: '100%' }}>{LEVEL_NOTE[level]}.</span>
+      </nav>
 
       {/* The cover: the friend, the title, whose booklet it is. */}
       <PrintSheet footer={footer} center>
@@ -181,8 +203,17 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
           <>
             <h2 style={{ ...display, fontSize: reg.title, marginBottom: '6px' }}>My verdicts</h2>
             <p style={{ ...text, fontSize: reg.body, color: 'var(--ink-soft)', marginBottom: '14px' }}>
-              {young ? `Your teacher reads each one. Point at your answer, then colour the circle you chose.` : 'Tick your verdict for each card, then write your reason. A verdict without a reason does not count.'}
+              {pointAndColour
+                ? (young ? `Your teacher reads each one. Point at your answer, then colour the circle you chose.` : 'With an adult, read each card. Point at your answer, then colour the circle you chose.')
+                : level === 'adapted'
+                  ? 'Tick your verdict for each card, then finish the sentence. The word box can help.'
+                  : 'Tick your verdict for each card, then write your reason. A verdict without a reason does not count.'}
             </p>
+            {words.length > 0 && (
+              <Box label="Word box" friend={friend} tint radius={reg.radius}>
+                <p style={{ ...text, fontSize: reg.body, fontWeight: 700, lineHeight: 1.8 }}>{words.join('   ·   ')}</p>
+              </Box>
+            )}
           </>
         )}
         {sheet.map(it => (
@@ -193,6 +224,14 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
             </div>
             {young ? (
               verdicts.length > 0 && <BigChoice options={verdicts} friend={friend} />
+            ) : level === 'inclusion' ? (
+              verdicts.length > 0 && <BigChoice options={verdicts} friend={friend} />
+            ) : level === 'adapted' ? (
+              <>
+                {verdicts.length > 0 && <TickRow options={verdicts} friend={friend} />}
+                <p style={{ ...text, fontSize: reg.body, fontWeight: 700, marginTop: '10px' }}>{startedReason(it)} ...</p>
+                <WriteLines n={1} height={reg.lineHeight} />
+              </>
             ) : (
               <>
                 {verdicts.length > 0 && <TickRow options={verdicts} friend={friend} />}
@@ -209,10 +248,14 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
       <PrintSheet footer={footer} last>
         <FriendStrip friend={friend} register={reg} eyebrow="After the lesson · your mission" mood="happy" />
         <h2 style={{ ...display, fontSize: reg.title, marginBottom: '14px' }}>Take it home</h2>
-        <Box label={stemLabel} friend={friend} tint radius={reg.radius}>
-          <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{stem}</p>
-          <WriteLines n={young ? 2 : 1} height={reg.lineHeight} color={friend.accent} />
-        </Box>
+        {level === 'inclusion' && !young ? (
+          <BigBox label={`Draw what you will do. ${stem}`} height={reg.boxHeight} friend={friend} />
+        ) : (
+          <Box label={stemLabel} friend={friend} tint radius={reg.radius}>
+            <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{stem}</p>
+            <WriteLines n={young || level === 'adapted' ? 2 : 1} height={reg.lineHeight} color={friend.accent} />
+          </Box>
+        )}
         {familyQuestion && (
           <Box label="Ask at tea" radius={reg.radius}>
             <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{familyQuestion}</p>
