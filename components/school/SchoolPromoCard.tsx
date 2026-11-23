@@ -69,7 +69,7 @@ export default function SchoolPromoCard({ dismissed = false }: { dismissed?: boo
         Never miss a PE kit day again
       </div>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '14px' }}>
-        Photograph the letter from the book bag, or a screenshot of the email. DiGi turns it into reminders, the night before and again in the morning.
+        Photograph the letter from the book bag, or a screenshot of the email. DiGi turns it into reminders, at 4pm the day before and again that morning.
       </p>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
         <Link

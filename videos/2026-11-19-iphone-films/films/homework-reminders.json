@@ -111,8 +111,8 @@
   {
    "rec": "hw-coming",
    "from": 10.1,
-   "dur": 2.5,
-   "head": "And always the night before.",
+   "dur": 3.0,
+   "head": "And always at 4pm the day before.",
    "cam": [
     {
      "t": 0,

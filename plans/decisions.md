@@ -236,6 +236,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 - GDC 060 (EU KIDS Act, recruit strangers) is written for the first time; the 16 November pass claimed the number and left no copy. GDC 067 (YouGov, 77 percent back the ban and split 45 to 46 on whether it works, start an argument) is new.
 - Two because post-picker found no free slot before 9 December under the three a week rule, and the reserve was short only of argument posts and anything on the ban. Australia one year on was dropped: esafety.gov.au returned 503, so no figure could be read at source.
 - The KIDS Act feedback window closes 3 December, not 26 November. 060 still needs a slot Justin has to free. PR 1669.
+
 ## 23 November 2026: GDC 062 and 063 approved
 
 - Justin: "062 and 063 approved". 063 goes Mon 30 Nov 08:00, 062 Mon 7 Dec 08:00.
@@ -248,6 +249,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The routine's stored brief still says to open on the question. The 11 November analytics say named body and finding first, so the posts follow that. Pack `content/packs/2026-11-23-hints-not-answers/`. PR 1668.
 ### 23 November 2026: Oak call, lead with PSHE plus parent engagement for trusts
 - Oak's partnerships lead: EdTech now enters schools at trust level, where gatekeepers hear from 10 to 20 companies a week. Lead with what few do, PSHE and parent engagement, not "a new product". Oak's API is free for commercial use and updated for the latest RSHE. A case study tier opens once pilots are running. Notes: `plans/2026-11-23-oak-call-notes.md`.
+
 ## 23 November 2026: adding a school reminder is first on the page, any day, and reminders go at 4pm and 7:20
 
 - Justin: adding should be easy and one of the first tasks; he could only choose today; default reminders 16:00 the day before and 07:20 that morning on the phones.
@@ -256,3 +258,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 
 ### 23 November 2026: pupil booklets at three levels, and a support mat
 - Every module's booklet now prints as Expected, Adapted (word box, reasons started) or Inclusion (four cards, point and colour, no writing), plus a support mat for every two pupils. Taken from the French scheme's tiered printouts. Generated from the lesson row, so no new content. Plan: `plans/2026-11-23-booklet-levels-plan.md`.
+
+## 23 November 2026: the homework film says 4pm the day before
+
+- Justin asked for the one headline re-cut after reminders moved to 4pm (PR 1670). All three screens were re-recorded from the current app, so the card, the confirmation and the headline agree. Both cuts are now 36.7s; captions and the LinkedIn list updated. Two stale "night before" lines on the school promo card and the letterbox went too.
