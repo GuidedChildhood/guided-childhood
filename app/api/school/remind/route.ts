@@ -1,5 +1,5 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
-import { londonDateIn, londonWeekdayIn } from '@/lib/time/london'
+import { londonDateIn, londonWeekdayIn, londonNow } from '@/lib/time/london'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
@@ -13,7 +13,8 @@ import type { Region } from '@/lib/learning/holidays'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
-// Called once a day, evening UK time, by Vercel Cron (see vercel.json).
+// Called at 16:00 UK time by Vercel Cron (see vercel.json and the hour gate
+// below): after school, with the shops still open.
 // The never miss it promise: anything due tomorrow, whether a one off
 // with a due date or a weekly routine (PE every Thursday), whether
 // DiGi caught it from a school email or the parent typed it in by
@@ -31,6 +32,14 @@ async function handler(req: NextRequest) {
   const auth = req.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // UK TIME ALL YEAR (Justin, 23 November 2026: "16:00 day before"). Vercel
+  // schedules are UTC, so one fixed hour drifts by an hour every summer. The
+  // schedule fires at both UTC hours that can be 16:00 in London and only the one
+  // that is sends; the other returns at once. ?force=1 is for a hand run.
+  if (londonNow().hour !== 16 && req.nextUrl.searchParams.get('force') !== '1') {
+    return NextResponse.json({ skipped: 'not 16:00 in London' })
   }
 
   const supabase = createClient(

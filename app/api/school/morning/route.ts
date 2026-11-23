@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
 // The morning nudge. The evening remind cron warns the night before; this one
-// runs first thing (about 7:45 UK) and tells BOTH the parent and the child
+// runs at 07:20 UK and tells BOTH the parent and the child
 // what is needed today, whether a one off due today or a weekly routine that
 // lands on this weekday, so nobody is packing the kit at the door. One grouped
 // message per family, to the parent's phone and to the child's, best effort.
@@ -25,6 +25,14 @@ async function handler(req: NextRequest) {
   const auth = req.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // UK TIME ALL YEAR (Justin, 23 November 2026: "morning 7:20"). Vercel
+  // schedules are UTC, so one fixed hour drifts by an hour every summer. The
+  // schedule fires at both UTC hours that can be 07:20 in London and only the one
+  // that is sends; the other returns at once. ?force=1 is for a hand run.
+  if (londonNow().hour !== 7 && req.nextUrl.searchParams.get('force') !== '1') {
+    return NextResponse.json({ skipped: 'not 07:20 in London' })
   }
 
   const supabase = createClient(

@@ -1,0 +1,64 @@
+{
+  "since": "2026-10-24",
+  "until": "2026-11-23",
+  "people": [
+    {
+      "id": "odgers",
+      "name": "Candice Odgers",
+      "role": "researcher",
+      "stance": "Ally. Small average effects, risk concentrated in vulnerable children, against moral panic. Closest to our thesis.",
+      "mayName": true,
+      "items": [],
+      "lost": [
+        "status 503"
+      ]
+    },
+    {
+      "id": "haidt",
+      "name": "Jonathan Haidt",
+      "role": "researcher",
+      "stance": "Respected opponent on mechanism. Agrees the worry is real; we differ on cause (screen time versus what the child carries in and what the feed does with it). Challenge only where the evidence lets us.",
+      "mayName": true,
+      "items": [
+        {
+          "kind": "post",
+          "source": "After Babel (Substack)",
+          "venue": "After Babel (Substack)",
+          "doi": null,
+          "preprint": false,
+          "title": "GTA VI Shouldn’t Spark a Moral Panic. It Should Spark New Rules.",
+          "url": "https://www.afterbabel.com/p/gta-vi-regulating-design",
+          "date": "2026-11-20",
+          "authors": "Mariana Olaizola Rosenblat",
+          "summary": "Making games safer requires regulating design, not just rating content."
+        },
+        {
+          "kind": "post",
+          "source": "After Babel (Substack)",
+          "venue": "After Babel (Substack)",
+          "doi": null,
+          "preprint": false,
+          "title": "Why Parental Consent Policies for Social Media Do Not Help Families",
+          "url": "https://www.afterbabel.com/p/parental-consent-social-media",
+          "date": "2026-11-09",
+          "authors": "Jon Haidt",
+          "summary": "This sensible-sounding idea fails parents by putting them back into a collective action trap. Platforms often propose it because they know it won&#8217;t work."
+        }
+      ],
+      "lost": [
+        "status 503"
+      ]
+    },
+    {
+      "id": "knibbs",
+      "name": "Catherine Knibbs",
+      "role": "clinician",
+      "stance": "Ally. Child online harm and trauma clinician. Never named beside our advice; her published work may inform it.",
+      "mayName": false,
+      "items": [],
+      "lost": [
+        "status 503"
+      ]
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import SchoolLetterbox from '@/components/school/SchoolLetterbox'
 import SchoolCatch from '@/components/school/SchoolCatch'
 import SchoolNextUp from '@/components/school/SchoolNextUp'
 import SchoolMore from '@/components/school/SchoolMore'
+import SchoolQuickAdd from '@/components/school/SchoolQuickAdd'
 import { getChildren } from '@/lib/children/server'
 
 // The school section: your live alerts first (the things you need to know,
@@ -125,6 +126,9 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '8px' }}>
         Coming up at school
       </h1>
+
+      {/* First on the page: add one by hand, any day (23 November 2026). */}
+      <SchoolQuickAdd />
 
       <SchoolNextUp actions={actions} region={region} />
 
