@@ -14,6 +14,8 @@ TEMPO = {}
 if len(sys.argv) > 4 and sys.argv[4] == 'ad':  # the 30 second ad cut: six of the lines, the opening a touch quicker
     LINES = [(0.2, f'{k}-open'), (5.9, 'steps'), (11.4, 'words'), (15.4, 'later'), (19.4, 'sorted'), (25.5, 'end')]
     TEMPO = {0: 1.15, 1: 1.05}
+import os
+LINES = [(t, n) for t, n in LINES if os.path.exists(f'assets/vo/{n}.mp3')]  # a line not recorded yet is left out, the rest still play
 cmd = ['ffmpeg', '-v', 'error', '-y', '-i', src]
 for _, n in LINES: cmd += ['-i', f'assets/vo/{n}.mp3']
 f = ''
