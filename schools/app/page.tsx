@@ -314,7 +314,7 @@ export default async function SchoolsPage() {
               A friend at the door, then a lesson with a spine.
             </h2>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px' }}>
-              Every lesson runs the same six phases in the same order, the shape the strongest teaching research keeps arriving at: retrieval first, small steps, guided practice, and the class proving it before the close. Scroll, and watch one open.
+              The same six steps every lesson, so the class always knows what comes next. Scroll, and watch one open.
             </p>
           </div>
           <LessonOpens />
@@ -334,19 +334,19 @@ export default async function SchoolsPage() {
                 A teacher opens one page. The whole lesson is already there.
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px' }}>
-                No hunting through a portal. No prep the night before. Everything a non specialist needs to teach it well, generated from the lesson itself and updated the moment the world changes.
+                No portal to hunt through, no prep the night before.
               </p>
             </div>
             <MapPreview />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-4)' }}>
             {[
-              { icon: '🎬', title: 'The interactive lesson', body: 'A projector led player with the animated DiGi Squad, timed talk tasks, auto marked checks, and a word for word teacher script on every slide.' },
-              { icon: '🧭', title: 'The run sheet', body: 'Before, during and after on one printable page: what to print, every phase with its script, and what goes home. Any teacher can run it cold.' },
-              { icon: '🖨️', title: 'The printable pack', body: 'Teacher one pager, worksheet with the answer thinking, bookmark, quiz cards, and a colour pupil booklet. A paper fallback runs the whole lesson with no screen.' },
-              { icon: '🏡', title: 'A note that reaches home', body: 'Every lesson ends with a parent note. What we taught, one question to ask at tea, and the passport line that says where the lesson sits.' },
-              { icon: '🛡️', title: 'Safeguarding built in', body: 'The sensitive modules carry a DSL note, a ten minute staff briefing, and disclosure handling written into the script, calm on every page.' },
-              { icon: '📋', title: 'The compliance hub', body: 'The statutory mapping, policy ready text, the parent pack and a data protection pack for your DPO. All of it public or printable.' },
+              { icon: '🎬', title: 'The lesson', body: 'The animated player, with the words to say on every slide.' },
+              { icon: '🖨️', title: 'The printouts', body: 'Booklets at three levels, quizzes and a support mat.' },
+              { icon: '🧭', title: 'The run sheet', body: 'Any teacher can run it cold.' },
+              { icon: '🏡', title: 'The note home', body: 'What we taught, and one question to ask at tea.' },
+              { icon: '🛡️', title: 'Safeguarding', body: 'A staff briefing for every sensitive lesson.' },
+              { icon: '📋', title: 'The paperwork', body: 'Mapping, policy text and data protection, ready to print.' },
             ].map(f => (
               <div key={f.title} className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '26px', height: '100%', boxShadow: softShadow }}>
                 <div style={{ fontSize: 'var(--text-2xl)', marginBottom: '16px' }}>{f.icon}</div>
@@ -354,42 +354,6 @@ export default async function SchoolsPage() {
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65 }}>{f.body}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── THE SQUAD ── now with the real clips ── */}
-      <section style={{ padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px)', background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
-          <div className="fu">
-            <p style={{ ...eyebrow(), marginBottom: '14px' }}>Taught by the DiGi Squad</p>
-            <h2 style={{ ...h2, maxWidth: '720px', marginBottom: '18px' }}>
-              A cast children remember, carrying lessons that matter.
-            </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '600px', marginBottom: '44px' }}>
-              Each character owns a corner of digital life, so a child meets a familiar face every time the topic comes back, year after year. These are the actual lesson intros, animated from our own character art so the style never drifts.
-            </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--space-3)' }}>
-            {CAST.map(c => {
-              const ch = CHARACTERS[c.key]
-              return (
-                <div key={c.key} className="fu" style={{ background: ch.soft, border: `1.5px solid ${ch.accent}`, borderRadius: 'var(--radius-card)', padding: '16px 14px 20px', textAlign: 'center', height: '100%' }}>
-                  <div style={{ width: '100%', aspectRatio: '1', margin: '0 auto 14px', borderRadius: 'var(--radius-btn)', background: '#fff', border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                    {c.clip ? (
-                      <video src={c.clip} autoPlay muted loop playsInline aria-label={`${ch.name} animated`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : ch.img ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={ch.img} alt={ch.name} style={{ width: '72%', height: '72%', objectFit: 'contain' }} />
-                    ) : (
-                      <span style={{ fontSize: 'var(--text-3xl)' }}>{ch.emblem}</span>
-                    )}
-                  </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: ch.ink, marginBottom: '6px' }}>{ch.name}</div>
-                  <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{c.line}</div>
-                </div>
-              )
-            })}
           </div>
         </div>
       </section>
@@ -403,48 +367,44 @@ export default async function SchoolsPage() {
               Every year has a job. Here is all of it.
             </h2>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '640px', marginBottom: '44px' }}>
-              The same ten behaviours spiral through the whole scheme, deeper each time: privacy, verification, persuasion resistance, AI judgement, help seeking, footprint, balance, money, identity and kindness. Below each stage is the reason its content lands at that age, because a scheme should be able to say why.
+              Ten behaviours come back every year, a little deeper each time. Pick a stage to see its lessons.
             </p>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          {/* THE FRIENDS, AS FACES (23 November 2026). The squad section was a
+              full page of clips and paragraphs; the faces and names carry the
+              same promise in one row. Still the filtered cast, so no friend
+              who teaches nothing is sold here. */}
+          <div className="fu" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)', marginBottom: 'var(--space-5)' }} aria-label="The Planet Friends who teach the lessons">
+            {CAST.map(c => {
+              const ch = CHARACTERS[c.key]
+              return (
+                <div key={c.key} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                  <span style={{ width: '48px', height: '48px', borderRadius: '50%', background: ch.soft, border: `2px solid ${ch.accent}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                    {ch.img ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={ch.img} alt="" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
+                    ) : <span aria-hidden>{ch.emblem}</span>}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: ch.ink }}>{ch.name}</span>
+                </div>
+              )
+            })}
+          </div>
+          {/* THE STAGES AS SIX DOORS (23 November 2026). This section printed
+              every module of every stage, the longest stretch of the page.
+              The curriculum map already does that, so the home page now
+              offers the six stages and sends each to its place on the map
+              (plans/2026-11-23-schools-ux-review.md). */}
+          <div className="fu" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 'var(--space-3)' }}>
             {KEY_STAGE_ORDER.map(ks => {
               const meta = KEY_STAGE_META[ks]
-              const mods = MODULES.filter(m => m.keyStage === ks)
+              const count = MODULES.filter(m => m.keyStage === ks).length
               return (
-                <div key={ks} className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', overflow: 'hidden', boxShadow: softShadow }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'minmax(200px, 280px) 1fr' }} className="schools-curric-row">
-                    <div style={{ background: ESPRESSO, color: '#fff', padding: '26px 24px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-                      <div style={{ ...eyebrow(GOLD), fontSize: 'var(--text-sm)' }}>{meta.label}</div>
-                      <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)', fontWeight: 900, letterSpacing: '-0.01em' }}>{meta.years}</div>
-                      <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'rgba(255,250,240,0.75)', lineHeight: 1.5 }}>{meta.strapline}</div>
-                      <div style={{ marginTop: 'auto', paddingTop: '12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,250,240,0.55)' }}>
-                        {mods.length} module{mods.length === 1 ? '' : 's'}
-                      </div>
-                    </div>
-                    <div style={{ padding: '22px 24px', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-                      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px' }}>
-                        {STAGE_WHY[ks]}
-                      </p>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 'var(--space-3)' }}>
-                        {mods.map(m => {
-                          const ch = CHARACTERS[m.character]
-                          return (
-                            <div key={m.moduleId} style={{ background: ch.soft, border: `1px solid ${ch.accent}`, borderRadius: 'var(--radius-tile)', padding: '12px 14px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: '5px' }}>
-                                <FriendMark character={m.character} size={40} ring={false} />
-                                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>{m.title}</span>
-                                {m.crown && <span style={{ marginLeft: 'auto' }} title="Crown module">👑</span>}
-                              </div>
-                              <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: 'var(--text-sm)', fontWeight: 600, color: ch.ink, lineHeight: 1.45 }}>
-                                &ldquo;{m.outcome}&rdquo;
-                              </div>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Link key={ks} href={`/curriculum#${ks.toLowerCase()}`} className="gc-tap" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '18px 20px', textDecoration: 'none', boxShadow: softShadow }}>
+                  <span style={{ ...eyebrow(), fontSize: 'var(--text-xs)' }}>{meta.label}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{meta.years}</span>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>{count} lesson{count === 1 ? '' : 's'}</span>
+                </Link>
               )
             })}
           </div>
@@ -452,33 +412,6 @@ export default async function SchoolsPage() {
             <Link href="/curriculum" className="btn btn-gold" style={{ padding: '15px 32px', fontSize: 'var(--text-md)' }}>
               Open the full curriculum map
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── THE EVIDENCE SPINE ── */}
-      <section style={{ padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px)', background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
-          <div className="fu">
-            <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '14px' }}>Why we believe what we believe</p>
-            <h2 style={{ ...h2, maxWidth: '760px', marginBottom: '18px' }}>
-              Built on the regulators, the scientists and the clinicians. Honestly.
-            </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '640px', marginBottom: '44px' }}>
-              A head should be able to trace every design decision in this scheme to a named source, and to see where the evidence is genuinely unsettled, because the honest line is the credible line. The full picture, source by source, is on the philosophy page.
-            </p>
-          </div>
-          <div className="schools-evidence-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 'var(--space-4)' }}>
-            {EVIDENCE.map(e => (
-              <div key={e.label} className="fu" style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '26px', height: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-                <div style={{ ...eyebrow('var(--green-dark)'), fontSize: 'var(--text-sm)' }}>{e.label}</div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>{e.title}</h3>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65 }}>{e.body}</p>
-                <Link href={e.link.href} style={{ marginTop: 'auto', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
-                  {e.link.label} →
-                </Link>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -493,11 +426,8 @@ export default async function SchoolsPage() {
             <h2 style={{ ...h2, marginBottom: '18px' }}>
               The learning carries on at home
             </h2>
-            <p style={{ ...PAGE.lead, color: 'var(--ink-soft)', maxWidth: '680px', margin: '0 auto var(--space-3)' }}>
-              Every lesson ends with a home code on the parent note. A family using the Guided Childhood parent app enters it, and the lesson lands in their child&rsquo;s own passport to sixteen, the same passport your curriculum follows. What a child meets in class, a parent can carry on that evening, so the message is one message and not two.
-            </p>
-            <p style={{ ...PAGE.lead, color: 'var(--ink-soft)', maxWidth: '680px', margin: '0 auto' }}>
-              The passport earns a stamp for each stage on the road to 16, and in time a family will be able to print it as a keepsake book of the journey. One shared pathway, school and home walking it together.
+            <p style={{ ...PAGE.lead, color: 'var(--ink-soft)', maxWidth: '620px', margin: '0 auto' }}>
+              Every lesson sends a note home with a code. Parents carry the same lesson on that evening, so children hear one message, not two.
             </p>
           </div>
         </div>
@@ -514,18 +444,16 @@ export default async function SchoolsPage() {
                   The paperwork is already written, and it prints.
                 </h2>
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  Every module is mapped to the RSHE guidance that becomes statutory on 1 September 2026, including deepfakes, misogynistic content, gambling and the harms of pornography. Your DSL gets the safeguarding crosswalk, your DPO gets the data protection pack, and parents get a transparency pack built for consultation.
+                  Every lesson is mapped to the statutory guidance, and every document updates itself when the curriculum does.
                 </p>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
-                  All of it regenerates from the live curriculum, so it can never fall out of date in a filing cabinet.
-                </p>
+                <Link href="/hub/rshe-mapping" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>See the mapping</Link>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
                 {[
-                  { label: 'RSHE statutory 2026', desc: 'In force 1 September 2026, mapped module by module, matrix public.' },
-                  { label: 'KCSIE 2026', desc: 'Generative AI, deepfakes, misinformation and conspiracy theories, each mapped to the module that teaches it.' },
+                  { label: 'RSHE 2026', desc: 'Mapped lesson by lesson, and public.' },
+                  { label: 'KCSIE 2026', desc: 'AI, deepfakes and misinformation, each mapped to a lesson.' },
                   { label: 'Connected World', desc: 'All eight UKCIS strands, Reception to Year 13.' },
-                  { label: 'No pupil data', desc: 'No pupil accounts, no logins, nothing to breach. One code per school.' },
+                  { label: 'No pupil data', desc: 'No pupil accounts. One code per school.' },
                 ].map(item => (
                   <div key={item.label} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '20px', boxShadow: softShadow }}>
                     <div style={{ ...eyebrow('var(--green-dark)'), fontSize: 'var(--text-sm)', marginBottom: '9px' }}>{item.label}</div>
@@ -624,7 +552,7 @@ export default async function SchoolsPage() {
             Be one of the first schools to teach it.
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
-            A free one term pilot for the first {PILOT_PLACES} schools teaching the new statutory guidance this year. Tell us your school and we will reply within two working days, usually the same day. Or teach the sample lesson first and ask after.
+            A free term for {PILOT_PLACES} schools. We reply within two working days.
           </p>
           <div style={{ display: 'flex', gap: 'var(--space-3)', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href={PILOT_PATH} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '17px 36px' }}>
