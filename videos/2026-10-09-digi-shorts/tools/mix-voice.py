@@ -3,14 +3,21 @@
 #   python3 tools/mix-voice.py a renders/out/three-a-simple.mp4 out.mp4
 import subprocess, sys
 k, src, out = sys.argv[1:4]
-her = 'his' if k == 'b' else 'her'
+her, research = ('his' if k == 'b' else 'her'), f'{k}-research'
+if k not in 'abc':  # a film from cuts/films.json: its own opening, shared lines for the rest
+    import json
+    D = json.load(open('cuts/films.json')); f = next(x for x in D['films'] if x['key'] == k)
+    her, research = D['cast'][f['child']]['pos'], D['research'][f['research']]['vo']
 LINES = [(0.4, f'{k}-open'), (7.9, 'starts'), (10.9, 'steps'), (18.3, f'checkin-{her}'), (25.4, 'words'),
-         (30.9, 'later'), (37.4, 'sorted'), (41.0, 'learns'), (46.6, f'{k}-research'), (52.7, 'end')]
+         (30.9, 'later'), (37.4, 'sorted'), (41.0, 'learns'), (46.6, research), (52.7, 'end')]
 cmd = ['ffmpeg', '-v', 'error', '-y', '-i', src]
 for _, n in LINES: cmd += ['-i', f'assets/vo/{n}.mp3']
 f = ''
 for i, (t, n) in enumerate(LINES):
     tempo = ',atempo=1.1' if n == 'a-research' else ''
+    if i == 0:  # the opening must finish before the next line at 7.9s: quicken it a touch if it runs long
+        d = float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f'assets/vo/{n}.mp3']))
+        if d > 7.1: tempo = f',atempo={d / 7.1:.3f}'
     f += f'[{i+1}:a]aresample=48000{tempo},adelay={int(t*1000)}:all=1,volume=1.5[v{i}];'
 f += ''.join(f'[v{i}]' for i in range(len(LINES))) + f'amix=inputs={len(LINES)}:normalize=0,asplit=2[vo][sc];'
 f += '[0:a][sc]sidechaincompress=threshold=0.02:ratio=8:attack=60:release=600[bed];[bed][vo]amix=inputs=2:duration=first:normalize=0[a]'

@@ -1,4 +1,5 @@
 import DeckViewer from '@/app/(dashboard)/dashboard/scripts/[id]/deck/DeckViewer'
+import FILM_SCRIPTS from './film-scripts.json'
 
 // Fixture reference page for the script deck, the card by card way through a
 // script ("Try as deck" on any script page): the REAL DeckViewer with made up
@@ -75,7 +76,8 @@ const SCRIPT_417 = {
   "tonight": "Sit down and renegotiate the bedroom phone rule together, holding the sleep principle while updating the detail."
 }
 
-const SCRIPTS: Record<string, typeof SCRIPT> = { '9671': SCRIPT, '9651': SCRIPT_9651, '204': SCRIPT_204, '9611': SCRIPT_9611, '417': SCRIPT_417 }
+// The question films' script rows (23 November 2026), word for word from the live table.
+const SCRIPTS: Record<string, typeof SCRIPT> = { '9671': SCRIPT, '9651': SCRIPT_9651, '204': SCRIPT_204, '9611': SCRIPT_9611, '417': SCRIPT_417, ...(FILM_SCRIPTS as Record<string, typeof SCRIPT>) }
 
 export default async function RefScriptDeck({
   searchParams,
