@@ -47,7 +47,7 @@ Our best page (pilot, 339 words) is the shape every page should have.
 7. No more than three cards in a row, no more than six on a screen.
 
 ## Build order (each a small PR, checked at 390 and 1280)
-1. **Hub becomes a launcher.** "What do you need today?" Six tiles: Teach a
+1. **Hub becomes a launcher.** (Built 23 November: 971 words to 305, six jobs with chips, every document one tap away.) "What do you need today?" Six tiles: Teach a
    lesson, Show what we cover, Safeguarding, Parents, Train staff, Our
    records. The 19 documents sit inside them. The safeguarding names form
    moves to the Safeguarding page.
