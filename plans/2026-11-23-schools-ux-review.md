@@ -54,7 +54,7 @@ Our best page (pilot, 339 words) is the shape every page should have.
 2. **Lesson page.** (Built 23 November: 2,570 words to 651 on first view; one Teach button, Walk me through it and a Print menu, four folds that open for printing.) Teach this lesson stays the one big button. The seven
    print buttons become one "Print" button opening the print page. The 20
    screens below fold into four sections, closed by default.
-3. **Home.** Hero, three proof points, one picture of a lesson, pricing line,
+3. **Home.** (Built 23 November: 2,699 words to about 1,100, 28 phone screens to 13; the squad becomes one row of faces, the journey six stage cards, the evidence section moves to Philosophy.) Hero, three proof points, one picture of a lesson, pricing line,
    one button. Target 6 phone screens, under 600 words. The rest moves to
    Philosophy and the curriculum map.
 4. **Curriculum map.** Year group chips first, the paragraph wall into one line.
