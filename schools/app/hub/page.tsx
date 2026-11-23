@@ -37,8 +37,9 @@ type Job = { icon: HappyIconName; disc: CrayonName; title: string; line: string;
 const JOBS: Job[] = [
   {
     icon: 'calendar', disc: 'butter', title: 'Teach this week', line: 'Find the lesson for your year group.',
-    main: { href: '/curriculum', label: 'Open the curriculum' },
+    main: { href: '/start', label: 'Find my lesson' },
     more: [
+      { href: '/curriculum', label: 'The whole map' },
       { href: '/hub/year-plan', label: 'Year plan' },
       { href: '/hub/progression', label: 'Progression map' },
       { href: '/print/look-back', label: 'Look back quiz' },

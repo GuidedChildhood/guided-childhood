@@ -24,7 +24,7 @@ const eyebrow: React.CSSProperties = {
  *  starts with a scheme, or with a second slash, is somebody trying to use
  *  our login form as a springboard to their own page. */
 function safeNext(raw: string | undefined): string {
-  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/curriculum'
+  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/start'
   return raw
 }
 
