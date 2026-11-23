@@ -414,7 +414,7 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 ## 23 November 2026: the app safety week moves on, and goes out automatically
 
 - Justin: "push to next week, just do next weeks if any full, no want you to do it auto". Both accounts were full this week.
-- Family posts take next week's anchor days (30 Nov, 2, 4, 5 Dec); Sunday 29's social-week batch builds their cards, and the skill now reads approved moved posts before the sheet. LinkedIn keeps three a week: L1 to L3 go out 9, 11 and 14 December. Pins 1, 3 and 5 December.
+- Family posts take next week's anchor days (30 Nov, 2, 4, 5 Dec); Sunday 29's social-week batch builds their cards, and the skill now reads approved moved posts before the sheet. LinkedIn keeps three a week; 30 Nov and 7 Dec weeks are full (060, 059; 062, 063, 067), so L1 Mon 14, L3 Wed 16, L2 Fri 18 December. Pins 1, 3 and 5 December.
 - Automatic, not Justin posting: through Metricool, the scheduler that already holds both accounts. Claude has no Metricool access, so a Metricool API key was asked for; until then the pack file is the handoff, with scheduling and automatic publishing approved for these posts only. Earlier rule (17 Nov, Claude schedules nothing) stands for everything else. PR 1694.
 
 ### 23 November 2026: Schools v3 keeps running
