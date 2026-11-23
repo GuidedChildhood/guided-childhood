@@ -16,6 +16,7 @@ import { asList } from '@/lib/notes'
 import { isStandaloneModule } from '@/lib/taster'
 import { isRseModule } from '@/lib/rse'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
+import { RefFold, JumpChips, RefPageKit } from '@/components/RefFold'
 
 // THE RUN SHEET: the whole lesson, walked through, start to finish.
 //
@@ -191,6 +192,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
 
   return (
     <main className="gc-run" style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
+      <RefPageKit />
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
 
         <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
@@ -213,34 +215,48 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
               free lessons do, and "glasses?, start to finish" is what they got. */}
           {/[?!.]$/.test(lesson.title) ? `${lesson.title} Start to finish` : `${lesson.title}, start to finish`}
         </h1>
-        <p style={{ ...body, maxWidth: '640px', marginBottom: '8px' }}>
-          Everything below comes from the lesson itself: what to do before, what happens in each
-          phase, the words to say, and what goes home after. Run the whole thing from this one page.
-        </p>
         <p style={{
           fontFamily: 'var(--font-body)', fontStyle: 'italic', fontWeight: 600,
-          fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)', marginBottom: '26px',
+          fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)', marginBottom: 'var(--space-4)',
         }}>
           By the end: &ldquo;{lesson.single_action_outcome}&rdquo;
         </p>
+
+        {/* THE ONE BUTTON, FIRST (schools UX pass, batch 5). It used to sit at
+            the foot of 28 phone screens; the page now opens on it, with the
+            phases as chips beneath so a teacher jumps to the part they need. */}
+        <div className="no-print" style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
+          <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px' }}>
+            Teach this lesson
+          </Link>
+          <span style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
+            {totalMinutes} minutes{skippable.length > 0 ? `, or ${coreMinutes} on the short route` : ''}
+          </span>
+        </div>
+
+        <JumpChips items={[
+          { href: '#before', label: 'Before' },
+          ...phases.map(({ phase }) => ({ href: `#phase-${phase}`, label: PHASE_LABELS[phase] })),
+          { href: '#after', label: 'After' },
+        ]} />
 
         {/* THE TRACKER, FIRST, because it answers the question a teacher opens
             this page with: what is left. The rows below stay printable squares
             for the clipboard; this panel is the memory, on screen only. */}
         {/* A standalone lesson is outside the scheme the tracker records. */}
         {!isStandaloneModule(moduleId) && (
+          <div className="no-print"><RefFold title="Your checklist" hint="Ticks itself as you go, on this laptop">
           <TrackerPanel
             moduleId={lesson.module_id}
             shape={shapeOf(lesson.module_id, notes.i_can)}
             actions={trackerActions(lesson.module_id)}
             hubOpen={!!access}
           />
+          </RefFold></div>
         )}
 
         {/* ── BEFORE ── */}
-        <section style={{ ...card, marginBottom: '16px' }}>
-          <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: '4px' }}>Before the lesson · about five minutes</div>
-          <h2 style={h2}>Get ready</h2>
+        <RefFold id="before" title="Before the lesson" hint="Print, read the common mistakes, choose your route. About five minutes">
           <TickRow>
             <Link href={`/print/${lesson.module_id}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Print the pack</Link>
             {' '}and photocopy per pupil: the worksheet, the start and end cards, and the parent note.
@@ -312,27 +328,14 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
               No screen today? {notes.paper_fallback}
             </p>
           )}
-        </section>
+        </RefFold>
 
         {/* ── DURING ── */}
-        <div className="gc-keep-next" style={{ ...mono, color: 'var(--green-dark)', margin: '24px 0 8px' }}>During the lesson · {totalMinutes} minutes</div>
+        <div className="gc-keep-next" style={{ ...mono, color: 'var(--green-dark)', margin: 'var(--space-4) 0 var(--space-2)' }}>During the lesson · {totalMinutes} minutes</div>
         {phases.map(({ phase, rows }) => {
           const phaseMinutes = rows.reduce((t, r) => t + (r.slide.minutes ?? 0), 0)
           return (
-            <section key={phase} style={{ ...card, marginBottom: '14px' }}>
-              <div className="gc-keep-next" style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: '8px' }}>
-                <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                  letterSpacing: '0.1em', textTransform: 'uppercase',
-                  padding: '5px 12px', borderRadius: 'var(--radius-pill)',
-                  background: 'var(--terracotta)', color: '#fff',
-                }}>
-                  {PHASE_LABELS[phase]}
-                </span>
-                {phaseMinutes > 0 && (
-                  <span style={{ ...mono }}>{phaseMinutes} min</span>
-                )}
-              </div>
+            <RefFold key={phase} id={`phase-${phase}`} title={PHASE_LABELS[phase]} hint={`${phaseMinutes > 0 ? `${phaseMinutes} min, ` : ''}${rows.length} ${rows.length === 1 ? 'slide' : 'slides'}, with the words to say`}>
               {rows.map(({ slide: s, index: i }) => (
                 <div key={i} style={{ borderTop: '1px solid var(--border)', padding: '12px 0', breakInside: 'avoid' }}>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
@@ -353,14 +356,12 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
                   {s.script && <p style={body}>{s.script}</p>}
                 </div>
               ))}
-            </section>
+            </RefFold>
           )
         })}
 
         {/* ── AFTER ── */}
-        <section style={{ ...card, margin: '24px 0 16px' }}>
-          <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: '4px' }}>After the lesson · two minutes</div>
-          <h2 style={h2}>Send it home, keep the record</h2>
+        <RefFold id="after" title="After the lesson" hint="Send it home and keep the record. Two minutes">
           <TickRow>
             The parent note goes in book bags today. It carries what you taught, the question to ask
             at tea{parent.passport ? ', and the passport line, so home knows which page the lesson sits on' : ''}.
@@ -404,7 +405,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
               Better said today than remembered on Friday.
             </TickRow>
           )}
-        </section>
+        </RefFold>
 
         {/* ── RECORD ── the run ends in the one button (10 November 2026,
             plans/2026-11-10-lesson-run-and-records-plan.md). Everything above

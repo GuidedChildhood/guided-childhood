@@ -58,7 +58,7 @@ Our best page (pilot, 339 words) is the shape every page should have.
    one button. Target 6 phone screens, under 600 words. The rest moves to
    Philosophy and the curriculum map.
 4. **Curriculum map.** (Built 23 November: one line and six year buttons before the first lesson; the three step box, the long intro and each card blurb removed; the ten behaviours and each stage reason folded.) Year group chips first, the paragraph wall into one line.
-5. **Reference pages** (CPD, DSL, Parents, Philosophy, run sheet): a summary
+5. **Reference pages** (CPD, DSL, Parents, Philosophy, run sheet). (Built 23 November: words on first view CPD 3,834 to 518, DSL 3,320 to 362, Parents 2,620 to 311, Philosophy 2,204 to 579, run sheet 3,942 to 172; a summary card and jump chips at the top, every section folded in one shared RefFold, a chip opens the fold it lands on, print opens all; the run sheet opens on Teach this lesson.) A summary
    card and jump chips at the top, every section folded, print opens all.
 6. **First visit flow for a teacher:** school code, pick your year, teach.
 
