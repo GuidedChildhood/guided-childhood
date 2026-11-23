@@ -419,3 +419,6 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - 060 (EU KIDS Act) takes Mon 30 Nov 08:00 so it lands before the feedback window closes on 3 Dec; 063 moves to Wed 9 Dec. 067 goes Fri 11 Dec, the next free slot under the three a week rule.
 - Full slot table in content/metricool-reconciliation-2026-11-22.md. Metricool changes go through ChatGPT; nothing is scheduled from here.
 
+
+### 23 November 2026: schools outreach runs itself every Monday
+- A Monday task adds up to 30 schools (GIAS register plus the office email each school publishes) and schedules their invitation (Tuesday 09:30) and one reminder two weeks later. These are replicated regular campaigns, because the Mailchimp API cannot build flows. The first 34 go Tuesday 24 November, with the reminder on 8 December.

@@ -2,8 +2,15 @@
 
 Justin, 23 November 2026: grow the schools list every week, without LinkedIn
 scraping. Every Monday a scheduled session adds up to 30 new schools to
-Mailchimp, tagged `Schools Invite v2 batch`, which starts the invitation flow
-(invitation, then one reminder 14 days later, then nothing).
+Mailchimp, tagged `Schools Invite v2 batch` and `Schools Prospect <date>`, and
+schedules two emails for that week's tag: the invitation on Tuesday at 09:30,
+and one reminder two Tuesdays later to anyone not tagged `School pilot` or
+`Schools In Conversation`. Then nothing more. (No Mailchimp flow is needed: the
+API cannot build flows, so each week's emails are replicated regular campaigns,
+copied from c8b7570191 and c090097802.)
+
+The first batch (Schools Prospect B04, 34 schools): invitation scheduled
+Tuesday 24 November 09:30, reminder Tuesday 8 December 09:30.
 
 The rules the weekly run follows:
 - Source: the government school register (GIAS open data CSV) for the school,
