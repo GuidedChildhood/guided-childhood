@@ -94,7 +94,7 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 059 | Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable. | **CLAIMED 12 Nov for the Research Radar handoff GDC-RR-f0fb8386cd.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json |
 
-| 060 | Europe's draft law would give a 13 year old a social media account, capped at one hour a day (EU KIDS Act, feedback window) | **CLAIMED 16 Nov by the Monday LinkedIn pass, WRITTEN 23 Nov.** v1. The 16 Nov pass claimed the number and never wrote the copy, so this is the first version. Recruit strangers. The Commission's own pages give two closing dates, 26 Nov and 3 Dec. No slot assigned: the week of 23 Nov is full. Not approved, not posted | content/packs/2026-11-23-linkedin-week/linkedin.md |
+| 060 | Europe's draft law would give a 13 year old a social media account, capped at one hour a day (EU KIDS Act, feedback window) | **CLAIMED 16 Nov by the Monday LinkedIn pass, WRITTEN 23 Nov.** v1. The 16 Nov pass claimed the number and never wrote the copy, so this is the first version. Recruit strangers. Ten claims verified. The live closing date is 3 Dec 2026, checked on the consultation itself; one Commission page still says 26 Nov. Drive doc and Post Desk carry it. No slot assigned: the week of 23 Nov is full. Not approved, not posted | content/packs/2026-11-23-linkedin-week/linkedin.md |
 
 | 061 | Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped. | **CLAIMED 17 Nov for the Research Radar handoff GDC-RR-9a82e5d5b3.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.json |
 
@@ -102,7 +102,7 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 063 | Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow. | **CLAIMED 19 Nov for the Research Radar handoff GDC-RR-540fff2c03.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-540fff2c03.json |
 
-| 067 | 77 percent of parents back the ban and only 45 percent expect it to work (YouGov, 15 June) | **CLAIMED 23 Nov by the Monday LinkedIn pass.** v1. Start an argument. Reserve, no slot assigned. Not approved, not posted | content/packs/2026-11-23-linkedin-week/linkedin.md |
+| 067 | 77 percent of parents back the ban and only 45 percent expect it to work (YouGov, 15 June) | **CLAIMED 23 Nov by the Monday LinkedIn pass.** v1. Start an argument. Five claims verified, two corrected. Drive doc and Post Desk carry it. Reserve, no slot assigned. Not approved, not posted | content/packs/2026-11-23-linkedin-week/linkedin.md |
 
 **Next free number: 068.** 064 is claimed in open PR 1660 (GTA VI) and 065 and 066 in open PR 1668 (Research Radar 23 Nov). Their rows land when those merge; on conflict keep every row.
 
