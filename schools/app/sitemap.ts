@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/hub/dsl`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/pricing`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/pilot`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/trusts`, changeFrequency: 'monthly', priority: 0.6 },
     // Listed only once workshops launch (lib/workshops.ts): until then the
     // page is noindex and a sitemap row would contradict it.
     ...(WORKSHOPS_LAUNCHED ? [{ url: `${BASE}/workshops`, changeFrequency: 'monthly' as const, priority: 0.7 }] : []),

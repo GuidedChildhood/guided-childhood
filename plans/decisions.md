@@ -438,3 +438,6 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - `scripts/check-email-guard.mjs` had 5 failures on main. All five were the guard behind the code, each opt out traced to a decision of Justin's: the topic course (series, 16 November), the heavy lesson heads up (transactional, sync plan C), and the ask kind ("skip the rule", 16 November). No code changed.
 - The guard now reads the email kinds from the type, so a new kind can no longer opt out unseen (ask did, for a week). It also holds the caps that make skipping the floor safe: seven emails a course, three asks an account, two a lead.
 - Runs in the concern-guards job of wiring.yml. PR 1695.
+
+### 23 November 2026: a page for trusts and MATs
+- New public /trusts page, built on Oak's advice that EdTech is bought at trust level. It covers the two jobs (online RSHE, parents), each school keeping its own code and record, a free pilot in two schools first, and pricing per school on application with the single school range shown. It claims no trust wide dashboard. Linked from the pricing trust band and the pilot page. OPEN_PATHS is now 15.
