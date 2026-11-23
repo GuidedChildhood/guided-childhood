@@ -241,3 +241,12 @@ named under each one.
 - **Huang, Espelage, Polanin and Hong (2019), anti bullying programmes with a
   parent component.** Crossref holds no abstract, so its effect sizes were not
   read. Killed; F3 and F4 cover the point.
+
+## Independent citation check, 23 November 2026
+A second agent re-read every primary source: 13 items, 8 confirmed, 5 corrected, 0 demoted. Corrections applied to the posts and the ChatGPT pack:
+1. F8: 133 took part, but the coverage figures (42 and 86 percent) come from the roughly 87 to 91 staff who teach social media literacy (MRF briefing, figure 1 base).
+2. F7: spring 2027 to September 2028 is 16 to 18 months, so the posts now say "around a year and a half" or "well over a year".
+3. F2: the report says family tips were "used" in 4 percent (5) of eighth grade lessons, not that they "went home" (UNH report p39).
+4. F6: para 55 lists "supporting parents in managing conversations" as a step a school "might" take, so the posts say "suggests", not "asks".
+5. F6: para 56's "continue conversations started in class" is about showing parents a representative sample of resources, so "suggests schools help parents" is the fair wording.
+F3 note: Wang and Jiang's effect sizes are negative (SMD -0.17), meaning reductions; the direction above is right.

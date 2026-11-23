@@ -38,7 +38,7 @@ Predominantly black and white editorial paper, with one restrained butter yellow
 - 33 percent have had no training in social media literacy.
 - The most common scheduled time is 1 to 3 hours a year.
 - Source: Molly Rose Foundation and University of Bristol, June 2026.
-- Limitation: 133 staff who chose to take part; the researchers say it likely overestimates practice nationally.
+- Limitation: 133 staff who chose to take part (the coverage figures come from the roughly 90 who teach social media); the researchers say it likely overestimates practice nationally.
 
 **Card 3. The ban and the curriculum timetable**
 - The government's July 2026 response says schools are "the best place to reach most children" and are "at the centre" of its media literacy approach.
@@ -53,7 +53,7 @@ Predominantly black and white editorial paper, with one restrained butter yellow
 - An October 2026 University of New Hampshire evaluation of the Common Sense Media digital citizenship curriculum: 15 US middle schools, 3,908 students.
 - In eighth grade, the family tips were used in 4 percent of lessons (5 lessons) and the family activities in 1 percent (2 lessons).
 - A 2022 meta analysis of 11 parent related cyberbullying programmes found very small effects, and the way parents were involved made no measurable difference.
-- England's RSHE guidance asks schools to help parents "continue conversations started in class".
+- England's RSHE guidance suggests schools help parents "continue conversations started in class".
 - Sources: Jones and colleagues, University of New Hampshire, October 2026; Wang and Jiang, Trauma, Violence and Abuse, 2022; DfE RSHE guidance, July 2025.
 - Limitation: the 4 percent is eighth grade only, counts lessons, and teachers were not asked why; the evaluation is quasi experimental with a two month follow up.
 
@@ -62,7 +62,7 @@ Predominantly black and white editorial paper, with one restrained butter yellow
 - Every lesson ends with a parent note that goes home the same day: what was taught, and one question for tea, usually the child teaching the adult.
 - A parent pack gathers every question into one page a school can print or share, with no login.
 - Each note carries a code that opens the same passport page a family can follow at home. A class lesson marks it as met; only the child's own check at home ticks it.
-- England's RSHE guidance asks schools to support parents "in managing conversations with their children".
+- England's RSHE guidance suggests schools support parents "in managing conversations with their children" (an example step, not a requirement).
 - Limitation to show: whether it changes what happens at home has not been tested yet. Pilots come first.
 - Do not show any app screen. Type and simple shapes only.
 
@@ -91,7 +91,7 @@ Predominantly black and white editorial paper, with one restrained butter yellow
 
 **Card 4**
 - HEADLINE: The home sheet nobody sends.
-- FINDING: In one US evaluation, family tips went home with 4 percent of eighth grade lessons.
+- FINDING: In one US evaluation, family tips were used in 4 percent of eighth grade lessons.
 - CONTEXT: Evidence that adding parents boosts school programmes is thin. The idea to test: make home the child's job, not an extra leaflet.
 - SOURCE: University of New Hampshire, October 2026; Wang and Jiang, 2022
 - LIMITATION: Eighth grade only. Quasi experimental.
@@ -99,7 +99,7 @@ Predominantly black and white editorial paper, with one restrained butter yellow
 **Card 5**
 - HEADLINE: The lesson goes home.
 - FINDING: 34 lessons, Reception to Year 13. Every one ends with a note and a question the child takes home.
-- CONTEXT: RSHE asks schools to help parents continue conversations started in class.
+- CONTEXT: RSHE suggests schools help parents continue conversations started in class.
 - SOURCE: DfE RSHE guidance, July 2025
 - LIMITATION: Not yet tested at home. Pilots first.
 

@@ -92,7 +92,7 @@ The gap is not about priorities. 92 percent of the same staff said it was very o
 
 The rest of the survey shows why it is not happening. 32 percent felt confident teaching about algorithms, and 27 percent about AI on social media. A third had never had any training in social media literacy. The most common amount of scheduled lesson time was one to three hours a year, and it drops off from Year 10.
 
-Now the caveat, and it is a big one. This was 133 staff who chose to take part, surveyed last winter. The researchers say themselves it probably overestimates what happens nationally. So the real picture is likely thinner, not better.
+Now the caveat, and it is a big one. 133 staff who chose to take part were surveyed last winter, and the coverage figures come from the 90 or so of them who teach social media. The researchers say themselves it probably overestimates what happens nationally. So the real picture is likely thinner, not better.
 
 I think it still points at the right gap.
 
@@ -114,7 +114,7 @@ No product mention. None needed.
 
 ---
 
-## Post 3. The ban arrives eighteen months before the new curriculum
+## Post 3. The ban arrives well over a year before the new curriculum
 
 **Rests on:** F7, the government's full response, July 2026, with F6 for the
 RSHE fact.
@@ -138,7 +138,7 @@ That is the full response to the national consultation, published in July. Schoo
 
 The under 16 restrictions are expected in spring 2027. The new national curriculum, with media literacy across subjects and AI in computing, is first taught in September 2028.
 
-By the government's own timetable, then, the ban arrives about eighteen months before the curriculum it says is central.
+By the government's own timetable, then, the ban arrives around a year and a half before the curriculum it says is central.
 
 To be fair to it, that is not the whole picture. Revised RSHE guidance has been in force since this September, and it already asks secondary schools to teach about fake accounts, deepfakes and where to go for help. And dates in a policy document move.
 
@@ -148,7 +148,7 @@ The ban is a date. What a child is able to do when that date passes is a differe
 
 I would like those months to teach children more than how to wait.
 
-If you were planning those eighteen months for a ten year old, where would you start?
+If you were planning that year and a half for a ten year old, where would you start?
 
 ### First comment
 
@@ -172,7 +172,7 @@ paragraph 56).
 
 ### HOOKS
 
-- OVERLOOKED FINDING: An evaluation of free US online safety lessons found the family tips went home with 4 percent of eighth grade lessons.
+- OVERLOOKED FINDING: An evaluation of free US online safety lessons found the family tips were used in 4 percent of eighth grade lessons.
 - UNCOMFORTABLE QUESTION: Every online safety scheme says it involves parents. How many of the home sheets ever leave the classroom?
 - PRACTICAL CONSEQUENCE: If the home part of an online safety lesson is optional, it will lose to the bell.
 
@@ -182,7 +182,7 @@ consequence is my opinion, which belongs later in the post.
 
 ### The post
 
-An evaluation of free US online safety lessons found the family tips went home with 4 percent of eighth grade lessons.
+An evaluation of free US online safety lessons found the family tips were used in 4 percent of eighth grade lessons.
 
 The University of New Hampshire published it last month: the Common Sense Media digital citizenship curriculum, 15 middle schools, nearly 4,000 students. The lessons raised knowledge in every year group. They came with family tips and family activities. In eighth grade, the tips were used in five lessons, the activities in two.
 
@@ -192,7 +192,7 @@ Researchers will push back on what comes next, and they would be right to. The e
 
 So treat this as a hypothesis. Maybe the home part fails because it is built as an extra: a leaflet for the parent to read, rather than a job for the child to do.
 
-England's RSHE guidance now asks schools to help parents "continue conversations started in class". In the lessons I have written, every one ends with a question the child takes home and teaches back to the adult. In Reception it is "Can you teach me the star pause?"
+England's RSHE guidance now suggests schools help parents "continue conversations started in class". In the lessons I have written, every one ends with a question the child takes home and teaches back to the adult. In Reception it is "Can you teach me the star pause?"
 
 Whether that changes anything at home is untested. I would like it tested, properly, by someone who is not me.
 
@@ -228,7 +228,7 @@ engagement, and the staff time back. Oak is not named or quoted.
 
 ### HOOKS
 
-- OVERLOOKED FINDING: England's RSHE guidance asks schools to help parents "continue conversations started in class". Very little I have seen is built for it.
+- OVERLOOKED FINDING: England's RSHE guidance suggests schools help parents "continue conversations started in class". Very little I have seen is built for it.
 - VULNERABLE: I have written 34 online safety lessons for schools. The part I am least sure of happens after the bell.
 - PRACTICAL CONSEQUENCE: Every RSHE lesson now comes with a duty to the parents. Someone in every school has to write that letter home.
 
@@ -239,9 +239,9 @@ the product. The consequence is true but sounds like a sales line.
 
 ### The post
 
-England's RSHE guidance asks schools to help parents "continue conversations started in class". Very little I have seen is built for it.
+England's RSHE guidance suggests schools help parents "continue conversations started in class". Very little I have seen is built for it.
 
-The revised guidance came into force this September. It asks schools to show parents what is taught, and to support them "in managing conversations with their children". In most schools that lands on a PSHE lead who already has more to do than time to do it.
+The revised guidance came into force this September. It suggests schools show parents what is taught, and support them "in managing conversations with their children". In most schools that lands on a PSHE lead who already has more to do than time to do it.
 
 My wife is a teacher, which is part of why I started building on the schools side at all.
 
