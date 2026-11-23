@@ -94,7 +94,7 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 059 | Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable. | **CLAIMED 12 Nov for the Research Radar handoff GDC-RR-f0fb8386cd.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json |
 
-| 060 | Europe's draft law allows a social media account at 13, capped at one hour a day (EU KIDS Act, feedback window) | **CLAIMED 16 Nov by the Monday LinkedIn pass.** v1, written fresh, not a rewrite of the retired 025. Recruit strangers, planned Mon 23 Nov, must go before 26 Nov. Not approved, not posted | content/packs/2026-11-16-linkedin-week/linkedin.md |
+| 060 | Europe's draft law would give a 13 year old a social media account, capped at one hour a day (EU KIDS Act, feedback window) | **CLAIMED 16 Nov by the Monday LinkedIn pass, WRITTEN 23 Nov.** v1. The 16 Nov pass claimed the number and never wrote the copy, so this is the first version. Recruit strangers. Ten claims verified. The live closing date is 3 Dec 2026, checked on the consultation itself; one Commission page still says 26 Nov. Drive doc and Post Desk carry it. No slot assigned: the week of 23 Nov is full. Not approved, not posted | content/packs/2026-11-23-linkedin-week/linkedin.md |
 
 | 061 | Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped. | **CLAIMED 17 Nov for the Research Radar handoff GDC-RR-9a82e5d5b3.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.json |
 
@@ -108,7 +108,9 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 066 | RAND asked a thousand American parents what they tell their teenagers about AI and homework, and one in five had never raised it | **CLAIMED 23 Nov by the Monday research radar.** v1. Figures verified against the PDF. Drive review done, verdict SHIP after Justin reads it, at least two days after 065. Not approved, not posted | content/packs/2026-11-23-hints-not-answers/linkedin.md |
 
-**Next free number: 067.** 064 is the GTA VI post; 065 and 066 are the 23 November radar. ChatGPT's provisional numbers from its Metricool queue were never claimed.
+| 067 | 77 percent of parents back the ban and only 45 percent expect it to work (YouGov, 15 June) | **CLAIMED 23 Nov by the Monday LinkedIn pass.** v1. Start an argument. Five claims verified, two corrected. Drive doc and Post Desk carry it. Reserve, no slot assigned. Not approved, not posted | content/packs/2026-11-23-linkedin-week/linkedin.md |
+
+**Next free number: 068.** 064 is the GTA VI post; 065 and 066 are the 23 November radar; 067 is the 23 November LinkedIn pass. ChatGPT's provisional numbers from its Metricool queue were never claimed.
 
 **Why Claude claimed 054 rather than leaving it to ChatGPT.** The handoff tells
 Stage 2 to claim the next free number here before writing. ChatGPT cannot write

@@ -231,6 +231,11 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The full calendar card now follows the server after a refresh, so a photo add shows in the list without a reload.
 - Scripts: phones, something online and big feelings have their own picture book tiles (Higgsfield, 2.25 credits, Justin said yes).
 
+## 23 November 2026: the Monday LinkedIn pass wrote two posts, not three to five
+
+- GDC 060 (EU KIDS Act, recruit strangers) is written for the first time; the 16 November pass claimed the number and left no copy. GDC 067 (YouGov, 77 percent back the ban and split 45 to 46 on whether it works, start an argument) is new.
+- Two because post-picker found no free slot before 9 December under the three a week rule, and the reserve was short only of argument posts and anything on the ban. Australia one year on was dropped: esafety.gov.au returned 503, so no figure could be read at source.
+- The KIDS Act feedback window closes 3 December, not 26 November. 060 still needs a slot Justin has to free. PR 1669.
 ## 23 November 2026: GDC 062 and 063 approved
 
 - Justin: "062 and 063 approved". 063 goes Mon 30 Nov 08:00, 062 Mon 7 Dec 08:00.
