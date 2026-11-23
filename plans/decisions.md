@@ -231,6 +231,11 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The full calendar card now follows the server after a refresh, so a photo add shows in the list without a reload.
 - Scripts: phones, something online and big feelings have their own picture book tiles (Higgsfield, 2.25 credits, Justin said yes).
 
+## 23 November 2026: GDC 062 and 063 approved
+
+- Justin: "062 and 063 approved". 063 goes Mon 30 Nov 08:00, 062 Mon 7 Dec 08:00.
+- Recorded in the post register only. The radar pipeline approve gate needs a pack at ASSETS READY, and neither pack reached Claude QA (only the Evidence Reveal motion files are in Drive), so the pipeline status was left as it is rather than forced.
+
 ## 23 November 2026: Monday radar, hints not answers (GDC 065, 066)
 
 - Two findings survived: Stanford SCALE's November review of 52 controlled studies of AI and schoolwork, and RAND's survey of what US parents tell teenagers about AI and homework. Both PDFs read in full, 22 claims verified. Nine candidates killed, reasons in `content/research-radar-log.md`.
