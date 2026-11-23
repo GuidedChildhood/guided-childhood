@@ -61,59 +61,35 @@ export default async function CurriculumMapPage() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-3)' }}>
           The curriculum map
         </h1>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>
-          {CURRICULUM.length}{' '}modules covering all eight Education for a Connected World strands, taught by the DiGi Squad.
-          {/* It said "Pick a module and teach it today" above cards that, for a
-              visitor with no code, read Licence needed on all but one (the
-              pilot review, 7 October 2026). Every module IS open to read, and
-              one is open to teach, so that is what it says, with the one named. */}
-          {' '}Every module is open to read, and one is free to teach in full today:{' '}
-          <Link href={`/lesson/${TASTER_MODULES[0]}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+        {/* ONE LINE, THEN YOUR YEAR (23 November 2026). The map opened on a
+            paragraph, a three step box and ten chips before the first year
+            group (plans/2026-11-23-schools-ux-review.md). It now says what it
+            is in one line, names the free lesson, and puts the year groups
+            first. The ten behaviours fold away under the year buttons. */}
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '640px', marginBottom: 'var(--space-4)' }}>
+          {CURRICULUM.length} lessons, Reception to Year 13. Every one is open to read, and one is free to teach today:{' '}
+          <Link href={`/lesson/${TASTER_MODULES[0]}`} style={{ color: 'var(--ink)', fontWeight: 800 }}>
             {CURRICULUM.find(m => m.moduleId === TASTER_MODULES[0])?.title ?? 'the free sample'}
-          </Link>. A licence or a pilot code opens the rest. No download wall, no prep, nothing to book.
+          </Link>.
+          {liveCount < CURRICULUM.length ? ` ${liveCount} of ${CURRICULUM.length} are live.` : ''}
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '22px' }}>
-          {liveCount} of {CURRICULUM.length} modules live{liveCount < CURRICULUM.length ? ' · the rest are in production' : ''}
-        </p>
-
-        {/* How to use the map: three moves, so a first time visitor is never
-            guessing what this page is for. */}
-        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '18px' }}>
-          <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '10px' }}>How to use this map</div>
-          <ol style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-            {[
-              'Find your year group below. Each stage says what it covers and why the content lands at that age.',
-              'Open any live module to see the objective, the misconceptions and what to print before you commit a lesson to it.',
-              'Teach it the same day: every module carries the player, the word for word script, the paper pack and the parent note. A licence code opens all of it; a pilot code opens two lessons and the Hub.',
-            ].map(step => (
-              <li key={step} style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>{step}</li>
-            ))}
-          </ol>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '10px 0 0' }}>
-            Parents are welcome here too: the statutory guidance gives you the right to see what your child is taught, and this map is where you start. The line by line statutory mapping is at <Link href="/hub/rshe-mapping" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>the mapping matrix</Link>, and the thinking behind the order is at <Link href="/philosophy" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>our philosophy</Link>.
-          </p>
-        </div>
-
-        {/* The spiral: the ten behaviours that recur at every stage, deeper
-            each time. This is what makes the map a progression rather than
-            a topic list, the White Rose habit. */}
-        <div style={{ marginBottom: '18px' }}>
-          <div style={{ ...eyebrow, marginBottom: '8px' }}>Ten behaviours spiral through every stage, deeper each time</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-            {SPIRAL_BEHAVIOURS.map(b => (
-              <span key={b} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-pill)', padding: '5px 12px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)' }}>{b}</span>
-            ))}
-          </div>
-        </div>
-
         {/* Jump nav: straight to your key stage. */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', marginBottom: '34px' }}>
+        <nav aria-label="Jump to a year group" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
           {KEY_STAGE_ORDER.map(ks => (
-            <a key={ks} href={`#${ks.toLowerCase()}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', background: 'var(--terracotta-lt, #FDF4D9)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-pill)', padding: '7px 16px', textDecoration: 'none' }}>
-              {KEY_STAGE_META[ks].label} · {KEY_STAGE_META[ks].years}
+            <a key={ks} href={`#${ks.toLowerCase()}`} className="gc-tap" style={{ display: 'flex', flexDirection: 'column', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 16px', textDecoration: 'none', minHeight: '44px' }}>
+              {KEY_STAGE_META[ks].years}
+              <span style={{ ...eyebrow, fontSize: 'var(--text-xs)' }}>{KEY_STAGE_META[ks].label}</span>
             </a>
           ))}
-        </div>
+        </nav>
+        <details style={{ marginBottom: '34px' }}>
+          <summary style={{ cursor: 'pointer', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', minHeight: '44px', display: 'flex', alignItems: 'center' }}>Ten behaviours come back every year, a little deeper each time</summary>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', marginTop: 'var(--space-2)' }}>
+            {SPIRAL_BEHAVIOURS.map(b => (
+              <span key={b} style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius-pill)', padding: '5px 12px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)' }}>{b}</span>
+            ))}
+          </div>
+        </details>
 
         {KEY_STAGE_ORDER.map(ks => {
           const meta = KEY_STAGE_META[ks]
@@ -133,9 +109,10 @@ export default async function CurriculumMapPage() {
               </p>
               {/* Why this content lands at this age: the map explains its
                   own order, which is what earns a sceptical reader. */}
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.6, maxWidth: '720px', marginBottom: '16px' }}>
-                <strong style={{ color: 'var(--green-dark)' }}>Why now:</strong> {KEY_STAGE_WHY[ks]}
-              </p>
+              <details style={{ maxWidth: '720px', marginBottom: '16px' }}>
+                <summary style={{ cursor: 'pointer', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', minHeight: '44px', display: 'flex', alignItems: 'center' }}>Why at this age</summary>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.6 }}>{KEY_STAGE_WHY[ks]}</p>
+              </details>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 'var(--space-3)' }}>
                 {modules.map(m => {
@@ -193,9 +170,6 @@ export default async function CurriculumMapPage() {
                         <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.3 }}>
                           {m.title}
                         </h3>
-                        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
-                          {m.blurb}
-                        </p>
                         <p style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontWeight: 600, fontSize: 'var(--text-base)', color: ch.ink, lineHeight: 1.5 }}>
                           &ldquo;{m.outcome}&rdquo;
                         </p>
@@ -277,10 +251,6 @@ export default async function CurriculumMapPage() {
           )
         })}
 
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-light)', lineHeight: 1.6, maxWidth: '640px' }}>
-          Every module ships with the lesson player, the word for word teacher script, the paper pack, pupil
-          booklets and a parent note home. Print anything from the print room; nothing needs an account.
-        </p>
       </div>
     </main>
   )

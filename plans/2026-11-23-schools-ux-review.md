@@ -57,7 +57,7 @@ Our best page (pilot, 339 words) is the shape every page should have.
 3. **Home.** (Built 23 November: 2,699 words to about 1,100, 28 phone screens to 13; the squad becomes one row of faces, the journey six stage cards, the evidence section moves to Philosophy.) Hero, three proof points, one picture of a lesson, pricing line,
    one button. Target 6 phone screens, under 600 words. The rest moves to
    Philosophy and the curriculum map.
-4. **Curriculum map.** Year group chips first, the paragraph wall into one line.
+4. **Curriculum map.** (Built 23 November: one line and six year buttons before the first lesson; the three step box, the long intro and each card blurb removed; the ten behaviours and each stage reason folded.) Year group chips first, the paragraph wall into one line.
 5. **Reference pages** (CPD, DSL, Parents, Philosophy, run sheet): a summary
    card and jump chips at the top, every section folded, print opens all.
 6. **First visit flow for a teacher:** school code, pick your year, teach.
