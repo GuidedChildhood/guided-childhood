@@ -117,3 +117,13 @@ test('no school letter puts the contact in a link', () => {
     for (const url of hrefs(letter.html)) assertNoPersonalData(url, PILOT.contact_name, PILOT.email, PILOT.school_name)
   }
 })
+
+test('the pilot, taster and workshop letters offer the parent pack, with no school name in its link', () => {
+  for (const band of ['pilot', 'taster', 'workshop']) {
+    const letter = schoolLetter({ ...PILOT, band })
+    assert.ok(letter, band)
+    const pack = hrefs(letter.html).find(u => u.includes('/schools/parent-pack'))
+    assert.ok(pack, `${band} letter offers the parent pack`)
+    assertNoPersonalData(pack, PILOT.school_name, PILOT.contact_name, PILOT.email)
+  }
+})
