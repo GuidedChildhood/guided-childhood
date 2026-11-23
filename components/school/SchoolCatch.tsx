@@ -1,11 +1,12 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { defaultLeadDays } from '@/lib/school/lead-up'
 import { useRouter } from 'next/navigation'
 import { preparePhoto } from '@/lib/school/photo'
 import SchoolAddSheet, { type NewReminder } from './SchoolAddSheet'
 import { currentChildId } from '@/lib/children/current'
+import { SCHOOL_ADD_EVENT } from './SchoolQuickAdd'
 
 // SNAP IT OR PASTE IT.
 //
@@ -105,6 +106,13 @@ export default function SchoolCatch({ kids = [], childName = null }: {
   // grid, which now folds away under Next up, and a photo that finds nothing
   // used to end at "try another". Both now have a way to finish the job.
   const [typing, setTyping] = useState(false)
+  // The "Add a reminder" button at the top of the page opens this same sheet
+  // (components/school/SchoolQuickAdd.tsx), so there is one add flow, not two.
+  useEffect(() => {
+    const open = () => setTyping(true)
+    window.addEventListener(SCHOOL_ADD_EVENT, open)
+    return () => window.removeEventListener(SCHOOL_ADD_EVENT, open)
+  }, [])
   const now = new Date()
   const todayLocal = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
 
@@ -427,8 +435,8 @@ export default function SchoolCatch({ kids = [], childName = null }: {
           </div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
             {savedLead
-              ? 'Reminders lead up to the day, then the night before and again in the morning.'
-              : 'You will get a reminder the night before and again in the morning.'}
+              ? 'Reminders lead up to the day, then 4pm the day before and 7:20 that morning.'
+              : 'You will get a reminder at 4pm the day before and at 7:20 that morning.'}
           </p>
           <button onClick={reset} style={quietButton}>Do another</button>
         </div>

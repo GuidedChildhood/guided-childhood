@@ -183,6 +183,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 
 - Phase 4 checks all green (build, tsc, every guard, posthog 13/13, app-safety 6/6, school-pack 4/4). `SEO-SETUP-GUIDE.md` at the repo root: Search Console (Domain property, DNS verify, both sitemaps, ten URLs to request), Bing import, the PostHog Search dashboard, the weekly 15 minutes, next builds and risks.
 - Reviewed the 21 October "Gum app SEO plan" session. Its weekly report read only literal sitemap paths, so it could not see the 220 app pages: `sitemapUrls` now reads `lib/app-safety/apps.ts` and AGES, and the never shown list folds age pages to one line per app. gum stays optional until Search Console has a few weeks of data; no pull has been committed yet.
+
 ## 22 November 2026: the homework reminders film and its posts
 
 - Justin: "run on this session", the walkthrough of the school snap and homework reminders. Made as the fifth iPhone service film (32.8s) with the 19 November kit: real screens, example family, no generated imagery.
@@ -199,6 +200,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 
 - Justin asked for a school worry on the stage check. One already existed, so he chose to widen it, keeping the grid at the twelve set on 16 November. Same id and slug, so every family who picked it keeps it.
 - Label, promise and answer now cover the project remembered the night before: the answer names the school snap and the reminders that lead up to the day (PR 1641). The homework film's tile is this one.
+
 ## 22 November 2026: migration sweep, 397 ran but was never recorded
 
 - Candidates past 394: 395, 396, 397, 398, 399, 400. Every one is live. Only 397 (`public.parent_answers`) had no ledger row, so a row was written for it; nothing was applied.
@@ -221,6 +223,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 ### 22 November 2026: teachers can say what they would change, and Justin gets it weekly (migration 403, not applied)
 - The digital lesson record gains one optional line, "What would you change about this lesson?", saved to `schools.lesson_records.would_change` (280 characters, no pupil names). Every line written goes to Justin in a Monday 07:17 digest beside the revisit counts per lesson, so every lesson taught anywhere can improve the lesson. Taken from the French scheme, whose author changes each lesson after she runs it.
 - Reads and saves fall back cleanly until 403 is applied, so the deploy can land first. Apply 403 after the PR merges. PR 1658.
+
 ## 22 November 2026: the school page opens on Next up, and the photo reader keeps every date
 
 - The school page is three parts: Next up (one large card, then the next seven days as rows that tick away, overdue held on top, one count line), Add from school (photo first, Type it in beside it), and one fold for the week grid, routines and forwarding. Rule in lib/school/next-up.ts. Mobbin: Future Pro, Givingli, Slack Later.
@@ -230,3 +233,8 @@ Titles only. Open the archive at the line number in its own index for the full e
 
 ### 23 November 2026: Oak call, lead with PSHE plus parent engagement for trusts
 - Oak's partnerships lead: EdTech now enters schools at trust level, where gatekeepers hear from 10 to 20 companies a week. Lead with what few do, PSHE and parent engagement, not "a new product". Oak's API is free for commercial use and updated for the latest RSHE. A case study tier opens once pilots are running. Notes: `plans/2026-11-23-oak-call-notes.md`.
+## 23 November 2026: adding a school reminder is first on the page, any day, and reminders go at 4pm and 7:20
+
+- Justin: adding should be easy and one of the first tasks; he could only choose today; default reminders 16:00 the day before and 07:20 that morning on the phones.
+- "Add a reminder" sits under the page heading. The sheet has a day strip (Today, Tomorrow, twelve more days, then Another date) and opens on tomorrow; the week card's "+ Add reminder" was locked to today and now uses it too.
+- Reminders moved from 17:00 and 07:05 UTC to 16:00 and 07:20 UK time all year: each schedule fires at both UTC hours and the route sends only in the London hour. Plan: plans/2026-11-23-add-reminder-easy.md.

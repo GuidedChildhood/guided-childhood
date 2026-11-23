@@ -67,7 +67,7 @@ export default function LeadReminders({ item, todayIso }: { item: Item; todayIso
         })}
       </div>
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '6px 0 0' }}>
-        {offered.length ? 'And always the night before.' : 'We remind you the night before.'}
+        {offered.length ? 'And always at 4pm the day before.' : 'We remind you at 4pm the day before.'}
       </p>
       {note && <p role="status" style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '6px 0 0' }}>{note}</p>}
     </div>
