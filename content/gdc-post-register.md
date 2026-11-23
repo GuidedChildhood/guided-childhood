@@ -102,7 +102,9 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 063 | Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow. | **CLAIMED 19 Nov for the Research Radar handoff GDC-RR-540fff2c03.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-540fff2c03.json |
 
-**Next free number: 064.**
+| 064 | GTA VI, the evidence led LinkedIn PDF carousel | **APPROVED by Justin 22 Nov** ("gta approved"). Booked in Metricool for Mon 23 Nov 08:00, automatic publishing on. Claimed by Claude the day before it goes out because a published post spends a number; it came from ChatGPT with none. Not a radar story, no handoff. ChatGPT's provisional "064 to 066" are not these numbers | Metricool (ChatGPT) |
+
+**Next free number: 065.** ChatGPT's provisional 065 and 066 are not claimed: a number is claimed here when a story clears the radar.
 
 **Why Claude claimed 054 rather than leaving it to ChatGPT.** The handoff tells
 Stage 2 to claim the next free number here before writing. ChatGPT cannot write
