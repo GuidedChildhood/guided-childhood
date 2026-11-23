@@ -2,6 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { quizQuestions, type QuizBank } from '@/lib/quiz'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import OpenFoldsOnPrint from '@/components/OpenFoldsOnPrint'
 import { parseSlides, visibleSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type VideoSlide } from '@gc/shared/lesson-slides'
 import { EFCW_STRANDS } from '@gc/shared/efcw'
 import { PASSPORT_STAGES, PLACEMENT_BY_KEY_STAGE } from '@gc/shared/passport-stages'
@@ -260,48 +261,42 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             page is for, and looking at it is exactly what the NEXT lesson's
             starter recalls, so one component writes both. Renders nothing. */}
         <LessonOpened moduleId={lesson.module_id} {...neighbours(lesson.module_id)} />
+        <OpenFoldsOnPrint />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 'var(--space-3)', marginBottom: '14px' }}>
-          <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px', gridColumn: '1 / -1' }}>
+        {/* ONE BUTTON THAT MATTERS (23 November 2026). Eight buttons of equal
+            weight asked a teacher to choose before they had started
+            (plans/2026-11-23-schools-ux-review.md). Teach is the one big
+            button; Walk me through it sits beside Print, and Print opens the
+            sheets as a short list, so every sheet is still one tap away. */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', marginBottom: '14px' }}>
+          <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px' }}>
             Teach this lesson
           </Link>
-          <Link href={`/print/${lesson.module_id}`} className="btn" style={prepBtn}>
-            Print the pack
-          </Link>
-          <Link href={`/lesson/${lesson.module_id}/run`} className="btn" style={prepBtn}>
-            Walk me through it
-          </Link>
-          {/* Only offered where the three statements have been written, so a
-              module that is not ready cannot hand out a blank sheet. */}
-          {asList(notes.i_can).length > 0 && (
-            <Link href={`/print/${lesson.module_id}/record`} className="btn" style={prepBtn}>
-              Print the learning record
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--space-3)', alignItems: 'start' }}>
+            <Link href={`/lesson/${lesson.module_id}/run`} className="btn" style={prepBtn}>
+              Walk me through it
             </Link>
-          )}
-          {/* Oak's two quizzes. Offered only where the banks exist, and each
-              one opens on its question version with the answer version one
-              tap away (migration 269). */}
-          {quizQuestions(notes.starter_quiz).length > 0 && (
-            <Link href={`/print/${lesson.module_id}/starter-quiz`} className="btn" style={prepBtn}>
-              Starter quiz
-            </Link>
-          )}
-          {quizQuestions(notes.exit_quiz).length > 0 && (
-            <Link href={`/print/${lesson.module_id}/exit-quiz`} className="btn" style={prepBtn}>
-              Exit quiz
-            </Link>
-          )}
-          {/* The two that existed in the print room and were reachable from
-              nowhere else. A teacher preparing this lesson is exactly who
-              wants them, and /print is a list of 23 modules to hunt through. */}
-          {(notes.worksheet_items?.length ?? 0) > 0 && (
-            <Link href={`/print/${lesson.module_id}/booklet`} className="btn" style={prepBtn}>
-              Pupil booklet
-            </Link>
-          )}
-          <Link href={`/print/${lesson.module_id}/organiser`} className="btn" style={prepBtn}>
-            Knowledge organiser
-          </Link>
+            <details className="gc-printmenu">
+              <summary className="btn" style={prepBtn}>Print</summary>
+              <ul>
+                <li><Link href={`/print/${lesson.module_id}`}>The teacher pack</Link></li>
+                {(notes.worksheet_items?.length ?? 0) > 0 && (
+                  <li><Link href={`/print/${lesson.module_id}/booklet`}>Pupil booklet, three levels</Link></li>
+                )}
+                <li><Link href={`/print/${lesson.module_id}/support-mat`}>Support mat</Link></li>
+                {quizQuestions(notes.starter_quiz).length > 0 && (
+                  <li><Link href={`/print/${lesson.module_id}/starter-quiz`}>Starter quiz</Link></li>
+                )}
+                {quizQuestions(notes.exit_quiz).length > 0 && (
+                  <li><Link href={`/print/${lesson.module_id}/exit-quiz`}>Exit quiz</Link></li>
+                )}
+                {asList(notes.i_can).length > 0 && (
+                  <li><Link href={`/print/${lesson.module_id}/record`}>Learning record</Link></li>
+                )}
+                <li><Link href={`/print/${lesson.module_id}/organiser`}>Knowledge organiser</Link></li>
+              </ul>
+            </details>
+          </div>
         </div>
         <p style={{ ...mono, marginBottom: '30px' }}>
           {totalMinutes} minutes · {slides.length} slides
@@ -409,6 +404,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           </div>
         ) : null}
 
+        <details className="gc-fold">
+          <summary><span className="gc-fold-title">Plan it</span><span className="gc-fold-hint">Before and after, the tool, mistakes, words</span></summary>
+          <div className="gc-fold-body">
         {asList(notes.prior_knowledge).length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What they need before this</h2>
@@ -498,6 +496,12 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           </div>
         ) : null}
 
+          </div>
+        </details>
+
+        <details className="gc-fold">
+          <summary><span className="gc-fold-title">Include everyone</span><span className="gc-fold-hint">Support, stretch, SEND and EAL, no screen</span></summary>
+          <div className="gc-fold-body">
         {/* Differentiation */}
         {(notes.differentiation?.support || notes.differentiation?.stretch) && (
           <div style={{ ...card, marginBottom: '16px' }}>
@@ -594,6 +598,12 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           </div>
         )}
 
+          </div>
+        </details>
+
+        <details className="gc-fold">
+          <summary><span className="gc-fold-title">Questions and evidence</span><span className="gc-fold-hint">What pupils and parents ask, and the sources</span></summary>
+          <div className="gc-fold-body">
         {/* WHAT THEY MIGHT ASK YOU. Two sets, deliberately separate: a pupil
             asking in the room needs a different answer from a parent emailing
             that evening, and a teacher holding one script for both will get
@@ -694,6 +704,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           </div>
         ) : null}
 
+          </div>
+        </details>
+
         {/* Safeguarding, only where the module actually needs it. Printing a
             reassurance on every lesson trains people to stop reading it. */}
         {dsl.required && (
@@ -711,6 +724,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           </div>
         )}
 
+        <details className="gc-fold">
+          <summary><span className="gc-fold-title">Framework and home</span><span className="gc-fold-hint">Where it sits, and what goes home</span></summary>
+          <div className="gc-fold-body">
         {/* The statutory cover, from the row's own mapping fields, so a
             subject lead can answer "where does this sit" without leaving the
             page. The full grid stays in the Hub. */}
@@ -761,6 +777,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {/* The same note, as a link a parent opens on their phone. */}
         {share && <ParentShare url={share.url} title={lesson.title} schoolRef={share.ref} />}
 
+          </div>
+        </details>
+
         {/* After the lesson, not in front of it. The form used to sit above
             the buttons and filled a phone's first screen; the lesson is what
             earns the email, so it comes first and the form follows it (the
@@ -801,6 +820,25 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         </div>
 
       </div>
+      <style>{`
+        .gc-fold { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-card); margin-bottom: 12px; }
+        .gc-fold > summary { list-style: none; cursor: pointer; display: flex; flex-direction: column; gap: 2px; padding: 18px 52px 18px 24px; min-height: 44px; position: relative; }
+        .gc-fold > summary::-webkit-details-marker { display: none; }
+        .gc-fold > summary::after { content: '+'; position: absolute; right: 22px; top: 50%; transform: translateY(-50%); font-family: var(--font-display); font-weight: 900; font-size: var(--text-xl); color: var(--ink); }
+        .gc-fold[open] > summary::after { content: '\\2212'; }
+        .gc-fold-title { font-family: var(--font-display); font-weight: 900; font-size: var(--text-lg); color: var(--ink); }
+        .gc-fold-hint { font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink-muted); }
+        .gc-fold-body { padding: 0 12px 12px; }
+        .gc-fold-body > div { box-shadow: none !important; }
+        .gc-fold > summary:focus-visible, .gc-printmenu > summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+        .gc-printmenu { position: relative; }
+        .gc-printmenu > summary { list-style: none; cursor: pointer; display: block; text-align: center; }
+        .gc-printmenu > summary::-webkit-details-marker { display: none; }
+        .gc-printmenu ul { list-style: none; margin: 10px 0 0; padding: 6px; background: var(--white); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 18px 40px -20px rgba(23,60,70,0.35); }
+        .gc-printmenu li a { display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; font-family: var(--font-body); font-weight: 700; font-size: var(--text-base); color: var(--ink); text-decoration: none; }
+        .gc-printmenu li a:hover { background: var(--cream); }
+        @media print { .gc-fold > summary::after { display: none; } }
+      `}</style>
     </main>
   )
 }
