@@ -109,3 +109,12 @@ function joinAnd(items: string[]): string {
   if (items.length <= 1) return items.join('')
   return `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`
 }
+
+/**
+ * An app page's title: the question a parent types, and nothing after it, so
+ * that with the brand it stays under 60 characters (lib/seo/meta.ts). The
+ * Ahrefs audit of 23 November 2026 found all 220 cut off in search results.
+ */
+export function appPageTitle(app: Pick<AppEntry, 'name'>, age?: number | null): string {
+  return age ? `Is ${app.name} safe for ${aAge(age)}?` : `Is ${app.name} safe for children?`
+}
