@@ -42,7 +42,7 @@ type Card = {
 }
 
 const BOX: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
+  background: 'var(--white)', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
   padding: '16px 18px', marginBottom: 14, boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
 }
 const EYEBROW: React.CSSProperties = {
@@ -55,7 +55,7 @@ const BIG_BUTTON: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)',
 }
 const QUIET_BUTTON: React.CSSProperties = {
-  ...BIG_BUTTON, background: '#fff', boxShadow: '0 5px 0 var(--ink)', fontWeight: 800,
+  ...BIG_BUTTON, background: 'var(--white)', boxShadow: '0 5px 0 var(--ink)', fontWeight: 800,
 }
 
 export default function HomeworkHelp({ token, childName, canHint }: { token: string; childName?: string; canHint: boolean }) {
@@ -220,7 +220,7 @@ export default function HomeworkHelp({ token, childName, canHint }: { token: str
                 placeholder="e.g. I did 24 divided by 8 and got stuck"
                 style={{
                   width: '100%', boxSizing: 'border-box', border: '1.5px solid rgba(26,26,46,0.12)',
-                  borderRadius: 'var(--radius-tile)', padding: '12px 13px', background: '#fff', color: 'var(--ink)',
+                  borderRadius: 'var(--radius-tile)', padding: '12px 13px', background: 'var(--white)', color: 'var(--ink)',
                   fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', marginBottom: 12,
                 }}
               />

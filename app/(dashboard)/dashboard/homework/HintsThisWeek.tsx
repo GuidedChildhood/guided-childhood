@@ -39,7 +39,7 @@ export default async function HintsThisWeek({ kids }: { kids: Kid[] }) {
 
   const many = kids.length > 1
   return (
-    <section data-hints-this-week style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginTop: 22 }}>
+    <section data-hints-this-week style={{ background: 'var(--white)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginTop: 22 }}>
       <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
         DiGi hints this week
       </p>
@@ -59,7 +59,7 @@ export default async function HintsThisWeek({ kids }: { kids: Kid[] }) {
                   <span style={{ minWidth: 0 }}>
                     <strong>{DAY.format(new Date(`${r.day}T12:00:00Z`))}</strong>
                     {many && kid ? `, ${kid.name}` : ''}
-                    {subjects.length > 0 && <span style={{ color: 'var(--ink-soft)' }}>{` · ${subjects.join(', ')}`}</span>}
+                    {subjects.length > 0 && <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>{subjects.join(', ')}</span>}
                   </span>
                   <span style={{ whiteSpace: 'nowrap', fontWeight: 700 }}>{n} {n === 1 ? 'hint' : 'hints'}</span>
                 </li>
