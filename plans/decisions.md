@@ -231,6 +231,8 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The full calendar card now follows the server after a refresh, so a photo add shows in the list without a reload.
 - Scripts: phones, something online and big feelings have their own picture book tiles (Higgsfield, 2.25 credits, Justin said yes).
 
+### 23 November 2026: Oak call, lead with PSHE plus parent engagement for trusts
+- Oak's partnerships lead: EdTech now enters schools at trust level, where gatekeepers hear from 10 to 20 companies a week. Lead with what few do, PSHE and parent engagement, not "a new product". Oak's API is free for commercial use and updated for the latest RSHE. A case study tier opens once pilots are running. Notes: `plans/2026-11-23-oak-call-notes.md`.
 ## 23 November 2026: adding a school reminder is first on the page, any day, and reminders go at 4pm and 7:20
 
 - Justin: adding should be easy and one of the first tasks; he could only choose today; default reminders 16:00 the day before and 07:20 that morning on the phones.
