@@ -249,7 +249,7 @@ export default async function PupilBookletPage({ params, searchParams }: { param
         <FriendStrip friend={friend} register={reg} eyebrow="After the lesson · your mission" mood="happy" />
         <h2 style={{ ...display, fontSize: reg.title, marginBottom: '14px' }}>Take it home</h2>
         {level === 'inclusion' && !young ? (
-          <BigBox label={`Draw what you will do. ${stem}`} height={reg.boxHeight} friend={friend} />
+          <BigBox label={`Draw what you will do. ${stem}`} height={reg.boxHeight * 2} friend={friend} />
         ) : (
           <Box label={stemLabel} friend={friend} tint radius={reg.radius}>
             <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{stem}</p>
