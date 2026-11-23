@@ -20,7 +20,7 @@ stated, not filled.
 
 Coming off screens; Asking for a phone; Who they talk to in games; What they
 come across online; Social media; Bedtime screens; Group chats; They get round
-the rules; Homework on screens; Endless YouTube; Spending in games; AI
+the rules; Homework and school (was Homework on screens until 22 November 2026); Endless YouTube; Spending in games; AI
 chatbots. Then Something else.
 
 Folded, not deleted: Controller fights and Mood after screens (parents describe

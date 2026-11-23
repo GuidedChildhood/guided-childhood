@@ -4,6 +4,8 @@ import { useRef, useState } from 'react'
 import { defaultLeadDays } from '@/lib/school/lead-up'
 import { useRouter } from 'next/navigation'
 import { preparePhoto } from '@/lib/school/photo'
+import SchoolAddSheet, { type NewReminder } from './SchoolAddSheet'
+import { currentChildId } from '@/lib/children/current'
 
 // SNAP IT OR PASTE IT.
 //
@@ -52,7 +54,7 @@ const KIND_EMOJI: Record<string, string> = {
 }
 
 const cardStyle: React.CSSProperties = {
-  background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+  background: 'var(--tint-butter)', border: 'var(--edge)', boxShadow: 'var(--lift)',
   borderRadius: 'var(--radius-card)', padding: '22px', marginBottom: '20px',
 }
 
@@ -77,7 +79,14 @@ function niceDate(iso: string | null | undefined): string {
   return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
-export default function SchoolCatch() {
+const DAY_FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const MONTH_FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+export default function SchoolCatch({ kids = [], childName = null }: {
+  /** For the type it in sheet: whose reminder, and whether their app is on a phone. */
+  kids?: { id: string; name: string | null; hasApp?: boolean }[]
+  childName?: string | null
+} = {}) {
   const router = useRouter()
   const [mode, setMode] = useState<'idle' | 'paste'>('idle')
   const [pasted, setPasted] = useState('')
@@ -92,6 +101,31 @@ export default function SchoolCatch() {
   const [savedLead, setSavedLead] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  // TYPE IT IN (22 November 2026). The add sheet lived only inside the week
+  // grid, which now folds away under Next up, and a photo that finds nothing
+  // used to end at "try another". Both now have a way to finish the job.
+  const [typing, setTyping] = useState(false)
+  const now = new Date()
+  const todayLocal = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+
+  async function addTyped(r: NewReminder) {
+    try {
+      const res = await fetch('/api/school/actions', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(r),
+      })
+      const data = await res.json()
+      if (data.action) {
+        if (r.auto_send_to_child && data.action.id) {
+          fetch('/api/school/actions/send-to-child', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: data.action.id }),
+          }).catch(() => { /* the weekly flag on the row still sends it on the day */ })
+        }
+        setTyping(false); setFound(null); setError(null)
+        setSavedLead(false); setSavedCount(1)
+        router.refresh()
+      } else setError(data.error ?? 'That did not save. Try again in a moment.')
+    } catch { setError('That did not save. Try again in a moment.') }
+  }
 
   function reset() {
     setMode('idle'); setPasted(''); setFound(null); setChosen(new Set())
@@ -208,11 +242,11 @@ export default function SchoolCatch() {
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
         color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.25, margin: '0 0 8px',
       }}>
-        {pitching ? 'Snap it. We find the date and keep on top of it.' : 'What DiGi read'}
+        {pitching ? 'Snap it. We find the date and remind you.' : 'What DiGi read'}
       </h2>
       {pitching && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
-          A screenshot of a ClassDojo or school app message, a photo of a letter, or the email itself. Homework, a jamboree, an inset day: DiGi picks out the date, adds it to your calendar below and reminds you the night before and again in the morning.
+          A letter, a ClassDojo or school app screenshot, an email. Homework, a jamboree, an inset day.
         </p>
       )}
 
@@ -225,22 +259,28 @@ export default function SchoolCatch() {
               disabled={reading}
               style={{ ...primaryButton, cursor: reading ? 'wait' : 'pointer' }}
             >
-              {reading ? 'Reading it...' : '📷  Photo or screenshot'}
+              {reading ? 'Reading it...' : 'Photo or screenshot'}
             </button>
-            {/* FORWARD AN EMAIL, one tap to the letterbox below (17 November
-                2026, Justin: "have the forward email option as a button"). The
-                screenshot stays first: it needs nothing set up. */}
-            <a href="#letterbox" style={{ ...quietButton, textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
-              ✉️  Forward an email
-            </a>
+            <button onClick={() => setTyping(true)} disabled={reading} style={{ ...quietButton, cursor: reading ? 'wait' : 'pointer' }}>
+              Type it in
+            </button>
+          </div>
+          {/* The two rarer ways in, as one quiet line (22 November 2026): four
+              buttons in a row read as four equal choices, and the photo is the
+              one that needs nothing set up. Forwarding still goes to the
+              letterbox, which opens the fold it now lives in. */}
+          <p style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '4px 16px', margin: '8px 0 0', fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>
             <button
               onClick={() => setMode(m => (m === 'paste' ? 'idle' : 'paste'))}
               disabled={reading}
-              style={{ ...quietButton, cursor: reading ? 'wait' : 'pointer' }}
+              style={{ minHeight: 44, background: 'none', border: 'none', padding: 0, cursor: 'pointer', font: 'inherit', fontWeight: 700, color: 'var(--ink-soft)', textDecoration: 'underline' }}
             >
-              Or paste the text
+              Paste the text
             </button>
-          </div>
+            <a href="#letterbox" style={{ minHeight: 44, display: 'inline-flex', alignItems: 'center', fontWeight: 700, color: 'var(--ink-soft)', textDecoration: 'underline' }}>
+              Forward an email
+            </a>
+          </p>
           {/* NO capture ATTRIBUTE, AND THAT IS THE WHOLE POINT.
               Justin, 17 September 2026: "take a picture is flawed as it opens a
               camera which is good if a physical letter but it does not let you
@@ -304,9 +344,12 @@ export default function SchoolCatch() {
           {found.length === 0 ? (
             <>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-                Nothing in there needed doing, so nothing was added. If that looks wrong, try a clearer picture of the part with the dates on it.
+                DiGi could not find a date or anything to do in that one. Try a closer picture of the part with the dates on it, or type it in and it is saved in ten seconds.
               </p>
-              <button onClick={reset} style={quietButton}>Try another</button>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <button onClick={() => { setFound(null); setTyping(true) }} style={primaryButton}>Type it in</button>
+                <button onClick={reset} style={quietButton}>Try another picture</button>
+              </div>
             </>
           ) : (
             <>
@@ -389,6 +432,20 @@ export default function SchoolCatch() {
           </p>
           <button onClick={reset} style={quietButton}>Do another</button>
         </div>
+      )}
+
+      {typing && (
+        <SchoolAddSheet
+          dateIso={todayLocal}
+          dow={now.getDay()}
+          dayLabel={`${DAY_FULL[now.getDay()]} ${now.getDate()} ${MONTH_FULL[now.getMonth()]}`}
+          childName={childName}
+          kids={kids}
+          defaultChildId={currentChildId()}
+          pickDate
+          onCancel={() => setTyping(false)}
+          onAdd={addTyped}
+        />
       )}
     </div>
   )

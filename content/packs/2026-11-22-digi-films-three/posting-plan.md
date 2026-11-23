@@ -60,3 +60,15 @@ Any slot works; none depends on another.
 - The script cards are live rows 204, 9611 and 417, copied word for word into `app/ref-script-deck`.
 - The tracker, check back faces and Sorted are the live check in screens.
 - Science: Livingstone et al. 2017 (J Communication), Hellfeldt et al. 2020 (IJERPH), Ofcom 2026, Carter et al. 2016 (JAMA Pediatrics), UK Chief Medical Officers 2019. All checked 22 November.
+
+## The finished cut: simpler text, the 3D opening, Imogen's voice (22 November, later)
+
+The three files in `films/` are now this cut, 57.7s each. They replace the first silent cut.
+
+- Simpler text (Justin: too much on screen): one short line per beat, larger, on a clear ground so no app text shows behind it. The inputs card is three rows and the research is one line.
+- The 3D opening: after the hook, a drawn phone turns in space and settles flat while the question types into the real app. It is the engine's `tilt` option.
+- The voice: Imogen on the more natural engine, chosen by Justin for a calm British presenter sound. Ten short lines per film, one per beat, with the music dipping under her (`tools/mix-voice.py`, lines in `assets/vo`).
+
+What she says, the Roblox film: "A stranger messaged her on Roblox. She's nine. So, what do you say tonight? DiGi starts with your child. It never says yes or no. It gives you two plain steps. Then it goes on her check in, with one thing to try tonight. And here are the exact words to say. A few days later, it asks how it went. A week on, it's sorted. DiGi learns your family. What worked before shapes what comes next. The research agrees. Rules alone cut the good too. Guiding keeps it. What stage is your child? Three questions. No sign up."
+
+The other two change only the opening line and the research line.

@@ -64,10 +64,16 @@ type Row = {
   assessment: Assessment
   objective_marks: Record<string, unknown> | null
   note: string | null
+  would_change?: string | null
   created_at: string
 }
 
-const COLUMNS = 'id, subject, lesson_key, delivered_on, academic_year, groups, assessment, objective_marks, note, created_at'
+const BASE_COLUMNS = 'id, subject, lesson_key, delivered_on, academic_year, groups, assessment, objective_marks, note, created_at'
+// would_change is migration 403. Until it has run, the column is missing
+// (Postgres 42703) and every read is made again without it, so the record keeps
+// working on a deploy that lands before the migration.
+const COLUMNS = `${BASE_COLUMNS}, would_change`
+const missingColumn = (e: { code?: string } | null) => e?.code === '42703'
 
 const toDelivery = (r: Row): Delivery => ({
   id: r.id,
@@ -79,6 +85,7 @@ const toDelivery = (r: Row): Delivery => ({
   assessment: r.assessment,
   marks: r.objective_marks ?? {},
   note: r.note,
+  wouldChange: r.would_change ?? null,
   createdAt: r.created_at,
 })
 
@@ -91,15 +98,19 @@ export type RecordsRead = { school: boolean; deliveries: Delivery[]; failed: boo
 export async function readDeliveries(subject: Subject, academicYear: string, lessonKey?: string): Promise<RecordsRead> {
   const ref = await recordsSchool(subject)
   if (!ref) return { school: false, deliveries: [], failed: false }
-  let q = db.from('lesson_records').select(COLUMNS)
-    .eq('school_ref', ref).eq('subject', subject).eq('academic_year', academicYear).eq('status', 'delivered')
-  if (lessonKey) q = q.eq('lesson_key', lessonKey)
-  const { data, error } = await q.order('delivered_on', { ascending: true }).order('created_at', { ascending: true }).limit(2000)
+  const read = (columns: string) => {
+    let q = db.from('lesson_records').select(columns)
+      .eq('school_ref', ref).eq('subject', subject).eq('academic_year', academicYear).eq('status', 'delivered')
+    if (lessonKey) q = q.eq('lesson_key', lessonKey)
+    return q.order('delivered_on', { ascending: true }).order('created_at', { ascending: true }).limit(2000)
+  }
+  let { data, error } = await read(COLUMNS)
+  if (missingColumn(error)) ({ data, error } = await read(BASE_COLUMNS))
   if (error) {
     console.error('[records] read failed:', error.message)
     return { school: true, deliveries: [], failed: true }
   }
-  return { school: true, deliveries: ((data ?? []) as Row[]).map(toDelivery), failed: false }
+  return { school: true, deliveries: ((data ?? []) as unknown as Row[]).map(toDelivery), failed: false }
 }
 
 /** The academic years this school has a record in for one subject, newest
@@ -119,9 +130,11 @@ export async function recordYears(subject: Subject, current: string): Promise<st
 /** One delivery, only if it belongs to the given school. */
 export async function readOwnDelivery(ref: string, id: string): Promise<Delivery | null> {
   if (!/^[0-9a-f-]{36}$/.test(id)) return null
-  const { data } = await db.from('lesson_records').select(COLUMNS)
+  const read = (columns: string) => db.from('lesson_records').select(columns)
     .eq('id', id).eq('school_ref', ref).eq('status', 'delivered').maybeSingle()
-  return data ? toDelivery(data as Row) : null
+  let { data, error } = await read(COLUMNS)
+  if (missingColumn(error)) ({ data, error } = await read(BASE_COLUMNS))
+  return data ? toDelivery(data as unknown as Row) : null
 }
 
-export { db as recordsDb }
+export { db as recordsDb, missingColumn }

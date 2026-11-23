@@ -61,7 +61,7 @@ export type NewReminder = {
 }
 
 export default function SchoolAddSheet({
-  dateIso, dow, dayLabel, childName, kids = [], defaultChildId = null, onCancel, onAdd, initial = null,
+  dateIso: dateProp, dow: dowProp, dayLabel: dayLabelProp, childName, kids = [], defaultChildId = null, onCancel, onAdd, initial = null, pickDate = false,
 }: {
   /** The day that was tapped, as YYYY-MM-DD. */
   dateIso: string
@@ -81,6 +81,12 @@ export default function SchoolAddSheet({
   kids?: { id: string; name: string | null; hasApp?: boolean }[]
   /** Preselected owner, normally the child the parent has open. */
   defaultChildId?: string | null
+  /**
+   * Opened without a day being tapped (Type it in on the school page, 22
+   * November 2026), so the sheet asks for the day itself. From the week grid
+   * the day is the one that was tapped and no picker shows, as before.
+   */
+  pickDate?: boolean
   onCancel: () => void
   onAdd: (r: NewReminder) => Promise<void> | void
   /** Editing an existing reminder: the sheet opens filled in and the button
@@ -88,6 +94,13 @@ export default function SchoolAddSheet({
    *  simply stop it edit it if wrong." Null is a fresh add, as before. */
   initial?: { title: string; kind: string; repeats: boolean; time: string | null; toChild: boolean; runsInHolidays: boolean } | null
 }) {
+  const [pickedDate, setPickedDate] = useState(dateProp)
+  const dateIso = pickDate && /^\d{4}-\d{2}-\d{2}$/.test(pickedDate) ? pickedDate : dateProp
+  const pickedLocal = (() => { const [y, m, d] = dateIso.split('-').map(Number); return new Date(y, (m || 1) - 1, d || 1) })()
+  const dow = pickDate ? pickedLocal.getDay() : dowProp
+  const dayLabel = pickDate
+    ? pickedLocal.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
+    : dayLabelProp
   const [title, setTitle] = useState(initial?.title ?? '')
   const [kind, setKind] = useState(initial?.kind ?? 'notice')
   const [repeats, setRepeats] = useState(initial?.repeats ?? false)
@@ -264,6 +277,20 @@ export default function SchoolAddSheet({
             "every Thursday" is what a parent means and "repeats: true" with a
             separate day picker is what a form means. */}
         <span style={LABEL}>When</span>
+        {pickDate && (
+          <input
+            type="date"
+            aria-label="The day"
+            value={pickedDate}
+            min={dateProp}
+            onChange={e => setPickedDate(e.target.value)}
+            style={{
+              width: '100%', minHeight: 48, padding: '10px 14px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)',
+              fontSize: 'var(--text-md)', fontFamily: 'var(--font-body)', fontWeight: 700, color: 'var(--ink)',
+              background: 'var(--cream)', marginBottom: 8,
+            }}
+          />
+        )}
         <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
           {[
             { on: false, top: 'Just this day', sub: dayLabel },

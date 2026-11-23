@@ -32,6 +32,7 @@ const LABELS: Record<string, string> = {
   '/api/cron/digi-insights': 'DiGi insights',
   '/api/cron/digi-wisdom': 'DiGi wisdom',
   '/api/cron/digi-quality': 'DiGi quality check',
+  '/api/cron/lesson-changes': 'Lesson changes digest',
   '/api/cron/weekly-review': 'Weekly review',
   '/api/cron/settings-nudge': 'Settings nudge',
   '/api/cron/knowledge-refresh': 'Knowledge bank refresh',

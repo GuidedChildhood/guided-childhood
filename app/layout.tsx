@@ -9,6 +9,7 @@ import { SITE_URL, GOOGLE_SITE_VERIFICATION } from '@/lib/config/site'
 import { JsonLd, ORGANIZATION } from '@/lib/seo/json-ld'
 import PwaRegister from '@/components/PwaRegister'
 import Analytics from '@/components/Analytics'
+import SpeedInsights from '@/components/SpeedInsights'
 import UpdateBanner from '@/components/UpdateBanner'
 
 // Fonts loaded through Next's font pipeline, not a CSS @import. The old import
@@ -141,6 +142,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={ORGANIZATION} />
         <PwaRegister />
         <Analytics />
+        <SpeedInsights />
         <UpdateBanner />
         {children}
       </body>

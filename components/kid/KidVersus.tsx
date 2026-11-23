@@ -147,7 +147,7 @@ export default function KidVersus({ token, childName, pool, theme: t }: {
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 'var(--space-3)' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: t.inkMuted }}>
-            {p === 'kid' ? name : 'Grown up'}{isOut && !won ? ' · sit this one out' : ''}
+            {p === 'kid' ? name : 'Grown up'}{isOut && !won ? ', sit this one out' : ''}
           </span>
           <span style={{ ...display, fontSize: 'var(--text-xl)' }} aria-label={`${score[p]} points`}>{score[p]}</span>
         </div>

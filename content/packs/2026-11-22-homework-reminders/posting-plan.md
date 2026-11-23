@@ -11,7 +11,7 @@ Every screen is the real app, recorded frame by frame from its fixture page with
 
 1080 x 1920, silent, ends on the stage check card, held six seconds. Short enough to run uncut on TikTok.
 
-This is a breadth film: the stage check has no homework tile, so judge it on saves and follows, and put no paid spend behind it on stage check starts.
+Its stage check tile is **Homework and school** (the old Homework on screens tile, widened on 22 November), so the film leads to an answer that names the snap and the reminders.
 
 ## What it shows, beat by beat
 
@@ -116,7 +116,7 @@ For Justin to check before posting (AMBER): the post tells the true story of the
   - "Built on research" dropped from TikTok, because this feature cites no study;
   - two LinkedIn lines softened.
 - Also fixed from the review: the child's app now follows the parent's own reminder choice.
-- Declined: nothing. Parked: a homework worry tile on the stage check, which is a product decision for Justin.
+- Declined: nothing. The review said there was no homework tile; there was one, and Justin widened it to Homework and school the same day.
 
 ## Links to make (Admin, Film links)
 

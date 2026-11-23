@@ -91,5 +91,5 @@ export async function POST(req: NextRequest) {
     }, { status: 503 })
   }
 
-  return NextResponse.json({ ok: true, items: read.items.slice(0, 8) })
+  return NextResponse.json({ ok: true, items: read.items.slice(0, 20) })
 }

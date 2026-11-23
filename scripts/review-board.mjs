@@ -14,7 +14,7 @@
 //              prints more than five lines, because every session pays for
 //              it on every turn. Each task is asked about at most once a day,
 //              so five sessions in a day do not nag five times.
-//   ingest     takes one weekly run (the ten lens scorecards, the skeptic's
+//   ingest     takes one weekly run (the eleven lens scorecards, the skeptic's
 //              verdicts, the chief of staff's task list) and writes it into
 //              scorecard.json and tasks.json, then redraws the dashboard.
 //   done, notyet, snooze, drop, add, list
@@ -47,7 +47,8 @@ export const LENSES = [
   { id: 'ux-expert', n: 8, name: 'UX expert', question: 'Would the screens sit beside the best family apps?' },
   { id: 'competitor-watch', n: 9, name: 'Competitor watch', question: 'What did they ship, and what can we use?' },
   { id: 'ai-tools-watch', n: 10, name: 'AI and tools watch', question: 'What new AI or tool would help us?' },
-  { id: 'business-running', n: 11, name: 'Business running', question: 'Is everything moving, and is nothing stuck?' },
+  { id: 'search', n: 11, name: 'Search', question: 'Do parents find us in Google and AI answers, and reach the stage check?' },
+  { id: 'business-running', n: 12, name: 'Business running', question: 'Is everything moving, and is nothing stuck?' },
 ]
 const LENS_IDS = new Set(LENSES.map(l => l.id))
 
@@ -687,14 +688,14 @@ section > h2 { font-size: 22px; font-weight: 900; margin-bottom: 10px; display: 
 
   ${fold('Everything else', run ? `${tens} of ${total} at ten · run ${fmtDate(run.date)}` : 'no run yet', `
     ${run?.one_thing ? `<div class="one"><p class="eyebrow">The one thing this week</p><p>${esc(run.one_thing)}</p></div>` : ''}
-    ${fold('The eleven scores', `${tens} of ${total} at ten`, `<div class="grid">${LENSES.map(lensCard).join('\n')}</div>`)}
+    ${fold('The twelve scores', `${tens} of ${total} at ten`, `<div class="grid">${LENSES.map(lensCard).join('\n')}</div>`)}
     ${fold("Claude's list", `${claude.length} open`, plainList([...claude].sort(byPri), t => whenText(t, on)))}
     ${snoozed.length ? fold('Your snoozed tasks', `${snoozed.length}`, plainList(snoozed, t => `back ${fmtDate(t.snooze_until)}`)) : ''}
     ${doneRecent.length ? fold('Done in the last fortnight', `${doneRecent.length}`, plainList(doneRecent, t => `done ${fmtDate(t.closed)}`)) : ''}
     ${run?.roundup ? fold('The round up', 'from the chief of staff', `<p class="roundup">${esc(run.roundup)}</p>`) : ''}
     ${fold('Every week so far', `${runs.length} run${runs.length === 1 ? '' : 's'}`, history)}
     <div class="how">
-      <p>The board runs every Friday. Eleven lenses score the platform out of ten, a skeptic challenges any nine or ten, and the chief of staff turns the gaps into the tasks above.</p>
+      <p>The board runs every Friday. Twelve lenses score the platform out of ten, a skeptic challenges any nine or ten, and the chief of staff turns the gaps into the tasks above.</p>
       <p>Done and Not yet copy a line for Claude. Paste it into any Claude session and your answer is recorded. Every session also asks you once a day.</p>
       ${run?.report ? `<p>Full report, with strengths, gaps and sources: <code>${esc(run.report)}</code></p>` : ''}
     </div>

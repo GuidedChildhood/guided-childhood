@@ -30,7 +30,7 @@ export const CHALLENGE_LABELS: Record<string, string> = {
   asking_for_phone: 'Asking for a phone', social_media: 'Social media',
   ai_chatbots: 'AI chatbots', seen_something: 'What they come across online',
   game_chat: 'Who they talk to in games', group_chats: 'Group chats',
-  getting_round: 'They get round the rules', homework_screens: 'Homework on screens',
+  getting_round: 'They get round the rules', homework_screens: 'Homework and school',
   endless_youtube: 'Endless YouTube', game_spending: 'Spending in games',
   screens_takeover: 'Screens are taking over', mood_changes: 'Mood changes after phone use',
   gaming: 'Gaming concerns', online_safety: 'Online safety worries',
