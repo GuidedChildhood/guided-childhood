@@ -1226,6 +1226,32 @@ export function mentalHealthTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: s
   }
 }
 
+// THE APP GUIDE TEASER (Justin, 23 November 2026: put the free app safety
+// guide and the school parent pack into the emails). Second in the lead
+// sequence on purpose: the six day floor (lib/email/floor.ts) and the thirty
+// day window mean a lead gets about four teasers in all, so a teaser placed
+// after day 9 is rarely read. It gives something free and useful before it
+// asks for anything, and the teacher line is how a parent becomes the route
+// into a school while there are no pilots yet. Every fact is on the guide:
+// twenty apps, each app's own minimum age with its source, the settings to
+// switch on first, ages 6 to 15, no sign up.
+export function appsTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
+  const tag = 'utm_source=email&utm_medium=nurture&utm_campaign=teaser-apps'
+  const link = (href: string, text: string) => `<a href="${href}" style="color:${BUTTER_DARK};font-weight:700">${text}</a>`
+  return {
+    subject: 'Is that app safe for your child?',
+    html: wrapper(
+      heading('Is that app safe, at their age?') +
+      p(`Every new app arrives with the same question, and the answers online are either a scare story or a shrug.`) +
+      p(`So we wrote a free guide to the 20 apps children ask for most, from Roblox and Minecraft to TikTok and WhatsApp. For each one: the app's own minimum age, with where it comes from, the settings to switch on first, and what it means for your child's exact age, from 6 to 15. There is nothing to sign up to.`) +
+      button('Open the app guide', `${APP}/app-safety-guide?${tag}`) +
+      p(`Know a teacher or a head? Their school can make its own free parent pack in a minute, with a short piece for the newsletter and a QR code for a poster: ${link(`${APP}/schools/parent-pack?${tag}`, 'the school parent pack')}.`) +
+      starterButton(cta, reader),
+      unsubscribe
+    ),
+  }
+}
+
 export function safetyTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
     subject: 'The talk about deepfakes and scams, done for you',

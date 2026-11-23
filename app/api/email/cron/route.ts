@@ -6,7 +6,7 @@ import { createClient } from '@supabase/supabase-js'
 import { interestUrl } from '@/lib/email'
 import { parentFirstName } from '@/lib/email/parent-name'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl, type EmailKind } from '@/lib/email'
-import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, founderPrechargeEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
+import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, founderPrechargeEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, appsTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
 import { METHOD_WEEK } from '@/lib/email/method-week'
@@ -1002,6 +1002,9 @@ async function handler(req: NextRequest) {
       // catches the same address, and it always will.
       const schedule: { day: number; key: string; make: (unsub: string, cta: string) => EmailContent }[] = [
         { day: 3, key: 'teaser-digi', make: (u, c) => digiTeaserEmail(u, c) },
+        // Second on purpose: the six day floor means about four teasers
+        // reach a lead in the thirty day window (appsTeaserEmail says why).
+        { day: 4, key: 'teaser-apps', make: (u, c) => appsTeaserEmail(u, c) },
         { day: 5, key: 'teaser-scripts', make: (u, c) => scriptsTeaserEmail(u, c) },
         { day: 7, key: 'teaser-printables', make: (u, c) => printablesTeaserEmail(u, c) },
         { day: 9, key: 'teaser-balance', make: (u, c) => balanceTeaserEmail(u, c) },
