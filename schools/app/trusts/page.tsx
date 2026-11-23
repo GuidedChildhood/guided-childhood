@@ -61,7 +61,7 @@ const POINTS: { title: string; line: string; href: string; link: string }[] = [
 export default function TrustsPage() {
   const singleSchool = PRICING_BANDS.filter(b => !b.onApplication)
   const low = singleSchool[0]?.price
-  const high = singleSchool[singleSchool.length - 1]?.price
+  const high = [...singleSchool].reverse()[0]?.price
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
