@@ -3,6 +3,7 @@ import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import HomeworkDecoder, { type DecoderChild } from './HomeworkDecoder'
+import HintsThisWeek from './HintsThisWeek'
 
 // The homework decoder.
 //
@@ -58,7 +59,10 @@ export default async function HomeworkPage() {
           </p>
         </div>
       ) : (
-        <HomeworkDecoder kids={children} />
+        <>
+          <HomeworkDecoder kids={children} />
+          <HintsThisWeek kids={children.map(c => ({ id: c.id, name: c.name }))} />
+        </>
       )}
     </div>
   )

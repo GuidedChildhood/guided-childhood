@@ -16,6 +16,44 @@ export const HINTS_PER_DAY = 12
 /** Hint levels: a nudge, a bigger nudge, a worked step on a DIFFERENT example. Never the answer. */
 export const MAX_HINT_LEVEL = 3
 
+/**
+ * Have a go first (23 November 2026). Hint 2 and 3 need the child's own go at
+ * the "Try this" question, at least this many characters. Stanford's 2026
+ * review of 52 studies found AI does better supporting the work than doing
+ * it, and calls hints against answers unsettled, so the card asks for the
+ * child's thinking before it gives more. Checked on the server, not only on
+ * the screen.
+ */
+export const MIN_ATTEMPT = 3
+
+/** The child's go at it, trimmed and capped, or '' when there is none worth the name. */
+export function cleanAttempt(v: unknown): string {
+  if (typeof v !== 'string') return ''
+  const t = v.replace(/\s+/g, ' ').trim().slice(0, 300)
+  return t.length >= MIN_ATTEMPT ? t : ''
+}
+
+/** May this hint level be given? The first always; later ones only after a go. */
+export function attemptAllows(level: number, attempt: string): boolean {
+  return level <= 1 || attempt.length >= MIN_ATTEMPT
+}
+
+/** Most subjects a day keeps for the parent's view. */
+export const SUBJECTS_PER_DAY = 6
+
+/**
+ * The day's subjects with one more added: one or two words each, no repeats,
+ * the newest last. This is all the parent sees of the homework: the subject
+ * DiGi named, never the question, the photo or the child's go at it.
+ */
+export function mergeSubjects(list: readonly string[] | null | undefined, subject: string): string[] {
+  const s = subject.replace(/[^A-Za-z ]/g, ' ').replace(/\s+/g, ' ').trim().split(' ').slice(0, 2).join(' ').slice(0, 24)
+  const have = (list ?? []).filter(x => typeof x === 'string' && x.trim())
+  if (!s) return have.slice(-SUBJECTS_PER_DAY)
+  const rest = have.filter(x => x.toLowerCase() !== s.toLowerCase())
+  return [...rest, s].slice(-SUBJECTS_PER_DAY)
+}
+
 /** Whole years old on the given day, or null without a birthday. */
 export function ageOn(dob: string | null | undefined, on: Date = new Date()): number | null {
   if (!dob) return null

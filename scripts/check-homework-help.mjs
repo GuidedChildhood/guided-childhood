@@ -12,7 +12,7 @@
 // Usage: node --experimental-strip-types scripts/check-homework-help.mjs
 
 import { readFileSync } from 'node:fs'
-import { mayHaveHints, parseHintCard, ageOn, HINTS_FROM_AGE, MAX_HINT_LEVEL } from '../lib/homework/help.ts'
+import { mayHaveHints, parseHintCard, ageOn, HINTS_FROM_AGE, MAX_HINT_LEVEL, cleanAttempt, attemptAllows, mergeSubjects, MIN_ATTEMPT, SUBJECTS_PER_DAY } from '../lib/homework/help.ts'
 
 let failures = 0
 const check = (name, ok, detail = '') => {
@@ -40,6 +40,17 @@ check('dashes never reach the child', !!card && !/[-–—]/.test(card.about), c
 check('a reply with no safe flag is treated as NOT safe', parseHintCard('{"hint": "x"}')?.safe === false)
 check('garbage is refused rather than shown', parseHintCard('not json at all') === null)
 
+// ── HAVE A GO FIRST (23 November 2026) ─────────────────────────────────────
+check('the first hint needs no go', attemptAllows(1, ''))
+check('the second hint needs a go', !attemptAllows(2, '') && attemptAllows(2, 'I got 3'))
+check('a go of a couple of letters does not count', cleanAttempt('ok') === '' && MIN_ATTEMPT === 3)
+check('a go is trimmed and capped', cleanAttempt('  I  did 24 / 8  ') === 'I did 24 / 8' && cleanAttempt('x'.repeat(900)).length === 300)
+check('subjects: no repeats, newest last, capped',
+  JSON.stringify(mergeSubjects(['Maths', 'Spelling'], 'maths')) === '["Spelling","maths"]'
+  && mergeSubjects(['a', 'b', 'c', 'd', 'e', 'f'], 'Science').length === SUBJECTS_PER_DAY)
+check('a subject is a word or two, never a sentence of homework',
+  mergeSubjects([], 'What is 3/8 of 24? Show working') .join('') === 'What is')
+
 // ── THE ROUTE ───────────────────────────────────────────────────────────────
 const route = read('app/api/kid/homework-help/route.ts')
 check('the age gate runs on the server, before the model is called',
@@ -51,6 +62,15 @@ check('a worrying message becomes a grown up, not a hint', /"safe": false/.test(
 check('the homework is never stored: the only write is the daily count',
   !/\.insert\(/.test(route) && (route.match(/\.upsert\(/g) ?? []).length === 1 && /kid_homework_help_uses/.test(route))
 check('curriculum ids are revalidated against the list we sent', /allowed\.has\(i\)/.test(route))
+check('hint 2 and 3 need a go, checked on the server before the model',
+  /attemptAllows\(level, attempt\)/.test(route) && route.indexOf('attemptAllows(level, attempt)') < route.indexOf('callDigi({'))
+check('the child\'s go travels in their own message, never in the system prompt',
+  /My go so far: \$\{attempt\}/.test(route)
+  && !/\$\{attempt[^ ]/.test(route.slice(route.indexOf('const system = `'), route.indexOf('Reply with ONLY this JSON'))))
+check('DiGi is told not to mark the go right or wrong', /Do NOT say whether it is right or wrong/.test(route))
+check('the parent count stores hints and a subject, nothing else',
+  /\.update\(\{ hints: [^}]*, subjects: mergeSubjects\(row\.subjects, subject\) \}\)/.test(route)
+  && (route.match(/\.update\(/g) ?? []).length === 1)
 check('there is a daily cap', /takeUse\(admin, link\.child_id\)/.test(route))
 
 // ── THE SCREEN ──────────────────────────────────────────────────────────────
@@ -58,6 +78,11 @@ const ui = read('components/kid/HomeworkHelp.tsx')
 check('no chat: one box for the homework, and no message history',
   (ui.match(/<textarea/g) ?? []).length === 1 && !/messages\b/.test(ui))
 check('the child is told their photo and question are not kept', /not kept/.test(ui))
+check('another hint stays locked until the child has had a go',
+  /disabled=\{busy \|\| !tried\}/.test(ui) && /attempt: level > 1 \? attempt : undefined/.test(ui))
+const parentHints = read('app/(dashboard)/dashboard/homework/HintsThisWeek.tsx')
+check('the parent sees the count and subjects, read only for their own children',
+  /\.in\('child_id', kids\.map/.test(parentHints) && !/\.(insert|update|upsert|delete)\(/.test(parentHints))
 const kidScreen = read('app/k/[token]/KidQuestScreen.tsx')
 check('the school week is one line to homework help, not a job with stars',
   /data-school-week-line/.test(kidScreen) && !/recordSchoolWeek/.test(kidScreen))
