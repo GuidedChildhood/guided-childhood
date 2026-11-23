@@ -29,6 +29,20 @@ Why each is on the list is in `briefings/notes/competitor-sightings.md`.
 | Good Inside | The calm parenting voice we lean on for UX | https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GB&q=good%20inside&search_type=keyword_unordered |
 | Greenlight / GoHenry | Children earning, the star loop audience | https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GB&q=gohenry&search_type=keyword_unordered |
 
+## Long runners outside our niche (check for mechanics, added 23 November 2026)
+
+Read on 22 November (`Research Pack/15-style-ladder-adlibrary-review.md`
+section 4). Open each by its library id: `https://www.facebook.com/ads/library/?id=<id>`.
+
+| Who | Why watch | Library id |
+| :-- | :-- | :-- |
+| one sec | The founder says why he built it, 1,094 days | 3605358243085702 |
+| Big Little Feelings | One moment as a question on a flat card, 376 days | 1352793706392354 |
+| Bark | Tick list beside one plain picture, 529 days | 1889403961820232 |
+| Raising Toddlers | Long first person story copy, 334 days | 1487999738960847 |
+| Pinwheel | One number and a reframe, 311 days | 1934260327516660 |
+| ParentShield | Plain UK category claim, 948 days | 1009872137224415 |
+
 ## Adding someone
 
 When a new product turns up in Justin's feed, log it in the sightings file
