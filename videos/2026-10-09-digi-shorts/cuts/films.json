@@ -1,75 +1,447 @@
 {
  "cast": {
-  "Leo": {"age": 8, "stage": 2, "range": "8 to 10", "pro": "him", "pos": "his"},
-  "Ava": {"age": 10, "stage": 2, "range": "8 to 10", "pro": "her", "pos": "her"},
-  "Sam": {"age": 11, "stage": 3, "range": "11 to 13", "pro": "him", "pos": "his"},
-  "Maya": {"age": 14, "stage": 4, "range": "13 to 15", "pro": "her", "pos": "her"}
+  "Leo": {
+   "age": 8,
+   "stage": 2,
+   "range": "8 to 10",
+   "pro": "him",
+   "pos": "his"
+  },
+  "Ava": {
+   "age": 10,
+   "stage": 2,
+   "range": "8 to 10",
+   "pro": "her",
+   "pos": "her"
+  },
+  "Sam": {
+   "age": 11,
+   "stage": 3,
+   "range": "11 to 13",
+   "pro": "him",
+   "pos": "his"
+  },
+  "Maya": {
+   "age": 14,
+   "stage": 4,
+   "range": "13 to 15",
+   "pro": "her",
+   "pos": "her"
+  },
+  "Zoe": {
+   "age": 13,
+   "stage": 3,
+   "range": "11 to 13",
+   "pro": "her",
+   "pos": "her"
+  }
  },
  "research": {
-  "guiding": {"eyebrow": "The research", "claim": "Rules alone cut the good too. Guiding keeps it.", "cite": "Livingstone, 2017. 6,400 parents, children 6 to 14.", "vo": "a-research"},
-  "sleep": {"eyebrow": "The research", "claim": "A phone in the bedroom is linked to less sleep.", "cite": "Carter, 2016. 125,198 children aged 6 to 19.", "vo": "c-research"},
-  "belief": {"eyebrow": "What we believe", "claim": "Connection is the protection.", "cite": "", "vo": "belief"}
+  "guiding": {
+   "eyebrow": "The research",
+   "claim": "Rules alone cut the good too. Guiding keeps it.",
+   "cite": "Livingstone, 2017. 6,400 parents, children 6 to 14.",
+   "vo": "a-research"
+  },
+  "sleep": {
+   "eyebrow": "The research",
+   "claim": "A phone in the bedroom is linked to less sleep.",
+   "cite": "Carter, 2016. 125,198 children aged 6 to 19.",
+   "vo": "c-research"
+  },
+  "belief": {
+   "eyebrow": "What we believe",
+   "claim": "Connection is the protection.",
+   "cite": "",
+   "vo": "belief"
+  },
+  "support": {
+   "eyebrow": "The research",
+   "claim": "Children bullied online cope better with support at home.",
+   "cite": "Hellfeldt, 2020. 1,707 pupils aged 10 to 13.",
+   "vo": "b-research"
+  }
  },
  "films": [
-  {"key": "d01", "code": "screens-off", "child": "Leo", "script": 9671, "title": "The stopping point agreed in a calm moment", "tile": "Coming off screens", "research": "guiding",
-   "band": "Screens off. Every night.", "q": "Every night I take the tablet and he screams. He's 8.",
-   "steps": ["Agree the stop before it starts", "Let him do the switching off"],
+  {
+   "key": "d01",
+   "code": "screens-off",
+   "child": "Leo",
+   "script": 9671,
+   "title": "The stopping point agreed in a calm moment",
+   "tile": "Coming off screens",
+   "research": "guiding",
+   "band": "Screens off. Every night.",
+   "q": "Every night I take the tablet and he screams. He's 8.",
+   "steps": [
+    "Agree the stop before it starts",
+    "Let him do the switching off"
+   ],
    "body": "At eight, the screaming is about the ending arriving as a surprise, not about you. So move the ending earlier.\n\n**Agree the stop before it starts.** In a calm moment, decide together where tonight's screen time ends: this episode, this level.\n\n**Let him do the switching off.** Give one warning, then hand him the job of pressing stop.\n\nComing off screens is on Leo's check in now, and in a week I will ask how it went. The words are in [The stopping point agreed in a calm moment](/dashboard/scripts/9671).\n\n**Tonight.** Before the tablet goes on, ask him where it ends.",
-   "note": "agreeing the ending before it goes on", "worked": "A warning five minutes before",
-   "vo": "Every night, the tablet goes off and he screams. He's eight. So, what do you say tonight?"},
-  {"key": "d02", "code": "year-6-phone", "child": "Ava", "script": 9653, "title": "The Year 6 phone plan, before the box is opened", "tile": "Asking for a phone", "research": "sleep",
-   "band": "She asks every day.", "q": "She's 10 and asks for a phone every single day.",
-   "steps": ["Plan it before the box is opened", "Decide where it sleeps"],
+   "note": "agreeing the ending before it goes on",
+   "worked": "A warning five minutes before",
+   "vo": "Every night, the tablet goes off and he screams. He's eight. So, what do you say tonight?"
+  },
+  {
+   "key": "d02",
+   "code": "year-6-phone",
+   "child": "Ava",
+   "script": 9653,
+   "title": "The Year 6 phone plan, before the box is opened",
+   "tile": "Asking for a phone",
+   "research": "sleep",
+   "band": "She asks every day.",
+   "q": "She's 10 and asks for a phone every single day.",
+   "steps": [
+    "Plan it before the box is opened",
+    "Decide where it sleeps"
+   ],
    "body": "At ten, the asking will not stop, so turn it into a plan you write together while it is still easy.\n\n**Plan it before the box is opened.** Tell her a phone is probably coming before secondary school, and that you will write the rules together now.\n\n**Decide where it sleeps.** Agree it charges outside her bedroom at night, and that telling you about something bad never costs her the phone.\n\nAsking for a phone is on Ava's check in now, and in a week I will ask how it went. The words are in [The Year 6 phone plan, before the box is opened](/dashboard/scripts/9653).\n\n**Tonight.** Ask her where she thinks it should charge at night.",
-   "note": "writing the phone plan together", "worked": "Writing the rules together",
-   "vo": "She's ten, and she asks for a phone every single day. So, what do you say?"},
-  {"key": "d03", "code": "homework-ipad", "child": "Sam", "script": 108, "title": "Homework on a device with constant distraction", "tile": "Homework and school", "research": "guiding",
-   "band": "Homework is on the iPad.", "q": "Homework is on the iPad, so the iPad never comes away. He's 11.",
-   "steps": ["Start it with him", "Take the pings away"],
+   "note": "writing the phone plan together",
+   "worked": "Writing the rules together",
+   "vo": "She's ten, and she asks for a phone every single day. So, what do you say?"
+  },
+  {
+   "key": "d03",
+   "code": "homework-ipad",
+   "child": "Sam",
+   "script": 108,
+   "title": "Homework on a device with constant distraction",
+   "tile": "Homework and school",
+   "research": "guiding",
+   "band": "Homework is on the iPad.",
+   "q": "Homework is on the iPad, so the iPad never comes away. He's 11.",
+   "steps": [
+    "Start it with him",
+    "Take the pings away"
+   ],
    "body": "At eleven, he is not choosing distraction. The device is built to pull him away, so change the setup rather than lecture.\n\n**Start it with him.** Sit beside him for the first ten minutes and ask how the homework is going.\n\n**Take the pings away.** Phone face down, do not disturb on, one tab open until it is finished.\n\nHomework and school is on Sam's check in now, and in a week I will ask how it went. The words are in [Homework on a device with constant distraction](/dashboard/scripts/108).\n\n**Tonight.** Sit with him for the first ten minutes, then leave him to it.",
-   "note": "sitting with him for the first ten minutes", "worked": "Sitting with him for the start",
-   "vo": "Homework is on the iPad, so the iPad never comes away. So, what do you say tonight?"},
-  {"key": "d04", "code": "snapchat-at-ten", "child": "Ava", "script": 9600, "title": "Everyone is on Snapchat and they are not", "tile": "Social media", "research": "guiding",
-   "band": "Everyone is on Snapchat.", "q": "Everyone's on Snapchat and she's 10. She says she's left out.",
-   "steps": ["Believe her first", "Solve the real problem"],
+   "note": "sitting with him for the first ten minutes",
+   "worked": "Sitting with him for the start",
+   "vo": "Homework is on the iPad, so the iPad never comes away. So, what do you say tonight?"
+  },
+  {
+   "key": "d04",
+   "code": "snapchat-at-ten",
+   "child": "Ava",
+   "script": 9600,
+   "title": "Everyone is on Snapchat and they are not",
+   "tile": "Social media",
+   "research": "guiding",
+   "band": "Everyone is on Snapchat.",
+   "q": "Everyone's on Snapchat and she's 10. She says she's left out.",
+   "steps": [
+    "Believe her first",
+    "Solve the real problem"
+   ],
    "body": "She is right that plans happen there, and Snapchat is thirteen and up. So the problem to solve is how plans reach her.\n\n**Believe her first.** Say being left out is a horrible feeling, and that the age limit is the app's rule, not a verdict on her.\n\n**Solve the real problem.** Ask who would text her, and set up one direct way for friends to reach her.\n\nSocial media is on Ava's check in now, and in a week I will ask how it went. The words are in [Everyone is on Snapchat and they are not](/dashboard/scripts/9600).\n\n**Tonight.** Pick one friend and sort a call or a text through your phone.",
-   "note": "one friend who texts her through your phone", "worked": "A direct way for friends to reach her",
-   "vo": "Everyone is on Snapchat, and she's ten. She feels left out. So, what do you say?"},
-  {"key": "d05", "code": "youtube-alone", "child": "Leo", "script": 6, "title": "Asking to watch YouTube unsupervised", "tile": "Endless YouTube", "research": "guiding",
-   "band": "YouTube, on his own?", "q": "He wants YouTube on his own in his room. He's 8.",
-   "steps": ["Keep it in a shared room", "Switch autoplay off together"],
+   "note": "one friend who texts her through your phone",
+   "worked": "A direct way for friends to reach her",
+   "vo": "Everyone is on Snapchat, and she's ten. She feels left out. So, what do you say?"
+  },
+  {
+   "key": "d05",
+   "code": "youtube-alone",
+   "child": "Leo",
+   "script": 6,
+   "title": "Asking to watch YouTube unsupervised",
+   "tile": "Endless YouTube",
+   "research": "guiding",
+   "band": "YouTube, on his own?",
+   "q": "He wants YouTube on his own in his room. He's 8.",
+   "steps": [
+    "Keep it in a shared room",
+    "Switch autoplay off together"
+   ],
    "body": "At eight, the issue is not trust in him. YouTube is built to keep him watching, so where he watches matters more than how long.\n\n**Keep it in a shared room.** Say you trust him, and it is the app you do not trust yet.\n\n**Switch autoplay off together.** Let him press the setting, so one video ends and nothing queues behind it.\n\nEndless YouTube is on Leo's check in now, and in a week I will ask how it went. The words are in [Asking to watch YouTube unsupervised](/dashboard/scripts/6).\n\n**Tonight.** Move the tablet to the living room and say nothing more about it.",
-   "note": "keeping YouTube in the living room", "worked": "Screens in a shared room",
-   "vo": "He's eight, and he wants YouTube on his own in his room. So, what do you say?"},
-  {"key": "d06", "code": "tablet-at-5am", "child": "Leo", "script": 105, "title": "Sneaking screen time", "tile": "They get round the rules", "research": "guiding",
-   "band": "On the tablet at 5am.", "q": "I found him on the tablet at 5am. Again. He's 8.",
-   "steps": ["Ask before you punish", "Fix the setup together"],
+   "note": "keeping YouTube in the living room",
+   "worked": "Screens in a shared room",
+   "vo": "He's eight, and he wants YouTube on his own in his room. So, what do you say?"
+  },
+  {
+   "key": "d06",
+   "code": "tablet-at-5am",
+   "child": "Leo",
+   "script": 105,
+   "title": "Sneaking screen time",
+   "tile": "They get round the rules",
+   "research": "guiding",
+   "band": "On the tablet at 5am.",
+   "q": "I found him on the tablet at 5am. Again. He's 8.",
+   "steps": [
+    "Ask before you punish",
+    "Fix the setup together"
+   ],
    "body": "At eight, sneaking usually means the limit feels unfair or out of reach to him. Find out which before you change anything.\n\n**Ask before you punish.** Tell him you know, you are not going to shout, and you want to understand why.\n\n**Fix the setup together.** Agree where the tablet sleeps at night, somewhere that is not his room.\n\nThey get round the rules is on Leo's check in now, and in a week I will ask how it went. The words are in [Sneaking screen time](/dashboard/scripts/105).\n\n**Tonight.** Have a calm ten minutes and ask if the current rule feels fair.",
-   "note": "the tablet sleeping downstairs", "worked": "Asking why before reacting",
-   "vo": "You found him on the tablet at five in the morning. Again. So, what do you say?"},
-  {"key": "d07", "code": "found-on-his-phone", "child": "Sam", "script": 1319, "title": "Finding Something Upsetting on Their Device", "tile": "What they come across online", "research": "guiding",
-   "band": "Something on his phone.", "q": "I found something worrying on his phone. He's 11.",
-   "steps": ["Say nothing yet", "Open calm and curious"],
+   "note": "the tablet sleeping downstairs",
+   "worked": "Asking why before reacting",
+   "vo": "You found him on the tablet at five in the morning. Again. So, what do you say?"
+  },
+  {
+   "key": "d07",
+   "code": "found-on-his-phone",
+   "child": "Sam",
+   "script": 1319,
+   "title": "Finding Something Upsetting on Their Device",
+   "tile": "What they come across online",
+   "research": "guiding",
+   "band": "Something on his phone.",
+   "q": "I found something worrying on his phone. He's 11.",
+   "steps": [
+    "Say nothing yet",
+    "Open calm and curious"
+   ],
    "body": "At eleven, how you open this decides whether you get the truth or a wall. So nothing tonight in anger.\n\n**Say nothing yet.** Take a breath and decide what you want to know before you speak.\n\n**Open calm and curious.** Tell him you came across something, you are not angry, and you want to understand. If an adult sent it or asked him for anything, report it to CEOP.\n\nWhat they come across online is on Sam's check in now, and in a week I will ask how it went. The words are in [Finding Something Upsetting on Their Device](/dashboard/scripts/1319).\n\n**Tonight.** Decide the one outcome you want from the talk.",
-   "note": "waiting for a calm moment to ask", "worked": "A calm moment, not the heat of it",
-   "vo": "You found something worrying on his phone. He's eleven. So, what do you say tonight?"},
-  {"key": "d08", "code": "sixty-pounds", "child": "Sam", "script": 9621, "title": "They have spent real money on the game", "tile": "Spending in games", "research": "guiding",
-   "band": "£60, in a game.", "q": "He spent £60 of my money in a game. He's 11.",
-   "steps": ["Ask what it does first", "Close the door together"],
+   "note": "waiting for a calm moment to ask",
+   "worked": "A calm moment, not the heat of it",
+   "vo": "You found something worrying on his phone. He's eleven. So, what do you say tonight?"
+  },
+  {
+   "key": "d08",
+   "code": "sixty-pounds",
+   "child": "Sam",
+   "script": 9621,
+   "title": "They have spent real money on the game",
+   "tile": "Spending in games",
+   "research": "guiding",
+   "band": "£60, in a game.",
+   "q": "He spent £60 of my money in a game. He's 11.",
+   "steps": [
+    "Ask what it does first",
+    "Close the door together"
+   ],
    "body": "At eleven, this is far more often the game's design than a decision. Find out which before you call it anything.\n\n**Ask what it does first.** Have him show you what he bought, then what it cost in pounds, and whether he knew.\n\n**Close the door together.** Turn off in app purchases and put a password on the store that he does not have.\n\nSpending in games is on Sam's check in now, and in a week I will ask how it went. The words are in [They have spent real money on the game](/dashboard/scripts/9621).\n\n**Tonight.** Work out one repayment he can really manage.",
-   "note": "turning off in app purchases together", "worked": "Seeing the real price in pounds",
-   "vo": "He spent sixty pounds of your money in a game. He's eleven. So, what do you say?"},
-  {"key": "d09", "code": "ai-homework", "child": "Maya", "script": 901, "title": "AI wrote their homework", "tile": "AI chatbots", "research": "belief",
-   "band": "AI wrote her homework.", "q": "AI wrote her homework and she handed it in. She's 14.",
-   "steps": ["Be curious, not angry", "Separate the tool from the learning"],
+   "note": "turning off in app purchases together",
+   "worked": "Seeing the real price in pounds",
+   "vo": "He spent sixty pounds of your money in a game. He's eleven. So, what do you say?"
+  },
+  {
+   "key": "d09",
+   "code": "ai-homework",
+   "child": "Maya",
+   "script": 901,
+   "title": "AI wrote their homework",
+   "tile": "AI chatbots",
+   "research": "belief",
+   "band": "AI wrote her homework.",
+   "q": "AI wrote her homework and she handed it in. She's 14.",
+   "steps": [
+    "Be curious, not angry",
+    "Separate the tool from the learning"
+   ],
    "body": "At fourteen, lead with punishment and she hides the next shortcut. What matters is whether the learning happened.\n\n**Be curious, not angry.** Ask what she handed in and what she understands of it.\n\n**Separate the tool from the learning.** Agree where AI helps, like checking or explaining, and where it does the thinking for her.\n\nAI chatbots is on Maya's check in now, and in a week I will ask how it went. The words are in [AI wrote their homework](/dashboard/scripts/901).\n\n**Tonight.** Ask her to explain the topic in her own words, screen closed.",
-   "note": "explaining the topic with the screen closed", "worked": "Curious first, never cross",
-   "vo": "A.I. wrote her homework, and she handed it in. So, what do you say tonight?"},
-  {"key": "d10", "code": "chatbot-friend", "child": "Maya", "script": 903, "title": "An AI chatbot as a friend", "tile": "AI chatbots", "research": "belief",
-   "band": "A chatbot as a friend.", "q": "She talks to a chatbot like it's her best friend. She's 14.",
-   "steps": ["Say why it makes sense", "Name the limit kindly"],
+   "note": "explaining the topic with the screen closed",
+   "worked": "Curious first, never cross",
+   "vo": "A.I. wrote her homework, and she handed it in. So, what do you say tonight?"
+  },
+  {
+   "key": "d10",
+   "code": "chatbot-friend",
+   "child": "Maya",
+   "script": 903,
+   "title": "An AI chatbot as a friend",
+   "tile": "AI chatbots",
+   "research": "belief",
+   "band": "A chatbot as a friend.",
+   "q": "She talks to a chatbot like it's her best friend. She's 14.",
+   "steps": [
+    "Say why it makes sense",
+    "Name the limit kindly"
+   ],
    "body": "At fourteen, mocking the comfort she has found makes her lonelier. Honour why it appeals, and name its limit.\n\n**Say why it makes sense.** It never gets tired and never judges her, and that feels good.\n\n**Name the limit kindly.** It cannot care back, even when it sounds like it does. If she is using it because she is low, talk to your GP.\n\nAI chatbots is on Maya's check in now, and in a week I will ask how it went. The words are in [An AI chatbot as a friend](/dashboard/scripts/903).\n\n**Tonight.** Plan one face to face thing she enjoys, with a real person, this week.",
-   "note": "one face to face plan a week", "worked": "Time with real friends, planned",
-   "vo": "She talks to a chatbot like it's her best friend. She's fourteen. So, what do you say?"}
+   "note": "one face to face plan a week",
+   "worked": "Time with real friends, planned",
+   "vo": "She talks to a chatbot like it's her best friend. She's fourteen. So, what do you say?"
+  },
+  {
+   "key": "e01",
+   "code": "group-chat-at-11pm",
+   "child": "Sam",
+   "script": 9612,
+   "title": "The class group at eleven at night",
+   "tile": "Group chats",
+   "research": "sleep",
+   "band": "The group chat at 11pm.",
+   "q": "The class group chat is still going at 11pm. He's 11.",
+   "steps": [
+    "Take him out of the room",
+    "Mute it until morning"
+   ],
+   "body": "At eleven, he cannot be the one who stops that group, and leaving it has a real social cost. So change where the phone is.\n\n**Take him out of the room.** Say you know the group does not stop, and that muting is not the same as leaving.\n\n**Mute it until morning.** Do it together, until eight, and charge the phone outside his bedroom.\n\nGroup chats is on Sam's check in now, and in a week I will ask how it went. The words are in [The class group at eleven at night](/dashboard/scripts/9612).\n\n**Tonight.** Ask him what really happens if it is muted until morning.",
+   "note": "muting the group until eight",
+   "worked": "Muting, not leaving",
+   "vo": "The class group chat is still going at eleven at night. He's eleven. So, what do you say?"
+  },
+  {
+   "key": "e02",
+   "code": "snapchat-streaks",
+   "child": "Zoe",
+   "script": 9601,
+   "title": "The streak they cannot lose",
+   "tile": "Social media",
+   "research": "belief",
+   "band": "The streak she cannot lose.",
+   "q": "She's stressed about losing her Snapchat streaks. She's 13.",
+   "steps": [
+    "Count them out loud",
+    "Ask who decided"
+   ],
+   "body": "At thirteen, telling her the streaks mean nothing ends the conversation. The obligation is what is wearing her down, so make it visible.\n\n**Count them out loud.** Ask her to show you the streaks, and say you are not asking so you can take them away.\n\n**Ask who decided.** Ask who said she has to keep them going. Nobody did, and that question stays with her.\n\nSocial media is on Zoe's check in now, and in a week I will ask how it went. The words are in [The streak they cannot lose](/dashboard/scripts/9601).\n\n**Tonight.** Ask which streaks she would miss, and let one chore streak go together.",
+   "note": "letting one chore streak go on purpose",
+   "worked": "Counting them out loud",
+   "vo": "She's thirteen, and she's stressed about losing her Snapchat streaks. So, what do you say?"
+  },
+  {
+   "key": "e03",
+   "code": "mid-match",
+   "child": "Leo",
+   "script": 9620,
+   "title": "They cannot stop in the middle of a match",
+   "tile": "Coming off screens",
+   "research": "guiding",
+   "band": "Mid match, time's up.",
+   "q": "I say time's up and he explodes. He's mid match. He's 8.",
+   "steps": [
+    "Agree the matches first",
+    "Ask how long is left"
+   ],
+   "body": "At eight, leaving mid match lets his team down, and that fear is real. So the stop has to sit at the end of a match.\n\n**Agree the matches first.** Before he starts, decide together how many, and that he stops at the end of the last one.\n\n**Ask how long is left.** For this one, ask him the time on the match clock, and hold him to it.\n\nComing off screens is on Leo's check in now, and in a week I will ask how it went. The words are in [They cannot stop in the middle of a match](/dashboard/scripts/9620).\n\n**Tonight.** Ask him to show you where the match timer is.",
+   "note": "stopping at the end of a match",
+   "worked": "Counting matches, not minutes",
+   "vo": "You say time's up, and he explodes. He's in the middle of a match. So, what do you say?"
+  },
+  {
+   "key": "e04",
+   "code": "threw-the-controller",
+   "child": "Leo",
+   "script": 1317,
+   "title": "Gaming Rage",
+   "tile": "Controller fights",
+   "research": "belief",
+   "band": "He threw the controller.",
+   "q": "He lost the game and threw the controller. He's 8.",
+   "steps": [
+    "Name it and wait",
+    "Ask about it later"
+   ],
+   "body": "At eight, he already knows it is just a game. The feeling is real, so reasoning waits until it has passed.\n\n**Name it and wait.** Say that was really frustrating, give him a minute, and fetch him a drink.\n\n**Ask about it later.** Once he is calm, ask what happened just before. A loss, something unfair, or the same player again and again.\n\nController fights is on Leo's check in now, and in a week I will ask how it went. The words are in [Gaming Rage](/dashboard/scripts/1317).\n\n**Tonight.** After he has calmed down, ask what the trigger was.",
+   "note": "a drink and a minute before any talk",
+   "worked": "Waiting until he is calm",
+   "vo": "He lost the game, and he threw the controller. He's eight. So, what do you say?"
+  },
+  {
+   "key": "e05",
+   "code": "asking-for-instagram",
+   "child": "Zoe",
+   "script": 9607,
+   "title": "Asking for Instagram, and what a Teen Account actually does",
+   "tile": "Social media",
+   "research": "belief",
+   "band": "She wants Instagram.",
+   "q": "She's 13 and asking for Instagram. Are the protections real?",
+   "steps": [
+    "Look at it together",
+    "Make it about timing"
+   ],
+   "body": "At thirteen, guessing helps nobody, so look at what a Teen Account does. It is private by default, and under sixteen she cannot loosen that without you.\n\n**Look at it together.** Go through the settings side by side, so she sees what is protected.\n\n**Make it about timing.** Say the question is whether now is the right time, and decide that with her.\n\nSocial media is on Zoe's check in now, and in a week I will ask how it went. The words are in [Asking for Instagram, and what a Teen Account actually does](/dashboard/scripts/9607).\n\n**Tonight.** Read the Teen Account settings together before deciding anything.",
+   "note": "reading the settings side by side",
+   "worked": "Deciding the timing together",
+   "vo": "She's thirteen, and she's asking for Instagram. Are the protections real? So, what do you say?"
+  },
+  {
+   "key": "e06",
+   "code": "two-sets-of-rules",
+   "child": "Sam",
+   "script": 1009,
+   "title": "When one parent is stricter",
+   "tile": "They get round the rules",
+   "research": "belief",
+   "band": "Two sets of rules.",
+   "q": "We don't agree on screen rules, and he plays us off each other.",
+   "steps": [
+    "Own it as yours to fix",
+    "Agree one rule together"
+   ],
+   "body": "At eleven, he will use any gap between you, and that is normal. Closing the gap is a job for the two adults.\n\n**Own it as yours to fix.** Tell him you two do not always agree on screens, and that sorting it out is not his job.\n\n**Agree one rule together.** Talk privately, and pick one rule you will both back, word for word.\n\nThey get round the rules is on Sam's check in now, and in a week I will ask how it went. The words are in [When one parent is stricter](/dashboard/scripts/1009).\n\n**Tonight.** Agree that one rule with your partner, out of his hearing.",
+   "note": "one rule you both back",
+   "worked": "One rule, said the same way",
+   "vo": "You two don't agree on screen rules, and he plays you off each other. So, what do you say?"
+  },
+  {
+   "key": "e07",
+   "code": "feed-went-dark",
+   "child": "Zoe",
+   "script": 9604,
+   "title": "The feed got dark and they did not choose it",
+   "tile": "What they come across online",
+   "research": "belief",
+   "band": "Her feed went dark.",
+   "q": "Her TikTok feed has gone dark and sad. She's 13.",
+   "steps": [
+    "Ask to see it",
+    "Name how it works"
+   ],
+   "body": "At thirteen, a dark feed can feel like it says something true about her. It is the app guessing wrong.\n\n**Ask to see it.** Say you are not checking up on her, you want to see what it decided she likes.\n\n**Name how it works.** It counts how long she looks, so pausing on one sad video can turn the feed sad. If she is low, talk to your GP.\n\nWhat they come across online is on Zoe's check in now, and in a week I will ask how it went. The words are in [The feed got dark and they did not choose it](/dashboard/scripts/9604).\n\n**Tonight.** Press not interested on three together, then search two things she loves.",
+   "note": "pressing not interested together",
+   "worked": "Seeing how the feed decides",
+   "vo": "Her TikTok feed has turned dark and sad. She's thirteen. So, what do you say tonight?"
+  },
+  {
+   "key": "e08",
+   "code": "second-account",
+   "child": "Maya",
+   "script": 9608,
+   "title": "The second account you were not meant to find",
+   "tile": "They get round the rules",
+   "research": "belief",
+   "band": "A second account.",
+   "q": "I found her second Instagram account. She's 14.",
+   "steps": [
+    "Understand it first",
+    "Ask who follows it"
+   ],
+   "body": "At fourteen, a second account is usually about audience, not lying. Treat it as a lie and the third one stays hidden.\n\n**Understand it first.** Tell her you know, you are not making a huge thing of it, and ask what goes there.\n\n**Ask who follows it.** Not the posts, the followers. That list is where the risk is.\n\nThey get round the rules is on Maya's check in now, and in a week I will ask how it went. The words are in [The second account you were not meant to find](/dashboard/scripts/9608).\n\n**Tonight.** Ask to see who follows the second account, and nothing else.",
+   "note": "asking only for the follower list",
+   "worked": "Understanding before punishing",
+   "vo": "You found her second Instagram account. She's fourteen. So, what do you say tonight?"
+  },
+  {
+   "key": "e09",
+   "code": "tablet-in-her-bed",
+   "child": "Ava",
+   "script": 216,
+   "title": "Devices and sleep",
+   "tile": "Bedtime screens",
+   "research": "sleep",
+   "band": "Screens at bedtime.",
+   "q": "She won't settle at night and the tablet is in her bed. She's 10.",
+   "steps": [
+    "Explain what sleep does",
+    "Charge yours there too"
+   ],
+   "body": "At ten, this works as a shared habit, not a confiscation. Screens keep her brain switched on when it needs to wind down.\n\n**Explain what sleep does.** Tell her sleep is when her brain sorts out the day, and screens make that harder.\n\n**Charge yours there too.** Agree devices go to bed in the kitchen, and put your own phone beside hers.\n\nBedtime screens is on Ava's check in now, and in a week I will ask how it went. The words are in [Devices and sleep](/dashboard/scripts/216).\n\n**Tonight.** Set up one charging spot outside the bedrooms, yours included.",
+   "note": "one charging spot in the kitchen",
+   "worked": "Charging your phone there too",
+   "vo": "She won't settle at night, and the tablet is in her bed. She's ten. So, what do you say?"
+  },
+  {
+   "key": "e10",
+   "code": "cruel-online",
+   "child": "Sam",
+   "script": 501,
+   "title": "They are being bullied online",
+   "tile": "Group chats",
+   "research": "support",
+   "band": "Someone is being cruel online.",
+   "q": "Someone is being cruel to him online. He's 11.",
+   "steps": [
+    "Be glad he told you",
+    "Look at it together"
+   ],
+   "body": "At eleven, telling you took courage, so his feelings come before any fix. Ignoring it rarely makes it stop.\n\n**Be glad he told you.** Say so, and that it makes complete sense he is upset.\n\n**Look at it together.** Ask him to show you, stay calm, then screenshot and save everything. If there are threats, tell the school and report it.\n\nGroup chats is on Sam's check in now, and in a week I will ask how it went. The words are in [They are being bullied online](/dashboard/scripts/501).\n\n**Tonight.** Sit beside him, read the messages, and save them before deciding anything.",
+   "note": "reading the messages together, calmly",
+   "worked": "Being glad he told you",
+   "vo": "Someone is being cruel to him online. He's eleven. So, what do you say tonight?"
+  }
  ]
 }
