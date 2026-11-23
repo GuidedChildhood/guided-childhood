@@ -84,3 +84,14 @@ as well, because with the 6 December booking that week would have four posts, so
 moves to Monday 7 December. ChatGPT's provisional 2 Dec, 4 Dec and 7 Dec stories
 come out of the queue until they clear the radar and get real numbers. 062 and 063
 still need Justin's approval before their dates.
+
+## 23 November: 060 and 067 approved
+
+"approve 060 swap with 063, 067 approved"
+
+| Week | Mon 08:00 | Wed 08:00 | Fri 08:00 | Booked natively |
+|---|---|---|---|---|
+| 23 Nov | 23: GDC 064, out | 25: GDC 061 | none | Sun 29, 08:45 |
+| 30 Nov | 30: GDC 060 (EU KIDS Act, window closes 3 Dec) | 2 Dec: GDC 059 | none | Sun 6 Dec, 08:30 |
+| 7 Dec | 7: GDC 062 | 9: GDC 063 | 11: GDC 067 | |
+

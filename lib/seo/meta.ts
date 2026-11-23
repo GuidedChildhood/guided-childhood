@@ -36,6 +36,26 @@ export type PageMetaInput = {
   type?: 'website' | 'article'
 }
 
+/** What the root layout's template adds after a page's own title. */
+export const BRAND_SUFFIX = ' | Guided Childhood'
+
+/**
+ * Where Google stops showing a title in full. The Ahrefs audit of 23 November
+ * 2026 found 281 titles past it, the 220 app pages and most free printables
+ * among them, each cut off mid question in the results.
+ */
+export const TITLE_MAX = 60
+
+/** The title as it will show in a browser tab and in search results. */
+export function shownTitle(title: string, absolute = false): string {
+  return absolute || title.length + BRAND_SUFFIX.length > TITLE_MAX ? title : `${title}${BRAND_SUFFIX}`
+}
+
+/** The first candidate that fits under TITLE_MAX on its own, else the shortest. */
+export function fitTitle(...candidates: string[]): string {
+  return candidates.find(c => c.length <= TITLE_MAX) ?? [...candidates].sort((a, b) => a.length - b.length)[0]
+}
+
 /** The site's own share card, 1200 by 630. */
 export const DEFAULT_SHARE_IMAGE = '/og.png'
 
@@ -48,7 +68,10 @@ export function pageMetadata(input: PageMetaInput): Metadata {
   const url = absoluteUrl(input.path)
   const image = input.image ?? DEFAULT_SHARE_IMAGE
   return {
-    title: input.absoluteTitle ? { absolute: input.title } : input.title,
+    // The brand goes after the page's own words only while the whole still
+    // fits: a parent searching reads the question, so the brand is what gives
+    // way, never the question (shownTitle above).
+    title: input.absoluteTitle || input.title.length + BRAND_SUFFIX.length > TITLE_MAX ? { absolute: input.title } : input.title,
     description: input.description,
     alternates: { canonical: url },
     openGraph: {

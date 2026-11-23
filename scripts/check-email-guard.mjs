@@ -21,7 +21,7 @@
 
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import { MIN_DAYS_BETWEEN_PROGRAMME_EMAILS, normaliseAddress, dueAgain } from '../lib/email/floor.ts'
+import { MIN_DAYS_BETWEEN_PROGRAMME_EMAILS, normaliseAddress, dueAgain, leadTeaserDay, leadTeaserWindowDays } from '../lib/email/floor.ts'
 
 let failures = 0
 const check = (name, ok, detail = '') => {
@@ -41,6 +41,14 @@ const NOW = Date.UTC(2026, 7, 12, 8, 0, 0)
 const wouldSend = sinceMs => dueAgain(new Date(NOW - sinceMs).toISOString(), NOW)
 
 check('one a week is what he asked for', MIN_DAYS_BETWEEN_PROGRAMME_EMAILS === 6, String(MIN_DAYS_BETWEEN_PROGRAMME_EMAILS))
+
+// The lead teasers sit on the floor, not against it (23 November 2026): the
+// first a floor after the day 1 nurture, each a floor apart, and the window
+// long enough for all eight and the founder close. Before, the window closed
+// after about four and the rest never went.
+check('the first lead teaser is a floor after the day 1 nurture', leadTeaserDay(0) === 1 + MIN_DAYS_BETWEEN_PROGRAMME_EMAILS, String(leadTeaserDay(0)))
+check('lead teasers are exactly a floor apart', leadTeaserDay(5) - leadTeaserDay(4) === MIN_DAYS_BETWEEN_PROGRAMME_EMAILS)
+check('the window holds all eight teasers and the founder close', leadTeaserWindowDays(8) > leadTeaserDay(8), `${leadTeaserWindowDays(8)} days, founder close on day ${leadTeaserDay(8)}`)
 check('a second email 1.1 seconds later is turned away', !wouldSend(1100))
 check('and so is one the next morning', !wouldSend(days(1)))
 check('and one five days later', !wouldSend(days(5)))
