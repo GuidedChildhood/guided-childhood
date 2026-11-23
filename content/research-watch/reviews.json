@@ -89,5 +89,14 @@
     "limitations": "Working paper, not peer reviewed. Advocacy framing. Learning outcomes, not mental health.",
     "reason": "Read beside the Iceland study: school bans may help focus and learning while doing little for mental health on their own. Either way the ban is not the whole plan. Read the working paper before citing any number.",
     "parentProblem": "The ban is coming, so is it sorted?"
+  },
+  "https://www.afterbabel.com/p/gta-vi-regulating-design": {
+    "verdict": "SUPPORT",
+    "read": "full",
+    "design": "Policy essay by Mariana Olaizola Rosenblat and Srivatsan Raj, first published by the NYU Stern Center for Business and Human Rights on 18 November 2026, reposted on After Babel on 20 November with an introduction by Jon Haidt and Zach Rausch. Not a study. Cites a 2023 Resolver threat assessment, Rosenblat's own 2023 NYU survey of multiplayer gamers, Streams Charts viewing data and company results.",
+    "finding": "Argues GTA VI should prompt new design rules and not a moral panic. States that decades of studies have found no established causal link between video games and violence. Says the age rating answers only the content question and misses contact with strangers and pressure to spend. Proposes a design code for games: private profiles and chat off by default, one tap reporting, parental controls over contact and spending, and a rating that covers interactive features.",
+    "limitations": "Advocacy, and the lead author cites her own earlier survey. The 19 seconds grooming figure and the 51 percent extremism figure were read only as quoted in the essay, not at source, so neither is cleared. Sales and revenue figures are press estimates. US framing (ESRB, Congress).",
+    "reason": "Closest After Babel has come to our own line: name the design fault, do not make the game the villain, and do not keep children from playing. Already in the pipeline as GDC 064 (PR 1660), so no new candidate from this run. Haidt and the authors may be named when quoted accurately.",
+    "parentProblem": "none"
   }
 }

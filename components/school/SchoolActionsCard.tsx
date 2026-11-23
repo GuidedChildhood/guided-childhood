@@ -176,7 +176,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
   // Which week the calendar is showing. 0 is this one, and the arrows walk it.
   // The day whose "+ Add" was tapped, and therefore the sheet that is open.
   // Null is closed.
-  const [addDay, setAddDay] = useState<{ dateIso: string; dow: number } | null>(null)
+  const [addDay, setAddDay] = useState<{ dateIso: string; dow: number; pick?: boolean } | null>(null)
 
   const [weekOffset, setWeekOffset] = useState(0)
 
@@ -631,7 +631,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
             actually reached for was the one that looked like it did nothing.
             Both now open the same sheet; this one starts on today. */}
         <button
-          onClick={() => setAddDay({ dateIso: todayIso(), dow: new Date().getDay() })}
+          onClick={() => setAddDay({ dateIso: todayIso(), dow: new Date().getDay(), pick: true })}
           style={{
             background: 'var(--terracotta)', border: 'var(--edge)', boxShadow: 'var(--lift)',
             borderRadius: 'var(--radius-pill)', padding: '8px 16px', cursor: 'pointer',
@@ -721,6 +721,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
           childName={childName}
           kids={kids}
           defaultChildId={currentChildId()}
+          pickDate={addDay.pick === true}
           onCancel={() => setAddDay(null)}
           onAdd={addFromSheet}
         />
