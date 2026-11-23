@@ -239,6 +239,11 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Nothing loaded, nothing spent. Suggested split £10 a card over 7 days; an even split needs one ad set per card, which the uploader does not do yet.
 - Competitors: nobody in the UK library says our lines. Ten long runners from the 22 November read are in the swipe file and six are on the watchlist.
 
+## 23 November 2026: the Monday LinkedIn pass wrote two posts, not three to five
+
+- GDC 060 (EU KIDS Act, recruit strangers) is written for the first time; the 16 November pass claimed the number and left no copy. GDC 067 (YouGov, 77 percent back the ban and split 45 to 46 on whether it works, start an argument) is new.
+- Two because post-picker found no free slot before 9 December under the three a week rule, and the reserve was short only of argument posts and anything on the ban. Australia one year on was dropped: esafety.gov.au returned 503, so no figure could be read at source.
+- The KIDS Act feedback window closes 3 December, not 26 November. 060 still needs a slot Justin has to free. PR 1669.
 ## 23 November 2026: GDC 062 and 063 approved
 
 - Justin: "062 and 063 approved". 063 goes Mon 30 Nov 08:00, 062 Mon 7 Dec 08:00.
