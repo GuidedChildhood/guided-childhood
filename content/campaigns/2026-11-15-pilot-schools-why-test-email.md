@@ -1,6 +1,6 @@
 # Email to every school signed up for the pilot
 
-Drafted 15 November 2026 for Justin. Three emails, in his voice, for the
+Drafted 15 November 2026 for Justin. Four emails, in his voice, for the
 school funnel in Mailchimp (his answers the same day: two emails for pilot
 schools, an invitation with the free lesson for the contact list).
 
@@ -8,7 +8,10 @@ schools, an invitation with the free lesson for the contact list).
    and the five questions.
 2. Pilot email 2, a week later: the French bonus.
 3. The invitation, for schools on the contact list that have not asked for
-   the pilot. One email, once.
+   the pilot. One email, once. Rewritten 23 November to lead with PSHE and
+   parent engagement.
+4. The trust version, one to one, for a trust's digital or implementation
+   lead (added 23 November).
 
 Every claim is something a school can open today: the two pilot lessons, the
 one tap record, the class progress page, the subject lead kit, French in the
@@ -53,6 +56,8 @@ Two lessons matched to the phase you teach, for a term, with:
 4. The Hub: the statutory mapping, the policy text, the staff briefings, the
    data protection pack, and a new kit for the subject lead with deep dive
    questions, a pupil voice sheet and a staff confidence audit.
+5. The parent pack for your newsletter: a blurb to copy, a QR code and free
+   tools for families, so parents hear at home what pupils hear in class.
 
 **The five questions**
 
@@ -120,25 +125,77 @@ Guided Childhood
 
 # The invitation: schools on the contact list
 
-**Subject:** A free French lesson for Year 3, and a pilot if you want one
+Rewritten 23 November 2026 after the call with Oak's partnerships lead
+(plans/2026-11-23-oak-call-notes.md): schools hear from a lot of EdTech, so
+lead with what very few do, the digital side of PSHE and parent engagement,
+and the staff time both cost. Not "a new product".
+
+**Subject:** The online side of RSHE, and the parents, without the extra staff time
 
 Hello [first name],
 
-I am Justin, and I run Guided Childhood. We make a scheme for the digital
-side of RSHE for primary and secondary schools: the lesson, the words to say
+I am Justin, and I run Guided Childhood. Two parts of RSHE take far more staff
+time than they should: teaching the online safety content well when it is not
+your specialism, and bringing parents with you on phones and social media.
+Very little out there helps with either, so that is what we built.
+
+For the classroom: lessons mapped to the 2026 guidance, with the words to say
 on every slide, the sheets, and a record of what each class has been taught.
+A teacher who is not a specialist can teach one without an evening of
+preparation.
 
-I would rather show you than tell you, so here is a whole lesson to open now.
-It is from the KS2 French that comes with the scheme. No code, no sign up:
-https://schools.guidedchildhood.com/languages/fr/y3-ht2/1
+For parents: a parent pack for your newsletter, with a blurb to copy, a QR
+code and free tools for families, so parents hear at home what pupils hear in
+class.
 
-If you would like to try the digital lessons with your own classes, the pilot
-is free for a term: two lessons matched to the phase you teach, every
-printable, and the Hub for your subject lead. There are five places, so it
-goes to the first five schools that ask.
+The pilot is free for a term: two lessons matched to the phase you teach,
+every printable, the parent pack, and the Hub for your subject lead. There are
+five places, so it goes to the first five schools that ask.
 https://schools.guidedchildhood.com/pilot
 
+If you would rather look first, the statutory mapping is open on the site with
+no sign up:
+https://schools.guidedchildhood.com/hub/rshe-mapping
+
 If this is not for you, there is nothing to do, and I will not write again.
+
+Justin
+
+Justin Phillips
+Guided Childhood
+
+PS. KS2 French for Years 3 and 4 comes with the scheme. You can open a whole
+lesson now, no code needed:
+https://schools.guidedchildhood.com/languages/fr/y3-ht2/1
+
+---
+
+# The trust version: for a trust's digital or implementation lead
+
+Added 23 November 2026. EdTech now enters schools through the trust, and the
+person who decides hears from ten to twenty companies a week. So this one is
+short, says what is different in the first two lines, and asks for advice
+and fifteen minutes rather than a sale. Send it one to one, not as a
+campaign.
+
+**Subject:** PSHE and parent engagement across your schools, one term free
+
+Hello [first name],
+
+I know you hear from a lot of EdTech companies, so I will keep this short and
+say what is different.
+
+We help with two things very few tools touch. The first is the online side of
+PSHE and RSHE, taught by teachers who are not specialists, from a script on
+every slide. The second is parent engagement on phones and social media, with
+a pack for each school's newsletter.
+
+There is nothing to install, no pupil accounts and no pupil data. Each school
+gets a code, and the lessons and statutory mapping are open to look at first:
+https://schools.guidedchildhood.com/hub/rshe-mapping
+
+I am looking for a few schools in one trust to pilot it free for a term, and I
+would value your steer on which would suit. Could we have fifteen minutes?
 
 Justin
 
