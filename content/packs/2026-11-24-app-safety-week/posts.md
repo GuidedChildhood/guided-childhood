@@ -1,25 +1,25 @@
-# App safety week, 24 to 30 November 2026
+# App safety week, moved to 30 November to 14 December 2026
 
-DRAFT. Nothing here is posted, scheduled or in Drive. Justin posts.
+APPROVED by Justin, 23 November 2026: "push to next week, just do next weeks if any full, no want you to do it auto". So every post moves out of this week, which is full, into the next free slots, and goes out automatically through Metricool once it is connected (see Automatic posting below). Nothing is posted yet.
 
 The job: send parents to the new app safety pages (the guide at /app-safety-guide, 20 apps, an age page for each age 6 to 15), every page ending at the free check and then the stage check at /starter-pack. Christmas is the honest hook: new phones, tablets and consoles arrive, and with them the first asks for apps.
 
-Note on dates: 24 November is a Tuesday, not a Monday. Monday 23 is today and already carries GDC-064, so the Monday LinkedIn post moves to Tuesday 24, and the family Founder Monday falls on Monday 30.
+Note on dates: the week of 23 November was full on both accounts. The family posts take next week's four anchor days. Justin's LinkedIn is at its three a week cap next week too (063, 059 on Wednesday 2, the Sunday 6 booking) and holds 062 on Monday 7, so the three LinkedIn posts take the next free slots after that.
 
 ## Posting plan
 
 | Day | Platform | Post | Link |
 |---|---|---|---|
-| Tue 24 Nov, 08:00 | LinkedIn, Justin | L1. TikTok's terms have three ages in them | First comment: https://www.guidedchildhood.com/is-tiktok-safe?utm_source=linkedin&utm_medium=social&utm_campaign=app-safety-week&utm_content=li-three-ages |
-| Tue 24 Nov | Pinterest | P1. Is Roblox safe for a 9 year old? | https://www.guidedchildhood.com/is-roblox-safe-for-9-year-old?utm_source=pinterest&utm_medium=social&utm_campaign=app-safety-week&utm_content=pin-roblox-9 |
-| Wed 25 Nov, 08:00 | LinkedIn, Justin | L2. A check with no score at the end | First comment: https://www.guidedchildhood.com/app-safety-guide?utm_source=linkedin&utm_medium=social&utm_campaign=app-safety-week&utm_content=li-no-score |
-| Wed 25 Nov, 10:00 | Instagram and Facebook, family | F1. Research Wednesday: 13, 16 and 18 | Instagram: Story link sticker to https://www.guidedchildhood.com/is-tiktok-safe?utm_source=instagram&utm_medium=social&utm_campaign=app-safety-week&utm_content=ig-three-ages. Facebook: in the post, https://www.guidedchildhood.com/is-tiktok-safe?utm_source=facebook&utm_medium=social&utm_campaign=app-safety-week&utm_content=fb-three-ages |
-| Thu 26 Nov | Pinterest | P2. Is Minecraft safe for a 7 year old? | https://www.guidedchildhood.com/is-minecraft-safe-for-7-year-old?utm_source=pinterest&utm_medium=social&utm_campaign=app-safety-week&utm_content=pin-minecraft-7 |
-| Fri 27 Nov, 08:00 | LinkedIn, Justin | L3. The school parent pack | First comment: https://www.guidedchildhood.com/schools/parent-pack?utm_source=linkedin&utm_medium=social&utm_campaign=app-safety-week&utm_content=li-parent-pack |
-| Fri 27 Nov, 10:00 | Instagram and Facebook, family | F2. Service Friday: five WhatsApp settings | Instagram: Story link sticker to https://www.guidedchildhood.com/is-whatsapp-safe?utm_source=instagram&utm_medium=social&utm_campaign=app-safety-week&utm_content=ig-whatsapp-five, and the stage check line points at the bio link. Facebook: in the post, https://www.guidedchildhood.com/is-whatsapp-safe?utm_source=facebook&utm_medium=social&utm_campaign=app-safety-week&utm_content=fb-whatsapp-five |
-| Sat 28 Nov, 10:00 | Instagram and Facebook, family | F3. Happy News Saturday: the good in the Christmas list | Instagram: Story link sticker to https://www.guidedchildhood.com/app-safety-guide?utm_source=instagram&utm_medium=social&utm_campaign=app-safety-week&utm_content=ig-christmas-list. Facebook: in the post, https://www.guidedchildhood.com/app-safety-guide?utm_source=facebook&utm_medium=social&utm_campaign=app-safety-week&utm_content=fb-christmas-list |
-| Sat 28 Nov | Pinterest | P3. Is YouTube safe for an 8 year old? | https://www.guidedchildhood.com/is-youtube-safe-for-8-year-old?utm_source=pinterest&utm_medium=social&utm_campaign=app-safety-week&utm_content=pin-youtube-8 |
 | Mon 30 Nov, 10:00 | Instagram and Facebook, family | F4. Founder Monday: the kitchen table | None. Founder Monday never carries a link or an ask |
+| Tue 1 Dec | Pinterest | P1. Is Roblox safe for a 9 year old? | https://www.guidedchildhood.com/is-roblox-safe-for-9-year-old?utm_source=pinterest&utm_medium=social&utm_campaign=app-safety-week&utm_content=pin-roblox-9 |
+| Wed 2 Dec, 10:00 | Instagram and Facebook, family | F1. Research Wednesday: 13, 16 and 18 | Instagram: Story link sticker to https://www.guidedchildhood.com/is-tiktok-safe?utm_source=instagram&utm_medium=social&utm_campaign=app-safety-week&utm_content=ig-three-ages. Facebook: in the post, https://www.guidedchildhood.com/is-tiktok-safe?utm_source=facebook&utm_medium=social&utm_campaign=app-safety-week&utm_content=fb-three-ages |
+| Thu 3 Dec | Pinterest | P2. Is Minecraft safe for a 7 year old? | https://www.guidedchildhood.com/is-minecraft-safe-for-7-year-old?utm_source=pinterest&utm_medium=social&utm_campaign=app-safety-week&utm_content=pin-minecraft-7 |
+| Fri 4 Dec, 10:00 | Instagram and Facebook, family | F2. Service Friday: five WhatsApp settings | Instagram: Story link sticker to https://www.guidedchildhood.com/is-whatsapp-safe?utm_source=instagram&utm_medium=social&utm_campaign=app-safety-week&utm_content=ig-whatsapp-five, and the stage check line points at the bio link. Facebook: in the post, https://www.guidedchildhood.com/is-whatsapp-safe?utm_source=facebook&utm_medium=social&utm_campaign=app-safety-week&utm_content=fb-whatsapp-five |
+| Sat 5 Dec, 10:00 | Instagram and Facebook, family | F3. Happy News Saturday: the good in the Christmas list | Instagram: Story link sticker to https://www.guidedchildhood.com/app-safety-guide?utm_source=instagram&utm_medium=social&utm_campaign=app-safety-week&utm_content=ig-christmas-list. Facebook: in the post, https://www.guidedchildhood.com/app-safety-guide?utm_source=facebook&utm_medium=social&utm_campaign=app-safety-week&utm_content=fb-christmas-list |
+| Sat 5 Dec | Pinterest | P3. Is YouTube safe for an 8 year old? | https://www.guidedchildhood.com/is-youtube-safe-for-8-year-old?utm_source=pinterest&utm_medium=social&utm_campaign=app-safety-week&utm_content=pin-youtube-8 |
+| Wed 9 Dec, 08:00 | LinkedIn, Justin | L1. TikTok's terms have three ages in them | First comment: https://www.guidedchildhood.com/is-tiktok-safe?utm_source=linkedin&utm_medium=social&utm_campaign=app-safety-week&utm_content=li-three-ages |
+| Fri 11 Dec, 08:00 | LinkedIn, Justin | L2. A check with no score at the end | First comment: https://www.guidedchildhood.com/app-safety-guide?utm_source=linkedin&utm_medium=social&utm_campaign=app-safety-week&utm_content=li-no-score |
+| Mon 14 Dec, 08:00 | LinkedIn, Justin | L3. The school parent pack | First comment: https://www.guidedchildhood.com/schools/parent-pack?utm_source=linkedin&utm_medium=social&utm_campaign=app-safety-week&utm_content=li-parent-pack |
 | Any day, when a parent asks | Facebook parent groups | G1. Reply template | Last line of the reply: https://www.guidedchildhood.com/is-snapchat-safe-for-12-year-old?utm_source=facebook&utm_medium=social&utm_campaign=app-safety-week&utm_content=group-reply |
 
 **Why each link sits where it does.** LinkedIn cuts the reach of a post that sends people away, so the link goes in the first comment. Instagram captions cannot hold a working link, and our bio link already goes to the stage check, so the app page goes on a Story link sticker the same day. Facebook does not punish links, so it goes in the post. Pinterest is built for the click, so every pin carries the exact page. In a parent group the answer comes first and the link last, so it reads as help.
@@ -28,17 +28,27 @@ Note on dates: 24 November is a Tuesday, not a Monday. Monday 23 is today and al
 
 ## Check before anything goes out
 
-1. **Justin's LinkedIn is already full this week.** The register says the week of 23 November is at three (064, 061, the Sunday 29 booking), and 063 holds Monday 30 at 08:00. Posting L1 to L3 as well makes six. Either swap some in, push them to the next free slots, or run them on the Guided Childhood company page.
-2. **The family account is already booked on the same anchor days.** `content/packs/2026-11-23-social-week/` has Wednesday 25 (Spot the trick), Friday 27 (Rules nobody agreed to) and Saturday 28 (the Christmas countdown) rendered, and Sunday's batch will build Monday 30. If those stay, F1 to F4 run Monday 30, Wednesday 2, Friday 4 and Saturday 5 December instead. F2 is the strongest to swap in, because the app guide is a new service.
+1. **Moved, 23 November.** Both accounts were full this week, so Justin pushed everything on. The family posts take next week's anchor days (Founder Monday 30, Research Wednesday 2, Service Friday 4, Happy News Saturday 5). LinkedIn stays at three a week: the week of 30 November is full and Monday 7 holds 062, so L1 to L3 go out Wednesday 9, Friday 11 and Monday 14 December. If 063 or the unclaimed Metricool slots are dropped, L1 can come forward.
+2. **The family cards are built in Sunday 29 November's batch** (`social-week`), which takes these four as the week's brief, so they come out in the house card system from the approved cutouts.
 3. **The app safety guide is not yet in `content/brand-story/service-post-map.md`.** Proposed new entry: "Is it safe for my child?", route `app/(marketing)/[slug]/page.tsx`, data `lib/app-safety/apps.ts`, check `components/app-safety/ReadinessCheck.tsx`.
 4. **One founder scene is used, in L1** (setting up the controls on his own children's apps was harder than he expected, GREEN). Logged as a draft row in `content/brand-story/founder-scenes-used.md`.
 5. **Hidden thread.** Every piece is a brick, none is the one in ten. Each names the app's design honestly and turns to the child and the plan; none casts a platform as the villain or argues the ban.
+
+## Automatic posting
+
+Justin, 23 November 2026: he wants these to go out automatically rather than post them himself. Claude has no LinkedIn, Instagram or Facebook connection of its own, so automatic means through our scheduler. That is Metricool (brand 8056608), which already carries Justin's LinkedIn and the family Instagram and Facebook.
+
+- **Route one, the one asked for:** a Metricool API key saved on this environment, so Claude books each post in Metricool with automatic publishing on, at the times in the plan, and the Monday routine can do the same each week. Metricool's API needs its Advanced plan.
+- **Until then:** this file is the handoff. Scheduling and automatic publishing are approved by Justin for every post in the plan, at its time, so ChatGPT can book them in Metricool from here as it does for the GDC posts.
+- **Pinterest** goes the same way if Pinterest is connected in Metricool; if it is not, the three pins wait until it is.
+
+Every post keeps its exact text. A change goes back through Claude, never into the Metricool draft.
 
 ---
 
 # LinkedIn, Justin's voice
 
-## L1 · Tuesday 24 November · TikTok's terms have three ages in them
+## L1 · Wednesday 9 December · TikTok's terms have three ages in them
 
 **Hook**
 
@@ -50,7 +60,7 @@ TikTok's own UK terms have three ages in them: 13, 16 and 18.
 
 Most parents only ever see the first one.
 
-Next month a lot of new phones and tablets come out of wrapping paper. One of the first things a child asks for is the app their friends already have.
+In a couple of weeks a lot of new phones and tablets come out of wrapping paper. One of the first things a child asks for is the app their friends already have.
 
 The App Store says 13+. It reads like a single line. Over it, or under it.
 
@@ -82,7 +92,7 @@ The TikTok page, with the terms, the ratings, the settings and the sources: http
 
 **Proof path.** Ages: `lib/app-safety/apps.ts`, tiktok, `minAge.note` (checked true, TikTok Terms of Service EEA and UK, clauses 4.3 and 4.4). "Teens can watch LIVE but cannot host" is the LIVE risk line in the same entry. "Says so instead of guessing": `minAgeLine` and `ratingsLine` in `lib/app-safety/content.ts`, and "See its terms" in `components/app-safety/AppSafetyPage.tsx`. Check copy: `ReadinessCheck.tsx` ("Three questions. No sign up, and nothing you choose is saved.").
 
-## L2 · Wednesday 25 November · A check with no score at the end
+## L2 · Friday 11 December · A check with no score at the end
 
 **Hook**
 
@@ -130,7 +140,7 @@ The app guide. Pick the app, and the check is at the bottom of its page: https:/
 
 **Proof path.** `lib/app-safety/trust.ts`: the five letters and their meanings (`LETTERS`), no total or verdict (header comment), Relationships first on a tie (`PRIORITY`). Nothing stored: same file and `ReadinessCheck.tsx`. Twenty apps and ages 6 to 15: `APPS` and `AGES`. The "62 percent" in the question is a hypothetical, not a figure we hold.
 
-## L3 · Friday 27 November · The school parent pack
+## L3 · Monday 14 December · The school parent pack
 
 **Hook**
 
@@ -176,7 +186,7 @@ The free parent pack for schools. Type your school's name and the page, the text
 
 Voice is "we", Natalia first. Instagram shorter, no link in the caption. Facebook longer and warmer, the link in the post, one tall image, never a carousel, no hashtags. Sizes 1080 x 1350, Stories 1080 x 1920 with text in the middle 80 percent. Every card follows `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`: cream or one friend's soft ground, ink headlines in Nunito 900, IBM Plex Mono eyebrows, one gold detail, the approved cutouts only, no app logos or screenshots of other companies' apps, no generated characters, no invented screens.
 
-## F1 · Wednesday 25 November · Research Wednesday: 13, 16 and 18
+## F1 · Wednesday 2 December · Research Wednesday: 13, 16 and 18
 
 This is a brick in the 1 in 10 count, not the thesis post. The finding is a primary source, TikTok's own terms, not a study.
 
@@ -246,7 +256,7 @@ Card 1 on its own, 1080 x 1350.
 
 `lib/app-safety/apps.ts`, tiktok: `minAge.note` (checked true) for 13, 16 and 18; the LIVE risk line for watch but not host; the DM risk line for "switched off under 16". The page ends at the stage check: `AppSafetyPage.tsx`, "Find your child's stage".
 
-## F2 · Friday 27 November · Service Friday: five WhatsApp settings
+## F2 · Friday 4 December · Service Friday: five WhatsApp settings
 
 The service is new: the app safety guide. Shown here through one app, WhatsApp, because a first phone usually means a first group chat.
 
@@ -313,7 +323,7 @@ One tall card, 1080 x 1350, cream. Eyebrow INSIDE GUIDED CHILDHOOD. Headline "Fi
 
 `lib/app-safety/apps.ts`, whatsapp: `minAge` (checked true, 13 in the UK); `setupSteps` 1 to 6 (Privacy Checkup, Silence unknown callers, Groups My contacts, profile photo last seen and online, default message timer, two step verification); the group risk line ("By default anyone, including people who are not in your child's contacts, can add them to a group without asking"). Step 7, parental controls, is left out because UK availability is not confirmed. Route `app/(marketing)/[slug]/page.tsx`, check `components/app-safety/ReadinessCheck.tsx`, stage check button `AppSafetyPage.tsx`.
 
-## F3 · Saturday 28 November · Happy News Saturday: the good in the Christmas list
+## F3 · Saturday 5 December · Happy News Saturday: the good in the Christmas list
 
 ### Instagram caption
 
