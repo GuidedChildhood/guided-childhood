@@ -101,7 +101,8 @@ export default async function PupilBookletPage({ params, searchParams }: { param
   const area = areaOf(lesson.module_id)
   const page = placement ? PASSPORT_STAGES[placement] : null
   const stickerN = placement ? pageModules(placement).find(m => m.moduleId === lesson.module_id)?.n ?? null : null
-  const footer = level === 'expected' ? `${lesson.title} · pupil booklet` : `${lesson.title} · pupil booklet · ${LEVEL_LABEL[level].toLowerCase()}`
+  const levelNote = level === 'expected' ? '' : ` (${LEVEL_LABEL[level].toLowerCase()})`
+  const footer = `${lesson.title} · pupil booklet${levelNote}`
   const words = level === 'adapted' ? wordBox(verdicts, notes.keywords) : []
   // Inclusion points and colours at every age; Reception always did.
   const pointAndColour = young || level === 'inclusion'
@@ -211,7 +212,7 @@ export default async function PupilBookletPage({ params, searchParams }: { param
             </p>
             {words.length > 0 && (
               <Box label="Word box" friend={friend} tint radius={reg.radius}>
-                <p style={{ ...text, fontSize: reg.body, fontWeight: 700, lineHeight: 1.8 }}>{words.join('   ·   ')}</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>{words.map(w => <span key={w} style={{ ...text, fontSize: reg.body, fontWeight: 700, border: `1.5px solid ${friend.accent}`, borderRadius: '999px', padding: '2px 12px' }}>{w}</span>)}</div>
               </Box>
             )}
           </>

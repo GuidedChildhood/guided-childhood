@@ -58,18 +58,18 @@ export default async function SupportMatPage({ params }: { params: Promise<{ mod
   return (
     <main style={{ maxWidth: '740px', margin: '0 auto', background: 'var(--white)' }}>
       <div className="no-print" style={{ padding: '20px 8px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-        <span style={mono}>Support mat · one for every two pupils · laminate it and use it all term</span>
+        <span style={mono}>Support mat: one for every two pupils. Laminate it and use it all term</span>
         <PrintButton label="Print the support mat" />
       </div>
       <p className="no-print" style={{ ...text, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', padding: '8px 8px 0' }}>
         Goes with any of the three booklets: <Link href={`/print/${lesson.module_id}/booklet`}>Expected</Link>, <Link href={`/print/${lesson.module_id}/booklet?level=adapted`}>Adapted</Link> or <Link href={`/print/${lesson.module_id}/booklet?level=inclusion`}>Inclusion</Link>.
       </p>
 
-      <PrintSheet footer={`${lesson.title} · support mat`} last>
+      <PrintSheet footer={`${lesson.title}, support mat`} last>
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', borderBottom: `3px solid ${friend.accent}`, paddingBottom: '10px', marginBottom: '14px' }}>
           <FriendArt friend={friend} mood="thinking" size={reg.markMm * 1.6} />
           <div style={{ flex: '1 1 auto' }}>
-            <div style={{ ...mono, color: friend.ink }}>{lesson.key_stage} · {lesson.year_band} · support mat</div>
+            <div style={{ ...mono, color: friend.ink }}>{lesson.key_stage}, {lesson.year_band}, support mat</div>
             <h1 style={{ ...display, fontSize: reg.title, margin: '4px 0 0' }}>{lesson.title}</h1>
           </div>
         </div>
@@ -84,7 +84,7 @@ export default async function SupportMatPage({ params }: { params: Promise<{ mod
         )}
         {verdicts.length > 0 && (
           <Box label="The choices" friend={friend} tint radius={reg.radius}>
-            <p style={{ ...text, fontSize: reg.body, fontWeight: 700, lineHeight: 1.8 }}>{verdicts.join('   ·   ')}</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>{verdicts.map(w => <span key={w} style={{ ...text, fontSize: reg.body, fontWeight: 700, border: `1.5px solid ${friend.accent}`, borderRadius: '999px', padding: '2px 12px' }}>{w}</span>)}</div>
           </Box>
         )}
         <Box label="Sentence starters" radius={reg.radius}>
