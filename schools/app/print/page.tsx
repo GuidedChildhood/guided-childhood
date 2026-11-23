@@ -45,6 +45,9 @@ const eyebrow: React.CSSProperties = {
 const SHEETS: { path: string; label: string; note: string }[] = [
   { path: '', label: 'Paper pack', note: 'Everything for the lesson in one print run' },
   { path: '/booklet', label: 'Pupil booklet', note: 'One for each child to hold' },
+  { path: '/booklet?level=adapted', label: 'Pupil booklet, Adapted', note: 'A word box, and every reason started' },
+  { path: '/booklet?level=inclusion', label: 'Pupil booklet, Inclusion', note: 'Four cards, point and colour, with an adult' },
+  { path: '/support-mat', label: 'Support mat', note: 'One for every two pupils' },
   { path: '/organiser', label: 'Knowledge organiser', note: 'The key ideas on one page' },
   { path: '/overview', label: 'Unit overview', note: 'The lesson on a page, for your planning' },
   { path: '/starter-quiz', label: 'Starter quiz', note: 'Four questions before you teach, with answers' },

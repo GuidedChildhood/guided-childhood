@@ -248,3 +248,6 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Justin: adding should be easy and one of the first tasks; he could only choose today; default reminders 16:00 the day before and 07:20 that morning on the phones.
 - "Add a reminder" sits under the page heading. The sheet has a day strip (Today, Tomorrow, twelve more days, then Another date) and opens on tomorrow; the week card's "+ Add reminder" was locked to today and now uses it too.
 - Reminders moved from 17:00 and 07:05 UTC to 16:00 and 07:20 UK time all year: each schedule fires at both UTC hours and the route sends only in the London hour. Plan: plans/2026-11-23-add-reminder-easy.md.
+
+### 23 November 2026: pupil booklets at three levels, and a support mat
+- Every module's booklet now prints as Expected, Adapted (word box, reasons started) or Inclusion (four cards, point and colour, no writing), plus a support mat for every two pupils. Taken from the French scheme's tiered printouts. Generated from the lesson row, so no new content. Plan: `plans/2026-11-23-booklet-levels-plan.md`.
