@@ -1,0 +1,82 @@
+{
+  "name": "2026-11-23-fri-rules-nobody-agreed-to",
+  "size": "portrait",
+  "lead": "nova",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "hook",
+      "type": "hook",
+      "lead": "nova",
+      "tag": "1 / 7",
+      "eyebrow": "Inside Guided Childhood",
+      "headline": "A rule they<br>did not<br><mark>agree to.</mark>",
+      "second": "You enforce it<br>twice a day."
+    },
+    {
+      "name": "problem",
+      "type": "big",
+      "eyebrow": "The problem",
+      "headline": "You set it.<br>They never<br>said yes.",
+      "body": "So every time you hold the line, it is a fresh argument.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "what-we-made",
+      "type": "big",
+      "eyebrow": "What we made",
+      "headline": "One agreement.<br>Built together.<br>Signed by both.",
+      "body": "Pick the one for their age, choose the promises at the table, sign it and print it.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "promises",
+      "type": "list",
+      "eyebrow": "What goes in it",
+      "headline": "Promises from the real list",
+      "items": [
+        "When screens go off at night",
+        "Where devices sleep",
+        "New apps and games",
+        "When something goes wrong online"
+      ]
+    },
+    {
+      "name": "their-side",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "The part that holds",
+      "headline": "They can ask<br>to change it.",
+      "body": "From their own app, with a reason. You decide, and none of your three answers is a flat no.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "tonight",
+      "type": "script",
+      "eyebrow": "Say it tonight",
+      "headline": "Point at the paper, not at them",
+      "not": "Because those are the rules.",
+      "say": "We both signed this. If it has stopped working, tell me why and we will look at it together."
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the week a new phone or console arrives at your house.",
+      "send": "Send it to the parent who is tired of saying the same rule twice a day."
+    }
+  ],
+  "post": {
+    "date": "2026-11-27",
+    "day": "Friday 27 November",
+    "time": "10:00",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Send this to the parent who is tired of saying the same rule twice a day.\n\nYou set a rule. They never agreed to it. So every time you hold the line, it is a fresh argument, and you are the one who has to win it.\n\nA rule they did not agree to is a rule you have to enforce twice a day.\n\nSo we made the family agreement:\n\n1. Pick the one for their age, from first screens to nearly independent.\n2. Choose the promises together, at the table. Bedtime, where devices sleep, new apps and games.\n3. You both sign it, then print it for the fridge.\n4. It sits on their own app too, so nobody has to remember what was said.\n5. They can ask to change it, with a reason, and you decide.\n\nIf a phone or a console is on a Christmas list at your house, the deal is easier to write before the wrapping paper comes off than after.\n\nWhich rule at your house gets argued about the most?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Send this to the parent who is tired of saying the same rule twice a day.\n\nYou set a rule. They never agreed to it. So every time you hold the line, it is a fresh argument, and you are the one who has to win it.\n\nA rule they did not agree to is a rule you have to enforce twice a day.\n\nSo we made the family agreement:\n\n1. Pick the one for their age, from first screens to nearly independent.\n2. Choose the promises together, at the table. Bedtime, where devices sleep, new apps and games.\n3. You both sign it, then print it for the fridge.\n4. It sits on their own app too, so nobody has to remember what was said.\n5. They can ask to change it, with a reason, and you decide.\n\nThat last one matters more than it looks. A child who can ask for the deal to change has a reason to keep it in the meantime, because the deal is partly theirs.\n\nIf a phone or a console is on a Christmas list at your house, the deal is easier to write before the wrapping paper comes off than after.\n\nWhich rule at your house gets argued about the most?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack",
+    "alt": "Card one of seven. A large headline says a rule they did not agree to, you enforce it twice a day, with the purple planet friend Nova beside it. The later cards show the family agreement: built together, signed by both, promises from the real list, how a child can ask to change it, and words to say tonight."
+  }
+}
