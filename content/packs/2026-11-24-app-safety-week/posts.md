@@ -39,7 +39,8 @@ Note on dates: the week of 23 November was full on both accounts. The family pos
 Justin, 23 November 2026: he wants these to go out automatically rather than post them himself. Claude has no LinkedIn, Instagram or Facebook connection of its own, so automatic means through our scheduler. That is Metricool (brand 8056608), which already carries Justin's LinkedIn and the family Instagram and Facebook.
 
 - **Route one, the one asked for:** a Metricool API key saved on this environment, so Claude books each post in Metricool with automatic publishing on, at the times in the plan, and the Monday routine can do the same each week. Metricool's API needs its Advanced plan.
-- **Until then:** this file is the handoff. Scheduling and automatic publishing are approved by Justin for every post in the plan, at its time, so ChatGPT can book them in Metricool from here as it does for the GDC posts.
+- **Done, 23 November:** the three LinkedIn posts, with their times, first comments and images, are in the Approval Desk as `METRICOOL HANDOFF App safety week LinkedIn` for ChatGPT to book with automatic publishing on. The images are real screens from the live site, captured with Playwright, in `images/` here and in the same Drive folder.
+- **Until the key exists:** this file is the handoff. Scheduling and automatic publishing are approved by Justin for every post in the plan, at its time, so ChatGPT can book them in Metricool from here as it does for the GDC posts.
 - **Pinterest** goes the same way if Pinterest is connected in Metricool; if it is not, the three pins wait until it is.
 
 Every post keeps its exact text. A change goes back through Claude, never into the Metricool draft.
