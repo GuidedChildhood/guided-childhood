@@ -6,6 +6,7 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { SchoolFacts, DisclosureRoute } from '@/components/YourSchoolLead'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
+import { RefFold, JumpChips, RefGroup, RefPageKit } from '@/components/RefFold'
 
 export const metadata = { title: 'Staff briefings' }
 
@@ -15,7 +16,6 @@ export const metadata = { title: 'Staff briefings' }
 
 const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
 const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.7 }
-const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px' }
 const label: React.CSSProperties = { fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }
 
 const BRIEFINGS = [
@@ -157,54 +157,60 @@ const BRIEFINGS = [
   },
 ]
 
+const STAGES = ['KS1', 'KS2', 'KS3', 'KS4'] as const
+const stageOf = (module: string) => STAGES.find(k => module.includes(`(${k}`)) ?? 'KS4'
+const lineOf = (line: string) => { const l = line.replace(/^The line that carries the lesson:\s*/, ''); return l.charAt(0).toUpperCase() + l.slice(1) }
+
 export default async function CpdBriefingsPage() {
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
+    <main style={{ minHeight: '100vh', background: 'var(--white)', padding: PAGE_SHELL }}>
+      <RefPageKit />
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
-        <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+        <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
           <PrintButton label="Print all briefings" />
         </div>
 
-        <div style={mono}>Staff CPD · ten minutes before teaching each flagged module</div>
+        <div style={mono}>Staff CPD · ten minutes before each flagged lesson</div>
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: '6px 0 8px' }}>
           Staff briefings for the sensitive modules
         </h1>
-        <p style={{ ...body, marginBottom: '22px' }}>
-          Every slide in these modules already carries a word for word script, so nobody teaches them
-          unsupported. These briefings are the ten minutes before: the tone to hold, what to watch
-          for in the room, and exactly what to do with a disclosure. All{' '}{FLAGGED_MODULES.length}{' '}safeguarding flagged modules have one. Read the one you need the night before, or run them as a staff meeting
-          before the scheme starts, alongside the induction page in the Hub.
+        <p style={{ ...body, marginBottom: 'var(--space-4)' }}>
+          Open the lesson you are teaching next and read it the night before. All{' '}{FLAGGED_MODULES.length}{' '}safeguarding flagged modules have one.
         </p>
 
-        <div style={{ margin: '0 0 22px' }}>
+        <div style={{ margin: '0 0 var(--space-4)' }}>
           <InShort points={[
-            <>A <b>ten minute briefing</b> for each safeguarding flagged lesson, read the night before or run as a staff meeting.</>,
-            <>The tone to hold, what to watch for in the room, and <b>exactly what to do with a disclosure</b>.</>,
-            <>Your school&apos;s own DSL details appear under every disclosure paragraph.</>,
+            <>The tone to hold, what to watch for, and <b>exactly what to do with a disclosure</b>.</>,
+            <>Your school&apos;s own DSL details sit under every disclosure paragraph.</>,
             <>Every slide already has a word for word script, so nobody teaches these unsupported.</>,
           ]} />
         </div>
+
+        <JumpChips items={STAGES.map(k => ({ href: `#${k.toLowerCase()}`, label: k }))} />
 
         {/* The school's own details, typed once on the Hub: at the top of the
             page, and under every disclosure paragraph, so a briefing handed
             to one teacher still says who to go to here (23 September 2026). */}
         <SchoolFacts mode="page" changeHref="/hub#your-school" />
 
-        {BRIEFINGS.map(b => (
-          <div key={b.module} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
-            <h2 style={h2}>{b.module}</h2>
-            <p style={{ ...body, marginBottom: '8px' }}><span style={label}>What it covers: </span>{b.covers}</p>
-            <p style={{ ...body, marginBottom: '8px' }}><span style={label}>The tone to hold: </span>{b.register}</p>
-            <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Watch for: </span>{b.watchFor}</p>
-            <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Disclosures: </span>{b.disclosure}</p>
-            <DisclosureRoute style={{ ...body, marginBottom: '8px' }} labelStyle={label} />
-            <p style={{ ...body, fontStyle: 'italic' }}>{b.line}</p>
-          </div>
+        {STAGES.map(k => (
+          <section key={k}>
+            <RefGroup id={k.toLowerCase()}>{k}</RefGroup>
+            {BRIEFINGS.filter(b => stageOf(b.module) === k).map(b => (
+              <RefFold key={b.module} title={b.module} hint={lineOf(b.line)}>
+                <p style={{ ...body, marginBottom: '8px' }}><span style={label}>What it covers: </span>{b.covers}</p>
+                <p style={{ ...body, marginBottom: '8px' }}><span style={label}>The tone to hold: </span>{b.register}</p>
+                <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Watch for: </span>{b.watchFor}</p>
+                <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Disclosures: </span>{b.disclosure}</p>
+                <DisclosureRoute style={{ ...body, marginBottom: '8px' }} labelStyle={label} />
+              </RefFold>
+            ))}
+          </section>
         ))}
 
-        <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
+        <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: 'var(--space-4)' }}>
           These briefings support your safeguarding training, they do not replace it. Your school&rsquo;s
           safeguarding policy and DSL always take precedence.
         </p>

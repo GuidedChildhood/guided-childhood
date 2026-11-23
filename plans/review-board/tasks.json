@@ -238,10 +238,10 @@
       "due": "2026-10-20",
       "status": "open",
       "created": "2026-10-13",
-      "asked": "2026-11-11",
-      "snooze_until": "2026-11-18",
+      "asked": "2026-11-22",
+      "snooze_until": "2026-11-25",
       "closed": null,
-      "note": "asked 2 November, not yet"
+      "note": "Justin, 22 November 2026: still to do."
     },
     {
       "id": "decide-vercel-project",
@@ -256,8 +256,8 @@
       "due": "2026-10-20",
       "status": "open",
       "created": "2026-10-13",
-      "asked": "2026-11-11",
-      "snooze_until": "2026-11-18",
+      "asked": "2026-11-22",
+      "snooze_until": "2026-11-29",
       "closed": null,
       "note": "asked 2 November, not yet"
     },
@@ -624,10 +624,10 @@
       "due": "2026-11-19",
       "status": "open",
       "created": "2026-11-12",
-      "asked": "2026-11-17",
-      "snooze_until": null,
+      "asked": "2026-11-18",
+      "snooze_until": "2026-11-25",
       "closed": null,
-      "note": "Justin, 17 November: the earlier done meant the 30 warm ring emails went out (16 November). Five families are not yet running. First reply in; Justin to ring."
+      "note": "Corrected 17 November: the earlier done meant the 30 warm ring emails went out on 16 November. Five families are not yet running. First reply in, a contact with a local primary school; Justin to ring."
     },
     {
       "id": "board-routine-saves-its-run",
@@ -848,10 +848,10 @@
       "due": "2026-11-21",
       "status": "open",
       "created": "2026-11-14",
-      "asked": null,
-      "snooze_until": null,
+      "asked": "2026-11-22",
+      "snooze_until": "2026-11-29",
       "closed": null,
-      "note": ""
+      "note": "Justin, 22 Nov"
     },
     {
       "id": "day-done-why-zero",
@@ -947,10 +947,10 @@
       "due": "2026-11-21",
       "status": "open",
       "created": "2026-11-14",
-      "asked": null,
-      "snooze_until": null,
+      "asked": "2026-11-22",
+      "snooze_until": "2026-11-29",
       "closed": null,
-      "note": ""
+      "note": "Justin, 22 Nov"
     },
     {
       "id": "free-tier-line-on-price",
@@ -982,12 +982,12 @@
       ],
       "proof": "plans/2026-09-30-control-room.md section 1; product pulse 2026-11-14",
       "due": "2026-11-21",
-      "status": "open",
+      "status": "dropped",
       "created": "2026-11-14",
-      "asked": null,
-      "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "asked": "2026-11-22",
+      "snooze_until": "2026-11-29",
+      "closed": "2026-11-22",
+      "note": "Justin, 22 Nov"
     },
     {
       "id": "result-page-save-near-top",
@@ -1127,12 +1127,12 @@
       ],
       "proof": "lib/config/digi.ts (DIGI_MODEL_CANDIDATE); components/insights/InsightsBoard.tsx",
       "due": "2026-11-21",
-      "status": "open",
+      "status": "dropped",
       "created": "2026-11-14",
-      "asked": null,
-      "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "asked": "2026-11-22",
+      "snooze_until": "2026-11-29",
+      "closed": "2026-11-22",
+      "note": "Justin, 22 Nov"
     },
     {
       "id": "pathway-title-and-investor-noindex",
@@ -1161,12 +1161,12 @@
       "lenses": [],
       "proof": "added by hand",
       "due": "2026-11-22",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-15",
-      "asked": null,
+      "asked": "2026-11-16",
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-16",
+      "note": "Justin, 16 Nov 2026"
     },
     {
       "id": "ask-rachel-the-five-short-questions",
@@ -1177,12 +1177,12 @@
       "lenses": [],
       "proof": "added by hand",
       "due": "2026-11-22",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-15",
-      "asked": null,
+      "asked": "2026-11-16",
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-16",
+      "note": "Justin, 16 Nov 2026"
     },
     {
       "id": "give-the-friday-board-and-wednesday",
@@ -1193,8 +1193,206 @@
       "lenses": [],
       "proof": "added by hand",
       "due": "2026-11-22",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-15",
+      "asked": "2026-11-16",
+      "snooze_until": null,
+      "closed": "2026-11-16",
+      "note": "Justin, 16 Nov 2026"
+    },
+    {
+      "id": "search-console-request-indexing-for-the",
+      "title": "Search Console: request indexing for the ten pages in SEO-SETUP-GUIDE.md section 1.5 (sitemaps are in, both Success, 23 November).",
+      "owner": "justin",
+      "size": "small",
+      "priority": 1,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-11-24",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "bing-webmaster-tools-sign-in-and",
+      "title": "Bing Webmaster Tools: sign in and import from Google Search Console (SEO-SETUP-GUIDE.md section 2). Bing feeds ChatGPT search and Copilot.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 1,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-11-25",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "vercel-project-guided-childhood-speed-insights",
+      "title": "Vercel: project guided-childhood, Speed Insights tab, Enable. The code is live; it counts nothing until this is on.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-11-25",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "ahrefs-webmaster-tools-free-import-from",
+      "title": "Ahrefs Webmaster Tools (free): import from Search Console, then send Claude a screenshot of the health score and backlinks.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-11-27",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "posthog-build-the-search-dashboard-ai",
+      "title": "PostHog: build the Search dashboard (AI visits, app page visits, search to stage check funnel, school links), SEO-SETUP-GUIDE.md section 3.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-11-28",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "gum-on-the-mac-one-time",
+      "title": "gum on the Mac: one time setup in .claude/skills/seo-gum/SKILL.md, then run npm run seo -- pull each Monday and commit the file, so the weekly SEO session can read Search Console.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-12-05",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "confirm-the-61-unconfirmed-app-facts",
+      "title": "Confirm the 61 unconfirmed app facts in plans/2026-11-22-app-safety-review-list.md, so each can show on its page as fact.",
+      "owner": "justin",
+      "size": "medium",
+      "priority": 2,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-12-12",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "find-one-named-reviewer-for-the",
+      "title": "Find one named reviewer for the app safety pages (a DSL or a children's online safety professional). Google judges child safety pages on who checked them.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-12-19",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "send-the-school-parent-pack-schools",
+      "title": "Send the school parent pack (/schools/parent-pack) to the pilot schools and ask them to link it from their own site: trusted links are the biggest ranking help for a young site.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-12-05",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "next-guides-once-search-console-has",
+      "title": "Next guides: once Search Console has two weeks of queries, build the two guides parents search for most that the product answers (the gum session's 'next guides', SEO-SETUP-GUIDE.md idea 1).",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 2,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-12-07",
+      "status": "open",
+      "created": "2026-11-23",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "screen-time-by-age-pages-seo",
+      "title": "Screen time by age pages (SEO-SETUP-GUIDE.md idea 2), only if Search Console shows age questions coming in; each ends at the stage check.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 3,
+      "lenses": [
+        "search"
+      ],
+      "proof": "SEO-SETUP-GUIDE.md",
+      "due": "2026-12-14",
+      "status": "open",
+      "created": "2026-11-23",
       "asked": null,
       "snooze_until": null,
       "closed": null,

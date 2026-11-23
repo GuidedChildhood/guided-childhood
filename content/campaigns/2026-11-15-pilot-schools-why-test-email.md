@@ -157,7 +157,7 @@ If you would rather look first, the statutory mapping is open on the site with
 no sign up:
 https://schools.guidedchildhood.com/hub/rshe-mapping
 
-If this is not for you, there is nothing to do, and I will not write again.
+If this is not for you, there is nothing to do. I will write once more in two weeks, then stop.
 
 Justin
 
@@ -167,6 +167,38 @@ Guided Childhood
 PS. KS2 French for Years 3 and 4 comes with the scheme. You can open a whole
 lesson now, no code needed:
 https://schools.guidedchildhood.com/languages/fr/y3-ht2/1
+
+---
+
+# The invitation reminder: two weeks later
+
+Added 23 November 2026. One email, sent 14 days after the invitation only to
+schools that have not replied or asked for the pilot, then nothing more. The
+invitation now says so in its last line.
+
+**Subject:** One more, then I will stop
+
+**Preview text:** The last one from me, I promise.
+
+Hello [first name],
+
+A short one, and the last from me.
+
+Two weeks ago I wrote about the online side of RSHE and the parents: 34
+lessons from Reception to Year 13, the words to say on every slide, and a
+parent note that goes home after each lesson with one question for the family.
+
+If it would help this year, the pilot is free for a term: two lessons for your
+phase, every printable, and the Hub for your subject lead.
+https://schools.guidedchildhood.com/pilot
+
+If the timing is wrong, reply with the word later and I will check back in the
+summer term. Otherwise this is the last you will hear from me.
+
+Justin
+
+Justin Phillips
+Guided Childhood
 
 ---
 
@@ -204,9 +236,93 @@ Guided Childhood
 
 ---
 
+# Pilot email 3: three weeks in
+
+Added 23 November 2026. Sent 14 days after email 2, so about three weeks
+after sign up. Built the way the best performing school and trial emails
+work: it looks like a note from a person, it is under 150 words, and it asks
+one question that can be answered in one line.
+
+**Subject:** How did the first lesson go?
+
+**Preview text:** One line back is all I need.
+
+Hello [first name],
+
+Three weeks in, so a quick one.
+
+Have you taught your first pilot lesson at [school] yet?
+
+If you have, I would love one line back: what worked, and what did not. Hit
+reply and type it as it comes. Every answer gets read by me, and most of them
+change something.
+
+If you have not got to it yet, that is normal in a busy term. The quickest
+route is the Teach button on either lesson. The script is on every slide, so
+it runs with no preparation, and one tap at the end marks it taught.
+
+If it would help, I can walk a colleague through it in fifteen minutes. Just
+reply with a day that suits.
+
+Justin
+
+PS If someone else at [school] is teaching it, please forward this to them.
+Their answer is the one I most want.
+
+---
+
+# Pilot email 4: before the term ends
+
+Added 23 November 2026. Sent about five weeks after email 3, so around week
+eight of the pilot. One decision, made easy, plus the two asks that matter
+most at trust level: a line we can quote, and a name to speak to.
+
+**Subject:** Before your pilot term ends
+
+**Preview text:** Your record, the choice, and one favour.
+
+Hello [first name],
+
+The pilot term is nearly over, so here is where you stand and what happens
+next.
+
+**Your record so far**
+
+Every lesson marked taught is on your class progress page in the Hub, and it
+downloads as a spreadsheet. If your head or subject lead asks what pupils
+have been taught on the digital side of RSHE, that page is the answer:
+https://schools.guidedchildhood.com/hub/progress
+
+**Your choice**
+
+1. Carry on next term. Reply "carry on" and I will send your link, with your
+   details already filled in.
+2. Stop. That is fine, and nothing else happens.
+3. Not sure yet. Reply and tell me what is in the way. If it is the price,
+   the timetable or another scheme, I would rather know.
+
+**One favour**
+
+If the pilot was useful, could you reply with a sentence I can share with
+other schools? I will only use it with your say so, and with or without your
+school's name, whichever you prefer.
+
+And if [school] is part of a trust, who there looks after PSHE or parent
+engagement? A name is plenty.
+
+Thank you for giving this a term.
+
+Justin
+
+Justin Phillips
+Guided Childhood
+
+---
+
 ## Notes for Justin
 
-- Pilot schools get emails 1 and 2 from the journey that starts on the tag
+- Pilot schools get emails 1 to 4 from the journey (3 and 4 added 23
+  November: 14 days after email 2, then 35 days after email 3) that starts on the tag
   "School pilot". The contact list gets the invitation only, once.
 - The French taster link only works for a stranger if the live site lets it
   through. Open it logged out once before anything is switched on.

@@ -1,6 +1,7 @@
 import { LEGAL_LINE } from '@gc/shared/legal'
 import { CHARACTERS, CURRICULUM } from '@gc/shared/schools-curriculum'
 import { APP_ORIGIN } from '@/lib/config/site'
+import { packLink } from '@/lib/school/parent-pack'
 
 // THE SCHOOL'S OWN CONFIRMATION, one per kind of row in the schools letterbox.
 //
@@ -92,6 +93,18 @@ function wrap(paragraphs: string[], mark?: Mark): string {
 
 /** The letter for this row, or null where the kind has no letter of its own
  *  (the draw already tells people what happens, on the page). */
+// THE PARENT PACK, OFFERED TO EVERY SCHOOL THAT WRITES IN (Justin, 23
+// November 2026: no pilots yet, so give a school something it can send its
+// families today). The link is the plain page, not one already made for the
+// school: the funnel audit's rule, held by link-token.test.ts, is that no
+// school letter carries the school's name in a URL, not even as a slug. The
+// school types its name there and the page, the QR code and its own tracked
+// link are made in a second.
+export function parentPackLine(): string {
+  const href = `${packLink({ kind: 'none' })}?utm_source=school&utm_medium=email&utm_campaign=letterbox`
+  return `Something for your families in the meantime: <a href="${esc(href)}" style="color:#C99A28;font-weight:700">the free parent pack</a>. Type your school's name and it makes you a short piece for the newsletter, a QR code for a poster or a slide, and links to free guides on the apps children ask for. Parents need no sign up, and you do not need a code.`
+}
+
 export function schoolLetter(r: LetterboxRow): { subject: string; html: string } | null {
   const name = esc(firstName(r.contact_name))
   const school = esc(r.school_name)
@@ -107,6 +120,7 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
         `When the term ends you decide. Carrying on is one click, with your details already filled in: <a href="${esc(licenceLink(r.prefill_token))}" style="color:#C99A28;font-weight:700">turn the pilot into a licence</a>. Stopping is fine too, and I would still like to hear what you thought.`,
         `If your data protection officer wants the paperwork first, the privacy notice and the data processing agreement are at <a href="${SITE}/dpa" style="color:#C99A28;font-weight:700">${SITE}/dpa</a>, ready to print and sign.`,
         `If you want to try something before the code lands, <a href="${SITE}/lesson/ks3-12-misinfo-deepfakes" style="color:#C99A28;font-weight:700">the sample lesson</a> is open now. It is the real thing, nothing locked.`,
+        parentPackLine(),
         `Justin`,
       ], { key: 'digi', name: 'DiGi', line: 'DiGi, the golden star, closes every lesson your classes will see.' }),
     }
@@ -122,6 +136,7 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
         `The pack for the sample lesson is open for ${school}: <a href="${packLink}" style="color:#C99A28;font-weight:700">open the printable pack</a>. The pupil booklet, the knowledge organiser, the two quizzes and the learning record, all set for printing.`,
         `Take it into a lesson and see how it lands. When you want the rest of the scheme, the whole staff room runs on one code: <a href="${SITE}/pilot" style="color:#C99A28;font-weight:700">ask for a free term</a> or <a href="${SITE}/pricing" style="color:#C99A28;font-weight:700">see the prices</a>.`,
         `If anything in the lesson did not land the way you expected, reply to this email and tell me. That is how it gets better.`,
+        parentPackLine(),
         `Justin`,
       ], markFor(moduleId)),
     }
@@ -140,6 +155,7 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
         `I will reply within two working days, usually the same day, with a quote or a time to talk, whichever you asked for. If you gave dates, I will tell you which of them I can do.`,
         `Before any visit is confirmed you will have my enhanced DBS certificate details and my public liability certificate, so your office can check them in advance. The class teacher stays in the room for every session, and your DSL gets a brief before the day.`,
         `While you wait, <a href="${SITE}/curriculum" style="color:#C99A28;font-weight:700">the curriculum map</a> is open to read. Every workshop is built from those lessons, and the sample lesson is the real thing, nothing locked.`,
+        parentPackLine(),
         `Justin`,
       ], { key: 'digi', name: 'DiGi', line: 'DiGi, the golden star, closes every lesson your classes will see.' }),
     }
