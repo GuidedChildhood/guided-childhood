@@ -60,7 +60,7 @@ Our best page (pilot, 339 words) is the shape every page should have.
 4. **Curriculum map.** (Built 23 November: one line and six year buttons before the first lesson; the three step box, the long intro and each card blurb removed; the ten behaviours and each stage reason folded.) Year group chips first, the paragraph wall into one line.
 5. **Reference pages** (CPD, DSL, Parents, Philosophy, run sheet). (Built 23 November: words on first view CPD 3,834 to 518, DSL 3,320 to 362, Parents 2,620 to 311, Philosophy 2,204 to 579, run sheet 3,942 to 172; a summary card and jump chips at the top, every section folded in one shared RefFold, a chip opens the fold it lands on, print opens all; the run sheet opens on Teach this lesson.) A summary
    card and jump chips at the top, every section folded, print opens all.
-6. **First visit flow for a teacher:** school code, pick your year, teach.
+6. **First visit flow for a teacher:** school code, pick your year, teach. (Built 23 November: a code now lands on /start, three steps lit at the top; six year buttons; the year page opens on its first lesson with one Teach button, Walk me through it and Plan and print, a safeguarding note when the lesson is flagged, and the rest of the year as a list. The year is remembered on that laptop; Change year is one tap. A pilot code skips the question and shows its lessons. The Hub's teach tile now opens it.)
 
 ## Tools
 HyperFrames or Higgsfield are not needed for this: the fix is structure and

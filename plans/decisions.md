@@ -274,3 +274,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 ### 23 November 2026: schools reference pages fold behind a summary, and pilot emails 3 and 4
 - The staff briefings, safeguarding crosswalk, parent pack, philosophy and run sheet now open on a summary card and jump chips, with every section folded in one shared `RefFold`. Printing opens every fold, so paper keeps the full text. On a phone they are now 3 to 7 screens instead of 18 to 28; the run sheet opens on Teach this lesson.
 - Pilot emails 3 (three weeks in, one reply question) and 4 (before the term ends: record, choice, a quote and a trust name) are written and saved as Mailchimp drafts for Justin to add to journey 762. Pilot email 1 in the paused journey now carries the parent pack line.
+
+### 23 November 2026: a school code now opens a three step start page
+- Typing the code used to land on the whole 34 lesson map. It now lands on /start: pick your year, then one Teach button for that year's first lesson, with the rest listed in teaching order. The year is remembered in the browser only. Pilot codes see their lessons straight away. Flagged first lessons point to the staff briefing.
+- Emails 3 and 4 are saved as Mailchimp templates for journey 762. The API is read only for journey steps (Allow: GET), so Justin adds the two steps in the builder.

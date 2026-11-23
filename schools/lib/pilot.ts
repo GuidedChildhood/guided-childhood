@@ -52,6 +52,8 @@ export function pilotModulesFor(phase: PilotPhase): readonly string[] {
  *  before this ever runs, so this never has to list the selling pages. */
 export function isPilotPath(pathname: string, phase: PilotPhase): boolean {
   if (pathname === '/hub' || pathname.startsWith('/hub/')) return true
+  // The first visit page (batch 6): it shows a pilot school its two lessons.
+  if (pathname === '/start') return true
   if (pathname === '/print' || pathname === '/print/passport' || pathname.startsWith('/print/passport/')) return true
 
   const parts = pathname.split('/').filter(Boolean)
