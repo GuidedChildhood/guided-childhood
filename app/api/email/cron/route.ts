@@ -1,6 +1,6 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { APP_ORIGIN } from '@/lib/config/site'
-import { identityKey } from '@/lib/email/floor'
+import { identityKey, leadTeaserDay, leadTeaserWindowDays } from '@/lib/email/floor'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { interestUrl } from '@/lib/email'
@@ -966,17 +966,38 @@ async function handler(req: NextRequest) {
     }
   }
 
-  // Lead teaser drip: the pre sign up sequence. One clever thing per email on a
-  // gentle cadence (day 3 to 15, then the founder close), each earning the sign
-  // up by showing not telling. Leads have no account id, so the sequence is
-  // deduped in lead_email_log, mirroring the account email_log. Anyone who has
+  // Lead teaser drip: the pre sign up sequence. One clever thing per email,
+  // one a week, each earning the sign up by showing not telling.
+  //
+  // THE WINDOW AND THE DAYS MATCH THE ONE A WEEK RULE (23 November 2026). The
+  // schedule used to say day 3 to 15 inside a thirty day window, but every one
+  // of these meets the six day floor (lib/email/floor.ts, Justin's one a week),
+  // so a lead got the day 1 nurture and about four teasers before falling out
+  // of the window: safety, passport and the founder close almost never went.
+  // Now each teaser's day is when the floor actually lets it go, one step of
+  // the floor apart from day 7, and the window covers the whole run.
+  //
+  // Leads have no account id, so the sequence is deduped in lead_email_log,
+  // mirroring the account email_log. Anyone who has
   // since made an account drops out, so a real member never gets a teaser.
   {
-    const monthAgo = new Date(Date.now() - 30 * 86400000).toISOString()
+    const teasers: { key: string; make: (unsub: string, cta: string) => EmailContent }[] = [
+      { key: 'teaser-digi', make: (u, c) => digiTeaserEmail(u, c) },
+      // Second on purpose: the free app guide gives before it asks.
+      { key: 'teaser-apps', make: (u, c) => appsTeaserEmail(u, c) },
+      { key: 'teaser-scripts', make: (u, c) => scriptsTeaserEmail(u, c) },
+      { key: 'teaser-printables', make: (u, c) => printablesTeaserEmail(u, c) },
+      { key: 'teaser-balance', make: (u, c) => balanceTeaserEmail(u, c) },
+      { key: 'teaser-mind', make: (u, c) => mentalHealthTeaserEmail(u, c) },
+      { key: 'teaser-safety', make: (u, c) => safetyTeaserEmail(u, c) },
+      { key: 'teaser-passport', make: (u, c) => passportTeaserEmail(u, c) },
+    ]
+    const schedule = teasers.map((t, i) => ({ ...t, day: leadTeaserDay(i) }))
+    const windowStart = new Date(Date.now() - leadTeaserWindowDays(teasers.length) * 86400000).toISOString()
     const teaserQuery = () => supabase
       .from('starter_leads')
       .select('email, created_at')
-      .gte('created_at', monthAgo)
+      .gte('created_at', windowStart)
       .lte('created_at', dayAgo)
       .limit(500)
     let { data: teaserLeads, error: teaserErr } = await teaserQuery().is('unsubscribed_at', null).not('marketing_consent', 'is', false)
@@ -994,24 +1015,12 @@ async function handler(req: NextRequest) {
       const hasAccount = new Set((accounts ?? []).map(p => identityKey(p.email as string)).filter(Boolean))
       const leadSent = new Set((sentLog ?? []).map(l => `${(l.email as string).toLowerCase()}:${l.email_key}`))
 
-      // Days since capture, the key, and the content. Day 1 is the existing
-      // nurture above, so the teasers start at day 3.
+      // Day 1 is the existing nurture above, so the teasers start a floor
+      // later, on day 7, and come one a week (leadTeaserDay in floor.ts).
       // Each teaser carries a real one click stop keyed to the address it is
       // going to, so a parent who has since joined under a different address
       // can end the sequence themselves. The account check below only ever
       // catches the same address, and it always will.
-      const schedule: { day: number; key: string; make: (unsub: string, cta: string) => EmailContent }[] = [
-        { day: 3, key: 'teaser-digi', make: (u, c) => digiTeaserEmail(u, c) },
-        // Second on purpose: the six day floor means about four teasers
-        // reach a lead in the thirty day window (appsTeaserEmail says why).
-        { day: 4, key: 'teaser-apps', make: (u, c) => appsTeaserEmail(u, c) },
-        { day: 5, key: 'teaser-scripts', make: (u, c) => scriptsTeaserEmail(u, c) },
-        { day: 7, key: 'teaser-printables', make: (u, c) => printablesTeaserEmail(u, c) },
-        { day: 9, key: 'teaser-balance', make: (u, c) => balanceTeaserEmail(u, c) },
-        { day: 11, key: 'teaser-mind', make: (u, c) => mentalHealthTeaserEmail(u, c) },
-        { day: 13, key: 'teaser-safety', make: (u, c) => safetyTeaserEmail(u, c) },
-        { day: 15, key: 'teaser-passport', make: (u, c) => passportTeaserEmail(u, c) },
-      ]
 
       const deliverLead = async (email: string, key: string, content: EmailContent) => {
         const { error: logErr } = await supabase.from('lead_email_log').insert({ email, email_key: key })
@@ -1043,7 +1052,7 @@ async function handler(req: NextRequest) {
         const cta = starterCtaUrl(email)
         if (due) {
           await deliverLead(email, due.key, due.make(unsub, cta))
-        } else if (age >= 18 && !leadSent.has(`${email.toLowerCase()}:teaser-founder`)) {
+        } else if (age >= leadTeaserDay(teasers.length) && !leadSent.has(`${email.toLowerCase()}:teaser-founder`)) {
           // The founder close, only while places remain.
           const remaining = await getFounderRemaining()
           if (remaining > 0) await deliverLead(email, 'teaser-founder', founderLeadEmail({ remaining, unsubscribe: unsub, cta }))
