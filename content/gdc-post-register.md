@@ -98,13 +98,17 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 061 | Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped. | **CLAIMED 17 Nov for the Research Radar handoff GDC-RR-9a82e5d5b3.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-9a82e5d5b3.json |
 
-| 062 | Ask 13 and 14 year olds how they protect themselves online and about a third say they talk to an adult. By 17 and 18 it is fewer than one in five. | **CLAIMED 18 Nov for the Research Radar handoff GDC-RR-553f7dc067.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-553f7dc067.json |
+| 062 | Ask 13 and 14 year olds how they protect themselves online and about a third say they talk to an adult. By 17 and 18 it is fewer than one in five. | **APPROVED by Justin 23 Nov** ("062 and 063 approved"), slot Mon 7 Dec 08:00. The radar pipeline still shows EDITORIAL READY: no written pack reached Claude QA, only the motion file in Drive. **CLAIMED 18 Nov for the Research Radar handoff GDC-RR-553f7dc067.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-553f7dc067.json |
 
-| 063 | Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow. | **CLAIMED 19 Nov for the Research Radar handoff GDC-RR-540fff2c03.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-540fff2c03.json |
+| 063 | Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow. | **APPROVED by Justin 23 Nov** ("062 and 063 approved"), slot Mon 30 Nov 08:00. The radar pipeline still shows EDITORIAL READY: no written pack reached Claude QA, only the motion file in Drive. **CLAIMED 19 Nov for the Research Radar handoff GDC-RR-540fff2c03.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-540fff2c03.json |
 
 | 064 | GTA VI, the evidence led LinkedIn PDF carousel | **APPROVED by Justin 22 Nov** ("gta approved"). Booked in Metricool for Mon 23 Nov 08:00, automatic publishing on. Claimed by Claude the day before it goes out because a published post spends a number; it came from ChatGPT with none. Not a radar story, no handoff. ChatGPT's provisional "064 to 066" are not these numbers | Metricool (ChatGPT) |
 
-**Next free number: 065.** ChatGPT's provisional 065 and 066 are not claimed: a number is claimed here when a story clears the radar.
+| 065 | Stanford went through 52 controlled studies of AI and schoolwork, and neither way of using it reliably improved learning (and one cuts against our own hint card) | **CLAIMED 23 Nov by the Monday research radar.** v1. Figures verified against the PDF. Drive review done, verdict SHIP after Justin reads it. Not approved, not posted | content/packs/2026-11-23-hints-not-answers/linkedin.md |
+
+| 066 | RAND asked a thousand American parents what they tell their teenagers about AI and homework, and one in five had never raised it | **CLAIMED 23 Nov by the Monday research radar.** v1. Figures verified against the PDF. Drive review done, verdict SHIP after Justin reads it, at least two days after 065. Not approved, not posted | content/packs/2026-11-23-hints-not-answers/linkedin.md |
+
+**Next free number: 067.** 064 is the GTA VI post; 065 and 066 are the 23 November radar. ChatGPT's provisional numbers from its Metricool queue were never claimed.
 
 **Why Claude claimed 054 rather than leaving it to ChatGPT.** The handoff tells
 Stage 2 to claim the next free number here before writing. ChatGPT cannot write
