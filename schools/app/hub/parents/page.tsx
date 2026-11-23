@@ -6,6 +6,7 @@ import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 import { RSE_MODULES } from '@/lib/rse'
+import { RefFold, JumpChips, RefGroup, RefPageKit } from '@/components/RefFold'
 
 export const metadata = { title: 'The parent pack' }
 
@@ -28,7 +29,8 @@ export default async function ParentPackPage() {
   const noteByModule = new Map((lessons ?? []).map(l => [l.module_id, (l.parent_note ?? {}) as ParentNote]))
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
+    <main style={{ minHeight: '100vh', background: 'var(--white)', padding: PAGE_SHELL }}>
+      <RefPageKit />
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
@@ -39,23 +41,26 @@ export default async function ParentPackPage() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: '6px 0 8px' }}>
           What your child will learn, and why
         </h1>
-        <p style={{ ...body, marginBottom: '14px' }}>
-          Your school teaches digital life the way it teaches road safety: early, honestly, and in the
-          open. This pack shows you every topic in the programme, what your child will be able to do
-          after each lesson, and the question that comes home so the conversation continues at your table.
+        <p style={{ ...body, marginBottom: 'var(--space-4)' }}>
+          Every topic your child will meet, what they can do afterwards, and the question that comes home.
         </p>
 
-        <div style={{ margin: '0 0 22px' }}>
+        <div style={{ margin: '0 0 var(--space-4)' }}>
           <InShort points={[
-            <>Every topic your child will meet, and what they will be able to do after each lesson.</>,
-            <>The <b>question that comes home</b>, so the conversation carries on at your table.</>,
-            <>You have a <b>right to see the materials</b>. This pack and the open curriculum map are how.</>,
-            <>No login needed. Share it freely.</>,
+            <>The <b>question that comes home</b> after each lesson, so the conversation carries on at your table.</>,
+            <>You have a <b>right to see the materials</b>. Ask the school and they can show you any of it.</>,
+            <>No scare tactics, nothing graphic, and <b>no pupil accounts or data</b>.</>,
           ]} />
         </div>
 
-        <div style={{ border: '2px solid var(--gold)', borderRadius: 'var(--radius-tile)', padding: '14px 18px', marginBottom: '24px', background: 'var(--cream)' }}>
-          <p style={{ ...body, fontWeight: 700, marginBottom: '4px' }}>Your right to see the materials</p>
+        <JumpChips items={[
+          { href: '#rights', label: 'Your rights' },
+          ...KEY_STAGE_ORDER.filter(ks => CURRICULUM.some(m => m.keyStage === ks)).map(ks => ({ href: `#${ks.toLowerCase()}`, label: KEY_STAGE_META[ks].years })),
+        ]} />
+
+        <RefGroup id="rights">Your rights and the ground rules</RefGroup>
+
+        <RefFold title="Your right to see the materials" hint="Any lesson, worksheet or slide, just by asking the school">
           <p style={body}>
             The statutory RSHE guidance, in force from September 2026, gives you the right to know what
             your child is taught and requires the school to set out how you can view curriculum
@@ -65,10 +70,9 @@ export default async function ParentPackPage() {
             and no confidentiality clause in our terms restricts that. If a topic concerns you, ask to
             see the lesson first: we would rather you read it than worry about it.
           </p>
-        </div>
+        </RefFold>
 
-        <div style={{ marginBottom: '24px' }}>
-          <p style={{ ...body, fontWeight: 700, marginBottom: '6px' }}>Where the withdrawal rules fit</p>
+        <RefFold title="Where the withdrawal rules fit" hint="Most of it has no withdrawal right. Three lessons are the school's call">
           {/* The school decides, not this page (sync plan F3). This used to say
               the programme teaches no sex education, which settled the
               withdrawal question on the school's behalf while three lessons
@@ -94,10 +98,9 @@ export default async function ParentPackPage() {
             school can send home that lesson&rsquo;s parent note, so you can read what it covers before your
             child is in the room. You can ask to see the whole lesson too.
           </p>
-        </div>
+        </RefFold>
 
-        <div style={{ marginBottom: '24px' }}>
-          <p style={{ ...body, fontWeight: 700, marginBottom: '6px' }}>The honest ground rules of every lesson</p>
+        <RefFold title="The honest ground rules of every lesson" hint="No scare tactics, real sources, never graphic, no pupil data">
           <p style={body}>
             No scare tactics and no lectures: children learn judgement, not just rules. Every statistic
             shown on screen carries its real source. Sensitive topics for older pupils (like online
@@ -106,21 +109,19 @@ export default async function ParentPackPage() {
             account or login, and the platform holds no pupil data at all: where a name appears, it is
             handwritten on a printed worksheet that stays at school.
           </p>
-        </div>
+        </RefFold>
 
+        <RefGroup>What your child learns, by age</RefGroup>
         {KEY_STAGE_ORDER.map(ks => {
           const meta = KEY_STAGE_META[ks]
           const modules = CURRICULUM.filter(m => m.keyStage === ks)
+          if (modules.length === 0) return null
           return (
-            <section key={ks} style={{ marginBottom: '22px' }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 2px' }}>
-                {meta.years}
-              </h2>
-              <p style={{ ...body, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '10px' }}>{meta.strapline}</p>
+            <RefFold key={ks} id={ks.toLowerCase()} title={meta.years} hint={`${meta.strapline} ${modules.length} ${modules.length === 1 ? 'lesson' : 'lessons'}.`}>
               {modules.map(m => {
                 const note = noteByModule.get(m.moduleId)
                 return (
-                  <div key={m.moduleId} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 16px', marginBottom: '8px' }}>
+                  <div key={m.moduleId} style={{ borderTop: '1px solid var(--border)', padding: 'var(--space-3) 0', breakInside: 'avoid' }}>
                     <p style={{ ...body, fontWeight: 800, marginBottom: '2px' }}>{m.title}</p>
                     <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '4px' }}>{m.blurb}</p>
                     <p style={{ ...body, fontSize: 'var(--text-base)' }}>
@@ -139,7 +140,7 @@ export default async function ParentPackPage() {
                   </div>
                 )
               })}
-            </section>
+            </RefFold>
           )
         })}
 
