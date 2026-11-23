@@ -243,8 +243,6 @@ England's RSHE guidance suggests schools help parents "continue conversations st
 
 The revised guidance came into force this September. It suggests schools show parents what is taught, and support them "in managing conversations with their children". In most schools that lands on a PSHE lead who already has more to do than time to do it.
 
-My wife is a teacher, which is part of why I started building on the schools side at all.
-
 So that is what Guided Childhood for schools is built around. 34 lessons on growing up online, Reception to Year 13. Every lesson ends with a parent note that goes home in the book bag the same day: what was taught, and one question for tea, usually the child teaching the adult.
 
 The school does not have to write any of it. A parent pack gathers every one of those questions into one page it can print or share, with no login. Each note carries a code that opens the same passport page a family can follow at home. A class lesson marks it as met. Only the child's own check at home ticks it.
@@ -295,9 +293,7 @@ Why the lessons sit inside relationships education and not as standalone interne
 - **No causal mental illness claims, no promise a child is safe.** Checked.
 - **No head teacher post on Justin's profile** (`what-is-working.json`). Post 5
   closes on a question for parents, not PSHE leads.
-- **Scenes.** One, in Post 5: "My wife is a teacher, which is part of why I
-  started building on the schools side at all." From founder-context.md, "Why
-  schools". Flagged AMBER for Justin because it concerns his wife; no name, no
-  school, no dialogue. If used, add a row to `founder-scenes-used.md`.
+- **Scenes.** None. The one line about his wife was cut at Justin's request
+  (23 November).
 - **Oak.** Not named, not quoted. The call notes say not to quote the
   partnerships lead publicly without asking.
