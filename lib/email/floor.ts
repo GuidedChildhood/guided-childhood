@@ -24,6 +24,23 @@
 export const MIN_DAYS_BETWEEN_PROGRAMME_EMAILS = 6
 
 /**
+ * The lead teaser drip, laid out on the floor rather than against it (23
+ * November 2026). A lead gets the nurture on day 1, so the first teaser can go
+ * on day 1 plus the floor and each one after that a floor later. The schedule
+ * used to promise day 3 to 15 in a thirty day window; the floor quietly pushed
+ * them a week apart, so the window closed after about four and the rest never
+ * went.
+ */
+export function leadTeaserDay(index: number): number {
+  return 1 + MIN_DAYS_BETWEEN_PROGRAMME_EMAILS * (index + 1)
+}
+
+/** Long enough for every teaser and the founder close after them, plus one floor of slack. */
+export function leadTeaserWindowDays(teaserCount: number): number {
+  return leadTeaserDay(teaserCount) + MIN_DAYS_BETWEEN_PROGRAMME_EMAILS
+}
+
+/**
  * Lowercased and trimmed, always, so an address cannot be suppressed under one
  * spelling and emailed under another.
  *

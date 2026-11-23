@@ -157,7 +157,7 @@ If you would rather look first, the statutory mapping is open on the site with
 no sign up:
 https://schools.guidedchildhood.com/hub/rshe-mapping
 
-If this is not for you, there is nothing to do, and I will not write again.
+If this is not for you, there is nothing to do. I will write once more in two weeks, then stop.
 
 Justin
 
@@ -167,6 +167,38 @@ Guided Childhood
 PS. KS2 French for Years 3 and 4 comes with the scheme. You can open a whole
 lesson now, no code needed:
 https://schools.guidedchildhood.com/languages/fr/y3-ht2/1
+
+---
+
+# The invitation reminder: two weeks later
+
+Added 23 November 2026. One email, sent 14 days after the invitation only to
+schools that have not replied or asked for the pilot, then nothing more. The
+invitation now says so in its last line.
+
+**Subject:** One more, then I will stop
+
+**Preview text:** The last one from me, I promise.
+
+Hello [first name],
+
+A short one, and the last from me.
+
+Two weeks ago I wrote about the online side of RSHE and the parents: 34
+lessons from Reception to Year 13, the words to say on every slide, and a
+parent note that goes home after each lesson with one question for the family.
+
+If it would help this year, the pilot is free for a term: two lessons for your
+phase, every printable, and the Hub for your subject lead.
+https://schools.guidedchildhood.com/pilot
+
+If the timing is wrong, reply with the word later and I will check back in the
+summer term. Otherwise this is the last you will hear from me.
+
+Justin
+
+Justin Phillips
+Guided Childhood
 
 ---
 

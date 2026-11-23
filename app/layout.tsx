@@ -69,7 +69,9 @@ export const metadata: Metadata = {
     other: { 'p:domain_verify': 'd298f85f4b0c9c4ddcc8035ba72ae378' },
   },
   title: {
-    default: 'Digital Literacy for Children Age 4 to 16, Research Based Pathway | Guided Childhood',
+    // Under 60 characters (lib/seo/meta.ts TITLE_MAX): login, sign up and any
+    // page with no title of its own show this.
+    default: 'Guided Childhood: digital parenting from 4 to 16',
     template: '%s | Guided Childhood',
   },
   description: 'A research based digital literacy pathway for children from age 4 to 16. Safety settings for every device, AI and internet lessons by age, screen time they earn, and no social media cliff edge. For UK families.',

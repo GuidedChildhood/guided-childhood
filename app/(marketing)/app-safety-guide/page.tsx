@@ -15,7 +15,7 @@ import { pageMetadata } from '@/lib/seo/meta'
 // page that hands search engines all 220 addresses in one place.
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Is it safe for my child? The UK parent\'s app guide, ages 6 to 15',
+  title: 'Is this app safe for my child? A UK parent\'s guide',
   description: 'TikTok, Roblox, YouTube, WhatsApp and more: each app\'s own minimum age and ratings with sources, the settings to switch on first, and advice for your child\'s exact age.',
   path: HUB_PATH,
 })
