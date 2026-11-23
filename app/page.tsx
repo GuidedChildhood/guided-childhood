@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   // layout's whole object and left out the image, so a shared home page link
   // showed no picture.
   ...pageMetadata({
-    title: 'Guided Childhood · What to say tonight, from first screen to 16',
+    title: 'Guided Childhood: what to say tonight, from 4 to 16',
     absoluteTitle: true,
     // In the parent's words, not ours (the board's audience lens, 12 November
     // 2026): the nightly fight, the phone coming, what to say tonight. The

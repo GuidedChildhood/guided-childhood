@@ -32,13 +32,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
 | `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-22 | 128 |
-| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-19 | 158 |
+| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-19 | 159 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-11-09 · 9 November 2026: tracking approved, bridge b reversed for delivery records · `plans/decisions-archive/2026-11.md`
 - 2026-11-10 · 10 November 2026: the walkthrough campaign, 20 drafts and three built · `plans/decisions-archive/2026-11.md`
 - 2026-11-10 · 10 November 2026: French media mirrors into our storage, from GitHub · `plans/decisions-archive/2026-11.md`
 - 2026-11-10 · 10 November 2026: 390 applied, and the sweep is clear · `plans/decisions-archive/2026-11.md`
@@ -154,6 +153,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-11-18 · 18 November 2026: Quests setup is a settings list, not fourteen screens of cards · `plans/decisions-archive/2026-11.md`
 - 2026-11-18 · 18 Nov 2026: the Evidence Reveal is the default for research led posts · `plans/decisions-archive/2026-11.md`
 - 2026-11-18 · 18 November 2026: the starter page's three fixes are drawn the way the app draws them · `plans/decisions-archive/2026-11.md`
+- 2026-11-18 · 18 November 2026: Pebble has a voice, and 1.4 is the animated pilot · `plans/decisions-archive/2026-11.md`
 - 2026-11-19 · 19 November 2026: search foundations (Phase 1 of the SEO plan) · `plans/decisions-archive/2026-11.md`
 - 2026-11-19 · 19 Nov 2026: posting slots, the Sunday issue and the daily numbers · `plans/decisions-archive/2026-11.md`
 - 2026-11-19 · 19 November 2026: homework and projects get reminders that lead up to the day · `plans/decisions-archive/2026-11.md`
@@ -275,6 +275,14 @@ Titles only. Open the archive at the line number in its own index for the full e
 - The staff briefings, safeguarding crosswalk, parent pack, philosophy and run sheet now open on a summary card and jump chips, with every section folded in one shared `RefFold`. Printing opens every fold, so paper keeps the full text. On a phone they are now 3 to 7 screens instead of 18 to 28; the run sheet opens on Teach this lesson.
 - Pilot emails 3 (three weeks in, one reply question) and 4 (before the term ends: record, choice, a quote and a trust name) are written and saved as Mailchimp drafts for Justin to add to journey 762. Pilot email 1 in the paused journey now carries the parent pack line.
 
-### 23 November 2026: a school code now opens a three step start page
-- Typing the code used to land on the whole 34 lesson map. It now lands on /start: pick your year, then one Teach button for that year's first lesson, with the rest listed in teaching order. The year is remembered in the browser only. Pilot codes see their lessons straight away. Flagged first lessons point to the staff briefing.
-- Emails 3 and 4 are saved as Mailchimp templates for journey 762. The API is read only for journey steps (Allow: GET), so Justin adds the two steps in the builder.
+## 23 November 2026: GDC 060 and 067 approved, 060 swaps with 063
+
+- Justin: "approve 060 swap with 063, 067 approved".
+- 060 (EU KIDS Act) takes Mon 30 Nov 08:00 so it lands before the feedback window closes on 3 Dec; 063 moves to Wed 9 Dec. 067 goes Fri 11 Dec, the next free slot under the three a week rule.
+- Full slot table in content/metricool-reconciliation-2026-11-22.md. Metricool changes go through ChatGPT; nothing is scheduled from here.
+
+
+### 23 November 2026: the one email a week guard runs in CI, and learns the kinds it missed
+- `scripts/check-email-guard.mjs` had 5 failures on main. All five were the guard behind the code, each opt out traced to a decision of Justin's: the topic course (series, 16 November), the heavy lesson heads up (transactional, sync plan C), and the ask kind ("skip the rule", 16 November). No code changed.
+- The guard now reads the email kinds from the type, so a new kind can no longer opt out unseen (ask did, for a week). It also holds the caps that make skipping the floor safe: seven emails a course, three asks an account, two a lead.
+- Runs in the concern-guards job of wiring.yml. PR 1695.

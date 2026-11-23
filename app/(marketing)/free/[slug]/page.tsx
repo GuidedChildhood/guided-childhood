@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import type { Metadata } from 'next'
-import { pageMetadata } from '@/lib/seo/meta'
+import { pageMetadata, fitTitle } from '@/lib/seo/meta'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const t = getTaster(slug)
   if (!t) return {}
   return pageMetadata({
-    title: `${t.title}: a free printable taster`,
+    title: fitTitle(`${t.title}: free printable`, t.title),
     description: `${t.blurb} Free to print, ages ${t.ages}.`,
     path: `/free/${t.slug}`,
     image: tasterPreview(t.slug, 1),
