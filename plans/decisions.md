@@ -410,3 +410,10 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 ### 23 November 2026: a school code now opens a three step start page
 - Typing the code used to land on the whole 34 lesson map. It now lands on /start: pick your year, then one Teach button for that year's first lesson, with the rest listed in teaching order. The year is remembered in the browser only. Pilot codes see their lessons straight away. Flagged first lessons point to the staff briefing.
 - Emails 3 and 4 are saved as Mailchimp templates for journey 762. The API is read only for journey steps (Allow: GET), so Justin adds the two steps in the builder.
+
+## 23 November 2026: GDC 060 and 067 approved, 060 swaps with 063
+
+- Justin: "approve 060 swap with 063, 067 approved".
+- 060 (EU KIDS Act) takes Mon 30 Nov 08:00 so it lands before the feedback window closes on 3 Dec; 063 moves to Wed 9 Dec. 067 goes Fri 11 Dec, the next free slot under the three a week rule.
+- Full slot table in content/metricool-reconciliation-2026-11-22.md. Metricool changes go through ChatGPT; nothing is scheduled from here.
+
