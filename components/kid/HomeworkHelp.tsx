@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { preparePhoto, type PreparedPhoto } from '@/lib/school/photo'
+import { MIN_ATTEMPT } from '@/lib/homework/help'
 
 // ── STUCK? A HINT, NOT AN ANSWER (25 September 2026) ────────────────────────
 //
@@ -21,6 +22,11 @@ import { preparePhoto, type PreparedPhoto } from '@/lib/school/photo'
 //
 // The photo is shrunk in the browser and read once. Neither it nor the text is
 // kept anywhere.
+//
+// Have a go first (23 November 2026). "Another hint" stays locked until the
+// child writes their own go at the "Try this" question, one short line. The
+// server checks it too. It is a working line for one card, not a chat: it is
+// cleared with each new hint and never kept.
 
 type Card = {
   onTopic: boolean
@@ -62,6 +68,7 @@ export default function HomeworkHelp({ token, childName, canHint }: { token: str
   const [hints, setHints] = useState<string[]>([])
   const [unsafe, setUnsafe] = useState(false)
   const [sent, setSent] = useState(false)
+  const [attempt, setAttempt] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
   async function askGrownUp() {
@@ -83,6 +90,7 @@ export default function HomeworkHelp({ token, childName, canHint }: { token: str
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         token, mode: 'hint', text, level, previous: hints,
+        attempt: level > 1 ? attempt : undefined,
         image: photo ? { media_type: photo.mediaType, base64: photo.base64 } : undefined,
       }),
     }).catch(() => null)
@@ -91,6 +99,7 @@ export default function HomeworkHelp({ token, childName, canHint }: { token: str
     if (!d?.ok) { setError(d?.message ?? 'DiGi could not look just then. Have another go.'); return }
     if (d.safe === false) { setUnsafe(true); return }
     setCard(d as Card)
+    setAttempt('')
     if (d.hint) setHints(h => [...h, d.hint as string])
   }
 
@@ -101,7 +110,7 @@ export default function HomeworkHelp({ token, childName, canHint }: { token: str
   }
 
   function startAgain() {
-    setCard(null); setHints([]); setText(''); setPhoto(null); setUnsafe(false); setError('')
+    setCard(null); setHints([]); setText(''); setPhoto(null); setUnsafe(false); setError(''); setAttempt('')
   }
 
   // ── Closed: one line, one button ─────────────────────────────────────────
@@ -193,11 +202,34 @@ export default function HomeworkHelp({ token, childName, canHint }: { token: str
             </p>
           </>
         )}
-        {canMore && (
-          <button onClick={() => getHint(card.level + 1)} disabled={busy} style={{ ...QUIET_BUTTON, marginBottom: 12, opacity: busy ? 0.6 : 1 }}>
-            {busy ? 'DiGi is thinking...' : 'Still stuck? Another hint'}
-          </button>
-        )}
+        {canMore && (() => {
+          const tried = attempt.trim().length >= MIN_ATTEMPT
+          return (
+            <div data-have-a-go style={{ ...BOX, background: 'var(--cream)' }}>
+              <label htmlFor="hw-attempt" style={{ ...EYEBROW, display: 'block' }}>Your go</label>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
+                Still stuck? Have a go first. Write what you got, or how far you got.
+              </p>
+              <input
+                id="hw-attempt"
+                type="text"
+                value={attempt}
+                onChange={e => setAttempt(e.target.value)}
+                maxLength={300}
+                autoComplete="off"
+                placeholder="e.g. I did 24 divided by 8 and got stuck"
+                style={{
+                  width: '100%', boxSizing: 'border-box', border: '1.5px solid rgba(26,26,46,0.12)',
+                  borderRadius: 'var(--radius-tile)', padding: '12px 13px', background: '#fff', color: 'var(--ink)',
+                  fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', marginBottom: 12,
+                }}
+              />
+              <button onClick={() => getHint(card.level + 1)} disabled={busy || !tried} style={{ ...QUIET_BUTTON, opacity: busy || !tried ? 0.55 : 1, cursor: busy || !tried ? 'default' : 'pointer' }}>
+                {busy ? 'DiGi is thinking...' : 'Another hint'}
+              </button>
+            </div>
+          )
+        })()}
         <button onClick={startAgain} style={BIG_BUTTON}>{card.onTopic ? 'Got it, thanks DiGi' : 'Try again'}</button>
         {error && <p style={{ color: 'var(--danger, #B4453C)', fontWeight: 600, margin: '10px 0 0' }}>{error}</p>}
       </section>
