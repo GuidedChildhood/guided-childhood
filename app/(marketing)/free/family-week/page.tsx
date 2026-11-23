@@ -19,7 +19,7 @@ import MagnetGate from '@/components/marketing/MagnetGate'
 // dates from forwarded school emails) and runs the stars and the timer.
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Free family week pack: a fridge star chart and school week planner',
+  title: 'Free family week pack: star chart and week planner',
   description: 'Two free fridge sheets for the morning and school week: a star chart with the jobs every house argues about, and Our school week with reading, homework, the front seat rota and a Sunday check.',
   path: '/free/family-week',
   image: '/printables/free/family-week-p1.png',

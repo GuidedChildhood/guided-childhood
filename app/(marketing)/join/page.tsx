@@ -198,7 +198,8 @@ const TESTIMONIALS = [
 
 // It had no metadata of its own, so it went out under the home page's title.
 export const metadata: Metadata = pageMetadata({
-  title: 'Join Guided Childhood: plans for the screen fight, from 4 to 16',
+  title: 'Join Guided Childhood: plans from age 4 to 16',
+  absoluteTitle: true,
   description: 'Five minutes a day, from age 4 to 16: the exact words for tonight\'s argument, a plan for the day the phone arrives, and your child\'s own app. Start with the free stage check.',
   path: '/join',
 })

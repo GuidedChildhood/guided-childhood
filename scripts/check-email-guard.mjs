@@ -21,7 +21,7 @@
 
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import { MIN_DAYS_BETWEEN_PROGRAMME_EMAILS, normaliseAddress, dueAgain } from '../lib/email/floor.ts'
+import { MIN_DAYS_BETWEEN_PROGRAMME_EMAILS, normaliseAddress, dueAgain, leadTeaserDay, leadTeaserWindowDays } from '../lib/email/floor.ts'
 
 let failures = 0
 const check = (name, ok, detail = '') => {
@@ -41,6 +41,14 @@ const NOW = Date.UTC(2026, 7, 12, 8, 0, 0)
 const wouldSend = sinceMs => dueAgain(new Date(NOW - sinceMs).toISOString(), NOW)
 
 check('one a week is what he asked for', MIN_DAYS_BETWEEN_PROGRAMME_EMAILS === 6, String(MIN_DAYS_BETWEEN_PROGRAMME_EMAILS))
+
+// The lead teasers sit on the floor, not against it (23 November 2026): the
+// first a floor after the day 1 nurture, each a floor apart, and the window
+// long enough for all eight and the founder close. Before, the window closed
+// after about four and the rest never went.
+check('the first lead teaser is a floor after the day 1 nurture', leadTeaserDay(0) === 1 + MIN_DAYS_BETWEEN_PROGRAMME_EMAILS, String(leadTeaserDay(0)))
+check('lead teasers are exactly a floor apart', leadTeaserDay(5) - leadTeaserDay(4) === MIN_DAYS_BETWEEN_PROGRAMME_EMAILS)
+check('the window holds all eight teasers and the founder close', leadTeaserWindowDays(8) > leadTeaserDay(8), `${leadTeaserWindowDays(8)} days, founder close on day ${leadTeaserDay(8)}`)
 check('a second email 1.1 seconds later is turned away', !wouldSend(1100))
 check('and so is one the next morning', !wouldSend(days(1)))
 check('and one five days later', !wouldSend(days(5)))
@@ -106,6 +114,14 @@ const ALLOWED_OPT_OUTS = {
   'app/api/magnet/route.ts': 'transactional',            // the file they just asked for
   'app/api/school/remind/route.ts': 'transactional',     // a reminder they set up, about tomorrow
   'app/api/school/connect/email-me/route.ts': 'transactional', // the connect steps they just asked us to email
+  // The heads up before one of the six heaviest lessons a child started alone
+  // (Justin, sync plan C, October 2026). The lesson opens 48 hours later
+  // whether or not the parent has read it, so a floor that held this note for
+  // six days would let the lesson open first, which is the one thing the note
+  // exists to prevent. At most once per heavy lesson per child, ever, because
+  // it only goes when the mission row is first created. Listed 23 November
+  // 2026, when the guard was found failing on it.
+  'app/k/[token]/school/[lessonId]/route.ts': 'transactional',
   'app/api/stripe/webhook/route.ts': 'both',             // their receipt, and the fulfilment desk
   // The welcome used to be here, exempt from the floor because it goes out
   // thirty seconds after signing up. It sends as programme now, on Justin's
@@ -120,7 +136,20 @@ const ALLOWED_OPT_OUTS = {
   // ending note, inside the free days only. Justin: "yes, on the trial clock".
   // And since 13 November 2026 the taster series (series): five emails a
   // parent asked for by ticking the box on a free page. "Yes, daily for the series".
+  //
+  // Since 16 November 2026 the topic email course rides the same kind: seven
+  // emails on one problem, asked for by name on the stage check result page
+  // (decision of 16 November, PR 1573). The cron sends days 2 to 7.
   'app/api/email/cron/route.ts': 'series and transactional and trial',
+  // Day 1 of that course, sent the moment the parent presses "Start the seven
+  // emails". The press is the consent and names what follows. Skips the floor,
+  // never the stop link. Listed 23 November 2026.
+  'app/api/course/route.ts': 'series',
+  // The "what stopped you" asks (Justin, 16 November 2026, "skip the rule"):
+  // three to an account and two to a lead, ever, held below. Kind 'ask' was
+  // added that day without this guard learning the word, so the file opted out
+  // invisibly for a week. Listed 23 November 2026.
+  'app/api/cron/stalled-ask/route.ts': 'ask',
 }
 
 const EXT = new Set(['.ts', '.tsx'])
@@ -136,6 +165,13 @@ function walk(path, out = []) {
   return out
 }
 
+const emailIndex = readFileSync('lib/email/index.ts', 'utf8')
+const kindUnion = emailIndex.match(/export type EmailKind = ([^\n]+)/)?.[1] ?? ''
+const ALL_KINDS = [...kindUnion.matchAll(/'([a-z]+)'/g)].map(m => m[1])
+const OPT_OUT_KINDS = ALL_KINDS.filter(k => k !== 'programme')
+check('the email kinds are read from the type', ALL_KINDS.includes('programme') && OPT_OUT_KINDS.length >= 4, ALL_KINDS.join(', '))
+const OPT_OUT_KIND = new RegExp(`'(${OPT_OUT_KINDS.join('|')})'`, 'g')
+
 const optOuts = new Map()
 let callSites = 0
 for (const file of [...walk('app'), ...walk('lib')]) {
@@ -150,7 +186,12 @@ for (const file of [...walk('app'), ...walk('lib')]) {
   // due warning, which opts out by passing 'transactional' positionally to a
   // local deliver helper. A detector that only sees one spelling of an opt out
   // is a detector that reports a clean sheet while an opt out sits in the file.
-  const kinds = [...source.matchAll(/'(operational|transactional|trial|series)'/g)].map(m => m[1])
+  //
+  // Every kind but programme is an opt out, and the list is read from the type
+  // itself so a sixth kind cannot be added without this check seeing it. That
+  // is how 'ask' slipped past for a week in November 2026: the kind was added
+  // to lib/email/index.ts and this pattern still named only the first four.
+  const kinds = [...source.matchAll(OPT_OUT_KIND)].map(m => m[1])
   if (kinds.length > 0) optOuts.set(file, [...new Set(kinds)].sort().join(' and '))
 }
 
@@ -176,14 +217,27 @@ for (const file of Object.keys(ALLOWED_OPT_OUTS)) {
 {
   const idx = readFileSync('lib/email/index.ts', 'utf8')
   const guard = readFileSync('lib/email/address-guard.ts', 'utf8')
-  check('trial mail still passes the suppression check',
-    /kind === 'programme' \|\| kind === 'trial' \|\| kind === 'series'\) \{\s*const verdict = await maySendProgramme/.test(idx))
+  // The kinds that skip the floor but must still be stopped by an unsubscribe
+  // and must still count towards the weekly floor. Read from the code: the
+  // condition that guards maySendProgramme, and the one that guards
+  // recordProgrammeSend, have to name the same kinds, and between them every
+  // kind that is not transactional or operational.
+  const ON_THE_ADDRESS = OPT_OUT_KINDS.filter(k => k !== 'transactional' && k !== 'operational')
+  const condKinds = re => {
+    const m = idx.match(re)
+    return m ? [...m[1].matchAll(/kind === '([a-z]+)'/g)].map(x => x[1]).sort().join(',') : ''
+  }
+  const expected = ['programme', ...ON_THE_ADDRESS].sort().join(',')
+  const guarded = condKinds(/if \(((?:kind === '[a-z]+'(?: \|\| )?)+)\) \{\s*const verdict = await maySendProgramme/)
+  const recorded = condKinds(/if \(((?:kind === '[a-z]+'(?: \|\| )?)+)\) await recordProgrammeSend/)
+  check('trial mail still passes the suppression check', guarded.includes('trial'), guarded)
+  check('and so does every kind that skips the floor', guarded === expected, `${guarded} vs ${expected}`)
   check('and only the floor is lifted for it',
     /floor: kind === 'programme'/.test(idx) && /if \(floor && !dueAgain/.test(guard))
   check('suppression is read before the floor',
     guard.indexOf('suppressed_at) return') < guard.indexOf('if (floor && !dueAgain'))
   check('and a trial send is recorded so the weekly programme counts on from it',
-    /kind === 'programme' \|\| kind === 'trial' \|\| kind === 'series'\) await recordProgrammeSend/.test(idx))
+    recorded === expected, `${recorded} vs ${expected}`)
 
   const cron = readFileSync('app/api/email/cron/route.ts', 'utf8')
   const TRIAL_KEYS = ['welcome', 'day2-stage', 'day3-tour', 'day4-digi', 'trial-ending']
@@ -209,10 +263,55 @@ for (const file of Object.keys(ALLOWED_OPT_OUTS)) {
   const keys = [...nurture.matchAll(/export const SERIES_([A-Z_0-9]+)_KEY = '([a-z0-9-]+)'/g)].map(m => m[2])
   check('the series is exactly five agreed emails',
     keys.length === 5 && ['series-1', 'series-2', 'series-3', 'series-stage', 'series-full-pack'].every(k => keys.includes(k)), keys.join(', '))
+  // Two places, each a series somebody asked for: the taster block (the
+  // ticked box) and the topic course block (the start row a parent's own
+  // press wrote). A third is a new series nobody has agreed yet.
   const seriesSends = [...cron.matchAll(/kind: [^,}\n]*'series'/g)].length
-  check('the series kind is sent from one place in the cron', seriesSends === 1, String(seriesSends))
-  check('and only when the box was ticked',
+  check('the series kind is sent from two places in the cron, the taster and the course', seriesSends === 2, String(seriesSends))
+  check('the taster only when the box was ticked',
     /const onSeries = lead\.marketing_consent === true/.test(cron) && /kind: onSeries \? 'series' : 'programme'/.test(cron))
+  // The course block: only from a start row, never to a lead who stopped, and
+  // only the day the course says is due.
+  const courseAt = cron.indexOf('// THE TOPIC EMAIL COURSES')
+  const courseBlock = courseAt < 0 ? '' : cron.slice(courseAt, cron.indexOf('\n  }\n', courseAt))
+  check('the course only from the start row a parent pressed for',
+    /\.like\('email_key', 'course:%:start'\)/.test(courseBlock) && /kind: 'series'/.test(courseBlock))
+  check('and never to a lead who clicked stop or withdrew consent',
+    /l\.unsubscribed_at \|\| l\.marketing_consent === false/.test(courseBlock) && /if \(stopped\.has\(/.test(courseBlock)
+      && /if \(!leadRows\) rows\.length = 0/.test(courseBlock))
+  check('and only the day the course says is due', /const day = courseDayDue\(/.test(courseBlock))
+
+  // The course route sends day 1 and nothing else.
+  const courseRoute = readFileSync('app/api/course/route.ts', 'utf8')
+  check('the course route sends day 1 only',
+    [...courseRoute.matchAll(/sendEmail\(\{/g)].length === 1 && /courseEmailFor\(email, course, 1\)/.test(courseRoute))
+
+  // A course is a week. Seven emails was the agreed shape, so a longer one is a
+  // new decision, not a new entry.
+  const registry = readFileSync('lib/courses/registry.ts', 'utf8')
+  const { COURSES, COURSE_WINDOW_DAYS } = await import('../lib/courses/registry.ts')
+  check('every course is the agreed seven emails',
+    COURSES.length > 0 && COURSES.every(c => c.days.length === 7), COURSES.map(c => `${c.slug} ${c.days.length}`).join(', '))
+  check('and a course cannot run on past its window',
+    COURSE_WINDOW_DAYS <= 21 && /ageDays > COURSE_WINDOW_DAYS\) return null/.test(registry), String(COURSE_WINDOW_DAYS))
+}
+
+// ── THE ASKS: THREE TO AN ACCOUNT, TWO TO A LEAD, EVER ──────────────────────
+//
+// Justin, 16 November 2026, "skip the rule". What makes skipping the floor
+// safe is the cap, so the cap is what this holds.
+{
+  const asks = readFileSync('lib/asks/stalled.ts', 'utf8')
+  const askRoute = readFileSync('app/api/cron/stalled-ask/route.ts', 'utf8')
+  const stepsBlock = asks.match(/export const ASK_STEPS = \[([\s\S]*?)\] as const/)?.[1] ?? ''
+  const steps = [...stepsBlock.matchAll(/key: '([a-z0-9-]+)'/g)].map(m => m[1])
+  check('an account is asked at most three times', steps.join(',') === 'ask-1,ask-2,ask-3', steps.join(', '))
+  check('and askDue knows no fourth',
+    /if \(sent\['ask-3'\] === undefined\)[^\n]*\n\s*return null/.test(asks))
+  check('a lead is asked at most twice',
+    /'lead-ask-1' \| 'lead-ask-2' \| null/.test(asks))
+  check('the ask kind is sent only from the stalled ask cron, twice',
+    [...askRoute.matchAll(/kind: 'ask'/g)].length === 2)
 }
 
 // ── AND THE DEFAULT IS THE SAFE ONE ─────────────────────────────────────────
