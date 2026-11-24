@@ -47,3 +47,32 @@ under the Open Government Licence; any use on our pages credits Oak.
 2. A small "works alongside Oak" line on matching lesson pages, naming Oak's lesson and crediting the licence.
 3. Next read: open a sample of Oak's overlapping lessons (Y4 fake news, Y8 bullying, Y11 radicalisation) to check depth before any public comparison.
 4. The case study for Oak's partner tier, once pilots run.
+
+## Sample read, 24 November 2026 (12 overlapping Oak lessons, summaries)
+Read through the API's lesson summary (outcome, key learning points, keywords,
+misconceptions, teacher tips). Lessons: KS2 fake news, who to trust, personal
+information, screen time; KS3 online bullying (two), sleep, harmful content;
+KS4 radicalisation, financial security, social media and mental health, data.
+
+What Oak does well: clear knowledge outcomes ("I can describe..."), solid
+vocabulary, sensible misconceptions, free, and broad. Most of the overlap
+topics are covered properly at knowledge level.
+
+Where ours differs, worth knowing before any public comparison:
+- **Calibration.** Two Oak lessons state causes our evidence rule avoids:
+  "Blue light ... disturbs sleeping patterns" (KS3 sleep) and "Unhealthy online
+  activity can lead to mental health problems, such as anxiety, depression and
+  addiction" (KS4). Our scheme never states a causal mental health claim
+  (THE-STORY.md, evidence or silence). This is for how we describe ours, never
+  a public criticism of Oak.
+- **Outcome type.** Oak's outcomes are knowledge ("I can explain what online
+  bullying is"); ours end in a behaviour and a choice ("one routine the child
+  sets tonight").
+- **Depth on the hardest topics.** Sextortion is one learning point inside
+  Oak's KS3 harmful content lesson; ours is a whole KS4 lesson with the three
+  lifelines and its own staff briefing.
+- **Around the lesson.** Oak's summary carries teacher tips, not a word for
+  word script, and no parent note or record.
+
+Still not compared: Oak's slide decks and worksheets themselves (the API lists
+downloads); its relationships units for consent and images.
