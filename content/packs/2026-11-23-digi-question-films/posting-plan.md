@@ -50,3 +50,9 @@ Facebook: the same text, with the film's link in place of "Link in bio".
 ## Order (proposed, Justin decides)
 
 Two a week, strongest hooks first: 8 (the sixty pounds), 1 (screens off), 4 (Snapchat at ten), 2 (the Year 6 phone), 6 (the tablet at 5am), then the rest.
+
+## The 30 second ad cut (23 November, later)
+
+`ads/08-sixty-pounds-30s.mp4` is the first ad cut, for Justin to compare with the full film. The longest running app demo ads run about 28 to 30 seconds and show the product inside three seconds, so this cut does: a short hook, the phone, the two steps, the exact words, the check back, Sorted, one line of research, the stage check. The full 58 second films stay for organic Reels.
+
+Any film in the list makes its ad cut with `python3 cuts/make-films.py ad <key>`.

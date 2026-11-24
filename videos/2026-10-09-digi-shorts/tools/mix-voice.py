@@ -10,12 +10,19 @@ if k not in 'abc':  # a film from cuts/films.json: its own opening, shared lines
     her, research = D['cast'][f['child']]['pos'], D['research'][f['research']]['vo']
 LINES = [(0.4, f'{k}-open'), (7.9, 'starts'), (10.9, 'steps'), (18.3, f'checkin-{her}'), (25.4, 'words'),
          (30.9, 'later'), (37.4, 'sorted'), (41.0, 'learns'), (46.6, research), (52.7, 'end')]
+TEMPO = {}
+if len(sys.argv) > 4 and sys.argv[4] == 'ad':  # the 30 second ad cut: six of the lines, the opening a touch quicker
+    LINES = [(0.2, f'{k}-open'), (5.9, 'steps'), (11.4, 'words'), (15.4, 'later'), (19.4, 'sorted'), (25.5, 'end')]
+    TEMPO = {0: 1.15, 1: 1.05}
+import os
+LINES = [(t, n) for t, n in LINES if os.path.exists(f'assets/vo/{n}.mp3')]  # a line not recorded yet is left out, the rest still play
 cmd = ['ffmpeg', '-v', 'error', '-y', '-i', src]
 for _, n in LINES: cmd += ['-i', f'assets/vo/{n}.mp3']
 f = ''
 for i, (t, n) in enumerate(LINES):
     tempo = ',atempo=1.1' if n == 'a-research' else ''
-    if i == 0:  # the opening must finish before the next line at 7.9s: quicken it a touch if it runs long
+    if i in TEMPO: tempo = f',atempo={TEMPO[i]}'
+    elif i == 0:  # the opening must finish before the next line at 7.9s: quicken it a touch if it runs long
         d = float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f'assets/vo/{n}.mp3']))
         if d > 7.1: tempo = f',atempo={d / 7.1:.3f}'
     f += f'[{i+1}:a]aresample=48000{tempo},adelay={int(t*1000)}:all=1,volume=1.5[v{i}];'

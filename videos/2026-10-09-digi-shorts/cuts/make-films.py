@@ -44,7 +44,7 @@ F = {key: dict(child=raw['child'], age=c['age'], stage=c['stage'], pro=c['pro'],
   tile=raw['tile'] + '?', code=raw['code'], worked=raw['worked'], claim=r['claim'], cite=r['cite'], eyebrow=r['eyebrow'], note='')}
 SLATE = 'An example family. Real app screens, example replies.'
 for k, f in F.items():
-  rec = lambda t: f'rec/film-{k}-{t}.mp4'
+  rec = lambda t, k=k: f'rec/film-{k}-{t}.mp4'
   cap = lambda text, t0=0.5, t1=None: {'kind': 'caption', 'text': text, 'y': 1395, 't0': t0, **({'t1': t1} if t1 else {})}
   ul = lambda y, t0, t1: {'cls': 'underline', 'x': 57, 'y': y + 12, 'w': 220, 'h': 3, 't0': t0, 't1': t1}
   shots = [
@@ -112,6 +112,19 @@ for k, f in F.items():
       'tagline': 'One plan for screens, phones and AI.'}],
     'sfx': [{'name': 'sfx-land', 'at': 0.25, 'vol': 0.32}, {'name': 'sfx-tap', 'at': 3.1, 'vol': 0.38}]},
   ]
+  if mode == 'ad':
+    # The 30 second ad cut (23 November 2026): the product on screen inside three
+    # seconds, the two steps, the words, the check back, one line of proof, the
+    # stage check. Same shots as the full film, fewer and shorter.
+    AD = {'hook': 2.6, 'hero': 1.8, 'reply1': 3.4, 'reply2': 2.6, 'deck': 4.6, 'followup': 3.6, 'great': 1.6, 'held': 2.0, 'science': 3.2, 'end': 5.0}
+    shots = [dict(x, dur=AD[x['id']]) for x in shots if x['id'] in AD]
+    for x in shots:
+      if x['id'] == 'hook':
+        x['overlays'] = [dict(o, t0=0.15, typed=0.1) if o['kind'] == 'pill' else o for o in x['overlays'] if o['kind'] != 'eyebrow']
+        x['sfx'] = [{'name': 'sfx-tap', 'at': 0.2, 'vol': 0.15}]
+      if x['id'] == 'hero': x['tilt'] = [x['tilt'][0], dict(x['tilt'][1], dur=1.3)]
+      if x['id'] == 'deck': x['overlays'] = [dict(o, t0=1.2) if o['kind'] == 'caption' else o for o in x['overlays']]
+    k = f'{k}-ad'
   total = sum(s['dur'] for s in shots)
   cut = {'name': f'film-{k}', 'music': {'file': 'music-leberch.mp3', 'mediaStart': 12.3,
           'lane': [[0, 0], [1.0, 0.2], [6.5, 0.14], [total - 12, 0.14], [total - 11.5, 0.26], [total - 2.5, 0.26], [total, 0]]},
