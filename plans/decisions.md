@@ -420,7 +420,7 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 ## 23 November 2026: the app safety week moves on, and goes out automatically
 
 - Justin: "push to next week, just do next weeks if any full, no want you to do it auto". Both accounts were full this week.
-- Family posts take next week's anchor days (30 Nov, 2, 4, 5 Dec); Sunday 29's social-week batch builds their cards, and the skill now reads approved moved posts before the sheet. LinkedIn keeps three a week: L1 to L3 go out 9, 11 and 14 December. Pins 1, 3 and 5 December.
+- Family posts take next week's anchor days (30 Nov, 2, 4, 5 Dec); Sunday 29's social-week batch builds their cards, and the skill now reads approved moved posts before the sheet. LinkedIn keeps three a week; 30 Nov and 7 Dec weeks are full (060, 059; 062, 063, 067), so L1 Mon 14, L3 Wed 16, L2 Fri 18 December. Pins 1, 3 and 5 December.
 - Automatic, not Justin posting: through Metricool, the scheduler that already holds both accounts. Claude has no Metricool access, so a Metricool API key was asked for; until then the pack file is the handoff, with scheduling and automatic publishing approved for these posts only. Earlier rule (17 Nov, Claude schedules nothing) stands for everything else. PR 1694.
 
 ### 23 November 2026: Schools v3 keeps running
@@ -444,3 +444,5 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - Justin: no sign ups, doubt about whether the app helps. Read: tracking since 19 Nov works end to end (a test reached q2 and landed in PostHog); no real visitor has yet answered question one. Ad arrivals open straight on the age question with no promise or brand above it.
 - Each stage check step now counts once until it changes; every visit had logged two intro events, doubling the top of the funnel.
 - Next: ten parents who are not friends or family, five ten minute chats (messages in content/packs/2026-11-24-ten-parents). Building pauses until those answers are in.
+### 23 November 2026: a page for trusts and MATs
+- New public /trusts page, built on Oak's advice that EdTech is bought at trust level. It covers the two jobs (online RSHE, parents), each school keeping its own code and record, a free pilot in two schools first, and pricing per school on application with the single school range shown. It claims no trust wide dashboard. Linked from the pricing trust band and the pilot page. OPEN_PATHS is now 15.

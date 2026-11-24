@@ -32,6 +32,28 @@
   "why_it_works": "Multitasking during study is one of the most researched productivity killers there is, reducing comprehension and increasing time on task significantly. Empathising with how hard it is to focus rather than criticising creates a shared problem rather than a character judgement. Helping them set up a distraction-free environment is more effective than expecting them to resist the pull of notifications through willpower alone.",
   "tonight": "Tonight, try sitting with your child for just the first ten minutes of homework to help them get started without distractions, and see whether they stay on task once they have momentum."
  },
+ "216": {
+  "sort_order": 216,
+  "stage_id": "builder",
+  "category": "screen-time",
+  "title": "Devices and sleep",
+  "situation": "When screens creep into the bedroom and a child is harder to settle and wake.",
+  "say_this": "Sleep is when your brain sorts out everything from the day, and screens make it harder to switch off. Let us agree that devices go to bed in the kitchen, not your room. I will charge mine there too, so we are doing it together.",
+  "not_this": "\"Give it here, no screens in bed.\" Confiscation framing makes it a punishment instead of a shared habit.",
+  "why_it_works": "Screen light and the alertness games create both delay the wind-down the brain needs for sleep. Keeping devices out of the bedroom removes the temptation rather than relying on willpower at the moment they are most tired. Charging yours alongside theirs turns a rule into a family habit, which holds far better.",
+  "tonight": "Set up one charging spot outside the bedrooms tonight and put your own phone there too."
+ },
+ "501": {
+  "sort_order": 501,
+  "stage_id": "explorer",
+  "category": "staying-safe",
+  "title": "They are being bullied online",
+  "situation": "When a child says someone is being cruel to them online, in messages, comments, or posts.",
+  "say_this": "I am really glad you told me. That sounds genuinely awful, and it makes complete sense that you are upset. Can you show me what has been happening so I understand the full picture?",
+  "not_this": "Just ignore it and they will stop.",
+  "why_it_works": "Starting with validation before solutions tells your child their feelings are the priority, not the fix. Asking to see it together signals you are a safe person to come to, which matters far more than any single conversation. Children who feel heard are far more likely to keep talking.",
+  "tonight": "Sit beside them and look at the messages together without reacting with shock, then screenshot and save everything before you decide on next steps."
+ },
  "901": {
   "sort_order": 901,
   "stage_id": "shaper",
@@ -54,6 +76,28 @@
   "why_it_works": "Mocking the comfort they have found makes them defensive and lonelier. Honouring why it appeals, while naming the limit, keeps real human connection as the goal without shaming them.",
   "tonight": "Plan one face to face thing they enjoy with a real person this week."
  },
+ "1009": {
+  "sort_order": 1009,
+  "stage_id": "explorer",
+  "category": "family-rules",
+  "title": "When one parent is stricter",
+  "situation": "You and your parenting partner enforce screen rules very differently.",
+  "say_this": "Your dad and I do not always agree on screen rules, and that is something we are sorting out between us. It is not your job to play us off each other, and we will get on the same page.",
+  "not_this": "Well your mother is just too strict, so do not worry about her rules.",
+  "why_it_works": "Undermining the other parent teaches children to exploit the gap and trust neither of you. Owning the difference as a grown up problem to fix keeps the child out of the middle and the rules consistent.",
+  "tonight": "Talk privately with your partner and agree one rule you will both back."
+ },
+ "1317": {
+  "sort_order": 1317,
+  "stage_id": "builder",
+  "category": "gaming",
+  "title": "Gaming Rage",
+  "situation": "When a child has just thrown a controller, burst into tears, or shouted after losing a game.",
+  "say_this": "That was really frustrating. Take a minute. I am going to get you a drink.",
+  "not_this": "It is just a game. This is why I worry about you playing so much.",
+  "why_it_works": "Telling a child in the middle of a flood of emotion that it is just a game does not land. They know it is just a game. The emotion is real even when the trigger seems small. Giving them something physical to do next and some space resets the nervous system faster than reasoning.",
+  "tonight": "After they have calmed down, not now, ask what happened just before the rage. Loss, unfairness, or being killed by the same player twelve times? The trigger matters."
+ },
  "1319": {
   "sort_order": 1319,
   "stage_id": "explorer",
@@ -75,6 +119,72 @@
   "not_this": "If they are real friends they will tell you anyway.",
   "why_it_works": "The complaint is exclusion, not the app, and answering the app question leaves the real one untouched. Naming the age limit as the app's rule rather than a personal verdict takes the argument off you. Then solving the actual problem, how plans reach them, treats the child as someone with a real difficulty rather than someone asking for something silly.",
   "tonight": "Pick one friend tonight and sort a way for them to reach your child directly, a call on your phone or a text, so being off Snapchat stops meaning being uninvited."
+ },
+ "9601": {
+  "sort_order": 9601,
+  "stage_id": "explorer",
+  "category": "social-media",
+  "title": "The streak they cannot lose",
+  "situation": "Your child is anxious about Snapstreaks, checking the app before school, on holiday, or handing their phone to a friend to keep a streak alive.",
+  "say_this": "Show me the streaks. How many are you keeping? I am not asking so I can take it away. I am asking because you have been stressed about your phone for a week and I think this is why. Who decided you have to keep these going?",
+  "not_this": "It is just a number, it does not mean anything.",
+  "why_it_works": "Telling a child the thing they are anxious about is meaningless ends the conversation and teaches them not to bring you the next one. Counting the streaks out loud does the opposite: it makes the obligation visible, and the obligation, rather than the app, is what is doing the damage. The question about who decided it is the one that stays with them, because nobody decided it.",
+  "tonight": "Ask which streaks they would actually miss and which are chores. Letting one chore streak go tonight, on purpose, is the whole lesson, and it is much easier the first time with you sitting there."
+ },
+ "9604": {
+  "sort_order": 9604,
+  "stage_id": "explorer",
+  "category": "social-media",
+  "title": "The feed got dark and they did not choose it",
+  "situation": "Your child's TikTok feed has drifted towards sad, angry, extreme or frightening content, and they did not go looking for it.",
+  "say_this": "Can I see what it is showing you? Not to check up on you, because I want to see what it decided you like. It watches how long you look at things, so pausing on one sad video twice can turn the whole feed sad. That is the app getting it wrong about you, not you being a bit dark.",
+  "not_this": "That is what you get for being on it. I told you.",
+  "why_it_works": "A child whose feed has gone dark often half believes it reflects something true about them, which is the genuinely harmful part. Naming the mechanism, that lingering is a vote, moves the cause from their character to a system they can operate. That is the difference between shame and a skill.",
+  "tonight": "Sit together and long press three of the worst ones, choose not interested, and search for two things they actually love. The feed shifts within a day and watching it shift is the lesson."
+ },
+ "9607": {
+  "sort_order": 9607,
+  "stage_id": "explorer",
+  "category": "social-media",
+  "title": "Asking for Instagram, and what a Teen Account actually does",
+  "situation": "Your child is asking for Instagram and you do not know whether the protections you have heard about are real or marketing.",
+  "say_this": "Let us look at it properly rather than me guessing. If you have an account under eighteen it is a Teen Account, which means private by default and only people who follow you can message you. Under sixteen you cannot loosen those without me. So the question is not whether you get the protected version, you do. The question is whether now is the right time.",
+  "not_this": "Fine, but I will be checking it whenever I want.",
+  "why_it_works": "Announcing surveillance as the price of a yes sets the relationship up as adversarial from day one and reliably produces a second account. Naming what the protections actually are moves the conversation off whether the app is safe and onto timing, which is the real question and one a child can take part in.",
+  "tonight": "If the answer is yes, set it up together tonight and turn on supervision with them watching, so it is a thing they know about rather than a thing they discover."
+ },
+ "9608": {
+  "sort_order": 9608,
+  "stage_id": "shaper",
+  "category": "social-media",
+  "title": "The second account you were not meant to find",
+  "situation": "You have discovered your teenager has another Instagram account, often a smaller private one for close friends.",
+  "say_this": "I know about the other account. I am not going to make a huge thing of it, and I would rather understand it than punish it. Most people I know your age have one. What goes on there that does not go on the main one?",
+  "not_this": "You lied to me. Give me your phone.",
+  "why_it_works": "A second account is usually not deception, it is an audience problem: the main account has family, teachers and people from primary on it, so a smaller one is where they are less performed. Treating that as a lie collapses the actual distinction and guarantees a third account you will not find. Asking what goes there gets you the truth about the risk, which is who is on the smaller list.",
+  "tonight": "Ask to see who follows the second account. Not the posts, the followers. That list is where the actual risk lives, and asking only for that is a much easier yes."
+ },
+ "9612": {
+  "sort_order": 9612,
+  "stage_id": "explorer",
+  "category": "social-media",
+  "title": "The class group at eleven at night",
+  "situation": "The class WhatsApp group is going off late into the night and your child cannot leave it alone, or cannot leave it at all.",
+  "say_this": "That group does not stop, and I do not think you can be the one who stops it. So let us take you out of the room instead of you out of the group. What actually happens if you mute it until the morning?",
+  "not_this": "Just turn your phone off. It is not that difficult.",
+  "why_it_works": "It is that difficult, because the cost of muting is missing what happened, and being the person who did not know is a real social cost the adult saying this has forgotten. Muting until morning rather than leaving keeps the standing and drops the vigilance, which is the part destroying the sleep.",
+  "tonight": "Mute it tonight until eight in the morning, together, and put the phone somewhere outside the bedroom. Muting only works if the phone is not in reach."
+ },
+ "9620": {
+  "sort_order": 9620,
+  "stage_id": "builder",
+  "category": "gaming",
+  "title": "They cannot stop in the middle of a match",
+  "situation": "You have said it is time to come off and they have gone from fine to furious in about four seconds. They are mid game, other children are relying on them, and leaving now costs them something real.",
+  "say_this": "I know you cannot just walk out of a match, that is not me not listening. So here is what we are going to do from now on. Before you start, we agree how many matches, and you stop at the end of the last one, never in the middle. For this one, tell me how long it has left, and I will hold you to it.",
+  "not_this": "It is a game. Turn it off now or it goes in the bin.",
+  "why_it_works": "The refusal is usually not about you. In a team game, leaving mid match takes the other players down with you, and at eight to ten the fear of being the one who let everyone down is enormous and completely real. Punishing that teaches them you do not understand the thing they care about, and the next time it happens they will simply hide the console.\nAsking how long is left does three things at once. It treats them as the person who knows, which is true. It gives them something to be competent at, which is most of why the game has them in the first place. And it turns a demand into an agreement they had a hand in, which is the difference between compliance and cooperation.\nThe reason this holds up is that the target is a sensible middle rather than zero. The research on this is consistent that moderate play beats both extremes, so a house rule that never asks a child to abandon a team is not a soft rule, it is a workable one, and a workable rule gets followed for years.",
+  "tonight": "Tonight, ask them to show you where the match timer is on their screen. Once you can both see the same number, the argument stops being about trust."
  },
  "9621": {
   "sort_order": 9621,
