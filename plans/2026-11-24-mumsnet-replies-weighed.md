@@ -54,3 +54,9 @@ point is about the post, not the product.
 |---|---|---|---|---|
 | 11 | "I used the app briefly and it was confusing. I wasn't sure where it was heading." | **Adopt, and find out where.** The most important reply so far: the only reader who went through it, and the journey did not say where it was going. Point 7 again, inside the product: the stage check result should open by saying what happens next (your plan, then the jobs and timer, then the lessons). Before changing anything, ask her where she stopped and what she expected, and watch the PostHog recordings for today's Mumsnet visits. | The goal (stage check to plan) | Small to find, size of fix unknown |
 | 12 | "the 'bedroom is for sleep, phones sleep in the kitchen' even more so" | **Already fixed** (point 9). | | |
+
+## Reply 6, agreeing with FroggyNo
+
+| # | Their words | Verdict | Objective | Size |
+|---|---|---|---|---|
+| 13 | "The app implies that we need screens to enable us to avoid screens... address the fact that screens are addictive... Adults as well as children." | **Adapt.** It is a fair worry and the answer is true in the product: the jobs are offline, the scripts are spoken, and the bedroom line already says "mine too". The reply agrees and closes. We do not argue about "addictive": that word needs evidence we would have to source, and a thread reply is not the place. Messaging lesson for every post: say early that most of it happens with the phone down, and that the rules cover adults too. | The customer. Evidence or silence | Small |

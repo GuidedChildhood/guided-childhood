@@ -165,3 +165,18 @@ founder who keeps defending loses the thread. One short, warm line, then leave i
 > Fair enough, and honestly if "put the iPad down" works in your house, you
 > don't need this and that's a good place to be. It's for the ones where it
 > doesn't. And guilty as charged on being a dad with an app.
+
+## Reply to "screens to avoid screens" (agreeing with FroggyNo)
+
+The one sceptic point worth answering, because it is fair and it is about the
+idea rather than the post. Agree first, one reply, and then let the thread go.
+No reply to FroggyNo herself.
+
+> That's fair, and I agree with more of it than you'd think. Most of it
+> happens with the phone down: the jobs are real jobs round the house, and
+> the words are for a chat at tea, not something they read on a screen. And
+> you're right that it's adults too. The bedroom line now says "mine too"
+> for exactly that reason. If my phone's on the table at tea, nothing I say
+> about theirs counts for much.
+
+After this one, stop replying. The thread has done its job.
