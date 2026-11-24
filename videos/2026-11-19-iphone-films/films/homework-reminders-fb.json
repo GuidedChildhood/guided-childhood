@@ -42,11 +42,18 @@
      "s": 1.44,
      "fy": 220
     }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-shimmer",
+     "at": 0.3,
+     "vol": 0.25
+    }
    ]
   },
   {
    "rec": "hw-snap",
-   "from": 8.0,
+   "from": 7.4,
    "dur": 3.4,
    "head": "One tap. It is in your week.",
    "cam": [
@@ -65,6 +72,13 @@
      "s": 1.66,
      "fy": 150
     }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-chime",
+     "at": 1.2,
+     "vol": 0.35
+    }
    ]
   },
   {
@@ -82,6 +96,13 @@
      "t": 4.0,
      "s": 1.46,
      "fy": 210
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-whoosh",
+     "at": 0.0,
+     "vol": 0.12
     }
    ]
   },
@@ -148,6 +169,13 @@
      "s": 1.62,
      "fy": 110
     }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-notify",
+     "at": 0.2,
+     "vol": 0.4
+    }
    ]
   },
   {
@@ -173,5 +201,31 @@
  "end": 6.0,
  "url": "guidedchildhood.com/v/hw-reminders-fb",
  "cta": "What stage is your child? <mark>Three questions, no sign up.</mark> See what to do tonight.",
- "endSlate": "Example family"
+ "endSlate": "Example family",
+ "steps": [
+  {
+   "label": "Snap it",
+   "seg": 0
+  },
+  {
+   "label": "You get reminded",
+   "seg": 3
+  },
+  {
+   "label": "So do they",
+   "seg": 6
+  }
+ ],
+ "endSfx": [
+  {
+   "name": "sfx-land",
+   "at": 0.3,
+   "vol": 0.3
+  }
+ ],
+ "music": {
+  "file": "music-leberch.mp3",
+  "from": 12.3,
+  "vol": 0.16
+ }
 }

@@ -52,6 +52,7 @@ if (S.preAdvanceMs) await page.clock.runFor(S.preAdvanceMs)
 for (let i = 0; i < 20; i++) { await page.clock.runFor(50); await page.waitForTimeout(20) }
 
 const events = []
+const taps = []
 for (const a of S.actions || []) {
   if (a.do === 'type') [...a.text].forEach((ch, i) => events.push({ at: a.at + i * (a.charMs || 45), do: 'char', ch, selector: a.selector }))
   else events.push(a)
@@ -72,8 +73,9 @@ for (let f = 0; f < N; f++) {
       await page.keyboard.insertText(e.ch)
     } else if (e.do === 'press') await page.keyboard.press(e.key)
     else if (e.do === 'tap' || e.do === 'click') {
-      const { x, y } = await page.evaluate(({ sel, nth, text }) => { let els = [...document.querySelectorAll(sel)]; if (text) els = els.filter((el) => el.textContent.trim().includes(text)); const r = els[nth || 0].getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 } }, { sel: e.selector, nth: e.nth || 0, text: e.text || null })
+      const { x, y, w, h } = await page.evaluate(({ sel, nth, text }) => { let els = [...document.querySelectorAll(sel)]; if (text) els = els.filter((el) => el.textContent.trim().includes(text)); const r = els[nth || 0].getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, w: r.width, h: r.height } }, { sel: e.selector, nth: e.nth || 0, text: e.text || null })
       await page.mouse.click(x, y)
+      taps.push({ at: e.at / 1000, x, y, w, h }) // where and when, so the film can draw a ripple and play a tap
     } else if (e.do === 'file') {
       // A photo handed to a hidden file input (the school snap), as the phone's picker would.
       await page.setInputFiles(e.selector, new URL(`../${e.path}`, import.meta.url).pathname)
@@ -102,6 +104,7 @@ for (let f = 0; f < N; f++) {
   if (f % 60 === 0) console.log(`frame ${f}/${N}`)
 }
 await browser.close()
+;(await import('node:fs')).writeFileSync(`${dir}taps.json`, JSON.stringify(taps))
 const out = `${root}assets/rec/${S.name}.mp4`
 execSync(`ffmpeg -v error -y -framerate ${FPS} -i ${dir}f-%05d.jpg -vf "format=yuv420p" -c:v libx264 -crf 14 -preset slow ${out}`)
 console.log(`${S.name}: ${N} frames, ${S.seconds}s -> assets/rec/${S.name}.mp4`)

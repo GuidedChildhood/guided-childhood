@@ -41,11 +41,19 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 .cta { font: 900 60px/1.08 Nunito, sans-serif; color: var(--ink); max-width: 860px; }
 .cta mark { background: none; color: var(--ink); box-shadow: inset 0 -18px 0 var(--butter); }
 .url { font: 600 30px/1 Plex, monospace; letter-spacing: .08em; color: var(--soft); }
+/* Motion graphics that explain the screen (24 November 2026): a ring on the control about to be used, a ripple where the finger lands, and the steps of the film ticking off above the headline. All drawn over the real recording, none of it app UI. */
+.ring { position: absolute; border: 5px solid var(--butter-dk); border-radius: 18px; box-shadow: 0 0 0 6px rgba(237,195,95,.35); pointer-events: none; z-index: 3; }
+.rip { position: absolute; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; background: rgba(26,26,46,.22); border: 3px solid rgba(26,26,46,.55); pointer-events: none; z-index: 3; }
+#steps { position: absolute; left: 60px; right: 60px; top: 200px; display: flex; justify-content: center; gap: 14px; }
+#steps div { font: 600 24px/1 Plex, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); padding: 13px 18px; border-radius: 999px; border: 2.5px solid rgba(26,26,46,.18); background: #fff; white-space: nowrap; }
+#steps div.on { color: var(--ink); border-color: var(--ink); background: var(--butter); box-shadow: 0 4px 0 var(--butter-dk); }
+#steps div.done { color: var(--ink); border-color: var(--ink); }
 </style></head>
 <body><div id="stage">
+  <div id="steps"></div>
   <div class="text"><div class="eyebrow" id="eyebrow"></div><div class="head" id="head"></div><div class="slate" id="slate"></div></div>
   <div id="cam"><div id="phone"><div id="screen"><div id="island"></div><div id="status"><b>19:42</b><i></i></div>
-    <div id="shot"><img id="a"><img id="b"></div></div></div></div>
+    <div id="shot"><img id="a"><img id="b"><div id="fx"></div></div></div></div></div>
   <div id="end"><div class="mark"><div class="sq"><span style="height:20px"></span><span style="height:36px"></span><span style="height:56px"></span><span style="height:32px"></span></div><div class="name">Guided Childhood</div></div>
     <div class="line" id="tagline">One plan for screens, phones and AI.</div>
     <div class="cta" id="cta">What stage is your child? <mark>Three questions, no sign up.</mark></div>
@@ -77,6 +85,7 @@ window.seek = (t) => {
   // End card: fades up over half a second, the lines arriving in turn.
   const ek = inEnd ? ease((t - endStart) / .5) : 0
   $('end').style.opacity = ek
+  $('steps').style.opacity = 1 - ek
   if (inEnd) {
     const lt = t - endStart
     if (F.cta) $('cta').innerHTML = F.cta; $('endslate').textContent = F.endSlate || ''
@@ -84,12 +93,22 @@ window.seek = (t) => {
     return
   }
   const seg = F.segs[i], lt = t - start
+  // Steps: the film's stages across the top, the current one lit.
+  $('steps').innerHTML = (F.steps || []).map((st, n, all) => { const next = all[n + 1]; const cls = i >= st.seg && (!next || i < next.seg) ? 'on' : i >= st.seg ? 'done' : ''; return `<div class="${cls}">${i > st.seg && cls === 'done' ? '\u2713 ' : ''}${st.label}</div>` }).join('')
   // Screen: this segment's frame, with the last one fading under it for the first quarter second.
   $('a').src = frameSrc(seg, lt)
   $('a').style.top = `${-(seg.shift || 0) * K}px`
   const fade = false && i > 0 && lt < .25
   $('b').style.display = fade ? 'block' : 'none'
   if (fade) { const p = F.segs[i - 1]; $('b').src = frameSrc(p, p.dur - .001); $('a').style.opacity = ease(lt / .25); $('b').style.zIndex = 0; $('a').style.zIndex = 1 } else $('a').style.opacity = 1
+  // Taps: the ring holds on the control for the half second before, then the ripple spreads.
+  $('fx').innerHTML = (seg.taps || []).map((p) => {
+    const d = lt - p.lt, x = p.x * K, y = (p.y - (seg.shift || 0)) * K
+    let h = ''
+    if (d > -0.7 && d < 0.08) { const k = Math.min(ease((d + 0.7) / 0.25), 1 - ease(d / 0.08)), w = p.w * K + 16, hh = p.h * K + 16
+      h += `<div class="ring" style="left:${x - w / 2}px;top:${y - hh / 2}px;width:${w}px;height:${hh}px;opacity:${k};transform:scale(${1.08 - 0.08 * k})"></div>` }
+    if (d >= 0 && d < 0.55) { const k = d / 0.55; h += `<div class="rip" style="left:${x}px;top:${y}px;opacity:${1 - k};transform:scale(${0.4 + 1.3 * ease(k)})"></div>` }
+    return h }).join('')
   // Camera: scale about the focus point on the screen.
   const c = camAt(seg, lt)
   const originY = 16 + 74 + c.fy * K
