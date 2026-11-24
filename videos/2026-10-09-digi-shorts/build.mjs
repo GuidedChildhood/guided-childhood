@@ -203,6 +203,9 @@ if (C.music) {
   const lane = m.lane ? m.lane.map(([t, v]) => ({ t: Math.min(t, TOTAL), v })) : [{ t: 0, v: 0 }, { t: m.fadeIn ?? 1.5, v: m.vol }, { t: Math.max(2, TOTAL - (m.fadeOutTail ?? 3)), v: m.vol }, { t: TOTAL, v: 0 }]
   audio += `<audio id="music" src="assets/${m.file}" data-audio-group="music" data-start="0" data-duration="${at(TOTAL)}"${m.mediaStart ? ` data-media-start="${at(m.mediaStart)}"` : ''} data-track-index="4" data-automation='${J({ version: 1, lanes: [{ target: 'volume', points: lane }] })}'></audio>\n`
 }
+// The sound plan on its own, so tools/remix.py can rebuild the track (a quieter
+// bed, another piece of music, or none) without rendering the picture again.
+{ const m = C.music; (await import('node:fs')).writeFileSync(new URL(`cuts/${C.name}.sound.json`, import.meta.url), JSON.stringify({ total: TOTAL, music: m ? { file: m.file, mediaStart: m.mediaStart || 0, lane: (m.lane || [[0, 0], [m.fadeIn ?? 1.5, m.vol], [Math.max(2, TOTAL - (m.fadeOutTail ?? 3)), m.vol], [TOTAL, 0]]).map(([t, v]) => [Math.min(t, TOTAL), v]) } : null, sfx: SFX }, null, 1)) }
 const SFX_DUR = { 'sfx-send': 0.42, 'sfx-pop': 0.16, 'sfx-tap': 0.05, 'sfx-dots': 0.7, 'sfx-chime': 1.4, 'sfx-tink': 0.73, 'sfx-whoosh': 0.6, 'sfx-land': 0.3, 'sfx-notify': 0.51, 'sfx-shimmer': 0.9 }
 SFX.sort((a, b) => a.at - b.at).forEach((c, i) => {
   audio += `<audio id="sfx-${i + 1}" src="assets/sfx/${c.name}.mp3" data-audio-group="sfx" data-start="${at(c.at)}" data-duration="${SFX_DUR[c.name] || 1}" data-track-index="${5 + (i % 4)}" data-volume="${c.vol}"></audio>\n`
