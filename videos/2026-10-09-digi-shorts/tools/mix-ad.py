@@ -19,7 +19,8 @@ cmd, f, end = ['ffmpeg', '-v', 'error', '-y', '-i', src], '', 0
 N = len(LINES)
 for i, (ln, w) in enumerate(LINES):
     p = f'{vd}/{ln}.mp3'; d = dur(p); cmd += ['-i', p]
-    tempo = 1.0
+    tempo = 1.08 if ln == 'ongoing' else 1.0  # the longer 'getting there' line starts early and runs a touch quicker, so the last line is not rushed
+    if ln == 'ongoing': w -= 1.1
     start = max(w, end + 0.2)
     if i == N - 1 and start + d / tempo > TOTAL - 0.25: tempo = d / (TOTAL - 0.25 - start)
     end = start + d / tempo

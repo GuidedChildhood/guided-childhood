@@ -140,7 +140,9 @@ for k, f in F.items():
                          {'kind': 'label', 'text': 'Example family. Real app.', 'y': 470, 't0': 0, 'instant': True}]
         x['sfx'] = [{'name': 'sfx-tap', 'at': 0.2, 'vol': 0.15}, {'name': 'sfx-send', 'at': round(ENTER / 1000 - 0.3, 2), 'vol': 0.3}]
       if x['id'] == 'deck':
-        x['cam'] = [{'t': 0, 'S': 2.7, 'fx': 195, 'fy': 303, 'py': 420}, {'t': 0.7, 'S': 3.1, 'fx': 195, 'fy': f['deck'], 'py': 835, 'dur': 0.7}, {'t': 1.6, 'S': 3.22, 'fx': 195, 'fy': f['deck'], 'py': 835, 'dur': 4.6}]
+        # The words always start at the same place on the card (y 478), so the camera pins that line just under the tracker:
+        # every film opens the card on its first sentence, however long the script runs.
+        x['cam'] = [{'t': 0, 'S': 2.7, 'fx': 195, 'fy': 303, 'py': 420}, {'t': 0.7, 'S': 3.1, 'fx': 195, 'fy': 478, 'py': 470, 'dur': 0.7}, {'t': 1.6, 'S': 3.2, 'fx': 195, 'fy': 478, 'py': 470, 'dur': 3.2}]
         x['overlays'] = [dict(o, t0=1.0, y=1440) if o['kind'] == 'caption' else o for o in x['overlays']]
       # Nothing sits still: every held shot drifts in a touch, and each step's number gets a pulse as its line is underlined.
       if x['id'] in ('reply1', 'reply2', 'followup', 'held'):
@@ -150,7 +152,10 @@ for k, f in F.items():
       if x['id'] == 'followup': x['overlays'] = [dict(o, text='Example: a few days later') if o['kind'] == 'marker' else o for o in x['overlays']]
       if x['id'] in ('great', 'held'): x['overlays'] = [dict(o, text='Example: a week later') if o['kind'] == 'marker' else o for o in x['overlays']]
       if x['id'] == 'held':
-        x['cropTop'] = 890
+        sys.path.insert(0, 'tools'); import dotted
+        y = dotted.rule_y(f'assets/rec/film-{k}-checkin.mp4')  # the name can wrap to one, two or three lines, which moves the row
+        if y is None: sys.exit(f'{k}: could not find the result row on the check in recording')
+        x['cropTop'] = y + 4
         x['overlays'] = [dict(o, text=o['text'] if ONGOING else '*Sorted.* Your own rating.') if o['kind'] == 'caption' else o for o in x['overlays']]
       if x['id'] == 'end':
         for o in x['overlays']:
