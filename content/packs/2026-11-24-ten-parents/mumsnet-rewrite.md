@@ -6,9 +6,10 @@ posts. Fill the [square brackets] yourself. Nothing in them is invented for you.
 
 ## Reply to the first poster
 
-> Thank you, that's genuinely useful and fair. You're right on every point,
-> and I'd rather hear it here than not at all. I'll rewrite it properly below
-> rather than defend it.
+> Thank you, genuinely useful. Hand on heart, no ChatGPT, just a dad of three
+> writing it after bedtime, which probably explains the waffle. You're right
+> on every other point though: what it is should come first, and you should
+> know who I am. I'll rewrite it properly below rather than defend it.
 
 ## Reply to Chunkybabythighs
 
@@ -27,7 +28,7 @@ Title:
 
 Post:
 
-> I'm Justin, a dad of two girls ([ages]) near Bath. I've built something
+> I'm Justin, a dad of three ([ages]) near Bath. I've built something
 > and I'm looking for ten parents who don't know me to try it and tell me
 > honestly what's wrong with it.
 >
