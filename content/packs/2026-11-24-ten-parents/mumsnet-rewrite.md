@@ -6,38 +6,34 @@ posts. Fill the [square brackets] yourself. Nothing in them is invented for you.
 
 ## Reply to the first poster (point by point)
 
-> Thank you for taking the time to write all that. It's genuinely helpful, so
-> let me answer each one properly.
+> Thanks for this, really. Taking each one in turn:
 >
-> 1. On the AI: the words are mine, I'm a dad of three who writes these after
-> bedtime, and I did use AI to tidy them up. You're right that it shows, and
-> it took the life out of it. Lesson learned.
+> 1. Fair. It's my writing but I ran it through AI to tidy it up and it's
+> come out sounding like a brochure. Won't do that again.
 >
-> 2. The need: in our house the rules were never the hard part, sticking to
-> them was. The row when the tablet went off, arguments in the car over what
-> to watch, timers that worked for a week and then didn't. I read a lot of the
-> research and still didn't know what to do at six o'clock on a Tuesday. So I
-> built what I wanted: your child does small jobs, the jobs earn screen
-> minutes, and a timer you can both see ends it, so it isn't you saying no
-> every night. There are also plans for each age and the words for the harder
-> conversations, like the first phone.
+> 2. The need. Three kids, and screens were the row every single day. Not
+> the rules, we had rules. It was sticking to them. Tablet goes off, meltdown.
+> Car journeys turning into a fight over what to watch. Timers that worked
+> for about a week. I read loads of the research and still didn't know what
+> to actually do at six o'clock on a Tuesday. So I built the thing I wanted.
+> The kids do small jobs, the jobs earn them screen time, and a timer we can
+> all see ends it. So it's not me being the baddie every night. There's also
+> a plan for each age and some words for the harder chats, like the first
+> phone.
 >
-> 3. What I'm asking: ten parents to try it and tell me honestly what's wrong
-> with it. Not a survey, not a sales pitch. You answer three questions about
-> your child and get a plan back. There's no sign up to try it, and nothing
-> you tick is kept unless you choose to save it. Why should you? Honestly, only
-> if screens are a battle in your house too. If they're not, you've got it
-> sorted and I'd love to know how.
+> 3. What I'm after is ten parents to have a go and tell me what's rubbish
+> about it. It's not a survey and I'm not selling you anything today. Three
+> questions about your child and you get a plan back. No sign up, and nothing
+> gets saved unless you choose to. Why would you bother? Only if screens are
+> a battle in your house too. If they're not, tell me your secret.
 >
-> 4. It's called Guided Childhood. Type guidedchildhood.com in yourself, and
-> it's the "Find my child's stage" button on the home page. No need to click
-> anything I post.
+> 4. It's called Guided Childhood. Just type guidedchildhood.com and press
+> "Find my child's stage" on the home page. Don't click my link, I get it.
 >
-> 5. Me: Justin, [near Bath], dad of three ([ages]). I've spent the last year
-> building this because I needed it.
+> 5. I'm Justin, [near Bath], dad of three ([ages]). Been building this for
+> about a year.
 >
-> Thank you again. This is exactly the kind of feedback I was hoping for, just
-> not about the post itself!
+> Thanks again, this is the most useful thing anyone's said to me all week.
 
 ## Reply to Chunkybabythighs
 
