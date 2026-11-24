@@ -27,7 +27,7 @@
     "dashes": "never",
     "neverInvent": ["anecdotes", "personal experiences", "quotations", "family stories"],
     "privacy": "content/brand-story/founder-context.md (GREEN, AMBER, RED)",
-    "familyAccount": "we, Justin and Natalia together, Natalia's ear as the test (family-social); Justin speaks as I only on LinkedIn, Substack and what he signs. RECOMMENDED 24 November 2026, awaiting Justin's yes",
+    "familyAccount": "we, Justin and Natalia together, Natalia's ear as the test (family-social); Justin speaks as I only on LinkedIn, Substack and what he signs. Justin, 24 November 2026: yes",
     "bannedList": "scripts/check-ai-tells.mjs, the one list; skills point at it rather than keep copies"
   },
 
