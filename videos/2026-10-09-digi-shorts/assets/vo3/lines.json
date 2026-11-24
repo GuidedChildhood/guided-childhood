@@ -1,5 +1,5 @@
 {
- "_rule": "Spoken text for the 30 second cuts, Justin's own cloned voice (Higgsfield element 'Justin-Claude-new', elevenlabs_v4, stability 0.4), chosen by Justin 24 November 2026. DiGi is written Didgee so it is said the way the app says it.",
+ "_rule": "Spoken text for the 30 second cuts, Justin's own cloned voice (Higgsfield element 'Justin Phillips (SB clone)', the clearer of his two clones, elevenlabs_v4, stability 0.4), chosen by Justin 24 November 2026. DiGi is written Didgee so it is said the way the app says it.",
  "brain": "Didgee draws on reviewed research, and what works in homes like yours.",
  "steps": "It never says yes or no. It gives you two plain steps.",
  "words": "And the exact words to say.",
@@ -10,7 +10,7 @@
  "d01-open": "Every night, the tablet goes off and he screams. He's eight.",
  "d02-open": "She's ten, and she asks for a phone every single day.",
  "d03-open": "Homework is on the iPad, so the iPad never comes away.",
- "d04-open": "Everyone is on Snapchat, and she's ten. She feels left out.",
+ "d04-open": "All her friends are on Snapchat. She's ten, and she feels left out.",
  "d05-open": "He's eight, and he wants YouTube on his own in his room.",
  "d06-open": "You found him on the tablet at five in the morning. Again.",
  "d07-open": "You found something worrying on his phone. He's eleven.",
