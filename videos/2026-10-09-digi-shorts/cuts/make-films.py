@@ -124,8 +124,13 @@ for k, f in F.items():
     # line, the check in shows only the worry that was rated, the cards that a cold
     # parent will not wait for (inputs, research) are gone, and the end card says
     # what comes after the stage check.
-    AD = {'hero': 3.4, 'reply1': 3.4, 'reply2': 2.6, 'deck': 6.4, 'followup': 3.4, 'great': 1.6, 'held': 2.4, 'end': 6.2}
+    AD = {'hero': 4.4, 'reply1': 3.4, 'reply2': 2.6, 'deck': 5.0, 'followup': 3.2, 'great': 1.6, 'held': 2.4, 'end': 5.8}
     shots = [dict(x, dur=AD[x['id']]) for x in shots if x['id'] in AD]
+    # How DiGi works, between the question and the answer (Justin, 24 November): what it draws on, flowing into DiGi.
+    shots.insert(1, {'id': 'brain', 'dur': 4.6, 'fadeIn': 0.2, 'overlays': [
+      {'kind': 'flow', 't0': 0, 'title': 'More than a chatbot.', 'out': f"A plan for {f['child']}.", 'outAt': 3.0,
+       'chips': ['Reviewed research', 'What worked in your house', 'Families in the same spot', 'Safety rules first']}],
+      'sfx': [{'name': 'sfx-whoosh', 'at': 0.05, 'vol': 0.16}, {'name': 'sfx-shimmer', 'at': 0.9, 'vol': 0.2}, {'name': 'sfx-chime', 'at': 3.0, 'vol': 0.3}]})
     for x in shots:
       if x['id'] == 'hero':
         x['fadeIn'] = 0

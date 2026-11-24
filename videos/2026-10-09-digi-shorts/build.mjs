@@ -27,7 +27,7 @@ const to = (sel, b, t) => TL.push(`tl.to(${J(sel)},${J(b)},${at(t)});`)
 const set = (sel, a, t) => TL.push(`tl.set(${J(sel)},${J(a)},${at(t)});`)
 
 // ── Guards ──────────────────────────────────────────────────────────────────
-const TEXT_KEYS = new Set(['then', 'text', 'eyebrow', 'line', 'sub', 'title', 'url', 'button', 'label', 'body', 'tagline', 'claim', 'cite', 'note', 'k', 'v'])
+const TEXT_KEYS = new Set(['out', 'then', 'text', 'eyebrow', 'line', 'sub', 'title', 'url', 'button', 'label', 'body', 'tagline', 'claim', 'cite', 'note', 'k', 'v'])
 ;(function walk(v, path) {
   if (typeof v === 'string' && TEXT_KEYS.has(path.split('.').pop())) {
     if (/[–—−]/.test(v) || /\s-\s/.test(v)) throw new Error(`dash in ${path}: ${v}`)
@@ -81,6 +81,18 @@ for (const [i, sh] of C.shots.entries()) {
     else if (o.kind === 'inputs') html += `<div id="${id}-o${j}" class="ov inputs" style="top:${o.y ?? 330}px"><div class="in-eye">${esc(o.eyebrow)}</div><div class="in-title">${esc(o.title)}</div>${o.rows.map((r, k) => `<div class="in-row" id="${id}-o${j}-r${k}"><span class="in-k">${esc(r.k)}</span><span class="in-v">${esc(r.v)}</span></div>`).join('')}${o.note ? `<div class="in-note" id="${id}-o${j}-n">${esc(o.note)}</div>` : ''}${o.sub ? `<div class="in-sub" id="${id}-o${j}-s">${esc(o.sub)}</div>` : ''}</div>`
     // The science card: one verified study whose ages match the film's child.
     else if (o.kind === 'science') html += `<div id="${id}-o${j}" class="ov science" style="top:${o.y ?? 380}px"><div class="sc-eye">${esc(o.eyebrow)}</div><div class="sc-claim">${esc(o.claim)}</div><div class="sc-rule" id="${id}-o${j}-rule"></div><div class="sc-cite">${esc(o.cite)}</div>${o.note ? `<div class="sc-note">${esc(o.note)}</div>` : ''}</div>`
+    else if (o.kind === 'flow') {
+      // How DiGi works, as one beat (24 November 2026): what it draws on flows into DiGi along sparking lines, and a plan comes out.
+      // Every chip is a real input (digi/00-how-digi-works.md): the research base, this family's own results, what families in the same situation rated, and the safety rails.
+      const P = [[285, 610], [795, 610], [285, 800], [795, 800]], C = [540, 1150]
+      const sx = (x, k) => k < 2 ? (x < 540 ? 522 : 558) : x  // the top row's lines drop through the gap between the lower chips
+      html += `<div id="${id}-o${j}" class="ov flow"><div class="flow-title">${esc(o.title)}</div>` +
+        `<svg class="flow-svg" viewBox="0 0 1080 1920">${P.map(([x, y], k) => `<path id="${id}-o${j}-l${k}" d="M${sx(x, k)} ${y + 40} Q ${sx(x, k)} ${C[1] - 120} ${C[0]} ${C[1]}" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>`).join('')}</svg>` +
+        o.chips.map((c, k) => `<div id="${id}-o${j}-c${k}" class="flow-chip" style="left:${P[k][0]}px;top:${P[k][1]}px">${esc(c)}</div>`).join('') +
+        P.map(([x, y], k) => [0, 1, 2].map((n) => `<i id="${id}-o${j}-s${k}${n}" class="flow-spark" style="left:${sx(x, k)}px;top:${y + 40}px"></i>`).join('')).join('') +
+        `<div id="${id}-o${j}-star" class="flow-star digi" style="left:${C[0] - 170}px;top:${C[1] - 170}px;width:340px;height:340px"><video id="${id}-o${j}-v" src="assets/digi/digi-idle-dc3673e0.mp4" muted playsinline loop data-start="${at(s + (o.t0 || 0))}" data-duration="${at(d - (o.t0 || 0))}" data-track-index="2"></video></div>` +
+        `<div id="${id}-o${j}-out" class="flow-out">${esc(o.out)}</div></div>`
+    }
     else if (o.kind === 'marker') html += `<div id="${id}-o${j}" class="ov markerwrap" style="${style}"><span class="marker">${esc(o.text)}</span></div>`
     else if (o.kind === 'label') html += `<div id="${id}-o${j}" class="ov" style="${style}"><span class="label">${esc(o.text)}</span></div>`
     // A caption bar across the foot of the frame, so a label never sits on top of a line of UI text.
@@ -117,6 +129,26 @@ for (const [i, sh] of C.shots.entries()) {
   // Overlays.
   for (const [j, o] of (sh.overlays || []).entries()) {
     const sel = `#${id}-o${j}`, t0 = s + (o.t0 || 0), t1 = s + (o.t1 ?? d)
+    if (o.kind === 'flow') {
+      const C = [540, 1150], P = [[285, 610], [795, 610], [285, 800], [795, 800]]
+      set(sel, { opacity: 1 }, t0)
+      fromTo(`${sel} .flow-title`, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, t0)
+      fromTo(`${sel}-star`, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.8)' }, t0 + 0.1)
+      P.forEach(([x, y], k) => {
+        const T = t0 + 0.35 + k * 0.22
+        fromTo(`${sel}-c${k}`, { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' }, T)
+        fromTo(`${sel}-l${k}`, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.45, ease: 'power2.out' }, T + 0.15)
+        ;[0, 1, 2].forEach((n) => {
+          const ts = T + 0.45 + n * 0.55
+          fromTo(`${sel}-s${k}${n}`, { x: 0, y: 0, opacity: 1, scale: 1 }, { x: C[0] - (k < 2 ? (x < 540 ? 522 : 558) : x), y: C[1] - (y + 40), opacity: 1, scale: 0.6, duration: 0.5, ease: 'power2.in' }, ts)
+          set(`${sel}-s${k}${n}`, { opacity: 0 }, ts + 0.5)
+          to(`${sel}-star`, { scale: 1.08, duration: 0.09, yoyo: true, repeat: 1 }, ts + 0.48)
+        })
+      })
+      fromTo(`${sel}-out`, { scale: 0.7, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'back.out(2)' }, t0 + (o.outAt ?? 2.6))
+      to(sel, { opacity: 0, duration: 0.2 }, t1 - 0.2)
+      continue
+    }
     if (o.kind === 'end') { fromTo(sel, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, t0); if (o.pressAt != null) { to(`${sel}-btn`, { y: 5, boxShadow: '0 1px 0 #000', duration: 0.09, yoyo: true, repeat: 1 }, t0 + o.pressAt) } continue }
     // An instant typed pill is there from its first frame with its typedFrom
     // words already in (the checklist's complete first frame), and the rest
@@ -260,6 +292,14 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .rail-lab{position:absolute;top:98px;width:260px;margin-left:-130px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:29px;letter-spacing:.1em;text-transform:uppercase;color:#1A1A2E;opacity:.42}
 .lower{left:0;top:auto;bottom:0;width:1080px;padding:26px 40px 30px;background:#FDF6DE;border-top:3px solid #1A1A2E;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:31px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E}
 .veil{left:0;top:0;width:1080px}
+.flow{left:0;top:0;width:1080px;height:1920px}
+.flow-title{position:absolute;left:80px;right:80px;top:300px;text-align:center;font-weight:900;font-size:84px;line-height:1.04;letter-spacing:-.03em;color:#1A1A2E}
+.flow-svg{position:absolute;inset:0;width:1080px;height:1920px}
+.flow-svg path{fill:none;stroke:#C99A28;stroke-width:5;stroke-linecap:round;opacity:.75}
+.flow-chip{position:absolute;transform:translate(-50%,-50%);width:440px;text-align:center;font-weight:800;font-size:36px;line-height:1.1;color:#1A1A2E;background:#fff;border:3px solid #1A1A2E;border-radius:22px;padding:22px 14px;box-shadow:0 6px 0 #1A1A2E}
+.flow-spark{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:#EDC35F;box-shadow:0 0 0 6px rgba(237,195,95,.4),0 0 26px 10px rgba(237,195,95,.75);opacity:0}
+.flow-star{position:absolute}
+.flow-out{position:absolute;left:50%;top:1370px;margin-left:-330px;width:660px;text-align:center;font-weight:900;font-size:50px;color:#1A1A2E;background:#EDC35F;border:3px solid #1A1A2E;border-radius:22px;padding:22px 16px;box-shadow:0 6px 0 #C99A28}
 .ov{position:absolute;opacity:0}
 .capwrap{isolation:isolate;left:70px;width:940px;display:flex;flex-direction:column;align-items:center;text-align:center}
 /* A soft ground under the caption so no line of the app shows through behind it (22 November 2026). */
