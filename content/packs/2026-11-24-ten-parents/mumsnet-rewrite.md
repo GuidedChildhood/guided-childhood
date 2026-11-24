@@ -88,10 +88,23 @@ Before posting:
 
 ## Reply to MrsDanversGlidesAgain
 
-> That's fair, it wasn't clear, and that's on me. Mostly it's not about
-> talking. It's a way of running screen time so it isn't a nightly row: your
-> child does small jobs, the jobs earn minutes, and a timer you can both see
-> ends it. The plan is what changes as they get older, like when a phone or a
-> group chat comes in. The words are for the few conversations that are hard,
-> like the first phone, if you want them. I'll rewrite the post so it says
-> that up front.
+> Fair, it wasn't clear, that's on me. It's a bit more than what to say.
+>
+> Day to day it's about screen time not being a row. The kids do small jobs,
+> the jobs earn minutes, and a timer we can all see ends it.
+>
+> But the bigger bit is getting them ready. There are short lessons you do
+> with your child, the same ones schools can teach, and they line up with the
+> new RSHE guidance, which has 57 things schools now have to cover about
+> online life. Scams, group chats, AI, who they're really talking to in games,
+> that kind of thing. It all builds a sort of passport from 4 up to 16.
+>
+> The reason I care about that is the ban. At 16 they go from nothing to
+> everything overnight, and I'd rather mine knew what to look out for before
+> that day comes, not after.
+>
+> And when something comes up you're not sure about, you can ask it and the
+> answer comes from the research, not someone's opinion. Not a yes or no
+> either, more what to try for your child's age.
+>
+> I'll rewrite the post so it says all that up front.
