@@ -225,6 +225,22 @@ check('still not ready: nothing verifiably in Drive', isHold(P.readyForApproval(
 check('a verified save is recorded', P.recordPackSave(ID, { fileId: 'test-pack', verification: C.verifyDownload(packText, { base64: Buffer.from(packText).toString('base64') }) }).verdict === 'PASS')
 check('now it is READY FOR JUSTIN', P.readyForApproval(ID).verdict === 'PASS' && P.founderStatus(reg.get(ID)) === 'READY FOR JUSTIN')
 
+// The handoff manifest (stage 5, 24 November 2026): seventeen fields, and no
+// permission until the founder voice review is stored.
+{
+  const M = await import('./post-manifest.mjs')
+  const entry = () => M.buildPostManifest().posts.find((p) => p.origin?.researchId === ID)
+  const m0 = M.buildPostManifest()
+  check('the handoff manifest has every one of the seventeen fields and no problems', M.manifestProblems(m0).length === 0 && !!entry() && M.FIELDS.every((f) => f in entry()), M.manifestProblems(m0).join(' | '))
+  check('without a founder voice review the post may not become a draft', entry().draftCreationPermission === false && /founder voice review is NOT DONE/.test(entry().holdReason))
+  check('a voice review needs notes', isHold(P.recordVoiceReview(ID, { verdict: 'PASS' })))
+  check('a voice review with a made up verdict is refused', isHold(P.recordVoiceReview(ID, { verdict: 'FINE', notes: 'x' })))
+  check('a voice review is stored', P.recordVoiceReview(ID, { verdict: 'PASS', notes: 'TEST. Guard pass, meter near his baseline, nothing changed, read aloud pass.' }).verdict === 'PASS')
+  check('once cleared, the post may become a draft and, under the standing permission, be scheduled', entry().draftCreationPermission === true && entry().schedulingPermission === true)
+  check('automatic publishing stays off', entry().automaticPublishingPermission === false)
+  check('the manifest version is stable for the same content', M.buildPostManifest().version === M.buildPostManifest().version)
+}
+
 // ===========================================================================
 section('7. APPROVAL: four statuses, and only Justin moves them')
 // ===========================================================================
@@ -238,7 +254,7 @@ check('the start here document carries his request back', F.stage2Brief().text.i
 // The next version: QA, review and a verified save, all over again.
 await new Promise((r) => setTimeout(r, 15))
 const v2 = F.parsePackText(packText.replace('I nearly used a number this week', 'This week I nearly used a number'))
-check('the new version goes through QA again', P.submitPack(v2, opt).verdict === 'PASS' && reg.get(ID).packReview === null && !reg.get(ID).packDrive)
+check('the new version goes through QA again, and its earlier reviews no longer count', P.submitPack(v2, opt).verdict === 'PASS' && reg.get(ID).packReview === null && reg.get(ID).voiceReview === null && !reg.get(ID).packDrive)
 P.reviewPack(ID, { verdict: 'PASS', notes: 'TEST. Simulated review of version 2.' })
 P.recordPackSave(ID, { fileId: 'test-pack-v2', verification: { ok: true, level: 'TEXT IDENTICAL', problems: [] } })
 check('and returns to READY FOR JUSTIN with the request marked answered', P.readyForApproval(ID).verdict === 'PASS' && P.founderStatus(reg.get(ID)) === 'READY FOR JUSTIN' && !!reg.get(ID).founderDecision.resolvedAt)

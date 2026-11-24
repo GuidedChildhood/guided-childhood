@@ -331,6 +331,7 @@ export function stage2Brief({ links = {} } = {}) {
   line('  Vary the sentences. One that runs long, one of five words or fewer. A post where every sentence is the same length reads as machine written.')
   line('  If a section does not apply, write NOT RECOMMENDED and the reason. If there is no card, write NONE under ASSETS USED.')
   line('  No dashes anywhere, of any length.')
+  line('  THE HANDOFF MANIFEST: before any Metricool action, read "GDC HANDOFF MANIFEST, CURRENT.json" in the METRICOOL HANDOFF folder. One entry per GDC post, every platform. Act only where its permission is true; its holdReason says why not. Write what you did back to that folder as a result file.')
   line('  THE FOUNDER VOICE (the short form of .claude/skills/founder-voice-review, which Claude runs on your pack at the afternoon check):')
   line('    British English. Plain verbs: found, showed, asked, counted. Name the study or body; never "experts say" or "research shows" without the source.')
   line('    One honest concession in its own sentence. Agree with the worry, question the mechanism, never mock the other side.')

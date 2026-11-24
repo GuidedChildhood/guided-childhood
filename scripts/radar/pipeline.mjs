@@ -295,12 +295,33 @@ export function submitPack(pack, { corpus = null, postRegisterPath = undefined }
     // A new pack invalidates any review of the previous one, and the Drive
     // save that was verified was of the previous text.
     packReview: null,
+    voiceReview: null,
     ...(rec.pack ? { packDrive: null } : {}),
   }, { reason: `pack submitted, QA ${qa.verdict}, ${qa.failedCount} of ${qa.checked} failed`, actor: 'radar:pipeline' })
 
   const out = qa.verdict === 'PASS'
     ? pass('QA', { checked: qa.checked })
     : hold('QA', qa.failures.map((f) => `${f.check}: ${f.why}`), { failedCount: qa.failedCount, checked: qa.checked })
+  recordGate(studyId, out)
+  return out
+}
+
+/**
+ * The founder voice review of a finished pack (.claude/skills/founder-voice-review,
+ * 24 November 2026). Stored beside the pack review; together with QA they make
+ * a post editorially cleared. A new pack version clears it, so a material edit
+ * always gets a fresh read.
+ */
+export function recordVoiceReview(studyId, { verdict, notes = '', by = 'Claude Code, founder voice review' } = {}) {
+  const rec = reg.get(studyId)
+  if (!rec) return hold('VOICE REVIEW', `no such research record: ${studyId}`)
+  if (!rec.pack) return hold('VOICE REVIEW', 'no pack has been submitted for this story')
+  if (!['PASS', 'CHANGES MADE', 'BACK TO WRITER'].includes(verdict)) return hold('VOICE REVIEW', `verdict must be PASS, CHANGES MADE or BACK TO WRITER, got ${verdict}`)
+  if (!String(notes).trim()) return hold('VOICE REVIEW', 'a voice review needs its notes: the guard result, the meter, what changed, the read aloud')
+  if (DASH.test(notes)) return hold('VOICE REVIEW', 'the notes contain a dash')
+  reg.upsert({ ...rec, voiceReview: { verdict, notes, by, at: new Date().toISOString(), packVersion: rec.pack.packVersion ?? rec.pack.submittedAt ?? null } },
+    { reason: `founder voice review, ${verdict}`, actor: 'radar:pipeline' })
+  const out = verdict === 'BACK TO WRITER' ? hold('VOICE REVIEW', `sent back: ${notes}`) : pass('VOICE REVIEW', { verdict })
   recordGate(studyId, out)
   return out
 }
@@ -421,7 +442,7 @@ export function requestChanges(studyId, { requestedBy, note } = {}) {
     const h = hold('CHANGES REQUESTED', `status is ${rec.status}. Only a pack that is in front of Justin, or one he approved and has not yet posted, can be sent back.`)
     recordGate(studyId, h); return h
   }
-  reg.upsert({ ...rec, status: 'ASSETS READY', approval: null, packReview: null,
+  reg.upsert({ ...rec, status: 'ASSETS READY', approval: null, packReview: null, voiceReview: null,
     founderDecision: { state: 'CHANGES REQUESTED', by: 'Justin', note: String(note), at: new Date().toISOString(), againstPack: rec.pack?.submittedAt || null, resolvedAt: null } },
     { reason: `changes requested by Justin: "${String(note).slice(0, 160)}"`, actor: 'justin', allowBackward: true })
   const out = pass('CHANGES REQUESTED', { note: 'The next version goes through QA and review again before it returns to READY FOR JUSTIN.' })
@@ -488,6 +509,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   else if (cmd === 'handoff' && a) show(handoff(a))
   else if (cmd === 'submit' && a) show(submitPack(JSON.parse(readFileSync(a, 'utf8'))))
   else if (cmd === 'ready' && a) show(readyForApproval(a))
+  else if (cmd === 'voice' && a) show(recordVoiceReview(a, { verdict: b, notes: process.argv.slice(5).join(' ') }))
   else if (cmd === 'publish' && a) publish(a, b).then(show)
   else {
     console.log('usage:')

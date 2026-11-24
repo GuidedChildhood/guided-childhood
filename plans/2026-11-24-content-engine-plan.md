@@ -44,7 +44,8 @@ to "where appropriate" in stage 2: QA asks for each format or a written reason.
    **Research and verification.** The ten verification checks become required
    fields of a stored review; the review gate refuses one that lacks any. The
    philosophy and TRUST and readiness framework in the settings file.
-5. **The handoff manifest (ChatGPT contract).** One stable Drive file,
+5. **The handoff manifest (ChatGPT contract).** DONE 24 Nov (post-manifest.mjs).
+   **The handoff manifest (ChatGPT contract).** One stable Drive file,
    `GDC HANDOFF MANIFEST, CURRENT`, with the sixteen fields per post, versioned,
    written only after every file it points at has been read back, and marked
    incomplete otherwise. START HERE points at it. Revisions propagate by GDC
