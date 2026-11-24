@@ -74,8 +74,19 @@ export function track(event: 'link_click', props: { to?: string; label?: string 
 export function track(event: 'mini_check_done', props: { app: string }): void
 export function track(event: string, props?: Record<string, unknown>) {
   if (!KEY || !isTrackedPath(window.location.pathname)) return
+  // The stage check reports its step from an effect that can run twice for
+  // the same step as the page settles (24 November 2026: every visit showed
+  // two intro events a third of a second apart, which doubled the top of the
+  // funnel). A step is counted once until the step changes.
+  if (event === 'stage_check_step') {
+    const step = String(props?.step)
+    if (step === lastStep) return
+    lastStep = step
+  }
   start().then(ph => ph.capture(event, props)).catch(() => {})
 }
+
+let lastStep: string | null = null
 
 /**
  * Every link click on a public page, and any button that carries a

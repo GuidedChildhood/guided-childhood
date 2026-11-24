@@ -214,6 +214,9 @@ export default function StarterPackPage() {
       .catch(() => { /* the page reads the same without it */ })
   }, [])
   const [restored, setRestored] = useState(false)
+  // Set when a visit from a post or an ad skips the intro (see STRAIGHT TO
+  // QUESTION ONE below), so question one can carry the promise the intro made.
+  const [skippedIntro, setSkippedIntro] = useState(false)
   // True when this visit picked up a half finished quiz from an earlier one,
   // which is when Not you? Start fresh is shown beside the question count.
   const [resumed, setResumed] = useState(false)
@@ -438,6 +441,10 @@ export default function StarterPackPage() {
       // opens on question one (lib/video/utm opensOnQuestionOne). Not over a
       // half finished quiz or a finished one: those keep their own screens.
       if (!saved && !(savedEmail && savedAnswers) && opensOnQuestionOne(arrivedWith())) setStep('q1')
+      // The page mounts twice on arrival and the second pass restores q1 from
+      // saved progress rather than through the line above, so the promise
+      // follows the arrival itself, not the path that reached question one.
+      setSkippedIntro(opensOnQuestionOne(arrivedWith()))
     } catch {}
     setRestored(true)
   }, [])
@@ -1117,6 +1124,20 @@ export default function StarterPackPage() {
         {/* Q1: their age, one tap (14 November 2026, see ageYears above) */}
         {step === 'q1' && !showCard && (
           <>
+            {/* THE PROMISE, FOR A PARENT WHO NEVER SAW THE INTRO (24 November
+                2026). Since tracking began on 19 November every visit from an
+                ad landed here, on a bare question with no word of what it is
+                for, and none tapped an age. Justin: "3 yes". The intro's
+                promise, said once, only to the visits that skipped it. */}
+            {skippedIntro && (
+              <p style={{
+                background: 'var(--cream)', border: '1.5px solid var(--gold)', borderRadius: '14px',
+                padding: '12px 16px', marginBottom: '20px',
+                color: 'var(--ink)', fontSize: 'var(--text-sm)', fontWeight: 700, lineHeight: 1.5,
+              }}>
+                Free. Three questions. No sign up. You get the words to use tonight.
+              </p>
+            )}
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
