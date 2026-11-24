@@ -78,25 +78,54 @@ export default async function PilotPage({ searchParams }: { searchParams: Promis
             At the end of the term you carry on with a licence or you stop, and either way we will have learned something from you.
           </p>
 
-          {/* THE TEACHER START FILM (24 November 2026). Twenty seconds of the
-              real site: the school code, pick your year, press Teach, and the
-              player with the words to say. Silent, so it starts muted and the
-              captions carry it. Made from real screens with a made up code:
-              videos/2026-11-24-schools-teacher-start. */}
-          <figure style={{ margin: '0 0 26px' }}>
+          {/* THE TEACHER START FILM (24 November 2026). The real site: the
+              school code, pick your year, press Teach, and the player with the
+              words to say. Silent, so it starts muted and the captions carry it.
+              Made in the walkthrough film engine from real screens with a made
+              up code: videos/2026-11-24-schools-teacher-start.
+
+              Two cuts, one shown. A 16:9 film in a phone wide column is a strip
+              about 200px tall with its captions too small to read, which is how
+              it looked on 24 November ("squashed and horizontal"). Most teachers
+              open the invitation on a phone, so a phone gets the vertical cut,
+              held below 70 percent of the screen so the button under it is still
+              in reach, and a wider screen gets the 16:9 cut. preload none on
+              both, so the hidden one never downloads. */}
+          <figure className="gc-pilot-film" style={{ margin: '0 0 26px' }}>
             <video
+              className="gc-film-v"
+              controls
+              muted
+              playsInline
+              preload="none"
+              poster="/films/teacher-start-poster-v.jpg"
+              aria-label="The teacher start film: your school code, your year, Teach"
+            >
+              <source src="/films/teacher-start-v.mp4" type="video/mp4" />
+            </video>
+            <video
+              className="gc-film-h"
               controls
               muted
               playsInline
               preload="none"
               poster="/films/teacher-start-poster.jpg"
-              style={{ width: '100%', aspectRatio: '16 / 9', borderRadius: 'var(--radius-card)', border: '1px solid var(--border)', background: 'var(--white)', display: 'block' }}
+              aria-label="The teacher start film: your school code, your year, Teach"
             >
               <source src="/films/teacher-start-h.mp4" type="video/mp4" />
             </video>
             <figcaption style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: 'var(--space-2)' }}>
-              Twenty seconds, no sound: your code, your year, Teach.
+              No sound needed: your code, your year, Teach.
             </figcaption>
+            <style>{`
+              .gc-pilot-film video { display: block; border-radius: var(--radius-card); border: 1px solid var(--border); background: var(--white); }
+              .gc-pilot-film .gc-film-v { aspect-ratio: 9 / 16; height: min(70vh, 640px); width: auto; max-width: 100%; margin: 0 auto; }
+              .gc-pilot-film .gc-film-h { display: none; width: 100%; aspect-ratio: 16 / 9; }
+              @media (min-width: 720px) {
+                .gc-pilot-film .gc-film-v { display: none; }
+                .gc-pilot-film .gc-film-h { display: block; }
+              }
+            `}</style>
           </figure>
 
           <p style={{
