@@ -258,3 +258,10 @@ Titles only. Open the archive at the line number in its own index for the full e
 - config/content-engine.json holds cadence (3 to 4 a week), formats (Instagram and Facebook where appropriate), scheduling (next free date, then every other day), permissions A to F, the pause switch, the newsletter and the daily report. Code reads it through scripts/radar/settings.mjs.
 - Justin's addendum: ChatGPT has standing permission to schedule editorially cleared posts; automatic publishing stays off; ChatGPT's 14:30 task owns the one daily report.
 - Plan and audit: plans/2026-11-24-content-engine-plan.md and -audit.md.
+
+## 24 November 2026: the founder voice review; the radar commits and register only branches merge themselves
+
+- New `.claude/skills/founder-voice-review` runs on every outward word (posts, comments, newsletter, emails, school copy, site copy, scripts, visual text): the ai-tells guard, the ear, the rhythm meter, true scenes and privacy, the read aloud, then a stored VOICE REVIEW verdict. It is not a detector and never says who wrote a text.
+- New `content/brand-story/voice-bible.md`: his positions, his research moves, his words, and an append only corrections log.
+- The one banned list is `scripts/check-ai-tells.mjs`; it gains the phrases the three editorial sources agree on and stiff sentence openers. QA now runs it over Instagram, Facebook, the newsletter and the script too.
+- Justin, "1 yes 3 yes": the radar's prompt now commits from a message file in single commands; a push to claude/radar-* that changes only the registers and passes the tests and gate is merged into main by radar-gate.yml. Decision 2 (family voice): recommended "we, Justin and Natalia, Natalia's ear", awaiting his yes.

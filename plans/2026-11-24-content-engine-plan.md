@@ -33,7 +33,8 @@ to "where appropriate" in stage 2: QA asks for each format or a written reason.
    platforms, visuals, motion, newsletter, scheduling, the permission matrix
    (A to F), approval, pause switch, notifications. A guard fails CI when a rule
    in code disagrees with it. A one page "where to change things" guide.
-3. **Founder voice.** `.claude/skills/founder-voice-review/` built on the
+3. **Founder voice.** DONE 24 Nov (see decisions.md).
+   **Founder voice.** `.claude/skills/founder-voice-review/` built on the
    existing ai-tells guard, the voice keeper and founder-context, informed by the
    three named editorial sources (read, not executed). The living Founder Voice
    Bible at `content/brand-story/voice-bible.md`, fed by his posts, transcripts

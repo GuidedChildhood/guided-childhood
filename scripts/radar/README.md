@@ -239,6 +239,21 @@ completed, withdrawn, superseded or explicitly placed on HOLD."
   claimed in GitHub only, handoff versions, approval by Justin alone, and the
   duplicate checks.
 
+## How the scheduled run commits, and when it merges itself (24 November 2026)
+
+The scheduled run writes its commit message to a file and runs `git add`,
+`git commit -F` and `git push -u origin claude/radar-YYYY-MM-DD` as separate
+commands, because compound commands and messages built inline fell outside the
+repository's permission and were refused on 18, 19 and 24 November. The exact
+steps are in the scheduled task's prompt.
+
+When that branch lands, the `automerge` job in `.github/workflows/radar-gate.yml`
+merges it into main if, and only if, it changes nothing but
+`content/research-register/` and `content/gdc-post-register.md`, merges cleanly,
+and passes the pipeline tests, the relay tests and the gate on the merged result
+(Justin, 24 November 2026). Anything else waits for Justin, and a conflict fails
+the job so GitHub emails about it.
+
 ## What a HOLD means
 
 Every gate returns PASS or HOLD with reasons, and writes the result onto the
