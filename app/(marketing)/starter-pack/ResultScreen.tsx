@@ -376,6 +376,44 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               // page owes its reader.
               : 'Start with the first card. It has something to try tonight.'}
           </p>
+          {/* ── WHAT HAPPENS NEXT (24 November 2026) ───────────────────────
+              The ten Mumsnet parents who reached this page read for 25 to 90
+              seconds and left, and the one who wrote back said she "wasn't
+              sure where it was heading" (plans/2026-11-24-mumsnet-replies-
+              weighed.md). The page answered their worries and never said what
+              the next step was until the very bottom. Three short steps, then
+              the one real next step.
+
+              The Get started button that was removed from this spot (see the
+              note above) fired before the page had said anything. This one
+              comes after the plan is laid out, which is the difference
+              between a shop and an answer. Never shown when helpFirst. */}
+          {!helpFirst && (
+            <div className="wow-fu" style={{ marginTop: 22, background: 'var(--butter-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '18px 18px 20px' }}>
+              <div style={{ ...EYEBROW, marginBottom: 10 }}>What happens next</div>
+              <ol style={{ listStyle: 'none', padding: 0, margin: '0 0 16px', display: 'grid', gap: 10 }}>
+                {[
+                  ['Tonight', 'Try the words on the first card below. They are written for this age.'],
+                  ['Save the plan', `Free for four days, no card. It keeps ${kid ? `${kid}'s` : 'your'} answers and this stage.`],
+                  ['Then', 'Jobs earn the screen time and a timer you can both see ends it. Short lessons build up to 16, and DiGi is there when something new comes up.'],
+                ].map(([title, line], i) => (
+                  <li key={title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <span aria-hidden style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: 'var(--ink)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{title}</div>
+                      <p style={{ ...BODY, fontSize: 'var(--text-base)', color: 'var(--ink)', marginTop: 2 }}>{line}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <Door
+                href={enterHref}
+                onClick={onJoin}
+                label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'}
+                style={{ display: 'flex', width: '100%' }}
+              />
+            </div>
+          )}
         </div>
       </div>
 
