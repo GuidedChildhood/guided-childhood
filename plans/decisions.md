@@ -259,5 +259,24 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Justin's addendum: ChatGPT has standing permission to schedule editorially cleared posts; automatic publishing stays off; ChatGPT's 14:30 task owns the one daily report.
 - Plan and audit: plans/2026-11-24-content-engine-plan.md and -audit.md.
 
+## 24 November 2026: the founder voice review; the radar commits and register only branches merge themselves
+
+- New `.claude/skills/founder-voice-review` runs on every outward word (posts, comments, newsletter, emails, school copy, site copy, scripts, visual text): the ai-tells guard, the ear, the rhythm meter, true scenes and privacy, the read aloud, then a stored VOICE REVIEW verdict. It is not a detector and never says who wrote a text.
+- New `content/brand-story/voice-bible.md`: his positions, his research moves, his words, and an append only corrections log.
+- The one banned list is `scripts/check-ai-tells.mjs`; it gains the phrases the three editorial sources agree on and stiff sentence openers. QA now runs it over Instagram, Facebook, the newsletter and the script too.
+- Justin, "1 yes 3 yes": the radar's prompt now commits from a message file in single commands; a push to claude/radar-* that changes only the registers and passes the tests and gate is merged into main by radar-gate.yml. Decision 2, Justin "yes to family voice": the family account speaks as "we", Justin and Natalia, with Natalia's ear as the test.
 ### 24 November 2026: Oak API connected, first gap check done
 - Justin's Oak key is saved as a network secret and the open API answers. The read only check: Oak RSHE has 15 online life units (71 lessons) in Years 1 to 4, 7, 8, 10 and 11. We go further on AI companions, algorithms, gaming and odds, images and sextortion, the ban, and making and ownership. We also cover Reception, Years 5, 6 and 9 and the sixth form, which Oak's online units do not. This is from titles only; nothing public until lessons are read. Plan: `plans/2026-11-24-oak-rshe-gap-check.md`.
+
+## 24 November 2026: the ten verification checks are required fields of every new research review
+
+- A review stored from 25 November carries `verification` with ten answers (original source, publication date, statistics and denominators, sample and population, design, cause or association, counter evidence, strongest objection, practical implications, claims not to make). `pipeline.mjs review` refuses one missing or thin; `gate.mjs` checks the register for it.
+- The labels come from config/content-engine.json; a test fails if the settings list a check the code does not ask for.
+- The handoff now tells Stage 2 the design, sample, cause or association wording, the objection to concede and the claims never to make. Rule lives in scripts/radar/verification.mjs.
+
+## 24 November 2026: one handoff manifest for ChatGPT, seventeen fields per post
+
+- `scripts/radar/post-manifest.mjs` writes `content/research-register/handoff-manifest.json`: every unposted GDC post (radar and completion queue), with the brief's seventeen fields, versioned by content hash. It refuses to write if a field is missing or an incomplete entry carries a permission.
+- A post may become a draft only when complete (pack and required assets verified in Drive) and editorially cleared (QA, Claude's pack review, the new founder voice review via `pipeline.mjs voice`). Scheduling then follows standing permission D; automatic publishing stays off. A new pack version clears both reviews.
+- Fixed: metricool.mjs set schedulingPermitted twice (stage 2), so a post's own state was ignored.
+- The afternoon run copies it to the METRICOOL HANDOFF folder as `GDC HANDOFF MANIFEST, CURRENT.json` after everything it names reads back; START HERE tells ChatGPT to read it first.
