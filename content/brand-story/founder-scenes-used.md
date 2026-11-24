@@ -33,6 +33,7 @@ run again.
 | Reading Haidt, then Odgers, Orben, Przybylski, Ferguson; what a playlist cannot teach | green | Draft, personal Instagram: `founder-journey/08-the-research.md` | 7 Nov 2026 |
 | The dance video and Saturday football, second use, "my youngest" | amber, approved 7 Nov to run again | Draft, personal Instagram: `founder-journey/09-the-dance-video.md` | 7 Nov 2026 |
 | The morning walks and learning to build with AI | green | Draft, personal Instagram: `founder-journey/10-building-it-myself.md` | 7 Nov 2026 |
+| Setting up the controls on his own children's apps was harder than he expected, after years of reading the research | green | Draft, not yet posted: LinkedIn L1, `content/packs/2026-11-24-app-safety-week/posts.md` | 23 Nov 2026 |
 
 ## The other store of scenes, which this ledger cannot see
 

@@ -36,6 +36,12 @@ One pinned page, refreshed every Sunday, same link for ever:
 
 The Monday the week starts on is `<monday>` (YYYY-MM-DD).
 
+0. Moved posts come first. `grep -l "APPROVED by Justin" content/packs/*/posts.md`
+   and read the posting plan table in each: any family Instagram or Facebook
+   row dated in this week is already written and approved, and takes its
+   slot as it stands (the text exactly, the image brief as the card). The
+   sheet fills only the slots left. First used for the app safety week, moved
+   to the week of 30 November on 23 November 2026.
 1. In Google Drive, search the Control Room folder
    (`parentId = '1SKfJggHdP7P50gH1c7lrnrQi6b2_kPfP'`) for the newest
    spreadsheet titled "Weekly content and image ideas" covering that week.
