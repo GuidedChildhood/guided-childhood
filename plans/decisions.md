@@ -261,3 +261,5 @@ Titles only. Open the archive at the line number in its own index for the full e
 
 ### 24 November 2026: Oak API connected, first gap check done
 - Justin's Oak key is saved as a network secret and the open API answers. The read only check: Oak RSHE has 15 online life units (71 lessons) in Years 1 to 4, 7, 8, 10 and 11. We go further on AI companions, algorithms, gaming and odds, images and sextortion, the ban, and making and ownership. We also cover Reception, Years 5, 6 and 9 and the sixth form, which Oak's online units do not. This is from titles only; nothing public until lessons are read. Plan: `plans/2026-11-24-oak-rshe-gap-check.md`.
+
+- 2026-11-24 · Every film uses the walkthrough engine and structure (Justin): parents and schools alike, the passport and two apps films included, built as a cut in `videos/2026-10-09-digi-shorts` (problem, turn, numbered real screens, end card, music, TikTok cut). Written into `product-shorts`. The teacher start film was made with a one off recorder, so it is re-cut in the engine before it is posted. PR 1712.
