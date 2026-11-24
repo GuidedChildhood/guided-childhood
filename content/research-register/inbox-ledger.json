@@ -225,6 +225,67 @@
    "driveTitle": "1lFLGzTjYZ8-VYyQNuN-16ANpIZjnxrxAQ8PtXnlzOMU__candidates",
    "ingestedAt": "2026-11-19T09:22:45.844Z",
    "results": []
+  },
+  "5e85a16ec9c9b22be0644b98406dc7a79386bca8117aeffab2f5ec412e081bfe": {
+   "batchId": "2026-11-23-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-23T08:03:09Z",
+   "readAs": "as sent",
+   "driveFileId": "11U0MW",
+   "driveTitle": "11U0MW__candidates-1123.json",
+   "ingestedAt": "2026-11-24T09:22:16.391Z",
+   "results": []
+  },
+  "5edc3be89fb10a69b76281c108547f805f1984554e9d575101ac7475cb1c0edf": {
+   "batchId": "2026-11-20-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-20T08:00:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1Jpo",
+   "driveTitle": "1Jpo__candidates-1120.json",
+   "ingestedAt": "2026-11-24T09:22:16.426Z",
+   "results": [
+    {
+     "candidateId": "C-2026-11-20-01",
+     "title": "Launch of world’s largest scientific assessment of social media restrictions and mental health",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-c3c32618c1",
+     "band": "ADJACENT",
+     "score": 11,
+     "reasons": [],
+     "warnings": []
+    },
+    {
+     "candidateId": "C-2026-11-20-02",
+     "title": "Youth Wellbeing: What Matters Online and Off",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-6a0dfad7ed",
+     "band": "PERIPHERAL",
+     "score": 3,
+     "reasons": [],
+     "warnings": []
+    }
+   ]
+  },
+  "155832d040e187ead930e9ef7ccd47ff80466e2695cf31617c0d6ff2dc195d24": {
+   "batchId": "2026-11-21-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-21T08:00:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1iOS",
+   "driveTitle": "1iOS__candidates-1121.json",
+   "ingestedAt": "2026-11-24T09:22:16.427Z",
+   "results": []
+  },
+  "d72663fb2a1f70f77c078e2b2b48472e8db30c6f20028eb062ac0d1dbeb5252e": {
+   "batchId": "2026-11-22-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-22T08:00:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1yWb",
+   "driveTitle": "1yWb__candidates-1122.json",
+   "ingestedAt": "2026-11-24T09:22:16.427Z",
+   "results": []
   }
  },
  "candidates": {
@@ -368,6 +429,30 @@
    "warnings": [],
    "batchId": "2026-11-16-chatgpt-0800",
    "at": "2026-11-17T09:21:23.250Z"
+  },
+  "2026-11-20-chatgpt-0800/C-2026-11-20-01": {
+   "candidateId": "C-2026-11-20-01",
+   "title": "Launch of world’s largest scientific assessment of social media restrictions and mental health",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-c3c32618c1",
+   "band": "ADJACENT",
+   "score": 11,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-20-chatgpt-0800",
+   "at": "2026-11-24T09:22:16.415Z"
+  },
+  "2026-11-20-chatgpt-0800/C-2026-11-20-02": {
+   "candidateId": "C-2026-11-20-02",
+   "title": "Youth Wellbeing: What Matters Online and Off",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-6a0dfad7ed",
+   "band": "PERIPHERAL",
+   "score": 3,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-20-chatgpt-0800",
+   "at": "2026-11-24T09:22:16.426Z"
   }
  }
 }
