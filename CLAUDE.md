@@ -30,7 +30,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - Characters / lessons       → digi-squad/README.md (DiGi plus the Planet Friends: Pebble, Bloop, Orbit, Nova, Cosmo)
 - Database work              → docs/02 only
 - Payments / paywall         → docs/01 (Stripe section) + docs/08 (save flow)
-- Emails or any copy         → .claude/skills/content-engine/ai-tells.md (no dashes ever, and the other tells; `npm run ai-tells` checks it)
+- ANY outward words, any surface → .claude/skills/founder-voice-review (Justin's corrections go in content/brand-story/voice-bible.md)
 - Any social / Drive content  → apply .claude/skills/content-engine/hidden-thread.md (the mission filter + 1 in 10 rule) AND .claude/skills/content-engine/linkedin-engagement.md (hooks, dwell time, real photos, no body links) before drafting
 - ANY post sitting in Drive, whoever or whatever wrote it → .claude/skills/content-engine/drive-post-review.md BEFORE it is treated as ready (Justin, 13 October 2026: always apply a Claude review over posts put in Drive). READY in a Drive document means nobody has checked it yet.
 - Anything in Justin's voice (LinkedIn, Substack, Facebook, talking head, explainers) → content/brand-story/founder-context.md (his true scenes and the GREEN/AMBER/RED privacy levels; one scene when it fits the idea, never invented, never repeated)

@@ -101,8 +101,26 @@ ones, then:
 node scripts/radar/pipeline.mjs review <id>
 ```
 
+Every review written from 25 November 2026 also carries a `verification`
+block answering the ten checks in `config/content-engine.json`
+(`research.verificationChecks`), one plain answer each, at least a sentence,
+from what you read in this run:
+
+```
+"verification": {
+  "originalSource": "", "publicationDate": "", "statisticsAndDenominators": "",
+  "sampleAndPopulation": "", "researchDesign": "", "correlationOrCausation": "",
+  "counterEvidence": "", "strongestObjection": "", "practicalImplications": "",
+  "claimsNotToMake": ""
+}
+```
+
+What each needs is in `scripts/radar/verification.mjs`. The strongest objection
+and the cause or association line go into the handoff, so Stage 2 concedes the
+one and words the other correctly.
+
 The gate refuses a review with no claims, no limits, no contradictory
-evidence, a future date or a dash. A finding that flatters what we sell gets
+evidence, a missing or thin verification answer, a future date or a dash. A finding that flatters what we sell gets
 more scrutiny. Every cleared figure is one you read in the source in this run.
 Verdict REJECT and HOLD are real answers: use them.
 

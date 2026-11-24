@@ -108,7 +108,23 @@ const PHRASES = [
   'a diverse array', 'groundbreaking', 'as of my last update',
   'as an ai language model', 'based on available information',
   'while specific details are limited', 'would you like me to',
+  // The founder voice review, 24 November 2026: the phrases the three
+  // editorial sources (Wikipedia's Signs of AI writing, softaworks' writing
+  // clearly and concisely, the ai-writing-markers dataset) agree a person
+  // would not say aloud. Read as text, not run. Single words they list are in
+  // .claude/skills/founder-voice-review/SKILL.md for the ear, because every
+  // one of the sources says single words are weak signals on their own.
+  "in today's digital age", 'in today’s digital age', "in today's fast-paced",
+  'ever-evolving', 'ever evolving', 'navigate the complexities',
+  'navigating the complexities', 'embark on a journey', 'treasure trove',
+  'the transformative power of', 'continues to captivate', 'steadfast dedication',
+  "you're absolutely right", 'you’re absolutely right', 'as of my last knowledge',
+  'utm_source=openai', 'citeturn', 'contentreference[oaicite',
 ]
+
+// A sentence that opens on a connective nobody uses aloud. Matched at the
+// start of a sentence only: "moreover" inside a quotation is somebody else's.
+const STIFF_OPENERS = /(?:^|[.!?]\s+)(Moreover|Furthermore|Additionally|Consequently|In essence),/
 
 // ── THE CORRECTION SHAPES ───────────────────────────────────────────────────
 //
@@ -207,6 +223,7 @@ for (const path of files) {
     const low = line.toLowerCase()
     for (const phrase of PHRASES) if (low.includes(phrase)) fail(rel, n, `the phrase "${phrase}"`)
     for (const [re, what] of SHAPES) if (re.test(line)) fail(rel, n, what, JSON.stringify(line.trim().slice(0, 70)))
+    if (STIFF_OPENERS.test(line)) fail(rel, n, `a sentence opening on "${line.match(STIFF_OPENERS)[1]}"`, JSON.stringify(line.trim().slice(0, 70)))
   })
 }
 

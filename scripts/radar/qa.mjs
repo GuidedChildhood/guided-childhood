@@ -349,6 +349,11 @@ export function checkPack(pack, { record = null, corpus = null, postRegisterPath
   const otherCopy = [...produced.map(([, body]) => body), pack?.reveal?.hooks, pack?.reveal?.storyboard].filter(Boolean).join('\n\n')
   add('no dashes in the other formats', !DASHES.test(otherCopy),
     DASHES.test(otherCopy) ? 'a caption, the newsletter or the script carries a dash. None in any copy.' : (produced.length ? 'none found' : 'no other format to check'))
+  // The founder voice review (24 November 2026) runs on every outward word,
+  // not only the LinkedIn post: the same guard over the other formats.
+  const otherTells = otherCopy ? aiTells(otherCopy) : { ok: true, findings: [] }
+  add('the other formats pass the ai-tells guard', otherTells.ok,
+    otherTells.ok ? (otherCopy ? 'no stock phrase, no correction shape' : 'no other format to check') : otherTells.findings.join(' | '))
   const uncleared = figuresIn(allCopy).filter((f) => !isCleared(f, cleared))
   add('every figure in the copy was cleared by the review', uncleared.length === 0,
     uncleared.length

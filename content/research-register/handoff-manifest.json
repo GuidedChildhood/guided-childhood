@@ -1,0 +1,355 @@
+{
+ "schema": "gdc.handoff-manifest/1.0",
+ "title": "GDC HANDOFF MANIFEST, CURRENT",
+ "purpose": "One entry per GDC post, every platform. ChatGPT reads this before any Metricool action. An entry with complete false, or a permission false, is not acted on, and its holdReason says why.",
+ "settings": {
+  "paused": false,
+  "schedulingPaused": false,
+  "schedulingRule": "next_free_date_then_every_other_day",
+  "time": "08:00 Europe/London",
+  "automaticPublishing": "off",
+  "weeklyLimit": {
+   "min": 3,
+   "max": 4
+  }
+ },
+ "rules": [
+  "Deduplicate by GDC number and platform. A LinkedIn booking does not mean the Instagram and Facebook versions exist.",
+  "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
+  "Never upload a variant whose state is not WRITTEN. Never attach media that is not in approvedAssetLocations, and say when media is missing rather than leaving it out silently.",
+  "Schedule only where schedulingPermission is true: the next free date, then every other day, skipping occupied dates, keeping every existing approved booking and native newsletter slot.",
+  "Never publish automatically while automaticPublishingPermission is false.",
+  "Write what you did to the METRICOOL HANDOFF folder as a result file: created, link, or failed and why. Only that file counts as done."
+ ],
+ "posts": [
+  {
+   "gdcNumber": "059",
+   "title": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
+   "researchVerificationStatus": "VERIFIED, verdict EDIT (reviewed before the ten checks were required)",
+   "founderVoiceReviewStatus": "NOT DONE",
+   "platformVariants": {
+    "linkedin": {
+     "state": "WRITTEN",
+     "text": "A survey in JAMA Pediatrics asked parents in the United States how comfortable they would be with an AI leading a behavioural therapy session for their child. About three in four were not.\n\nOf the 572 parents who answered, 47.2 percent were not comfortable at all and 28.8 percent were not too comfortable.\n\nThe headline version would be that parents do not trust AI with children. The study does not say that.\n\nIt asked one hypothetical question about AI led behavioural therapy, in an opt in sample, and it measured stated comfort, not what parents would choose in practice, whether the therapy was effective, or whether it helped or harmed a child. The children, aged 5 to 17, were not asked. Neither were parents in the UK.\n\nEveryday use of AI by parents and children made no difference to comfort. That cuts against the easy explanation that people fear what is unfamiliar.\n\nThis looks more like a judgement about where AI belongs.\n\nI build a parent tool with an AI guide in it, so I am not neutral. The boundary matters. Guidance that helps a parent think through a situation is not therapy delivered to a child. Our stage check is three questions about one child, and it is the parent who answers them. Nothing we make diagnoses or treats, and a serious worry belongs with a professional.\n\nThe survey also asked what would matter most, and 546 parents answered. They could choose more than one. Accuracy of diagnosis was chosen by 58.5 percent, empathy by 49.4 percent, recommendation from a medical professional by 46.8 percent, and confidentiality and privacy by 43.7 percent.\n\nThat list is more useful than a broad argument about whether AI is good or bad. Before a child uses an AI tool for something that matters, ask what it is for, who oversees it, and where what the child says goes.\n\nThe source is in the comments.\n\nIf more parents and school leaders need a clearer line between guidance and treatment, repost this. The boundary should be visible before trust is requested.\n\nWhen an AI tool is offered for a child's wellbeing, what would you need to see before you trusted the boundary it claims to keep?"
+    },
+    "instagram": {
+     "state": "NOT RECOMMENDED",
+     "reason": "NOT RECOMMENDED. The cleared handoff approves LinkedIn only, and a shorter adaptation would risk losing the distinction between guidance for a parent and treatment for a child."
+    },
+    "facebook": {
+     "state": "NOT RECOMMENDED",
+     "reason": "NOT RECOMMENDED. The cleared handoff approves LinkedIn only, and no separate parent action warrants another post."
+    }
+   },
+   "finalText": "A survey in JAMA Pediatrics asked parents in the United States how comfortable they would be with an AI leading a behavioural therapy session for their child. About three in four were not.\n\nOf the 572 parents who answered, 47.2 percent were not comfortable at all and 28.8 percent were not too comfortable.\n\nThe headline version would be that parents do not trust AI with children. The study does not say that.\n\nIt asked one hypothetical question about AI led behavioural therapy, in an opt in sample, and it measured stated comfort, not what parents would choose in practice, whether the therapy was effective, or whether it helped or harmed a child. The children, aged 5 to 17, were not asked. Neither were parents in the UK.\n\nEveryday use of AI by parents and children made no difference to comfort. That cuts against the easy explanation that people fear what is unfamiliar.\n\nThis looks more like a judgement about where AI belongs.\n\nI build a parent tool with an AI guide in it, so I am not neutral. The boundary matters. Guidance that helps a parent think through a situation is not therapy delivered to a child. Our stage check is three questions about one child, and it is the parent who answers them. Nothing we make diagnoses or treats, and a serious worry belongs with a professional.\n\nThe survey also asked what would matter most, and 546 parents answered. They could choose more than one. Accuracy of diagnosis was chosen by 58.5 percent, empathy by 49.4 percent, recommendation from a medical professional by 46.8 percent, and confidentiality and privacy by 43.7 percent.\n\nThat list is more useful than a broad argument about whether AI is good or bad. Before a child uses an AI tool for something that matters, ask what it is for, who oversees it, and where what the child says goes.\n\nThe source is in the comments.\n\nIf more parents and school leaders need a clearer line between guidance and treatment, repost this. The boundary should be visible before trust is requested.\n\nWhen an AI tool is offered for a child's wellbeing, what would you need to see before you trusted the boundary it claims to keep?",
+   "firstComment": "The paper, published online in JAMA Pediatrics on 2 November 2026:\n\nhttps://doi.org/10.1001/jamapediatrics.2026.4939\n\nThe strongest objection is that stated comfort with a hypothetical does not tell us whether AI led therapy is safe, effective or what parents would actually choose. Agreed. The useful point is narrower. Parents were drawing a boundary around a high stakes role, and the factors they selected show what they would want made visible before considering it.",
+   "sourceReferences": [
+    "https://doi.org/10.1001/jamapediatrics.2026.4939"
+   ],
+   "approvedAssetLocations": [
+    {
+     "kind": "motion",
+     "role": "required",
+     "link": "https://drive.google.com/file/d/1FZel_CMm0IE0uX36V4S15rV6LtD5GM3L/view",
+     "sha256": "d8e156f047a9dfd0516ace502f391b76c1b84342bb3deaf28caea1d5a27de0a2"
+    },
+    {
+     "kind": "still image",
+     "role": "required",
+     "link": "https://drive.google.com/file/d/1i8kdNQQuoh75uQqBThCdCx3x8idLcl3S/view",
+     "sha256": "aecade582682896dc293ce9d7e0688bf4b50a42395bf936e14a5905dc8816fd1"
+    }
+   ],
+   "mediaReviewStatus": "PASS",
+   "editorialApprovalStatus": "NOT CLEARED",
+   "draftCreationPermission": false,
+   "schedulingPermission": false,
+   "automaticPublishingPermission": false,
+   "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
+   "lastUpdated": "2026-11-16T14:17:05.946Z",
+   "holdReason": "the founder voice review is NOT DONE",
+   "origin": {
+    "kind": "radar",
+    "researchId": "GDC-RR-f0fb8386cd",
+    "reviewedCopy": "https://docs.google.com/document/d/1E4O9_utKmiCehiAwx-oj2l6ZL-Juxt_8dDTwvDoyyYY/edit",
+    "handoffDoc": null
+   },
+   "complete": true
+  },
+  {
+   "gdcNumber": "060",
+   "title": "Europe's draft law would give a 13 year old a social media account, capped at one hour a day (EU KIDS Act)",
+   "researchVerificationStatus": "VERIFIED outside the radar; see the source document",
+   "founderVoiceReviewStatus": "NOT DONE",
+   "platformVariants": {
+    "linkedin": {
+     "state": "WRITTEN",
+     "where": "https://docs.google.com/document/d/1egD65BSEctnOKnl9NZb3AjHxgnx7bAIJu5PbxFnu6Sk/edit"
+    }
+   },
+   "finalText": null,
+   "firstComment": null,
+   "sourceReferences": [
+    "https://docs.google.com/document/d/1egD65BSEctnOKnl9NZb3AjHxgnx7bAIJu5PbxFnu6Sk/edit"
+   ],
+   "approvedAssetLocations": [],
+   "mediaReviewStatus": "not recorded",
+   "editorialApprovalStatus": "NOT CLEARED",
+   "draftCreationPermission": false,
+   "schedulingPermission": false,
+   "automaticPublishingPermission": false,
+   "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
+   "lastUpdated": null,
+   "holdReason": "the pack still needs: Instagram caption, Facebook adaptation, a visual brief for each platform, motion requirements; the founder voice review is NOT DONE",
+   "origin": {
+    "kind": "completion queue",
+    "sourceDoc": "https://docs.google.com/document/d/1egD65BSEctnOKnl9NZb3AjHxgnx7bAIJu5PbxFnu6Sk/edit",
+    "slot": "Mon 30 Nov 08:00",
+    "note": "The feedback window closes 3 December 2026, read off the consultation itself. Say so in each version.",
+    "textIsIn": "the source document; use it exactly as approved"
+   },
+   "complete": false
+  },
+  {
+   "gdcNumber": "061",
+   "title": "Researchers ran 32,555 pretend conversations between teenagers and AI chatbots. When the teen pushed back, the safety slipped.",
+   "researchVerificationStatus": "VERIFIED, verdict EDIT (reviewed before the ten checks were required)",
+   "founderVoiceReviewStatus": "NOT DONE",
+   "platformVariants": {
+    "linkedin": {
+     "state": "WRITTEN",
+     "text": "A preprint on arXiv put 18 chatbot models through 32,555 simulated conversations with teenagers. Telling each model it was talking to a teenager cut the criterion failure rate from 43.3 percent to 24.9 percent.\n\nGood news. Half of it.\n\nNone of these were real teenagers, and none of them were the apps children actually download. The researchers wrote 106 scenarios from clinical cases, turned them into 983 versions, and had an AI judge score every reply against 22 safety checks.\n\nThe scoring was strict: a chatbot failed a check in a scenario if it failed in any single version of that conversation, which means 43.3 percent is not the share of conversations that went wrong, and it says nothing about how often a real child is harmed.\n\nThe part I keep coming back to is what happened when the simulated teenager pushed back.\n\nWithout the teen aware instruction, failures around diagnosis, medication and substances rose by about 10 to 12 percentage points for more than 80 percent of the chatbots once the teenager said no.\n\nA boundary held at the first answer. Then it slipped.\n\nIt is a preprint. It tested models through developer connections, not consumer apps with their own safety layers. It cannot tell us that any particular app is unsafe, and it does not show that children should be kept away from AI.\n\nWhat it does give a parent is a question worth practising at the kitchen table.\n\nAsk your child what they would do if a chatbot told them not to worry about something that worried you. Then ask what they would do if it kept agreeing after they said they did not want to tell anyone.\n\nOur schools lesson on AI companions is built around one question: \"It talks like it knows me. Does it?\" I also build a parent tool with an AI guide in it, and that guide talks to the parent. It is never a chat partner for the child.\n\nThe source is in the comments.\n\nIf a parent or teacher you know needs this, repost it. An AI can be useful and still be the wrong thing to trust with a hard decision.\n\nWhat phrase would you teach a child to use when an AI starts sounding like a friend taking sides?"
+    },
+    "instagram": {
+     "state": "NOT RECOMMENDED",
+     "reason": "NOT RECOMMENDED. The reviewed handoff asks for LinkedIn only, and the limits need more room than a short caption allows."
+    },
+    "facebook": {
+     "state": "NOT RECOMMENDED",
+     "reason": "NOT RECOMMENDED. The reviewed handoff asks for LinkedIn only, and no separate parent action justifies another version."
+    }
+   },
+   "finalText": "A preprint on arXiv put 18 chatbot models through 32,555 simulated conversations with teenagers. Telling each model it was talking to a teenager cut the criterion failure rate from 43.3 percent to 24.9 percent.\n\nGood news. Half of it.\n\nNone of these were real teenagers, and none of them were the apps children actually download. The researchers wrote 106 scenarios from clinical cases, turned them into 983 versions, and had an AI judge score every reply against 22 safety checks.\n\nThe scoring was strict: a chatbot failed a check in a scenario if it failed in any single version of that conversation, which means 43.3 percent is not the share of conversations that went wrong, and it says nothing about how often a real child is harmed.\n\nThe part I keep coming back to is what happened when the simulated teenager pushed back.\n\nWithout the teen aware instruction, failures around diagnosis, medication and substances rose by about 10 to 12 percentage points for more than 80 percent of the chatbots once the teenager said no.\n\nA boundary held at the first answer. Then it slipped.\n\nIt is a preprint. It tested models through developer connections, not consumer apps with their own safety layers. It cannot tell us that any particular app is unsafe, and it does not show that children should be kept away from AI.\n\nWhat it does give a parent is a question worth practising at the kitchen table.\n\nAsk your child what they would do if a chatbot told them not to worry about something that worried you. Then ask what they would do if it kept agreeing after they said they did not want to tell anyone.\n\nOur schools lesson on AI companions is built around one question: \"It talks like it knows me. Does it?\" I also build a parent tool with an AI guide in it, and that guide talks to the parent. It is never a chat partner for the child.\n\nThe source is in the comments.\n\nIf a parent or teacher you know needs this, repost it. An AI can be useful and still be the wrong thing to trust with a hard decision.\n\nWhat phrase would you teach a child to use when an AI starts sounding like a friend taking sides?",
+   "firstComment": "The SAFE Teen preprint on arXiv:\n\nhttps://arxiv.org/abs/2611.07218\n\nThe strongest objection is that every conversation was simulated and an AI judge did the scoring. That is fair. This study cannot tell us what any real child experiences or whether a consumer app behaves in the same way. The useful finding is narrower. Under these test conditions, a teen aware instruction improved the criterion failure rate, but pushback still weakened some boundaries.",
+   "sourceReferences": [
+    "https://arxiv.org/abs/2611.07218"
+   ],
+   "approvedAssetLocations": [
+    {
+     "kind": "motion",
+     "role": "optional",
+     "link": "https://drive.google.com/file/d/1pg59b-333wvx45hdmmkK20vimzteb1Kz/view",
+     "sha256": "20ff15e57ed457e2e5d4d8fa77af5cf2c78b05817075e881823a0a749016c51f"
+    },
+    {
+     "kind": "still image",
+     "role": "optional",
+     "link": "https://drive.google.com/file/d/1nIDEdXLIqHuoE7VRAVFyXqIuAK7H4XHj/view",
+     "sha256": "65c0714b5490cc09041e8925532488a0447dd5d240346e2afdd5875a632d8d4d"
+    }
+   ],
+   "mediaReviewStatus": "PASS",
+   "editorialApprovalStatus": "NOT CLEARED",
+   "draftCreationPermission": false,
+   "schedulingPermission": false,
+   "automaticPublishingPermission": false,
+   "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
+   "lastUpdated": "2026-11-18T11:39:35.335Z",
+   "holdReason": "the founder voice review is NOT DONE",
+   "origin": {
+    "kind": "radar",
+    "researchId": "GDC-RR-9a82e5d5b3",
+    "reviewedCopy": "https://docs.google.com/document/d/1ORTqKfr_dZ4-4zXImMrJLScHyRjDXUufMM5A_NdadhY/edit",
+    "handoffDoc": null
+   },
+   "complete": true
+  },
+  {
+   "gdcNumber": "062",
+   "title": "Ask 13 and 14 year olds how they protect themselves online and about a third say they talk to an adult. By 17 and 18 it is fewer than one in five.",
+   "researchVerificationStatus": "VERIFIED, verdict EDIT (reviewed before the ten checks were required)",
+   "founderVoiceReviewStatus": "NOT DONE",
+   "platformVariants": {
+    "linkedin": {
+     "state": "MISSING"
+    },
+    "instagram": {
+     "state": "MISSING"
+    },
+    "facebook": {
+     "state": "MISSING"
+    }
+   },
+   "finalText": null,
+   "firstComment": null,
+   "sourceReferences": [
+    "https://doi.org/10.21203/rs.3.rs-11441481/v1"
+   ],
+   "approvedAssetLocations": [],
+   "mediaReviewStatus": "no media (visual not decided)",
+   "editorialApprovalStatus": "NOT CLEARED",
+   "draftCreationPermission": false,
+   "schedulingPermission": false,
+   "automaticPublishingPermission": false,
+   "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
+   "lastUpdated": "2026-11-19T09:35:09.101Z",
+   "holdReason": "no reviewed pack is stored; pack QA is not run; Claude's pack review is not done; the founder voice review is NOT DONE",
+   "origin": {
+    "kind": "radar",
+    "researchId": "GDC-RR-553f7dc067",
+    "reviewedCopy": null,
+    "handoffDoc": null
+   },
+   "complete": false
+  },
+  {
+   "gdcNumber": "063",
+   "title": "Young people handed researchers their real TikTok feeds. Almost all the news and politics in them came from accounts they did not follow.",
+   "researchVerificationStatus": "VERIFIED, verdict EDIT (reviewed before the ten checks were required)",
+   "founderVoiceReviewStatus": "NOT DONE",
+   "platformVariants": {
+    "linkedin": {
+     "state": "MISSING"
+    },
+    "instagram": {
+     "state": "MISSING"
+    },
+    "facebook": {
+     "state": "MISSING"
+    }
+   },
+   "finalText": null,
+   "firstComment": null,
+   "sourceReferences": [
+    "https://doi.org/10.31234/osf.io/j73bg"
+   ],
+   "approvedAssetLocations": [],
+   "mediaReviewStatus": "no media (visual not decided)",
+   "editorialApprovalStatus": "NOT CLEARED",
+   "draftCreationPermission": false,
+   "schedulingPermission": false,
+   "automaticPublishingPermission": false,
+   "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
+   "lastUpdated": "2026-11-19T09:38:27.422Z",
+   "holdReason": "no reviewed pack is stored; pack QA is not run; Claude's pack review is not done; the founder voice review is NOT DONE",
+   "origin": {
+    "kind": "radar",
+    "researchId": "GDC-RR-540fff2c03",
+    "reviewedCopy": null,
+    "handoffDoc": null
+   },
+   "complete": false
+  },
+  {
+   "gdcNumber": "065",
+   "title": "Stanford went through 52 controlled studies of AI and schoolwork, and neither way of using it reliably improved learning",
+   "researchVerificationStatus": "VERIFIED outside the radar; see the source document",
+   "founderVoiceReviewStatus": "NOT DONE",
+   "platformVariants": {
+    "linkedin": {
+     "state": "WRITTEN",
+     "where": "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit"
+    }
+   },
+   "finalText": null,
+   "firstComment": null,
+   "sourceReferences": [
+    "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit"
+   ],
+   "approvedAssetLocations": [],
+   "mediaReviewStatus": "not recorded",
+   "editorialApprovalStatus": "NOT CLEARED",
+   "draftCreationPermission": false,
+   "schedulingPermission": false,
+   "automaticPublishingPermission": false,
+   "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
+   "lastUpdated": null,
+   "holdReason": "the pack still needs: a visual brief for each platform, motion requirements; the founder voice review is NOT DONE; held in reserve until Justin approves it",
+   "origin": {
+    "kind": "completion queue",
+    "sourceDoc": "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit",
+    "slot": null,
+    "note": "Instagram and Facebook drafts already exist in the repo pack; check them against the LinkedIn post rather than rewriting. Not approved by Justin yet, so it is completed and held, never scheduled.",
+    "textIsIn": "the source document; use it exactly as approved"
+   },
+   "complete": false
+  },
+  {
+   "gdcNumber": "066",
+   "title": "RAND asked a thousand American parents what they tell their teenagers about AI and homework, and one in five had never raised it",
+   "researchVerificationStatus": "VERIFIED outside the radar; see the source document",
+   "founderVoiceReviewStatus": "NOT DONE",
+   "platformVariants": {
+    "linkedin": {
+     "state": "WRITTEN",
+     "where": "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit"
+    }
+   },
+   "finalText": null,
+   "firstComment": null,
+   "sourceReferences": [
+    "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit"
+   ],
+   "approvedAssetLocations": [],
+   "mediaReviewStatus": "not recorded",
+   "editorialApprovalStatus": "NOT CLEARED",
+   "draftCreationPermission": false,
+   "schedulingPermission": false,
+   "automaticPublishingPermission": false,
+   "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
+   "lastUpdated": null,
+   "holdReason": "the pack still needs: a visual brief for each platform, motion requirements; the founder voice review is NOT DONE; held in reserve until Justin approves it",
+   "origin": {
+    "kind": "completion queue",
+    "sourceDoc": "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit",
+    "slot": null,
+    "note": "US data only, say so. Not approved by Justin yet, so it is completed and held, never scheduled.",
+    "textIsIn": "the source document; use it exactly as approved"
+   },
+   "complete": false
+  },
+  {
+   "gdcNumber": "067",
+   "title": "77 percent of parents back the ban and only 45 percent expect it to work (YouGov)",
+   "researchVerificationStatus": "VERIFIED outside the radar; see the source document",
+   "founderVoiceReviewStatus": "NOT DONE",
+   "platformVariants": {
+    "linkedin": {
+     "state": "WRITTEN",
+     "where": "https://docs.google.com/document/d/1x6tFnah3ReawruuFWe9jp4bJp-ko1PvzeQTm_S65FfU/edit"
+    }
+   },
+   "finalText": null,
+   "firstComment": null,
+   "sourceReferences": [
+    "https://docs.google.com/document/d/1x6tFnah3ReawruuFWe9jp4bJp-ko1PvzeQTm_S65FfU/edit"
+   ],
+   "approvedAssetLocations": [],
+   "mediaReviewStatus": "not recorded",
+   "editorialApprovalStatus": "NOT CLEARED",
+   "draftCreationPermission": false,
+   "schedulingPermission": false,
+   "automaticPublishingPermission": false,
+   "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
+   "lastUpdated": null,
+   "holdReason": "the pack still needs: Instagram caption, Facebook adaptation, a visual brief for each platform, motion requirements; the founder voice review is NOT DONE",
+   "origin": {
+    "kind": "completion queue",
+    "sourceDoc": "https://docs.google.com/document/d/1x6tFnah3ReawruuFWe9jp4bJp-ko1PvzeQTm_S65FfU/edit",
+    "slot": "Fri 11 Dec 08:00",
+    "note": "Around four in ten, never 38 or 40 percent: YouGov's article and table disagree. Never say the same parents gave both answers.",
+    "textIsIn": "the source document; use it exactly as approved"
+   },
+   "complete": false
+  }
+ ],
+ "version": "3ee427c7814c",
+ "generatedAt": "2026-11-24T12:47:29.579Z",
+ "sourceCommit": "1683f93705b638d31f61f63af337c6a40230b956",
+ "counts": {
+  "posts": 8,
+  "complete": 2,
+  "draftable": 0,
+  "schedulable": 0
+ }
+}

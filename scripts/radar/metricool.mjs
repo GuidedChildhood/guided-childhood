@@ -48,11 +48,13 @@ export function buildHandoff(studyId, { schedulePath = SCHEDULE } = {}) {
   const slot = number ? nativeSlot(number, schedulePath) : null
   const approved = status === 'APPROVED' || status === 'PUBLISHED'
   const ready = ['READY FOR JUSTIN', 'APPROVED'].includes(status)
+  const cleared = rec.packQa?.verdict === 'PASS' && rec.packReview?.verdict === 'PASS' && ['PASS', 'CHANGES MADE'].includes(rec.voiceReview?.verdict)
   const reasons = []
   if (!pack) reasons.push('no reviewed pack is stored for this record')
   if (!ready) reasons.push(`the pack is ${status || rec.status}, not READY FOR JUSTIN or APPROVED`)
   if (slot) reasons.push(`already scheduled in LinkedIn itself for ${slot.scheduledFor} (observed ${loadSchedule(schedulePath).observedAt}). A second copy through Metricool would be a duplicate.`)
-  if (!approved) reasons.push('Justin has not approved it. A draft is not approval and a date on a draft is not an approved date.')
+  if (!cleared) reasons.push('not editorially cleared: QA, Claude\'s pack review and the founder voice review must all have passed')
+  if (!approved) reasons.push('Justin has not approved it. A draft is not approval; scheduling a cleared post is ChatGPT\'s standing permission, publishing stays with Justin.')
   const assets = (rec.assets || []).filter((a) => !a.failed).map((a) => ({
     kind: a.kind, role: a.role, file: a.file, sha256: a.sha256, seconds: a.facts?.seconds ?? null, width: a.facts?.width ?? null, height: a.facts?.height ?? null,
     checked: Boolean(a.verified), review: a.review?.verdict || 'none',
@@ -84,9 +86,12 @@ export function buildHandoff(studyId, { schedulePath = SCHEDULE } = {}) {
     linkedinNativeSchedule: slot ? { scheduledFor: slot.scheduledFor, withImage: slot.withImage ?? null, observedAt: loadSchedule(schedulePath).observedAt, standing: 'reported by Justin from screenshots, not checked again since' } : null,
     metricool: {
       draftCreationPermitted: Boolean(pack) && ready && !slot,
-      schedulingPermitted: Boolean(pack) && approved && !slot,
-      autoPublishPermitted: autoPublishAllowed(),
-      schedulingPermitted: schedulingAllowed(),
+      // Standing permission D (24 November 2026): ChatGPT may schedule an
+      // editorially cleared post. Cleared is QA, Claude's pack review and the
+      // founder voice review; the settings can pause it. (Stage 2 wrote this
+      // key twice, so the post's own state was ignored. Fixed in stage 5.)
+      schedulingPermitted: Boolean(pack) && !slot && cleared && schedulingAllowed(),
+      autoPublishPermitted: Boolean(pack) && !slot && cleared && autoPublishAllowed(),
       // Attaching media is part of preparing the draft: allowed exactly when a
       // draft is, and only for checked, reviewed files with a verified Drive link.
       mediaAttachPermitted: Boolean(pack) && ready && !slot && attachable.length > 0,
@@ -97,7 +102,7 @@ export function buildHandoff(studyId, { schedulePath = SCHEDULE } = {}) {
         'Do not create a second draft if one exists for this GDC number.',
         'Media: if mediaAttachPermitted is true, attach the files in mediaToAttach to the existing draft for this GDC number, from the exact Drive links given, and change nothing else in it. Never a file from anywhere else, never a regenerated or edited version.',
         'Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.',
-        'Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time.',
+        'Schedule only when schedulingPermitted is true, by the scheduling rule in config/content-engine.json. Never publish, delete or reschedule an existing booking.',
       ],
     },
   }

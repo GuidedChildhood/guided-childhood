@@ -15,6 +15,7 @@ import * as reg from './register.mjs'
 import { parsePostRegister, internalNumberConflicts, REPO } from './contract.mjs'
 import { CANDIDATE_SCHEMA, loadLedger } from './candidates.mjs'
 import { VERDICTS } from './daily.mjs'
+import { verificationProblems, VERIFICATION_REQUIRED_FROM } from './verification.mjs'
 
 const DASH = /[‐-―−]/
 const AFTER_REVIEW = ['EDITORIAL READY', 'ASSETS READY', 'APPROVED', 'PUBLISHED']
@@ -40,6 +41,9 @@ export function gate() {
     all.filter((r) => AFTER_REVIEW.includes(r.status) && !(r.claudeStatus === 'CLAUDE REVIEWED' && r.claudeReview?.claims?.length && r.claudeReview?.verdict)).map((r) => `${r.studyId} is ${r.status} with no stored review`))
   add('every story in the queue has a handoff and a number',
     all.filter((r) => r.status === 'EDITORIAL READY' && r.claudeReview && !(r.handoff?.version && r.gdcPostNumber)).map((r) => `${r.studyId} is EDITORIAL READY with ${r.handoff?.version ? 'no number' : 'no handoff'}`))
+
+  add(`every review stored from ${VERIFICATION_REQUIRED_FROM} answers the ten verification checks`,
+    all.filter((r) => r.claudeReview?.reviewedAt >= VERIFICATION_REQUIRED_FROM && verificationProblems(r.claudeReview.verification).length).map((r) => `${r.studyId}: ${verificationProblems(r.claudeReview.verification)[0]}`))
 
   // 3. Approval and publication are Justin's and need evidence.
   add('nothing is APPROVED or PUBLISHED without Justin\'s own approval on the record',

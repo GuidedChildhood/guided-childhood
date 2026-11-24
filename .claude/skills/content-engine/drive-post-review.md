@@ -162,6 +162,7 @@ idea rather than refreshing it as the news.
 ## 9. The mechanics
 
 - `npm run ai-tells` on the file. No dashes, ever, including in finished copy.
+- Then `.claude/skills/founder-voice-review` for the ear, the meter and the read aloud, and store its VOICE REVIEW verdict with the post.
 - 1,300 to 2,500 characters for the body. Short paragraphs, air between them.
 - Series line on its own if the series is running that week.
 - Never two posts in a day.
