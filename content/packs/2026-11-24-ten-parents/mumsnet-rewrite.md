@@ -156,3 +156,12 @@ Before posting:
 >
 > Then tell me here where you got stuck and what it got wrong. "This was
 > useless because..." helps me most.
+
+## Second reply to Chunkybabythighs (after "that's a you problem")
+
+Do not argue. She is right that it is not for every family, and on Mumsnet the
+founder who keeps defending loses the thread. One short, warm line, then leave it.
+
+> Fair enough, and honestly if "put the iPad down" works in your house, you
+> don't need this and that's a good place to be. It's for the ones where it
+> doesn't. And guilty as charged on being a dad with an app.
