@@ -31,7 +31,10 @@ posts. Fill the [square brackets] yourself. Nothing in them is invented for you.
 > "Find my child's stage" on the home page. Don't click my link, I get it.
 >
 > 5. I'm Justin, [near Bath], dad of three ([ages]). Been building this for
-> about a year.
+> about a year. There's a schools side too. Teachers get the online safety
+> lessons ready to teach, and each one sends a note home with a question to
+> ask your child, and a code that opens the same lesson at home. So what they
+> hear at school and what they hear from you is the same thing.
 >
 > Thanks again, this is the most useful thing anyone's said to me all week.
 
