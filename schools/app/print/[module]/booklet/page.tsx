@@ -271,7 +271,7 @@ export default async function PupilBookletPage({ params, searchParams }: { param
               <p style={{ ...text, fontSize: 'var(--text-base)', flex: '1 1 200px', minWidth: 0 }}>
                 {qr ? 'Point your phone at the square, or go to ' : 'Go to '}
                 <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', overflowWrap: 'anywhere' }}>{homeCodeLabel(homeCode)}</strong>{' '}
-                and this lesson goes onto your child&rsquo;s own passport. Code{' '}
+                to open this lesson at home. When your child does its short check there, it goes on their own passport. Code{' '}
                 <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.12em' }}>{homeCode}</strong>.
               </p>
             </div>

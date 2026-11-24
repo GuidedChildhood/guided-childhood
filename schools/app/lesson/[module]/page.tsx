@@ -442,7 +442,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               cannot fail. This lesson has a place on the <strong style={{ color: 'var(--ink)' }}>{PASSPORT_STAGES[placement].page}</strong> page
               {area ? <> and builds <strong style={{ color: 'var(--ink)' }}>{AREAS[area].name}</strong>, one of the four things the passport records</> : null}.
               Teaching it means the class met it: the parent note going home says so and carries the home
-              code that records it on the child&rsquo;s own passport. The child&rsquo;s own short check at home is
+              code that opens the same lesson in the parents app. The child&rsquo;s own short check at home is
               what fills the page.
             </p>
             <p style={{ ...body, marginTop: '8px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>

@@ -194,7 +194,7 @@ const EVIDENCE = [
   {
     label: 'Us',
     title: 'Never allow or deny',
-    body: 'Every answer in every lesson is a calibrated pathway, never a flat yes or no, because judgement is the thing being taught. School lessons earn credit toward the same passport to sixteen a family follows at home, readiness is an educational judgement that reduces risk rather than removing it, and we hold no pupil data at all.',
+    body: 'Every answer in every lesson is a calibrated pathway, never a flat yes or no, because judgement is the thing being taught. School lessons follow the same passport to sixteen a family follows at home, readiness is an educational judgement that reduces risk rather than removing it, and we hold no pupil data at all.',
     link: { href: '/philosophy', label: 'Read the whole philosophy' },
   },
 ]
@@ -427,7 +427,7 @@ export default async function SchoolsPage() {
               The learning carries on at home
             </h2>
             <p style={{ ...PAGE.lead, color: 'var(--ink-soft)', maxWidth: '620px', margin: '0 auto' }}>
-              Every lesson sends a note home with a code. Parents carry the same lesson on that evening, so children hear one message, not two.
+              Every lesson sends a note home with a question for the family and a code that opens the same lesson at home, so children hear one message, not two.
             </p>
           </div>
         </div>

@@ -20,6 +20,32 @@ So each film shows **one** problem. The series says the breadth by repetition:
 - The caption says "built on research".
 - "Safe", "proven" and "fix" never appear on screen. They promise an outcome for a child (silent-ugc rule 4).
 
+## One engine, one structure, every film (Justin, 24 November 2026)
+
+"For any films use the skills from the Instagram walkthrough sessions to have
+the same quality and structure." So every film of the real product, parents
+OR schools, the passport, how the two apps work together, a LinkedIn film,
+is built in the walkthrough engine, `videos/2026-10-09-digi-shorts`
+(`build.mjs`, a cut in `cuts/`, `tools/render-both.sh`), never a one off
+recorder. Copy the nearest `cuts/walkthrough-*.json` (19 is the cleanest) and keep its shape:
+
+1. **The problem**: eyebrow "The problem", the pill in the customer's own
+   words, the series marker, and "An example family. Real app screens." (or
+   "A made up school. Real screens." for schools).
+2. **The turn**: two hook lines that land.
+3. **Numbered steps**: one real screen each, a `step` overlay (number,
+   eyebrow, three to five words), the camera push and one highlight.
+4. **The end card**: DiGi, the series line, the one free step and its button.
+   For schools the free step is the pilot (two lessons, a term, no card, no
+   contract, no pupil data), never the parents stage check.
+5. The music lane, the sound cues, `loudnorm=I=-16:TP=-1.5`, the reading
+   rule and the safe zones above, a TikTok length cut, and the frame by frame
+   read before anything is sent.
+
+Brief and captions follow the walkthrough drafts' layout
+(`content/campaigns/platform-walkthrough/<nn>-*.md`): run, service, format,
+channels, free step, hook, script, a caption per channel, the proof block.
+
 ## Read first
 
 1. `THE-STORY.md`: sections 1 to 4, 6 and 10. Read `.claude/skills/silent-ugc/SKILL.md` too.

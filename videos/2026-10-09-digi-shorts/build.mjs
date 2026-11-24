@@ -339,7 +339,7 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .end-btn{margin-top:54px;background:#1A1A2E;color:#FFFFFF;border-radius:22px;padding:30px 54px;font-weight:800;font-size:60px;box-shadow:0 7px 0 #000}
 .end-url{font-family:plexMono,monospace;font-weight:600;font-size:42px;letter-spacing:.06em;color:#3A3A52;margin-top:34px}
 .logo{display:inline-flex;align-items:center;gap:30px}.logo .mark{display:inline-flex;align-items:center;justify-content:center;background:#EDC35F}.logo .bars{display:inline-flex;align-items:flex-end}.logo .word{font-weight:800;letter-spacing:-.02em;white-space:nowrap}
-</style></head><body>
+${C.css ? `/* The cut's own styles (C.css, 24 November 2026): a landscape layout or a longer end card line, without changing any other cut. */\n${C.css}\n` : ''}</style></head><body>
 <div id="root" data-composition-id="main" data-start="0" data-duration="${at(TOTAL)}" data-width="${OW}" data-height="${OH}" data-fps="30">
 <div id="stage"><div class="ground"></div>
 ${html}</div>

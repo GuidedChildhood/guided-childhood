@@ -95,4 +95,37 @@ check('the parents sheet takes props rather than reading', !/createClient|supaba
   'layout with no reads is what lets ref-passport-zine check the fiddly part without a login')
 
 console.log(failed === 0 ? '\ncheck-passport-bridge: ok' : `\ncheck-passport-bridge: ${failed} failed`)
+// ── 6. No surface promises a passport the code does not fill ──────────────
+//
+// Since 12 October (migration 373) a class lesson and the home code fill
+// nothing: only the child's own short check at home fills a page, and the
+// coverage the code writes is shown on no screen. The 24 November bridge
+// audit found seven places still saying otherwise
+// (plans/2026-11-24-school-home-bridge-audit.md). The QR rules above check
+// the doors are printed; this one checks the words around them.
+const PROMISE_FILES = [
+  'schools/app/print/[module]/page.tsx',
+  'schools/app/print/[module]/booklet/page.tsx',
+  'schools/app/hub/passport/page.tsx',
+  'schools/app/page.tsx',
+  'schools/app/philosophy/page.tsx',
+  'schools/app/lesson/[module]/page.tsx',
+  'app/(marketing)/home-code/[code]/page.tsx',
+  'components/lessons/SchoolCodeCard.tsx',
+]
+const FALSE_PROMISES = [
+  [/earns? credit/i, 'a class lesson earns no passport credit'],
+  [/lesson goes onto your child/i, 'the code puts nothing on the passport'],
+  [/filled at home with the home code/i, 'the child\'s own check fills the page, not the code'],
+  [/records? (that|it) .{0,70}passport/i, 'the code writes nothing onto the passport'],
+  [/(is on|shows)[^.]{0,30}record/i, 'no screen shows the coverage the code writes'],
+  [/passport record and notes/i, 'the note it writes is shown nowhere'],
+]
+for (const f of PROMISE_FILES) {
+  const src = read(f)
+  const hit = FALSE_PROMISES.find(([re]) => re.test(src))
+  check(`${f.split('/').slice(-2).join('/')} promises only what the code does`, !hit,
+    hit ? `${hit[1]} (matched ${hit[0]})` : '')
+}
+
 process.exit(failed === 0 ? 0 : 1)

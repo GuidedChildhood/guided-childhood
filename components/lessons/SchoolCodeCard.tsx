@@ -95,7 +95,7 @@ export default function SchoolCodeCard({ childId, childName }: {
         Got a code on a school sheet?
       </p>
       <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', lineHeight: 1.55, margin: '0 0 12px' }}>
-        When a class covers one of our lessons, the sheet that comes home carries a code. Enter it here and {childName}&rsquo;s record shows the class met it. The lesson goes on the passport when {childName} does its own short check, in their app or together on this phone. Home learning packs use the same codes.
+        When a class covers one of our lessons, the sheet that comes home carries a code. Enter it here and we note that the class met it, and open the same lesson for you. The lesson goes on the passport when {childName} does its own short check, in their app or together on this phone. Home learning packs use the same codes.
       </p>
       {childId ? (
         <form
@@ -151,8 +151,8 @@ export default function SchoolCodeCard({ childId, childName }: {
         <div style={{ marginTop: 14 }}>
           <p role="status" style={{ margin: '0 0 8px', fontSize: 'var(--text-base)', lineHeight: 1.5, fontWeight: 600, color: 'var(--retro-green)' }}>
             {landed.kind === 'again'
-              ? `${landed.title} was already on the record. Nothing lost, nothing doubled.`
-              : `${landed.title}: the class met it, and it is on ${childName}'s record.`}
+              ? `${landed.title} was already noted. Nothing lost, nothing doubled.`
+              : `${landed.title}: the class met it, and we have noted it for ${childName}.`}
           </p>
           <p style={{ margin: 0, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
             {childName}&rsquo;s own check is what puts it on the passport page.{' '}

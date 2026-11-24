@@ -200,7 +200,7 @@ const STANDS = [
   'Never allow or deny. Every answer in every lesson is a calibrated pathway, because judgement is the thing being taught.',
   'Staged, because the science is staged. Skills arrive when the evidence and the frameworks say a child can hold them, not at a marketing age.',
   'Assessment is Demonstrated or Not Yet. Never pass or fail, never a percentage, never a score stored against a child, and Not Yet simply rolls forward.',
-  'School and home teach one message. Lessons in class earn credit toward the same passport to sixteen a family follows in the parents app.',
+  'School and home teach one message. Lessons in class follow the same passport to sixteen a family follows in the parents app, and the code on every parent note opens the same lesson at home.',
   'No pupil data, ever. No child accounts, no logins, no tracking. Paper carries the pupil work and one code opens the curriculum for a whole school.',
   'The ban is not the plan. It removes the apps until sixteen. The years before sixteen are exactly when the judgement has to be built, and that is the job this curriculum does.',
 ]

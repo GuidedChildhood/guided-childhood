@@ -31,8 +31,8 @@ export default function HubPassportPage() {
         </p>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.6, maxWidth: '640px', marginBottom: '26px' }}>
           Counted here and nowhere else: no pupil, no login, no upload. The child&rsquo;s own passport is
-          filled at home with the home code on the parent note, and it never records where a page was
-          filled. A stage&rsquo;s stamp is earned there, by the page being full and the big check passed,
+          filled at home, by the child&rsquo;s own short checks in the parents app (the home code on the
+          parent note opens the right lesson), and it never records where a page was filled. A stage&rsquo;s stamp is earned there, by the page being full and the big check passed,
           which is why the seal on these pages stays open.
         </p>
         <HubPassport />
