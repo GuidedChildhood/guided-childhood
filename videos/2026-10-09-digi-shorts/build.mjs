@@ -27,9 +27,9 @@ const to = (sel, b, t) => TL.push(`tl.to(${J(sel)},${J(b)},${at(t)});`)
 const set = (sel, a, t) => TL.push(`tl.set(${J(sel)},${J(a)},${at(t)});`)
 
 // ── Guards ──────────────────────────────────────────────────────────────────
-const TEXT_KEYS = new Set(['out', 'then', 'text', 'eyebrow', 'line', 'sub', 'title', 'url', 'button', 'label', 'body', 'tagline', 'claim', 'cite', 'note', 'k', 'v'])
+const TEXT_KEYS = new Set(['lines', 'out', 'then', 'text', 'eyebrow', 'line', 'sub', 'title', 'url', 'button', 'label', 'body', 'tagline', 'claim', 'cite', 'note', 'k', 'v'])
 ;(function walk(v, path) {
-  if (typeof v === 'string' && TEXT_KEYS.has(path.split('.').pop())) {
+  if (typeof v === 'string' && TEXT_KEYS.has(path.split('.').pop().replace(/\[\d+\]$/, ''))) {
     if (/[–—−]/.test(v) || /\s-\s/.test(v)) throw new Error(`dash in ${path}: ${v}`)
   } else if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${path}[${i}]`))
   else if (v && typeof v === 'object') for (const k of Object.keys(v)) walk(v[k], path ? `${path}.${k}` : k)
@@ -42,6 +42,8 @@ function logo(size, wordPx) {
   const bars = LOGO_BARS.map((hh) => `<span style="width:${barW.toFixed(1)}px;height:${(hh / 14 * stackH).toFixed(1)}px;background:#fff;border-radius:${Math.max(1, size / 24).toFixed(1)}px;display:inline-block"></span>`).join('')
   return `<span class="logo"><span class="mark" style="width:${size}px;height:${size}px;border-radius:${r.toFixed(1)}px"><span class="bars" style="gap:${gap.toFixed(1)}px;height:${stackH.toFixed(1)}px">${bars}</span></span>${wordPx ? `<span class="word" style="font-size:${wordPx}px">Guided Childhood</span>` : ''}</span>`
 }
+// Stage shots (teacher film v3): loaded only when a cut has one, so other cuts build as before.
+const STAGE = C.shots.some((sh) => sh.stage) ? await import('./tools/stage3.mjs') : null
 const camXY = (k) => ({ x: (k.px ?? W / 2) - k.fx * k.S, y: (k.py ?? H / 2) - k.fy * k.S, scale: k.S })
 
 let clock = 0, html = '', vtrack = 0
@@ -49,6 +51,7 @@ for (const [i, sh] of C.shots.entries()) {
   const id = sh.id || `s${i}`
   const s = clock, d = sh.dur, e = s + d
   sh.start = s
+  if (sh.stage) { html += STAGE.stageShot(sh, { id, s, d, e, last: i === C.shots.length - 1, W, H, fromTo, to, set, SFX, esc, logo }); clock = e; continue }
   const keys = sh.cam || [{ t: 0, S: 2.6, fx: SW / 2, fy: SH / 2 }]
   const k0 = camXY(keys[0])
   let screen = ''
@@ -339,7 +342,7 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .end-btn{margin-top:54px;background:#1A1A2E;color:#FFFFFF;border-radius:22px;padding:30px 54px;font-weight:800;font-size:60px;box-shadow:0 7px 0 #000}
 .end-url{font-family:plexMono,monospace;font-weight:600;font-size:42px;letter-spacing:.06em;color:#3A3A52;margin-top:34px}
 .logo{display:inline-flex;align-items:center;gap:30px}.logo .mark{display:inline-flex;align-items:center;justify-content:center;background:#EDC35F}.logo .bars{display:inline-flex;align-items:flex-end}.logo .word{font-weight:800;letter-spacing:-.02em;white-space:nowrap}
-${C.css ? `/* The cut's own styles (C.css, 24 November 2026): a landscape layout or a longer end card line, without changing any other cut. */\n${C.css}\n` : ''}</style></head><body>
+${STAGE ? STAGE.STAGE_CSS : ''}${C.css ? `/* The cut's own styles (C.css, 24 November 2026): a landscape layout or a longer end card line, without changing any other cut. */\n${C.css}\n` : ''}</style></head><body>
 <div id="root" data-composition-id="main" data-start="0" data-duration="${at(TOTAL)}" data-width="${OW}" data-height="${OH}" data-fps="30">
 <div id="stage"><div class="ground"></div>
 ${html}</div>

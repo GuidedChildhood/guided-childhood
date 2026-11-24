@@ -1,6 +1,8 @@
 {
  "name": "schools-teacher-start-h",
- "css": ".end-line{text-wrap:balance;font-size:84px;margin-top:22px}.end-sub{font-size:44px;max-width:900px;margin-top:14px}.endcard{left:820px;right:90px}.end-logo{margin-bottom:30px}.end-tag{font-size:40px;margin:-10px 0 22px}.end-eyebrow{font-size:28px}.end-btn{margin-top:34px;font-size:50px;padding:24px 46px}.end-url{font-size:34px;margin-top:24px}.end-slate{font-size:24px;margin-top:26px}",
+ "w": 1920,
+ "h": 1080,
+ "css": ".w3-pill{max-width:1600px}.w3-eye{font-size:26px}.w3-head{font-size:74px}.w3-end .e-line{margin-top:40px;font-size:88px}.w3-end .e-btn{margin-top:44px}.w3-end .e-slate{margin-top:30px}",
  "music": {
   "file": "music-leberch.mp3",
   "mediaStart": 12.3,
@@ -10,433 +12,1033 @@
     0
    ],
    [
-    1.0,
+    1,
     0.2
    ],
    [
     3.8,
-    0.15
+    0.16
    ],
    [
     4.3,
     0.3
    ],
    [
-    25.6,
+    37,
     0.3
    ],
    [
-    28.6,
+    40,
     0
    ]
   ]
  },
  "shots": [
   {
-   "id": "open",
-   "dur": 4.0,
-   "fadeIn": 0,
-   "overlays": [
+   "id": "hook",
+   "stage": true,
+   "dur": 3.9,
+   "bg": "teal",
+   "enter": "none",
+   "exit": "none",
+   "drift": 6,
+   "words": [
     {
      "kind": "eyebrow",
      "text": "The problem",
-     "y": 230,
-     "t0": 0,
-     "instant": true,
-     "x": 120,
-     "w": 1680
+     "x": 160,
+     "y": 300,
+     "w": 1600,
+     "t0": 0
     },
     {
      "kind": "pill",
-     "text": "I'm not an online safety specialist. I teach Year 4.",
-     "y": 300,
+     "text": "I teach Year 4, not online safety.",
+     "x": 160,
+     "y": 380,
+     "w": 1600,
      "t0": 0,
-     "typed": 0.16,
-     "typedFrom": 6,
      "instant": true,
-     "x": 120,
-     "w": 1680
+     "typedFrom": 3,
+     "typed": 0.12,
+     "typeAt": 0.2
     },
     {
-     "kind": "marker",
-     "text": "Inside Guided Childhood. Schools",
-     "y": 800,
-     "t0": 1.4,
-     "x": 120,
-     "w": 1680
+     "kind": "brand",
+     "x": 160,
+     "y": 700,
+     "w": 1600,
+     "t0": 0.6,
+     "size": 64
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.3,
+     "vol": 0.12
     },
+    {
+     "name": "sfx-pop",
+     "at": 0.6,
+     "vol": 0.2
+    }
+   ]
+  },
+  {
+   "id": "lesson",
+   "stage": true,
+   "dur": 5.2,
+   "bg": "cream",
+   "enter": "none",
+   "exit": "none",
+   "veil": {
+    "w": 1060,
+    "solid": 78
+   },
+   "cam": [
+    {
+     "t": 0,
+     "s": 1,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545
+    },
+    {
+     "t": 0,
+     "s": 1.06,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545,
+     "dur": 1.2,
+     "ease": "power3.out"
+    },
+    {
+     "t": 1.3,
+     "s": 2.4,
+     "fx": 1300.9333333333334,
+     "fy": 771.2666666666667,
+     "px": 1390,
+     "py": 560,
+     "dur": 1,
+     "ease": "power2.inOut"
+    },
+    {
+     "t": 4.45,
+     "s": 1.06,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545,
+     "dur": 0.75,
+     "ease": "power2.inOut"
+    }
+   ],
+   "objs": [
+    {
+     "id": "phone",
+     "kind": "phone",
+     "w": 416,
+     "h": 900,
+     "x": 1123,
+     "y": 76,
+     "enter": {
+      "t": 0,
+      "dur": 0.9,
+      "ease": "power3.out",
+      "from": {
+       "y": 90,
+       "rotationX": 2,
+       "opacity": 0
+      }
+     },
+     "pages": [
+      {
+       "src": "captures/schools/lesson-hero.png",
+       "srcW": 390,
+       "top": 0,
+       "glows": [
+        {
+         "x": 14,
+         "y": 609,
+         "w": 282,
+         "h": 50,
+         "t0": 2
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "words": [
     {
      "kind": "eyebrow",
      "text": "A made up school. Real screens.",
-     "y": 910,
-     "t0": 2.0,
      "x": 120,
-     "w": 1680
-    }
-   ],
-   "sfx": [
-    {
-     "name": "sfx-tap",
-     "at": 0.4,
-     "vol": 0.14
+     "y": 340,
+     "w": 720,
+     "align": "left",
+     "t0": 0.15
     },
     {
-     "name": "sfx-tap",
-     "at": 1.0,
-     "vol": 0.14
-    }
-   ]
-  },
-  {
-   "id": "turn",
-   "dur": 2.4,
-   "overlays": [
-    {
-     "kind": "hook",
-     "text": "So the lesson is",
-     "y": 400,
-     "t0": 0.15,
-     "x": 120,
-     "w": 1680
-    },
-    {
-     "kind": "hook",
-     "text": "already written.",
-     "y": 520,
-     "t0": 0.7,
-     "x": 120,
-     "w": 1680
-    }
-   ],
-   "sfx": [
-    {
-     "name": "sfx-land",
-     "at": 0.15,
-     "vol": 0.3
-    },
-    {
-     "name": "sfx-land",
-     "at": 0.7,
-     "vol": 0.3
-    }
-   ]
-  },
-  {
-   "id": "s1",
-   "dur": 4.0,
-   "src": "captures/schools/unlock-code.png",
-   "fadeIn": 0.2,
-   "cam": [
-    {
-     "t": 0,
-     "S": 2.6,
-     "fx": 195,
-     "fy": 0,
-     "py": 215,
-     "px": 1390
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "step",
-     "n": 1,
-     "eyebrow": "One code for the staff room",
-     "text": "Your school code",
-     "y": 455,
-     "t0": 0.15,
-     "x": 100,
-     "w": 760
-    }
-   ],
-   "inScreen": [
-    {
-     "cls": "hl",
-     "x": 66,
-     "y": 538,
-     "w": 180,
-     "h": 24,
-     "t0": 1.1
-    },
-    {
-     "cls": "ripple",
-     "x": 173,
-     "y": 595,
-     "w": 44,
-     "h": 44,
-     "t0": 2.9
-    }
-   ],
-   "sfx": [
-    {
-     "name": "sfx-pop",
-     "at": 0.15,
-     "vol": 0.35
-    },
-    {
-     "name": "sfx-tap",
-     "at": 2.9,
-     "vol": 0.5
-    }
-   ],
-   "cropTop": 440,
-   "clipH": 690
-  },
-  {
-   "id": "s2",
-   "dur": 3.6,
-   "src": "captures/schools/start-year.png",
-   "fadeIn": 0.2,
-   "cam": [
-    {
-     "t": 0,
-     "S": 2.4,
-     "fx": 195,
-     "fy": 0,
-     "py": 142,
-     "px": 1390
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "step",
-     "n": 2,
-     "eyebrow": "Reception to Year 13",
-     "text": "Pick your year",
-     "y": 455,
-     "t0": 0.15,
-     "x": 100,
-     "w": 760
-    }
-   ],
-   "inScreen": [
-    {
-     "cls": "hl",
-     "x": 40,
-     "y": 481,
-     "w": 152,
-     "h": 26,
-     "t0": 1.0
-    },
-    {
-     "cls": "ripple",
-     "x": 173,
-     "y": 484,
-     "w": 44,
-     "h": 44,
-     "t0": 2.6
-    }
-   ],
-   "sfx": [
-    {
-     "name": "sfx-pop",
-     "at": 0.15,
-     "vol": 0.35
-    },
-    {
-     "name": "sfx-tap",
-     "at": 2.6,
-     "vol": 0.5
-    }
-   ],
-   "cropTop": 240,
-   "clipH": 572
-  },
-  {
-   "id": "s3",
-   "dur": 3.6,
-   "src": "captures/schools/start-lesson.png",
-   "fadeIn": 0.2,
-   "cam": [
-    {
-     "t": 0,
-     "S": 2.6,
-     "fx": 195,
-     "fy": 0,
-     "py": 197,
-     "px": 1390
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "step",
-     "n": 3,
-     "eyebrow": "No preparation",
-     "text": "Press Teach",
-     "y": 455,
-     "t0": 0.15,
-     "x": 100,
-     "w": 760
-    }
-   ],
-   "inScreen": [
-    {
-     "cls": "hl",
-     "x": 40,
-     "y": 343,
-     "w": 298,
-     "h": 28,
-     "t0": 1.0
-    },
-    {
-     "cls": "ripple",
-     "x": 173,
-     "y": 467,
-     "w": 44,
-     "h": 44,
-     "t0": 2.6
-    }
-   ],
-   "sfx": [
-    {
-     "name": "sfx-pop",
-     "at": 0.15,
-     "vol": 0.35
-    },
-    {
-     "name": "sfx-tap",
-     "at": 2.6,
-     "vol": 0.5
-    }
-   ],
-   "cropTop": 282,
-   "clipH": 546
-  },
-  {
-   "id": "s4",
-   "dur": 2.2,
-   "src": "captures/schools/teach-slide1.png",
-   "fadeIn": 0.2,
-   "cam": [
-    {
-     "t": 0,
-     "S": 2.0,
-     "fx": 195,
-     "fy": 0,
-     "py": 78,
-     "px": 1390
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "step",
-     "n": 4,
-     "eyebrow": "On every slide",
-     "text": "The words to say",
-     "y": 455,
-     "t0": 0.15,
-     "x": 100,
-     "w": 760
-    }
-   ],
-   "inScreen": [],
-   "sfx": [
-    {
-     "name": "sfx-pop",
-     "at": 0.15,
-     "vol": 0.35
-    }
-   ],
-   "cropTop": 150,
-   "clipH": 612,
-   "fadeOut": 0
-  },
-  {
-   "id": "s4b",
-   "dur": 3.4,
-   "src": "captures/schools/teach-slide1.png",
-   "fadeIn": 0,
-   "cam": [
-    {
-     "t": 0,
-     "S": 2.496,
-     "fx": 195,
-     "fy": 0,
-     "py": 238,
-     "px": 1390
-    },
-    {
-     "t": 0.1,
-     "dur": 1.2,
-     "S": 2.6,
-     "fx": 195,
-     "fy": 0,
-     "py": 238,
-     "ease": "power2.out",
-     "px": 1390
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "step",
-     "n": 4,
-     "eyebrow": "On every slide",
-     "text": "The words to say",
-     "y": 455,
-     "t0": 0,
-     "instant": true,
-     "x": 100,
-     "w": 760
-    }
-   ],
-   "inScreen": [
-    {
-     "cls": "hl",
-     "x": 22,
-     "y": 658,
-     "w": 326,
-     "h": 24,
-     "t0": 0.7
+     "kind": "head",
+     "lines": [
+      "The lesson is",
+      "already written."
+     ],
+     "x": 116,
+     "y": 392,
+     "w": 720,
+     "align": "left",
+     "t0": 0.3
     }
    ],
    "sfx": [
     {
      "name": "sfx-whoosh",
-     "at": 0.0,
-     "vol": 0.16
-    }
-   ],
-   "cropTop": 612,
-   "clipH": 844
-  },
-  {
-   "id": "end",
-   "dur": 5.4,
-   "overlays": [
-    {
-     "kind": "digi",
-     "x": 210,
-     "y": 300,
-     "size": 480,
-     "t0": 0
+     "at": 0,
+     "vol": 0.12
     },
     {
-     "kind": "end",
-     "y": 130,
-     "tagline": "One plan for screens, phones and AI.",
-     "eyebrow": "Inside Guided Childhood. Schools",
-     "line": "Two lessons free for a term.",
-     "sub": "No card. No contract. No pupil data.",
-     "button": "Request a pilot",
-     "url": "schools.guidedchildhood.com/pilot",
-     "slate": "A made up school. Real screens.",
-     "t0": 0.3,
-     "pressAt": 2.8
+     "name": "sfx-tink",
+     "at": 2,
+     "vol": 0.12
+    }
+   ]
+  },
+  {
+   "id": "steps",
+   "stage": true,
+   "dur": 4,
+   "bg": "cream",
+   "enter": "none",
+   "exit": "lift",
+   "veil": {
+    "w": 1060,
+    "solid": 78
+   },
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.06,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545
+    },
+    {
+     "t": 0.2,
+     "s": 1.1,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545,
+     "dur": 3.4,
+     "ease": "power1.inOut"
+    }
+   ],
+   "objs": [
+    {
+     "id": "phone",
+     "kind": "phone",
+     "w": 416,
+     "h": 900,
+     "x": 1123,
+     "y": 76,
+     "pages": [
+      {
+       "src": "captures/schools/unlock-code.png",
+       "srcW": 390,
+       "top": 0,
+       "glows": [
+        {
+         "x": 46,
+         "y": 517,
+         "w": 297,
+         "h": 67,
+         "t0": 0.25,
+         "t1": 1.2
+        }
+       ],
+       "taps": [
+        {
+         "x": 194,
+         "y": 617,
+         "t": 0.95
+        }
+       ]
+      },
+      {
+       "src": "captures/schools/start-year.png",
+       "srcW": 390,
+       "top": 0,
+       "t": 1.3,
+       "taps": [
+        {
+         "x": 194,
+         "y": 506,
+         "t": 2.3
+        }
+       ]
+      },
+      {
+       "src": "captures/schools/start-lesson.png",
+       "srcW": 390,
+       "top": 0,
+       "t": 2.65,
+       "taps": [
+        {
+         "x": 194,
+         "y": 489,
+         "t": 3.5
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "words": [
+    {
+     "kind": "chips",
+     "x": 120,
+     "y": 330,
+     "w": 680,
+     "align": "left",
+     "stack": true,
+     "size": 50,
+     "t0": 0.1,
+     "items": [
+      {
+       "n": 1,
+       "text": "School code",
+       "at": 0.4
+      },
+      {
+       "n": 2,
+       "text": "Your year",
+       "at": 1.45
+      },
+      {
+       "n": 3,
+       "text": "Teach",
+       "at": 2.8
+      }
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.4,
+     "vol": 0.25
+    },
+    {
+     "name": "sfx-pop",
+     "at": 1.45,
+     "vol": 0.25
+    },
+    {
+     "name": "sfx-pop",
+     "at": 2.8,
+     "vol": 0.25
+    },
+    {
+     "name": "sfx-whoosh",
+     "at": 3.7,
+     "vol": 0.12
+    }
+   ]
+  },
+  {
+   "id": "script",
+   "stage": true,
+   "dur": 4.7,
+   "bg": "cream",
+   "enter": "rise",
+   "exit": "none",
+   "veil": {
+    "w": 1060,
+    "solid": 78
+   },
+   "cam": [
+    {
+     "t": 0,
+     "s": 1,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545
+    },
+    {
+     "t": 0,
+     "s": 1.05,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545,
+     "dur": 1.2,
+     "ease": "power3.out"
+    },
+    {
+     "t": 1.3,
+     "s": 2.9,
+     "fx": 977.0625,
+     "fy": 813.125,
+     "px": 1390,
+     "py": 560,
+     "dur": 1,
+     "ease": "power2.inOut"
+    },
+    {
+     "t": 4,
+     "s": 1.05,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545,
+     "dur": 0.7,
+     "ease": "power2.inOut"
+    }
+   ],
+   "objs": [
+    {
+     "id": "board",
+     "kind": "board",
+     "w": 1040,
+     "h": 650,
+     "x": 806,
+     "y": 196,
+     "enter": {
+      "t": 0,
+      "dur": 1,
+      "ease": "power3.out",
+      "from": {
+       "rotationX": 2,
+       "y": 30
+      }
+     },
+     "pages": [
+      {
+       "src": "captures/schools/board-teach-slide1.png",
+       "srcW": 1280,
+       "top": 0,
+       "glows": [
+        {
+         "x": 49,
+         "y": 715,
+         "w": 264,
+         "h": 30,
+         "t0": 2.1
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "words": [
+    {
+     "kind": "head",
+     "lines": [
+      "The words to say,",
+      "under every slide."
+     ],
+     "x": 116,
+     "y": 392,
+     "w": 720,
+     "align": "left",
+     "t0": 0.25
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tink",
+     "at": 2.1,
+     "vol": 0.12
+    }
+   ]
+  },
+  {
+   "id": "safe",
+   "stage": true,
+   "dur": 3.6,
+   "bg": "cream",
+   "enter": "none",
+   "exit": "lift",
+   "veil": {
+    "w": 1060,
+    "solid": 78
+   },
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.05,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545
+    },
+    {
+     "t": 0.55,
+     "s": 2.1,
+     "fx": 1073.75,
+     "fy": 481.625,
+     "px": 1390,
+     "py": 560,
+     "dur": 1,
+     "ease": "power2.inOut"
+    }
+   ],
+   "objs": [
+    {
+     "id": "board",
+     "kind": "board",
+     "w": 1040,
+     "h": 650,
+     "x": 806,
+     "y": 196,
+     "pages": [
+      {
+       "src": "captures/schools/board-teach-slide1.png",
+       "srcW": 1280,
+       "top": 0
+      },
+      {
+       "src": "captures/schools/board-before-slide1.png",
+       "srcW": 1280,
+       "top": 0,
+       "t": 0.05,
+       "trans": "fade",
+       "dur": 0.4,
+       "glows": [
+        {
+         "x": 143,
+         "y": 329,
+         "w": 305,
+         "h": 36,
+         "t0": 1.5
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "words": [
+    {
+     "kind": "head",
+     "lines": [
+      "A sensitive lesson?",
+      "Your safeguarding",
+      "lead comes first."
+     ],
+     "x": 116,
+     "y": 392,
+     "w": 720,
+     "align": "left",
+     "t0": 0.2
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tink",
+     "at": 1.5,
+     "vol": 0.12
+    },
+    {
+     "name": "sfx-whoosh",
+     "at": 3.3,
+     "vol": 0.12
+    }
+   ]
+  },
+  {
+   "id": "pack",
+   "stage": true,
+   "dur": 3.3,
+   "bg": "cream",
+   "enter": "fade",
+   "exit": "none",
+   "drift": 6,
+   "cam": [
+    {
+     "t": 0,
+     "s": 1,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545
+    },
+    {
+     "t": 0.3,
+     "s": 1.04,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545,
+     "dur": 2.8,
+     "ease": "power2.out"
+    }
+   ],
+   "objs": [
+    {
+     "id": "s1",
+     "kind": "paper",
+     "w": 520,
+     "x": 1020,
+     "y": 172,
+     "rot": -4,
+     "z": 1,
+     "pages": [
+      {
+       "src": "captures/schools/print-sheet1.png",
+       "srcW": 740,
+       "top": 0
+      }
+     ],
+     "enter": {
+      "t": 0.05,
+      "dur": 0.8,
+      "ease": "back.out(1.4)",
+      "from": {
+       "y": -180,
+       "rotation": -11,
+       "opacity": 0
+      }
+     }
+    },
+    {
+     "id": "s3",
+     "kind": "paper",
+     "w": 520,
+     "x": 1090,
+     "y": 150,
+     "rot": 0,
+     "z": 2,
+     "pages": [
+      {
+       "src": "captures/schools/print-sheet3.png",
+       "srcW": 740,
+       "top": 0
+      }
+     ],
+     "enter": {
+      "t": 0.16999999999999998,
+      "dur": 0.8,
+      "ease": "back.out(1.4)",
+      "from": {
+       "y": -180,
+       "rotation": 0,
+       "opacity": 0
+      }
+     }
+    },
+    {
+     "id": "s5",
+     "kind": "paper",
+     "w": 520,
+     "x": 1160,
+     "y": 174,
+     "rot": 3.5,
+     "z": 3,
+     "pages": [
+      {
+       "src": "captures/schools/print-sheet5.png",
+       "srcW": 740,
+       "top": 0
+      }
+     ],
+     "enter": {
+      "t": 0.29,
+      "dur": 0.8,
+      "ease": "back.out(1.4)",
+      "from": {
+       "y": -180,
+       "rotation": 10.5,
+       "opacity": 0
+      }
+     }
+    }
+   ],
+   "words": [
+    {
+     "kind": "head",
+     "lines": [
+      "The whole pack",
+      "prints. Ready",
+      "to photocopy."
+     ],
+     "x": 116,
+     "y": 392,
+     "w": 720,
+     "align": "left",
+     "t0": 0.2
     }
    ],
    "sfx": [
     {
      "name": "sfx-land",
+     "at": 0.55,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-land",
+     "at": 0.67,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-land",
+     "at": 0.79,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "note",
+   "stage": true,
+   "dur": 5,
+   "bg": "cream",
+   "enter": "none",
+   "exit": "lift",
+   "veil": {
+    "w": 1060,
+    "solid": 78
+   },
+   "cam": [
+    {
+     "t": 0,
+     "s": 1.04,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545
+    },
+    {
+     "t": 1.15,
+     "s": 3.4,
+     "fx": 1200.1135135135135,
+     "fy": 457.4918918918919,
+     "px": 1390,
+     "py": 560,
+     "dur": 1.2,
+     "ease": "power3.out"
+    }
+   ],
+   "objs": [
+    {
+     "id": "s1",
+     "kind": "paper",
+     "w": 520,
+     "x": 1020,
+     "y": 172,
+     "rot": -4,
+     "z": 1,
+     "pages": [
+      {
+       "src": "captures/schools/print-sheet1.png",
+       "srcW": 740,
+       "top": 0
+      }
+     ],
+     "moves": [
+      {
+       "t": 0.05,
+       "dur": 0.8,
+       "ease": "power3.out",
+       "x": -34,
+       "y": 10,
+       "scale": 0.97,
+       "filter": "blur(3px)"
+      }
+     ]
+    },
+    {
+     "id": "s3",
+     "kind": "paper",
+     "w": 520,
+     "x": 1090,
+     "y": 150,
+     "rot": 0,
+     "z": 2,
+     "pages": [
+      {
+       "src": "captures/schools/print-sheet3.png",
+       "srcW": 740,
+       "top": 0
+      }
+     ],
+     "moves": [
+      {
+       "t": 0.05,
+       "dur": 0.8,
+       "ease": "power3.out",
+       "x": -34,
+       "y": 10,
+       "scale": 0.97,
+       "filter": "blur(3px)"
+      }
+     ]
+    },
+    {
+     "id": "s5",
+     "kind": "paper",
+     "w": 520,
+     "x": 1160,
+     "y": 174,
+     "rot": 3.5,
+     "z": 3,
+     "pages": [
+      {
+       "src": "captures/schools/print-sheet5.png",
+       "srcW": 740,
+       "top": 0
+      }
+     ],
+     "moves": [
+      {
+       "t": 0.05,
+       "dur": 0.8,
+       "ease": "power3.out",
+       "x": -34,
+       "y": 10,
+       "scale": 0.97,
+       "filter": "blur(3px)"
+      }
+     ]
+    },
+    {
+     "id": "s6",
+     "kind": "paper",
+     "w": 520,
+     "x": 1090,
+     "y": 136,
+     "rot": 0,
+     "z": 5,
+     "enter": {
+      "t": 0.05,
+      "dur": 0.85,
+      "ease": "power3.out",
+      "from": {
+       "x": 620,
+       "rotation": 9,
+       "y": 30
+      }
+     },
+     "pages": [
+      {
+       "src": "captures/schools/print-sheet6.png",
+       "srcW": 740,
+       "top": 0,
+       "mask": [
+        518,
+        533
+       ],
+       "glows": [
+        {
+         "x": 11,
+         "y": 451,
+         "w": 252,
+         "h": 30,
+         "cx": 136,
+         "t0": 2.2
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "words": [
+    {
+     "kind": "eyebrow",
+     "text": "Sheet 6, the parent note",
+     "x": 120,
+     "y": 340,
+     "w": 720,
+     "align": "left",
+     "t0": 0.15
+    },
+    {
+     "kind": "head",
+     "lines": [
+      "And a note",
+      "goes home."
+     ],
+     "x": 116,
+     "y": 392,
+     "w": 720,
+     "align": "left",
+     "t0": 0.3
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-whoosh",
+     "at": 0.05,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-tink",
+     "at": 2.2,
+     "vol": 0.12
+    }
+   ]
+  },
+  {
+   "id": "map",
+   "stage": true,
+   "dur": 4.3,
+   "bg": "cream",
+   "enter": "rise",
+   "exit": "lift",
+   "veil": {
+    "w": 1060,
+    "solid": 78
+   },
+   "cam": [
+    {
+     "t": 0,
+     "s": 1,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545
+    },
+    {
+     "t": 0,
+     "s": 1.04,
+     "fx": 1350,
+     "fy": 545,
+     "px": 1350,
+     "py": 545,
+     "dur": 1.2,
+     "ease": "power3.out"
+    },
+    {
+     "t": 1.5,
+     "s": 1.3,
+     "fx": 1350,
+     "fy": 699.375,
+     "px": 1390,
+     "py": 560,
+     "dur": 1.3,
+     "ease": "power2.inOut"
+    }
+   ],
+   "objs": [
+    {
+     "id": "board",
+     "kind": "board",
+     "w": 1040,
+     "h": 650,
+     "x": 806,
+     "y": 196,
+     "enter": {
+      "t": 0,
+      "dur": 1,
+      "ease": "power3.out",
+      "from": {
+       "rotationX": 2,
+       "y": 30
+      }
+     },
+     "pages": [
+      {
+       "src": "captures/schools/laptop-rshe-mapping.png",
+       "srcW": 1280,
+       "top": 0,
+       "pans": [
+        {
+         "t": 1.5,
+         "dur": 1.3,
+         "top": 560
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "words": [
+    {
+     "kind": "eyebrow",
+     "text": "For your PSHE lead",
+     "x": 120,
+     "y": 340,
+     "w": 720,
+     "align": "left",
+     "t0": 0.15
+    },
+    {
+     "kind": "head",
+     "lines": [
+      "Every online RSHE",
+      "requirement,",
+      "mapped to a lesson."
+     ],
+     "x": 116,
+     "y": 392,
+     "w": 720,
+     "align": "left",
+     "t0": 0.3
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-whoosh",
+     "at": 1.5,
+     "vol": 0.1
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "stage": true,
+   "dur": 6,
+   "bg": "teal",
+   "enter": "dissolve",
+   "enterDur": 0.5,
+   "drift": 0,
+   "words": [
+    {
+     "kind": "digi",
+     "x": 250,
+     "y": 330,
+     "size": 380,
+     "t0": 0.2
+    },
+    {
+     "kind": "end",
+     "x": 760,
+     "y": 150,
+     "w": 1060,
+     "align": "left",
+     "t0": 0.35,
+     "brand": true,
+     "tagline": "One plan for screens, phones and AI.",
+     "line": "Two lessons free for a term.",
+     "sub": "No card. No contract. No pupil data.",
+     "button": "Request a pilot",
+     "url": "schools.guidedchildhood.com/pilot",
+     "slate": "A made up school. Real screens.",
+     "pressAt": 3.4
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-shimmer",
      "at": 0.25,
-     "vol": 0.35
+     "vol": 0.18
+    },
+    {
+     "name": "sfx-land",
+     "at": 1,
+     "vol": 0.2
     },
     {
      "name": "sfx-tap",
-     "at": 3.1,
-     "vol": 0.4
+     "at": 3.4,
+     "vol": 0.35
     }
    ]
   }
- ],
- "w": 1920,
- "h": 1080
+ ]
 }
