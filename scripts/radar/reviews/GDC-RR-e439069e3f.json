@@ -1,0 +1,70 @@
+{
+  "verdict": "REJECT",
+  "editorialPriority": "BANK",
+  "reviewBasis": "The abstract, in full, from the Europe PMC record of PMID 43019541 (JMIR, 12 November 2026), read in this run. The full text was not reached.",
+  "proposedTitle": "Rejected: interviews with 20 Chinese young women who post about mental illness",
+  "proposedAngle": "None. Wrong population, wrong place, and nothing that proves a part of the product.",
+  "oneStory": "Not written.",
+  "oneTension": "Not written.",
+  "oneBelief": "Not written.",
+  "oneTakeaway": "Not written.",
+  "claims": [
+    {
+      "claim": "20 women aged 15 to 34 (mean 21.8) who post about mental health on Chinese platforms were interviewed between December 2024 and March 2026.",
+      "status": "VERIFIED",
+      "basis": "Abstract methods and results: 20 women, mean age 21.8, 70 percent mainly on Rednote, all with a self reported diagnosis."
+    },
+    {
+      "claim": "Posting about mental illness brings connection and a sense of value, and also emotional burden and harassment.",
+      "status": "QUALIFIED",
+      "basis": "Abstract conclusions, in the authors' wording, from three themes in 20 interviews. Purposively recruited people who already post, so it says nothing about how common either experience is."
+    },
+    {
+      "claim": "This shows what social media does to young people's mental health.",
+      "status": "UNSUPPORTED",
+      "basis": "Qualitative and descriptive. No comparison group, no measure of change."
+    }
+  ],
+  "verifiedStatistics": [],
+  "notQuotable": [
+    "anything about children, UK young people or teenagers in general",
+    "any effect of social media on mental health",
+    "the 20, 21.8 or 70 percent in a post, they describe a self selected group"
+  ],
+  "evidenceConfidence": "HIGH that the abstract says what is written here. LOW as a guide to anything we do.",
+  "limitations": [
+    "Abstract only was read.",
+    "20 women, all with a diagnosis, recruited because they post about it.",
+    "Mean age 21.8, mostly adults, so largely above our children.",
+    "China, on Chinese platforms.",
+    "Interviews, so no prevalence."
+  ],
+  "contradictoryEvidence": [
+    "From the abstract itself: the same posting is described as both supportive and burdensome.",
+    "No outside study was searched in this run."
+  ],
+  "whatThisDoesNotProve": [
+    "That posting about mental health helps or harms young people.",
+    "That UK teenagers behave the same way.",
+    "Anything about children aged 4 to 15."
+  ],
+  "mediaMisrepresentation": "Not searched.",
+  "gdcBeliefs": [
+    "Evidence or silence. Nothing here can be tied to a part of what we sell."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "historyChecker": "No change.",
+    "parentTool": "None claimed.",
+    "digi": "No change."
+  },
+  "recommendedAudience": "None.",
+  "recommendedPlatforms": [],
+  "urgency": "None.",
+  "unresolvedQuestions": [],
+  "studyId": "GDC-RR-e439069e3f",
+  "reviewedAt": "2026-11-24T09:31:25Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 24 November 2026",
+  "storedAt": "scripts/radar/reviews/GDC-RR-e439069e3f.json"
+}

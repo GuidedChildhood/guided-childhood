@@ -31,7 +31,12 @@ export const fixturePack = (sourceCommit, handoffVersion = 1) => ({
     body: FIXTURE_BODY,
     firstComment: 'The paper is here: https://doi.org/10.1177/13591045261487468 . The strongest objection is that a pooled estimate is still the best single summary we have. I think that holds when the studies broadly agree, and these do not.',
   },
-  visual: { brief: 'Research card, one hero figure, cream ground, one accent.', assetsUsed: ['.claude/skills/viral-post/stat-card.html'] },
+  // Instagram, Facebook and a per platform visual brief are core from 24
+  // November 2026, so the passing fixture carries them. No figures, so the
+  // cleared list is not stretched by the adaptations.
+  instagram: { caption: 'A new review says the effect is much bigger. We read the studies inside it and decided not to lean on the headline. Here is why, in plain words.' },
+  facebook: { caption: 'If you saw a headline this week saying screens are far worse than we thought, this is for you. We read what sits underneath it. When did a statistic that suited you turn out to be weaker than it looked?' },
+  visual: { brief: 'LINKEDIN: research card, one hero figure, cream ground, one accent, 1080 by 1350. INSTAGRAM: the same card as the first slide, 1080 by 1350. FACEBOOK: the card at 1200 by 630. MOTION: the figure writes on over four seconds, then a five second still hold.', assetsUsed: ['.claude/skills/viral-post/stat-card.html'] },
 })
 
 /** The fixture as the text of a pack document, in the layout Stage 2 uses. */
@@ -41,7 +46,9 @@ export function fixturePackText(sourceCommit, { handoffVersion = 1 } = {}) {
     `RESEARCH ID: ${p.researchId}`, `GDC POST NUMBER: ${p.gdcPostNumber}`, `HANDOFF VERSION: ${handoffVersion}`, `SOURCE COMMIT: ${sourceCommit}`, 'STATUS: DRAFT', '',
     '=== LINKEDIN POST ===', '(250 to 450 words. The closing question is the last sentence. No link. No dashes.)', p.linkedin.body, '',
     '=== FIRST COMMENT ===', p.linkedin.firstComment, '',
-    '=== INSTAGRAM CAPTION ===', '',
+    '=== INSTAGRAM CAPTION ===', p.instagram.caption, '',
+    '=== FACEBOOK CAPTION ===', p.facebook.caption, '',
+    '=== NEWSLETTER ===', '',
     '=== VISUAL BRIEF ===', p.visual.brief, '',
     '=== ASSETS USED ===', p.visual.assetsUsed[0], '',
     '=== SOURCES ===', 'https://doi.org/10.1177/13591045261487468',

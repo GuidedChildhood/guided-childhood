@@ -1,0 +1,53 @@
+{
+  "schema": "gdc.completion-queue/1.0",
+  "purpose": "Approved or verified posts that did not come through the radar queue and still need the rest of their pack. START HERE prints every item whose state is not COMPLETED, POSTED, WITHDRAWN, SUPERSEDED or HOLD. Claude keeps this list; Stage 2 completes the items. See scripts/radar/README.md, 'Eligibility and completion'.",
+  "rules": [
+    "A post number here must already be claimed in content/gdc-post-register.md.",
+    "The LinkedIn post and first comment stay exactly as approved. Only the missing parts are written.",
+    "No figure may appear that is not already in that post or its first comment.",
+    "Set state to COMPLETED once Claude has reviewed the finished pack; the item then leaves START HERE."
+  ],
+  "updated": "2026-11-24",
+  "items": [
+    {
+      "gdc": "060",
+      "title": "Europe's draft law would give a 13 year old a social media account, capped at one hour a day (EU KIDS Act)",
+      "state": "APPROVED",
+      "slot": "Mon 30 Nov 08:00",
+      "sourceDoc": "https://docs.google.com/document/d/1egD65BSEctnOKnl9NZb3AjHxgnx7bAIJu5PbxFnu6Sk/edit",
+      "repoPack": "content/packs/2026-11-23-linkedin-week/linkedin.md",
+      "needs": ["Instagram caption", "Facebook adaptation", "a visual brief for each platform", "motion requirements"],
+      "note": "The feedback window closes 3 December 2026, read off the consultation itself. Say so in each version."
+    },
+    {
+      "gdc": "067",
+      "title": "77 percent of parents back the ban and only 45 percent expect it to work (YouGov)",
+      "state": "APPROVED",
+      "slot": "Fri 11 Dec 08:00",
+      "sourceDoc": "https://docs.google.com/document/d/1x6tFnah3ReawruuFWe9jp4bJp-ko1PvzeQTm_S65FfU/edit",
+      "repoPack": "content/packs/2026-11-23-linkedin-week/linkedin.md",
+      "needs": ["Instagram caption", "Facebook adaptation", "a visual brief for each platform", "motion requirements"],
+      "note": "Around four in ten, never 38 or 40 percent: YouGov's article and table disagree. Never say the same parents gave both answers."
+    },
+    {
+      "gdc": "065",
+      "title": "Stanford went through 52 controlled studies of AI and schoolwork, and neither way of using it reliably improved learning",
+      "state": "RESERVE",
+      "slot": null,
+      "sourceDoc": "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit",
+      "repoPack": "content/packs/2026-11-23-hints-not-answers/",
+      "needs": ["a visual brief for each platform", "motion requirements"],
+      "note": "Instagram and Facebook drafts already exist in the repo pack; check them against the LinkedIn post rather than rewriting. Not approved by Justin yet, so it is completed and held, never scheduled."
+    },
+    {
+      "gdc": "066",
+      "title": "RAND asked a thousand American parents what they tell their teenagers about AI and homework, and one in five had never raised it",
+      "state": "RESERVE",
+      "slot": null,
+      "sourceDoc": "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit",
+      "repoPack": "content/packs/2026-11-23-hints-not-answers/",
+      "needs": ["a visual brief for each platform", "motion requirements"],
+      "note": "US data only, say so. Not approved by Justin yet, so it is completed and held, never scheduled."
+    }
+  ]
+}

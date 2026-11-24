@@ -314,7 +314,10 @@ export function checkPack(pack, { record = null, corpus = null, postRegisterPath
   // Justin's instruction on 10 November was not to produce every format for
   // every story. A caption nobody asked for is production volume, and each
   // extra piece is one more place for an uncleared claim to sit.
-  const asked = (rec?.claudeReview?.recommendedPlatforms || []).join(' ').toLowerCase()
+  // Instagram and Facebook are core formats from 24 November 2026 (Justin:
+  // "each pack must include ... Instagram caption, Facebook adaptation"), so
+  // only the newsletter and the Reel still have to be asked for.
+  const asked = ((rec?.claudeReview?.recommendedPlatforms || []).join(' ') + ' instagram facebook').toLowerCase()
   const produced = [
     ['Instagram caption', pack?.instagram?.caption, /instagram/],
     ['Facebook caption', pack?.facebook?.caption, /facebook/],
@@ -326,6 +329,16 @@ export function checkPack(pack, { record = null, corpus = null, postRegisterPath
     !rec ? 'no record to compare with'
       : unasked.length ? `the handoff asks for ${rec.claudeReview?.recommendedPlatforms?.join(', ') || 'a LinkedIn post only'}, and the pack also carries: ${unasked.join(', ')}. Write NOT RECOMMENDED under those and give the reason.`
         : `${produced.length} other format(s) produced, all asked for`)
+  // 4b. The core pack (24 November 2026): an Instagram caption, a Facebook
+  // adaptation, and a visual brief that covers each platform and says what
+  // moves. A pack without them is held, so Justin never gets half a pack.
+  const missingCore = [['Instagram caption', pack?.instagram?.caption], ['Facebook adaptation', pack?.facebook?.caption]].filter(([, b]) => !b).map(([n]) => n)
+  add('the pack has its Instagram and Facebook versions', !pack || missingCore.length === 0,
+    missingCore.length ? `missing: ${missingCore.join(', ')}. Every pack now carries both, written for the platform, with the same cleared figures only.` : 'both present')
+  const vb = String(pack?.visual?.brief || '')
+  const missingVis = ['LINKEDIN', 'INSTAGRAM', 'FACEBOOK', 'MOTION'].filter((k) => !new RegExp(`\\b${k}\\s*:`, 'i').test(vb))
+  add('the visual brief covers each platform and the motion', !pack || missingVis.length === 0,
+    missingVis.length ? `the visual brief has no line for: ${missingVis.join(', ')}. One line each, starting with the label; MOTION may say NOT NEEDED with the reason.` : 'LinkedIn, Instagram, Facebook and motion all briefed')
   const otherCopy = [...produced.map(([, body]) => body), pack?.reveal?.hooks, pack?.reveal?.storyboard].filter(Boolean).join('\n\n')
   add('no dashes in the other formats', !DASHES.test(otherCopy),
     DASHES.test(otherCopy) ? 'a caption, the newsletter or the script carries a dash. None in any copy.' : (produced.length ? 'none found' : 'no other format to check'))

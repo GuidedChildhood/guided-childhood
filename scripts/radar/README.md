@@ -209,6 +209,36 @@ the same sentence.
 A pack reaches the Post Desk only at ASSETS READY. Putting it there is not
 approval. Approval is Justin posting it.
 
+## Eligibility and completion (24 November 2026)
+
+Justin: "Remove the strict requirement for the CURRENT handover document to be
+dated today. Previously verified stories should remain eligible until
+completed, withdrawn, superseded or explicitly placed on HOLD."
+
+- **Eligibility is a status, never a date.** The queue is every record at
+  EDITORIAL READY, however old. START HERE still refreshes on every run, but it
+  no longer tells Stage 2 to stop when it is more than a day old. That line is
+  what stopped production when the scheduled run could not push.
+- **What every pack carries.** LinkedIn post, first comment with the verified
+  source, Instagram caption, Facebook adaptation, a visual brief with a
+  LINKEDIN, INSTAGRAM, FACEBOOK and MOTION line, and motion requirements where
+  the story has one clean finding (`CORE_FORMATS` in `packformat.mjs`). QA holds
+  a pack without them. Newsletter and Reel still need the handoff to ask.
+- **Posts outside the radar queue.** Approved or verified posts that came from
+  the LinkedIn pass or a manual pack go in
+  `content/research-register/completion-queue.json`. START HERE prints them
+  under COMPLETE THESE until their state is COMPLETED, POSTED, WITHDRAWN,
+  SUPERSEDED or HOLD. Their LinkedIn copy stays as approved, and no figure is
+  added.
+- **Cadence.** At most three personal LinkedIn posts per calendar week, Monday
+  to Sunday, counting Justin's own LinkedIn bookings. Extra finished packs are
+  reserve. Stage 2's 14:30 Metricool task may save an approved pack as a
+  Metricool DRAFT for its slot; it never schedules an unapproved pack and never
+  switches on automatic publishing.
+- **Unchanged.** Research verification, cleared figures only, post numbers
+  claimed in GitHub only, handoff versions, approval by Justin alone, and the
+  duplicate checks.
+
 ## What a HOLD means
 
 Every gate returns PASS or HOLD with reasons, and writes the result onto the

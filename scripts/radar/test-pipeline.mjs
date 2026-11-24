@@ -247,7 +247,7 @@ check('a pack document parses into its research ID, number, version and commit',
   parsed.researchId === ID && parsed.gdcPostNumber === '054' && parsed.handoffVersion === gp.handoffVersion && parsed.sourceCommit === gp.sourceCommit)
 check('the post body survives the trip word for word', parsed.linkedin?.body === gp.linkedin.body)
 check('template guidance left in brackets is not read as copy', !/250 to 450 words/.test(parsed.linkedin?.body || ''))
-check('an empty section is absent rather than an empty string', parsed.instagram === undefined)
+check('an empty section is absent rather than an empty string', parsed.newsletter === undefined)
 check('the parsed pack passes the same QA as the object did', Q.checkPack(parsed).verdict === 'PASS', Q.checkPack(parsed).failures.map((f) => f.check).join(' | '))
 // The same document as Drive hands it back: bold labels, escaped punctuation.
 const asDrive = packDoc.replace(/^(RESEARCH ID|GDC POST NUMBER|HANDOFF VERSION|SOURCE COMMIT|STATUS):/gm, '**$1:**')
@@ -283,6 +283,19 @@ check('a brief that says "use no invented screenshot" is not failed for the word
 check('a pack that says plainly it has no card passes the asset check as text only', realCheck(/names its approved assets/).pass === true && /text only/.test(realCheck(/names its approved assets/).detail))
 check('a brief that DOES describe an invented screen still fails',
   Q.checkPack({ ...gp, visual: { brief: 'A mock up of a screen showing the app with a regenerated character.', assetsUsed: ['x'] } }).failures.some((f) => /invented screen or person/.test(f.check)))
+check('a pack with no Instagram or Facebook version is held (core formats, 24 November)',
+  Q.checkPack({ ...gp, instagram: undefined, facebook: undefined }).failures.some((f) => /Instagram and Facebook versions/.test(f.check)))
+check('a visual brief with no MOTION line is held, and the reason names it',
+  Q.checkPack({ ...gp, visual: { ...gp.visual, brief: gp.visual.brief.replace(/MOTION:.*$/, '') } }).failures.some((f) => /each platform and the motion/.test(f.check) && /MOTION/.test(f.why)))
+{
+  const { writeFileSync, mkdtempSync } = await import('node:fs')
+  const { join } = await import('node:path')
+  const { tmpdir } = await import('node:os')
+  const cq = join(mkdtempSync(join(tmpdir(), 'cq-')), 'q.json')
+  writeFileSync(cq, JSON.stringify({ items: [{ gdc: '060', state: 'APPROVED' }, { gdc: '065', state: 'RESERVE' }, { gdc: '070', state: 'COMPLETED' }, { gdc: '071', state: 'HOLD' }, { gdc: '072', state: 'POSTED' }] }))
+  const got = F.completionQueue(cq).map((i) => i.gdc).join(',')
+  check('the completion list keeps approved and reserve items and drops completed, held and posted ones', got === '060,065', got)
+}
 check('a visual with no assets and no statement that there are none still fails',
   Q.checkPack({ ...gp, visual: { brief: 'A card.', assetsUsed: [] } }).failures.some((f) => /names its approved assets/.test(f.check)))
 check('the real pack is held for never saying the source is in the comments', realCheck(/source is in the comments/).pass === false)

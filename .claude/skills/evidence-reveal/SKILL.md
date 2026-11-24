@@ -63,6 +63,13 @@ review.
 
 ## Approval and publishing
 
+Every pack carries a LinkedIn post, first comment with the verified source,
+Instagram caption, Facebook adaptation, a visual brief for each platform and
+motion requirements where the story has one clean finding (Justin, 24 November
+2026; QA enforces it). A story stays eligible until completed, withdrawn,
+superseded or on HOLD; an older START HERE date never stops it. At most three
+personal LinkedIn posts a calendar week, the rest held in reserve.
+
 All new copy and media go through Claude's checks and then Justin. Never
 replace an existing Metricool asset, schedule or publish without his separate
 word. Cadence: one strong personal LinkedIn post every other day, subject to
