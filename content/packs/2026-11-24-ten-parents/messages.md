@@ -7,35 +7,56 @@ them. Nothing here is posted; Justin posts.
 
 Every link is tagged so PostHog shows which message brought each parent.
 
+## What Mumsnet taught us (24 November, rewritten the same day)
+
+The first version led with "the words to use tonight" and a link. It read as
+machine written, the ask came last, nobody would click an unknown link, and
+"screen time app" was heard as "an app that parents for you". So every message
+below now:
+
+- says who Justin is and what he wants in the first two lines;
+- leads with getting children ready before 16, not with the timer;
+- says plainly it is not an app that does the parenting;
+- gives the website to type, with the tagged link as an extra;
+- names one real moment, never an invented one.
+
+Weighed in full: `plans/2026-11-24-mumsnet-replies-weighed.md`.
+
 ## 1. Local parents' Facebook group
 
-Check the group's rules on links first. Where links are not allowed, post
-without it and send it to anyone who replies.
+Check the group's rules on links first. Where links are not allowed, leave the
+link off; the domain to type is already in the post.
 
-> Can I ask a favour of a few parents here?
+> Hi all, I'm Justin, dad of three (4, 10 and 12) near Bristol Airport. Could
+> I ask ten parents here for some honest feedback?
 >
-> I'm a dad and I've spent this year building something to help with the screen
-> time battles in our house: the nightly row about coming off, the "everyone
-> else has a phone" conversation, the worry about what they see in games.
+> At 16 our kids go from no social media to all of it overnight. I'd rather
+> mine knew what to look out for before that day, not after. So I've spent
+> the year building something for it: short lessons you do with your child,
+> from 4 up to 16, about scams, group chats, AI and who they're really
+> talking to in games. Schools can teach the same ones, so home and school
+> say the same thing.
 >
-> I'd love ten parents who don't know me to try it and tell me honestly whether
-> it helps. It's three questions about your child, free, no sign up, and you get
-> the words to use tonight for whatever is going on.
+> It's not an app that does the parenting for you. It's a plan you work
+> through with them, plus a way of handling screen time that isn't a row
+> every night.
 >
-> If you'd be up for a ten minute chat afterwards, even better, but it's not
-> needed. Honest "this didn't help" is just as useful to me as "this was good".
+> If you'd try it: type guidedchildhood.com and press "Find my child's
+> stage". Three questions, free, no sign up, nothing saved unless you choose
+> to. Then tell me what was confusing or useless. That helps me most.
 >
 > https://www.guidedchildhood.com/starter-pack?utm_source=facebook&utm_medium=group&utm_campaign=ten-parents
 >
-> Thank you. And if it's not allowed here, admins please delete and I'll
-> understand.
+> Thank you. Admins, delete if this isn't allowed and I'll understand.
 
 ## 2. WhatsApp or a text to someone you know, to pass on
 
-> Quick favour. I'm looking for a few parents I don't know to try the app I've
-> been building and tell me honestly if it helps. Three questions, free, no
-> sign up. Would you forward this to one or two parents you know with children
-> between 4 and 16? Thank you.
+> Quick favour. I'm after a few parents I don't know to try the thing I've
+> been building and tell me honestly what's wrong with it. It's about getting
+> kids ready for phones and social media before 16, short lessons you do
+> together, and it's free to try with no sign up. Would you forward this to
+> one or two parents with kids between 4 and 16? They just type
+> guidedchildhood.com and press "Find my child's stage". Thank you.
 >
 > https://www.guidedchildhood.com/starter-pack?utm_source=whatsapp&utm_medium=referral&utm_campaign=ten-parents
 
@@ -43,23 +64,28 @@ without it and send it to anyone who replies.
 
 The link goes in the first comment.
 
-> I need ten parents.
+> I need ten parents to tell me what's wrong with something I've built.
 >
-> Not customers. Testers. People who will try what I've built and tell me the
-> truth about it.
+> At 16, our children go from no social media to all of it in a day. The ban
+> buys time. It doesn't teach them anything.
 >
-> It's for the moment most of us know: the row when the screen goes off, the
-> phone question at eleven, the worry about who they talk to in games. Three
-> questions about your child, and you get the words to use tonight.
+> So I've built the bit in between: short lessons a parent does with their
+> child, from 4 to 16. Scams. Group chats. AI. Who they're actually talking
+> to in games. The same lessons schools can teach, so home and school say one
+> thing.
 >
-> It's free and there's no sign up. If it doesn't help, I want to know why.
+> It isn't an app that parents for you. It's a plan you work through
+> together.
 >
-> If you have a child between 4 and 16, the link is in the first comment. If you
-> try it, would you tell me one thing that worked and one thing that didn't?
+> I posted this on Mumsnet today and got taken apart, fairly. The post was
+> too polished and it wasn't clear what it was. So here's the plain version.
+>
+> If you've a child between 4 and 16, try it and tell me where it lost you.
+> What would your child pick holes in first?
 
 First comment:
 
-> Here it is: https://www.guidedchildhood.com/starter-pack?utm_source=linkedin&utm_medium=social&utm_campaign=ten-parents
+> Type guidedchildhood.com, or here's the link: https://www.guidedchildhood.com/starter-pack?utm_source=linkedin&utm_medium=social&utm_campaign=ten-parents
 
 ## The ten minute chat, five questions
 

@@ -164,7 +164,7 @@ window.SAY_THIS = {
     "kind": "q",
     "front": "Can my phone sleep in my room?",
     "sub": "The Bedroom Rule. The talk on the Bloop page of the Passport.",
-    "say": "Where does your phone sleep at night? In our house, phones sleep in the kitchen. The bedroom is for sleep. That is our rule and it will not change.",
+    "say": "At night, phones charge in the kitchen. Mine too. A phone next to the bed keeps buzzing and lighting up, and that keeps your brain awake even when you do not look at it. So your room is phone free at night, and you get it back at breakfast.",
     "why": "Set it now, before they have a personal device, and it is just how things work.",
     "help": null,
     "proof": "lib/content/stages.ts, bloop stage script"
