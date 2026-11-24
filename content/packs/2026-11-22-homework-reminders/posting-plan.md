@@ -36,7 +36,12 @@ No claim about marks, grades or calmer evenings. The film says what the app does
 
 ## Sound
 
-None baked in. Add a calm trending instrumental at upload, from the shortlist in `content/packs/2026-11-19-iphone-films/posting-plan.md`.
+Baked in from 24 November (Justin asked for the clicks and the music back). Each film now comes as two files:
+
+- `homework-reminders.mp4` and `homework-reminders-fb.mp4`: a tap sound on every tap, a chime when the reminder is added, a notification when the child's app shows it, and a quiet music bed. Use these on Facebook and anywhere you are not adding a track.
+- `homework-reminders-taps-only.mp4` and `homework-reminders-fb-taps-only.mp4`: the same taps with no music. Use these on Instagram and TikTok when you add a trending track in the app, so two pieces of music do not play at once. Keep the original audio at about a third so the taps still land.
+
+Also new on screen: three step markers across the top (Snap it, You get reminded, So do they), a butter ring on the button about to be pressed and a ripple where the finger lands. All drawn over the real recording; no app screen is invented.
 
 ## Caption, Instagram
 

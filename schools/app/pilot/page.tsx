@@ -78,6 +78,27 @@ export default async function PilotPage({ searchParams }: { searchParams: Promis
             At the end of the term you carry on with a licence or you stop, and either way we will have learned something from you.
           </p>
 
+          {/* THE TEACHER START FILM (24 November 2026). Twenty seconds of the
+              real site: the school code, pick your year, press Teach, and the
+              player with the words to say. Silent, so it starts muted and the
+              captions carry it. Made from real screens with a made up code:
+              videos/2026-11-24-schools-teacher-start. */}
+          <figure style={{ margin: '0 0 26px' }}>
+            <video
+              controls
+              muted
+              playsInline
+              preload="none"
+              poster="/films/teacher-start-poster.jpg"
+              style={{ width: '100%', aspectRatio: '16 / 9', borderRadius: 'var(--radius-card)', border: '1px solid var(--border)', background: 'var(--white)', display: 'block' }}
+            >
+              <source src="/films/teacher-start-h.mp4" type="video/mp4" />
+            </video>
+            <figcaption style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: 'var(--space-2)' }}>
+              Twenty seconds, no sound: your code, your year, Teach.
+            </figcaption>
+          </figure>
+
           <p style={{
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em',
             textTransform: 'uppercase', color: full ? 'var(--ink-muted)' : 'var(--stage-1-text)',
