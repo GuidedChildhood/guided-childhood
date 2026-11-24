@@ -438,3 +438,9 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 - `scripts/check-email-guard.mjs` had 5 failures on main. All five were the guard behind the code, each opt out traced to a decision of Justin's: the topic course (series, 16 November), the heavy lesson heads up (transactional, sync plan C), and the ask kind ("skip the rule", 16 November). No code changed.
 - The guard now reads the email kinds from the type, so a new kind can no longer opt out unseen (ask did, for a week). It also holds the caps that make skipping the floor safe: seven emails a course, three asks an account, two a lead.
 - Runs in the concern-guards job of wiring.yml. PR 1695.
+
+## 24 November 2026: the funnel read honestly, and ten parents before more building
+
+- Justin: no sign ups, doubt about whether the app helps. Read: tracking since 19 Nov works end to end (a test reached q2 and landed in PostHog); no real visitor has yet answered question one. Ad arrivals open straight on the age question with no promise or brand above it.
+- Each stage check step now counts once until it changes; every visit had logged two intro events, doubling the top of the funnel.
+- Next: ten parents who are not friends or family, five ten minute chats (messages in content/packs/2026-11-24-ten-parents). Building pauses until those answers are in.
