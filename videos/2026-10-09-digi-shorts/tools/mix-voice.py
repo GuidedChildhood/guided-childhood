@@ -2,12 +2,14 @@
 # dipping under her (22 November 2026). The lines live in assets/vo.
 #   python3 tools/mix-voice.py a renders/out/three-a-simple.mp4 out.mp4
 import subprocess, sys
+ONGOING = False
 k, src, out = sys.argv[1:4]
 her, research = ('his' if k == 'b' else 'her'), f'{k}-research'
 if k not in 'abc':  # a film from cuts/films.json: its own opening, shared lines for the rest
     import json
     D = json.load(open('cuts/films.json')); f = next(x for x in D['films'] if x['key'] == k)
     her, research = D['cast'][f['child']]['pos'], D['research'][f['research']]['vo']
+    ONGOING = f.get('ending') == 'ongoing'  # a film that does not end on Sorted leaves that line out
 LINES = [(0.4, f'{k}-open'), (7.9, 'starts'), (10.9, 'steps'), (18.3, f'checkin-{her}'), (25.4, 'words'),
          (30.9, 'later'), (37.4, 'sorted'), (41.0, 'learns'), (46.6, research), (52.7, 'end')]
 TEMPO = {}
@@ -15,6 +17,7 @@ if len(sys.argv) > 4 and sys.argv[4] == 'ad':  # the 30 second ad cut: six of th
     LINES = [(0.2, f'{k}-open'), (5.9, 'steps'), (11.4, 'words'), (15.4, 'later'), (19.4, 'sorted'), (25.5, 'end')]
     TEMPO = {0: 1.15, 1: 1.05}
 import os
+LINES = [(t, n) for t, n in LINES if not (ONGOING and n == 'sorted')]
 LINES = [(t, n) for t, n in LINES if os.path.exists(f'assets/vo/{n}.mp3')]  # a line not recorded yet is left out, the rest still play
 cmd = ['ffmpeg', '-v', 'error', '-y', '-i', src]
 for _, n in LINES: cmd += ['-i', f'assets/vo/{n}.mp3']
