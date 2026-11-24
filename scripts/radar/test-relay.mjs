@@ -131,6 +131,19 @@ check('no number can be claimed for a candidate that has not been reviewed', isH
 check('no handoff can be built from a candidate', isHold(P.handoff(ID, opt)))
 const review = JSON.parse(readFileSync(join(process.cwd(), 'scripts/radar/reviews/GDC-RR-0754a1641c.json'), 'utf8'))
 review.studyId = ID
+// The ten verification checks, required from 24 November 2026.
+review.verification = {
+  originalSource: 'Read the abstract at the journal page by its DOI; it reports what the candidate says.',
+  publicationDate: 'Published online on the date the journal page gives, read on that page.',
+  statisticsAndDenominators: 'No figure is quoted in copy, so no denominator is carried forward.',
+  sampleAndPopulation: 'Adolescents recruited online in one country, not UK families.',
+  researchDesign: 'A pooled analysis of observational studies; it can describe association only.',
+  correlationOrCausation: 'Association only. Copy says linked with, never causes.',
+  counterEvidence: 'Large preregistered analyses find much smaller average effects.',
+  strongestObjection: 'Self reported screen time is a poor measure of what children actually do.',
+  practicalImplications: 'A parent can watch for the pattern, not count minutes; no outcome is claimed.',
+  claimsNotToMake: 'That screens cause poor mental health, or that this supports anything we sell.',
+}
 check('a review cannot be stored before the automatic check has run', isHold(P.storeReview(ID, review)))
 // The automatic check needs the network, so its result is written here as the
 // dossier would write it. test-drop and the live run exercise the real one.
@@ -139,11 +152,21 @@ check('a review with no claims is refused', isHold(P.storeReview(ID, { ...review
 check('a review that found no limits is refused', isHold(P.storeReview(ID, { ...review, limitations: [] })))
 check('a review with a made up claim status is refused', isHold(P.storeReview(ID, { ...review, claims: [{ claim: 'x is true', status: 'PROBABLY', basis: 'a feeling' }] })))
 check('a review dated in the future is refused', isHold(P.storeReview(ID, { ...review, reviewedAt: new Date(Date.now() + 3600000).toISOString() })))
+check('a review without the ten verification checks is refused', isHold(P.storeReview(ID, { ...review, verification: undefined })))
+check('a review with a thin verification answer is refused', isHold(P.storeReview(ID, { ...review, verification: { ...review.verification, strongestObjection: 'none' } })))
+check('every verification check in the settings file has a field in the review code', P.uncoveredChecks().length === 0, P.uncoveredChecks().join(', '))
+check('a check added to the settings file and not to the code is caught', P.uncoveredChecks({ research: { verificationChecks: ['a new check'] } }).length === 1)
 check('a review with a dash in it is refused, because its text goes into the handoff', isHold(P.storeReview(ID, { ...review, oneStory: 'A study \u2014 a big one' })))
 check('a review for a different record is refused', isHold(P.storeReview(ID, { ...review, studyId: 'GDC-RR-0000000000' })))
 check('status has not moved while reviews were being refused', reg.get(ID).status === 'VERIFIED' && reg.get(ID).claudeStatus !== 'CLAUDE REVIEWED')
 const stored = P.storeReview(ID, { ...review, recommendedPlatforms: ['LinkedIn post'] })
 check('a complete review is stored and the story becomes EDITORIAL READY', stored.verdict === 'PASS' && reg.get(ID).status === 'EDITORIAL READY' && reg.get(ID).claudeStatus === 'CLAUDE REVIEWED')
+{
+  const H = await import('./handoff.mjs')
+  const hb = H.buildHandoff(reg.get(ID), { claudeReview: reg.get(ID).claudeReview })
+  const doc = H.handoffDoc(hb)
+  check('the handoff carries the verification, and the text tells Stage 2 to concede the objection', hb.verification?.strongestObjection === review.verification.strongestObjection && doc.includes('Strongest objection, concede it in the post'))
+}
 check('the sender\'s causal claim is nowhere in the cleared figures', !JSON.stringify(reg.get(ID).claudeReview.verifiedStatistics).includes('proves'))
 
 // ===========================================================================
@@ -202,6 +225,22 @@ check('still not ready: nothing verifiably in Drive', isHold(P.readyForApproval(
 check('a verified save is recorded', P.recordPackSave(ID, { fileId: 'test-pack', verification: C.verifyDownload(packText, { base64: Buffer.from(packText).toString('base64') }) }).verdict === 'PASS')
 check('now it is READY FOR JUSTIN', P.readyForApproval(ID).verdict === 'PASS' && P.founderStatus(reg.get(ID)) === 'READY FOR JUSTIN')
 
+// The handoff manifest (stage 5, 24 November 2026): seventeen fields, and no
+// permission until the founder voice review is stored.
+{
+  const M = await import('./post-manifest.mjs')
+  const entry = () => M.buildPostManifest().posts.find((p) => p.origin?.researchId === ID)
+  const m0 = M.buildPostManifest()
+  check('the handoff manifest has every one of the seventeen fields and no problems', M.manifestProblems(m0).length === 0 && !!entry() && M.FIELDS.every((f) => f in entry()), M.manifestProblems(m0).join(' | '))
+  check('without a founder voice review the post may not become a draft', entry().draftCreationPermission === false && /founder voice review is NOT DONE/.test(entry().holdReason))
+  check('a voice review needs notes', isHold(P.recordVoiceReview(ID, { verdict: 'PASS' })))
+  check('a voice review with a made up verdict is refused', isHold(P.recordVoiceReview(ID, { verdict: 'FINE', notes: 'x' })))
+  check('a voice review is stored', P.recordVoiceReview(ID, { verdict: 'PASS', notes: 'TEST. Guard pass, meter near his baseline, nothing changed, read aloud pass.' }).verdict === 'PASS')
+  check('once cleared, the post may become a draft and, under the standing permission, be scheduled', entry().draftCreationPermission === true && entry().schedulingPermission === true)
+  check('automatic publishing stays off', entry().automaticPublishingPermission === false)
+  check('the manifest version is stable for the same content', M.buildPostManifest().version === M.buildPostManifest().version)
+}
+
 // ===========================================================================
 section('7. APPROVAL: four statuses, and only Justin moves them')
 // ===========================================================================
@@ -215,7 +254,7 @@ check('the start here document carries his request back', F.stage2Brief().text.i
 // The next version: QA, review and a verified save, all over again.
 await new Promise((r) => setTimeout(r, 15))
 const v2 = F.parsePackText(packText.replace('I nearly used a number this week', 'This week I nearly used a number'))
-check('the new version goes through QA again', P.submitPack(v2, opt).verdict === 'PASS' && reg.get(ID).packReview === null && !reg.get(ID).packDrive)
+check('the new version goes through QA again, and its earlier reviews no longer count', P.submitPack(v2, opt).verdict === 'PASS' && reg.get(ID).packReview === null && reg.get(ID).voiceReview === null && !reg.get(ID).packDrive)
 P.reviewPack(ID, { verdict: 'PASS', notes: 'TEST. Simulated review of version 2.' })
 P.recordPackSave(ID, { fileId: 'test-pack-v2', verification: { ok: true, level: 'TEXT IDENTICAL', problems: [] } })
 check('and returns to READY FOR JUSTIN with the request marked answered', P.readyForApproval(ID).verdict === 'PASS' && P.founderStatus(reg.get(ID)) === 'READY FOR JUSTIN' && !!reg.get(ID).founderDecision.resolvedAt)

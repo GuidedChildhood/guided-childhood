@@ -100,13 +100,18 @@ judgement, "not a rule that every post needs an image".
    why, and when you edited, the plain statement that the editor and the
    reviewer are the same, the mechanical checks are independent, and whether
    it sounds like Justin is his to judge.
-2. `recordPackSave` with the verification of the Drive copy.
-3. `node scripts/radar/pipeline.mjs ready <id>`. That is as far as you go.
+2. The founder voice review (`.claude/skills/founder-voice-review`) on the
+   reviewed pack, every platform and the first comment, then
+   `node scripts/radar/pipeline.mjs voice <id> PASS|"CHANGES MADE"|"BACK TO WRITER" "<guard, meter, what changed, read aloud>"`.
+   Without it the post is not editorially cleared and the manifest gives
+   ChatGPT no permission for it.
+3. `recordPackSave` with the verification of the Drive copy.
+4. `node scripts/radar/pipeline.mjs ready <id>`. That is as far as you go.
    Once it passes, retitle the Doc Justin will open so it no longer says
    DRAFT: `PACK <research id> GDC-<number> v<n> READY FOR JUSTIN, checked <date>`.
    Then move that Doc into the Founder Approval Desk folder.
    A draft is never shown as the final version.
-4. `node scripts/radar/daily.mjs log "PACK REVIEW" PASS "<which packs, which verdicts>"`.
+5. `node scripts/radar/daily.mjs log "PACK REVIEW" PASS "<which packs, which verdicts>"`.
 
 **Never call `approve`. Never call `requestChanges` unless Justin's own words
 asking for the change are in front of you. Never call `publish` without a URL
@@ -142,6 +147,18 @@ the earlier one (retitle the old one with ZZ in front, never leave two). Read
 it back. The file says whether a draft may be made and whether it may be
 scheduled, and both are no until Justin has approved. Never change those two
 lines by hand.
+
+Then the one manifest ChatGPT reads first (stage 5, 24 November 2026):
+
+    node scripts/radar/post-manifest.mjs
+
+It refuses to write if any entry lacks one of the seventeen fields or an
+incomplete entry carries a permission. Copy
+`content/research-register/handoff-manifest.json` into the METRICOOL HANDOFF
+folder as `GDC HANDOFF MANIFEST, CURRENT.json` only after every pack and asset
+it names has been read back from Drive; read the manifest itself back and
+compare by code. Then retitle the previous one with ZZ in front. Never leave
+two CURRENT manifests, and never upload one that did not write cleanly.
 
 ## 5b. The daily flow check: did every hand in the chain do its part
 

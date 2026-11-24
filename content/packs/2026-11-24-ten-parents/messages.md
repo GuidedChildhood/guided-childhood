@@ -71,3 +71,42 @@ First comment:
 
 Write each answer down in their words. After five chats the pattern is usually
 obvious.
+
+## 4. Mumsnet, the Non-member requests board
+
+Mumsnet's main boards do not allow research or feedback threads; Non-member
+requests is where people who have built something for parents ask. Say plainly
+that you built it. Mumsnet's terms ask for permission before posting links that
+earn money: the link goes to the free check, and the post says there is a paid
+part. If in doubt, ask MNHQ first.
+
+Title:
+
+> I've built something for the screen time battles. Would you tell me honestly if it helps?
+
+Post:
+
+> Hello. I'm a dad, not a company with a marketing team, and I'll be upfront: I
+> built this, so I'm biased, which is exactly why I'm asking here.
+>
+> Screens were the hardest part of my week. The row when the tablet goes off,
+> the "everyone else has a phone" conversation, not knowing what was going on in
+> the games. I read a lot of research and still didn't know what to actually say
+> at 6pm on a Tuesday. So I built a tool that tries to answer that.
+>
+> You answer three questions about your child (their age and what is going on)
+> and it gives you the words to use tonight and a plan for their age. It's free,
+> there's no sign up to try it, and nothing you tick is kept unless you choose to save your plan. There is a paid
+> part later on, and I'd rather say so now.
+>
+> What I'd really value:
+>
+> 1. Did the advice sound like something you would actually say to your child?
+> 2. Where did you stop, and why?
+> 3. What did it get wrong?
+>
+> Blunt is good. "This was useless because..." helps me more than anything.
+>
+> https://www.guidedchildhood.com/starter-pack?utm_source=mumsnet&utm_medium=forum&utm_campaign=ten-parents
+>
+> Thank you for reading, and for any time you can give it.

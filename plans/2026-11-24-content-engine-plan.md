@@ -33,16 +33,19 @@ to "where appropriate" in stage 2: QA asks for each format or a written reason.
    platforms, visuals, motion, newsletter, scheduling, the permission matrix
    (A to F), approval, pause switch, notifications. A guard fails CI when a rule
    in code disagrees with it. A one page "where to change things" guide.
-3. **Founder voice.** `.claude/skills/founder-voice-review/` built on the
+3. **Founder voice.** DONE 24 Nov (see decisions.md).
+   **Founder voice.** `.claude/skills/founder-voice-review/` built on the
    existing ai-tells guard, the voice keeper and founder-context, informed by the
    three named editorial sources (read, not executed). The living Founder Voice
    Bible at `content/brand-story/voice-bible.md`, fed by his posts, transcripts
    and corrections, with a corrections log. Wired into CLAUDE.md routing, the
    writing skills, QA and START HERE.
-4. **Research and verification.** The ten verification checks become required
+4. **Research and verification.** DONE 24 Nov (verification.mjs).
+   **Research and verification.** The ten verification checks become required
    fields of a stored review; the review gate refuses one that lacks any. The
    philosophy and TRUST and readiness framework in the settings file.
-5. **The handoff manifest (ChatGPT contract).** One stable Drive file,
+5. **The handoff manifest (ChatGPT contract).** DONE 24 Nov (post-manifest.mjs).
+   **The handoff manifest (ChatGPT contract).** One stable Drive file,
    `GDC HANDOFF MANIFEST, CURRENT`, with the sixteen fields per post, versioned,
    written only after every file it points at has been read back, and marked
    incomplete otherwise. START HERE points at it. Revisions propagate by GDC

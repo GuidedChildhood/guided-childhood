@@ -117,6 +117,10 @@ export function buildHandoff(rec, { claudeReview, gdcPostNumber = null, priority
     whatThisDoesNotProve: claudeReview.whatThisDoesNotProve || [],
     mediaMisrepresentation: claudeReview.mediaMisrepresentation || null,
 
+    // the ten verification checks (24 November 2026); null on reviews stored
+    // before they were required
+    verification: claudeReview.verification || null,
+
     // claim by claim, the protocol's four verdicts
     claimVerification: claudeReview.claims,
     claudeReview: {
@@ -208,6 +212,16 @@ export function handoffDoc(h) {
   line('CONTRADICTORY OR NULL EVIDENCE')
   list(h.contradictoryEvidence)
   line()
+  if (h.verification) {
+    line('THE VERIFICATION, WHAT COPY MUST RESPECT')
+    line(`  Design: ${h.verification.researchDesign}`)
+    line(`  Sample: ${h.verification.sampleAndPopulation}`)
+    line(`  Cause or association: ${h.verification.correlationOrCausation}`)
+    line(`  Strongest objection, concede it in the post: ${h.verification.strongestObjection}`)
+    line(`  What a parent or teacher can do with it: ${h.verification.practicalImplications}`)
+    line(`  Never use it to claim: ${h.verification.claimsNotToMake}`)
+    line()
+  }
   line('MEDIA COVERAGE')
   line(`  ${h.mediaMisrepresentation || 'not assessed'}`)
   line()

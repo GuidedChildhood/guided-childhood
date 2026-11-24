@@ -128,8 +128,9 @@ Run every draft against these and fix what fails. Report anything you could not
 fix.
 
 **The voice check.** Would `Natalia` say this out loud to another parent at
-the school gate. Kill: unlock, dive in, game changer, landscape, delve,
-revolutionary, genuinely, straightforward, the truth is, here is the thing.
+the school gate. Then run `.claude/skills/founder-voice-review` (family
+voice): the banned list is the one in `scripts/check-ai-tells.mjs`, plus
+revolutionary, genuinely, straightforward and the truth is for the ear.
 
 **The dash check.** No dashes. Not in captions, carousel cards, Stories or
 Highlights titles. Ages as "4 to 16", never "4-16". Restructure the sentence,

@@ -3,7 +3,7 @@
 Justin, 29 September 2026: do not use words or punctuation that let an algorithm,
 or a reader, place the writing as machine written.
 
-This file is the list. `content-engine`, `viral-post`, `family-social`,
+This file is the list. `.claude/skills/founder-voice-review` is the review that runs it, with the rhythm meter, the true scenes and Justin's corrections (`content/brand-story/voice-bible.md`), on every outward word. `content-engine`, `viral-post`, `family-social`,
 `silent-ugc` and `linkedin-comment-replies` all load it. `scripts/check-ai-tells.mjs`
 enforces the half of it that a machine can judge; the other half is on the
 writer, because it needs an ear.
