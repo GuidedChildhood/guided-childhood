@@ -30,7 +30,7 @@ posts. Fill the [square brackets] yourself. Nothing in them is invented for you.
 > 4. It's called Guided Childhood. Just type guidedchildhood.com and press
 > "Find my child's stage" on the home page. Don't click my link, I get it.
 >
-> 5. I'm Justin, [near Bath], dad of three ([ages]). Been building this for
+> 5. I'm Justin, near Bristol Airport, dad of three (4, 10 and 12). Been building this for
 > about a year. There's a schools side too. Teachers get the online safety
 > lessons ready to teach, and each one sends a note home with a question to
 > ask your child, and a code that opens the same lesson at home. So what they
@@ -55,7 +55,7 @@ Title:
 
 Post:
 
-> I'm Justin, a dad of three ([ages]) near Bath. I've built something
+> I'm Justin, a dad of three (4, 10 and 12) near Bristol Airport. I've built something
 > and I'm looking for ten parents who don't know me to try it and tell me
 > honestly what's wrong with it.
 >
@@ -81,7 +81,7 @@ Post:
 
 Before posting:
 
-1. Fill in [ages], or take the brackets out if you'd rather not say.
+1. Fill in 4, 10 and 12, or take the brackets out if you'd rather not say.
 2. Check the "Find my child's stage" button is on the home page as named.
 3. If MNHQ asked you to check links before posting, the bare domain still
    counts. Ask them first.
@@ -133,7 +133,7 @@ Before posting:
 
 > Rewritten, thanks to everyone above, you were right.
 >
-> I'm Justin, dad of three ([ages]) near Bath. I've built something and I'm
+> I'm Justin, dad of three (4, 10 and 12) near Bristol Airport. I've built something and I'm
 > after ten parents who don't know me to try it and tell me what's wrong
 > with it.
 >
