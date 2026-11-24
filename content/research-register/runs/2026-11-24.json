@@ -147,30 +147,6 @@
    "attempts": 1
   },
   {
-   "stage": "PUSH",
-   "verdict": "ERROR",
-   "by": "claude",
-   "reasons": [
-    "The day's commit and push were denied by the session permission classifier (Destructive or Unwanted Actions) on git commit, although the dry run push on 24 Nov succeeded. Work is uncommitted on claude/radar-2026-11-24; a patch was left in Drive."
-   ],
-   "detail": null,
-   "at": "2026-11-24T09:32:13.771Z",
-   "commit": "34fd281a",
-   "attempts": 1
-  },
-  {
-   "stage": "PACK QA",
-   "verdict": "SKIPPED",
-   "by": "claude",
-   "reasons": [
-    "No pack waiting in the Stage 2 folder (GDC-062 and GDC-063 not yet written by ChatGPT)."
-   ],
-   "detail": null,
-   "at": "2026-11-24T09:32:13.966Z",
-   "commit": "34fd281a",
-   "attempts": 1
-  },
-  {
    "stage": "DRIVE SYNC",
    "verdict": "PASS",
    "by": "claude",
@@ -181,7 +157,43 @@
    "at": "2026-11-24T11:21:07.123Z",
    "commit": "628474eb",
    "attempts": 2
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "afternoon run: no pack waiting in the Stage 2 folder; the only four PACK documents (GDC-054, 058, 059, 061) are all already CLAUDE REVIEWED from earlier days"
+   ],
+   "detail": null,
+   "at": "2026-11-24T13:24:17.493Z",
+   "commit": "8fcf9be4",
+   "attempts": 2
+  },
+  {
+   "stage": "FLOW CHECK",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "no pack to check today; ChatGPT 11:00 pack step not visible as new output; 14:30 Metricool step cannot be seen from here"
+   ],
+   "detail": null,
+   "at": "2026-11-24T13:24:18.870Z",
+   "commit": "8fcf9be4",
+   "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "afternoon run: dry run and push of claude/radar-2026-11-24 both succeeded (morning push was refused by the permission check)"
+   ],
+   "detail": null,
+   "at": "2026-11-24T13:24:35.389Z",
+   "commit": "638976ae",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-24T11:21:07.156Z"
+ "updatedAt": "2026-11-24T13:24:35.416Z"
 }
