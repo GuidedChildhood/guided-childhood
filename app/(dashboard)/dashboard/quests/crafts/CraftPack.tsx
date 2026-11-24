@@ -374,7 +374,7 @@ const DINNER_CARDS = [
   'If our family had a group chat rule, what should it be?',
   'What would you do with a whole Saturday and no screens at all?',
   'Who did you help today, and who helped you?',
-  'Phones sleep in the kitchen tonight. What shall we do instead?',
+  'Phones charge in the kitchen tonight. What shall we do instead?',
 ]
 
 export default function CraftPack({ childName = null }: { childName?: string | null }) {

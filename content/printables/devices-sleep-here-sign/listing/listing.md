@@ -26,7 +26,7 @@ The Devices Sleep Here Sign is a print at home poster and a stand up sign for th
 What you get, 3 pages:
 
 - The charging station poster: Devices sleep here, with a line for the time everyone docks by, grown ups too
-- The stand up sign to cut and fold: Goodnight, phones. The bedroom is for sleep on one side, Phones charge in the kitchen, not the bedroom on the other
+- The stand up sign to cut and fold: Phones charge here at night. Mine too. on one side, Phones charge in the kitchen, not the bedroom on the other
 - A4 and US Letter in full colour, plus an ink friendly version
 - A thank you page with a free gift for your family
 
