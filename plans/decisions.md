@@ -443,6 +443,7 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 
 - Justin: no sign ups, doubt about whether the app helps. Read: tracking since 19 Nov works end to end (a test reached q2 and landed in PostHog); no real visitor has yet answered question one. Ad arrivals open straight on the age question with no promise or brand above it.
 - Each stage check step now counts once until it changes; every visit had logged two intro events, doubling the top of the funnel.
+- Justin, "3 yes": a visit from a post or ad now sees the intro's promise above question one: "Free. Three questions. No sign up. You get the words to use tonight." Measure: share of ad visits that reach q2.
 - Next: ten parents who are not friends or family, five ten minute chats (messages in content/packs/2026-11-24-ten-parents). Building pauses until those answers are in.
 ### 23 November 2026: a page for trusts and MATs
 - New public /trusts page, built on Oak's advice that EdTech is bought at trust level. It covers the two jobs (online RSHE, parents), each school keeping its own code and record, a free pilot in two schools first, and pricing per school on application with the single school range shown. It claims no trust wide dashboard. Linked from the pricing trust band and the pilot page. OPEN_PATHS is now 15.
