@@ -110,6 +110,11 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: band.featured ? 'var(--terracotta)' : 'var(--terracotta-dark)', marginTop: '2px' }}>
                 {band.perPupil}
               </div>
+              {band.onApplication && (
+                <Link href="/trusts" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: 'var(--space-2)', minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>
+                  How it works for trusts
+                </Link>
+              )}
             </div>
           ))}
         </div>

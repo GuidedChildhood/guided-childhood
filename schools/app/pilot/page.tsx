@@ -102,7 +102,7 @@ export default async function PilotPage({ searchParams }: { searchParams: Promis
           </ul>
 
           <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)' }}>
-            Part of a trust? Say so in the form, and we will set up a few of your schools together.
+            Part of a trust? Say so in the form, and we will set up a few of your schools together. <Link href="/trusts" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>How it works for trusts</Link>.
           </p>
           <p style={{ ...body, fontSize: 'var(--text-base)' }}>
             Not ready to ask yet? <Link href={`/lesson/${TASTER_MODULES[0]}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Teach the sample lesson first</Link>. It is the real thing, nothing locked.
