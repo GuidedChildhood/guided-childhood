@@ -166,17 +166,26 @@ founder who keeps defending loses the thread. One short, warm line, then leave i
 > don't need this and that's a good place to be. It's for the ones where it
 > doesn't. And guilty as charged on being a dad with an app.
 
-## Reply to "screens to avoid screens" (agreeing with FroggyNo)
+## One reply to FroggyNo and the poster who agreed with her
 
-The one sceptic point worth answering, because it is fair and it is about the
-idea rather than the post. Agree first, one reply, and then let the thread go.
-No reply to FroggyNo herself.
+One reply covering both, warm and not defensive, then stop replying on the thread.
 
-> That's fair, and I agree with more of it than you'd think. Most of it
-> happens with the phone down: the jobs are real jobs round the house, and
-> the words are for a chat at tea, not something they read on a screen. And
-> you're right that it's adults too. The bedroom line now says "mine too"
-> for exactly that reason. If my phone's on the table at tea, nothing I say
-> about theirs counts for much.
+> FroggyNo, and the poster after you: fair, and I agree with more of that
+> than you'd think.
+>
+> Setting an example is the whole thing. It's why the bedroom line now says
+> "mine too". If my phone's on the table at tea, nothing I say about theirs
+> counts for much.
+>
+> And it isn't meant to replace parenting, or to add more screens. Most of it
+> happens with the phone down. The jobs are real jobs round the house. The
+> words are for a chat at tea. The lessons are things you talk through
+> together, like what a scam looks like or who they're really talking to in
+> a game, so they aren't meeting all of that for the first time at 16.
+>
+> If none of that is needed in your house, honestly, that's a good place to
+> be. It's for the ones where it's harder.
+>
+> Thanks for taking the time to say so.
 
 After this one, stop replying. The thread has done its job.
