@@ -47,3 +47,10 @@ point is about the post, not the product.
 |---|---|---|---|---|
 | 9 | "'Phones sleep in the kitchen. The bedroom is for sleep.' That's an immediate contradiction... Any vaguely savvy child will home in on weaknesses in the words used" | **Adopt.** She is right, and it was on the live site: the ages 7 to 10 script in `lib/content/stages.ts` (the stage check result, /pathway, /scripts), the printed script card, and two old static pages. Rewritten so there is no metaphor to argue with: phones charge in the kitchen, mine too, a buzzing phone keeps your brain awake, you get it back at breakfast. The "why" also dropped a blue light claim our own evidence rule avoids. | Philosophy (the words must work at 6pm). Evidence or silence | Small |
 | 10 | "get actual children to evaluate them" | **Adopt as a process.** Every script line gets read aloud to a child of the right age and the first comeback is written down before it ships. Justin's three are the first panel; the ten parent testers are asked for their child's comeback too. A full pass over all scripts is a larger job and is parked for a session of its own. | The customer | Medium, parked |
+
+## Reply 5, mysittingduck (the first who used it)
+
+| # | Their words | Verdict | Objective | Size |
+|---|---|---|---|---|
+| 11 | "I used the app briefly and it was confusing. I wasn't sure where it was heading." | **Adopt, and find out where.** The most important reply so far: the only reader who went through it, and the journey did not say where it was going. Point 7 again, inside the product: the stage check result should open by saying what happens next (your plan, then the jobs and timer, then the lessons). Before changing anything, ask her where she stopped and what she expected, and watch the PostHog recordings for today's Mumsnet visits. | The goal (stage check to plan) | Small to find, size of fix unknown |
+| 12 | "the 'bedroom is for sleep, phones sleep in the kitchen' even more so" | **Already fixed** (point 9). | | |

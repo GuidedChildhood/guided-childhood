@@ -120,3 +120,11 @@ Before posting:
 > and the "mine too" takes away the "but you have yours" bit. And yes on
 > getting kids to test them. Mine are first in line, and if any of yours
 > fancy finding holes in the rest, I'd genuinely love that.
+
+## Reply to mysittingduck
+
+> Thank you for actually trying it, that's really useful. You're right about
+> the bedroom line, I've changed it today. Can I ask where you got to before
+> it stopped making sense? Was it the questions, or the page after where it
+> gives you the plan? If it didn't tell you what happens next, that's the
+> bit I need to fix first.
