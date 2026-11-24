@@ -137,7 +137,7 @@ window.PASSPORT = {
       blurb: 'Creative and clever. Building skills and strong foundations.',
       focus: 'Building digital habits before the algorithm learns them',
       talkTitle: 'The Bedroom Rule',
-      say: 'Where does your phone sleep at night? In our house, phones sleep in the kitchen. The bedroom is for sleep.',
+      say: 'Where does your phone charge at night? In our house, phones charge in the kitchen. Mine too. Your room is phone free at night.',
       doing: 'Have the bedroom rule conversation tonight as a family decision, not a rule you impose. Where should our devices sleep?',
       doingShort: 'Decide together where devices sleep',
       check: 'Where devices sleep at night in your house, and why.',

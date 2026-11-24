@@ -60,3 +60,24 @@ point is about the post, not the product.
 | # | Their words | Verdict | Objective | Size |
 |---|---|---|---|---|
 | 13 | "The app implies that we need screens to enable us to avoid screens... address the fact that screens are addictive... Adults as well as children." | **Adapt.** It is a fair worry and the answer is true in the product: the jobs are offline, the scripts are spoken, and the bedroom line already says "mine too". The reply agrees and closes. We do not argue about "addictive": that word needs evidence we would have to source, and a thread reply is not the place. Messaging lesson for every post: say early that most of it happens with the phone down, and that the rules cover adults too. | The customer. Evidence or silence | Small |
+
+## What the Mumsnet visitors actually did (PostHog, 24 November, 12:37 to 14:13)
+
+No recordings exist: session replay is switched off in the project (and
+`disable_session_recording: true` in `components/Analytics.tsx`). This is from
+the events alone.
+
+- About 24 real visitors from the thread. Each showed up twice, because the
+  page reloaded itself on a first visit (fixed in PR 1717, `PwaRegister.tsx`).
+- About half left on the intro screen without answering a question.
+- About 10 answered all three and reached the result.
+- One went on to the account step. Nobody else clicked anything after the
+  result: they stayed 25 to 90 seconds, then left.
+- mysittingduck posted at 13:19. The only visit that fits is a desktop one at
+  13:16: three questions in 52 seconds, the result at 13:17, then gone. Likely
+  her, not certain. If so, "not sure where it was heading" is the result page.
+
+Finding: the result page does not say what happens next. That matches point
+11. The fix is a clear "here is what you get next" at the top of the result,
+then one button. Check `app/(marketing)/starter-pack/ResultScreen.tsx` before
+any more forum traffic is sent.

@@ -10,8 +10,16 @@ export default function PwaRegister() {
   useEffect(() => {
     if (!('serviceWorker' in navigator)) return
 
+    // Only a page that was already controlled by an older worker needs the
+    // reload. On a first visit there is no controller yet, and sw.js calls
+    // clients.claim(), so controllerchange fires within a second of landing:
+    // reloading then flashed the page for every new visitor and, with memory
+    // persistence, counted each one twice in PostHog (seen 24 November 2026,
+    // every Mumsnet visit arrived as two sessions 200ms apart).
+    let hadController = !!navigator.serviceWorker.controller
     let refreshing = false
     navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!hadController) { hadController = true; return }
       if (refreshing) return
       refreshing = true
       window.location.reload()
