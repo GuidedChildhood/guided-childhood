@@ -50,19 +50,30 @@
   },
   "stage2Brief": {
    "role": "stage2Brief",
-   "fileId": "1ABU9j-7IiDLMqiV7Jij_hP76SOLRpeDA",
-   "title": "GDC STAGE 2 START HERE [628474eb] 2026-11-24 11:17, CURRENT",
-   "links": {},
-   "commit": "628474eba88736313a5ee3bb29fc72d99d8fbbcf",
-   "factsSha256": "ffebdc2870aeb1694d1d02c71a40bd0b43d03692a5e32a827f64a574b9bc406c",
-   "sha256": "c07532927818a7ec942df2908f5572b5538b91eab82eef5a042dfc6cd31eb665",
+   "fileId": "1_iqkMfEnS-XNzqGiF36p4yrwEuc9LJ7hGrOfrVJXbm8",
+   "title": "GDC STAGE 2 START HERE [3861fb71] 2026-11-24 11:40, CURRENT",
+   "links": {
+    "postRegister": "1rQKT57o6nKP1saKdA89CO0E2-xewyyBz",
+    "manifest": "1lNehnGX1TJ92ElgxQ1xFeRyG9Q7-misV",
+    "handoffDocs": {
+     "GDC-RR-553f7dc067": "https://docs.google.com/document/d/1xbE-LA0YlTeQZm69lJQM5nQxwh5QqDmIMkpSw8UxnCc/edit",
+     "GDC-RR-540fff2c03": "https://docs.google.com/document/d/1vhKpmzcMd7gq8f6pfyez-i7UuHlnxAiRO6DBfzWRzm8/edit"
+    },
+    "handoffJsons": {
+     "GDC-RR-553f7dc067": "1lFyHAjqaEgdpIDvnk7TYmBH-UI6hwKRo",
+     "GDC-RR-540fff2c03": "13JuFsCW596ltICFIqBYtrf_ZcJBCMYJC"
+    }
+   },
+   "commit": "3861fb71ffdbe5384739adca4aacbce686717714",
+   "factsSha256": "60f56652845164ac2917d6e5c128a5c895975fa48909f3689f63197b9324c3d9",
+   "sha256": "33a087b72d83d408983c69d84ef97910b086a71f7f06119b4df8ee5b7edb18a7",
    "verification": {
     "ok": true,
     "level": "TEXT IDENTICAL",
     "problems": [],
     "note": "Every line of the document matches the text it was made from. Only the byte order mark, line endings and blank line spacing differ, which Drive changes on every Doc."
    },
-   "at": "2026-11-24T11:20:59.836Z"
+   "at": "2026-11-24T11:55:45.771Z"
   },
   "handoff:GDC-RR-3d31eb1683": {
    "role": "handoff",
@@ -146,7 +157,7 @@
   }
  },
  "failures": [],
- "lastSuccessAt": "2026-11-24T11:20:59.836Z",
+ "lastSuccessAt": "2026-11-24T11:55:45.771Z",
  "approvalDesk": {
   "fileId": "1HILBiAzMzObFv-5RalnbEpcyi6fu70_ZUWs-o3hhQ54",
   "title": "GDC APPROVAL DESK [427fa677] 2026-11-17 14:10, CURRENT, for Justin",
