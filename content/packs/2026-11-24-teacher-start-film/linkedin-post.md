@@ -1,7 +1,7 @@
 # LinkedIn post: the teacher start film
 
 24 November 2026. Justin's account. Attach `videos/2026-11-24-schools-teacher-start/teacher-start-v.mp4`
-(vertical, 20 seconds, silent). Post Tuesday to Thursday, 7:30 to 8:30am, when
+(vertical, silent) once it is re-cut in the walkthrough engine (decision 24 November; the current file is a one off recorder cut). Post Tuesday to Thursday, 7:30 to 8:30am, when
 teachers and heads are on their phones before school.
 
 Every line has a proof path on the schools site: the code door (/unlock), the
