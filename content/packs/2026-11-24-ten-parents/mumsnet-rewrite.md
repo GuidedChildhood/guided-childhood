@@ -57,3 +57,13 @@ Before posting:
 2. Check the "Find my child's stage" button is on the home page as named.
 3. If MNHQ asked you to check links before posting, the bare domain still
    counts. Ask them first.
+
+## Reply to MrsDanversGlidesAgain
+
+> That's fair, it wasn't clear, and that's on me. Mostly it's not about
+> talking. It's a way of running screen time so it isn't a nightly row: your
+> child does small jobs, the jobs earn minutes, and a timer you can both see
+> ends it. The plan is what changes as they get older, like when a phone or a
+> group chat comes in. The words are for the few conversations that are hard,
+> like the first phone, if you want them. I'll rewrite the post so it says
+> that up front.

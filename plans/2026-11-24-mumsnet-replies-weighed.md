@@ -34,3 +34,9 @@ point is about the post, not the product.
 - Rule for every forum or group post: say who you are and what you want in
   the first two lines, give a domain to type rather than a link, name one real
   scene, and lead with the star quest, not the scripts.
+
+## Reply 3, MrsDanversGlidesAgain
+
+| # | Their words | Verdict | Objective | Size |
+|---|---|---|---|---|
+| 8 | "Is this a plan to tell you what to talk about with your children? it's not at all clear from the post." | **Adopt.** Three readers in, nobody can say what it is. This confirms point 7: a product described as "the words and a plan" sounds like a script service. The rewrite says what it does in one line (jobs earn minutes, a timer ends it), then the plan and the words. The reply answers her directly. | The customer | Small |
