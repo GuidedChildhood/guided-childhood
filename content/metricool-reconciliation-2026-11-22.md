@@ -94,4 +94,5 @@ still need Justin's approval before their dates.
 | 23 Nov | 23: GDC 064, out | 25: GDC 061 | none | Sun 29, 08:45 |
 | 30 Nov | 30: GDC 060 (EU KIDS Act, window closes 3 Dec) | 2 Dec: GDC 059 | none | Sun 6 Dec, 08:30 |
 | 7 Dec | 7: GDC 062 | 9: GDC 063 | 11: GDC 067 | |
+| 14 Dec | 14: app safety L1 (TikTok's three ages) | 16: app safety L3 (school parent pack) | 18: app safety L2 (no score check) | |
 
