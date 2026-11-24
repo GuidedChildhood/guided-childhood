@@ -165,3 +165,46 @@ founder who keeps defending loses the thread. One short, warm line, then leave i
 > Fair enough, and honestly if "put the iPad down" works in your house, you
 > don't need this and that's a good place to be. It's for the ones where it
 > doesn't. And guilty as charged on being a dad with an app.
+
+## One reply to FroggyNo and the poster who agreed with her (with the evidence)
+
+Every number here is from a source already verified in our briefings:
+Orben and Przybylski 2019 (Nature Human Behaviour, n 355,358, at most 0.4
+percent, the potatoes comparison is Oxford's own); ICD-11 and DSM-5-TR
+(gaming disorder is the only screen use condition, social media addiction is
+in neither); Odgers, Nature 2024 (the rewiring claim "not supported by
+science"). Per our own Haidt rules: never say "no evidence", and say the
+debate is live.
+
+> FroggyNo, and the poster after you: I agree about setting an example.
+> It's why the bedroom line now says "mine too". If my phone's on the table
+> at tea, nothing I say about theirs counts for much.
+>
+> On "addictive", I'd push back a little, because the word matters.
+> Addiction has a clinical meaning: losing control, carrying on despite real
+> harm, the rest of life falling away around it. The only screen one the WHO
+> recognises is gaming disorder. Social media addiction isn't in either of
+> the diagnostic manuals. That doesn't mean apps aren't built to keep us
+> scrolling. They are, and plenty of us, adults included, use them more than
+> we'd like. But too much, too often is a habit you can change. Calling it
+> addiction makes it sound like something you can only take away.
+>
+> The research is more mixed than the headlines too. The biggest study, of
+> 355,000 teenagers, found screen use explained at most 0.4% of the
+> difference in their wellbeing, about the same as eating potatoes (Orben
+> and Przybylski, Oxford, 2019). A lot of the "rewiring" talk comes from
+> Haidt's book, and a review of it in Nature by Candice Odgers said that
+> claim isn't supported by the science. The debate is still live,
+> especially for teenage girls, so I won't pretend it's settled. But the
+> harm seems to sit with some children and some uses, not screens in
+> general.
+>
+> And screens aren't going anywhere. Children use tablets and laptops at
+> school for reading, maths and homework now, and at 16 the ban lifts and
+> they get everything at once. So I'd rather keep the good, teach them how
+> to use it and what to look out for, than hope a ban does the teaching for
+> us. That's the bit this does, mostly with the phone down.
+>
+> What would you do instead? Genuinely asking.
+
+After this one, stop replying unless someone asks a real question.
