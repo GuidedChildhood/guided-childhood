@@ -1,0 +1,58 @@
+{
+  "verdict": "HOLD",
+  "editorialPriority": "BANK",
+  "reviewBasis": "Nothing beyond the title. PubMed returned a cookie page, Europe PMC held no record for PMID 43071446 yet, and the register holds no abstract. Published 23 November 2026, one day ago.",
+  "proposedTitle": "Held: guidance on parental smartphone use and responsive caregiving in Somalia",
+  "proposedAngle": "None. The title touches parental phone use, which matches our modelling over monitoring belief, but no claim of the paper has been read, and it concerns early childhood guidance in Somalia.",
+  "oneStory": "Not written.",
+  "oneTension": "Not written.",
+  "oneBelief": "Not written.",
+  "oneTakeaway": "Not written.",
+  "claims": [
+    {
+      "claim": "The paper integrates parental smartphone use and responsive caregiving into early childhood health guidance in Somalia.",
+      "status": "REQUIRES SOURCE",
+      "basis": "This is the title only. Design, sample and results were not reached in this run."
+    }
+  ],
+  "verifiedStatistics": [],
+  "notQuotable": [
+    "every figure and every claim: none was read",
+    "anything about UK families or children aged 4 and over"
+  ],
+  "evidenceConfidence": "NOT ASSESSED. The abstract was not reached.",
+  "limitations": [
+    "Only the title is known.",
+    "Early childhood, below our age floor of 4, and a setting in Somalia.",
+    "Design unknown, so whether it is a study or a commentary is not known."
+  ],
+  "contradictoryEvidence": [
+    "None searched. Nothing was read to search against."
+  ],
+  "whatThisDoesNotProve": [
+    "Anything, until the abstract is read.",
+    "That parental phone use harms children's development.",
+    "Anything about UK families."
+  ],
+  "mediaMisrepresentation": "Not searched.",
+  "gdcBeliefs": [
+    "Evidence or silence. An unread paper is not a source."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "historyChecker": "No change.",
+    "parentTool": "None claimed.",
+    "digi": "No change."
+  },
+  "recommendedAudience": "None until cleared.",
+  "recommendedPlatforms": [],
+  "urgency": "Low.",
+  "unresolvedQuestions": [
+    "The abstract, once Europe PMC indexes it or the publisher page can be reached."
+  ],
+  "studyId": "GDC-RR-d19516d68d",
+  "reviewedAt": "2026-11-24T09:31:25Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 24 November 2026",
+  "storedAt": "scripts/radar/reviews/GDC-RR-d19516d68d.json"
+}

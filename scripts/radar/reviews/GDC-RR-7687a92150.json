@@ -1,0 +1,86 @@
+{
+  "verdict": "HOLD",
+  "editorialPriority": "BANK",
+  "reviewBasis": "The abstract only, as held in the register from the Research Square record (posted 18 November 2026) and checked against the DOI. The full text page returned only its title to this container, so methods, quotations and limitations were not read.",
+  "proposedTitle": "Held: Swedish parents of toddlers say the screen time guidance tells them how much, not what to do",
+  "proposedAngle": "None yet. The finding reads close to our own thesis (parents want practical words, not a number), which is the reason it gets the full text before anything is written. It is also below our age floor: the children are 1 to 3.",
+  "oneStory": "Interviews with parents in Sweden about how they handle toddler screen time after national recommendations arrived.",
+  "oneTension": "Parents treat the limit as a test of being a good parent, but say it gives them nothing practical to do.",
+  "oneBelief": "Not written until the full text has been read.",
+  "oneTakeaway": "Not written until the full text has been read.",
+  "claims": [
+    {
+      "claim": "19 parents of children aged 1 to 3 were interviewed in Sweden between October 2024 and February 2026.",
+      "status": "VERIFIED",
+      "basis": "Abstract, methods: n = 19, recruited via preschools and child healthcare services, video call interviews October 2024 to February 2026, 63 percent mothers, 37 percent fathers, predominantly highly educated."
+    },
+    {
+      "claim": "Parents saw the recommendations as benchmarks for judging parenting and as lacking practical guidance.",
+      "status": "QUALIFIED",
+      "basis": "Abstract results say this in the researchers' own theme wording. It is a thematic reading of 19 interviews, not a count, and the quotations behind it were not reached."
+    },
+    {
+      "claim": "Parents want support that covers their own screen use as well as the child's.",
+      "status": "QUALIFIED",
+      "basis": "Abstract: parents expressed a need for guidance on regulating their own screen use. Number of parents who said so is not given."
+    },
+    {
+      "claim": "Parents everywhere find screen time guidance unhelpful.",
+      "status": "UNSUPPORTED",
+      "basis": "19 mostly highly educated parents in one country, toddlers only, preprint not peer reviewed."
+    },
+    {
+      "claim": "Digital support tools would help these parents.",
+      "status": "REQUIRES SOURCE",
+      "basis": "The study aimed to inform co-design of a tool. The abstract tests no tool and reports no result for one."
+    }
+  ],
+  "verifiedStatistics": [],
+  "notQuotable": [
+    "any percentage or count beyond the sample description",
+    "that parents find guidance unhelpful in general",
+    "anything about children aged 4 and over or UK families",
+    "that a digital tool works",
+    "that this supports anything we sell"
+  ],
+  "evidenceConfidence": "HIGH that the abstract says what is written here. NOT ASSESSED for the paper as a whole. LOW as a guide to our families: toddlers, Sweden, 19 parents.",
+  "limitations": [
+    "Abstract only was read.",
+    "19 parents, mostly highly educated, in Sweden.",
+    "Children aged 1 to 3, below our age floor of 4.",
+    "A preprint, not peer reviewed.",
+    "Qualitative themes, so no prevalence can be stated."
+  ],
+  "contradictoryEvidence": [
+    "From the abstract itself: parents did use recommendations as flexible guidance, so they are not simply ignored.",
+    "No outside study was searched in this run."
+  ],
+  "whatThisDoesNotProve": [
+    "That guidance based on time limits fails.",
+    "That parents of older children feel the same.",
+    "That any support tool improves anything.",
+    "Anything about UK families."
+  ],
+  "mediaMisrepresentation": "Not searched. A preprint posted six days ago.",
+  "gdcBeliefs": [
+    "Evidence or silence. It flatters our plan not a limit message, so it is held for the full text."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "historyChecker": "No change.",
+    "parentTool": "None claimed.",
+    "digi": "No change."
+  },
+  "recommendedAudience": "None until cleared.",
+  "recommendedPlatforms": [],
+  "urgency": "Low. It will keep.",
+  "unresolvedQuestions": [
+    "The full text and the quotations.",
+    "Whether a peer reviewed version appears."
+  ],
+  "studyId": "GDC-RR-7687a92150",
+  "reviewedAt": "2026-11-24T09:31:25Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 24 November 2026",
+  "storedAt": "scripts/radar/reviews/GDC-RR-7687a92150.json"
+}

@@ -1,0 +1,187 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-24",
+ "startedAt": "2026-11-24T09:22:16.353Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-24T09:25:47.840Z",
+   "commit": "34fd281a",
+   "attempts": 3
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 6,
+    "batches": [
+     {
+      "file": "11U0MW__candidates-1123.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-23-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     },
+     {
+      "file": "1Jpo__candidates-1120.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-20-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": [
+       {
+        "candidateId": "C-2026-11-20-01",
+        "outcome": "ALREADY INGESTED",
+        "researchId": "GDC-RR-c3c32618c1",
+        "reasons": []
+       },
+       {
+        "candidateId": "C-2026-11-20-02",
+        "outcome": "ALREADY INGESTED",
+        "researchId": "GDC-RR-6a0dfad7ed",
+        "reasons": []
+       }
+      ]
+     },
+     {
+      "file": "1iOS__candidates-1121.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-21-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     },
+     {
+      "file": "1lFL__candidates-1119.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-19-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     },
+     {
+      "file": "1yWb__candidates-1122.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-22-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     },
+     {
+      "file": "1ycd__candidates-1118.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-18-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     }
+    ],
+    "postingPackRead": true
+   },
+   "at": "2026-11-24T09:25:47.879Z",
+   "commit": "34fd281a",
+   "attempts": 3
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 1,
+    "total": 136
+   },
+   "at": "2026-11-24T09:29:17.724Z",
+   "commit": "34fd281a",
+   "attempts": 3
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 1,
+    "confirmed": 1,
+    "unconfirmed": []
+   },
+   "at": "2026-11-24T09:29:18.327Z",
+   "commit": "34fd281a",
+   "attempts": 3
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 of 3 reviewed (cap back to three from 20 Nov); none cleared. HOLD: GDC-RR-7687a92150 Swedish toddler parent interviews (abstract only, age 1 to 3, n=19 preprint), GDC-RR-d19516d68d Somalia parental phone use (abstract not reachable, title only). REJECT: GDC-RR-e439069e3f Chinese young women who post about mental illness (n=20, mean age 21.8). Inbox: Wellcome launch GDC-RR-c3c32618c1 sits at dossier HOLD because wellcome.org is not a recognised host (page read in this run, title and date match, 10 teams, over 300,000 young people, 9.3m pounds, no results); Gallup GDC-RR-6a0dfad7ed is PERIPHERAL so no dossier, cross country medians not UK. Neither reviewable under the gates, not worked round. 12 ADJACENT records wait, none looks on thesis."
+   ],
+   "detail": null,
+   "at": "2026-11-24T09:31:32.392Z",
+   "commit": "34fd281a",
+   "attempts": 4
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-553f7dc067",
+     "GDC-RR-540fff2c03"
+    ],
+    "duplicateCheck": {
+     "GDC-RR-553f7dc067": "NEW",
+     "GDC-RR-540fff2c03": "NEW"
+    },
+    "queue": [
+     "GDC-RR-553f7dc067",
+     "GDC-RR-540fff2c03"
+    ]
+   },
+   "at": "2026-11-24T09:31:32.720Z",
+   "commit": "34fd281a",
+   "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "ERROR",
+   "by": "claude",
+   "reasons": [
+    "The day's commit and push were denied by the session permission classifier (Destructive or Unwanted Actions) on git commit, although the dry run push on 24 Nov succeeded. Work is uncommitted on claude/radar-2026-11-24; a patch was left in Drive."
+   ],
+   "detail": null,
+   "at": "2026-11-24T09:32:13.771Z",
+   "commit": "34fd281a",
+   "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "Not done: Drive copies must be stamped with a commit that exists in GitHub and nothing could be committed. Drive queue, start here and register mirror are stale against main (register moved since 19 Nov). Inbox documents not retitled."
+   ],
+   "detail": null,
+   "at": "2026-11-24T09:32:13.864Z",
+   "commit": "34fd281a",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "No pack waiting in the Stage 2 folder (GDC-062 and GDC-063 not yet written by ChatGPT)."
+   ],
+   "detail": null,
+   "at": "2026-11-24T09:32:13.966Z",
+   "commit": "34fd281a",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-24T09:32:14.000Z"
+}

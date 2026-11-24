@@ -7129,7 +7129,7 @@
    "foundBy": [
     "pubmed"
    ],
-   "status": "VERIFIED",
+   "status": "REJECTED",
    "relevanceScore": 5,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -7145,11 +7145,11 @@
     "until": "2026-11-13"
    },
    "studyId": "GDC-RR-e439069e3f",
-   "version": 2,
+   "version": 4,
    "firstFound": "2026-11-13T09:20:45.231Z",
-   "lastChecked": "2026-11-13T09:20:46.719Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-24T09:31:26.066Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-e439069e3f",
     "checkedAt": "2026-11-13T09:20:46.465Z",
@@ -7205,7 +7205,84 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "verdict": "REJECT",
+    "editorialPriority": "BANK",
+    "reviewBasis": "The abstract, in full, from the Europe PMC record of PMID 43019541 (JMIR, 12 November 2026), read in this run. The full text was not reached.",
+    "proposedTitle": "Rejected: interviews with 20 Chinese young women who post about mental illness",
+    "proposedAngle": "None. Wrong population, wrong place, and nothing that proves a part of the product.",
+    "oneStory": "Not written.",
+    "oneTension": "Not written.",
+    "oneBelief": "Not written.",
+    "oneTakeaway": "Not written.",
+    "claims": [
+     {
+      "claim": "20 women aged 15 to 34 (mean 21.8) who post about mental health on Chinese platforms were interviewed between December 2024 and March 2026.",
+      "status": "VERIFIED",
+      "basis": "Abstract methods and results: 20 women, mean age 21.8, 70 percent mainly on Rednote, all with a self reported diagnosis."
+     },
+     {
+      "claim": "Posting about mental illness brings connection and a sense of value, and also emotional burden and harassment.",
+      "status": "QUALIFIED",
+      "basis": "Abstract conclusions, in the authors' wording, from three themes in 20 interviews. Purposively recruited people who already post, so it says nothing about how common either experience is."
+     },
+     {
+      "claim": "This shows what social media does to young people's mental health.",
+      "status": "UNSUPPORTED",
+      "basis": "Qualitative and descriptive. No comparison group, no measure of change."
+     }
+    ],
+    "verifiedStatistics": [],
+    "notQuotable": [
+     "anything about children, UK young people or teenagers in general",
+     "any effect of social media on mental health",
+     "the 20, 21.8 or 70 percent in a post, they describe a self selected group"
+    ],
+    "evidenceConfidence": "HIGH that the abstract says what is written here. LOW as a guide to anything we do.",
+    "limitations": [
+     "Abstract only was read.",
+     "20 women, all with a diagnosis, recruited because they post about it.",
+     "Mean age 21.8, mostly adults, so largely above our children.",
+     "China, on Chinese platforms.",
+     "Interviews, so no prevalence."
+    ],
+    "contradictoryEvidence": [
+     "From the abstract itself: the same posting is described as both supportive and burdensome.",
+     "No outside study was searched in this run."
+    ],
+    "whatThisDoesNotProve": [
+     "That posting about mental health helps or harms young people.",
+     "That UK teenagers behave the same way.",
+     "Anything about children aged 4 to 15."
+    ],
+    "mediaMisrepresentation": "Not searched.",
+    "gdcBeliefs": [
+     "Evidence or silence. Nothing here can be tied to a part of what we sell."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "historyChecker": "No change.",
+     "parentTool": "None claimed.",
+     "digi": "No change."
+    },
+    "recommendedAudience": "None.",
+    "recommendedPlatforms": [],
+    "urgency": "None.",
+    "unresolvedQuestions": [],
+    "studyId": "GDC-RR-e439069e3f",
+    "reviewedAt": "2026-11-24T09:31:25Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 24 November 2026",
+    "storedAt": "scripts/radar/reviews/GDC-RR-e439069e3f.json"
+   },
+   "editorialPriority": "BANK",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-24T09:31:26.063Z"
+   }
   },
   "GDC-RR-aec109d51f": {
    "title": "Young People's Perceptions of Technology-Facilitated Coercive Control: The Role of Behavioural Frequency, Impact on the Victim and Participant Gender.",
@@ -11739,7 +11816,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 7,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -11756,11 +11833,11 @@
     "until": "2026-11-19"
    },
    "studyId": "GDC-RR-7687a92150",
-   "version": 2,
+   "version": 4,
    "firstFound": "2026-11-19T09:35:09.252Z",
-   "lastChecked": "2026-11-19T09:35:09.867Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-24T09:31:25.991Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-7687a92150",
     "checkedAt": "2026-11-19T09:35:09.696Z",
@@ -11820,7 +11897,100 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "verdict": "HOLD",
+    "editorialPriority": "BANK",
+    "reviewBasis": "The abstract only, as held in the register from the Research Square record (posted 18 November 2026) and checked against the DOI. The full text page returned only its title to this container, so methods, quotations and limitations were not read.",
+    "proposedTitle": "Held: Swedish parents of toddlers say the screen time guidance tells them how much, not what to do",
+    "proposedAngle": "None yet. The finding reads close to our own thesis (parents want practical words, not a number), which is the reason it gets the full text before anything is written. It is also below our age floor: the children are 1 to 3.",
+    "oneStory": "Interviews with parents in Sweden about how they handle toddler screen time after national recommendations arrived.",
+    "oneTension": "Parents treat the limit as a test of being a good parent, but say it gives them nothing practical to do.",
+    "oneBelief": "Not written until the full text has been read.",
+    "oneTakeaway": "Not written until the full text has been read.",
+    "claims": [
+     {
+      "claim": "19 parents of children aged 1 to 3 were interviewed in Sweden between October 2024 and February 2026.",
+      "status": "VERIFIED",
+      "basis": "Abstract, methods: n = 19, recruited via preschools and child healthcare services, video call interviews October 2024 to February 2026, 63 percent mothers, 37 percent fathers, predominantly highly educated."
+     },
+     {
+      "claim": "Parents saw the recommendations as benchmarks for judging parenting and as lacking practical guidance.",
+      "status": "QUALIFIED",
+      "basis": "Abstract results say this in the researchers' own theme wording. It is a thematic reading of 19 interviews, not a count, and the quotations behind it were not reached."
+     },
+     {
+      "claim": "Parents want support that covers their own screen use as well as the child's.",
+      "status": "QUALIFIED",
+      "basis": "Abstract: parents expressed a need for guidance on regulating their own screen use. Number of parents who said so is not given."
+     },
+     {
+      "claim": "Parents everywhere find screen time guidance unhelpful.",
+      "status": "UNSUPPORTED",
+      "basis": "19 mostly highly educated parents in one country, toddlers only, preprint not peer reviewed."
+     },
+     {
+      "claim": "Digital support tools would help these parents.",
+      "status": "REQUIRES SOURCE",
+      "basis": "The study aimed to inform co-design of a tool. The abstract tests no tool and reports no result for one."
+     }
+    ],
+    "verifiedStatistics": [],
+    "notQuotable": [
+     "any percentage or count beyond the sample description",
+     "that parents find guidance unhelpful in general",
+     "anything about children aged 4 and over or UK families",
+     "that a digital tool works",
+     "that this supports anything we sell"
+    ],
+    "evidenceConfidence": "HIGH that the abstract says what is written here. NOT ASSESSED for the paper as a whole. LOW as a guide to our families: toddlers, Sweden, 19 parents.",
+    "limitations": [
+     "Abstract only was read.",
+     "19 parents, mostly highly educated, in Sweden.",
+     "Children aged 1 to 3, below our age floor of 4.",
+     "A preprint, not peer reviewed.",
+     "Qualitative themes, so no prevalence can be stated."
+    ],
+    "contradictoryEvidence": [
+     "From the abstract itself: parents did use recommendations as flexible guidance, so they are not simply ignored.",
+     "No outside study was searched in this run."
+    ],
+    "whatThisDoesNotProve": [
+     "That guidance based on time limits fails.",
+     "That parents of older children feel the same.",
+     "That any support tool improves anything.",
+     "Anything about UK families."
+    ],
+    "mediaMisrepresentation": "Not searched. A preprint posted six days ago.",
+    "gdcBeliefs": [
+     "Evidence or silence. It flatters our plan not a limit message, so it is held for the full text."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "historyChecker": "No change.",
+     "parentTool": "None claimed.",
+     "digi": "No change."
+    },
+    "recommendedAudience": "None until cleared.",
+    "recommendedPlatforms": [],
+    "urgency": "Low. It will keep.",
+    "unresolvedQuestions": [
+     "The full text and the quotations.",
+     "Whether a peer reviewed version appears."
+    ],
+    "studyId": "GDC-RR-7687a92150",
+    "reviewedAt": "2026-11-24T09:31:25Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 24 November 2026",
+    "storedAt": "scripts/radar/reviews/GDC-RR-7687a92150.json"
+   },
+   "editorialPriority": "BANK",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-24T09:31:25.988Z"
+   }
   },
   "GDC-RR-cc9aa0f1d2": {
    "title": "Designing a mHealth Intervention to Enhance Health, Nutrition, and Child Development for Urban Refugees and Host Communities in a Low-Resource Setting: Formative Qualitative Study.",
@@ -12218,6 +12388,656 @@
    "lastChecked": "2026-11-19T09:35:09.406Z",
    "changeReason": "discovery run, streams 09,20,23",
    "changedBy": "radar:discover"
+  },
+  "GDC-RR-c3c32618c1": {
+   "title": "Launch of world’s largest scientific assessment of social media restrictions and mental health",
+   "url": "https://wellcome.org/insights/articles/launch-worlds-largest-scientific-assessment-social-media-restrictions-and-mental",
+   "journal": "Wellcome",
+   "published": "2026-11-18",
+   "authors": null,
+   "abstract": "Wellcome announces a UK research programme to assess outcomes around the planned social media restrictions. This is a study launch, not a result. Wellcome says ten research teams will work with more than 300,000 young people. Wellcome is investing £9.3m.",
+   "isPreprint": false,
+   "peerReviewed": false,
+   "isOfficial": true,
+   "streams": [
+    "inbox"
+   ],
+   "foundBy": [
+    "chatgpt-inbox"
+   ],
+   "status": "HOLD",
+   "candidate": {
+    "candidateId": "C-2026-11-20-01",
+    "batchId": "2026-11-20-chatgpt-0800",
+    "sentBy": "chatgpt-scheduled-0800",
+    "sentAt": "2026-11-20T08:00:00Z",
+    "sourceType": "official-document",
+    "otherUrls": [],
+    "claims": [
+     {
+      "claim": "Wellcome says ten research teams will work with more than 300,000 young people.",
+      "figure": "Ten research teams; more than 300,000 young people",
+      "whereInSource": "Press release opening summary"
+     },
+     {
+      "claim": "Wellcome is investing £9.3m.",
+      "figure": "£9.3m",
+      "whereInSource": "Press release opening summary"
+     }
+    ],
+    "limitations": [
+     "The launch cannot show whether restrictions improve or worsen mental health, because results are not available.",
+     "The programme includes different designs, not one randomised trial."
+    ],
+    "whyItMatters": "Measure changes in sleep, friendships, mental health, school engagement, circumvention and unintended harms rather than assume the policy works.",
+    "ukRelevance": "UK programme and policy; under 16s compared with older young people.",
+    "suggestedFormats": [
+     "linkedin",
+     "newsletter"
+    ],
+    "standing": "UNVERIFIED. These are the sender's claims about the source. None may be quoted until the directed review has checked it against the source itself."
+   },
+   "relevanceScore": 11,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": [
+     "+3 \\bUnited Kingdom|\\bUK\\b|Britain|Br"
+    ]
+   },
+   "childIsTheSubject": false,
+   "studyId": "GDC-RR-c3c32618c1",
+   "version": 2,
+   "firstFound": "2026-11-24T09:22:16.408Z",
+   "lastChecked": "2026-11-24T09:25:32.467Z",
+   "changeReason": "automatic dossier: RECORD UNCONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-c3c32618c1",
+    "checkedAt": "2026-11-24T09:25:32.461Z",
+    "doi": null,
+    "doiResolves": null,
+    "canonicalTitle": "Launch of world’s largest scientific assessment of social media restrictions and mental health",
+    "indexedDate": "2026-11-18",
+    "crossrefOnlineDate": null,
+    "datesAgree": null,
+    "peerReviewed": false,
+    "isPreprint": false,
+    "journal": "Wellcome",
+    "sampleSize": 300000,
+    "ageRange": null,
+    "country": "UK",
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "the record is marked official, but wellcome.org is not a host the radar recognises as a public body. Treat it as unconfirmed until a person has looked.",
+     "this record came through the candidate inbox. Its summary and claims are the sender's wording, not the source's, so nothing extracted from them above is a fact about the source.",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "officialRecordResolves": false,
+    "automaticVerdict": "RECORD UNCONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-6a0dfad7ed": {
+   "title": "Youth Wellbeing: What Matters Online and Off",
+   "url": "https://news.gallup.com/poll/716486/youth-wellbeing-matters-online-off.aspx",
+   "journal": "Gallup and Boston Children's Digital Wellness Lab",
+   "published": "2026-11-17",
+   "authors": "Zacc Ritter and Michelle Chau",
+   "abstract": "A multinational youth survey explores the quality of in person and online only friendships and associations with wellbeing. Across the surveyed countries, a median of 93% reported a close in person friend, compared with 37% reporting a close online only friend. 41% of those with an in person friendship rated it high quality compared with 26% for an online only friendship. Researchers surveyed 15,925 young people aged 15 to 22 in 16 countries between May 28 and Aug. 21, 2026.",
+   "isPreprint": false,
+   "peerReviewed": false,
+   "isOfficial": true,
+   "streams": [
+    "inbox"
+   ],
+   "foundBy": [
+    "chatgpt-inbox"
+   ],
+   "status": "DISCOVERED",
+   "candidate": {
+    "candidateId": "C-2026-11-20-02",
+    "batchId": "2026-11-20-chatgpt-0800",
+    "sentBy": "chatgpt-scheduled-0800",
+    "sentAt": "2026-11-20T08:00:00Z",
+    "sourceType": "official-document",
+    "otherUrls": [
+     "https://www.gallup.com/analytics/716534/bch-digital-life-insights.aspx"
+    ],
+    "claims": [
+     {
+      "claim": "Across the surveyed countries, a median of 93% reported a close in person friend, compared with 37% reporting a close online only friend.",
+      "figure": "93%; 37%",
+      "whereInSource": "Opening paragraph and friendship table"
+     },
+     {
+      "claim": "41% of those with an in person friendship rated it high quality compared with 26% for an online only friendship.",
+      "figure": "41%; 26%",
+      "whereInSource": "Friendship quality table"
+     },
+     {
+      "claim": "Researchers surveyed 15,925 young people aged 15 to 22 in 16 countries between May 28 and Aug. 21, 2026.",
+      "figure": "15,925; 15 to 22; 16 countries; May 28-Aug. 21, 2026",
+      "whereInSource": "Methodology paragraph"
+     }
+    ],
+    "limitations": [
+     "Cross sectional associations cannot establish whether friendship type causes wellbeing differences.",
+     "Fourteen countries used non probability web samples; cross country medians are not UK specific, and the sample includes adults."
+    ],
+    "whyItMatters": "Relationships and support quality are more informative questions than screen minutes alone.",
+    "ukRelevance": "UK included among 16 countries, but headline medians are not UK estimates.",
+    "suggestedFormats": [
+     "linkedin",
+     "newsletter"
+    ],
+    "standing": "UNVERIFIED. These are the sender's claims about the source. None may be quoted until the directed review has checked it against the source itself."
+   },
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "childIsTheSubject": true,
+   "studyId": "GDC-RR-6a0dfad7ed",
+   "version": 1,
+   "firstFound": "2026-11-24T09:22:16.422Z",
+   "lastChecked": "2026-11-24T09:22:16.422Z",
+   "changeReason": "candidate C-2026-11-20-02 from chatgpt-scheduled-0800, batch 2026-11-20-chatgpt-0800",
+   "changedBy": "radar:inbox"
+  },
+  "GDC-RR-0709cb4996": {
+   "title": "Psychosocial vulnerability of children and adolescents with mental disorders in intelligent environments: adaptation mechanisms from human–human interaction to human–AI interaction",
+   "doi": "10.1515/mr-2026-0089",
+   "pmid": null,
+   "url": "https://doi.org/10.1515/mr-2026-0089",
+   "journal": "Medical Review",
+   "published": "2026-11-24",
+   "authors": "Yifan Zhu, Simon Schmitt, Wenyan Zhang, Wu Li",
+   "abstract": "Abstract Conversational artificial intelligence (AI) has become a source of support for some children and adolescents. For school-aged children and adolescents with mental disorders, this shift changes both whom they confide in and how they receive feedback. Starting from psychosocial vulnerability, we propose an adaptation framework linking preexisting interpersonal difficulties, interaction responses, and later relational functioning. The framework examines how responses acknowledge emotion, handle interpretations of events, and guide coping; depression and autism illustrate adaptation pathways organized around emotion-regulation needs and interactional load. Its central question is how immediate relief shapes real-world coping and whether, across repeated interactions, use supplements interpersonal support or substitutes for it. Adult and non-AI studies provide indirect clues to the proposed mechanisms. The framework generates a prospective hypothesis: motives and response features should predict later relational functioning beyond baseline psychosocial vulnerability, baseline relational functioning, and duration of AI use.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "01",
+    "03",
+    "08",
+    "09",
+    "20",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-21",
+    "until": "2026-11-24"
+   },
+   "studyId": "GDC-RR-0709cb4996",
+   "version": 1,
+   "firstFound": "2026-11-24T09:25:32.391Z",
+   "lastChecked": "2026-11-24T09:29:17.668Z",
+   "changeReason": "discovery run, streams 01,03,08,09,20,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-e3f665d683": {
+   "title": "ANALYSIS OF THE IMPLEMENTATION OF INSTRUCTION DOMINATED BY WRITING ACTIVITIES FOR YOUNG CHILDREN AT AT-TAUFIQ KINDERGARTEN",
+   "doi": "10.68491/ijess.v1i2.36",
+   "pmid": null,
+   "url": "https://doi.org/10.68491/ijess.v1i2.36",
+   "journal": "International Journal of Innovation in Education and Social Studies",
+   "published": "2026-11-23",
+   "authors": "Wilfania Zuyyina Safitri, Safira Azka Nafisa, Ghaitsa Zahira Shaffa, Tepi Mulyaniapi",
+   "abstract": "This study aims to analyze the implementation of teaching and learning dominated by writing activities in early childhood education at TK At-Taufiq. A descriptive qualitative approach was employed, with data gathered through interviews with educators and representatives of students' parents, as well as activity documentation. The research focuses on lesson planning, the form and frequency of writing activities, the application of the 5M scientific approach stages, children's responses to the learning process, and constraints related to school management and support facilities for educators. The results indicate that: (1) the curriculum and Daily Lesson Plans (RPPH) have not been optimally utilized, where daily learning activities are dominated by copying letters and numbers up to a full page almost every day, accompanied by a heavy reliance on textbooks and a lack of Educational Play Tools (APE); (2) the implementation of the 5M scientific approach has not run optimally because observing, questioning, exploring, reasoning, and communicating activities remain very limited, with teachers tending to be the primary source of information; (3) the dominance of writing activities triggers negative responses from children, such as boredom, fatigue, and reluctance to go to school; and (4) limited school management support— particularly in providing supporting facilities such as internet access and laptop devices for teacher competency development—constitutes an obstacle to improving learning quality. Therefore, evaluation and instructional improvement are required to balance early literacy stimulation with enjoyable play-based methods, optimize the scientific approach, provide concrete media, and strengthen institutional support from the school",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "08",
+    "09",
+    "19",
+    "22"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-21",
+    "until": "2026-11-24"
+   },
+   "studyId": "GDC-RR-e3f665d683",
+   "version": 1,
+   "firstFound": "2026-11-24T09:25:32.400Z",
+   "lastChecked": "2026-11-24T09:29:17.678Z",
+   "changeReason": "discovery run, streams 08,09,19,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-d19516d68d": {
+   "title": "Beyond screen-time limits: integrating parental smartphone use and responsive caregiving into early childhood health guidance in Somalia.",
+   "doi": "10.1080/20469047.2026.2764030",
+   "pmid": "43071446",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/43071446/",
+   "journal": "Paediatrics and international child health",
+   "published": "2026-11-23",
+   "authors": "Abdulle AA, Adam AA",
+   "abstract": "",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "streams": [
+    "19"
+   ],
+   "foundBy": [
+    "pubmed"
+   ],
+   "status": "HOLD",
+   "relevanceScore": 4,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+4 \\bsmartphone|mobile phone\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-21",
+    "until": "2026-11-24"
+   },
+   "studyId": "GDC-RR-d19516d68d",
+   "version": 4,
+   "firstFound": "2026-11-24T09:25:32.407Z",
+   "lastChecked": "2026-11-24T09:31:26.138Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
+   "dossier": {
+    "studyId": "GDC-RR-d19516d68d",
+    "checkedAt": "2026-11-24T09:25:33.233Z",
+    "doi": "10.1080/20469047.2026.2764030",
+    "doiResolves": true,
+    "canonicalTitle": "Beyond screen-time limits: integrating parental smartphone use and responsive caregiving into early childhood health guidance in Somalia.",
+    "indexedDate": "2026-11-23",
+    "crossrefOnlineDate": "2026-11-23",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Paediatrics and international child health",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [
+     "The authors"
+    ],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": false,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no usable abstract reached this container, so sample size, design and statistics could not be extracted. Full text needed before any figure is quoted.",
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "verdict": "HOLD",
+    "editorialPriority": "BANK",
+    "reviewBasis": "Nothing beyond the title. PubMed returned a cookie page, Europe PMC held no record for PMID 43071446 yet, and the register holds no abstract. Published 23 November 2026, one day ago.",
+    "proposedTitle": "Held: guidance on parental smartphone use and responsive caregiving in Somalia",
+    "proposedAngle": "None. The title touches parental phone use, which matches our modelling over monitoring belief, but no claim of the paper has been read, and it concerns early childhood guidance in Somalia.",
+    "oneStory": "Not written.",
+    "oneTension": "Not written.",
+    "oneBelief": "Not written.",
+    "oneTakeaway": "Not written.",
+    "claims": [
+     {
+      "claim": "The paper integrates parental smartphone use and responsive caregiving into early childhood health guidance in Somalia.",
+      "status": "REQUIRES SOURCE",
+      "basis": "This is the title only. Design, sample and results were not reached in this run."
+     }
+    ],
+    "verifiedStatistics": [],
+    "notQuotable": [
+     "every figure and every claim: none was read",
+     "anything about UK families or children aged 4 and over"
+    ],
+    "evidenceConfidence": "NOT ASSESSED. The abstract was not reached.",
+    "limitations": [
+     "Only the title is known.",
+     "Early childhood, below our age floor of 4, and a setting in Somalia.",
+     "Design unknown, so whether it is a study or a commentary is not known."
+    ],
+    "contradictoryEvidence": [
+     "None searched. Nothing was read to search against."
+    ],
+    "whatThisDoesNotProve": [
+     "Anything, until the abstract is read.",
+     "That parental phone use harms children's development.",
+     "Anything about UK families."
+    ],
+    "mediaMisrepresentation": "Not searched.",
+    "gdcBeliefs": [
+     "Evidence or silence. An unread paper is not a source."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "historyChecker": "No change.",
+     "parentTool": "None claimed.",
+     "digi": "No change."
+    },
+    "recommendedAudience": "None until cleared.",
+    "recommendedPlatforms": [],
+    "urgency": "Low.",
+    "unresolvedQuestions": [
+     "The abstract, once Europe PMC indexes it or the publisher page can be reached."
+    ],
+    "studyId": "GDC-RR-d19516d68d",
+    "reviewedAt": "2026-11-24T09:31:25Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 24 November 2026",
+    "storedAt": "scripts/radar/reviews/GDC-RR-d19516d68d.json"
+   },
+   "editorialPriority": "BANK",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-24T09:31:26.135Z"
+   }
+  },
+  "GDC-RR-e0fbf0e834": {
+   "title": "Social Media Use as a Moderator of Behavioral and Health Literacy Pathways Between Adverse Childhood Experiences and Adult Health: Nationwide Cross-Sectional Study.",
+   "doi": "10.2196/99782",
+   "pmid": "43071435",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/43071435/",
+   "journal": "Journal of medical Internet research",
+   "published": "2026-11-23",
+   "authors": "Deng Q, Li C, Miles TP, Kang L, Wu Y, Liu W",
+   "abstract": "",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "streams": [
+    "08",
+    "21"
+   ],
+   "foundBy": [
+    "pubmed"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 5,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-21",
+    "until": "2026-11-24"
+   },
+   "studyId": "GDC-RR-e0fbf0e834",
+   "version": 2,
+   "firstFound": "2026-11-24T09:25:32.414Z",
+   "lastChecked": "2026-11-24T09:29:17.708Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-e0fbf0e834",
+    "checkedAt": "2026-11-24T09:25:32.472Z",
+    "doi": "10.2196/99782",
+    "doiResolves": false,
+    "canonicalTitle": "Social Media Use as a Moderator of Behavioral and Health Literacy Pathways Between Adverse Childhood Experiences and Adult Health: Nationwide Cross-Sectional Study.",
+    "indexedDate": "2026-11-23",
+    "crossrefOnlineDate": null,
+    "datesAgree": null,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Journal of medical Internet research",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "cross-sectional",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": false,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "DOI did not resolve through Crossref (HTTP 404) or DataCite. Treat the citation as unconfirmed.",
+     "no usable abstract reached this container, so sample size, design and statistics could not be extracted. Full text needed before any figure is quoted.",
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-e1b0bf710a": {
+   "title": "Gamified Digital Health Interventions for Physical Activity and Sedentary Behavior Changes in Individuals with Autism Spectrum Disorder: A Scoping Review.",
+   "doi": "10.1177/2161783x261490387",
+   "pmid": "43069437",
+   "pmcid": null,
+   "url": "https://doi.org/10.1177/2161783x261490387",
+   "journal": "Games for health journal",
+   "published": "2026-11-22",
+   "authors": "McNulty LK, Kim B, Bodde AE, Mauriello ML, Dominick GM, Bhat A, Katz SE, Lee D.",
+   "abstract": "Individuals with autism spectrum disorder (ASD) experience disproportionately higher rates of preventable chronic diseases. Gamified digital health interventions (DHIs) targeting physical activity (PA) and sedentary behavior (SB) represent a promising approach to help reduce these risks. This scoping review explored and characterized gamified DHIs developed to support PA and SB behavior change among individuals with ASD. In accordance with JBI Scoping Review Methodology and PRISMA Extension for Scoping Review guidelines, six databases were searched, and 808 records were identified, with an additional five studies found through hand-searching. Following eligibility screening, 13 studies were included in this review. Relevant data from included studies were extracted, charted, and narratively described. This review examined intervention characteristics, including target populations (i.e., adults and youth), implementation settings (e.g., school, home), intervention modalities (e.g., gaming systems, mobile apps), gamification elements (e.g., avatars, points, stories/themes), and outcome measures for PA and SB (e.g., self-report and objective). Seven studies specifically compared the effectiveness of DHIs to a control condition. Findings were mixed, with five studies reporting significant improvements in PA and/or SB through gamified DHIs when compared with a control condition, whereas two studies showed limited or nonsignificant effects. This scoping review underscores the potential of gamified DHIs to support PA- and SB-related behavior change in individuals with ASD by enhancing enjoyment and motivation. Nevertheless, the mixed evidence on effectiveness highlights the need for further research to identify the most impactful strategies for improving health behaviors in this population.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "IM; Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "02",
+    "07",
+    "08",
+    "10",
+    "20",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 5,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+3 \\bgaming|video game|loot box\\b"
+    ],
+    "method": [
+     "+2 \\bparent(al)? report|self-?report|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-21",
+    "until": "2026-11-24"
+   },
+   "studyId": "GDC-RR-e1b0bf710a",
+   "version": 2,
+   "firstFound": "2026-11-24T09:29:17.699Z",
+   "lastChecked": "2026-11-24T09:29:18.321Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-e1b0bf710a",
+    "checkedAt": "2026-11-24T09:29:17.853Z",
+    "doi": "10.1177/2161783x261490387",
+    "doiResolves": true,
+    "canonicalTitle": "Gamified Digital Health Interventions for Physical Activity and Sedentary Behavior Changes in Individuals with Autism Spectrum Disorder: A Scoping Review.",
+    "indexedDate": "2026-11-22",
+    "crossrefOnlineDate": "2026-11-22",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Games for health journal",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "scoping review",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [
+     "University of Delaware College of Health Sciences Summer Scholarship"
+    ],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
   }
  },
  "keys": {
@@ -12651,6 +13471,28 @@
   "title:gamification versus conventional oral health education on kindergarten children s oral hygiene in al": "GDC-RR-4635393f51",
   "doi:10.64898/2026.11.11.26367824": "GDC-RR-eb8c634ded",
   "url:doi.org/10.64898/2026.11.11.26367824": "GDC-RR-eb8c634ded",
-  "title:optimizing dosing strategies for children with leprosy a weight banded dosing approach": "GDC-RR-eb8c634ded"
+  "title:optimizing dosing strategies for children with leprosy a weight banded dosing approach": "GDC-RR-eb8c634ded",
+  "url:wellcome.org/insights/articles/launch-worlds-largest-scientific-assessment-social-media-restrictions-and-mental": "GDC-RR-c3c32618c1",
+  "title:launch of world s largest scientific assessment of social media restrictions and mental health": "GDC-RR-c3c32618c1",
+  "url:news.gallup.com/poll/716486/youth-wellbeing-matters-online-off.aspx": "GDC-RR-6a0dfad7ed",
+  "title:youth wellbeing what matters online and off": "GDC-RR-6a0dfad7ed",
+  "doi:10.1515/mr-2026-0089": "GDC-RR-0709cb4996",
+  "url:doi.org/10.1515/mr-2026-0089": "GDC-RR-0709cb4996",
+  "title:psychosocial vulnerability of children and adolescents with mental disorders in intelligent environments adaptation mechanisms": "GDC-RR-0709cb4996",
+  "doi:10.68491/ijess.v1i2.36": "GDC-RR-e3f665d683",
+  "url:doi.org/10.68491/ijess.v1i2.36": "GDC-RR-e3f665d683",
+  "title:analysis of the implementation of instruction dominated by writing activities for young children at": "GDC-RR-e3f665d683",
+  "doi:10.1080/20469047.2026.2764030": "GDC-RR-d19516d68d",
+  "pmid:43071446": "GDC-RR-d19516d68d",
+  "url:pubmed.ncbi.nlm.nih.gov/43071446": "GDC-RR-d19516d68d",
+  "title:beyond screen time limits integrating parental smartphone use and responsive caregiving into early childhood": "GDC-RR-d19516d68d",
+  "doi:10.2196/99782": "GDC-RR-e0fbf0e834",
+  "pmid:43071435": "GDC-RR-e0fbf0e834",
+  "url:pubmed.ncbi.nlm.nih.gov/43071435": "GDC-RR-e0fbf0e834",
+  "title:social media use as a moderator of behavioral and health literacy pathways between adverse": "GDC-RR-e0fbf0e834",
+  "doi:10.1177/2161783x261490387": "GDC-RR-e1b0bf710a",
+  "pmid:43069437": "GDC-RR-e1b0bf710a",
+  "url:doi.org/10.1177/2161783x261490387": "GDC-RR-e1b0bf710a",
+  "title:gamified digital health interventions for physical activity and sedentary behavior changes in individuals with": "GDC-RR-e1b0bf710a"
  }
 }
