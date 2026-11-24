@@ -4,12 +4,40 @@
 (weighed in `plans/2026-11-24-mumsnet-replies-weighed.md`). Justin edits and
 posts. Fill the [square brackets] yourself. Nothing in them is invented for you.
 
-## Reply to the first poster
+## Reply to the first poster (point by point)
 
-> Thank you, genuinely useful. Hand on heart, no ChatGPT, just a dad of three
-> writing it after bedtime, which probably explains the waffle. You're right
-> on every other point though: what it is should come first, and you should
-> know who I am. I'll rewrite it properly below rather than defend it.
+> Thank you for taking the time to write all that. It's genuinely helpful, so
+> let me answer each one properly.
+>
+> 1. On the AI: the words are mine, I'm a dad of three who writes these after
+> bedtime, and I did use AI to tidy them up. You're right that it shows, and
+> it took the life out of it. Lesson learned.
+>
+> 2. The need: in our house the rules were never the hard part, sticking to
+> them was. The row when the tablet went off, arguments in the car over what
+> to watch, timers that worked for a week and then didn't. I read a lot of the
+> research and still didn't know what to do at six o'clock on a Tuesday. So I
+> built what I wanted: your child does small jobs, the jobs earn screen
+> minutes, and a timer you can both see ends it, so it isn't you saying no
+> every night. There are also plans for each age and the words for the harder
+> conversations, like the first phone.
+>
+> 3. What I'm asking: ten parents to try it and tell me honestly what's wrong
+> with it. Not a survey, not a sales pitch. You answer three questions about
+> your child and get a plan back. There's no sign up to try it, and nothing
+> you tick is kept unless you choose to save it. Why should you? Honestly, only
+> if screens are a battle in your house too. If they're not, you've got it
+> sorted and I'd love to know how.
+>
+> 4. It's called Guided Childhood. Type guidedchildhood.com in yourself, and
+> it's the "Find my child's stage" button on the home page. No need to click
+> anything I post.
+>
+> 5. Me: Justin, [near Bath], dad of three ([ages]). I've spent the last year
+> building this because I needed it.
+>
+> Thank you again. This is exactly the kind of feedback I was hoping for, just
+> not about the post itself!
 
 ## Reply to Chunkybabythighs
 
