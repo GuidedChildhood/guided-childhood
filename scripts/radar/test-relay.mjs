@@ -131,6 +131,19 @@ check('no number can be claimed for a candidate that has not been reviewed', isH
 check('no handoff can be built from a candidate', isHold(P.handoff(ID, opt)))
 const review = JSON.parse(readFileSync(join(process.cwd(), 'scripts/radar/reviews/GDC-RR-0754a1641c.json'), 'utf8'))
 review.studyId = ID
+// The ten verification checks, required from 24 November 2026.
+review.verification = {
+  originalSource: 'Read the abstract at the journal page by its DOI; it reports what the candidate says.',
+  publicationDate: 'Published online on the date the journal page gives, read on that page.',
+  statisticsAndDenominators: 'No figure is quoted in copy, so no denominator is carried forward.',
+  sampleAndPopulation: 'Adolescents recruited online in one country, not UK families.',
+  researchDesign: 'A pooled analysis of observational studies; it can describe association only.',
+  correlationOrCausation: 'Association only. Copy says linked with, never causes.',
+  counterEvidence: 'Large preregistered analyses find much smaller average effects.',
+  strongestObjection: 'Self reported screen time is a poor measure of what children actually do.',
+  practicalImplications: 'A parent can watch for the pattern, not count minutes; no outcome is claimed.',
+  claimsNotToMake: 'That screens cause poor mental health, or that this supports anything we sell.',
+}
 check('a review cannot be stored before the automatic check has run', isHold(P.storeReview(ID, review)))
 // The automatic check needs the network, so its result is written here as the
 // dossier would write it. test-drop and the live run exercise the real one.
@@ -139,11 +152,21 @@ check('a review with no claims is refused', isHold(P.storeReview(ID, { ...review
 check('a review that found no limits is refused', isHold(P.storeReview(ID, { ...review, limitations: [] })))
 check('a review with a made up claim status is refused', isHold(P.storeReview(ID, { ...review, claims: [{ claim: 'x is true', status: 'PROBABLY', basis: 'a feeling' }] })))
 check('a review dated in the future is refused', isHold(P.storeReview(ID, { ...review, reviewedAt: new Date(Date.now() + 3600000).toISOString() })))
+check('a review without the ten verification checks is refused', isHold(P.storeReview(ID, { ...review, verification: undefined })))
+check('a review with a thin verification answer is refused', isHold(P.storeReview(ID, { ...review, verification: { ...review.verification, strongestObjection: 'none' } })))
+check('every verification check in the settings file has a field in the review code', P.uncoveredChecks().length === 0, P.uncoveredChecks().join(', '))
+check('a check added to the settings file and not to the code is caught', P.uncoveredChecks({ research: { verificationChecks: ['a new check'] } }).length === 1)
 check('a review with a dash in it is refused, because its text goes into the handoff', isHold(P.storeReview(ID, { ...review, oneStory: 'A study \u2014 a big one' })))
 check('a review for a different record is refused', isHold(P.storeReview(ID, { ...review, studyId: 'GDC-RR-0000000000' })))
 check('status has not moved while reviews were being refused', reg.get(ID).status === 'VERIFIED' && reg.get(ID).claudeStatus !== 'CLAUDE REVIEWED')
 const stored = P.storeReview(ID, { ...review, recommendedPlatforms: ['LinkedIn post'] })
 check('a complete review is stored and the story becomes EDITORIAL READY', stored.verdict === 'PASS' && reg.get(ID).status === 'EDITORIAL READY' && reg.get(ID).claudeStatus === 'CLAUDE REVIEWED')
+{
+  const H = await import('./handoff.mjs')
+  const hb = H.buildHandoff(reg.get(ID), { claudeReview: reg.get(ID).claudeReview })
+  const doc = H.handoffDoc(hb)
+  check('the handoff carries the verification, and the text tells Stage 2 to concede the objection', hb.verification?.strongestObjection === review.verification.strongestObjection && doc.includes('Strongest objection, concede it in the post'))
+}
 check('the sender\'s causal claim is nowhere in the cleared figures', !JSON.stringify(reg.get(ID).claudeReview.verifiedStatistics).includes('proves'))
 
 // ===========================================================================

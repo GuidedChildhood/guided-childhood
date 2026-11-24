@@ -40,7 +40,8 @@ to "where appropriate" in stage 2: QA asks for each format or a written reason.
    Bible at `content/brand-story/voice-bible.md`, fed by his posts, transcripts
    and corrections, with a corrections log. Wired into CLAUDE.md routing, the
    writing skills, QA and START HERE.
-4. **Research and verification.** The ten verification checks become required
+4. **Research and verification.** DONE 24 Nov (verification.mjs).
+   **Research and verification.** The ten verification checks become required
    fields of a stored review; the review gate refuses one that lacks any. The
    philosophy and TRUST and readiness framework in the settings file.
 5. **The handoff manifest (ChatGPT contract).** One stable Drive file,

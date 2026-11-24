@@ -267,3 +267,9 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Justin, "1 yes 3 yes": the radar's prompt now commits from a message file in single commands; a push to claude/radar-* that changes only the registers and passes the tests and gate is merged into main by radar-gate.yml. Decision 2, Justin "yes to family voice": the family account speaks as "we", Justin and Natalia, with Natalia's ear as the test.
 ### 24 November 2026: Oak API connected, first gap check done
 - Justin's Oak key is saved as a network secret and the open API answers. The read only check: Oak RSHE has 15 online life units (71 lessons) in Years 1 to 4, 7, 8, 10 and 11. We go further on AI companions, algorithms, gaming and odds, images and sextortion, the ban, and making and ownership. We also cover Reception, Years 5, 6 and 9 and the sixth form, which Oak's online units do not. This is from titles only; nothing public until lessons are read. Plan: `plans/2026-11-24-oak-rshe-gap-check.md`.
+
+## 24 November 2026: the ten verification checks are required fields of every new research review
+
+- A review stored from 25 November carries `verification` with ten answers (original source, publication date, statistics and denominators, sample and population, design, cause or association, counter evidence, strongest objection, practical implications, claims not to make). `pipeline.mjs review` refuses one missing or thin; `gate.mjs` checks the register for it.
+- The labels come from config/content-engine.json; a test fails if the settings list a check the code does not ask for.
+- The handoff now tells Stage 2 the design, sample, cause or association wording, the objection to concede and the claims never to make. Rule lives in scripts/radar/verification.mjs.

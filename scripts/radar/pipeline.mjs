@@ -28,6 +28,8 @@ import { parsePostRegister, internalNumberConflicts, nextFreeNumber, repoState, 
 import { driveReadable } from './sync.mjs'
 import { checkUrl } from './posted.mjs'
 import { assetProblems } from './assets.mjs'
+import { verificationProblems, uncoveredChecks } from './verification.mjs'
+export { VERIFICATION_FIELDS, verificationProblems, uncoveredChecks } from './verification.mjs'
 
 const PACKS = () => join(reg.DIR, 'packs')
 const HANDOFFS = () => join(reg.DIR, 'handoffs')
@@ -48,6 +50,8 @@ function recordGate(studyId, result) {
 // ---------------------------------------------------------------------------
 
 const REVIEW_VERDICTS = ['SHIP', 'EDIT', 'HOLD', 'REJECT']
+
+// The ten verification checks live in verification.mjs, shared with the gate.
 const DASH = /[\u2010-\u2015\u2212]/
 
 /**
@@ -86,6 +90,9 @@ export function storeReview(studyId, review, { reviewPath = null } = {}) {
   }
   if (!Array.isArray(r.verifiedStatistics)) reasons.push('verifiedStatistics must be a list, empty if no figure may be quoted')
   if (!Array.isArray(r.notQuotable)) reasons.push('notQuotable must be a list')
+  reasons.push(...verificationProblems(r.verification))
+  const uncovered = uncoveredChecks()
+  if (uncovered.length) reasons.push(`config/content-engine.json lists verification checks the review code does not ask for: ${uncovered.join(', ')}. Add a field for each in VERIFICATION_FIELDS.`)
   // The review is copied into the handoff, and the handoff goes to Drive.
   if (DASH.test(JSON.stringify(r))) reasons.push('the review contains a dash. Its text is copied into the handoff, and no copy carries one.')
   if (reasons.length) { const h = hold('REVIEW', reasons); recordGate(studyId, h); return h }
