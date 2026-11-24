@@ -17,6 +17,7 @@
 // content/publication/linkedin-schedule.json holds what Justin reported from
 // his screenshots. It is an observation with a date, never a live feed.
 
+import { autoPublishAllowed, schedulingAllowed } from './settings.mjs'
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import * as reg from './register.mjs'
@@ -84,7 +85,8 @@ export function buildHandoff(studyId, { schedulePath = SCHEDULE } = {}) {
     metricool: {
       draftCreationPermitted: Boolean(pack) && ready && !slot,
       schedulingPermitted: Boolean(pack) && approved && !slot,
-      autoPublishPermitted: false,
+      autoPublishPermitted: autoPublishAllowed(),
+      schedulingPermitted: schedulingAllowed(),
       // Attaching media is part of preparing the draft: allowed exactly when a
       // draft is, and only for checked, reviewed files with a verified Drive link.
       mediaAttachPermitted: Boolean(pack) && ready && !slot && attachable.length > 0,

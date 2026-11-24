@@ -174,9 +174,9 @@ check('the story is in the manifest queue with its number and handoff version', 
 const brief = F.stage2Brief()
 check('the start here document lists the story under WHAT TO WRITE', brief.text.includes(`STORY 1 OF 1: ${ID}, GDC-${NUM}`))
 check('with its own cleared figures', brief.text.includes('r = 0.308') && brief.text.includes('I squared = 93.85 percent'))
-check('and tells ChatGPT the core formats, with the handoff platform as the lead', /Formats to produce: LinkedIn post, first comment with the verified source, Instagram caption, Facebook adaptation/.test(brief.text) && /Lead platform: LinkedIn post\./.test(brief.text))
+check('and tells ChatGPT the core formats, with the handoff platform as the lead', /Formats to produce: LinkedIn post, first comment with the verified source, Instagram caption where appropriate, Facebook adaptation where appropriate/.test(brief.text) && /Lead platform: LinkedIn post\./.test(brief.text))
 check('an older date alone does not stop production', /An older date on this document does not stop production/.test(brief.text) && !/more than a day old/.test(brief.text))
-check('the weekly limit and reserve are stated', /At most 3 personal LinkedIn posts per calendar week/.test(brief.text) && /held in reserve/.test(brief.text))
+check('the weekly limit, reserve and scheduling permission come from the settings file', /3 to 4 personal LinkedIn posts per calendar week/.test(brief.text) && /held in reserve/.test(brief.text) && /you may schedule editorially cleared posts/.test(brief.text) && /Automatic publishing: OFF/.test(brief.text))
 check('it says how to send candidates and what happened to the last ones', brief.text.includes('HOW TO SEND RESEARCH TO CLAUDE') && brief.text.includes('C-TEST-01: taken in as') && brief.text.includes('C-TEST-02: held.'))
 check('it carries no dash', !/[\u2010-\u2015\u2212]/.test(brief.text))
 

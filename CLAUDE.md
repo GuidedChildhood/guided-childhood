@@ -24,26 +24,27 @@ opens with an index giving the line number of every entry, so one decision is a
   each point against our goal and philosophy, then adopt, adapt, park or
   decline it, with the reason. Never act on advice because of who gave it.
 
-- Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (our tokens win on conflict) + uiux-pro-max/design-tells.md (`npm run design-tells`)
+- Building any UI            → .claude/skills/frontend-design (our tokens win on conflict) + uiux-pro-max/design-tells.md (`npm run design-tells`)
 - Verifying any UI           → .claude/skills/webapp-testing (Playwright screenshots, tap every button) alongside the Chrome DevTools check
 - Anything DiGi              → digi/01-philosophy.md (DIGI_MODEL env var, default claude-fable-5-1)
 - Characters / lessons       → digi-squad/README.md (DiGi plus the Planet Friends: Pebble, Bloop, Orbit, Nova, Cosmo)
 - Database work              → docs/02 only
 - Payments / paywall         → docs/01 (Stripe section) + docs/08 (save flow)
-- Emails or any copy         → research/01 voice rules + .claude/skills/content-engine/ai-tells.md (no dashes ever, and the other tells; `npm run ai-tells` checks it)
+- Emails or any copy         → .claude/skills/content-engine/ai-tells.md (no dashes ever, and the other tells; `npm run ai-tells` checks it)
 - Any social / Drive content  → apply .claude/skills/content-engine/hidden-thread.md (the mission filter + 1 in 10 rule) AND .claude/skills/content-engine/linkedin-engagement.md (hooks, dwell time, real photos, no body links) before drafting
 - ANY post sitting in Drive, whoever or whatever wrote it → .claude/skills/content-engine/drive-post-review.md BEFORE it is treated as ready (Justin, 13 October 2026: always apply a Claude review over posts put in Drive). READY in a Drive document means nobody has checked it yet.
 - Anything in Justin's voice (LinkedIn, Substack, Facebook, talking head, explainers) → content/brand-story/founder-context.md (his true scenes and the GREEN/AMBER/RED privacy levels; one scene when it fits the idea, never invented, never repeated)
 - ANY social visual, carousel, campaign image, thumbnail or image generation brief → read and follow brand/GDC_SOCIAL_VISUAL_SYSTEM.md first, and use the approved existing brand assets as the source of truth (never a regenerated character, never an invented screen)
 - The week's social cards (Sunday batch, the pinned GDC posts page) → .claude/skills/social-week
 - The weekly scores out of ten, the task list, the session start alert → .claude/skills/review-board (answer the alert's questions with AskUserQuestion first)
+- Content engine settings → config/content-engine.json
 - Research led posts, cards, films, Stage 2 checks → .claude/skills/evidence-reveal
 - The Monday research sweep, what is new and whether it proves anything we built → .claude/skills/research-radar (it is allowed to find nothing, and a finding with no proof path never becomes content)
 - The week's LinkedIn posts, or any analytics screenshot → .claude/skills/linkedin-week (evidence is content/analytics/, newest file wins)
 - Family Instagram / Facebook → .claude/skills/family-social + content/brand-story/ (the family voice, NOT Justin's; four anchor days; every service claim needs a proof path)
 - Adverts, "ads like theirs", competitor ads, boosting a post → .claude/skills/ad-studio (copy the structure of their winners, never the message; test free, spend only on the winner; log it in content/ads/results-log.md)
 - TikTok / Reels / Shorts     → .claude/skills/silent-ugc (silent format, text hook does the work; NEVER a synthetic person presented as a real parent; every video ends at the stage check)
-- School features            → schools/01 + docs/09
+- School features            → docs/09
 - Retention features         → docs/08
 - Marketing pages            → docs/06 + docs/09 (delivery model)
 - Ban resilience             → docs/11 (social_media_law config flag)
