@@ -16,6 +16,7 @@
 import { repoState, sha256, parsePostRegister, nextFreeNumber, unmangle, DRIVE } from './contract.mjs'
 import { buildManifest } from './manifest.mjs'
 import { LIMITS } from './qa.mjs'
+import { SETTINGS, schedulingAllowed, autoPublishAllowed } from './settings.mjs'
 import * as reg from './register.mjs'
 import { recentReceipts, SCHEMA_ID } from './candidates.mjs'
 import { readFileSync, existsSync } from 'node:fs'
@@ -41,12 +42,12 @@ export function whatIsWorking(path = WORKING) {
 // graphics requirements where appropriate." Newsletter and Reel stay optional:
 // the handoff asks for those per story. The handoff's recommended platform is
 // still the lead, and the cleared figures are still the only figures.
-export const CORE_FORMATS = ['LinkedIn post', 'first comment with the verified source', 'Instagram caption', 'Facebook adaptation', 'a visual brief for each platform', 'motion requirements where the story has one clean finding']
+export const CORE_FORMATS = ['LinkedIn post', 'first comment with the verified source', 'Instagram caption where appropriate', 'Facebook adaptation where appropriate', 'a visual brief for each platform', 'motion requirements where the story has one clean finding']
 
 // Three personal LinkedIn posts per calendar week, Monday to Sunday, counting
 // bookings Justin made in LinkedIn himself (decision of 17 November). A pack
 // completed beyond that is held in reserve, never squeezed in.
-export const WEEKLY_LINKEDIN_CAP = 3
+export const WEEKLY_LINKEDIN_CAP = SETTINGS.linkedin.personalPostsPerWeek.max
 
 // Approved or verified posts that did not come through the radar queue but
 // still need their full pack (Justin, 24 November 2026). GitHub keeps the list
@@ -108,10 +109,10 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     '(The link to the source, and the strongest objection answered.)',
     '',
     '=== INSTAGRAM CAPTION ===',
-    '(Required. Written for Instagram, not the LinkedIn post pasted in. Shorter, the finding said plainly, the limit kept, no link in the caption. Only cleared figures.)',
+    '(Where appropriate. Written for Instagram, not the LinkedIn post pasted in. Shorter, the finding said plainly, the limit kept, no link in the caption. Only cleared figures. If it does not suit Instagram, write NOT RECOMMENDED and the reason in a sentence.)',
     '',
     '=== FACEBOOK CAPTION ===',
-    '(Required. Written to parents in family language, a practical question at the end. Only cleared figures. No dashes.)',
+    '(Where appropriate. Written to parents in family language, a practical question at the end. Only cleared figures. No dashes. If it does not suit Facebook, write NOT RECOMMENDED and the reason in a sentence.)',
     '',
     '=== NEWSLETTER ===',
     '',
@@ -307,10 +308,12 @@ export function stage2Brief({ links = {} } = {}) {
   line('  Then the STORYBOARD: DISRUPT, REVEAL, REFRAME, INVITE, with seconds that suit the story, a COVER that works as a still, and a CAROUSEL only where it helps.')
   line('  CARD TEXT adds TIMING and VISUAL lines. The look is black and white editorial paper with one restrained yellow highlight and slow, deliberate motion. Nothing essential depends on sound.')
   line()
-  line('THE WEEKLY LIMIT')
-  line(`  At most ${WEEKLY_LINKEDIN_CAP} personal LinkedIn posts per calendar week, Monday to Sunday, counting anything Justin booked in LinkedIn himself.`)
-  line('  A pack finished beyond that is held in reserve: complete it, do not schedule it. It takes the next free Monday, Wednesday or Friday at 08:00 once Justin approves it.')
-  line('  Metricool: an approved pack may be saved as a Metricool DRAFT for its slot. Never switch on automatic publishing and never schedule a pack Justin has not approved.')
+  const S = SETTINGS
+  line('THE WEEKLY LIMIT AND SCHEDULING (from config/content-engine.json)')
+  line(`  ${S.linkedin.personalPostsPerWeek.min} to ${S.linkedin.personalPostsPerWeek.max} personal LinkedIn posts per calendar week, Monday to Sunday, counting anything Justin booked in LinkedIn himself. Finished packs beyond that are held in reserve (target ${S.reserve.targetFinishedPacks}).`)
+  line(`  Scheduling: ${schedulingAllowed() ? 'you may schedule editorially cleared posts in Metricool' : 'PAUSED, do not schedule anything'}. Cleared means automatic checks passed, Claude review stored and founder voice review stored. Use the next free date, then every other day, at ${S.linkedin.time} UK for LinkedIn, skipping any date that already has a booking on that platform. Keep every existing approved booking and native newsletter slot.`)
+  line(`  Automatic publishing: ${autoPublishAllowed() ? 'ON' : 'OFF. Leave it off on every item; Justin publishes'}.`)
+  line('  Inert Metricool drafts for completed packs are allowed. Never restore a withdrawn provisional story. Never change an existing approved booking without Justin.')
   line()
   line('THE NUMBER RULE')
   line('  Post numbers are claimed in GitHub and nowhere else. You cannot write to GitHub.')

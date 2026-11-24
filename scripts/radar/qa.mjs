@@ -34,17 +34,20 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import * as reg from './register.mjs'
 import { parsePostRegister, POST_REGISTER, REPO } from './contract.mjs'
+import { SETTINGS, formatRule } from './settings.mjs'
 
-// The house rules, from research/01 and the content-engine skill.
+// The house rules. They live in config/content-engine.json (24 November 2026)
+// so Justin changes them in one place; this only names them for the checks.
+const L = SETTINGS.linkedin
 export const LIMITS = {
-  linkedinWordsMin: 250,
-  linkedinWordsMax: 450,
-  linkedinCharsMin: 1300,
-  linkedinCharsMax: 2500,
+  linkedinWordsMin: L.words.min,
+  linkedinWordsMax: L.words.max,
+  linkedinCharsMin: L.characters.min,
+  linkedinCharsMax: L.characters.max,
   // LinkedIn's own hard ceiling. Over this the post cannot be published.
-  linkedinCharsHard: 3000,
-  newsletterWordsMin: 600,
-  duplicationThreshold: 0.75,
+  linkedinCharsHard: L.characters.hard,
+  newsletterWordsMin: SETTINGS.newsletter.words.min,
+  duplicationThreshold: L.duplicationThreshold,
 }
 
 // Any of these in copy is a fail. Dashes are rule 4 of the non-negotiables.
@@ -332,9 +335,13 @@ export function checkPack(pack, { record = null, corpus = null, postRegisterPath
   // 4b. The core pack (24 November 2026): an Instagram caption, a Facebook
   // adaptation, and a visual brief that covers each platform and says what
   // moves. A pack without them is held, so Justin never gets half a pack.
-  const missingCore = [['Instagram caption', pack?.instagram?.caption], ['Facebook adaptation', pack?.facebook?.caption]].filter(([, b]) => !b).map(([n]) => n)
+  // "Where appropriate" (brief of 24 November): a pack carries each version, or
+  // says NOT RECOMMENDED with a real reason. Silence is the only failure.
+  const reasoned = (sec) => String(pack?.declined?.[sec] || '').replace(/^not (recommended|warranted|applicable|needed|required)\b[\s.:,]*/i, '').trim().length >= 20
+  const missingCore = [['Instagram caption', 'instagram', pack?.instagram?.caption, 'INSTAGRAM CAPTION'], ['Facebook adaptation', 'facebook', pack?.facebook?.caption, 'FACEBOOK CAPTION']]
+    .filter(([, rule, body, sec]) => !body && !(formatRule(rule) === 'where_appropriate' && reasoned(sec))).map(([n]) => n)
   add('the pack has its Instagram and Facebook versions', !pack || missingCore.length === 0,
-    missingCore.length ? `missing: ${missingCore.join(', ')}. Every pack now carries both, written for the platform, with the same cleared figures only.` : 'both present')
+    missingCore.length ? `missing: ${missingCore.join(', ')}. Write it for the platform with the same cleared figures, or write NOT RECOMMENDED and the reason in a sentence.` : 'present, or declined with a reason')
   const vb = String(pack?.visual?.brief || '')
   const missingVis = ['LINKEDIN', 'INSTAGRAM', 'FACEBOOK', 'MOTION'].filter((k) => !new RegExp(`\\b${k}\\s*:`, 'i').test(vb))
   add('the visual brief covers each platform and the motion', !pack || missingVis.length === 0,

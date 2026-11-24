@@ -283,6 +283,16 @@ check('a brief that says "use no invented screenshot" is not failed for the word
 check('a pack that says plainly it has no card passes the asset check as text only', realCheck(/names its approved assets/).pass === true && /text only/.test(realCheck(/names its approved assets/).detail))
 check('a brief that DOES describe an invented screen still fails',
   Q.checkPack({ ...gp, visual: { brief: 'A mock up of a screen showing the app with a regenerated character.', assetsUsed: ['x'] } }).failures.some((f) => /invented screen or person/.test(f.check)))
+check('an Instagram version declined with a real reason passes (where appropriate)',
+  !Q.checkPack({ ...gp, instagram: undefined, declined: { 'INSTAGRAM CAPTION': 'NOT RECOMMENDED. A policy consultation with no image or single finding a parent would stop for.' } }).failures.some((f) => /Instagram and Facebook versions/.test(f.check)))
+check('a bare NOT RECOMMENDED with no reason is still held',
+  Q.checkPack({ ...gp, instagram: undefined, declined: { 'INSTAGRAM CAPTION': 'NOT RECOMMENDED' } }).failures.some((f) => /Instagram and Facebook versions/.test(f.check)))
+{
+  const S = await import('./settings.mjs')
+  check('automatic publishing is off unless the settings say exactly "on"', S.autoPublishAllowed() === false && S.autoPublishAllowed({ ...S.SETTINGS, permissions: { ...S.SETTINGS.permissions, E_automatic_publishing: 'yes' } }) === false)
+  check('the pause switch stops scheduling', S.schedulingAllowed() === true && S.schedulingAllowed({ ...S.SETTINGS, pause: { all: false, scheduling: true } }) === false)
+  check('the QA limits are the settings file values', Q.LIMITS.linkedinWordsMin === S.SETTINGS.linkedin.words.min && Q.LIMITS.linkedinCharsHard === S.SETTINGS.linkedin.characters.hard)
+}
 check('a pack with no Instagram or Facebook version is held (core formats, 24 November)',
   Q.checkPack({ ...gp, instagram: undefined, facebook: undefined }).failures.some((f) => /Instagram and Facebook versions/.test(f.check)))
 check('a visual brief with no MOTION line is held, and the reason names it',

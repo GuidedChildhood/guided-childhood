@@ -1,0 +1,156 @@
+{
+  "schema": "gdc.content-engine-settings/1.0",
+  "about": "The one place the content engine's settings live (Justin, 24 November 2026). The radar code, START HERE, the Metricool handoff and the skills read this file. Change a setting here, not in code. config/README.md says what each part does and where it takes effect. GitHub's post register stays the only place a GDC number is claimed.",
+  "updated": "2026-11-24",
+
+  "pause": {
+    "all": false,
+    "scheduling": false,
+    "note": "Set all to true to stop every stage after research (nothing written, handed off or scheduled). Set scheduling to true to keep producing packs but stop ChatGPT scheduling them."
+  },
+
+  "philosophy": {
+    "lines": [
+      "Don't dismiss the risks.",
+      "Don't exaggerate the evidence.",
+      "Don't make a ban the only respectable parenting choice.",
+      "Give parents the information and tools to decide."
+    ],
+    "frameworks": ["TRUST", "developmental readiness (the five stages)"],
+    "noFiller": true
+  },
+
+  "voice": {
+    "skill": ".claude/skills/founder-voice-review/SKILL.md",
+    "bible": "content/brand-story/voice-bible.md",
+    "english": "British",
+    "dashes": "never",
+    "neverInvent": ["anecdotes", "personal experiences", "quotations", "family stories"],
+    "privacy": "content/brand-story/founder-context.md (GREEN, AMBER, RED)"
+  },
+
+  "audiences": [
+    { "id": "parents", "who": "UK parents of children aged 4 to 16", "lead": true },
+    { "id": "educators", "who": "teachers, heads and DSLs; posts for head teachers go to the schools account" },
+    { "id": "researchers", "who": "researchers and policy people who check the evidence" }
+  ],
+
+  "research": {
+    "verificationChecks": [
+      "original source verified",
+      "publication date verified",
+      "statistics and denominators checked",
+      "sample and population checked",
+      "research design assessed",
+      "correlation versus causation checked",
+      "counter evidence reviewed",
+      "strongest credible objection",
+      "practical implications",
+      "claims that must not be made"
+    ],
+    "clearedFiguresOnly": true,
+    "flatteringFindingsGetMoreScrutiny": true
+  },
+
+  "linkedin": {
+    "personalPostsPerWeek": { "min": 3, "max": 4 },
+    "time": "08:00",
+    "timezone": "Europe/London",
+    "words": { "min": 250, "max": 450 },
+    "characters": { "min": 1300, "max": 2500, "hard": 3000 },
+    "opening": "the named study or body and its finding, in one complete sentence (Justin's numbers of 11 November)",
+    "closingQuestion": "last sentence, asks what the reader would measure, count or do",
+    "linkInBody": false,
+    "commentKeyword": false,
+    "followAsk": false,
+    "duplicationThreshold": 0.75
+  },
+
+  "formats": {
+    "linkedin": "required",
+    "firstComment": "required",
+    "instagram": "where_appropriate",
+    "facebook": "where_appropriate",
+    "visualBriefPerPlatform": "required",
+    "motion": "where_appropriate",
+    "reel": "when_the_handoff_asks",
+    "newsletter": "weekly_edition",
+    "note": "where_appropriate means the pack carries it, or says NOT RECOMMENDED with a reason of at least a sentence. Do not force every story into every format."
+  },
+
+  "reserve": { "targetFinishedPacks": 5 },
+
+  "visual": {
+    "evidencePosts": "black and white editorial paper, one restrained yellow highlight",
+    "appAndFamilyPosts": "the app system: cream, ink, butter, Nunito (brand/GDC_SOCIAL_VISUAL_SYSTEM.md)",
+    "sizes": { "feed": "1080x1350", "facebookLandscape": "1200x630", "portraitVideo": "1080x1920", "landscapeVideo": "1920x1080" },
+    "neverOnPublicGraphics": ["GDC numbers", "production labels"],
+    "approvedAssetsOnly": true
+  },
+
+  "motion": {
+    "engine": "tools/motion-engine",
+    "fps": 30,
+    "endHoldSeconds": 5,
+    "inspectEveryFrame": true,
+    "paidRenderingLimitGBP": 0
+  },
+
+  "newsletter": {
+    "day": "Sunday",
+    "readyBy": "Friday",
+    "words": { "min": 1200, "max": 1800 },
+    "editions": ["LinkedIn native newsletter", "Substack"],
+    "deliverables": [
+      "LinkedIn edition", "Substack edition", "title, subtitle and preview text", "verified sources",
+      "cover image", "landscape motion teaser", "portrait motion teaser where right",
+      "LinkedIn promotional post", "Instagram promotional caption", "Facebook promotional adaptation"
+    ],
+    "publishing": "manual: LinkedIn native newsletter and Substack sending are not tested through Metricool"
+  },
+
+  "scheduling": {
+    "rule": "next_free_date_then_every_other_day",
+    "skipOccupiedDates": true,
+    "preserve": ["existing approved bookings", "native LinkedIn newsletter slots", "Justin's own LinkedIn bookings"],
+    "prioritiseTimeSensitive": true,
+    "neverRestore": "withdrawn provisional stories"
+  },
+
+  "permissions": {
+    "A_research_and_verification": "automatic",
+    "B_writing_review_and_creative": "automatic",
+    "C_inert_metricool_drafts": "automatic",
+    "D_scheduling": "standing: editorially cleared posts only (QA passed, Claude review and founder voice review stored), by ChatGPT in Metricool, under the scheduling rule above (Justin, 24 November 2026)",
+    "E_automatic_publishing": "off",
+    "F_needs_individual_approval": [
+      "turning on automatic publishing",
+      "changing or removing an existing approved booking",
+      "materially changing a scheduled post",
+      "paid rendering or paid generation",
+      "any change to live published content",
+      "a direct Metricool integration other than ChatGPT"
+    ],
+    "who": { "metricool": "ChatGPT only; Claude has no Metricool access", "posting": "Justin while automatic publishing is off" }
+  },
+
+  "approval": {
+    "editorialClearance": ["automatic checks passed", "Claude review stored", "founder voice review stored"],
+    "materialChangeResetsReview": true,
+    "onlyJustin": ["APPROVED", "POSTED", "automatic publishing"]
+  },
+
+  "notifications": {
+    "dailyReportOwner": "ChatGPT's 14:30 UK Metricool task",
+    "dailyReportContains": [
+      "Justin's only required actions today",
+      "links to posts needing manual publication today or tomorrow morning",
+      "first comments ready to copy",
+      "newly scheduled content",
+      "newsletter status and links",
+      "exceptional issues"
+    ],
+    "otherStages": "write status to the shared operating system; no separate routine notices",
+    "ifNothing": "say so"
+  }
+}
