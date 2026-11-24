@@ -159,18 +159,6 @@
    "attempts": 1
   },
   {
-   "stage": "DRIVE SYNC",
-   "verdict": "HOLD",
-   "by": "claude",
-   "reasons": [
-    "Not done: Drive copies must be stamped with a commit that exists in GitHub and nothing could be committed. Drive queue, start here and register mirror are stale against main (register moved since 19 Nov). Inbox documents not retitled."
-   ],
-   "detail": null,
-   "at": "2026-11-24T09:32:13.864Z",
-   "commit": "34fd281a",
-   "attempts": 1
-  },
-  {
    "stage": "PACK QA",
    "verdict": "SKIPPED",
    "by": "claude",
@@ -181,7 +169,19 @@
    "at": "2026-11-24T09:32:13.966Z",
    "commit": "34fd281a",
    "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "START HERE refreshed 24 Nov from 628474eb, verified text identical; eligibility by status, full packs, completion queue"
+   ],
+   "detail": null,
+   "at": "2026-11-24T11:21:07.123Z",
+   "commit": "628474eb",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-24T09:32:14.000Z"
+ "updatedAt": "2026-11-24T11:21:07.156Z"
 }
