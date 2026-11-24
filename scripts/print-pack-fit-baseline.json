@@ -1,6 +1,6 @@
 {
-  "layout": "fd20e2273b5404ba",
-  "measured": "2026-10-12",
+  "layout": "b05f27e5441977c3",
+  "measured": "2026-11-24",
   "pageHeight": 1031,
   "lessons": {
     "eyfs-01-screens-kindness": {
@@ -20,7 +20,7 @@
     "eyfs-30-the-screen-never-says-stop": {
       "teacher": {
         "chars": 2111,
-        "spare": 328
+        "spare": 275
       },
       "cards": {
         "chars": 517,
@@ -34,7 +34,7 @@
     "eyfs-31-paws-off-ask-first": {
       "teacher": {
         "chars": 2428,
-        "spare": 246
+        "spare": 193
       },
       "cards": {
         "chars": 482,
@@ -48,7 +48,7 @@
     "ks1-02-kind-screens-calm-bodies": {
       "teacher": {
         "chars": 2279,
-        "spare": 311
+        "spare": 258
       },
       "cards": {
         "chars": 667,
@@ -76,7 +76,7 @@
     "ks1-32-private-like-a-toothbrush": {
       "teacher": {
         "chars": 2705,
-        "spare": 213
+        "spare": 160
       },
       "cards": {
         "chars": 518,
@@ -90,7 +90,7 @@
     "ks1-33-who-is-on-the-other-side": {
       "teacher": {
         "chars": 2705,
-        "spare": 197
+        "spare": 144
       },
       "cards": {
         "chars": 550,
@@ -103,15 +103,15 @@
     },
     "ks2-04-screen-routines": {
       "teacher": {
-        "chars": 2017,
+        "chars": 2020,
         "spare": 364
       },
       "cards": {
-        "chars": 850,
+        "chars": 863,
         "spare": 176
       },
       "parent": {
-        "chars": 1224,
+        "chars": 1230,
         "spare": 91
       }
     },
@@ -121,7 +121,7 @@
         "spare": 429
       },
       "cards": {
-        "chars": 1090,
+        "chars": 1089,
         "spare": 97
       },
       "parent": {
@@ -146,7 +146,7 @@
     "ks2-07-privacy-reputation": {
       "teacher": {
         "chars": 2305,
-        "spare": 295
+        "spare": 242
       },
       "cards": {
         "chars": 1015,
@@ -160,10 +160,10 @@
     "ks2-08-kind-safe-online": {
       "teacher": {
         "chars": 2236,
-        "spare": 328
+        "spare": 275
       },
       "cards": {
-        "chars": 1048,
+        "chars": 1055,
         "spare": 150
       },
       "parent": {
@@ -188,10 +188,10 @@
     "ks2-23-when-a-machine-talks-like-a-friend": {
       "teacher": {
         "chars": 3089,
-        "spare": 178
+        "spare": 125
       },
       "cards": {
-        "chars": 533,
+        "chars": 539,
         "spare": 282
       },
       "parent": {
@@ -202,7 +202,7 @@
     "ks2-25-stay-the-maker": {
       "teacher": {
         "chars": 2412,
-        "spare": 292
+        "spare": 239
       },
       "cards": {
         "chars": 535,
@@ -216,7 +216,7 @@
     "ks2-26-why-thirteen": {
       "teacher": {
         "chars": 2185,
-        "spare": 360
+        "spare": 307
       },
       "cards": {
         "chars": 733,
@@ -230,7 +230,7 @@
     "ks3-10-mood-and-screens": {
       "teacher": {
         "chars": 2454,
-        "spare": 262
+        "spare": 209
       },
       "cards": {
         "chars": 1267,
@@ -244,7 +244,7 @@
     "ks3-11-social-workarounds": {
       "teacher": {
         "chars": 2611,
-        "spare": 295
+        "spare": 242
       },
       "cards": {
         "chars": 819,
@@ -258,7 +258,7 @@
     "ks3-12-misinfo-deepfakes": {
       "teacher": {
         "chars": 1646,
-        "spare": 376
+        "spare": 324
       },
       "cards": {
         "chars": 829,
@@ -286,7 +286,7 @@
     "ks3-14-bodies-image-pressure": {
       "teacher": {
         "chars": 2515,
-        "spare": 279
+        "spare": 226
       },
       "cards": {
         "chars": 922,
@@ -300,7 +300,7 @@
     "ks3-22-when-an-ai-acts-like-a-friend": {
       "teacher": {
         "chars": 3287,
-        "spare": 178
+        "spare": 125
       },
       "cards": {
         "chars": 720,
@@ -314,7 +314,7 @@
     "ks3-24-is-it-doing-my-thinking": {
       "teacher": {
         "chars": 2423,
-        "spare": 276
+        "spare": 223
       },
       "cards": {
         "chars": 729,
@@ -328,7 +328,7 @@
     "ks3-27-when-it-turns-on-you": {
       "teacher": {
         "chars": 2911,
-        "spare": 213
+        "spare": 160
       },
       "cards": {
         "chars": 658,
@@ -342,7 +342,7 @@
     "ks3-34-who-owns-what-you-make": {
       "teacher": {
         "chars": 2332,
-        "spare": 289
+        "spare": 236
       },
       "cards": {
         "chars": 894,
@@ -370,10 +370,10 @@
     "ks4-16-consent-images-law": {
       "teacher": {
         "chars": 3238,
-        "spare": 164
+        "spare": 111
       },
       "cards": {
-        "chars": 1014,
+        "chars": 1026,
         "spare": 218
       },
       "parent": {
@@ -384,7 +384,7 @@
     "ks4-17-sextortion": {
       "teacher": {
         "chars": 3397,
-        "spare": 148
+        "spare": 95
       },
       "cards": {
         "chars": 1025,
@@ -398,7 +398,7 @@
     "ks4-18-radicalisation-misogyny": {
       "teacher": {
         "chars": 2948,
-        "spare": 197
+        "spare": 144
       },
       "cards": {
         "chars": 1110,
@@ -412,10 +412,10 @@
     "ks4-19-readiness-at-16": {
       "teacher": {
         "chars": 2128,
-        "spare": 396
+        "spare": 380
       },
       "cards": {
-        "chars": 962,
+        "chars": 923,
         "spare": 268
       },
       "parent": {
@@ -426,7 +426,7 @@
     "ks4-28-the-money-and-the-odds": {
       "teacher": {
         "chars": 3414,
-        "spare": 145
+        "spare": 92
       },
       "cards": {
         "chars": 870,
@@ -440,7 +440,7 @@
     "ks4-29-did-not-go-looking": {
       "teacher": {
         "chars": 3946,
-        "spare": 64
+        "spare": 11
       },
       "cards": {
         "chars": 968,

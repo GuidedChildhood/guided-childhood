@@ -52,7 +52,7 @@ export default async function PilotPage({ searchParams }: { searchParams: Promis
     'Every printable for both: the pack, the pupil booklet, the organiser, the two quizzes, the learning record',
     `The compliance Hub, the RSHE mapping matrix and the ${FLAGGED_MODULES.length} staff briefings`,
     `The map of all ${MODULE_COUNT} modules, Reception to Year 13, open to read`,
-    'The parent pack for your newsletter: a blurb to copy, a QR code and free tools for families, so parents hear at home what pupils hear in class',
+    'The parent pack for your newsletter: what each lesson covers and the question to ask at home, so parents hear at home what pupils hear in class',
     'A reply within two working days, usually the same day',
   ]
 

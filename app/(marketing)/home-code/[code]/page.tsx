@@ -88,9 +88,9 @@ export default async function HomeCodePage({ params }: { params: Promise<{ code:
             {title ? <>Today&rsquo;s lesson was {title}</> : <>Your child&rsquo;s class covered one of our lessons</>}
           </h1>
           <p style={{ ...body, marginBottom: 18 }}>
-            {yearBand ? `${yearBand}. ` : ''}This code records that the class met it, on your child&rsquo;s own passport: the record of
+            {yearBand ? `${yearBand}. ` : ''}This code opens the same lesson at home. It sits on your child&rsquo;s own passport: the record of
             everything they are learning about being safe, balanced and sharp online between four and sixteen. The lesson
-            itself goes on the page when your child does its short check at home, in their own app.
+            goes on the page when your child does its short check at home, in their own app.
           </p>
 
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '14px 18px', marginBottom: 22 }}>
