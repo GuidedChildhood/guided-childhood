@@ -258,3 +258,6 @@ Titles only. Open the archive at the line number in its own index for the full e
 - config/content-engine.json holds cadence (3 to 4 a week), formats (Instagram and Facebook where appropriate), scheduling (next free date, then every other day), permissions A to F, the pause switch, the newsletter and the daily report. Code reads it through scripts/radar/settings.mjs.
 - Justin's addendum: ChatGPT has standing permission to schedule editorially cleared posts; automatic publishing stays off; ChatGPT's 14:30 task owns the one daily report.
 - Plan and audit: plans/2026-11-24-content-engine-plan.md and -audit.md.
+
+### 24 November 2026: Oak API connected, first gap check done
+- Justin's Oak key is saved as a network secret and the open API answers. The read only check: Oak RSHE has 15 online life units (71 lessons) in Years 1 to 4, 7, 8, 10 and 11. We go further on AI companions, algorithms, gaming and odds, images and sextortion, the ban, and making and ownership. We also cover Reception, Years 5, 6 and 9 and the sixth form, which Oak's online units do not. This is from titles only; nothing public until lessons are read. Plan: `plans/2026-11-24-oak-rshe-gap-check.md`.
