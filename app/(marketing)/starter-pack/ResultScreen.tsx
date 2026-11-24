@@ -398,7 +398,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                   ['Then', 'Jobs earn the screen time and a timer you can both see ends it. Short lessons build up to 16, and DiGi is there when something new comes up.'],
                 ].map(([title, line], i) => (
                   <li key={title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                    <span aria-hidden style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: 'var(--ink)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
+                    <span aria-hidden style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: 'var(--ink)', color: 'var(--white)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
                     <div style={{ minWidth: 0 }}>
                       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{title}</div>
                       <p style={{ ...BODY, fontSize: 'var(--text-base)', color: 'var(--ink)', marginTop: 2 }}>{line}</p>
