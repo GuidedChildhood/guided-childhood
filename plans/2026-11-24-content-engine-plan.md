@@ -14,6 +14,9 @@ driven from one settings file. Nothing new is built where something exists.
 | Reserve | none set | about five finished packs in reserve |
 | Formats | every pack carries Instagram and Facebook (24 Nov morning) | Instagram and Facebook "where appropriate"; do not force every story into every format |
 | Metricool drafts | only for approved packs | inert drafts for completed packs are a standing permission (C); scheduling (D) and publishing (E) only under explicit standing authorisation |
+| Scheduling (addendum, 24 Nov) | Justin approves each slot | ChatGPT has standing permission to schedule editorially cleared posts: next free date, then every other day, skipping occupied dates. Automatic publishing stays OFF. Native newsletter bookings preserved |
+| Daily report (addendum) | many notices | one founder report, owned by ChatGPT's 14:30 Metricool task; every Claude stage writes its status where that task reads it |
+| Newsletter (addendum) | Sunday issue, about 2,000 words | Sunday edition ready by Friday, 1,200 to 1,800 words, ten deliverables: LinkedIn edition, Substack edition, title, subtitle and preview, sources, cover, landscape teaser, portrait teaser where right, LinkedIn, Instagram and Facebook promos |
 | Founder voice | ai-tells, voice keeper, founder-context scattered | one founder-voice-review skill run on all outward writing |
 
 The 24 Nov morning rule "every pack carries Instagram and Facebook" is softened
