@@ -27,7 +27,7 @@ const to = (sel, b, t) => TL.push(`tl.to(${J(sel)},${J(b)},${at(t)});`)
 const set = (sel, a, t) => TL.push(`tl.set(${J(sel)},${J(a)},${at(t)});`)
 
 // ── Guards ──────────────────────────────────────────────────────────────────
-const TEXT_KEYS = new Set(['text', 'eyebrow', 'line', 'sub', 'title', 'url', 'button', 'label', 'body', 'tagline', 'claim', 'cite', 'note', 'k', 'v'])
+const TEXT_KEYS = new Set(['then', 'text', 'eyebrow', 'line', 'sub', 'title', 'url', 'button', 'label', 'body', 'tagline', 'claim', 'cite', 'note', 'k', 'v'])
 ;(function walk(v, path) {
   if (typeof v === 'string' && TEXT_KEYS.has(path.split('.').pop())) {
     if (/[–—−]/.test(v) || /\s-\s/.test(v)) throw new Error(`dash in ${path}: ${v}`)
@@ -69,7 +69,7 @@ for (const [i, sh] of C.shots.entries()) {
     const style = `left:${o.x ?? 90}px;top:${o.y}px;width:${o.w ?? W - 180}px;text-align:${o.align || 'center'}`
     if (o.kind === 'pill') html += `<div id="${id}-o${j}" class="ov pillwrap" style="${style}"><span class="pill">${o.typed ? esc(o.text).split(' ').map((w, k) => k < (o.typedFrom || 0) ? w : `<span class="pw">${w}</span>`).join(' ') : esc(o.text)}</span></div>`
     else if (o.kind === 'digi') html += `<div id="${id}-o${j}" class="ov digi" style="left:${o.x}px;top:${o.y}px;width:${o.size}px;height:${o.size}px"><video id="${id}-o${j}-v" src="assets/digi/digi-idle-dc3673e0.mp4" muted playsinline loop data-start="${at(s + (o.t0 || 0))}" data-duration="${at((o.t1 ?? d) - (o.t0 || 0))}" data-track-index="2"></video></div>`
-    else if (o.kind === 'end') html += `<div id="${id}-o${j}" class="ov endcard" style="top:${o.y}px"><div class="end-logo">${logo(64, 50)}</div>${o.tagline ? `<div class="end-tag">${esc(o.tagline)}</div>` : ''}${o.eyebrow ? `<div class="end-eyebrow">${esc(o.eyebrow)}</div>` : ''}<div class="end-line">${esc(o.line)}</div><div class="end-sub">${esc(o.sub)}</div><div class="end-btn" id="${id}-o${j}-btn">${esc(o.button)}</div><div class="end-url">${esc(o.url)}</div>${o.slate ? `<div class="end-slate">${esc(o.slate)}</div>` : ''}</div>`
+    else if (o.kind === 'end') html += `<div id="${id}-o${j}" class="ov endcard" style="top:${o.y}px"><div class="end-logo">${logo(64, 50)}</div>${o.tagline ? `<div class="end-tag">${esc(o.tagline)}</div>` : ''}${o.eyebrow ? `<div class="end-eyebrow">${esc(o.eyebrow)}</div>` : ''}<div class="end-line">${esc(o.line)}</div><div class="end-sub">${esc(o.sub)}</div><div class="end-btn" id="${id}-o${j}-btn">${esc(o.button)}</div>${o.then ? `<div class="end-then">${esc(o.then)}</div>` : ''}<div class="end-url">${esc(o.url)}</div>${o.slate ? `<div class="end-slate">${esc(o.slate)}</div>` : ''}</div>`
     // A numbered step card (the learns film, 4 November 2026): one beat, one
     // plain line saying what DiGi does, so the story reads with the sound off.
     else if (o.kind === 'step') html += `<div id="${id}-o${j}" class="ov stepwrap" style="${style}"><div class="step">${o.n != null ? `<span class="step-n">${esc(o.n)}</span>` : ''}<span class="step-body">${o.eyebrow ? `<span class="step-eye">${esc(o.eyebrow)}</span>` : ''}<span class="step-t">${esc(o.text)}</span></span></div></div>`
@@ -295,6 +295,7 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .endcard{left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center}
 .end-line{font-weight:900;font-size:96px;line-height:1.04;letter-spacing:-.025em;max-width:920px;margin-top:40px}
 .end-sub{font-weight:700;font-size:54px;line-height:1.2;color:#3A3A52;margin-top:22px;max-width:880px}
+.endcard .end-then{font-weight:800;font-size:44px;line-height:1.2;color:#1A1A2E;margin-top:38px;max-width:1000px;white-space:nowrap}
 .end-btn{margin-top:54px;background:#1A1A2E;color:#FFFFFF;border-radius:22px;padding:30px 54px;font-weight:800;font-size:60px;box-shadow:0 7px 0 #000}
 .end-url{font-family:plexMono,monospace;font-weight:600;font-size:42px;letter-spacing:.06em;color:#3A3A52;margin-top:34px}
 .logo{display:inline-flex;align-items:center;gap:30px}.logo .mark{display:inline-flex;align-items:center;justify-content:center;background:#EDC35F}.logo .bars{display:inline-flex;align-items:flex-end}.logo .word{font-weight:800;letter-spacing:-.02em;white-space:nowrap}

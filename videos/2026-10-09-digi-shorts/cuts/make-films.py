@@ -118,14 +118,38 @@ for k, f in F.items():
     # The 30 second ad cut (23 November 2026): the product on screen inside three
     # seconds, the two steps, the words, the check back, one line of proof, the
     # stage check. Same shots as the full film, fewer and shorter.
-    AD = {'hook': 2.6, 'hero': 1.8, 'reply1': 3.4, 'reply2': 2.6, 'deck': 4.6, 'followup': 3.6, 'great': 1.6, 'held': 2.0, 'science': 3.2, 'end': 5.0}
+    # Second ad cut (24 November 2026, after the sign up review): the phone is on
+    # screen from the first frame with the question typing into the real app, the
+    # script card is framed clear of its caption and held long enough to read a
+    # line, the check in shows only the worry that was rated, the cards that a cold
+    # parent will not wait for (inputs, research) are gone, and the end card says
+    # what comes after the stage check.
+    AD = {'hero': 3.4, 'reply1': 3.4, 'reply2': 2.6, 'deck': 6.4, 'followup': 3.4, 'great': 1.6, 'held': 2.4, 'end': 6.2}
     shots = [dict(x, dur=AD[x['id']]) for x in shots if x['id'] in AD]
     for x in shots:
-      if x['id'] == 'hook':
-        x['overlays'] = [dict(o, t0=0.15, typed=0.1) if o['kind'] == 'pill' else o for o in x['overlays'] if o['kind'] != 'eyebrow']
-        x['sfx'] = [{'name': 'sfx-tap', 'at': 0.2, 'vol': 0.15}]
-      if x['id'] == 'hero': x['tilt'] = [x['tilt'][0], dict(x['tilt'][1], dur=1.3)]
-      if x['id'] == 'deck': x['overlays'] = [dict(o, t0=1.2) if o['kind'] == 'caption' else o for o in x['overlays']]
+      if x['id'] == 'hero':
+        x['fadeIn'] = 0
+        x['cam'] = [{'t': 0, 'S': 1.36, 'fx': 209, 'fy': 436, 'py': 1230}, {'t': 1.9, 'S': 1.85, 'fx': 209, 'fy': 380, 'py': 1120, 'dur': 1.4}]
+        x['tilt'] = [{'rx': 10, 'ry': -24, 'rz': 3}, {'t': 0.1, 'rx': 0, 'ry': 0, 'rz': 0, 'dur': 1.5}]
+        x['overlays'] = [{'kind': 'hook', 'text': f['band'], 'y': 250, 't0': 0},
+                         {'kind': 'label', 'text': 'Example family. Real app.', 'y': 470, 't0': 0, 'instant': True}]
+        x['sfx'] = [{'name': 'sfx-tap', 'at': 0.2, 'vol': 0.15}, {'name': 'sfx-send', 'at': round(ENTER / 1000 - 0.3, 2), 'vol': 0.3}]
+      if x['id'] == 'deck':
+        x['cam'] = [{'t': 0, 'S': 2.7, 'fx': 195, 'fy': 303, 'py': 420}, {'t': 0.7, 'S': 3.1, 'fx': 195, 'fy': f['deck'], 'py': 835, 'dur': 0.7}, {'t': 1.6, 'S': 3.22, 'fx': 195, 'fy': f['deck'], 'py': 835, 'dur': 4.6}]
+        x['overlays'] = [dict(o, t0=1.0, y=1440) if o['kind'] == 'caption' else o for o in x['overlays']]
+      # Nothing sits still: every held shot drifts in a touch, and each step's number gets a pulse as its line is underlined.
+      if x['id'] in ('reply1', 'reply2', 'followup', 'held'):
+        c0 = x['cam'][0]; x['cam'] = [c0, dict(c0, t=0.15, S=round(c0['S'] + 0.16, 2), dur=x['dur'] - 0.2)]
+      if x['id'] in ('reply1', 'reply2'):
+        u = x['inScreen'][0]; x['inScreen'] = x['inScreen'] + [{'cls': 'ripple', 'x': 12, 'y': u['y'] - 34, 'w': 44, 'h': 44, 't0': u['t0']}]
+      if x['id'] == 'followup': x['overlays'] = [dict(o, text='Example: a few days later') if o['kind'] == 'marker' else o for o in x['overlays']]
+      if x['id'] in ('great', 'held'): x['overlays'] = [dict(o, text='Example: a week later') if o['kind'] == 'marker' else o for o in x['overlays']]
+      if x['id'] == 'held':
+        x['cropTop'] = 890
+        x['overlays'] = [dict(o, text=o['text'] if ONGOING else '*Sorted.* Your own rating.') if o['kind'] == 'caption' else o for o in x['overlays']]
+      if x['id'] == 'end':
+        for o in x['overlays']:
+          if o['kind'] == 'end': o.update(then='Then try DiGi free for four days. No card.', pressAt=3.4); o.pop('tagline', None)
     k = f'{k}-ad'
   total = sum(s['dur'] for s in shots)
   cut = {'name': f'film-{k}', 'music': {'file': 'music-leberch.mp3', 'mediaStart': 12.3,
