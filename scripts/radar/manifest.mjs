@@ -26,6 +26,9 @@ export function buildManifest() {
       'Only figures listed in the handoff under FIGURES CLEARED FOR USE may appear in copy.',
       'A story with claudeStatus other than CLAUDE REVIEWED is not eligible, whatever else it says.',
       'Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check.',
+      'Eligibility is a status, not a date (Justin, 24 November 2026). A story in this queue stays eligible until it is completed, withdrawn, superseded or put on HOLD. An older generatedAt never stops production on its own.',
+      'Every pack carries a LinkedIn post, first comment with the verified source, Instagram caption, Facebook adaptation, a visual brief per platform and motion requirements where appropriate.',
+      'At most three personal LinkedIn posts per calendar week. A pack completed beyond that is held in reserve, never scheduled until Justin approves it.',
     ],
     counts: reg.stats(),
     queue: ready.map((r) => ({

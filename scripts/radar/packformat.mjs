@@ -35,6 +35,32 @@ export function whatIsWorking(path = WORKING) {
   } catch { return null }
 }
 
+// What every evidence pack carries (Justin, 24 November 2026): "Each pack must
+// include a LinkedIn post, Instagram caption, Facebook adaptation, first
+// comments and verified sources, platform specific visual briefs, and motion
+// graphics requirements where appropriate." Newsletter and Reel stay optional:
+// the handoff asks for those per story. The handoff's recommended platform is
+// still the lead, and the cleared figures are still the only figures.
+export const CORE_FORMATS = ['LinkedIn post', 'first comment with the verified source', 'Instagram caption', 'Facebook adaptation', 'a visual brief for each platform', 'motion requirements where the story has one clean finding']
+
+// Three personal LinkedIn posts per calendar week, Monday to Sunday, counting
+// bookings Justin made in LinkedIn himself (decision of 17 November). A pack
+// completed beyond that is held in reserve, never squeezed in.
+export const WEEKLY_LINKEDIN_CAP = 3
+
+// Approved or verified posts that did not come through the radar queue but
+// still need their full pack (Justin, 24 November 2026). GitHub keeps the list
+// and START HERE prints it, so Stage 2 completes them on its normal run
+// instead of Justin carrying them across one by one.
+const COMPLETION = fileURLToPath(new URL('../../content/research-register/completion-queue.json', import.meta.url))
+export function completionQueue(path = COMPLETION) {
+  if (!existsSync(path)) return []
+  try {
+    const q = JSON.parse(readFileSync(path, 'utf8'))
+    return (Array.isArray(q.items) ? q.items : []).filter((i) => i && i.gdc && !['COMPLETED', 'POSTED', 'WITHDRAWN', 'SUPERSEDED', 'HOLD'].includes(String(i.state || '').toUpperCase()))
+  } catch { return [] }
+}
+
 const HEADER_FIELDS = {
   'RESEARCH ID': 'researchId',
   'GDC POST NUMBER': 'gdcPostNumber',
@@ -82,8 +108,10 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     '(The link to the source, and the strongest objection answered.)',
     '',
     '=== INSTAGRAM CAPTION ===',
+    '(Required. Written for Instagram, not the LinkedIn post pasted in. Shorter, the finding said plainly, the limit kept, no link in the caption. Only cleared figures.)',
     '',
     '=== FACEBOOK CAPTION ===',
+    '(Required. Written to parents in family language, a practical question at the end. Only cleared figures. No dashes.)',
     '',
     '=== NEWSLETTER ===',
     '',
@@ -97,7 +125,7 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     '(Four beats, with seconds that suit the story: DISRUPT, the chosen hook on screen; REVEAL, the finding with its figure; REFRAME, what it does and does not mean, with the limit; INVITE, the question or the practical step. Then COVER: the static frame that works alone. Then CAROUSEL: slide by slide if a carousel helps, otherwise NOT RECOMMENDED. Every essential claim readable with the sound off.)',
     '',
     '=== VISUAL BRIEF ===',
-    '(What the card shows. Approved brand assets only.)',
+    '(Required. One line per platform, each starting with its label. LINKEDIN: the still or carousel, 1080 by 1350. INSTAGRAM: the carousel or single card, 1080 by 1350, and the Reel cover if there is one. FACEBOOK: the image, 1080 by 1350 or 1200 by 630. MOTION: what moves and for how long, 30 frames a second, a still hold of at least five seconds at the end; or NOT NEEDED and the reason. Approved brand assets only, no GDC number on any public graphic.)',
     '',
     '=== CARD TEXT ===',
     '(Every evidence post has a card by default. Five lines. HEADLINE is contrarian: it turns the obvious reading round and stays inside what the study shows. Lines: HEADLINE: under 110 characters. FINDING: under 110, the figure exactly as cleared. CONTEXT: under 140. SOURCE: journal and date. LIMITATION: one line, in the record\'s own words. Under 45 words in all. Then two production lines that are not counted: TIMING: seconds for each beat. VISUAL: black and white editorial paper, one restrained yellow highlight, what moves and when. Write NOT RECOMMENDED only when the story has no single clean finding, and say why.)',
@@ -209,7 +237,13 @@ export function stage2Brief({ links = {} } = {}) {
 
   line('GDC STAGE 2, START HERE')
   line(`Generated ${new Date().toISOString()} from commit ${r.commit}${r.dirty ? ' (with uncommitted changes)' : ''}`)
-  line('GitHub is the authority. This document is a copy. If it is more than a day old, ask Justin for a fresh one before writing.')
+  line('GitHub is the authority. This document is a copy, refreshed on every radar run.')
+  // Justin, 24 November 2026: an older date alone must not stop production.
+  // The old line told Stage 2 to stop and ask for a fresh copy when this was
+  // more than a day old, so one failed refresh stopped every story, including
+  // ones already verified. Eligibility is a status, not a date.
+  line('  An older date on this document does not stop production. A story listed under WHAT TO WRITE or COMPLETE THESE stays eligible until it is completed, withdrawn, superseded or put on HOLD.')
+  line('  Before writing, check the post register in the Stage 2 folder: if a story there is marked POSTED, WITHDRAWN, SUPERSEDED or HOLD, skip it. GitHub wins any disagreement.')
   line()
   line('WHAT TO WRITE')
   if (!next) {
@@ -228,7 +262,7 @@ export function stage2Brief({ links = {} } = {}) {
       line(`STORY ${i + 1} OF ${m.queue.length}: ${q.researchId}, ${number}`)
       line(`  Working title: ${q.proposedTitle || q.title}`)
       line(`  Priority: ${q.editorialPriority}. ${q.urgency || ''}`)
-      line(`  Formats to produce: ${(q.recommendedPlatforms || []).join(', ') || 'LinkedIn post'}. Nothing else. Write NOT RECOMMENDED under every other section.`)
+      line(`  Formats to produce: ${CORE_FORMATS.join(', ')}. Lead platform: ${(q.recommendedPlatforms || []).join(', ') || 'LinkedIn post'}. Newsletter and Reel only if the handoff asks; otherwise write NOT RECOMMENDED under those two.`)
       line(`  Claude review: ${q.claudeStatus}, verdict ${q.claudeVerdict}`)
       line(`  Handoff version ${q.handoffVersion ?? 'unknown'}, source commit ${q.handoffSourceCommit || 'see the handoff'}. Read it in full before writing:`)
       line(`    for people: ${(links.handoffDocs || {})[q.researchId] || q.handoffDoc || 'not yet in Drive'}`)
@@ -244,7 +278,25 @@ export function stage2Brief({ links = {} } = {}) {
       line()
     })
   }
+  const completing = completionQueue()
+  if (completing.length) {
+    line('COMPLETE THESE')
+    line('  Posts already written and verified that still need the rest of their pack. Keep the LinkedIn post and first comment exactly as they are; write what is missing.')
+    line('  No figure may appear that is not already in that post or its first comment. Nothing new is claimed.')
+    line()
+    completing.forEach((c, i) => {
+      line(`ITEM ${i + 1} OF ${completing.length}: GDC-${String(c.gdc).padStart(3, '0')}, ${c.state}${c.slot ? `, LinkedIn slot ${c.slot}` : ', held in reserve'}`)
+      line(`  Working title: ${c.title}`)
+      if (c.sourceDoc) line(`  The approved copy and its checks: ${c.sourceDoc}`)
+      if (c.repoPack) line(`  In GitHub: ${c.repoPack}`)
+      line(`  Still needed: ${(c.needs || CORE_FORMATS).join(', ')}`)
+      if (c.note) line(`  Note: ${c.note}`)
+      line(`  Title the pack exactly: PACK GDC-${String(c.gdc).padStart(3, '0')} COMPLETE v1`)
+      line()
+    })
+  }
   line('FOR EVERY STORY')
+  line(`  Every pack carries: ${CORE_FORMATS.join(', ')}.`)
   line('  No number may appear anywhere in a pack unless it is in that story\'s own list above. The check compares every figure against it.')
   line('  Never claim an outcome for a child. Never "safe online" or "ready for social media".')
   line('  Every evidence pack ends with the CARD TEXT section: HEADLINE, FINDING, CONTEXT, SOURCE, LIMITATION, under 45 words in all.')
@@ -254,6 +306,11 @@ export function stage2Brief({ links = {} } = {}) {
   line('  Reject any hook that implies a cause the study did not show, inflates the risk, misdescribes who was studied or drops a needed qualification. The check reads every hook for figures and causal words.')
   line('  Then the STORYBOARD: DISRUPT, REVEAL, REFRAME, INVITE, with seconds that suit the story, a COVER that works as a still, and a CAROUSEL only where it helps.')
   line('  CARD TEXT adds TIMING and VISUAL lines. The look is black and white editorial paper with one restrained yellow highlight and slow, deliberate motion. Nothing essential depends on sound.')
+  line()
+  line('THE WEEKLY LIMIT')
+  line(`  At most ${WEEKLY_LINKEDIN_CAP} personal LinkedIn posts per calendar week, Monday to Sunday, counting anything Justin booked in LinkedIn himself.`)
+  line('  A pack finished beyond that is held in reserve: complete it, do not schedule it. It takes the next free Monday, Wednesday or Friday at 08:00 once Justin approves it.')
+  line('  Metricool: an approved pack may be saved as a Metricool DRAFT for its slot. Never switch on automatic publishing and never schedule a pack Justin has not approved.')
   line()
   line('THE NUMBER RULE')
   line('  Post numbers are claimed in GitHub and nowhere else. You cannot write to GitHub.')

@@ -441,3 +441,12 @@ Justin: rebuild her lesson video with our friends, better animation, correct voi
 
 ### 23 November 2026: a page for trusts and MATs
 - New public /trusts page, built on Oak's advice that EdTech is bought at trust level. It covers the two jobs (online RSHE, parents), each school keeping its own code and record, a free pilot in two schools first, and pricing per school on application with the single school range shown. It claims no trust wide dashboard. Linked from the pricing trust band and the pilot page. OPEN_PATHS is now 15.
+
+## 24 November 2026: eligibility is a status, not a date; every pack is the full pack
+
+- Justin: remove the rule that START HERE must be dated today; verified stories stay eligible until completed, withdrawn, superseded or on HOLD.
+- START HERE now says an older date does not stop production. The queue was already status based; the "more than a day old, ask Justin" line was the block.
+- Every pack carries LinkedIn, first comment and source, Instagram, Facebook, a visual brief per platform and motion where appropriate. QA holds packs without them.
+- Posts outside the radar queue sit in content/research-register/completion-queue.json (060, 067 approved; 065, 066 reserve).
+- Three personal LinkedIn posts a week; the rest reserve. Detail in scripts/radar/README.md, "Eligibility and completion".
+
