@@ -128,3 +128,31 @@ Before posting:
 > it stopped making sense? Was it the questions, or the page after where it
 > gives you the plan? If it didn't tell you what happens next, that's the
 > bit I need to fix first.
+
+## The rewrite as a reply in the thread (Mumsnet posts cannot be edited)
+
+> Rewritten, thanks to everyone above, you were right.
+>
+> I'm Justin, dad of three ([ages]) near Bath. I've built something and I'm
+> after ten parents who don't know me to try it and tell me what's wrong
+> with it.
+>
+> Why: in our house the rules were never the hard part, sticking to them
+> was. Tablet goes off, meltdown. Car journeys turning into a fight over what
+> to watch. Timers that worked for about a week.
+>
+> What it is: it's called Guided Childhood. Day to day, your child does small
+> jobs, the jobs earn screen time, and a timer you can both see ends it. So
+> it's not you saying no every night. Then there are short lessons you do with
+> your child, the same ones schools can teach, which line up with the new RSHE
+> guidance on online life. Scams, group chats, AI, who they're really talking
+> to in games. It builds up from 4 to 16, so they know what to look out for
+> before the ban lifts at 16, not after. And when something comes up, you can
+> ask it and the answer comes from the research, not someone's opinion.
+>
+> What I'm asking: type guidedchildhood.com yourself and press "Find my
+> child's stage". Three questions, free, no sign up, and nothing is saved
+> unless you choose to. There's a paid part later and I'd rather say so now.
+>
+> Then tell me here where you got stuck and what it got wrong. "This was
+> useless because..." helps me most.
