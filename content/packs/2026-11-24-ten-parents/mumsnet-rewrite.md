@@ -108,3 +108,15 @@ Before posting:
 > either, more what to try for your child's age.
 >
 > I'll rewrite the post so it says all that up front.
+
+## Reply to the bedroom point
+
+> You're completely right, and thank you, that's exactly the kind of thing
+> I need to hear. Your son would have had me in about four seconds. I've
+> changed it today to: "At night, phones charge in the kitchen. Mine too. A
+> phone next to the bed keeps buzzing and lighting up, and that keeps your
+> brain awake even when you don't look at it. So your room is phone free at
+> night, and you get it back at breakfast." No clever wording to pick apart,
+> and the "mine too" takes away the "but you have yours" bit. And yes on
+> getting kids to test them. Mine are first in line, and if any of yours
+> fancy finding holes in the rest, I'd genuinely love that.

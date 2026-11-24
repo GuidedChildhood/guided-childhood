@@ -94,9 +94,9 @@ export const STAGES: Stage[] = [
     isCritical: false,
     script: {
       title: 'The Bedroom Rule',
-      sayThis: 'Where does your phone sleep at night? In our house, phones sleep in the kitchen. The bedroom is for sleep. That is our rule and it will not change.',
+      sayThis: 'At night, phones charge in the kitchen. Mine too. A phone next to the bed keeps buzzing and lighting up, and that keeps your brain awake even when you do not look at it. So your room is phone free at night, and you get it back at breakfast.',
       notThis: '"You need to earn the right to have it in your room." That makes it a prize, not a family norm.',
-      why: 'Sleep is the one rule that never moves. Blue light, notification sounds, and the temptation to check at 2am are all removed by one consistent rule. Set it now, before they have a personal device, and it is just how things work.',
+      why: 'Sleep is the one rule that never moves. Phones in the bedroom at night are linked to later and shorter sleep, and the buzz and the urge to check are what do it. Charging in the kitchen, with the adults doing the same, removes both, and leaves a sharp child nothing to pick apart. Set it now, before they have a personal device, and it is just how things work.',
     },
     action: "Have the bedroom rule conversation tonight, not as a rule you are imposing, but as a family decision. 'Where should our devices sleep?'",
     yourPhone: 'Charge your own phone in the kitchen overnight, next to theirs. One rule for everyone is the easiest rule to keep.',

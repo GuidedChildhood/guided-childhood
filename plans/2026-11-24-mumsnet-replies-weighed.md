@@ -40,3 +40,10 @@ point is about the post, not the product.
 | # | Their words | Verdict | Objective | Size |
 |---|---|---|---|---|
 | 8 | "Is this a plan to tell you what to talk about with your children? it's not at all clear from the post." | **Adopt.** Three readers in, nobody can say what it is. This confirms point 7: a product described as "the words and a plan" sounds like a script service. The rewrite says what it does in one line (jobs earn minutes, a timer ends it), then the plan and the words. The reply answers her directly. | The customer | Small |
+
+## Reply 4, the bedroom line
+
+| # | Their words | Verdict | Objective | Size |
+|---|---|---|---|---|
+| 9 | "'Phones sleep in the kitchen. The bedroom is for sleep.' That's an immediate contradiction... Any vaguely savvy child will home in on weaknesses in the words used" | **Adopt.** She is right, and it was on the live site: the ages 7 to 10 script in `lib/content/stages.ts` (the stage check result, /pathway, /scripts), the printed script card, and two old static pages. Rewritten so there is no metaphor to argue with: phones charge in the kitchen, mine too, a buzzing phone keeps your brain awake, you get it back at breakfast. The "why" also dropped a blue light claim our own evidence rule avoids. | Philosophy (the words must work at 6pm). Evidence or silence | Small |
+| 10 | "get actual children to evaluate them" | **Adopt as a process.** Every script line gets read aloud to a child of the right age and the first comeback is written down before it ships. Justin's three are the first panel; the ten parent testers are asked for their child's comeback too. A full pass over all scripts is a larger job and is parked for a session of its own. | The customer | Medium, parked |
