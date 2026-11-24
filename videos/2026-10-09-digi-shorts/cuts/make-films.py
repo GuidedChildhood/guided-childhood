@@ -7,6 +7,8 @@ import json, sys
 D = json.load(open('cuts/films.json'))
 mode, key = sys.argv[1], sys.argv[2]
 raw = next(x for x in D['films'] if x['key'] == key)
+ONGOING = raw.get('ending') == 'ongoing'  # a worry that is not Sorted in a week (bullying): the parent taps Getting there and DiGi stays on it
+FACE = 'Getting there' if ONGOING else 'Going great'
 c = D['cast'][raw['child']]; r = D['research'][raw['research']]
 NAMES = {n: raw['child'] for n in ['Teo', 'Timbotee', 'Alfie', 'Bumble', 'Olga', 'Alma Rose', 'Alma']}
 ENTER = 300 + len(raw['q']) * 24 + 330          # when the question is sent, ms
@@ -31,7 +33,7 @@ if mode == 'scenes':
    'checkin': {'url': '/ref-baseline-checkin', 'seconds': 8, 'height': 1000, 'scrollY': 400,
      'swap': {'Mood after screens': raw['tile'], 'Morning TV': 'Bedtime screens' if raw['tile'] == 'Endless YouTube' else 'Endless YouTube', **NAMES},
      'stubs': [{'match': '/api/daily/concern-check', 'method': 'POST', 'body': '{"ok":true}', 'json': True, 'delayMs': 300}],
-     'actions': [{'at': 1500, 'do': 'tap', 'selector': 'button[aria-label="Going great"]', 'nth': 3}]},
+     'actions': [{'at': 1500, 'do': 'tap', 'selector': f'button[aria-label^="{FACE}"]', 'nth': 3}]},
   }
   for n, sc in S.items(): json.dump({'name': f'film-{key}-{n}', **sc}, open(f'scenes/film-{key}-{n}.json', 'w'), indent=1)
   sys.exit(0)
@@ -90,12 +92,12 @@ for k, f in F.items():
    {'id': 'great', 'dur': 1.8, 'src': rec('checkin'), 'mediaStart': 0.9, 'srcH': 1000, 'clipH': 1000, 'cropTop': 748, 'fadeIn': 0.15,
     'cam': [{'t': 0, 'S': 2.9, 'fx': 195, 'fy': 125, 'py': 1050}],
     'overlays': [{'kind': 'marker', 'text': 'A week later', 'y': 430, 't0': 0}],
-    'inScreen': [{'cls': 'ripple', 'x': 297, 'y': 52, 'w': 44, 'h': 44, 't0': 0.6}],
+    'inScreen': [{'cls': 'ripple', 'x': 234 if ONGOING else 297, 'y': 52, 'w': 44, 'h': 44, 't0': 0.6}],
     'sfx': [{'name': 'sfx-tap', 'at': 0.6, 'vol': 0.45}, {'name': 'sfx-chime', 'at': 1.1, 'vol': 0.4}]},
    {'id': 'held', 'dur': 3.4, 'src': rec('checkin'), 'mediaStart': 4.2, 'srcH': 1000, 'clipH': 1000, 'cropTop': 748, 'fadeIn': 0,
     'cam': [{'t': 0, 'S': 2.9, 'fx': 195, 'fy': 125, 'py': 1050}],
     'overlays': [{'kind': 'marker', 'text': 'A week later', 'y': 430, 't0': 0, 'instant': True},
-                 cap('*Sorted.*', 0.2)]},
+                 cap('Not sorted yet. DiGi *stays on it*.' if ONGOING else '*Sorted.*', 0.2)]},
    {'id': 'inputs', 'dur': 6.0, 'fadeIn': 0.3, 'overlays': [
      {'kind': 'inputs', 'y': 300, 't0': 0.1, 'eyebrow': 'Example family', 'title': 'DiGi learns your family',
       'rows': [{'k': 'Your child', 'v': f"{f['child']}, {f['age']}"},
@@ -130,7 +132,7 @@ for k, f in F.items():
           'lane': [[0, 0], [1.0, 0.2], [6.5, 0.14], [total - 12, 0.14], [total - 11.5, 0.26], [total - 2.5, 0.26], [total, 0]]},
          'rail': {'y': 236, 'from': 'reply1', 'fromT': 0.1, 'until': 'held', 'steps': [
            {'label': 'Asked DiGi', 'shot': 'reply1', 't': 0.35, 'vol': 0.14}, {'label': 'The words', 'shot': 'deck', 't': 1.5},
-           {'label': 'Checked in', 'shot': 'followup', 't': 1.5}, {'label': 'Sorted', 'shot': 'great', 't': 1.1, 'silent': True}]},
+           {'label': 'Checked in', 'shot': 'followup', 't': 1.5}, {'label': 'Ongoing' if ONGOING else 'Sorted', 'shot': 'great', 't': 1.1, 'silent': True}]},
          'shots': shots}
   json.dump(cut, open(f'cuts/film-{k}.json', 'w'), indent=1)
   print(k, round(total, 1), 's')

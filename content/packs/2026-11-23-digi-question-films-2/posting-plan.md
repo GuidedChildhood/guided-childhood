@@ -22,7 +22,7 @@ Each film is 57.7 seconds, 1080 x 1920, the same shape as batch 1. Example famil
 - Films 17, 18, 19, 20 are missing Imogen's opening line: the voice credits ran out on 23 November. Every other line plays. Do not post those until the opening is added, which is one command once credits are topped up.
 - Make each film link on Admin, Film links (the sixth column), plus a `-fb` version.
 - The sound mix has not been listened to here. Check Imogen's level on one film first.
-- Film 20 (someone being cruel online) ends on Sorted after a week, as every film does. Bullying rarely resolves that neatly, so watch it and say if that ending should change for this one.
+- Film 20 (someone being cruel online) no longer ends on Sorted (Justin, 24 November). A week on the parent taps Getting there, the real screen shows Holding steady, and the line reads: Not sorted yet. DiGi stays on it. The voice line about it being sorted is left out of this film.
 - Films 12, 14, 15, 16, 17 and 18 carry our belief line in place of a study, because no verified study fitted.
 
 ## Captions, Instagram
@@ -45,6 +45,6 @@ Each film is 57.7 seconds, 1080 x 1920, the same shape as batch 1. Example famil
 
 **19. Screens at bedtime.** She won't settle at night and the tablet is in her bed. She's 10. DiGi never says yes or no. It starts with your child, gives you two plain steps and the exact words to say, then checks back until it is sorted. What stage is your child? Three questions, no sign up. Link in bio.
 
-**20. Someone is being cruel online.** Someone is being cruel to him online. He's 11. DiGi never says yes or no. It starts with your child, gives you two plain steps and the exact words to say, then checks back until it is sorted. What stage is your child? Three questions, no sign up. Link in bio.
+**20. Someone is being cruel online.** Someone is being cruel to him online. He's 11. DiGi never says yes or no. It starts with your child, gives you two plain steps and the exact words to say, then keeps checking back with you, week after week. What stage is your child? Three questions, no sign up. Link in bio.
 
 Facebook: the same text, with the film's link in place of "Link in bio".
