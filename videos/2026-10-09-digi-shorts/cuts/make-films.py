@@ -140,9 +140,13 @@ for k, f in F.items():
                          {'kind': 'label', 'text': 'Example family. Real app.', 'y': 470, 't0': 0, 'instant': True}]
         x['sfx'] = [{'name': 'sfx-tap', 'at': 0.2, 'vol': 0.15}, {'name': 'sfx-send', 'at': round(ENTER / 1000 - 0.3, 2), 'vol': 0.3}]
       if x['id'] == 'deck':
-        # The words always start at the same place on the card (y 478), so the camera pins that line just under the tracker:
-        # every film opens the card on its first sentence, however long the script runs.
-        x['cam'] = [{'t': 0, 'S': 2.7, 'fx': 195, 'fy': 303, 'py': 420}, {'t': 0.7, 'S': 3.1, 'fx': 195, 'fy': 478, 'py': 470, 'dur': 0.7}, {'t': 1.6, 'S': 3.2, 'fx': 195, 'fy': 478, 'py': 470, 'dur': 3.2}]
+        # The words start 178px below the top of the card's blue header, and the card sits higher or lower with the
+        # length of the script's title, so the cut measures it: every film opens the card on its first sentence.
+        sys.path.insert(0, 'tools'); import dotted
+        ct = dotted.card_top(f'assets/rec/film-{k}-deck.mp4')
+        if ct is None: sys.exit(f'{k}: could not find the script card on the deck recording')
+        qy = ct + 178
+        x['cam'] = [{'t': 0, 'S': 2.7, 'fx': 195, 'fy': ct, 'py': 420}, {'t': 0.7, 'S': 3.1, 'fx': 195, 'fy': qy, 'py': 470, 'dur': 0.7}, {'t': 1.6, 'S': 3.2, 'fx': 195, 'fy': qy, 'py': 470, 'dur': 3.2}]
         x['overlays'] = [dict(o, t0=1.0, y=1440) if o['kind'] == 'caption' else o for o in x['overlays']]
       # Nothing sits still: every held shot drifts in a touch, and each step's number gets a pulse as its line is underlined.
       if x['id'] in ('reply1', 'reply2', 'followup', 'held'):
