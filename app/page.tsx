@@ -132,7 +132,7 @@ const MOMENTS = [
     frontLabel: 'I keep shouting',
     front: '"I lose patience every time. I end up shouting. I feel guilty. And tomorrow the exact same thing happens again."',
     backLabel: 'What actually fixes this',
-    back: 'You are not a bad parent. You are a parent without a script for a problem that did not exist when you were a child. Guilt after shouting means you care. Say nothing tonight except: "I am sorry I shouted earlier. Tomorrow we try again." Then use DiGi to get the exact words before the next moment happens. You do not lose patience when you already know what to say.',
+    back: 'Shouting does not make you a bad parent. Nobody handed you a script for a problem that did not exist when you were a child. Guilt after shouting means you care. Say nothing tonight except: "I am sorry I shouted earlier. Tomorrow we try again." Then use DiGi to get the exact words before the next moment happens. You do not lose patience when you already know what to say.',
     bg: 'var(--stage-2)',
     stage: 'All stages',
   },

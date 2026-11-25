@@ -101,7 +101,7 @@ window.PASSPORT = {
               "moments": [
                       [
                               "When screens take over",
-                              "Set a visual timer and agree together when screens stop. The timer is the rule, not you."
+                              "Set a visual timer and agree together when screens stop. Screen time ends because the timer says so, not because you are the bad guy."
                       ],
                       [
                               "When the mood dips after",

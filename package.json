@@ -79,6 +79,7 @@
     "evidence-guard": "node --experimental-strip-types scripts/check-evidence-status.mjs",
     "your-school-guard": "node scripts/check-your-school-local.mjs",
     "ai-tells": "node scripts/check-ai-tells.mjs",
+    "ai-tells-site": "node scripts/check-ai-tells.mjs --site",
     "ad-gate": "node scripts/check-ad-round.mjs",
     "ad-upload": "node scripts/ad-upload-meta.mjs",
     "ad-results": "node scripts/ad-results.mjs",

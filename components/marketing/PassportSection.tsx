@@ -24,7 +24,7 @@ export default function PassportSection() {
             <span style={{ color: 'var(--terracotta)' }}>social media passport</span>
           </h2>
           <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '600px', margin: '0 auto' }}>
-            {PASSPORT_ANALOGY} This is not about banning. It is about preparation, the skills to navigate the digital world rather than hide from it. Your child earns the passport page by page: safe digital usage, healthy habits from the start, no matter what age they join.
+            {PASSPORT_ANALOGY} The point is getting them ready, with the skills to use the digital world well rather than hide from it. Your child earns the passport page by page: safe digital usage, healthy habits from the start, no matter what age they join.
           </p>
         </div>
 

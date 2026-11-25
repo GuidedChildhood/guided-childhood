@@ -81,7 +81,7 @@ export const STAGES: Stage[] = [
     parentQuote: '"I did not realise how much the routine would help. The timer changed everything for us."',
     digiContext: 'Stage 1 parent. Child aged 4 to 7. Focus on first device rules, family norms, routine building. Never recommend unsupervised screen time. Bedroom rule applies from day one.',
     challengeActions: {
-      screens_takeover: 'Set a visual timer (sand timer or Alexa) and agree together when screens stop. The timer is the rule, not you.',
+      screens_takeover: 'Set a visual timer (sand timer or Alexa) and agree together when screens stop. Screen time ends because the timer says so, not because you are the bad guy.',
       mood_changes: 'Try ten minutes of wind down between screens and the next activity. At this age, mood is often about the transition, not the screen itself.',
       gaming: 'Play with them for 10 minutes. Understand the game before you set any limits on it.',
       online_safety: 'At this age, online safety means one thing: same room, same screen. No unsupervised time.',
@@ -222,7 +222,7 @@ export const STAGES: Stage[] = [
         gaming: 'Gaming is untouched by the ban. If they are spending more time there after the ban, that is displacement not addiction. Ask what they are getting from it. The social life moved somewhere.',
         online_safety: 'The workaround trap is the open safety conversation now. "If you do find a way onto one of the banned apps, or onto something I do not know about, I want to be your first call if anything feels wrong." Say that before anything happens.',
         start_conversation: 'Try: "What do you think your friends are actually doing now?" Then listen. The answer tells you where the real digital life has moved to.',
-        asking_for_phone: 'The conversation has shifted. It is not about getting a phone or unlocking an app. It is about what their digital life looks like in the gap the ban creates. That is the conversation to have.',
+        asking_for_phone: 'The conversation has moved on from getting a phone or unlocking an app. Talk about what their digital life looks like in the gap the ban creates.',
       },
     },
   },

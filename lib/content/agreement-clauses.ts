@@ -65,7 +65,7 @@ const DEVICE_SLEEP: Clause = {
 const ASK_FIRST: Clause = {
   key: 'ask-first',
   title: 'New apps and games',
-  why: 'Asking first is not about permission, it is about choosing together.',
+  why: 'Asking first means we choose together.',
   talk: 'What is a new game or app you would like to try soon? Let us look at it together and decide.',
   options: [
     'We always ask before downloading anything new',

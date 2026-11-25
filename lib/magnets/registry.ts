@@ -68,7 +68,7 @@ export const MAGNETS: Record<string, Magnet> = {
       'We try to be honest about what the research does and does not say. Here is the calm, balanced stance the whole approach rests on.',
     numbered: false,
     items: [
-      { h: 'It is not the screen, it is what it displaces', b: 'The strongest, most agreed finding is that the harm from screens is mostly about what they crowd out: sleep, movement, real play, and unstructured time. Protect those first.' },
+      { h: 'Screens mostly do harm by what they crowd out', b: 'The strongest, most agreed finding is that the harm from screens is mostly about what they crowd out: sleep, movement, real play, and unstructured time. Protect those first.' },
       { h: 'Balance beats bans', b: 'Outright bans tend to push behaviour underground and teach nothing for the years when a parent is not in the room. A calm structure that grows with the child is what the developmental research supports.' },
       { h: 'Repair matters more than perfection', b: 'Warm relationships are out of step much of the time. What builds a child security is coming back together after a rough patch, not never slipping.' },
       { h: 'Boredom is not the enemy', b: 'Empty time is where children learn to generate their own ideas. Treat I am bored as a doorway, not a problem to fix with a screen.' },

@@ -268,7 +268,7 @@ export async function buildPassportSections(
         help: !parentReport
           ? 'Nothing logged yet, so there is no week to judge. Start the timer on the balance page, or log the screens by hand, and this reads for real from then on.'
           : phoneFlag
-          ? 'Phone and social showed up this week, which at this age we keep near zero. It is not about the total, it is the type. A quick swap to something hands on clears it.'
+          ? 'Phone and social showed up this week, which at this age we keep near zero. The type matters more than the total. A quick swap to something hands on clears it.'
           : 'Goes green when the week averages at or under our guide for their age. Judged across the whole week, so one big Saturday is fine.',
         ongoing: true,
       },

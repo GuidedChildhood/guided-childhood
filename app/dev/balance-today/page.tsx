@@ -56,7 +56,7 @@ function State({ label, note, banked, approved, waiting }: {
           <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>= {banked * STAR_MINUTES} minutes ready to use</span>
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
-          One star is {STAR_MINUTES} minutes. These are yours, they do not disappear at the end of the day.
+          One star is {STAR_MINUTES} minutes. These are yours, and they stay until you use them.
         </p>
         <WaitingNote stars={waitingStars} />
       </div>

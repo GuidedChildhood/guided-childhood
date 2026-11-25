@@ -149,7 +149,7 @@ export function methodOfflineEmail(params: { childName?: string | null; unsubscr
       html:
         sectionHead('&#127912;', 'Otherwise it is rationing with extra steps') +
         bp('A system that measures screen time and offers nothing else has quietly made the screen the only thing worth wanting. The child learns the currency and nothing about what to spend the rest of the day on.') +
-        bp('So the offline half is not a punishment and it is not a lecture. It is a pack of games, made of paper, that happen to teach the same digital thinking the lessons do. Robot Parent teaches that a computer only does exactly what it is told. Password Monster teaches that three silly words beat one clever short one. They are games first, and the teaching is underneath.') +
+        bp('So the offline half is a pack of paper games that happen to teach the same digital thinking the lessons do. Robot Parent teaches that a computer only does exactly what it is told. Password Monster teaches that three silly words beat one clever short one. They are games first, and the teaching is underneath.') +
         rule() +
         sectionHead('&#128196;', 'It is free, and it is on paper') +
         tickList([
