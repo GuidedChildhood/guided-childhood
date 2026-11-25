@@ -94,9 +94,9 @@ export const STAGES: Stage[] = [
     isCritical: false,
     script: {
       title: 'The Bedroom Rule',
-      sayThis: 'At night, phones charge in the kitchen. Mine too. A phone next to the bed keeps buzzing and lighting up, and that keeps your brain awake even when you do not look at it. So your room is phone free at night, and you get it back at breakfast.',
+      sayThis: 'At night, phones charge in the kitchen. Mine too. Your body does its growing and sorting while you sleep, and you\'ve got [their thing tomorrow, like football]. You get it back at breakfast.',
       notThis: '"You need to earn the right to have it in your room." That makes it a prize, not a family norm.',
-      why: 'Sleep is the one rule that never moves. Phones in the bedroom at night are linked to later and shorter sleep, and the buzz and the urge to check are what do it. Charging in the kitchen, with the adults doing the same, removes both, and leaves a sharp child nothing to pick apart. Set it now, before they have a personal device, and it is just how things work.',
+      why: 'Sleep is the one rule that never moves. Children with a phone or tablet in the bedroom at night tend to sleep less and sleep worse, even when they are not using it (Carter and others, JAMA Pediatrics, 2016). That is an association across many studies, not proof, but it is why do not disturb is not the answer: the phone is still there. A reason that belongs to your child, like football tomorrow, lands better than a general one, and the adults charging in the kitchen too leaves a sharp child nothing to pick apart. Set it now, before they have a personal device, and it is just how things work.',
     },
     action: "Have the bedroom rule conversation tonight, not as a rule you are imposing, but as a family decision. 'Where should our devices sleep?'",
     yourPhone: 'Charge your own phone in the kitchen overnight, next to theirs. One rule for everyone is the easiest rule to keep.',

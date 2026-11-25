@@ -285,3 +285,11 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-11-24 · Mumsnet replies weighed (feedback-filter): the ten parents post read as machine written, buried the ask, gave an unknown link, named no real scene and led with "the words to use tonight", which a parent rightly called pointless. Adopted: ask first, a domain to type, one true scene, who Justin is, and lead with the star quest (THE-STORY section 10), not scripts. Rewrite in `content/packs/2026-11-24-ten-parents/mumsnet-rewrite.md`; table in `plans/2026-11-24-mumsnet-replies-weighed.md`.
 
 - 2026-11-24 · A Mumsnet parent caught a script line a child would argue with ("phones sleep in the kitchen, the bedroom is for sleep"). Rewritten everywhere it showed (stages.ts, script card, two static pages) with no metaphor and the adult included ("mine too"); the blue light claim in its "why" removed. New rule: script lines are read to a child of the right age and the first comeback recorded before they ship; a full script pass is parked. PR 1714.
+
+## 25 November 2026: ready before 16 leads; the bedroom script gets its comebacks
+
+- Justin, after the Mumsnet thread and two reviews: lead with the curriculum and the Passport, "ready before 16". This overrules THE-STORY section 10 (star quest leads every list) and the 24 November star quest decision.
+- Trial line always: "Free for 4 days. No card, so nothing is ever charged unless you pick a plan." Stars and timer stay, shown third.
+- In the app a daily allowance is the default; earning minutes with jobs is a parent switch. Trust is sources, schools and "the dad who did the homework", never expert status.
+- Bedroom script rebuilt with the child's own reason as a blank and three comebacks (do not disturb, alarm, you have yours) in the scripts table, migration 405. "Tend to sleep worse" cites Carter and others, JAMA Pediatrics, 2016, as an association.
+- Build order: result page after PR 1718, homepage, earning default. Plan: `plans/2026-11-25-ready-before-16-plan.md`. PR 1719.
