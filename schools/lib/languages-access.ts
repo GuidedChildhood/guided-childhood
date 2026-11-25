@@ -33,6 +33,17 @@ export function languagesLive(): boolean {
   return (process.env.LANGUAGES_LIVE || '').trim().toLowerCase() === 'true'
 }
 
+// PRIVATE UNTIL JUSTIN OPENS IT (25 November 2026). Justin: "make the
+// languages pages only available to my log in". With this off (the default)
+// the only way into /languages is a languages code from SCHOOLS_LANGUAGES_CODES,
+// which is his alone. A school's scheme code no longer opens French, the free
+// taster lesson is shut, the hub and nav do not link to it, and the pricing
+// page stops promising French, because a licence must not sell what nobody can
+// open. LANGUAGES_OPEN_TO_SCHOOLS=true puts back how it was on 15 November.
+export function languagesOpenToSchools(): boolean {
+  return (process.env.LANGUAGES_OPEN_TO_SCHOOLS || '').trim().toLowerCase() === 'true'
+}
+
 // A CODE AS A PERSON MEANS IT (10 November 2026). Justin saved a code in
 // Vercel and the door refused it for an hour, because a code is typed by
 // hand twice, once into a settings box and once at the door, and the two
