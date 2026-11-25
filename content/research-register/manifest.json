@@ -1,21 +1,24 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-24T09:31:32.715Z",
+ "generatedAt": "2026-11-25T09:36:23.913Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
   "Only figures listed in the handoff under FIGURES CLEARED FOR USE may appear in copy.",
   "A story with claudeStatus other than CLAUDE REVIEWED is not eligible, whatever else it says.",
-  "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
+  "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check.",
+  "Eligibility is a status, not a date (Justin, 24 November 2026). A story in this queue stays eligible until it is completed, withdrawn, superseded or put on HOLD. An older generatedAt never stops production on its own.",
+  "Every pack carries a LinkedIn post, first comment with the verified source, Instagram caption, Facebook adaptation, a visual brief per platform and motion requirements where appropriate.",
+  "At most three personal LinkedIn posts per calendar week. A pack completed beyond that is held in reserve, never scheduled until Justin approves it."
  ],
  "counts": {
-  "total": 136,
+  "total": 162,
   "byStatus": {
-   "DISCOVERED": 92,
+   "DISCOVERED": 108,
    "APPROVED": 7,
-   "HOLD": 16,
+   "HOLD": 19,
    "REJECTED": 7,
-   "VERIFIED": 12,
+   "VERIFIED": 19,
    "EDITORIAL READY": 2
   }
  },
