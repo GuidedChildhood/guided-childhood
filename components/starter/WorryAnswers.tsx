@@ -195,7 +195,11 @@ export default function WorryAnswers({ worryIds, own, tonight, yourPhone, helpFi
                   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
                   marginBottom: 5,
                 }}>
-                  Tonight
+                  {/* Was "Tonight". Since 25 November 2026 the page's own
+                      Tonight is the stage conversation near the top (What
+                      happens next, step 1), so two cards both claiming the
+                      evening read as two instructions. */}
+                  For this worry
                 </div>
                 <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', lineHeight: 1.45, color: 'var(--ink)' }}>
                   {tonight}

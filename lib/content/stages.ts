@@ -19,6 +19,13 @@ export interface Stage {
     sayThis: string
     notThis: string
     why: string
+    /** One more line to say, with a blank in square brackets for the child's
+     *  own reason, for a script that does not carry one inline. A Mumsnet
+     *  parent, 24 November 2026: a reason has to be about THIS child, or a
+     *  sharp one picks it apart. The stage check result draws the brackets as
+     *  a gap to fill (ResultScreen, "One conversation for this week"). The
+     *  Builder bedroom script has its blank inline, so it has none. */
+    theirReason?: string
   }
   action: string
   // The parent's own phone, one step per stage. Pam, a clinician reviewing
@@ -62,6 +69,7 @@ export const STAGES: Stage[] = [
       sayThis: 'We have a family rule about screens. When the timer goes off, screens go down. Every time, no exceptions. And then we do something together.',
       notThis: '"Just five more minutes." Once you move the line, it moves every time.',
       why: 'Children at this stage cannot regulate device use themselves. The rule is not a punishment, it is the structure that makes screen time safe. Consistent boundaries now build the self control they will need at 13.',
+      theirReason: 'Tonight it is [their favourite thing with you, like the park or a story].',
     },
     action: 'Set up a charging station in the kitchen or hallway tonight. Devices do not sleep in bedrooms in this house.',
     yourPhone: 'When the timer ends their screen time, put your own phone away too. The rule is for the house, not just for them.',
@@ -132,6 +140,7 @@ export const STAGES: Stage[] = [
       sayThis: 'Did you know your phone is learning what you like? Every video you watch, every post you pause on, it notes it. Let me show you something. Open your feed and we will look at it together.',
       notThis: '"That app is rotting your brain." That shuts the conversation down before it starts.',
       why: 'Children at 11 to 13 are in the highest risk window identified by Cambridge MRC research. They are forming identity through comparison, and the algorithm amplifies whatever vulnerability it finds. The parent who can talk about this without alarm is the greatest protective factor.',
+      theirReason: 'I am asking because you love [their thing, like football clips], and I want to see what it shows you.',
     },
     action: 'Open their feed together tonight. No judgment, just curiosity. "Interesting, why do you think it showed you that?" Stay for 10 minutes.',
     yourPhone: 'Say it out loud when you stop scrolling: "I have been on that too long, I am putting it down." Let them see you stop, not just hear you ask them to.',
@@ -178,6 +187,7 @@ export const STAGES: Stage[] = [
       sayThis: 'If anything ever goes wrong online, and things do go wrong, I am the first call you make, not the last. I will not overreact. I will help.',
       notThis: '"If I catch you doing that, I am taking your phone." That closes the door before anything happens.',
       why: 'Teenagers at this stage need to know the door is open before anything goes wrong. A child who fears losing their phone is a child who hides problems. This script keeps the door open.',
+      theirReason: 'I am saying it now because [their new thing, like the team group chat] is starting.',
     },
     action: 'Set up a weekly 10 minutes with no agenda. Not about screens, not about homework. Just checking in. Same day, same time.',
     yourPhone: 'Give them the right to call you out when you are on your phone at the table. It is the same right you are asking for.',
@@ -232,6 +242,7 @@ export const STAGES: Stage[] = [
       sayThis: 'You are at the age where you get to decide what kind of digital life you build. What does your online presence say about who you are? Not to me. To the world.',
       notThis: '"Get off your phone." That conversation is over. A different one has started.',
       why: 'At 16, the goal is not compliance but genuine digital literacy. A young person who can articulate their own relationship with technology, what it gives them and what it costs them, is genuinely prepared for what comes next.',
+      theirReason: 'I am asking now because [their next step, like college or a first job] is coming up.',
     },
     action: 'Suggest a joint digital audit: go through their online presence together as peers, not parent and child. What does it say? What would they change?',
     yourPhone: 'Be honest about your own phone: what it gives you, and what it costs you. It is the conversation you are hoping they will have with themselves.',

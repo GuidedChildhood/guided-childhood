@@ -11,7 +11,8 @@ import { CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
 import WorryAnswers from '@/components/starter/WorryAnswers'
 import Fold from '@/components/starter/Fold'
 import StickyJoin from '@/components/starter/StickyJoin'
-import { Passport, Fixes, DigiLearns, AlsoInside } from '@/components/starter/InsideBlocks'
+import { Passport, Fixes, DigiLearns } from '@/components/starter/InsideBlocks'
+import { STAGE_OUTCOMES } from '@/lib/content/stage-outcomes'
 import KnownProblems from '@/components/starter/KnownProblems'
 import BiggerThanThis from '@/components/starter/BiggerThanThis'
 import ShareStage from '@/components/starter/ShareStage'
@@ -45,10 +46,16 @@ if (typeof window !== 'undefined') {
 // kept for the smallest labels only. Every claim here is already true in the
 // product, so the proof path is a tap away once they step in.
 //
-// Order: what you told us, how it works in three steps, how DiGi works,
-// screen time and balance, the child's own app, the road to 16, what you get,
-// the door. The door is also top right and rides along the bottom once they
-// have read past the first screen.
+// Order, Justin, 25 November 2026 (plans/2026-11-25-ready-before-16-plan.md):
+// lead with the curriculum and the Passport, "ready before 16". The headline,
+// what this stage means, three things a child at this stage should understand
+// (quoted from the lessons, lib/content/stage-outcomes.ts), one conversation
+// for this week with a gap for the child's own reason, what happens next and
+// its one door, then what you get, one service a line. Their worries, the
+// Passport, the balance and DiGi follow, then the door at the foot. None of
+// the top is drawn when helpFirst: a parent whose typed worry tripped the risk
+// gate reads the help first, exactly as before. The door also rides along the
+// bottom once they have read past the first screen.
 
 type Props = {
   stage: ReturnType<typeof getStageFromAgeBand>
@@ -220,6 +227,61 @@ function Point({ icon, title, children }: { icon: MethodId; title: string; child
   )
 }
 
+/** A script line with its gaps drawn as gaps.
+ *
+ *  A square bracket in a script ("[their thing tomorrow, like football]") is
+ *  where the parent puts THIS child's reason. A Mumsnet parent, 24 November
+ *  2026: a reason about children in general is the one a sharp child argues
+ *  with. Printed as plain brackets it read as a typo; drawn as a dashed gap it
+ *  reads as something to fill. */
+function WithGaps({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\[[^\]]+\])/).map((part, i) => {
+        if (!/^\[.*\]$/.test(part)) return <span key={i}>{part}</span>
+        return (
+          <span key={i} style={{
+            display: 'inline', padding: '1px 6px', margin: '0 1px',
+            background: 'var(--white)', border: '2px dashed var(--ink-soft)', borderRadius: 8,
+            fontWeight: 700, color: 'var(--ink-soft)', boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone',
+          }}>
+            <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>Your own words here: </span>
+            {part.slice(1, -1)}
+          </span>
+        )
+      })}
+    </>
+  )
+}
+
+// ── WHAT YOU GET, ONE SERVICE A LINE (Justin approved, 25 November 2026) ────
+//
+// In his order, curriculum and Passport first, the balance sixth. The proof
+// path for each, so nothing here is a promise the product cannot keep:
+//   1 the lessons hub, mapped by scripts/check-rshe-coverage.mjs
+//   2 the Passport (dashboard/passport): lessons tick on the page and a stage
+//     is stamped when its lessons, talks and check are done (lib/pathway/stamped.ts)
+//   3 dashboard/learning: the year group's objectives for the term, which is
+//     why it says what children their age learn, not what their school teaches
+//   4 the scripts table, if_they_push_back
+//   5 dashboard/devices and dashboard/phone-setup
+//   6 the star quest and the timer
+//   7 DiGi, which never answers yes or no (non negotiable 1)
+const WHAT_YOU_GET: { icon: MethodId; title: string; line: string }[] = [
+  { icon: 'lesson', title: 'The road to 16', line: 'Short lessons you do together from 4 to 16, on scams, group chats, AI and who they are really talking to in games. The same lessons schools can teach, mapped to the new RSHE guidance.' },
+  { icon: 'passport', title: 'The Passport', line: 'Every lesson your child finishes goes in their Passport, so you can see what they know rather than guess.' },
+  { icon: 'moment', title: 'What children their age learn this year', line: 'Know what is coming up, so you can get there first.' },
+  { icon: 'script', title: 'What to say', line: 'Words for the hard conversations, with what to say when they push back.' },
+  { icon: 'kidapp', title: 'Phone and device setup', line: 'Step by step settings for each screen.' },
+  { icon: 'balance', title: 'Getting the balance right', line: 'Real jobs, outside time and a timer you can both see. Screen time ends because the timer says so, not because you are the bad guy.' },
+  { icon: 'digi', title: 'Ask DiGi', line: 'Answers from research for your child’s age, never a yes or no.' },
+]
+
+/** Decision 2, 25 November 2026, word for word wherever the trial is first named. */
+const TRIAL_LINE = 'Free for 4 days. No card, so nothing is ever charged unless you pick a plan.'
+
+const COUNT = ['None', 'One', 'Two', 'Three', 'Four']
+
 export default function ResultScreen({ stage, accent, challenge, worry, worries, worryOther, email, needsConfirm, childName, onJoin, ageYears }: Props) {
   // The topic course for this age, if there is one. No age at all (a run saved
   // before question one asked it) reads Explorer as 11, its youngest year.
@@ -273,6 +335,10 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   // a figure on a sales page should not move under the reader in August.
   const guide = termTimeDailyMinutes(stage.ageBand)
   const base = termTimeBaseMinutes(stage.ageBand)
+  // What the road teaches at this stage, quoted from the lessons.
+  const outcomes = STAGE_OUTCOMES[stage.id]
+  const lower = (t: string) => t.charAt(0).toLowerCase() + t.slice(1)
+  const joinLabel = onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'
 
   const rootRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
@@ -329,8 +395,9 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
         <StickyJoin
           href={enterHref}
           onClick={onJoin}
-          label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'}
-          note="Free for four days. No card."
+          label={joinLabel}
+          note={TRIAL_LINE}
+          quietOver="ready-next"
         />
       )}
       {/* How far down the page they are, a hairline under the status bar. */}
@@ -369,53 +436,130 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <p className="wow-fu" style={{ ...LEAD, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0 }}>
             {helpFirst
               ? 'You told us what is going wrong. Please read the box below first.'
-              // Justin, 15 October 2026: "make super easy read". This line used
-              // to say what the section heading underneath it says again, so
-              // the first two things a parent read were the same sentence. It
-              // now tells them where to start, which is the one thing a long
-              // page owes its reader.
-              : 'Start with the first card. It has something to try tonight.'}
+              // Justin, 25 November 2026: the message is ready before 16. It
+              // replaced "Start with the first card", which pointed at a card
+              // that is no longer first.
+              : 'At 16 they go from nothing to everything overnight. This gets them ready before that day.'}
           </p>
-          {/* ── WHAT HAPPENS NEXT (24 November 2026) ───────────────────────
-              The ten Mumsnet parents who reached this page read for 25 to 90
-              seconds and left, and the one who wrote back said she "wasn't
-              sure where it was heading" (plans/2026-11-24-mumsnet-replies-
-              weighed.md). The page answered their worries and never said what
-              the next step was until the very bottom. Three short steps, then
-              the one real next step.
-
-              The Get started button that was removed from this spot (see the
-              note above) fired before the page had said anything. This one
-              comes after the plan is laid out, which is the difference
-              between a shop and an answer. Never shown when helpFirst. */}
+          {/* ── WHAT THIS STAGE MEANS ─────────────────────────────────────
+              From the stage's own focus and device lines in
+              lib/content/stages.ts, so nothing here is a new claim about
+              child development. */}
           {!helpFirst && (
-            <div className="wow-fu" style={{ marginTop: 22, background: 'var(--butter-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '18px 18px 20px' }}>
-              <div style={{ ...EYEBROW, marginBottom: 10 }}>What happens next</div>
-              <ol style={{ listStyle: 'none', padding: 0, margin: '0 0 16px', display: 'grid', gap: 10 }}>
-                {[
-                  ['Tonight', 'Try the words on the first card below. They are written for this age.'],
-                  ['Save the plan', `Free for four days, no card. It keeps ${kid ? `${kid}'s` : 'your'} answers and this stage.`],
-                  ['Then', 'Jobs earn the screen time and a timer you can both see ends it. Short lessons build up to 16, and DiGi is there when something new comes up.'],
-                ].map(([title, line], i) => (
-                  <li key={title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                    <span aria-hidden style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: 'var(--ink)', color: 'var(--white)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{title}</div>
-                      <p style={{ ...BODY, fontSize: 'var(--text-base)', color: 'var(--ink)', marginTop: 2 }}>{line}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-              <Door
-                href={enterHref}
-                onClick={onJoin}
-                label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'}
-                style={{ display: 'flex', width: '100%' }}
-              />
+            <div className="wow-fu" style={{ marginTop: 22, paddingTop: 18, borderTop: '1.5px solid var(--border)' }}>
+              <div style={{ ...EYEBROW, marginBottom: 6 }}>What this stage means</div>
+              <p style={{ ...BODY, color: 'var(--ink)' }}>
+                {stage.ages}: {lower(stage.focus)}. Devices at this stage: {lower(stage.device)}.
+              </p>
             </div>
           )}
         </div>
       </div>
+
+      {/* ── THE CURRICULUM, THE CONVERSATION, WHAT HAPPENS NEXT ─────────────
+          Justin, 25 November 2026: lead with the curriculum. Never drawn when
+          helpFirst, so the help a frightened parent needs stays the first
+          thing under the headline. */}
+      {!helpFirst && (
+        <div style={WRAP}>
+          {/* Three things, quoted from the lessons. */}
+          <section style={{ ...SECTION, marginTop: 40 }} aria-labelledby="ready-understand">
+            <div className="wow-fu" style={EYEBROW}>From the lessons</div>
+            <h2 id="ready-understand" className="wow-fu" style={H2}>
+              {COUNT[outcomes.length]} things a child at this stage should understand.
+            </h2>
+            <p className="wow-fu" style={LEAD}>In their own words, from the lessons on the road to 16.</p>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: 12 }}>
+              {outcomes.map(o => (
+                <li key={o.moduleId} className="wow-fu" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px' }}>
+                  <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', lineHeight: 1.35, color: 'var(--ink)' }}>
+                    “{o.outcome}”
+                  </p>
+                  <p style={{ margin: '6px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+                    Lesson: {o.title}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* ── ONE CONVERSATION FOR THIS WEEK ──────────────────────────────
+              The stage's first script, with a gap for the child's own reason.
+              It took the place of the generic tip ("The timer is the rule,
+              not you") as the first thing a parent is handed. */}
+          <section style={SECTION} aria-labelledby="ready-talk">
+            <div className="wow-fu" style={EYEBROW}>One conversation for this week</div>
+            <h2 id="ready-talk" className="wow-fu" style={H2}>{stage.script.title}</h2>
+            <div className="wow-fu" style={{ background: 'var(--butter-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '18px 18px 16px' }}>
+              <div style={{ ...EYEBROW, color: 'var(--ink-soft)', marginBottom: 8 }}>Say this</div>
+              <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', lineHeight: 1.6, color: 'var(--ink)' }}>
+                <WithGaps text={stage.script.sayThis} />
+                {stage.script.theirReason && <> <WithGaps text={stage.script.theirReason} /></>}
+              </p>
+              <p style={{ ...BODY, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '14px 0 0' }}>
+                Fill the gap with something about {they}, not children in general. A reason that belongs to them is much harder to argue with.
+              </p>
+              <p style={{ ...BODY, fontSize: 'var(--text-base)', margin: '10px 0 0' }}>
+                <strong style={{ color: 'var(--ink)' }}>Not this:</strong> {stage.script.notThis}
+              </p>
+            </div>
+          </section>
+
+          {/* ── WHAT HAPPENS NEXT (24 November 2026, rewritten 25 November) ──
+              The ten Mumsnet parents who reached this page read for 25 to 90
+              seconds and left, and the one who wrote back said she "wasn't
+              sure where it was heading" (plans/2026-11-24-mumsnet-replies-
+              weighed.md). Three short steps, then the one real next step.
+              Step 3 led with jobs and the timer until Justin's ready before 16
+              decision; it now leads with the lessons and the Passport, and the
+              balance waits in What you get. Step 2 is the trial line, word for
+              word, because this is the first place the page names the trial. */}
+          <div id="ready-next" className="wow-fu" style={{ ...SECTION, background: 'var(--butter-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '18px 18px 20px' }}>
+            <div style={{ ...EYEBROW, marginBottom: 10 }}>What happens next</div>
+            <ol style={{ listStyle: 'none', padding: 0, margin: '0 0 16px', display: 'grid', gap: 10 }}>
+              {[
+                ['Tonight', 'Try the conversation above.'],
+                ['Save the plan', TRIAL_LINE],
+                ['Then', 'Short lessons you do together build their Passport, step by step to 16.'],
+              ].map(([title, line], i) => (
+                <li key={title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                  <span aria-hidden style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: 'var(--ink)', color: 'var(--white)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{title}</div>
+                    <p style={{ ...BODY, fontSize: 'var(--text-base)', color: 'var(--ink)', marginTop: 2 }}>{line}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <Door
+              href={enterHref}
+              onClick={onJoin}
+              label={joinLabel}
+              style={{ display: 'flex', width: '100%' }}
+            />
+          </div>
+
+          {/* ── WHAT YOU GET ───────────────────────────────────────────────
+              One service a line, in Justin's order (WHAT_YOU_GET above), then
+              the trial line. This list replaced the Also inside chips, which
+              named the same parts as labels. */}
+          <section style={SECTION} aria-labelledby="ready-get">
+            <div className="wow-fu" style={EYEBROW}>What you get</div>
+            <h2 id="ready-get" className="wow-fu" style={H2}>Everything to get them ready before 16.</h2>
+            <ol style={{ listStyle: 'none', margin: '18px 0 0', padding: 0, display: 'grid', gap: 18 }}>
+              {WHAT_YOU_GET.map(w => (
+                <li key={w.title} className="wow-fu">
+                  <Point icon={w.icon} title={w.title}>{w.line}</Point>
+                </li>
+              ))}
+            </ol>
+            <p className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, margin: '22px 0 0' }}>
+              Not a blocking app. We never read their chats.
+            </p>
+            <p className="wow-fu" style={{ ...BODY, fontSize: 'var(--text-base)', margin: '6px 0 0' }}>{TRIAL_LINE}</p>
+          </section>
+        </div>
+      )}
 
       <div style={WRAP}>
         {/* ── What you told us ──────────────────────────────────────────
@@ -540,8 +684,6 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
         <div style={SECTION}>
           <Fixes
             kid={kid || 'Your child'}
-            words={stage.script.sayThis}
-            notThis={stage.script.notThis}
             concern={concern}
             afterStars={
               <Fold label={`How the time works, and the ${base} minute start`} tone="card">
@@ -587,8 +729,6 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
         </div>
 
         <div style={SECTION}><DigiLearns /></div>
-
-        <div style={SECTION}><AlsoInside /></div>
 
         {/* ── The door ─────────────────────────────────────────────────── */}
         <div id="chapter-cta" className="wow-fu" style={{ ...SECTION, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '30px 22px', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>

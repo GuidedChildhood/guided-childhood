@@ -51,15 +51,22 @@ export default function StickyJoin({
   label,
   note,
   onClick,
+  quietOver,
 }: {
   href: string
   label: string
-  /** One short line. The price and the four days live in the card at the foot. */
+  /** The trial line, word for word (decision 2, 25 November 2026). The price
+   *  lives in the card at the foot. */
   note: string
   /** Given when the account does not exist yet: the bar opens the account step
    *  in place rather than navigating, because the account now comes AFTER this
    *  page. See plans/2026-09-10-starter-account-last.md. */
   onClick?: () => void
+  /** The id of a block that carries its own door. The bar steps aside while
+   *  that block is on screen, so a parent never sees the same button twice
+   *  (the result page's What happens next card, 25 November 2026). Read in
+   *  the same scroll listener, so no observer is added. */
+  quietOver?: string
 }) {
   const [show, setShow] = useState(false)
 
@@ -68,12 +75,14 @@ export default function StickyJoin({
       const y = window.scrollY
       const doc = document.documentElement
       const atEnd = y + window.innerHeight > doc.scrollHeight - 620
-      setShow(y > 520 && !atEnd)
+      const quiet = quietOver ? document.getElementById(quietOver)?.getBoundingClientRect() : null
+      const over = !!quiet && quiet.top < window.innerHeight && quiet.bottom > 0
+      setShow(y > 520 && !atEnd && !over)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [quietOver])
 
   return (
     <div
