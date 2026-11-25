@@ -12451,11 +12451,11 @@
    },
    "childIsTheSubject": false,
    "studyId": "GDC-RR-c3c32618c1",
-   "version": 2,
+   "version": 3,
    "firstFound": "2026-11-24T09:22:16.408Z",
-   "lastChecked": "2026-11-24T09:25:32.467Z",
-   "changeReason": "automatic dossier: RECORD UNCONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-25T09:34:41.585Z",
+   "changeReason": "REVIEW: HOLD, the dossier verdict is RECORD UNCONFIRMED. A study that cannot be identified cannot be reviewed.",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-c3c32618c1",
     "checkedAt": "2026-11-24T09:25:32.461Z",
@@ -12508,7 +12508,16 @@
     "officialRecordResolves": false,
     "automaticVerdict": "RECORD UNCONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "PENDING",
+   "gate": {
+    "verdict": "HOLD",
+    "stage": "REVIEW",
+    "reasons": [
+     "the dossier verdict is RECORD UNCONFIRMED. A study that cannot be identified cannot be reviewed.",
+     "reviewedAt is 2026-11-25T09:50:00Z, which is in the future. Stamp it with the time the review was actually done."
+    ],
+    "at": "2026-11-25T09:34:41.581Z"
+   }
   },
   "GDC-RR-6a0dfad7ed": {
    "title": "Youth Wellbeing: What Matters Online and Off",
@@ -12618,13 +12627,13 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-21",
-    "until": "2026-11-24"
+    "since": "2026-11-22",
+    "until": "2026-11-25"
    },
    "studyId": "GDC-RR-0709cb4996",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-24T09:25:32.391Z",
-   "lastChecked": "2026-11-24T09:29:17.668Z",
+   "lastChecked": "2026-11-25T09:33:09.804Z",
    "changeReason": "discovery run, streams 01,03,08,09,20,23",
    "changedBy": "radar:discover"
   },
@@ -12702,15 +12711,15 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-21",
-    "until": "2026-11-24"
+    "since": "2026-11-22",
+    "until": "2026-11-25"
    },
    "studyId": "GDC-RR-d19516d68d",
-   "version": 4,
+   "version": 5,
    "firstFound": "2026-11-24T09:25:32.407Z",
-   "lastChecked": "2026-11-24T09:31:26.138Z",
-   "changeReason": "REVIEW: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-25T09:33:09.896Z",
+   "changeReason": "discovery run, streams 19",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-d19516d68d",
     "checkedAt": "2026-11-24T09:25:33.233Z",
@@ -12843,17 +12852,20 @@
    "journal": "Journal of medical Internet research",
    "published": "2026-11-23",
    "authors": "Deng Q, Li C, Miles TP, Kang L, Wu Y, Liu W",
-   "abstract": "",
+   "abstract": "<h4>Background</h4>Adverse childhood experiences (ACEs) are associated with poorer adult health, but the behavioral and informational pathways underlying these associations, and whether digital environments condition them, remain unclear. Clarifying whether these pathways vary across contemporary digital contexts may help explain heterogeneity in the long-term health correlates of early adversity.<h4>Objective</h4>Guided by the life course perspective, this study examined whether ACE exposure was indirectly associated with adverse adult health through tobacco and alcohol use risk (TAUR) and health literacy (HL), and whether social media use (SMU) moderated these pathways.<h4>Methods</h4>We analyzed data from 30,054 adults in the 2023 Psychology and Behavior Investigation of Chinese Residents. A moderated dual-mediation structural equation model specified TAUR and HL as parallel mediators and SMU as a first-stage moderator. Robust maximum likelihood estimation was used. Conditional indirect associations at the SMU mean and at ±1 SD were estimated using 100,000-draw Monte Carlo 95% CIs.<h4>Results</h4>Greater ACE exposure was associated with higher TAUR (B=0.118, 95% CI 0.101-0.135; P<.001) and lower HL (B=-0.028, 95% CI -0.036 to -0.020; P<.001). At mean SMU, indirect associations were positive through TAUR (B=0.020, 95% CI 0.014-0.027; P<.001) and HL (B=0.004, 95% CI 0.003-0.006; P<.001). For TAUR, the ACE association was smaller at higher levels of SMU (interaction B=-0.034, 95% CI -0.042 to -0.025; P<.001). The conditional indirect association was B=0.026 at low SMU and B=0.015 at high SMU, with an index of moderated mediation of -0.006 (95% CI -0.008 to -0.004; P<.001). For HL, the interaction was also negative (B=-0.043, 95% CI -0.051 to -0.035; P<.001), and the indirect association through HL was negative at low SMU (B=-0.002, 95% CI -0.004 to -0.001; P=.002) but positive at high SMU (B=0.011, 95% CI 0.008-0.013; P<.001), with an index of moderated mediation of 0.006 (95% CI 0.005-0.008; P<.001). Johnson-Neyman analyses showed that the ACE to TAUR association remained statistically significant across the observed SMU range, whereas the ACE to HL association was positive below -0.855 SD, nonsignificant between -0.855 and -0.472 SD, and negative above -0.472 SD. The conditional indirect associations were statistically significant but small in magnitude.<h4>Conclusions</h4>ACE exposure was associated with adult health through distinct behavioral and informational pathways that varied across SMU levels. These findings may inform the development and evaluation of interventions addressing TAUR and health information use in social media-rich environments.",
    "isPreprint": false,
    "peerReviewed": true,
    "pubTypes": "Journal Article",
    "grants": [],
    "streams": [
     "08",
-    "21"
+    "21",
+    "19",
+    "22"
    ],
    "foundBy": [
-    "pubmed"
+    "pubmed",
+    "europepmc"
    ],
    "status": "VERIFIED",
    "relevanceScore": 5,
@@ -12867,15 +12879,15 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-21",
-    "until": "2026-11-24"
+    "since": "2026-11-22",
+    "until": "2026-11-25"
    },
    "studyId": "GDC-RR-e0fbf0e834",
-   "version": 2,
+   "version": 3,
    "firstFound": "2026-11-24T09:25:32.414Z",
-   "lastChecked": "2026-11-24T09:29:17.708Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-25T09:33:09.952Z",
+   "changeReason": "discovery run, streams 08,21,19,22",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-e0fbf0e834",
     "checkedAt": "2026-11-24T09:25:32.472Z",
@@ -12944,8 +12956,10 @@
    "abstract": "Individuals with autism spectrum disorder (ASD) experience disproportionately higher rates of preventable chronic diseases. Gamified digital health interventions (DHIs) targeting physical activity (PA) and sedentary behavior (SB) represent a promising approach to help reduce these risks. This scoping review explored and characterized gamified DHIs developed to support PA and SB behavior change among individuals with ASD. In accordance with JBI Scoping Review Methodology and PRISMA Extension for Scoping Review guidelines, six databases were searched, and 808 records were identified, with an additional five studies found through hand-searching. Following eligibility screening, 13 studies were included in this review. Relevant data from included studies were extracted, charted, and narratively described. This review examined intervention characteristics, including target populations (i.e., adults and youth), implementation settings (e.g., school, home), intervention modalities (e.g., gaming systems, mobile apps), gamification elements (e.g., avatars, points, stories/themes), and outcome measures for PA and SB (e.g., self-report and objective). Seven studies specifically compared the effectiveness of DHIs to a control condition. Findings were mixed, with five studies reporting significant improvements in PA and/or SB through gamified DHIs when compared with a control condition, whereas two studies showed limited or nonsignificant effects. This scoping review underscores the potential of gamified DHIs to support PA- and SB-related behavior change in individuals with ASD by enhancing enjoyment and motivation. Nevertheless, the mixed evidence on effectiveness highlights the need for further research to identify the most impactful strategies for improving health behaviors in this population.",
    "isPreprint": false,
    "peerReviewed": true,
-   "pubTypes": "IM; Journal Article",
-   "grants": [],
+   "pubTypes": "Journal Article",
+   "grants": [
+    "University of Delaware College of Health Sciences Summer Scholarship"
+   ],
    "citedBy": 0,
    "openAccess": false,
    "streams": [
@@ -12973,15 +12987,15 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-21",
-    "until": "2026-11-24"
+    "since": "2026-11-22",
+    "until": "2026-11-25"
    },
    "studyId": "GDC-RR-e1b0bf710a",
-   "version": 2,
+   "version": 3,
    "firstFound": "2026-11-24T09:29:17.699Z",
-   "lastChecked": "2026-11-24T09:29:18.321Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-25T09:33:09.902Z",
+   "changeReason": "discovery run, streams 02,07,08,10,20,22",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-e1b0bf710a",
     "checkedAt": "2026-11-24T09:29:17.853Z",
@@ -13038,6 +13052,2002 @@
     "automaticVerdict": "RECORD CONFIRMED"
    },
    "claudeStatus": "PENDING"
+  },
+  "GDC-RR-a24d04f9b9": {
+   "title": "Sleep duration and maternal BMI rank comparably as predictors of overweight/obesity among school-aged children and adolescents in central China: a cross-sectional study using interpretable machine learning",
+   "doi": "10.21203/rs.3.rs-11452625/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11452625/v1",
+   "journal": "Research Square",
+   "published": "2026-11-23",
+   "authors": "Wang Y, Zhang Y, Luo S, Wang K.",
+   "abstract": "<title>Abstract</title> <p> <bold>Background:</bold> Childhood overweight/obesity has a multifactorial aetiology that regression captures only partly. We used an interpretable machine-learning model to rank behavioural and familial predictors in a provincial school sample and to test whether sleep duration and maternal BMI differ in predictive importance. <bold>Methods:</bold> Cross-sectional survey of 27588 children and adolescents aged 7-18 years in Henan, China, recruited by stratified multistage cluster sampling (20 city strata, 200 schools, 2000 classes). Weight status used the age- and sex-specific BMI criteria of the Working Group on Obesity in China; prevalence was weighted with post-stratification and regression used school-cluster-robust standard errors. Because weight status is the outcome, outcome-based propensity score matching served only as a secondary balance-restricting analysis, and the full cohort was primary. Random Forest, XGBoost and CatBoost were compared by nested cross-validation confined to the training data; splits were grouped by school with matched pairs kept together, and the locked model was evaluated once in an untouched test set. SHAP importance was summarised with 500-resample bootstrap intervals, and logistic regression excluding outcome-defining variables, with prespecified confounders and Benjamini-Hochberg control, provided association estimates and E-values. <bold>Results:</bold> Prevalence was 27.3% (weighted 26.8%, 95% CI 26.2-27.4). CatBoost discriminated best (AUC 0.801, 95% CI 0.795-0.807; PR AUC 0.628) with a calibration slope of 1.03. SHAP ranked age first (0.163), then sleep duration (0.142) and maternal BMI (0.128); the difference was small and statistically indistinguishable (0.014, 95% CI, -0.006 to 0.034), and sleep duration ranked first of the two in 61.4% of resamples. Very short sleep duration (OR 3.28, 2.34-4.59), screen time >2 h/day (3.67, 2.42-5.58) and maternal obesity (2.87, 2.19-3.76) were associated with overweight/obesity; E-values ranged from 1.96 to 3.24. <bold>Conclusions:</bold> Sleep duration and maternal BMI were comparably important and the ranking between them was unstable, so neither outranks the other; age, sleep duration and screen time were the leading predictors. These rankings support risk stratification rather than causal or intervention-priority claims. </p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "04",
+    "07",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 8,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b",
+     "+2 \\bsleep\\b"
+    ],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-a24d04f9b9",
+   "version": 2,
+   "firstFound": "2026-11-25T09:33:09.774Z",
+   "lastChecked": "2026-11-25T09:33:11.140Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-a24d04f9b9",
+    "checkedAt": "2026-11-25T09:33:10.896Z",
+    "doi": "10.21203/rs.3.rs-11452625/v1",
+    "doiResolves": true,
+    "canonicalTitle": "Sleep duration and maternal BMI rank comparably as predictors of overweight/obesity among school-aged children and adolescents in central China: a cross-sectional study using interpretable machine learning",
+    "indexedDate": "2026-11-23",
+    "crossrefOnlineDate": "2026-11-23",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "Research Square",
+    "sampleSize": 27588,
+    "ageRange": "7 to 18",
+    "country": "China",
+    "design": "cross-sectional",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": true,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": true,
+     "quotedNumbers": [
+      "27.3%",
+      "26.8%",
+      "95%",
+      "61.4%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-c81d77aa2e": {
+   "title": "Young People’s Work Attitudes in Russia and China: A Cross‑Cultural Analysis",
+   "doi": "10.24158/tipor.2026.10.9",
+   "pmid": null,
+   "url": "https://doi.org/10.24158/tipor.2026.10.9",
+   "journal": "Теория и практика общественного развития",
+   "published": "2026-11-25",
+   "authors": "Ksenia V. Filippova",
+   "abstract": "The article is devoted to the study of young people’s work attitudes through the lens of cross‑cultural character-istics of Russia and China. The aim of the work is to identify value orientations and cultural mechanisms that determine Russian and Chinese young people’s labour behaviour in the context of the digital architecture of the labour market. The empirical basis of the research is the results of a survey conducted among representatives of Russia and China aged 19 to 35 living in the Khabarovsk Krai, Russia, and in the Heilongjiang and Jilin prov-inces, PRC. For Russian and Chinese young people, labour is seen as a key tool for material well‑being ensur-ing, which is quite objective in today’s conditions. For the representatives of the Celestial Empire, labour is per-ceived as a service to the state and a way to maintain the social prestige of the family (“mianzi”). This principle, rooted in Confucian philosophy, has become a part of the state ideology. The priority given to wages, career prospects, and the balance between work and personal life in the structure of work attitudes is a unifying trend for representatives of Russian and Chinese youth. The value of stable employment and respectable job is a more important aspect of work activity for Chinese youth. Russian youth places secondary importance on sub-stantive and organizational factors: interest in the content of work, a convenient schedule, and a favorable so-cio‑psychological climate in the team.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "19"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-c81d77aa2e",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.783Z",
+   "lastChecked": "2026-11-25T09:33:09.783Z",
+   "changeReason": "discovery run, streams 19",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-c89abcdeac": {
+   "title": "Functional hearing difficulty and digital-resource gradients in foundational learning across diverse MICS6 settings",
+   "doi": "10.3389/feduc.2026.2024091",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/feduc.2026.2024091",
+   "journal": "Frontiers in Education",
+   "published": "2026-11-25",
+   "authors": "Carlos Alberto Echeverría Mayorga, Guillermo Guzmán Guillén, José Miguel Esperanza Amaya, Celso Rodríguez Echenique, Carlos Roberto Monroy Alfaro",
+   "abstract": "Prior MICS6 research has documented hearing-related reading disadvantages and mixed numeracy findings, but existing analyses differ in outcome definitions and geographic coverage. We conducted a cross-sectional secondary analysis of 17 MICS6 country-survey datasets identified by reference years 2017–2019 (some fieldwork extending into 2020), examining functional hearing difficulty and household digital resources in relation to directly assessed foundational reading and numeracy. Outcomes were independently reconstructed and compared with published official survey estimates using a prespecified 0.5-percentage-point validation gate; unresolved combinations were excluded without recalibration. Validated source samples comprised 15 reading surveys (84,975 children) and 15 numeracy surveys (78,311), with 13 validated for both. Weighted linear probability models with country fixed effects and PSU-clustered standard errors estimated adjusted probability differences. Higher-severity hearing difficulty was associated with lower reading (−10.68 percentage points; 95% CI −16.43–−4.92) and numeracy (−5.53; −9.95–−1.11). Internet access was associated with higher reading (+5.00; 3.82–6.19) and numeracy (+4.87; 3.68–6.06); computer/tablet associations were +8.37 and +6.73 points, respectively. Hearing–reading was comparatively stable, whereas hearing–numeracy was less precise in alternative sensitivity models. The internet–reading coefficient was positive across absolute-difference sensitivity models, but its modified-Poisson RR (1.0245; 95% CI 0.9953–1.0545) and standardized contrast (+0.74 pp) were substantially smaller, indicating model-family sensitivity. Digital magnitudes depended on wealth adjustment and varied by country. Associations do not establish causal effects, educational use of technology, or a hearing-by-digital interaction.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "08",
+    "19"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-c89abcdeac",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.790Z",
+   "lastChecked": "2026-11-25T09:33:09.790Z",
+   "changeReason": "discovery run, streams 08,19",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-0e5f89292c": {
+   "title": "Smart Village Transformation in Improving the Economy through Sustainable Tourism Villages",
+   "doi": "10.61436/bsscd/v5i4.pp691-703",
+   "pmid": null,
+   "url": "https://doi.org/10.61436/bsscd/v5i4.pp691-703",
+   "journal": "Bulletin of Social Studies and Community Development",
+   "published": "2026-11-25",
+   "authors": "Muhammad Eko Atmojo, Helen Dian Fridayani, Akhamd Kurniawan, Nur Izzaturahmah, Nur Asshifa",
+   "abstract": "This study analyzes the contribution of smart village transformation to local economic development through sustainable tourism villages, with special emphasis on youth participation, community-based management, and digital transformation in Dewi Kajii Tourism Village, Bantul Regency, Indonesia. This research used a qualitative descriptive approach through in-depth interviews with tourism village managers, local residents, village youth, and the Gilangharjo Village Government, supported by secondary data from prior research, mass media, official documents, and online tourism media. Data were evaluated using an interactive qualitative process of data reduction, data display, and conclusion drawing/verification. Results suggest that about 100 young people participate in the management structure, with the majority working in ornamental fish production and smaller groups in homestays, tour guiding, creative-economy activities, and digital promotion. So youth involvement is not just labor participation but the basis of smart people and community-based government. Digital media helps destination branding, tourism product diversity, and market access. The study found that Dewi Kajii exhibited a smart village transformation, integrating human ability, local economic assets, institutional participation, and digital technology to improve destination competitiveness and local economic prospects. However, more robust monitoring of visitor data, gender-disaggregated organizational data, and quantitative digital-performance metrics is needed for a more thorough assessment of sustainability outcomes. Keywords: Smart village; Sustainable tourism village; Youth participation; Digital transformation; Dewi Kajii.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "19",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-0e5f89292c",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.797Z",
+   "lastChecked": "2026-11-25T09:33:09.797Z",
+   "changeReason": "discovery run, streams 19,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-680f0e24c1": {
+   "title": "Prevalência e fatores associados ao consumo de alimentos ultraprocessados na primeira infância de crianças brasileiras",
+   "doi": "10.69849/rsnxn517",
+   "pmid": null,
+   "url": "https://doi.org/10.69849/rsnxn517",
+   "journal": "Revista ft",
+   "published": "2026-11-24",
+   "authors": "Laysla Maria dos Santos Pinheiro, Ingrid Bezerra Bispo Noronha, Débora Thais Sampaio da Silva, Ana Karine de Oliveira Soares, Irwen Costa Barbosa, Edillene Soares da Silva, Antônia Candido de Souza, Luysa Alves da Costa Ferreira, Eduardo Jacó Silva",
+   "abstract": "Adequate nutrition during early childhood is essential for growth, child development, and the formation of healthy eating habits. However, the consumption of ultra-processed foods has become increasingly common during this stage, posing a challenge to health promotion. In this context, this study aimed to analyze the prevalence of ultra-processed food consumption among Brazilian children in early childhood and identify the main factors associated with this dietary behavior. This is an integrative literature review with a qualitative and interpretative approach, conducted through searches in the SciELO Brazil and Virtual Health Library (VHL) databases. Descriptors in Portuguese and English related to food intake, child nutrition, and processed foods were used. Initially, 616 articles were identified, of which eight were selected for analysis after applying the inclusion and exclusion criteria. Data interpretation followed Bardin's content analysis method. The results revealed a high prevalence of ultra-processed food consumption, reaching 80.5% among children aged 6 to 23 months and 93.0% among those aged 24 to 59 months, according to data from ENANI-2019. The most frequently identified products included biscuits, sweetened beverages, sweets, industrialized bread, and processed meats. Associations were also observed between the consumption of these foods and socioeconomic factors, caregivers' educational levels, parental feeding practices, culinary skills, and screen exposure. It is concluded that ultra-processed food consumption represents a significant challenge to childhood nutrition, and its prevention requires early and continuous actions involving food and nutrition education, family guidance, the strengthening of public policies, and improved access to fresh or minimally processed foods.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "09",
+    "12",
+    "19",
+    "21",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -9,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [
+     "-5 \\bmalaria|neonatal|sepsis|immunis|",
+     "-4 \\bcheckout policy|food marketing|d"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-680f0e24c1",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.811Z",
+   "lastChecked": "2026-11-25T09:33:09.811Z",
+   "changeReason": "discovery run, streams 09,12,19,21,22,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-10470e3c53": {
+   "title": "Associations of physical activity, sedentary behaviors, and eating behaviors with body composition among early adolescents in Anhui, China",
+   "doi": "10.3389/fphys.2026.2019056",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/fphys.2026.2019056",
+   "journal": "Frontiers in Physiology",
+   "published": "2026-11-25",
+   "authors": "Zhenyuan Yin, Sixiang Tao, Shishun Ge, Han Liu",
+   "abstract": "Background Childhood obesity has emerged as a significant public health concern in China. Although body mass index is commonly used to assess obesity, it does not accurately reflect body fat distribution. This study investigated the associations between physical activity, sedentary behavior, eating behavior, and body composition indicators in Chinese early adolescents. Methods A cross-sectional study was conducted on 307 early adolescents aged 11–13 years in Anhui Province, China. Body composition was assessed using bioelectrical impedance measurements. Physical activity was assessed using the Physical Activity Questionnaire for Children. Sedentary behaviors were evaluated using the Children and Adolescents Physical Activity and Sedentary Questionnaire. Eating behaviors were measured using the Children’s Eating Behavior Questionnaire. Statistical analyses included group comparisons, Pearson correlations, and age- and sex-adjusted regression, with Benjamini–Hochberg correction for multiple testing. Exploratory random forest models were evaluated using 10-fold cross-validation. Results The study examined 307 early adolescents (55.7% boys, 44.3% girls, aged 11.51 ± 0.55 years) with body mass index (BMI) of 22.21 ± 4.61 kg/m², BMI Z-score of 1.25 ± 1.22, percent body fat (PBF) of 32.18 ± 9.25%, and visceral fat area (VFA) of 109.55 ± 51.91 cm². Screen-based sedentary behavior and food approach showed weak positive correlations with body composition indicators (r = 0.123–0.178). After correction for multiple testing, only the correlation between Screen SB and VFA remained statistically significant (r = 0.178, q = 0.047). Food approach and several eating behavior subscales differed across BMI Z-score groups after correction. The age- and sex-adjusted behavioral coefficients did not meet the FDR threshold. Exploratory random forest models using physical activity, Screen SB, and food approach showed limited predictive performance for PBF (R² = 0.040, RMSE = 9.043) and VFA (R² = 0.038, RMSE = 50.839). Conclusion Behavioral factors showed modest associations with adiposity indicators in Chinese early adolescents. These findings support further investigation of physical activity, screen-based sedentary behavior, and eating traits alongside body composition measures in longitudinal studies of adolescent adiposity.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "01",
+    "07",
+    "08"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-10470e3c53",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.818Z",
+   "lastChecked": "2026-11-25T09:33:09.818Z",
+   "changeReason": "discovery run, streams 01,07,08",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-fc123cd15c": {
+   "title": "Associations of nighttime temperature and daily screen time with sleep quality among school-aged children",
+   "doi": "10.3389/fpubh.2026.1996922",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/fpubh.2026.1996922",
+   "journal": "Frontiers in Public Health",
+   "published": "2026-11-25",
+   "authors": "Nannan Wen, Shuyue Li, Jianhui Guo, Di Shi, Xinyao Lian, Long Ma, Chuanqing He, Liangzhi Sun, Guang Yu, Hui Li, Guangkai Zheng, Guangguo Zeng, Jiayi Guo, Dachao Zhang, Ning Li, Jing Li, Yi Song",
+   "abstract": "Background Whether nighttime heat-sleep associations vary by screen time remains unclear. Methods In this cross-sectional study, we examined four temperature metrics in relation to sleep quality and effect modification by daily screen time in 2,966 Chinese primary-school students from six schools. ERA5-Land temperatures were assigned to residential addresses for the 30 days preceding questionnaire completion. Sleep quality was assessed using the Pittsburgh Sleep Quality Index (PSQI), and screen time was self-reported. Adjusted mixed-effects models included a school-level random intercept and a linear term for survey date. Results Each 1-standard-deviation (SD) increase in nighttime mean temperature was associated with a 0.291-point higher PSQI score [95% confidence interval (CI), 0.082–0.499] and higher odds of poor sleep quality [odds ratio (OR) = 1.422; 95% CI, 1.092–1.852]. Hot-night frequency was associated with poor sleep quality (OR = 1.287; 95% CI, 1.036–1.598), but showed a weaker association with the continuous PSQI score ( β = 0.228; 95% CI, −0.007 to 0.462). Daily mean temperature and hot-day frequency were not significantly associated with the continuous PSQI score. Log-transformed daily screen time was positively associated with the PSQI score ( β = 0.295; 95% CI, 0.204–0.387). The interaction between hot-night frequency and continuous screen time was nominally significant ( β = 0.102; 95% CI, 0.011–0.194; p = 0.029), but did not remain significant after false discovery rate correction; the other three temperature–screen-time interactions were not statistically significant. The nighttime-temperature association was attenuated under school fixed effects, and associations varied by calendar-time specification. Conclusion Higher nighttime mean temperature and longer daily screen time were associated with poorer sleep quality, but school- and calendar-time confounding cannot be excluded. Future longitudinal studies incorporating direct bedroom temperature monitoring and objective sleep measurements are needed to clarify these associations.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "01",
+    "04",
+    "08",
+    "19"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "HOLD",
+   "relevanceScore": 12,
+   "relevanceBand": "CORE",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b",
+     "+2 \\bsleep\\b"
+    ],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|",
+     "+2 \\bparent(al)? report|self-?report|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-fc123cd15c",
+   "version": 4,
+   "firstFound": "2026-11-25T09:33:09.825Z",
+   "lastChecked": "2026-11-25T09:35:45.824Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
+   "dossier": {
+    "studyId": "GDC-RR-fc123cd15c",
+    "checkedAt": "2026-11-25T09:33:10.095Z",
+    "doi": "10.3389/fpubh.2026.1996922",
+    "doiResolves": true,
+    "canonicalTitle": "Associations of nighttime temperature and daily screen time with sleep quality among school-aged children",
+    "indexedDate": "2026-11-25",
+    "crossrefOnlineDate": "2026-11-25",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Frontiers in Public Health",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "longitudinal cohort",
+    "followUp": null,
+    "exposureStated": "self-reported",
+    "statistics": {
+     "hasConfidenceInterval": true,
+     "hasPValue": true,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "95%",
+      "OR = 1.287"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-fc123cd15c",
+    "reviewedAt": "2026-11-25T09:36:00Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 25 November 2026",
+    "verdict": "HOLD",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "reviewBasis": "The full text of the open access article at doi.org/10.3389/fpubh.2026.1996922 (Frontiers in Public Health, Wen and colleagues, published 25 November 2026), read in this run: abstract, introduction, methods, results, discussion, limitations, conclusion, funding and conflict statements. Supplementary tables were not read. The automatic dossier labelled the design a longitudinal cohort. The paper itself says cross sectional, and that is what this review uses.",
+    "claims": [
+     {
+      "claim": "The study examined 2,966 primary school students from six schools in Shandong and Hebei Provinces, China, surveyed between 4 June and 9 July 2024.",
+      "status": "VERIFIED",
+      "basis": "Methods: 4,708 enrolled, 874 missing sleep scores, 718 missing screen data, 68 missing temperature data and 82 missing covariates removed, leaving 2,966. Mean age 10.0 years, 54.4 percent boys."
+     },
+     {
+      "claim": "Each 1 standard deviation rise in nighttime mean temperature was associated with a 0.291 point higher sleep quality score (95% CI 0.082 to 0.499) and higher odds of poor sleep (OR 1.422, 95% CI 1.092 to 1.852).",
+      "status": "QUALIFIED",
+      "basis": "Results, as stated. But the paper says the estimate fell to 0.128 (95% CI minus 0.124 to 0.379) with school fixed effects, and that school and calendar time confounding cannot be excluded."
+     },
+     {
+      "claim": "Longer daily screen time was associated with a higher sleep problem score (0.295 points per 1 SD of log transformed screen time, 95% CI 0.204 to 0.387) and higher odds of poor sleep (OR 1.263, 95% CI 1.156 to 1.379).",
+      "status": "QUALIFIED",
+      "basis": "Results, as stated. Screen time is self reported, summed from television, cinema, computer and phone or tablet time, with weekday, weekend, timing and content not separated. The median was about 34 minutes a day, so this is mostly a story about low screen use in 10 year olds in China."
+     },
+     {
+      "claim": "Screen time made the effect of hot nights on sleep worse.",
+      "status": "UNSUPPORTED",
+      "basis": "The hot night by screen time interaction was nominally significant (p 0.029) but did not remain significant after false discovery rate correction, the median split interaction was p 0.062, and the authors say the mechanism is speculative and evidence for effect modification was limited."
+     },
+     {
+      "claim": "Screen time shortens children's sleep.",
+      "status": "UNSUPPORTED",
+      "basis": "The exploratory result was a bedtime about 2 minutes later per SD, and no significant change in time in bed. The authors say screen use timing was not measured and the mechanism cannot be established."
+     }
+    ],
+    "verifiedStatistics": [],
+    "notQuotable": [
+     "That screen time makes heat worse for sleep: the interaction did not survive correction",
+     "That screens shorten sleep: the bedtime difference was about 2 minutes and time in bed did not change significantly",
+     "That cooling a bedroom or cutting screens would improve sleep: the authors say no recommendation can be drawn",
+     "Any of the temperature figures as a UK finding",
+     "Any screen time figure as a minutes a day target"
+    ],
+    "recommendedPlatforms": [],
+    "urgency": "None. Held.",
+    "evidenceConfidence": "HIGH that the paper says what is written here, because the full text was read. LOW as a GDC story: the finding that is clean is about heat in China, the screen time finding is a small association at very low screen use, and the one result that would have made a headline did not survive correction.",
+    "limitations": [
+     "Cross sectional, so no order of events and no cause.",
+     "Six schools in two Chinese provinces, with exposure contrasts clustered by geography. Not UK children and not a random sample.",
+     "1,742 of 4,708 children were excluded for missing data, so selection bias is possible.",
+     "Sleep (PSQI) and screen time were self reported. Temperature was outdoor ERA5 reanalysis assigned to home addresses, not bedroom temperature.",
+     "Screen time was one total with no timing or content, and a median of about 34 minutes a day.",
+     "Funded by a university research fund, with no conflicts declared."
+    ],
+    "contradictoryEvidence": [
+     "The authors themselves report that the temperature estimate was smaller and not statistically significant under school fixed effects, so the headline association is fragile.",
+     "The authors cite a Spanish cohort that found no comparable temperature and sleep association in a cooler season, which they put down partly to low heat exposure."
+    ],
+    "whatThisDoesNotProve": [
+     "That screens cause poorer sleep.",
+     "That screen time and heat combine to harm sleep.",
+     "Anything about UK children, UK bedrooms or UK screen habits."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'screens plus heat wreck children's sleep', which the paper's own interaction results do not support.",
+    "gdcBeliefs": [
+     "Evidence or silence. The only clean result is not about what we teach, and the one that touches us is small and uncertain.",
+     "Connection is the protection. Nothing here changes how we teach it."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody.",
+    "unresolvedQuestions": [
+     "Is there a UK sample, with timing of evening screen use, that tests screens and sleep directly?"
+    ],
+    "verification": {
+     "originalSource": "Read the full text of the article at doi.org/10.3389/fpubh.2026.1996922 on the Frontiers site. It says what the abstract in the register says. The register's dossier calls the design longitudinal, which the paper contradicts, so the paper wins.",
+     "publicationDate": "Published 25 November 2026 on the article page, received 13 September, revised 4 November, accepted 11 November 2026. Read on the page in this run.",
+     "statisticsAndDenominators": "Sample 2,966 of 4,708 enrolled (1,742 excluded for missing data). 602 of 2,966 (20.3 percent) had poor sleep quality on the PSQI over 5. Temperature coefficients are per 1 SD of each metric, and screen time per 1 SD of log transformed hours. Median screen time 0.57 hours a day.",
+     "sampleAndPopulation": "Primary school students, mean age 10.0 years, from six schools in Shandong and Hebei, China, surveyed in summer 2024 with parental consent. Recruitment was by school. Not UK families and not a representative sample.",
+     "researchDesign": "Cross sectional survey with mixed effects models and a school level random intercept, plus exploratory sensitivity analyses. It can show associations at one time point and cannot show order or cause.",
+     "correlationOrCausation": "Association only. Copy must say 'was associated with', never 'caused', 'led to' or 'made worse', and the authors state that no recommendation about bedroom temperature or screen use can be drawn.",
+     "counterEvidence": "Within the paper: the temperature association shrinks and loses significance with school fixed effects, the screen by hot night interaction fails false discovery correction, and a Spanish cohort found no comparable temperature link. No outside search was run in this run.",
+     "strongestObjection": "A careful sceptic would say six clustered schools, self reported sleep and outdoor temperature as a stand in for the bedroom mean the temperature result may be school or season, and the screen result is a small association at about half an hour a day.",
+     "practicalImplications": "Nothing specific for a parent. The paper itself says it cannot support advice on bedroom temperature or screen use, so any practical line would go beyond it.",
+     "claimsNotToMake": "Do not say screens harm sleep, that screens and heat combine, that cooling a room or cutting screens improves sleep, or that this describes UK children. Do not quote the screen time figures as a recommended limit. Do not claim any outcome for a child."
+    },
+    "storedAt": "scripts/radar/reviews/GDC-RR-fc123cd15c.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-25T09:35:45.821Z"
+   }
+  },
+  "GDC-RR-43e33cf863": {
+   "title": "Beyond screen time: the smartphone as a surrogate caregiver and potential obesogenic pathways among left-behind children",
+   "doi": "10.3389/fpubh.2026.1969605",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/fpubh.2026.1969605",
+   "journal": "Frontiers in Public Health",
+   "published": "2026-11-25",
+   "authors": "Jing-jing Deng, Yong-qian Xie, Hong-lin Guo",
+   "abstract": "Rural–urban migration has left tens of millions of Chinese children with grandparents or other guardians while their parents work elsewhere. These left-behind children (LBC) bear a disproportionate burden of overweight and obesity, but the mechanisms remain incompletely understood. Research on digital technology and childhood obesity has generally treated smartphones as “screen time,” a sedentary exposure to be limited. This Perspective instead asks what smartphones do within separated families. Drawing on migration studies, developmental psychology, screen-time research, digital food environments, and caregiver feeding, we argue that smartphones may act as surrogate caregivers for some LBC by responding to relational and supervisory needs arising from parental absence. We introduce the Digital Caregiver Substitution Model (DCSM), a conceptual model not yet validated as a whole. It comprises five caregiving functions—companion, pacifier, connector, entertainer, and disciplinarian—and links them to hypothesized pathways involving emotional eating, screen-and-snack overfeeding, algorithmic food marketing, displacement of physical activity and sleep, and food compensation or inconsistent rules, while recognizing that phones can sustain parent–child relationships. Grounded in ecological systems theory, attachment research, the differential susceptibility to media effects model, and displacement accounts, the DCSM distinguishes support for individual associations from predictions requiring further tests. We outline family, school, platform, and structural interventions, with implementation and outcome indicators, to shift attention from screen duration alone to the caregiving ecology.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "04",
+    "05",
+    "07",
+    "09",
+    "11",
+    "19",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "HOLD",
+   "relevanceScore": 11,
+   "relevanceBand": "CORE",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b",
+     "+4 \\bsmartphone|mobile phone\\b",
+     "+4 \\balgorithm|recommender|\\bfeed\\b|f",
+     "+2 \\bsleep\\b"
+    ],
+    "method": [],
+    "penalty": [
+     "-4 \\bcheckout policy|food marketing|d"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-43e33cf863",
+   "version": 4,
+   "firstFound": "2026-11-25T09:33:09.831Z",
+   "lastChecked": "2026-11-25T09:36:19.664Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
+   "dossier": {
+    "studyId": "GDC-RR-43e33cf863",
+    "checkedAt": "2026-11-25T09:33:10.384Z",
+    "doi": "10.3389/fpubh.2026.1969605",
+    "doiResolves": true,
+    "canonicalTitle": "Beyond screen time: the smartphone as a surrogate caregiver and potential obesogenic pathways among left-behind children",
+    "indexedDate": "2026-11-25",
+    "crossrefOnlineDate": "2026-11-25",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Frontiers in Public Health",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-43e33cf863",
+    "reviewedAt": "2026-11-25T09:38:00Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 25 November 2026",
+    "verdict": "HOLD",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "reviewBasis": "The full text of the open access Perspective at doi.org/10.3389/fpubh.2026.1969605 (Frontiers in Public Health, published 25 November 2026), read in this run: abstract, the argument about screen time, the model and its five functions, the pathways, the limitations and boundary conditions, funding and conflict statements. No data were analysed by the authors and no references were opened.",
+    "claims": [
+     {
+      "claim": "Smartphones may act as surrogate caregivers for some children left behind by migrating parents in China.",
+      "status": "QUALIFIED",
+      "basis": "Abstract and model section. It is the authors' argument, stated with 'may' and 'for some', and the paper calls its model a middle range conceptual model not yet validated as a whole."
+     },
+     {
+      "claim": "The authors propose five caregiving functions of a phone: companion, pacifier, connector, entertainer and disciplinarian.",
+      "status": "VERIFIED",
+      "basis": "Model section and table. These are proposed categories drawn from published research and conceptual synthesis, not measured ones. The paper says they may be neither exhaustive nor independent."
+     },
+     {
+      "claim": "Screen time reduction alone is an incomplete goal and may backfire if it cuts parent and child contact.",
+      "status": "QUALIFIED",
+      "basis": "Stated in the paper as a view. Its own text says the interventions listed are proposed for evaluation and that inclusion does not imply they are effective."
+     },
+     {
+      "claim": "Phones in left behind households lead to overweight and obesity.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper says the arrows are hypotheses, not established causal effects, that no study has examined the full sequence from migration to adiposity, and that effect sizes cannot yet be estimated."
+     }
+    ],
+    "verifiedStatistics": [],
+    "notQuotable": [
+     "That phones cause obesity or emotional eating in any group",
+     "That the five functions are a finding rather than a proposal",
+     "That the model applies to UK families: it was built from rural Chinese evidence and the authors list five conditions for adapting it elsewhere",
+     "Any claim that phones are good or bad as caregivers"
+    ],
+    "recommendedPlatforms": [],
+    "urgency": "None. Held.",
+    "evidenceConfidence": "HIGH that the Perspective says what is written here. NONE as evidence about children, because it reports no data and calls its own model unvalidated.",
+    "limitations": [
+     "A Perspective paper: argument and a conceptual model, not a study.",
+     "Built primarily from rural Chinese evidence about left behind children, a population and household structure with no UK equivalent at scale.",
+     "The authors say evidence for individual pathways is often cross sectional, qualitative or from adjacent populations, and the arrows are conditional hypotheses.",
+     "Funded by two university project grants, with the funders stated to have had no role and no conflicts declared."
+    ],
+    "contradictoryEvidence": [
+     "The paper itself says phones can sustain parent and child relationships, and that the connector function (video calls, bedtime stories, homework) is where the benefit is clearest, which cuts against reading phones as a harm in this setting.",
+     "The paper states that the screen time literature it criticises still shows excessive use consistently associated with poorer outcomes, so it does not argue duration does not matter."
+    ],
+    "whatThisDoesNotProve": [
+     "That any pathway in the model operates.",
+     "That a phone can or cannot stand in for a parent.",
+     "Anything about UK families, or about our product."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'phones are raising children', which turns a hypothesis about one population into a claim about parenting.",
+    "gdcBeliefs": [
+     "Evidence or silence. A hypothesis about children in another country is not evidence for what we teach.",
+     "Connection is the protection. The paper's remark that cutting screens can cut contact is a nuance worth keeping in mind, not a claim we can cite."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody.",
+    "unresolvedQuestions": [
+     "Will anyone test any pathway of the model with data?"
+    ],
+    "verification": {
+     "originalSource": "Read the full text of the Perspective at doi.org/10.3389/fpubh.2026.1969605 on the Frontiers site. It says what the abstract in the register says. References were not opened.",
+     "publicationDate": "Published 25 November 2026 on the article page, received 16 August, revised 8 November and accepted 17 November 2026. Read on the page in this run.",
+     "statisticsAndDenominators": "No statistic is quoted in the sections read. The paper's only numbers describe the population loosely, as tens of millions of left behind children in China, with no source figure checked in this run, so nothing is cleared.",
+     "sampleAndPopulation": "No sample. The model concerns children left behind by migrating parents in rural China, cared for by grandparents or other guardians. It is not about UK children.",
+     "researchDesign": "A Perspective with a conceptual model built by synthesis of published work. It proposes hypotheses and measures to be developed. It cannot bear any claim about effect or cause.",
+     "correlationOrCausation": "Neither association nor cause is tested. Copy must say the authors propose or hypothesise, never that phones cause obesity or that research shows it, and the paper itself says its arrows are hypotheses.",
+     "counterEvidence": "Within the paper: the connector function is described as beneficial, and the authors accept that excessive use is consistently associated with poorer outcomes in the wider literature. No outside search was run in this run.",
+     "strongestObjection": "A careful sceptic would say it is an untested model from one population, and that calling a phone a surrogate caregiver is a metaphor, not a measurement.",
+     "practicalImplications": "None a parent or teacher can act on from this paper alone. Its own advice, not to treat screen reduction as the whole goal and to protect contact with absent parents, is the authors' view and is not supported by data here.",
+     "claimsNotToMake": "Do not say phones cause obesity, that the model is proven, that phones replace parents, or that any of this describes UK families. Do not use it as support for the product. Do not claim any outcome for a child."
+    },
+    "storedAt": "scripts/radar/reviews/GDC-RR-43e33cf863.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-25T09:36:19.662Z"
+   }
+  },
+  "GDC-RR-6229d72df9": {
+   "title": "Beyond Human Helpers: Young People's Help-Seeking in the Era of Chatbots.",
+   "doi": "10.1177/13591045261510988",
+   "pmid": "43075724",
+   "pmcid": null,
+   "url": "https://doi.org/10.1177/13591045261510988",
+   "journal": "Clinical child psychology and psychiatry",
+   "published": "2026-11-24",
+   "authors": "Parry S, Osler L, Caprio M.",
+   "abstract": "BackgroundChildren and young people are increasingly using artificial intelligence (AI) chatbots for mental health support, particularly when barriers limit access to traditional services. Although these systems are often perceived as accessible, immediate and non-judgemental, there is limited understanding of how they function within the complex developmental context of adolescence. Chatbots may simulate empathy and validation without possessing clinical judgement or contextual awareness, raising questions about safety, reliability and their influence on help-seeking behaviours.MethodThis commentary adopts an interdisciplinary perspective, integrating insights from clinical psychology, philosophy and machine learning. It draws on emerging evidence, conceptual analysis and approaches to AI safety evaluation.ResultsChatbot failures are most likely to occur in ambiguous or high-risk situations, where systems may provide misplaced reassurance, inappropriate validation or fail to recognise the need for escalation. Current evaluations often prioritise engagement and acceptability, overlooking clinically important risks. Young people need support to recognise the limitations of AI-generated advice and respond critically when systems operate beyond their competence.ConclusionsRigorous interdisciplinary frameworks are required to evaluate chatbot safety and effectiveness. Researchers should prioritise clinically meaningful outcomes, transparency and accountability, while ensuring responsibility for safe use is addressed as a collective ethical and public health concern.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "04",
+    "11"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 4,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+4 \\bAI companion|chatbot|conversatio"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-6229d72df9",
+   "version": 2,
+   "firstFound": "2026-11-25T09:33:09.840Z",
+   "lastChecked": "2026-11-25T09:33:11.880Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-6229d72df9",
+    "checkedAt": "2026-11-25T09:33:11.636Z",
+    "doi": "10.1177/13591045261510988",
+    "doiResolves": true,
+    "canonicalTitle": "Beyond Human Helpers: Young People's Help-Seeking in the Era of Chatbots.",
+    "indexedDate": "2026-11-24",
+    "crossrefOnlineDate": "2026-11-24",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Clinical child psychology and psychiatry",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": true,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-80f1720f61": {
+   "title": "Social media addiction is associated with poor mental health, AI chatbot use, and problematic digital behaviours among Generation Z: a cross-sectional study in Greece",
+   "doi": "10.31234/osf.io/8nkd6",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.31234/osf.io/8nkd6",
+   "journal": "PsyArXiv",
+   "published": "2026-11-23",
+   "authors": "Katsiroumpa A, Triantafillaki A, Peleka P, Gallos P, Moisoglou I, Galani O, Tsiachri M, Galanis P.",
+   "abstract": "<p>OBJECTIVE To examine the association between social media addiction and mental health among members of Generation Z in Greece. Moreover, we examined the association between social media addiction and social media-related behaviours. METHOD We conducted a web-based cross-sectional study with a convenience sample of 599 individuals aged 18 to 29 years. We measured social media addiction with the Bergen Social Media Addiction Scale. Outcomes were anxiety, depression, loneliness, social media fatigue, sleep quality, life satisfaction, physician visits for mental health issues, artificial intelligence (AI) chatbot use for mental health issues, second-screen use, social media distraction, fear of missing out, and no-social-media phobia. We performed multivariable logistic regression analysis adjusting for sex, age, and financial status, and we examined interactions between social media addiction and these variables. RESULTS Overall, 56.6% of participants were addicted to social media. The prevalence of anxiety was 57.5% among addicted participants and 38.1% among non-addicted participants, while the prevalence of depression was 39.2% and 25.8%, respectively. After adjustment for confounders, social media addiction was associated with higher odds of anxiety, depression, loneliness, social media fatigue, poor sleep quality, life dissatisfaction, and AI chatbot use for mental health issues. Also, social media addiction was associated with higher odds of second-screen use, social media distraction, fear of missing out, and no-social-media phobia. Sex, age, and financial status did not substantially modify these associations. CONCLUSIONS Social media addiction is highly prevalent among Generation Z and is associated with several mental health problems and problematic digital behaviours. Interventions to prevent social media addiction and to facilitate access to professional mental health care among young people are needed.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "04",
+    "08",
+    "11",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 5,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+4 \\bAI companion|chatbot|conversatio",
+     "+2 \\bsleep\\b"
+    ],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-80f1720f61",
+   "version": 2,
+   "firstFound": "2026-11-25T09:33:09.846Z",
+   "lastChecked": "2026-11-25T09:33:11.422Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-80f1720f61",
+    "checkedAt": "2026-11-25T09:33:11.152Z",
+    "doi": "10.31234/osf.io/8nkd6",
+    "doiResolves": true,
+    "canonicalTitle": "Social media addiction is associated with poor mental health, AI chatbot use, and problematic digital behaviours among Generation Z: a cross-sectional study in Greece",
+    "indexedDate": "2026-11-23",
+    "crossrefOnlineDate": "2026-11-23",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "PsyArXiv",
+    "sampleSize": 599,
+    "ageRange": "18 to 29",
+    "country": "Greece",
+    "design": "cross-sectional",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": true,
+     "quotedNumbers": [
+      "56.6%",
+      "57.5%",
+      "38.1%",
+      "39.2%",
+      "25.8%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-569619aab2": {
+   "title": "Promptémon: Assessing a Game-Based Learning Tool for Teaching Prompt Engineering to Middle Schoolers",
+   "doi": "10.21203/rs.3.rs-11368129/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11368129/v1",
+   "journal": "Research Square",
+   "published": "2026-11-23",
+   "authors": "Priyanka PK, Lim PL, Kalpathi KS.",
+   "abstract": "<title>Abstract</title> <p>With the increasing prevalence of artificial intelligence (AI) in daily life, it is essential for young people to be proficient in communicating with AI systems. This research paper introduces a game-based tool named Promptémon for middle schoolers, designed to teach prompt engineering: phrasing instructions so an AI gives a useful answer. It uses a creature-battle game format where players create prompts to defeat AI opponents. Players combine prepared instructions with ''modifier chips'' that represent personas, styles, or audiences. The game gives immediate feedback, using a second AI step to check whether the response meets the challenge. The research questions were: (RQ1) How do middle school students' confidence and self-reported understanding of prompt engineering compare before and after playing? and (RQ2) How do students respond to the game's features for trying and refining prompts? Promptémon was tested with students in grades 6 to 8 (60 forms before, 60 after) at a public school AI event in a Texas city, in visits of about seven to ten minutes. Self-reported confidence (4 or 5 of 5) rose from 48.3% to 78.3% (29 to 47 of 60). Of 53 matched students, 26 rated themselves higher, 8 lower, and 19 the same (sign test, p = .0059). After play, 44 of 60 agreed the feedback helped them understand how to improve, while 28 of 60 wanted to try other chip combinations. However, choice of the most structured prompt did not rise (31, then 27 of 52, p = .22), and only 5 of 60 named a prompt component in their own words. Because all outcomes are self-reports from one short session with no comparison group, these results describe immediate reactions, not gains in prompting skill. This study presents a game-based way to show young learners the parts of a prompt.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "09"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+2 \\bparent(al)? report|self-?report|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-569619aab2",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.852Z",
+   "lastChecked": "2026-11-25T09:33:09.852Z",
+   "changeReason": "discovery run, streams 08,09",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-a64778be2c": {
+   "title": "Research on the impact of artificial intelligence development on fertility intentions in China",
+   "doi": "10.21203/rs.3.rs-11103595/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11103595/v1",
+   "journal": "Research Square",
+   "published": "2026-11-23",
+   "authors": "Yu Y, Xia X.",
+   "abstract": "<title>Abstract</title> <p>The rapid development of artificial intelligence (AI) is reshaping labour markets and may also affect household fertility intentions. Using data from the China Family Panel Studies and an occupation-level index of AI exposure, this study examines whether technological exposure is associated with individuals' ideal number of children and investigates three potential mechanisms: employment instability, marital satisfaction and value change. The results indicate that greater occupational AI exposure is associated with lower fertility intentions. This relationship remains after a series of robustness checks and instrumental-variable analyses. The negative association is stronger among middle-aged, less-educated and lower-income respondents. Mechanism analyses are consistent with employment instability and lower marital satisfaction as possible pathways, while evidence of value change is mixed. Financial assets moderate the association; evidence for housing assets is weaker. By incorporating technological change into the study of fertility intentions, the analysis provides evidence on how labour-market transformation may shape demographic decision-making and informs the design of fertility-support policies in the AI era.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "19",
+    "23",
+    "24"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-a64778be2c",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.857Z",
+   "lastChecked": "2026-11-25T09:33:09.857Z",
+   "changeReason": "discovery run, streams 08,19,23,24",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-67ca1bfbd4": {
+   "title": "Educators’ use of artificial intelligence to prepare and implement inquiry tasks in primary education",
+   "doi": "10.21203/rs.3.rs-11447940/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11447940/v1",
+   "journal": "Research Square",
+   "published": "2026-11-23",
+   "authors": "Onopriienko O, Lipchevska I.",
+   "abstract": "<title>Abstract</title> <p> Despite growing research on artificial intelligence (AI) in education, its use to prepare and implement inquiry tasks in primary schools remains underexplored. This study aims to characterize educators’ use of AI to prepare and implement inquiry tasks in primary education, identify its pedagogical purposes and ways of use, and examine its association with the frequency of digital instructional means use and the breadth of reported positive experiences. A cross-sectional online survey involved 9,314 primary school educators in Ukraine. AI-use status could be determined unambiguously for 8,560 respondents. Inductive qualitative content analysis covered 2,674 open-ended responses providing additional information about AI use. Differences in the frequency and breadth of digital instructional means use between respondents reporting AI use and those reporting non-use were examined using Mann–Whitney U tests. Among respondents with a determinate status, 63.9% reported using AI to prepare or implement inquiry tasks. Developing and selecting instructional materials was the most frequently mentioned purpose in the responses analyzed (68.2%), with examples spanning all five phases of the inquiry cycle. Direct pupil interaction with AI was mentioned in 88 responses (3.3%). Respondents who reported using AI also reported more frequent use of digital instructional means and positive experiences of such use for a wider range of pedagogical purposes, although effect sizes were small ( <italic>r</italic> <sub>rb</sub> = 0.128 and 0.156, respectively). The findings extend empirical evidence on AI use in primary education and identify priorities for supporting teachers in designing inquiry tasks and guiding pupils’ interaction with AI. </p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "24"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-67ca1bfbd4",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.862Z",
+   "lastChecked": "2026-11-25T09:33:09.862Z",
+   "changeReason": "discovery run, streams 08,24",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-255972678e": {
+   "title": "Pediatric research for the future of children: introduction to the conference proceedings.",
+   "doi": "10.1038/s41390-026-05612-1",
+   "pmid": "43073430",
+   "pmcid": null,
+   "url": "https://doi.org/10.1038/s41390-026-05612-1",
+   "journal": "Pediatric research",
+   "published": "2026-11-23",
+   "authors": "Huppi P, Arzoomand A, Askie L, Bianchi DW, Brodin P, Chahroudi A, Chung WK, Donald KA, Frey U, Gaillard R, Hartley MA, Jaddoe V, Lartey A, Lee LK, Permar SR, Ringshaw JE, Sasu D, Seidler AL, Sinervo E, Ziegler A, Molloy E, Bearer CF.",
+   "abstract": "The inaugural Pediatric Research Forum for the Future of Children (PRFC), held in Geneva, Switzerland, brought together leading investigators and emerging scientists from across the globe to discuss the future trajectory of pediatric research. Organized collaboratively by the Society for Pediatric Research (SPR) and the European Society for Paediatric Research (ESPR), the meeting was designed to foster international collaboration, highlight transformative research directions, and cultivate the next generation of pediatric clinician-scientists. A distinctive feature of the conference was its paired presentation format, in which established senior investigators presented alongside early-career researchers across five thematic domains: precision medicine and novel therapies, big data in pediatric research, early life determinants of health and disease, child mental health and development, and global pediatric research and workforce development. The meeting emphasized the importance of interdisciplinary science, equitable global partnerships, and translational pathways that accelerate the integration of discoveries into clinical practice. Key insights included the rapid expansion of genomic medicine in pediatrics, the potential and limitations of artificial intelligence and big data, the profound influence of early life exposures on lifelong health trajectories, the urgent need to address pediatric mental health, and the critical role of global collaboration and clinician-scientist training in advancing child health. The PRFC demonstrated that innovative meeting structures and cross-generational dialog can catalyze new research directions and strengthen the pediatric research ecosystem. IMPACT: This article highlights the presentations given at the Inaugural Pediatric Research for the Future of Children, held in Geneva in February, 2026.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Editorial",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": [
+     "+1 \\bEurope|European\\b"
+    ]
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-255972678e",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.868Z",
+   "lastChecked": "2026-11-25T09:33:09.868Z",
+   "changeReason": "discovery run, streams 03",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-5fb346b258": {
+   "title": "AGI and Education 5.0: A Systematic Review of AGI-Driven Sustainable Education Across the Learning Lifespan",
+   "doi": "10.20944/preprints202611.2451.v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.20944/preprints202611.2451.v1",
+   "journal": "Preprints.org",
+   "published": "2026-11-24",
+   "authors": "Shi F, He X, Ding J, Ning H.",
+   "abstract": "Artificial General Intelligence (AGI) is increasingly envisioned as a transformative force in education, yet research on AGI-driven education remains fragmented across educational stages and rarely incorporates sustainability into system design and evaluation. This systematic review examines how AGI and large language model (LLM)/generative AI technologies reshape education across the learning lifespan and how sustainability can be embedded in AGI-powered education. Following PRISMA guidelines, we searched Scopus, Web of Science, IEEE Xplore, ACM Digital Library, and Google Scholar for studies published between 2015 and 2026, using keyword groups related to general intelligence, education, and sustainability. After screening, 85 peer-reviewed studies were included and synthesized through narrative synthesis. Given that full AGI remains unrealized, current LLM and generative AI systems are treated as emergent approximations of AGI’s educational potential. We develop an organizing framework that maps AGI’s transformative roles, key mechanisms, and sustainability implications across early childhood, K–12, higher education, and lifelong learning. The review identifies four emerging application scenarios and introduces a multidimensional sustainability lens encompassing cognitive, economic, social, and ethical–environmental dimensions, extending evaluation beyond conventional academic performance indicators. It also highlights persistent technical, social, and ethical challenges. By integrating stage-specific transformations with a lifespan and sustainability perspective, this review provides a reference and research agenda for the responsible and sustainable integration of AGI into Education 5.0.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "02",
+    "05",
+    "06",
+    "08",
+    "11"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 5,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+4 \\bAI companion|chatbot|conversatio"
+    ],
+    "method": [
+     "+3 \\bsystematic review|umbrella revie"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-5fb346b258",
+   "version": 2,
+   "firstFound": "2026-11-25T09:33:09.873Z",
+   "lastChecked": "2026-11-25T09:33:11.631Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-5fb346b258",
+    "checkedAt": "2026-11-25T09:33:11.426Z",
+    "doi": "10.20944/preprints202611.2451.v1",
+    "doiResolves": true,
+    "canonicalTitle": "AGI and Education 5.0: A Systematic Review of AGI-Driven Sustainable Education Across the Learning Lifespan",
+    "indexedDate": "2026-11-24",
+    "crossrefOnlineDate": "2026-11-24",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "Preprints.org",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "systematic review",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-10ad0ded63": {
+   "title": "Updates to the Illegal Content and Protection of Children Codes of Practice",
+   "doi": null,
+   "pmid": null,
+   "url": "https://www.gov.uk/government/publications/updates-to-the-illegal-content-and-protection-of-children-codes-of-practice",
+   "journal": "Department for Digital, Culture, Media and Sport",
+   "published": "2026-11-24",
+   "authors": "Department for Digital, Culture, Media and Sport",
+   "abstract": "Draft of amendments prepared under section 41 of the Online Safety Act 2023 and submitted to the Secretary of State in accordance with section 43(1) on 16 November 2026.",
+   "isPreprint": false,
+   "peerReviewed": false,
+   "pubTypes": "guidance",
+   "grants": [],
+   "streams": [
+    "23"
+   ],
+   "foundBy": [
+    "govuk"
+   ],
+   "status": "HOLD",
+   "relevanceScore": 8,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+2 \\bonline safety\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": [
+     "+3 \\bOfcom|\\bDfE\\b|Department for Edu"
+    ]
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-10ad0ded63",
+   "version": 2,
+   "firstFound": "2026-11-25T09:33:09.879Z",
+   "lastChecked": "2026-11-25T09:33:11.148Z",
+   "changeReason": "automatic dossier: RECORD UNCONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-10ad0ded63",
+    "checkedAt": "2026-11-25T09:33:11.144Z",
+    "doi": null,
+    "doiResolves": null,
+    "canonicalTitle": "Updates to the Illegal Content and Protection of Children Codes of Practice",
+    "indexedDate": "2026-11-24",
+    "crossrefOnlineDate": null,
+    "datesAgree": null,
+    "peerReviewed": false,
+    "isPreprint": false,
+    "journal": "Department for Digital, Culture, Media and Sport",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no DOI on the record, so there is no canonical identifier to verify against",
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "automaticVerdict": "RECORD UNCONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-224d98c21f": {
+   "title": "Availability and Accessibility to Prohibited Tobacco Products through Online Platforms in Sri Lanka",
+   "doi": "10.21203/rs.3.rs-11672645/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11672645/v1",
+   "journal": "Research Square",
+   "published": "2026-11-24",
+   "authors": "WAJB A, P D, AI N, NCS P, EHS A, KMN P, MC R, Kapoor S.",
+   "abstract": "<title>Abstract</title> <p>Introduction In the context of tobacco losing its popularity worldwide, product innovation has become the most prominent industry strategy to maintain nicotine addiction and their profits. The Prohibited Tobacco Products Regulations of 2016 under the National Authority on Tobacco and Alcohol (NATA) Act prohibits manufacture, importation, sale or offering to sale of e-cigarettes containing tobacco and smokeless tobacco products in Sri Lanka. Despite the existence of policy and legal framework, an active illicit market appears to thrive online. This study systematically investigated the availability, accessibility, and digital marketing strategies of prohibited tobacco products across online platforms in Sri Lanka. Methods A cross sectional descriptive study was conducted through social media and online platforms from January to April 2026. A systematic keyword search using a multilingual matrix containing diverse terms to identify prohibited tobacco products (e.g., \"vape\", \"puff\", \"nicotine pouch\", \"shisha\") was conducted across mainstream social media platforms and e-commerce websites. All the platforms and websites which matched the eligibility criteria were included in the content analysis. Extracted variables included product types, retail pricing, transactional pathways, age verification requirement, and promotional strategies. Three test purchasing attempts were made to evaluate accessibility. Results A total of 214 online platforms selling prohibited tobacco products were identified: Facebook (108,50.5%) and Instagram (57,26.6%) were the commonest online platforms. The majority (150,70.1%) mentioned either “vape” or a synonym in their titles. Basic age checks were absent on 79.8% platforms. The range of prohibited tobacco products on the platforms comprised disposable vapes (210, 98.1%), vaping liquids (159, 74.3%), refillable devices (154, 72%), vaping accessories (79, 37%), cartridges (110, 51.4%), illicit cigarettes (15, 7%), tobacco rolling papers (9, 4.2%), and other nicotine products (31, 14.5%) including shisha, snus, nicotine pouches, and flavoured variants. Prices started from LKR 2200 (~ USD 7). The payment methods allowed bank transfers (214, 100%), cash-on-delivery (213, 99.5%), instalments (3, 1.4%) and cryptocurrency (4, 1.8%). Commonest delivery methods were couriering (214, 100%), including a service provided through a local ride sharing app (26, 12.2%). Marketing tactics included cross-merchandising, diverse purchasing and delivery mechanisms, appealing flavour profiles, and social media influencer campaigns especially focussing on glamourisation of product use by females. Conclusions A diverse range of prohibited tobacco products is available through online platforms in Sri Lanka, easily accessible, including to minors. The current regulations should be expanded to combat the entire range of products that sustain nicotine addiction, while surveillance and enforcement mechanisms need be strengthened to identify and counter illicit trade and industry interference.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "17",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 10,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+4 \\bage assurance|age verification|a",
+     "+3 \\btiktok|instagram|snapchat|youtub"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-224d98c21f",
+   "version": 2,
+   "firstFound": "2026-11-25T09:33:09.884Z",
+   "lastChecked": "2026-11-25T09:33:10.891Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-224d98c21f",
+    "checkedAt": "2026-11-25T09:33:10.639Z",
+    "doi": "10.21203/rs.3.rs-11672645/v1",
+    "doiResolves": true,
+    "canonicalTitle": "Availability and Accessibility to Prohibited Tobacco Products through Online Platforms in Sri Lanka",
+    "indexedDate": "2026-11-24",
+    "crossrefOnlineDate": "2026-11-24",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "Research Square",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "50.5%",
+      "26.6%",
+      "70.1%",
+      "79.8%",
+      "98.1%",
+      "74.3%",
+      "72%",
+      "37%",
+      "51.4%",
+      "7%",
+      "4.2%",
+      "14.5%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-b8288ca73d": {
+   "title": "Violent Innocence: The Discursive Production of Dangerous Children in Justifications for Seclusion Rooms",
+   "doi": "10.1177/01614681261507802",
+   "pmid": null,
+   "url": "https://doi.org/10.1177/01614681261507802",
+   "journal": "Teachers College Record: The Voice of Scholarship in Education",
+   "published": "2026-11-25",
+   "authors": "Hunter Knight, M. Nickie Coomer, Teukie Martin",
+   "abstract": "Context: Seclusion rooms in schools are places where students can be confined or isolated. Students most likely to be secluded are Disabled and/or Black, and most often are younger than 10 years of age. Seclusion is ostensibly a crisis-level intervention, but it is often misused as a disciplinary tool, with traumatic results (for both students and staff) that can increase rather than decrease the risk of violent confrontations in schools. Despite ongoing research and advocacy that condemns these spaces as dangerous disciplinary tools, and reluctance for many to publicly support them, efforts to ban or even limit their use face consistent and widespread resistance. Objective: Current advocacy against seclusion often focuses on the urgent need for more policy surrounding their use. Public resistance to policy around seclusion highlights that alongside this work, it is critically important to explore the cultural dimensions of seclusion that make this practice so difficult to prohibit: this resistance indicates that there must be many people who believe that the practice of seclusion makes sense . Our study aimed to examine language about seclusion in news media, social media, and policy from the United States and Canada to examine the discursive logics that legitimize the use of seclusion rooms for young children in school. Research Design: Drawing from Childhood Studies, Disability Studies, and Mad Studies, we situated discursive understandings of seclusion as operating in a social context in which understandings of who belongs in classrooms are necessarily shaped by constructions of (in)appropriate children. This entailed a research design focused on surfacing often-unspoken constructions of childhood, schooling, and normalcy. We collected Discourse about seclusion from legislation and educational policy on seclusion in the United States and Canada as of 2023; news articles and comments on those news articles from 2013 to 2023; and TikTok videos and comments on those TikTok videos available as of 2023. Drawing from Roy D’Andrade’s method of reconstructing cultural cognitive structures and substructures (schemas) to examine taken-for-granted assumptions in everyday language, we completed a process of winnowing and extracting gist propositions to develop codes for discursive logics about seclusion and secluded children. These codes supported an analysis of the larger understandings that support arguments for the continued use of seclusion rooms in schools. Conclusions: Seclusion rooms are a vivid site to examine how carceral structures in schools are justified for young children. Our findings illustrate that justifications for seclusion rooms depend on an imagined child who is unpredictable, uncontrollable, and violent. In this way, secluded children (who are often Disabled and/or Black) are evacuated from childhood into abnormality in order to permit inhumane carceral practices. This discussion highlights the importance of considering policy within the larger ableist and racist social forces that shape it to examine its potential role to perpetuate or challenge dangerous practices like seclusion. Any movement toward banning seclusion rooms must work from abolitionist logics that refuse the idea that there is anyone whose behavior requires containment rather than care.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [
+    "Social Sciences and Humanities Research Council of Canada"
+   ],
+   "citedBy": 0,
+   "streams": [
+    "05",
+    "06",
+    "08",
+    "09",
+    "15",
+    "20",
+    "21",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+3 \\btiktok|instagram|snapchat|youtub"
+    ],
+    "method": [],
+    "penalty": [
+     "-5 \\bpolitical participation|democrac"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-b8288ca73d",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.890Z",
+   "lastChecked": "2026-11-25T09:33:09.890Z",
+   "changeReason": "discovery run, streams 05,06,08,09,15,20,21,22,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-1ce3acf374": {
+   "title": "Who Protects Children’s Data? Civil Liability of Social Media Platforms",
+   "doi": "10.56087/rk0aa133",
+   "pmid": null,
+   "url": "https://doi.org/10.56087/rk0aa133",
+   "journal": "ADVANCED PRIVATE LEGAL INSIGHTS",
+   "published": "2026-11-25",
+   "authors": "Muhammad Arya Aras, Abdul Qahar, Dwi Handayani",
+   "abstract": "This study examines the civil liability of social media platforms for processing children’s personal data and the factors affecting its implementation in Makassar. It adopts an empirical legal approach based on interviews, questionnaires, and documentary research, analysed qualitatively. Its novelty lies in connecting reported field observations with the elements of civil liability, including controller duties, breach, attribution, damage, causation, and remedies. The source manuscript identifies concerns regarding age assurance, parental consent, complaint mechanisms, supervisory coordination, and digital literacy. However, it does not specify respondent numbers, the fieldwork period, or any particular data-breach incident. The reported findings therefore cannot establish that a particular platform committed a legal violation or represent all users statistically. The study concludes that although Indonesia’s legal framework has developed, effective protection requires demonstrable platform compliance, workable cross-border enforcement, and stronger capacities among families and relevant institutions.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "08",
+    "17",
+    "19",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 12,
+   "relevanceBand": "CORE",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+4 \\bage assurance|age verification|a",
+     "+3 \\bdigital literacy|media literacy\\"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-1ce3acf374",
+   "version": 2,
+   "firstFound": "2026-11-25T09:33:09.908Z",
+   "lastChecked": "2026-11-25T09:33:10.379Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-1ce3acf374",
+    "checkedAt": "2026-11-25T09:33:10.242Z",
+    "doi": "10.56087/rk0aa133",
+    "doiResolves": true,
+    "canonicalTitle": "Who Protects Children’s Data? Civil Liability of Social Media Platforms",
+    "indexedDate": "2026-11-25",
+    "crossrefOnlineDate": "2026-11-25",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "ADVANCED PRIVATE LEGAL INSIGHTS",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "qualitative",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-ed76b6959e": {
+   "title": "Adolescents' and young adults' explanations for wealth and poverty: Links to critical consciousness in Northern Ireland.",
+   "doi": "10.1093/chidev/aacag205",
+   "pmid": "43070791",
+   "pmcid": null,
+   "url": "https://doi.org/10.1093/chidev/aacag205",
+   "journal": "Child development",
+   "published": "2026-11-23",
+   "authors": "Liu V, Mistry RS, Corbett B, Taylor LK.",
+   "abstract": "This study investigated Northern Irish youths' (N = 535; ages 11-26; 50% male, 47% female; 44% Protestant, 47% Catholic; collected online between late 2023 and early 2024) attributions for wealth and poverty (i.e., individualistic, family, structural, or fatalistic), and associations with four critical consciousness outcomes: inequality awareness, government distrust, anger about social injustice, and civic responsibility. We found that youth most often attributed wealth to individualistic causes, while poverty was mainly explained structurally. Structural attributions increased with age, emerging earlier for poverty. Importantly, structural explanations for poverty were associated with higher levels of critical consciousness across all four critical consciousness outcomes. Family attributions for wealth showed a similar, albeit weaker, pattern, while individualistic attributions were not systematically associated with outcomes. Findings highlight the role of structural thinking in fostering Northern Irish youths' engagement with inequality and underscore the importance of culturally sensitive research.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [
+    "Research Ireland IRCLA/2022/3482"
+   ],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "19",
+    "21"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [
+     "-5 \\bpolitical participation|democrac"
+    ],
+    "uk": [
+     "+3 \\bUnited Kingdom|\\bUK\\b|Britain|Br"
+    ]
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-ed76b6959e",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.913Z",
+   "lastChecked": "2026-11-25T09:33:09.913Z",
+   "changeReason": "discovery run, streams 19,21",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-61225d7a46": {
+   "title": "Mental health and social inequalities among young Europeans: findings from the CROss-National Online Survey (CRONOS).",
+   "doi": "10.1007/s00103-026-04330-7",
+   "pmid": "43071044",
+   "pmcid": null,
+   "url": "https://doi.org/10.1007/s00103-026-04330-7",
+   "journal": "Bundesgesundheitsblatt, Gesundheitsforschung, Gesundheitsschutz",
+   "published": "2026-11-23",
+   "authors": "Backhaus-Hoven I, Eikemo TA.",
+   "abstract": "<h4>Background</h4>Mental health problems among Europeans have become a major public health concern across Europe. Understanding the distribution of mental health outcomes and related social factors is essential for identifying vulnerable groups and informing targeted interventions.<h4>Methods</h4>This study used data from the CROss-National Online Survey (CRONOS), a subsurvey of the European Social Survey conducted across 11 European countries. We examined age differences in the prevalence of self-reported mental health outcomes and explored the associations between mental health and loneliness, social support, and childhood friendship in 7968 individuals.<h4>Results</h4>Poor mental health outcomes varied across sociodemographic groups and were greater among younger Europeans. Loneliness (prevalence ratio [PR]: 5.85, 95% CI: 4.63-7.40), lack of social support (PR: 2.34, 95% CI: 1.94-2.82), and lack of childhood friendship (PR: 2.54, 95% CI: 1.95-3.30) were significantly associated with poor subjective mental health.<h4>Conclusions</h4>The results suggest inequalities in mental health and loneliness among young Europeans. Given the increasing public health relevance of loneliness, efforts to improve mental well-being should particularly address younger Europeans.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "08",
+    "20",
+    "21",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+2 \\bparent(al)? report|self-?report|"
+    ],
+    "penalty": [],
+    "uk": [
+     "+1 \\bEurope|European\\b"
+    ]
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-61225d7a46",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.919Z",
+   "lastChecked": "2026-11-25T09:33:09.919Z",
+   "changeReason": "discovery run, streams 03,08,20,21,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-839f6f3a73": {
+   "title": "A Multimodal Intervention Model Integrating Cognitive Behavioral Education and Health Care Collaboration for Flatfoot Prevention in Children: A Multicentre Cohort Study and Randomized Controlled Trial.",
+   "doi": "10.1097/bpo.0000000000003526",
+   "pmid": "43069639",
+   "pmcid": null,
+   "url": "https://doi.org/10.1097/bpo.0000000000003526",
+   "journal": "Journal of pediatric orthopedics",
+   "published": "2026-11-23",
+   "authors": "Ouyang Y, Zhao Y, Ma W, Li J, Gu Q.",
+   "abstract": "<h4>Background</h4>Flexible flatfoot (FFF) is a major cause of gait dysfunction and chronic pain in children. Its epidemiology in Asian populations remains undefined, and traditional treatments are limited by poor compliance and high complication rates. This study aimed to develop a precise prevention and treatment system for childhood FFF.<h4>Methods</h4>The study used stratified random sampling and enrolled 3000 participants aged 7 to 12 years (grades 1 to 6 in primary school). FFF was screened through foot scanning and 3D gait analysis. Confirmed patients (n=540) were randomly assigned to 3 groups: group A received a FMap dynamic analysis system combined with AI-powered biomechanical assessment, online/offline cognitive-behavioral education, and individually fitted arch-support insoles (n=180); group B received traditional EVA arch-support insoles (n=180); and group C served as a control (n=180). The primary endpoint was the change in the arch index (AI) at 12 months, with secondary endpoints including gait symmetry, pain relief, compliance, and functional outcomes.<h4>Results</h4>The overall prevalence of FFF was 27.9% (837/3000), significantly higher in males (29.6%) than in females (26.2%), and peaking in the 7-year-old group (47.1%) with a marked decline thereafter to 16.3% at age 12. Disease severity strongly correlated with increased midfoot pressure, worsened gait asymmetry, and higher pain risk (OR=3.25 for moderate/severe patients). At 12 months, group A showed significantly greater ΔAI improvement (-0.06±0.02) than group B (-0.03±0.02) and group C (+0.01±0.03) (P<0.001). Similarly, gait symmetry improved by -10.2±3.1% in group A, outperforming groups B and C (P<0.001). Compared with group B, group A also had a higher intervention completion rate (92.4% vs. 78.6%), superior pain relief rate (76.8% vs. 52.4%), and a lower functional outcome rate (2.8% vs. 11.7%).<h4>Conclusion</h4>This study clarifies key epidemiological features of childhood FFF in Asians. The integrated dynamic analysis plus data-driven intervention outperformed traditional methods, effectively restoring the arch, improving gait, and boosting compliance with fewer functional outcomes, thereby providing a scalable new paradigm for FFF management.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "05",
+    "08",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+4 \\brandomis(ed|ation)|randomiz(ed|a",
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-839f6f3a73",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.925Z",
+   "lastChecked": "2026-11-25T09:33:09.925Z",
+   "changeReason": "discovery run, streams 01,05,08,22,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-821fe38136": {
+   "title": "The Impact of Social Media Interventions on Eating Behaviors and Diet in Adolescents and Young Adults: A Mixed Methods Systematic Review.",
+   "doi": "10.1111/obr.70264",
+   "pmid": "43076298",
+   "pmcid": null,
+   "url": "https://doi.org/10.1111/obr.70264",
+   "journal": "Obesity reviews : an official journal of the International Association for the Study of Obesity",
+   "published": "2026-11-24",
+   "authors": "Tang H, Spreckley M, Tuck M, van Sluijs EM, Ahern AL, Smith AD.",
+   "abstract": "<h4>Introduction</h4>Social media is widely used by young people and offers a promising platform for promoting healthy eating behaviors. However, evidence on the effects and design features of such interventions remains limited. This systematic review examines social media-based interventions targeting eating behaviors and diet quality in individuals aged 13-35 years.<h4>Methods</h4>Seven electronic databases were searched up to February 2025. Eligible studies assessed changes in eating behaviors and dietary outcomes following social media interventions. Study quality was appraised independently by three reviewers using the Mixed Methods Appraisal Tool (MMAT). Data extraction was conducted in duplicate, and a convergent segregated approach was used to integrate quantitative and qualitative findings.<h4>Results</h4>Sixteen articles, reporting on 18 social media interventions, were included. Twelve used quantitative methods and four employed mixed methods. Main targeted behaviors included increased fruit and vegetable intake, reduced sugar-sweetened beverage consumption, and decreased snacking. Among 13 interventions (from 11 studies) that evaluated with statistical significance testing, eight showed positive changes in at least one dietary behavior. Qualitative synthesis identified six themes: (1) personal stories foster connection and community; (2) actionable, practical tips support change; (3) trust in credible sources is essential; (4) holistic well-being messaging is preferred; (5) humor enhances engagement; and (6) sustained engagement is hindered by privacy and usability concerns.<h4>Conclusion</h4>Social media interventions show promise for improving dietary behaviors in young people. Future studies should adopt robust designs and user-centered approaches to maximize long-term impact while addressing potential risks.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Review; Journal Article",
+   "grants": [
+    "Medical Research Council MC_UU_00006/5",
+    "Medical Research Council MC_UU_00006/6",
+    "National Institute for Health and Care Research (NIHR) Cambridge Biomedical Research Centre NIHR203312"
+   ],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "02",
+    "03",
+    "08",
+    "13",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 4,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [
+     "+3 \\bsystematic review|umbrella revie"
+    ],
+    "penalty": [
+     "-4 \\bcheckout policy|food marketing|d"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-821fe38136",
+   "version": 2,
+   "firstFound": "2026-11-25T09:33:09.930Z",
+   "lastChecked": "2026-11-25T09:33:12.132Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-821fe38136",
+    "checkedAt": "2026-11-25T09:33:11.884Z",
+    "doi": "10.1111/obr.70264",
+    "doiResolves": true,
+    "canonicalTitle": "The Impact of Social Media Interventions on Eating Behaviors and Diet in Adolescents and Young Adults: A Mixed Methods Systematic Review.",
+    "indexedDate": "2026-11-24",
+    "crossrefOnlineDate": "2026-11-24",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Obesity reviews : an official journal of the International Association for the Study of Obesity",
+    "sampleSize": null,
+    "ageRange": "13 to 35",
+    "country": null,
+    "design": "systematic review",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [
+     "Medical Research Council MC_UU_00006/5",
+     "Medical Research Council MC_UU_00006/6",
+     "National Institute for Health and Care Research (NIHR) Cambridge Biomedical Research Centre NIHR203312"
+    ],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-c2aed1937f": {
+   "title": "Visual art for the prevention of student mental health difficulties in schools: Mixed-methods analysis of staff surveys and interviews",
+   "doi": "10.64898/2026.11.23.26368159",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.64898/2026.11.23.26368159",
+   "journal": "medRxiv",
+   "published": "2026-11-23",
+   "authors": "Ellis B, Jestico E, Treloar D, McAuslan N, Careless H, Davies E, Bould H, Kidger J, Warne N.",
+   "abstract": "<h4>Background: </h4> School prevention strategies are key to reducing the impact of youth mental health difficulties, such as depression and anxiety. Visual art programmes may be beneficial for prevention but evidence is limited. To better understand the potential for visual arts-based prevention programmes in schools, we explored staff experiences of using visual art for mental health and views on what is needed to facilitate successful programmes. <h4>Methods:</h4> We used a convergent mixed-methods approach, combining online surveys (n=77) and in-depth interviews (n=27) from art teachers and staff supporting student mental health in UK secondary schools. Complementary survey and interview questions covered current use of visual art for student mental health, what a visual art prevention programme might look like, and potential concerns. We conducted descriptive statistics for quantitative survey data and reflexive thematic analysis for qualitative survey and interview data. <h4>Results:</h4> Visual arts were seen as important for student mental health and commonly used: 65.8% of staff used visual arts to support student mental health in the last year, and 31.6% did so weekly, despite most participants reporting no relevant training. Theme 1, ‘Art is a sanctuary in the school day’, considered art as intrinsically linked to mental health, with art freedom conferring particular benefits. Theme 2, ‘Resources in schools are stretched’, represented the pressure of school environments, limited resources and need for prevention. Theme 3, ‘Integration, flexibility and relationships as factors for success’, highlighted integrating programmes into school practice, enabling flexibility and choice, and building positive relationships between students, school staff and external providers are key for success. <h4>Conclusions:</h4> Despite implementation challenges, visual arts-based prevention approaches were viewed positively. We recommend school mental health arts programmes should promote school ownership, include creative freedom, be flexible to schools’ and students’ needs, and be supported by both internal school staff and external providers.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "09",
+    "18",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 1,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": [
+     "+3 \\bUnited Kingdom|\\bUK\\b|Britain|Br"
+    ]
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-c2aed1937f",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.936Z",
+   "lastChecked": "2026-11-25T09:33:09.936Z",
+   "changeReason": "discovery run, streams 03,09,18,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-27184d3ffb": {
+   "title": "Corporal punishment acceptability among university students without childhood maltreatment experiences: Associated factors and subfactor-specific patterns",
+   "doi": "10.64898/2026.11.18.26368169",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.64898/2026.11.18.26368169",
+   "journal": "medRxiv",
+   "published": "2026-11-23",
+   "authors": "Kit A, Miyazaki A, Kitano N, Okawachi T, Astuti AW, Honda S.",
+   "abstract": "<h4>Background: </h4> Acceptance of corporal punishment and other harmful behaviors toward children may persist even among young adults without childhood maltreatment experiences. <h4>Objective:</h4> To identify factors associated with the acceptability of corporal punishment and related harmful behaviors toward children among university students without childhood maltreatment experiences, and to examine whether these associations differ across types of harmful behavior. Participants and Setting: An online cross-sectional survey was conducted at four Japanese universities in June 2024. Of 699 students analyzed, 568 reported no childhood maltreatment experiences. <h4>Methods:</h4> Participants rated the acceptability of 22 behaviors as discipline. Exploratory factor analysis identified three subfactors: neglect and psychological maltreatment, harsh physically aggressive behaviors, and less severe aggressive behaviors. Multivariable linear regression analyses were conducted among students without childhood maltreatment experiences. Higher scores indicated lower acceptance. <h4>Results:</h4> More egalitarian gender-role attitudes (B = 1.40, p = .001) and less frequent school-based physical violence experiences (B = 1.49, p = .024) were associated with lower overall acceptance of corporal punishment and related harmful behaviors. Associated factors differed across subfactors. Witnessing psychological violence, learning about child rearing, and enrollment in health, welfare, or rehabilitation-related faculties were associated with lower acceptance of less severe aggressive behaviors. <h4>Conclusions:</h4> Factors associated with acceptability differed across types of harmful behavior, even among students without childhood maltreatment experiences. These findings suggest the importance of prevention education addressing gender-role attitudes, recognition of harmful disciplinary practices, and child development. Educational opportunities throughout adolescence and young adulthood may help promote attitudes that reject violence against children.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "11",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-27184d3ffb",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.941Z",
+   "lastChecked": "2026-11-25T09:33:09.941Z",
+   "changeReason": "discovery run, streams 08,11,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-577770a38f": {
+   "title": "Nutrition Priorities in Inborn Errors of Immunity: Preliminary Results of a Modified Delphi.",
+   "doi": "10.70962/ascia2026abstract.p169",
+   "pmid": "43070564",
+   "pmcid": null,
+   "url": "https://doi.org/10.70962/ascia2026abstract.p169",
+   "journal": "Journal of human immunity",
+   "published": "2026-11-23",
+   "authors": "Pursey K, Preece K, Mingay E, Bhatia R.",
+   "abstract": "<h4>Introduction</h4>Inborn errors of immunity (IEI) can impact the ability to eat, digest, and absorb foods, which can lead to poor nutrition, impacting treatment and health outcomes. Our research has shown that access to, and clinical guidance on, personalised nutrition care is a significant unmet need for children with IEI and clinicians, with no published nutrition-related guidelines for paediatric IEI internationally. This project will be the first to develop consensus statements for the nutritional management of IEI using a modified Delphi approach.<h4>Method</h4>A multi-round online Delphi survey with an expert panel was conducted according to the Conducting and Reporting of Delphi Studies (CREDES) guidelines. Two iterative online surveys were conducted internationally with people with experience in IEI (clinicians, lived experience, and researchers) to identify and rate the importance of nutrition priorities in IEI. Survey rounds were followed by expert advisory panel workshops. Predetermined consensus thresholds were applied: consensus, >80% agreement; borderline consensus, 60-70% agreement. New priorities identified by survey participants, and borderline consensus statements that were refined by the expert panel, were included in the subsequent survey.<h4>Results</h4>Forty-eight participants responded to the survey (36% clinicians, 40% lived experience and patient advocates, 24% researchers). Of the 20 statements included in the first survey, 12 reached consensus, and 8 were considered borderline. The highest consensus was for the inclusion of a dietitian in the IEI multidisciplinary team, lactation support for mothers ceasing breastfeeding due to CMV risk, and individualised calculation of nutrition requirements across IEIs. An additional 13 priority statements were identified from survey 1, with highly endorsed priorities including gut health, prevention of chronic lifestyle disease, and longer-term feeding behaviours.<h4>Conclusion</h4>A range of nutrition priorities for IEI were identified as high importance by people with lived experience, clinicians, and researchers. These consensus statements will provide essential clinical guidance in the under-recognised area of nutrition in IEI.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "09",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -9,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician",
+     "-5 \\bmalaria|neonatal|sepsis|immunis|"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-22",
+    "until": "2026-11-25"
+   },
+   "studyId": "GDC-RR-577770a38f",
+   "version": 1,
+   "firstFound": "2026-11-25T09:33:09.947Z",
+   "lastChecked": "2026-11-25T09:33:09.947Z",
+   "changeReason": "discovery run, streams 09,22",
+   "changedBy": "radar:discover"
   }
  },
  "keys": {
@@ -13493,6 +15503,90 @@
   "doi:10.1177/2161783x261490387": "GDC-RR-e1b0bf710a",
   "pmid:43069437": "GDC-RR-e1b0bf710a",
   "url:doi.org/10.1177/2161783x261490387": "GDC-RR-e1b0bf710a",
-  "title:gamified digital health interventions for physical activity and sedentary behavior changes in individuals with": "GDC-RR-e1b0bf710a"
+  "title:gamified digital health interventions for physical activity and sedentary behavior changes in individuals with": "GDC-RR-e1b0bf710a",
+  "doi:10.21203/rs.3.rs-11452625/v1": "GDC-RR-a24d04f9b9",
+  "url:doi.org/10.21203/rs.3.rs-11452625/v1": "GDC-RR-a24d04f9b9",
+  "title:sleep duration and maternal bmi rank comparably as predictors of overweight obesity among school": "GDC-RR-a24d04f9b9",
+  "doi:10.24158/tipor.2026.10.9": "GDC-RR-c81d77aa2e",
+  "url:doi.org/10.24158/tipor.2026.10.9": "GDC-RR-c81d77aa2e",
+  "title:young people s work attitudes in russia and china a cross cultural analysis": "GDC-RR-c81d77aa2e",
+  "doi:10.3389/feduc.2026.2024091": "GDC-RR-c89abcdeac",
+  "url:doi.org/10.3389/feduc.2026.2024091": "GDC-RR-c89abcdeac",
+  "title:functional hearing difficulty and digital resource gradients in foundational learning across diverse mics6 settings": "GDC-RR-c89abcdeac",
+  "doi:10.61436/bsscd/v5i4.pp691-703": "GDC-RR-0e5f89292c",
+  "url:doi.org/10.61436/bsscd/v5i4.pp691-703": "GDC-RR-0e5f89292c",
+  "title:smart village transformation in improving the economy through sustainable tourism villages": "GDC-RR-0e5f89292c",
+  "doi:10.69849/rsnxn517": "GDC-RR-680f0e24c1",
+  "url:doi.org/10.69849/rsnxn517": "GDC-RR-680f0e24c1",
+  "title:preval ncia e fatores associados ao consumo de alimentos ultraprocessados na primeira inf ncia": "GDC-RR-680f0e24c1",
+  "doi:10.3389/fphys.2026.2019056": "GDC-RR-10470e3c53",
+  "url:doi.org/10.3389/fphys.2026.2019056": "GDC-RR-10470e3c53",
+  "title:associations of physical activity sedentary behaviors and eating behaviors with body composition among early": "GDC-RR-10470e3c53",
+  "doi:10.3389/fpubh.2026.1996922": "GDC-RR-fc123cd15c",
+  "url:doi.org/10.3389/fpubh.2026.1996922": "GDC-RR-fc123cd15c",
+  "title:associations of nighttime temperature and daily screen time with sleep quality among school aged": "GDC-RR-fc123cd15c",
+  "doi:10.3389/fpubh.2026.1969605": "GDC-RR-43e33cf863",
+  "url:doi.org/10.3389/fpubh.2026.1969605": "GDC-RR-43e33cf863",
+  "title:beyond screen time the smartphone as a surrogate caregiver and potential obesogenic pathways among": "GDC-RR-43e33cf863",
+  "doi:10.1177/13591045261510988": "GDC-RR-6229d72df9",
+  "pmid:43075724": "GDC-RR-6229d72df9",
+  "url:doi.org/10.1177/13591045261510988": "GDC-RR-6229d72df9",
+  "title:beyond human helpers young people s help seeking in the era of chatbots": "GDC-RR-6229d72df9",
+  "doi:10.31234/osf.io/8nkd6": "GDC-RR-80f1720f61",
+  "url:doi.org/10.31234/osf.io/8nkd6": "GDC-RR-80f1720f61",
+  "title:social media addiction is associated with poor mental health ai chatbot use and problematic": "GDC-RR-80f1720f61",
+  "doi:10.21203/rs.3.rs-11368129/v1": "GDC-RR-569619aab2",
+  "url:doi.org/10.21203/rs.3.rs-11368129/v1": "GDC-RR-569619aab2",
+  "title:prompt mon assessing a game based learning tool for teaching prompt engineering to middle": "GDC-RR-569619aab2",
+  "doi:10.21203/rs.3.rs-11103595/v1": "GDC-RR-a64778be2c",
+  "url:doi.org/10.21203/rs.3.rs-11103595/v1": "GDC-RR-a64778be2c",
+  "title:research on the impact of artificial intelligence development on fertility intentions in china": "GDC-RR-a64778be2c",
+  "doi:10.21203/rs.3.rs-11447940/v1": "GDC-RR-67ca1bfbd4",
+  "url:doi.org/10.21203/rs.3.rs-11447940/v1": "GDC-RR-67ca1bfbd4",
+  "title:educators use of artificial intelligence to prepare and implement inquiry tasks in primary education": "GDC-RR-67ca1bfbd4",
+  "doi:10.1038/s41390-026-05612-1": "GDC-RR-255972678e",
+  "pmid:43073430": "GDC-RR-255972678e",
+  "url:doi.org/10.1038/s41390-026-05612-1": "GDC-RR-255972678e",
+  "title:pediatric research for the future of children introduction to the conference proceedings": "GDC-RR-255972678e",
+  "doi:10.20944/preprints202611.2451.v1": "GDC-RR-5fb346b258",
+  "url:doi.org/10.20944/preprints202611.2451.v1": "GDC-RR-5fb346b258",
+  "title:agi and education 5 0 a systematic review of agi driven sustainable education across": "GDC-RR-5fb346b258",
+  "url:www.gov.uk/government/publications/updates-to-the-illegal-content-and-protection-of-children-codes-of-practice": "GDC-RR-10ad0ded63",
+  "title:updates to the illegal content and protection of children codes of practice": "GDC-RR-10ad0ded63",
+  "doi:10.21203/rs.3.rs-11672645/v1": "GDC-RR-224d98c21f",
+  "url:doi.org/10.21203/rs.3.rs-11672645/v1": "GDC-RR-224d98c21f",
+  "title:availability and accessibility to prohibited tobacco products through online platforms in sri lanka": "GDC-RR-224d98c21f",
+  "doi:10.1177/01614681261507802": "GDC-RR-b8288ca73d",
+  "url:doi.org/10.1177/01614681261507802": "GDC-RR-b8288ca73d",
+  "title:violent innocence the discursive production of dangerous children in justifications for seclusion rooms": "GDC-RR-b8288ca73d",
+  "doi:10.56087/rk0aa133": "GDC-RR-1ce3acf374",
+  "url:doi.org/10.56087/rk0aa133": "GDC-RR-1ce3acf374",
+  "title:who protects children s data civil liability of social media platforms": "GDC-RR-1ce3acf374",
+  "doi:10.1093/chidev/aacag205": "GDC-RR-ed76b6959e",
+  "pmid:43070791": "GDC-RR-ed76b6959e",
+  "url:doi.org/10.1093/chidev/aacag205": "GDC-RR-ed76b6959e",
+  "title:adolescents and young adults explanations for wealth and poverty links to critical consciousness in": "GDC-RR-ed76b6959e",
+  "doi:10.1007/s00103-026-04330-7": "GDC-RR-61225d7a46",
+  "pmid:43071044": "GDC-RR-61225d7a46",
+  "url:doi.org/10.1007/s00103-026-04330-7": "GDC-RR-61225d7a46",
+  "title:mental health and social inequalities among young europeans findings from the cross national online": "GDC-RR-61225d7a46",
+  "doi:10.1097/bpo.0000000000003526": "GDC-RR-839f6f3a73",
+  "pmid:43069639": "GDC-RR-839f6f3a73",
+  "url:doi.org/10.1097/bpo.0000000000003526": "GDC-RR-839f6f3a73",
+  "title:a multimodal intervention model integrating cognitive behavioral education and health care collaboration for flatfoot": "GDC-RR-839f6f3a73",
+  "doi:10.1111/obr.70264": "GDC-RR-821fe38136",
+  "pmid:43076298": "GDC-RR-821fe38136",
+  "url:doi.org/10.1111/obr.70264": "GDC-RR-821fe38136",
+  "title:the impact of social media interventions on eating behaviors and diet in adolescents and": "GDC-RR-821fe38136",
+  "doi:10.64898/2026.11.23.26368159": "GDC-RR-c2aed1937f",
+  "url:doi.org/10.64898/2026.11.23.26368159": "GDC-RR-c2aed1937f",
+  "title:visual art for the prevention of student mental health difficulties in schools mixed methods": "GDC-RR-c2aed1937f",
+  "doi:10.64898/2026.11.18.26368169": "GDC-RR-27184d3ffb",
+  "url:doi.org/10.64898/2026.11.18.26368169": "GDC-RR-27184d3ffb",
+  "title:corporal punishment acceptability among university students without childhood maltreatment experiences associated factors and subfactor": "GDC-RR-27184d3ffb",
+  "doi:10.70962/ascia2026abstract.p169": "GDC-RR-577770a38f",
+  "pmid:43070564": "GDC-RR-577770a38f",
+  "url:doi.org/10.70962/ascia2026abstract.p169": "GDC-RR-577770a38f",
+  "title:nutrition priorities in inborn errors of immunity preliminary results of a modified delphi": "GDC-RR-577770a38f"
  }
 }

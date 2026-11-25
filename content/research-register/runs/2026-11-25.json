@@ -1,0 +1,201 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-25",
+ "startedAt": "2026-11-25T09:20:33.884Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-25T09:20:33.884Z",
+   "commit": "b6681e0c",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 6,
+    "batches": [
+     {
+      "file": "11U0MWeMAKR0iC_vovKq-c1oQLqHCpG9nfYXwSCe6LbQ__candidates-23.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-23-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     },
+     {
+      "file": "1JpoLgqtabl8dT7a5rzswUL8rx0gjEm1tg5GCk4xHiHo__candidates-20.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-20-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": [
+       {
+        "candidateId": "C-2026-11-20-01",
+        "outcome": "ALREADY INGESTED",
+        "researchId": "GDC-RR-c3c32618c1",
+        "reasons": []
+       },
+       {
+        "candidateId": "C-2026-11-20-02",
+        "outcome": "ALREADY INGESTED",
+        "researchId": "GDC-RR-6a0dfad7ed",
+        "reasons": []
+       }
+      ]
+     },
+     {
+      "file": "1iOSRUKMsBLzAo5rqXPjcpzL_fL3zzzPflQ1zmiiPa8o__candidates-21.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-21-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     },
+     {
+      "file": "1lFLGzTjYZ8-VYyQNuN-16ANpIZjnxrxAQ8PtXnlzOMU__candidates-19.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-19-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     },
+     {
+      "file": "1yWbsvhAhDQX2i0zbENcYGpHe9D-MSPqwZUVn2My_0u8__candidates-22.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-22-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     },
+     {
+      "file": "1ycdWOBf2ADg7-GcOH6asAMA1kye0ZerbiSMLohJLJpE__candidates-18.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-18-chatgpt-0800",
+      "alreadyIngested": true,
+      "results": []
+     }
+    ],
+    "postingPackRead": true
+   },
+   "at": "2026-11-25T09:20:33.911Z",
+   "commit": "b6681e0c",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 26,
+    "total": 162
+   },
+   "at": "2026-11-25T09:33:09.964Z",
+   "commit": "b6681e0c",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 10,
+    "confirmed": 9,
+    "unconfirmed": [
+     "GDC-RR-10ad0ded63"
+    ]
+   },
+   "at": "2026-11-25T09:33:12.138Z",
+   "commit": "b6681e0c",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 looked at, 2 stored, 1 refused by the gate. GDC-RR-fc123cd15c HOLD (heat and sleep in China, screen interaction failed correction), GDC-RR-43e33cf863 HOLD (conceptual Perspective, no data). Inbox candidate Wellcome GDC-RR-c3c32618c1: source read, figures match the page, but the dossier gate says RECORD UNCONFIRMED (wellcome.org not a listed public body), so it stays HOLD and no review was stored. Gallup candidate GDC-RR-6a0dfad7ed: not reviewed, no DOI and no listed host, so the dossier cannot confirm it. 19 wait for later runs."
+   ],
+   "detail": null,
+   "at": "2026-11-25T09:36:19.700Z",
+   "commit": "b6681e0c",
+   "attempts": 2
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-553f7dc067",
+     "GDC-RR-540fff2c03"
+    ],
+    "duplicateCheck": {
+     "GDC-RR-553f7dc067": "NEW",
+     "GDC-RR-540fff2c03": "NEW"
+    },
+    "queue": [
+     "GDC-RR-553f7dc067",
+     "GDC-RR-540fff2c03"
+    ]
+   },
+   "at": "2026-11-25T09:36:23.920Z",
+   "commit": "b6681e0c",
+   "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "Not done. Drive copies of the queue, number list and START HERE are stale against main, but a copy has to carry a clean commit and the commit of the rebuilt content/publication/publication-register.json was refused by the permission check (denied, not worked round). Nothing new was cleared today, so the queue ChatGPT reads is unchanged: GDC-062 and GDC-063 are with ChatGPT. Per the 24 November rule a stale START HERE no longer stops production."
+   ],
+   "detail": null,
+   "at": "2026-11-25T09:37:49.102Z",
+   "commit": "065098ac",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "No pack is waiting in the Stage 2 folder: every PACK document there is already READY FOR JUSTIN or CLAUDE REVIEWED."
+   ],
+   "detail": null,
+   "at": "2026-11-25T09:37:55.498Z",
+   "commit": "065098ac",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "No pack waiting."
+   ],
+   "detail": null,
+   "at": "2026-11-25T09:37:55.572Z",
+   "commit": "065098ac",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "Nothing at ASSETS READY, so nothing new for the desk. Seven approved posts (GDC-054 to 059, 061) are waiting for Justin to post and send links. Desks not republished: tree not clean."
+   ],
+   "detail": null,
+   "at": "2026-11-25T09:37:55.647Z",
+   "commit": "065098ac",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-25T09:37:55.676Z"
+}

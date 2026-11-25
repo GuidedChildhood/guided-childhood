@@ -1,0 +1,86 @@
+{
+  "studyId": "GDC-RR-43e33cf863",
+  "reviewedAt": "2026-11-25T09:38:00Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 25 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "reviewBasis": "The full text of the open access Perspective at doi.org/10.3389/fpubh.2026.1969605 (Frontiers in Public Health, published 25 November 2026), read in this run: abstract, the argument about screen time, the model and its five functions, the pathways, the limitations and boundary conditions, funding and conflict statements. No data were analysed by the authors and no references were opened.",
+  "claims": [
+    {
+      "claim": "Smartphones may act as surrogate caregivers for some children left behind by migrating parents in China.",
+      "status": "QUALIFIED",
+      "basis": "Abstract and model section. It is the authors' argument, stated with 'may' and 'for some', and the paper calls its model a middle range conceptual model not yet validated as a whole."
+    },
+    {
+      "claim": "The authors propose five caregiving functions of a phone: companion, pacifier, connector, entertainer and disciplinarian.",
+      "status": "VERIFIED",
+      "basis": "Model section and table. These are proposed categories drawn from published research and conceptual synthesis, not measured ones. The paper says they may be neither exhaustive nor independent."
+    },
+    {
+      "claim": "Screen time reduction alone is an incomplete goal and may backfire if it cuts parent and child contact.",
+      "status": "QUALIFIED",
+      "basis": "Stated in the paper as a view. Its own text says the interventions listed are proposed for evaluation and that inclusion does not imply they are effective."
+    },
+    {
+      "claim": "Phones in left behind households lead to overweight and obesity.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper says the arrows are hypotheses, not established causal effects, that no study has examined the full sequence from migration to adiposity, and that effect sizes cannot yet be estimated."
+    }
+  ],
+  "verifiedStatistics": [],
+  "notQuotable": [
+    "That phones cause obesity or emotional eating in any group",
+    "That the five functions are a finding rather than a proposal",
+    "That the model applies to UK families: it was built from rural Chinese evidence and the authors list five conditions for adapting it elsewhere",
+    "Any claim that phones are good or bad as caregivers"
+  ],
+  "recommendedPlatforms": [],
+  "urgency": "None. Held.",
+  "evidenceConfidence": "HIGH that the Perspective says what is written here. NONE as evidence about children, because it reports no data and calls its own model unvalidated.",
+  "limitations": [
+    "A Perspective paper: argument and a conceptual model, not a study.",
+    "Built primarily from rural Chinese evidence about left behind children, a population and household structure with no UK equivalent at scale.",
+    "The authors say evidence for individual pathways is often cross sectional, qualitative or from adjacent populations, and the arrows are conditional hypotheses.",
+    "Funded by two university project grants, with the funders stated to have had no role and no conflicts declared."
+  ],
+  "contradictoryEvidence": [
+    "The paper itself says phones can sustain parent and child relationships, and that the connector function (video calls, bedtime stories, homework) is where the benefit is clearest, which cuts against reading phones as a harm in this setting.",
+    "The paper states that the screen time literature it criticises still shows excessive use consistently associated with poorer outcomes, so it does not argue duration does not matter."
+  ],
+  "whatThisDoesNotProve": [
+    "That any pathway in the model operates.",
+    "That a phone can or cannot stand in for a parent.",
+    "Anything about UK families, or about our product."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'phones are raising children', which turns a hypothesis about one population into a claim about parenting.",
+  "gdcBeliefs": [
+    "Evidence or silence. A hypothesis about children in another country is not evidence for what we teach.",
+    "Connection is the protection. The paper's remark that cutting screens can cut contact is a nuance worth keeping in mind, not a claim we can cite."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody.",
+  "unresolvedQuestions": [
+    "Will anyone test any pathway of the model with data?"
+  ],
+  "verification": {
+    "originalSource": "Read the full text of the Perspective at doi.org/10.3389/fpubh.2026.1969605 on the Frontiers site. It says what the abstract in the register says. References were not opened.",
+    "publicationDate": "Published 25 November 2026 on the article page, received 16 August, revised 8 November and accepted 17 November 2026. Read on the page in this run.",
+    "statisticsAndDenominators": "No statistic is quoted in the sections read. The paper's only numbers describe the population loosely, as tens of millions of left behind children in China, with no source figure checked in this run, so nothing is cleared.",
+    "sampleAndPopulation": "No sample. The model concerns children left behind by migrating parents in rural China, cared for by grandparents or other guardians. It is not about UK children.",
+    "researchDesign": "A Perspective with a conceptual model built by synthesis of published work. It proposes hypotheses and measures to be developed. It cannot bear any claim about effect or cause.",
+    "correlationOrCausation": "Neither association nor cause is tested. Copy must say the authors propose or hypothesise, never that phones cause obesity or that research shows it, and the paper itself says its arrows are hypotheses.",
+    "counterEvidence": "Within the paper: the connector function is described as beneficial, and the authors accept that excessive use is consistently associated with poorer outcomes in the wider literature. No outside search was run in this run.",
+    "strongestObjection": "A careful sceptic would say it is an untested model from one population, and that calling a phone a surrogate caregiver is a metaphor, not a measurement.",
+    "practicalImplications": "None a parent or teacher can act on from this paper alone. Its own advice, not to treat screen reduction as the whole goal and to protect contact with absent parents, is the authors' view and is not supported by data here.",
+    "claimsNotToMake": "Do not say phones cause obesity, that the model is proven, that phones replace parents, or that any of this describes UK families. Do not use it as support for the product. Do not claim any outcome for a child."
+  },
+  "storedAt": "scripts/radar/reviews/GDC-RR-43e33cf863.json"
+}

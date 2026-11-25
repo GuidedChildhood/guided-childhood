@@ -1,0 +1,94 @@
+{
+  "studyId": "GDC-RR-fc123cd15c",
+  "reviewedAt": "2026-11-25T09:36:00Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 25 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "reviewBasis": "The full text of the open access article at doi.org/10.3389/fpubh.2026.1996922 (Frontiers in Public Health, Wen and colleagues, published 25 November 2026), read in this run: abstract, introduction, methods, results, discussion, limitations, conclusion, funding and conflict statements. Supplementary tables were not read. The automatic dossier labelled the design a longitudinal cohort. The paper itself says cross sectional, and that is what this review uses.",
+  "claims": [
+    {
+      "claim": "The study examined 2,966 primary school students from six schools in Shandong and Hebei Provinces, China, surveyed between 4 June and 9 July 2024.",
+      "status": "VERIFIED",
+      "basis": "Methods: 4,708 enrolled, 874 missing sleep scores, 718 missing screen data, 68 missing temperature data and 82 missing covariates removed, leaving 2,966. Mean age 10.0 years, 54.4 percent boys."
+    },
+    {
+      "claim": "Each 1 standard deviation rise in nighttime mean temperature was associated with a 0.291 point higher sleep quality score (95% CI 0.082 to 0.499) and higher odds of poor sleep (OR 1.422, 95% CI 1.092 to 1.852).",
+      "status": "QUALIFIED",
+      "basis": "Results, as stated. But the paper says the estimate fell to 0.128 (95% CI minus 0.124 to 0.379) with school fixed effects, and that school and calendar time confounding cannot be excluded."
+    },
+    {
+      "claim": "Longer daily screen time was associated with a higher sleep problem score (0.295 points per 1 SD of log transformed screen time, 95% CI 0.204 to 0.387) and higher odds of poor sleep (OR 1.263, 95% CI 1.156 to 1.379).",
+      "status": "QUALIFIED",
+      "basis": "Results, as stated. Screen time is self reported, summed from television, cinema, computer and phone or tablet time, with weekday, weekend, timing and content not separated. The median was about 34 minutes a day, so this is mostly a story about low screen use in 10 year olds in China."
+    },
+    {
+      "claim": "Screen time made the effect of hot nights on sleep worse.",
+      "status": "UNSUPPORTED",
+      "basis": "The hot night by screen time interaction was nominally significant (p 0.029) but did not remain significant after false discovery rate correction, the median split interaction was p 0.062, and the authors say the mechanism is speculative and evidence for effect modification was limited."
+    },
+    {
+      "claim": "Screen time shortens children's sleep.",
+      "status": "UNSUPPORTED",
+      "basis": "The exploratory result was a bedtime about 2 minutes later per SD, and no significant change in time in bed. The authors say screen use timing was not measured and the mechanism cannot be established."
+    }
+  ],
+  "verifiedStatistics": [],
+  "notQuotable": [
+    "That screen time makes heat worse for sleep: the interaction did not survive correction",
+    "That screens shorten sleep: the bedtime difference was about 2 minutes and time in bed did not change significantly",
+    "That cooling a bedroom or cutting screens would improve sleep: the authors say no recommendation can be drawn",
+    "Any of the temperature figures as a UK finding",
+    "Any screen time figure as a minutes a day target"
+  ],
+  "recommendedPlatforms": [],
+  "urgency": "None. Held.",
+  "evidenceConfidence": "HIGH that the paper says what is written here, because the full text was read. LOW as a GDC story: the finding that is clean is about heat in China, the screen time finding is a small association at very low screen use, and the one result that would have made a headline did not survive correction.",
+  "limitations": [
+    "Cross sectional, so no order of events and no cause.",
+    "Six schools in two Chinese provinces, with exposure contrasts clustered by geography. Not UK children and not a random sample.",
+    "1,742 of 4,708 children were excluded for missing data, so selection bias is possible.",
+    "Sleep (PSQI) and screen time were self reported. Temperature was outdoor ERA5 reanalysis assigned to home addresses, not bedroom temperature.",
+    "Screen time was one total with no timing or content, and a median of about 34 minutes a day.",
+    "Funded by a university research fund, with no conflicts declared."
+  ],
+  "contradictoryEvidence": [
+    "The authors themselves report that the temperature estimate was smaller and not statistically significant under school fixed effects, so the headline association is fragile.",
+    "The authors cite a Spanish cohort that found no comparable temperature and sleep association in a cooler season, which they put down partly to low heat exposure."
+  ],
+  "whatThisDoesNotProve": [
+    "That screens cause poorer sleep.",
+    "That screen time and heat combine to harm sleep.",
+    "Anything about UK children, UK bedrooms or UK screen habits."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'screens plus heat wreck children's sleep', which the paper's own interaction results do not support.",
+  "gdcBeliefs": [
+    "Evidence or silence. The only clean result is not about what we teach, and the one that touches us is small and uncertain.",
+    "Connection is the protection. Nothing here changes how we teach it."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody.",
+  "unresolvedQuestions": [
+    "Is there a UK sample, with timing of evening screen use, that tests screens and sleep directly?"
+  ],
+  "verification": {
+    "originalSource": "Read the full text of the article at doi.org/10.3389/fpubh.2026.1996922 on the Frontiers site. It says what the abstract in the register says. The register's dossier calls the design longitudinal, which the paper contradicts, so the paper wins.",
+    "publicationDate": "Published 25 November 2026 on the article page, received 13 September, revised 4 November, accepted 11 November 2026. Read on the page in this run.",
+    "statisticsAndDenominators": "Sample 2,966 of 4,708 enrolled (1,742 excluded for missing data). 602 of 2,966 (20.3 percent) had poor sleep quality on the PSQI over 5. Temperature coefficients are per 1 SD of each metric, and screen time per 1 SD of log transformed hours. Median screen time 0.57 hours a day.",
+    "sampleAndPopulation": "Primary school students, mean age 10.0 years, from six schools in Shandong and Hebei, China, surveyed in summer 2024 with parental consent. Recruitment was by school. Not UK families and not a representative sample.",
+    "researchDesign": "Cross sectional survey with mixed effects models and a school level random intercept, plus exploratory sensitivity analyses. It can show associations at one time point and cannot show order or cause.",
+    "correlationOrCausation": "Association only. Copy must say 'was associated with', never 'caused', 'led to' or 'made worse', and the authors state that no recommendation about bedroom temperature or screen use can be drawn.",
+    "counterEvidence": "Within the paper: the temperature association shrinks and loses significance with school fixed effects, the screen by hot night interaction fails false discovery correction, and a Spanish cohort found no comparable temperature link. No outside search was run in this run.",
+    "strongestObjection": "A careful sceptic would say six clustered schools, self reported sleep and outdoor temperature as a stand in for the bedroom mean the temperature result may be school or season, and the screen result is a small association at about half an hour a day.",
+    "practicalImplications": "Nothing specific for a parent. The paper itself says it cannot support advice on bedroom temperature or screen use, so any practical line would go beyond it.",
+    "claimsNotToMake": "Do not say screens harm sleep, that screens and heat combine, that cooling a room or cutting screens improves sleep, or that this describes UK children. Do not quote the screen time figures as a recommended limit. Do not claim any outcome for a child."
+  },
+  "storedAt": "scripts/radar/reviews/GDC-RR-fc123cd15c.json"
+}
