@@ -403,7 +403,12 @@ export default function SchoolCatch({ kids = [], childName = null }: {
                         </span>
                         {niceDate(item.due_date) && (
                           <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px' }}>
-                            {niceDate(item.due_date)}{item.past ? ' · already passed' : ''}
+                            {niceDate(item.due_date)}
+                          </span>
+                        )}
+                        {item.past && (
+                          <span style={{ display: 'block', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)', marginTop: '2px' }}>
+                            Already passed
                           </span>
                         )}
                         {item.detail && (
