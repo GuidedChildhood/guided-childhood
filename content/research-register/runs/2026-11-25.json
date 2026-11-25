@@ -147,7 +147,55 @@
    "at": "2026-11-25T09:36:23.920Z",
    "commit": "b6681e0c",
    "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "Not done. Drive copies of the queue, number list and START HERE are stale against main, but a copy has to carry a clean commit and the commit of the rebuilt content/publication/publication-register.json was refused by the permission check (denied, not worked round). Nothing new was cleared today, so the queue ChatGPT reads is unchanged: GDC-062 and GDC-063 are with ChatGPT. Per the 24 November rule a stale START HERE no longer stops production."
+   ],
+   "detail": null,
+   "at": "2026-11-25T09:37:49.102Z",
+   "commit": "065098ac",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "No pack is waiting in the Stage 2 folder: every PACK document there is already READY FOR JUSTIN or CLAUDE REVIEWED."
+   ],
+   "detail": null,
+   "at": "2026-11-25T09:37:55.498Z",
+   "commit": "065098ac",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "No pack waiting."
+   ],
+   "detail": null,
+   "at": "2026-11-25T09:37:55.572Z",
+   "commit": "065098ac",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "Nothing at ASSETS READY, so nothing new for the desk. Seven approved posts (GDC-054 to 059, 061) are waiting for Justin to post and send links. Desks not republished: tree not clean."
+   ],
+   "detail": null,
+   "at": "2026-11-25T09:37:55.647Z",
+   "commit": "065098ac",
+   "attempts": 1
   }
  ],
- "updatedAt": "2026-11-25T09:36:23.944Z"
+ "updatedAt": "2026-11-25T09:37:55.676Z"
 }
