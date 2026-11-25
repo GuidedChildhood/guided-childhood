@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { mergeNearDuplicates } from './merge-items'
+import { fixYears } from './fix-years'
 import { parseItemArray } from './parse-items'
 
 // THE ONE SCHOOL EXTRACTOR.
@@ -30,6 +31,8 @@ export type ExtractedItem = {
   title: string
   detail?: string | null
   due_date?: string | null
+  /** The date has already gone (lib/school/fix-years.ts). Shown, never ticked for the parent. */
+  past?: boolean
 }
 
 /** What the Anthropic API accepts. An iPhone HEIC is not on this list, which
@@ -65,6 +68,8 @@ function buildPrompt(schoolName: string, subject: string, body: string, hasImage
 
 ${subject ? `Subject: ${subject}\n\n` : ''}${body.slice(0, 4000)}
 
+Years: if a year is printed, use it exactly, even if it has passed. If a weekday is written with no year, choose the year in which that date falls on that weekday, and keep the weekday in the detail. Never return a date whose weekday differs from the one written.
+
 Return ONLY a JSON array (empty if no actions): [{"kind":"kit|payment|homework|event|deadline|notice","title":"max 10 words, imperative","detail":"one sentence","due_date":"YYYY-MM-DD or null"}]`
 }
 
@@ -72,7 +77,8 @@ Return ONLY a JSON array (empty if no actions): [{"kind":"kit|payment|homework|e
  *  coerced, because a guessed kind on a school deadline is worse than nothing. */
 export function validateItems(raw: unknown): ExtractedItem[] {
   if (!Array.isArray(raw)) return []
-  return mergeNearDuplicates(raw
+  // The year each item's own words name, and a mark on any that have passed.
+  return fixYears(mergeNearDuplicates(raw
     .filter((i): i is ExtractedItem =>
       Boolean(i) && typeof i === 'object'
       && (SCHOOL_KINDS as readonly string[]).includes((i as ExtractedItem).kind)
@@ -83,7 +89,7 @@ export function validateItems(raw: unknown): ExtractedItem[] {
       title: i.title.trim().slice(0, 120),
       detail: typeof i.detail === 'string' ? i.detail.trim().slice(0, 300) : null,
       due_date: typeof i.due_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(i.due_date) ? i.due_date : null,
-    })))
+    }))), new Date().toISOString().slice(0, 10))
 }
 
 export type ExtractInput = {

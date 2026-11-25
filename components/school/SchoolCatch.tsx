@@ -48,6 +48,8 @@ type Found = {
   title: string
   detail?: string | null
   due_date?: string | null
+  /** The date has already gone: shown, not ticked (lib/school/fix-years.ts). */
+  past?: boolean
 }
 
 const KIND_EMOJI: Record<string, string> = {
@@ -77,7 +79,9 @@ function niceDate(iso: string | null | undefined): string {
   if (!iso) return ''
   const d = new Date(`${iso}T12:00:00`)
   if (Number.isNaN(d.getTime())) return ''
-  return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
+  // The year is said whenever it is not this one, so a 2025 date reads as 2025.
+  const otherYear = d.getFullYear() !== new Date().getFullYear()
+  return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', ...(otherYear ? { year: 'numeric' } : {}) })
 }
 
 const DAY_FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -160,7 +164,9 @@ export default function SchoolCatch({ kids = [], childName = null }: {
       // Everything ticked to start with. The parent is confirming, not
       // assembling: the common case is that it read the letter correctly and
       // one tap finishes the job.
-      setChosen(new Set(items.map((_, i) => i)))
+      // A date that has passed is not ticked: an old calendar must not fill
+      // the page with overdue entries (25 November 2026, "364 days late").
+      setChosen(new Set(items.map((it, i) => (it.past ? -1 : i)).filter(i => i >= 0)))
     } catch {
       setError('That could not be read. Try again, or add it by hand.')
     } finally {
@@ -364,6 +370,13 @@ export default function SchoolCatch({ kids = [], childName = null }: {
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px', fontWeight: 700 }}>
                 Here is what it says. Untick anything that is not right.
               </p>
+              {found.some(f => f.past) && (
+                <p role="status" style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px', padding: '10px 12px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', background: 'var(--white)' }}>
+                  {found.every(f => f.past)
+                    ? 'Every date on this has already passed, so it looks like an older letter. Nothing is ticked. Tick any you still want.'
+                    : 'Some of these dates have already passed, so they are not ticked. Tick any you still want.'}
+                </p>
+              )}
               <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px' }}>
                 {found.map((item, i) => (
                   <li key={i} style={{ marginBottom: '8px' }}>
@@ -390,7 +403,7 @@ export default function SchoolCatch({ kids = [], childName = null }: {
                         </span>
                         {niceDate(item.due_date) && (
                           <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px' }}>
-                            {niceDate(item.due_date)}
+                            {niceDate(item.due_date)}{item.past ? ' · already passed' : ''}
                           </span>
                         )}
                         {item.detail && (

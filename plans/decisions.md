@@ -32,21 +32,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
 | `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-22 | 128 |
-| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-22 | 170 |
+| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-23 | 179 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-11-10 · 10 November 2026: the lesson run and the school's record (first build) · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: her handbook comes across, and digital gets its progress page · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: films are checked, numbers come back, and why the 09:17 run did nothing · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: the ad system, step by step, and step 1 the creative director gate · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: Etsy repriced, and twelve more listings built · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: ad round 1 built, and the uploader that loads it paused · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: the ads measured against the talk's and the competitors', and a picture added · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: all five Round 1 cards carry a picture · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: the ad goal, the swipe file, and accounts of their own · `plans/decisions-archive/2026-11.md`
 - 2026-11-11 · 11 November 2026: ad video 1, the script for Justin to camera · `plans/decisions-archive/2026-11.md`
 - 2026-11-11 · 11 November 2026: the Facebook key is Justin's own, because the Page cannot be moved yet · `plans/decisions-archive/2026-11.md`
 - 2026-11-11 · 11 November 2026: Anna cannot be reached, so the Page goes to Meta support · `plans/decisions-archive/2026-11.md`
@@ -158,83 +149,19 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-11-22 · 22 November 2026: GTA VI approved, the week of 23 November cut to three · `plans/decisions-archive/2026-11.md`
 - 2026-11-22 · 22 November 2026: search joins the review board, Speed Insights, IndexNow · `plans/decisions-archive/2026-11.md`
 - 2026-11-22 · 22 November 2026: the school page opens on Next up, and the photo reader keeps every date · `plans/decisions-archive/2026-11.md`
+- 2026-11-23 · 23 November 2026: weekly ad loop, round 1 closed and round 3 prepared · `plans/decisions-archive/2026-11.md`
+- 2026-11-23 · 23 November 2026: the Monday LinkedIn pass wrote two posts, not three to five · `plans/decisions-archive/2026-11.md`
+- 2026-11-23 · 23 November 2026: GDC 062 and 063 approved · `plans/decisions-archive/2026-11.md`
+- 2026-11-23 · 23 November 2026: Monday radar, hints not answers (GDC 065, 066) · `plans/decisions-archive/2026-11.md`
+- 2026-11-23 · 23 November 2026: adding a school reminder is first on the page, any day, and reminders go at 4pm and 7:20 · `plans/decisions-archive/2026-11.md`
+- 2026-11-23 · 23 November 2026: the homework film says 4pm the day before · `plans/decisions-archive/2026-11.md`
+- 2026-11-23 · 23 November 2026: 403 and 404 are live, 404 had no ledger row · `plans/decisions-archive/2026-11.md`
+- 2026-11-23 · 23 November 2026: the app safety week moves on, and goes out automatically · `plans/decisions-archive/2026-11.md`
+- 2026-11-23 · 23 November 2026: GDC 060 and 067 approved, 060 swaps with 063 · `plans/decisions-archive/2026-11.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 23 November 2026: weekly ad loop, round 1 closed and round 3 prepared
-
-- Round 1 final read: left out finished on 20 stage checks begun from 9,794 reached, 2.0 per thousand at £1.39 a check (£27.89). It stays the control. No signups from any card. Round 2 was never loaded, so nothing to read.
-- Round 3 (Justin, 22 November: "Prepare round 3") is three cards against left out, one mechanic each: one line of the free script (`r3-left-out-line`), the founder in the first person on a plain card (`r3-founder-origin`), and moment then reassurance then the free thing (`r3-left-out-seen`). Deck `2026-11-23-round-3`, pack `content/packs/2026-11-23-round-3`. Gate passed, no new scene, no credits spent.
-- Card 1 shows the NOT THIS line because the first SAY THIS sentence cannot be cropped whole at any phone width. Card 3 is one card because the uploader has no carousel. Both are Justin's to overrule.
-- Nothing loaded, nothing spent. Suggested split £10 a card over 7 days; an even split needs one ad set per card, which the uploader does not do yet.
-- Competitors: nobody in the UK library says our lines. Ten long runners from the 22 November read are in the swipe file and six are on the watchlist.
-
-## 23 November 2026: the Monday LinkedIn pass wrote two posts, not three to five
-
-- GDC 060 (EU KIDS Act, recruit strangers) is written for the first time; the 16 November pass claimed the number and left no copy. GDC 067 (YouGov, 77 percent back the ban and split 45 to 46 on whether it works, start an argument) is new.
-- Two because post-picker found no free slot before 9 December under the three a week rule, and the reserve was short only of argument posts and anything on the ban. Australia one year on was dropped: esafety.gov.au returned 503, so no figure could be read at source.
-- The KIDS Act feedback window closes 3 December, not 26 November. 060 still needs a slot Justin has to free. PR 1669.
-
-## 23 November 2026: GDC 062 and 063 approved
-
-- Justin: "062 and 063 approved". 063 goes Mon 30 Nov 08:00, 062 Mon 7 Dec 08:00.
-- Recorded in the post register only. The radar pipeline approve gate needs a pack at ASSETS READY, and neither pack reached Claude QA (only the Evidence Reveal motion files are in Drive), so the pipeline status was left as it is rather than forced.
-
-## 23 November 2026: Monday radar, hints not answers (GDC 065, 066)
-
-- Two findings survived: Stanford SCALE's November review of 52 controlled studies of AI and schoolwork, and RAND's survey of what US parents tell teenagers about AI and homework. Both PDFs read in full, 22 claims verified. Nine candidates killed, reasons in `content/research-radar-log.md`.
-- The review contains a trial where answers beat hints, against the one our hint card and script 261 rest on. The pack opens on that. Whether to soften the script's "why it works" and the migration 263 row is Justin's call; nothing in the product was changed.
-- The routine's stored brief still says to open on the question. The 11 November analytics say named body and finding first, so the posts follow that. Pack `content/packs/2026-11-23-hints-not-answers/`. PR 1668.
-### 23 November 2026: Oak call, lead with PSHE plus parent engagement for trusts
-- Oak's partnerships lead: EdTech now enters schools at trust level, where gatekeepers hear from 10 to 20 companies a week. Lead with what few do, PSHE and parent engagement, not "a new product". Oak's API is free for commercial use and updated for the latest RSHE. A case study tier opens once pilots are running. Notes: `plans/2026-11-23-oak-call-notes.md`.
-
-## 23 November 2026: adding a school reminder is first on the page, any day, and reminders go at 4pm and 7:20
-
-- Justin: adding should be easy and one of the first tasks; he could only choose today; default reminders 16:00 the day before and 07:20 that morning on the phones.
-- "Add a reminder" sits under the page heading. The sheet has a day strip (Today, Tomorrow, twelve more days, then Another date) and opens on tomorrow; the week card's "+ Add reminder" was locked to today and now uses it too.
-- Reminders moved from 17:00 and 07:05 UTC to 16:00 and 07:20 UK time all year: each schedule fires at both UTC hours and the route sends only in the London hour. Plan: plans/2026-11-23-add-reminder-easy.md.
-
-### 23 November 2026: pupil booklets at three levels, and a support mat
-- Every module's booklet now prints as Expected, Adapted (word box, reasons started) or Inclusion (four cards, point and colour, no writing), plus a support mat for every two pupils. Taken from the French scheme's tiered printouts. Generated from the lesson row, so no new content. Plan: `plans/2026-11-23-booklet-levels-plan.md`.
-
-## 23 November 2026: the homework film says 4pm the day before
-
-- Justin asked for the one headline re-cut after reminders moved to 4pm (PR 1670). All three screens were re-recorded from the current app, so the card, the confirmation and the headline agree. Both cuts are now 36.7s; captions and the LinkedIn list updated. Two stale "night before" lines on the school promo card and the letterbox went too.
-
-## 23 November 2026: 403 and 404 are live, 404 had no ledger row
-
-- Both were applied by the sessions that wrote them. 404 was recorded, not re-run: the script wording, the `expert_knowledge` finding and both `kid_homework_help_uses` columns with their comments are already exactly what the file asks for.
-- 404's two text updates are guarded on the old wording, so a no-op is indistinguishable from applied unless you look. Both were checked from the other side: the old strings are gone and the new ones are present, one row each.
-- The Bastani knowledge row's embedding is null, which is 404 doing its job. The daily sweep at 06:40 UTC (`/api/cron/knowledge-embed`) refills it. Until it does, DiGi cannot reach that row by vector search.
-- Ledger now agrees with the repo to 404.
-### 23 November 2026: schools reference pages fold behind a summary, and pilot emails 3 and 4
-- The staff briefings, safeguarding crosswalk, parent pack, philosophy and run sheet now open on a summary card and jump chips, with every section folded in one shared `RefFold`. Printing opens every fold, so paper keeps the full text. On a phone they are now 3 to 7 screens instead of 18 to 28; the run sheet opens on Teach this lesson.
-- Pilot emails 3 (three weeks in, one reply question) and 4 (before the term ends: record, choice, a quote and a trust name) are written and saved as Mailchimp drafts for Justin to add to journey 762. Pilot email 1 in the paused journey now carries the parent pack line.
-
-## 23 November 2026: the app safety week moves on, and goes out automatically
-
-- Justin: "push to next week, just do next weeks if any full, no want you to do it auto". Both accounts were full this week.
-- Family posts take next week's anchor days (30 Nov, 2, 4, 5 Dec); Sunday 29's social-week batch builds their cards, and the skill now reads approved moved posts before the sheet. LinkedIn keeps three a week; 30 Nov and 7 Dec weeks are full (060, 059; 062, 063, 067), so L1 Mon 14, L3 Wed 16, L2 Fri 18 December. Pins 1, 3 and 5 December.
-- Automatic, not Justin posting: through Metricool, the scheduler that already holds both accounts. Claude has no Metricool access, so a Metricool API key was asked for; until then the pack file is the handoff, with scheduling and automatic publishing approved for these posts only. Earlier rule (17 Nov, Claude schedules nothing) stands for everything else. PR 1694.
-
-### 23 November 2026: Schools v3 keeps running
-- 615 of the 634 schools in the Schools v3 series also got the 21 November invitation that ends "I will not write again". Justin chose to keep v3 running anyway (S03 is queued for 384). If complaints or unsubscribes rise, pause journey 749 first.
-
-## 23 November 2026: GDC 060 and 067 approved, 060 swaps with 063
-
-- Justin: "approve 060 swap with 063, 067 approved".
-- 060 (EU KIDS Act) takes Mon 30 Nov 08:00 so it lands before the feedback window closes on 3 Dec; 063 moves to Wed 9 Dec. 067 goes Fri 11 Dec, the next free slot under the three a week rule.
-- Full slot table in content/metricool-reconciliation-2026-11-22.md. Metricool changes go through ChatGPT; nothing is scheduled from here.
-
-
-### 23 November 2026: schools outreach runs itself every Monday
-- A Monday task adds up to 30 schools (GIAS register plus the office email each school publishes) and schedules their invitation (Tuesday 09:30) and one reminder two weeks later. These are replicated regular campaigns, because the Mailchimp API cannot build flows. The first 34 go Tuesday 24 November, with the reminder on 8 December.
-### 23 November 2026: the one email a week guard runs in CI, and learns the kinds it missed
-- `scripts/check-email-guard.mjs` had 5 failures on main. All five were the guard behind the code, each opt out traced to a decision of Justin's: the topic course (series, 16 November), the heavy lesson heads up (transactional, sync plan C), and the ask kind ("skip the rule", 16 November). No code changed.
-- The guard now reads the email kinds from the type, so a new kind can no longer opt out unseen (ask did, for a week). It also holds the caps that make skipping the floor safe: seven emails a course, three asks an account, two a lead.
-- Runs in the concern-guards job of wiring.yml. PR 1695.
 
 ## 24 November 2026: the funnel read honestly, and ten parents before more building
 
@@ -269,6 +196,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Justin's Oak key is saved as a network secret and the open API answers. The read only check: Oak RSHE has 15 online life units (71 lessons) in Years 1 to 4, 7, 8, 10 and 11. We go further on AI companions, algorithms, gaming and odds, images and sextortion, the ban, and making and ownership. We also cover Reception, Years 5, 6 and 9 and the sixth form, which Oak's online units do not. This is from titles only; nothing public until lessons are read. Plan: `plans/2026-11-24-oak-rshe-gap-check.md`.
 
 - 2026-11-24 · Every film uses the walkthrough engine and structure (Justin): parents and schools alike, the passport and two apps films included, built as a cut in `videos/2026-10-09-digi-shorts` (problem, turn, numbered real screens, end card, music, TikTok cut). Written into `product-shorts`. The teacher start film was made with a one off recorder, so it is re-cut in the engine before it is posted. PR 1712.
+
 ## 24 November 2026: the ten verification checks are required fields of every new research review
 
 - A review stored from 25 November carries `verification` with ten answers (original source, publication date, statistics and denominators, sample and population, design, cause or association, counter evidence, strongest objection, practical implications, claims not to make). `pipeline.mjs review` refuses one missing or thin; `gate.mjs` checks the register for it.
@@ -285,3 +213,9 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-11-24 · Mumsnet replies weighed (feedback-filter): the ten parents post read as machine written, buried the ask, gave an unknown link, named no real scene and led with "the words to use tonight", which a parent rightly called pointless. Adopted: ask first, a domain to type, one true scene, who Justin is, and lead with the star quest (THE-STORY section 10), not scripts. Rewrite in `content/packs/2026-11-24-ten-parents/mumsnet-rewrite.md`; table in `plans/2026-11-24-mumsnet-replies-weighed.md`.
 
 - 2026-11-24 · A Mumsnet parent caught a script line a child would argue with ("phones sleep in the kitchen, the bedroom is for sleep"). Rewritten everywhere it showed (stages.ts, script card, two static pages) with no metaphor and the adult included ("mine too"); the blue light claim in its "why" removed. New rule: script lines are read to a child of the right age and the first comeback recorded before they ship; a full script pass is parked. PR 1714.
+
+## 25 November 2026: school dates land in the right year, and passed dates are not ticked
+
+- Justin: an event showing "364 days late". He had snapped a calendar that prints 2025; nine entries went in a year back and twenty five with a weekday but no year were guessed as 2027, on the wrong weekday.
+- `lib/school/fix-years.ts`: a written weekday decides the year, a printed year is kept, and any date already gone is marked past. The snap card shows those greyed and unticked and says an all past letter looks like an older one; forwarded emails do not add past items.
+- The 39 entries from that snap were dismissed by hand, with his yes. Plan: plans/2026-11-25-school-dates-right-year.md.

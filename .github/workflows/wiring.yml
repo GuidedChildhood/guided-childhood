@@ -250,6 +250,8 @@ jobs:
       # Homework lead-up: a week and three days before when there is room, the
       # bell waits for the first reminder, and one letter never makes two items.
       - run: node --experimental-strip-types scripts/check-school-lead-up.mjs
+      # A written weekday decides the year, and a date already gone is marked.
+      - run: node --experimental-strip-types scripts/check-school-years.mjs
       # Homework help: under 10 never reaches the model, nobody gets a chat,
       # the homework is never stored, and the hint never carries the answer.
       - run: node --experimental-strip-types scripts/check-homework-help.mjs
