@@ -3,6 +3,7 @@ import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 import HappyIcon, { type HappyIconName } from '@gc/shared/components/HappyIcon'
 import { CRAYON, type CrayonName } from '@gc/shared/happy-news'
 import YourSchoolPanel from './YourSchoolPanel'
+import { navAccess } from '@/lib/licence'
 
 export const metadata = { title: 'The Hub' }
 
@@ -107,6 +108,11 @@ function Disc({ icon, disc }: { icon: HappyIconName; disc: CrayonName }) {
 }
 
 export default async function HubPage() {
+  // The French link shows only to whoever the languages area is open to
+  // (lib/languages-access.ts languagesOpenToSchools): while it is private,
+  // that is Justin's own languages code, and nobody else sees the way in.
+  const { languages } = await navAccess()
+  const jobs = JOBS.map(j => ({ ...j, more: j.more.filter(m => languages || !m.href.startsWith('/languages')) }))
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '980px', margin: '0 auto' }}>
@@ -119,7 +125,7 @@ export default async function HubPage() {
         </p>
 
         <div className="gc-hub-jobs">
-          {JOBS.map(j => (
+          {jobs.map(j => (
             <section key={j.title} className="gc-hub-job" aria-labelledby={`job-${j.disc}`}>
               <Link href={j.main.href} className="gc-tap gc-hub-main">
                 <Disc icon={j.icon} disc={j.disc} />

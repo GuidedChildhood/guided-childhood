@@ -4,7 +4,7 @@ import { PRICING_BANDS, LICENCE_INCLUDES, FOUNDING } from '@/lib/pricing'
 import { foundingPlacesLeft } from '@/lib/founding-places'
 import { VAT_LINE } from '@gc/shared/legal'
 import InvoiceForm from './InvoiceForm'
-import { FRENCH_TASTER_PATH } from '@/lib/languages-access'
+import { FRENCH_TASTER_PATH, languagesOpenToSchools } from '@/lib/languages-access'
 import { pilotPrefill } from '@/lib/pilot-prefill'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
@@ -170,7 +170,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
               Every band includes the lot
             </h2>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', marginBottom: '20px' }}>
-              {LICENCE_INCLUDES.map(item => (
+              {LICENCE_INCLUDES.filter(item => languagesOpenToSchools() || !item.includes('French')).map(item => (
                 <li key={item} style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
                   <span style={{ color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0 }}>✓</span>{item}
                 </li>
@@ -180,8 +180,8 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }}>
                 <strong>Not sure yet?</strong> You do not need a licence to try it. The whole{' '}
                 <Link href="/curriculum" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>curriculum catalogue</Link>{' '}
-                is open to read, and so is{' '}
-                <Link href={FRENCH_TASTER_PATH} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>one French lesson</Link>.{' '}
+                is open to read{languagesOpenToSchools() ? <>, and so is{' '}
+                <Link href={FRENCH_TASTER_PATH} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>one French lesson</Link></> : null}.{' '}
                 Ask for a pilot code and teach two lessons matched to your phase this term, then decide.
               </p>
             </div>
