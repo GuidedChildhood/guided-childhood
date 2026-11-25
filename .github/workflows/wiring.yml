@@ -800,6 +800,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run privacy-links-test
+      # The words a parent reads on the site, in the app and in the emails do
+      # not read as machine written either (Justin, 25 November 2026: "remove
+      # AI phrases from everything we do"). It rides here because it reads the
+      # source through the TypeScript parser, which needs the packages.
+      - run: npm run ai-tells-site
 
   # WHAT POSTHOG MAY SEE. lib/analytics/posthog-policy.ts is the before_send
   # that keeps the child's pages, the codes in a URL and anything typed out of

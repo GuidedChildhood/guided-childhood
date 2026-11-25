@@ -65,7 +65,7 @@ function runCopy(days: number): { label: string; detail: string } {
   if (days >= 30) {
     return {
       label: `${days} days in a row`,
-      detail: 'A whole month of showing up. That is not luck any more, that is who you are.',
+      detail: 'A whole month of showing up. That is who you are now.',
     }
   }
   if (days >= 10) {

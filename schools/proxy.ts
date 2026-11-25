@@ -3,7 +3,7 @@ import { ACCESS_COOKIE, isOpenPath, tokenAccess } from '@/lib/access'
 import { FREE_LESSON_COOKIE, isTasterPath, standaloneModuleOf } from '@/lib/taster'
 import { isPilotPath } from '@/lib/pilot'
 import {
-  LANGUAGES_COOKIE, LANGUAGES_DOOR, isFrenchTasterPath, isLanguagesPath, issueSchemeLanguagesToken, langOfPath, languagesLive, languagesTokenAccess,
+  LANGUAGES_COOKIE, LANGUAGES_DOOR, isFrenchTasterPath, isLanguagesPath, issueSchemeLanguagesToken, langOfPath, languagesLive, languagesOpenToSchools, languagesTokenAccess,
 } from '@/lib/languages-access'
 
 // The outer door of the schools site (Next 16 calls this file proxy.ts; it is
@@ -90,7 +90,7 @@ async function languagesGate(request: NextRequest) {
   // is given the French cookie here, once, and sent on to the page it asked
   // for. No second code to find or type.
   const schemeToken = request.cookies.get(ACCESS_COOKIE)?.value
-  if (!access && schemeToken && (await tokenAccess(schemeToken))) {
+  if (!access && languagesOpenToSchools() && schemeToken && (await tokenAccess(schemeToken))) {
     const res = NextResponse.redirect(pathname === LANGUAGES_DOOR ? new URL('/languages', request.url) : request.nextUrl)
     res.cookies.set(LANGUAGES_COOKIE, await issueSchemeLanguagesToken(schemeToken.split('|')[0] ?? ''), {
       httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: 180 * 24 * 60 * 60,
@@ -102,7 +102,7 @@ async function languagesGate(request: NextRequest) {
   if (pathname === LANGUAGES_DOOR) return pass()
 
   // The free taster: one French lesson and its teach screen, open to anyone.
-  if (isFrenchTasterPath(pathname)) return pass()
+  if (languagesOpenToSchools() && isFrenchTasterPath(pathname)) return pass()
 
   // Hidden: until LANGUAGES_LIVE is on, a stranger meets a plain 404, never
   // the door, so nothing tells them the area exists.

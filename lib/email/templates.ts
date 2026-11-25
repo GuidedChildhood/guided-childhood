@@ -1215,11 +1215,11 @@ export function balanceTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string
 
 export function mentalHealthTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
-    subject: 'It is not just you',
+    subject: 'Nobody has this figured out',
     html: wrapper(
       heading('The worry you have not said out loud.') +
       p(`The late night doubt, the comparison, the feeling that everyone else has this figured out. They do not, and the evidence is clear that these moments are normal.`) +
-      p(`Guided Childhood has a library of those exact moments, each one met with a calm, research backed reason it is ok, from the people parents actually trust. Not just for your child. For you.`) +
+      p(`Guided Childhood has a library of those exact moments, each one met with a calm, research backed reason it is ok, from the people parents actually trust. Some of it is for your child, and some of it is for you.`) +
       starterButton(cta, reader),
       unsubscribe
     ),

@@ -6,8 +6,7 @@ import { useEffect, useState } from 'react'
 // Log in lives in the header actions, not here, so it is always visible
 // even when this section nav collapses to the menu button on mobile.
 const LINKS = [
-  { label: 'How It Works', href: '#how-it-works', section: 'how-it-works' },
-  { label: 'Find Your Stage', href: '#stages', section: 'stages' },
+  { label: 'What They Learn', href: '#stages', section: 'stages' },
   { label: 'About', href: '#about', section: 'about' },
   { label: 'FAQs', href: '#faqs', section: 'faqs' },
   { label: 'For Schools', href: 'https://www.guidedchildhood.com/schools', section: null },

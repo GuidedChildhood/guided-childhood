@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { ACCESS_COOKIE, tokenAccess, type Access } from './access'
-import { LANGUAGES_COOKIE, languagesLive, languagesTokenAccess } from './languages-access'
+import { LANGUAGES_COOKIE, languagesLive, languagesOpenToSchools, languagesTokenAccess } from './languages-access'
 
 // "Is this visitor a school that has paid?" asked from a server component.
 //
@@ -33,7 +33,7 @@ export async function navAccess(): Promise<{ licensed: boolean; pilot: boolean; 
   const access = await currentAccess()
   const store = await cookies()
   // French is in every school's licence (15 November 2026), so a scheme code shows the tab too.
-  const languages = access !== null || languagesLive() || (await languagesTokenAccess(store.get(LANGUAGES_COOKIE)?.value)) !== null
+  const languages = (access !== null && languagesOpenToSchools()) || languagesLive() || (await languagesTokenAccess(store.get(LANGUAGES_COOKIE)?.value)) !== null
   return { licensed: access !== null, pilot: access?.tier === 'pilot', languages }
 }
 

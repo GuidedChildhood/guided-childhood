@@ -19,6 +19,13 @@ export interface Stage {
     sayThis: string
     notThis: string
     why: string
+    /** One more line to say, with a blank in square brackets for the child's
+     *  own reason, for a script that does not carry one inline. A Mumsnet
+     *  parent, 24 November 2026: a reason has to be about THIS child, or a
+     *  sharp one picks it apart. The stage check result draws the brackets as
+     *  a gap to fill (ResultScreen, "One conversation for this week"). The
+     *  Builder bedroom script has its blank inline, so it has none. */
+    theirReason?: string
   }
   action: string
   // The parent's own phone, one step per stage. Pam, a clinician reviewing
@@ -62,6 +69,7 @@ export const STAGES: Stage[] = [
       sayThis: 'We have a family rule about screens. When the timer goes off, screens go down. Every time, no exceptions. And then we do something together.',
       notThis: '"Just five more minutes." Once you move the line, it moves every time.',
       why: 'Children at this stage cannot regulate device use themselves. The rule is not a punishment, it is the structure that makes screen time safe. Consistent boundaries now build the self control they will need at 13.',
+      theirReason: 'Tonight it is [their favourite thing with you, like the park or a story].',
     },
     action: 'Set up a charging station in the kitchen or hallway tonight. Devices do not sleep in bedrooms in this house.',
     yourPhone: 'When the timer ends their screen time, put your own phone away too. The rule is for the house, not just for them.',
@@ -73,7 +81,7 @@ export const STAGES: Stage[] = [
     parentQuote: '"I did not realise how much the routine would help. The timer changed everything for us."',
     digiContext: 'Stage 1 parent. Child aged 4 to 7. Focus on first device rules, family norms, routine building. Never recommend unsupervised screen time. Bedroom rule applies from day one.',
     challengeActions: {
-      screens_takeover: 'Set a visual timer (sand timer or Alexa) and agree together when screens stop. The timer is the rule, not you.',
+      screens_takeover: 'Set a visual timer (sand timer or Alexa) and agree together when screens stop. Screen time ends because the timer says so, not because you are the bad guy.',
       mood_changes: 'Try ten minutes of wind down between screens and the next activity. At this age, mood is often about the transition, not the screen itself.',
       gaming: 'Play with them for 10 minutes. Understand the game before you set any limits on it.',
       online_safety: 'At this age, online safety means one thing: same room, same screen. No unsupervised time.',
@@ -94,9 +102,9 @@ export const STAGES: Stage[] = [
     isCritical: false,
     script: {
       title: 'The Bedroom Rule',
-      sayThis: 'At night, phones charge in the kitchen. Mine too. A phone next to the bed keeps buzzing and lighting up, and that keeps your brain awake even when you do not look at it. So your room is phone free at night, and you get it back at breakfast.',
+      sayThis: 'At night, phones charge in the kitchen. Mine too. Your body does its growing and sorting while you sleep, and you\'ve got [their thing tomorrow, like football]. You get it back at breakfast.',
       notThis: '"You need to earn the right to have it in your room." That makes it a prize, not a family norm.',
-      why: 'Sleep is the one rule that never moves. Phones in the bedroom at night are linked to later and shorter sleep, and the buzz and the urge to check are what do it. Charging in the kitchen, with the adults doing the same, removes both, and leaves a sharp child nothing to pick apart. Set it now, before they have a personal device, and it is just how things work.',
+      why: 'Sleep is the one rule that never moves. Children with a phone or tablet in the bedroom at night tend to sleep less and sleep worse, even when they are not using it (Carter and others, JAMA Pediatrics, 2016). That is an association across many studies, not proof, but it is why do not disturb is not the answer: the phone is still there. A reason that belongs to your child, like football tomorrow, lands better than a general one, and the adults charging in the kitchen too leaves a sharp child nothing to pick apart. Set it now, before they have a personal device, and it is just how things work.',
     },
     action: "Have the bedroom rule conversation tonight, not as a rule you are imposing, but as a family decision. 'Where should our devices sleep?'",
     yourPhone: 'Charge your own phone in the kitchen overnight, next to theirs. One rule for everyone is the easiest rule to keep.',
@@ -132,6 +140,7 @@ export const STAGES: Stage[] = [
       sayThis: 'Did you know your phone is learning what you like? Every video you watch, every post you pause on, it notes it. Let me show you something. Open your feed and we will look at it together.',
       notThis: '"That app is rotting your brain." That shuts the conversation down before it starts.',
       why: 'Children at 11 to 13 are in the highest risk window identified by Cambridge MRC research. They are forming identity through comparison, and the algorithm amplifies whatever vulnerability it finds. The parent who can talk about this without alarm is the greatest protective factor.',
+      theirReason: 'I am asking because you love [their thing, like football clips], and I want to see what it shows you.',
     },
     action: 'Open their feed together tonight. No judgment, just curiosity. "Interesting, why do you think it showed you that?" Stay for 10 minutes.',
     yourPhone: 'Say it out loud when you stop scrolling: "I have been on that too long, I am putting it down." Let them see you stop, not just hear you ask them to.',
@@ -178,6 +187,7 @@ export const STAGES: Stage[] = [
       sayThis: 'If anything ever goes wrong online, and things do go wrong, I am the first call you make, not the last. I will not overreact. I will help.',
       notThis: '"If I catch you doing that, I am taking your phone." That closes the door before anything happens.',
       why: 'Teenagers at this stage need to know the door is open before anything goes wrong. A child who fears losing their phone is a child who hides problems. This script keeps the door open.',
+      theirReason: 'I am saying it now because [their new thing, like the team group chat] is starting.',
     },
     action: 'Set up a weekly 10 minutes with no agenda. Not about screens, not about homework. Just checking in. Same day, same time.',
     yourPhone: 'Give them the right to call you out when you are on your phone at the table. It is the same right you are asking for.',
@@ -212,7 +222,7 @@ export const STAGES: Stage[] = [
         gaming: 'Gaming is untouched by the ban. If they are spending more time there after the ban, that is displacement not addiction. Ask what they are getting from it. The social life moved somewhere.',
         online_safety: 'The workaround trap is the open safety conversation now. "If you do find a way onto one of the banned apps, or onto something I do not know about, I want to be your first call if anything feels wrong." Say that before anything happens.',
         start_conversation: 'Try: "What do you think your friends are actually doing now?" Then listen. The answer tells you where the real digital life has moved to.',
-        asking_for_phone: 'The conversation has shifted. It is not about getting a phone or unlocking an app. It is about what their digital life looks like in the gap the ban creates. That is the conversation to have.',
+        asking_for_phone: 'The conversation has moved on from getting a phone or unlocking an app. Talk about what their digital life looks like in the gap the ban creates.',
       },
     },
   },
@@ -232,6 +242,7 @@ export const STAGES: Stage[] = [
       sayThis: 'You are at the age where you get to decide what kind of digital life you build. What does your online presence say about who you are? Not to me. To the world.',
       notThis: '"Get off your phone." That conversation is over. A different one has started.',
       why: 'At 16, the goal is not compliance but genuine digital literacy. A young person who can articulate their own relationship with technology, what it gives them and what it costs them, is genuinely prepared for what comes next.',
+      theirReason: 'I am asking now because [their next step, like college or a first job] is coming up.',
     },
     action: 'Suggest a joint digital audit: go through their online presence together as peers, not parent and child. What does it say? What would they change?',
     yourPhone: 'Be honest about your own phone: what it gives you, and what it costs you. It is the conversation you are hoping they will have with themselves.',

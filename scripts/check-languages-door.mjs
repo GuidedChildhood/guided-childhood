@@ -48,10 +48,11 @@ const NAV = join('schools', 'components', 'SiteNav.tsx')
   ok('the Languages tab renders only inside a `languages && (` block', !!block && /href="\/languages"/.test(block[1]))
   ok('SiteNav names /languages nowhere else', !/["'`(]\/languages(\/|["'`?#)])/.test(outside))
   const licence = readFileSync(join('schools', 'lib', 'licence.ts'), 'utf8')
-  // Since 15 November 2026 French is in every school's licence, so a scheme
-  // code shows the tab too. A stranger with no code still never sees it.
-  ok('navAccess sets languages only from a scheme code, the languages cookie or LANGUAGES_LIVE',
-    /const languages = access !== null \|\| languagesLive\(\) \|\| \(await languagesTokenAccess\(store\.get\(LANGUAGES_COOKIE\)\?\.value\)\) !== null/.test(licence))
+  // 25 November 2026: private to Justin's languages code unless
+  // LANGUAGES_OPEN_TO_SCHOOLS is on, when a scheme code shows the tab too.
+  // A stranger with no code never sees it.
+  ok('navAccess sets languages only from a scheme code while open to schools, the languages cookie or LANGUAGES_LIVE',
+    /const languages = \(access !== null && languagesOpenToSchools\(\)\) \|\| languagesLive\(\) \|\| \(await languagesTokenAccess\(store\.get\(LANGUAGES_COOKIE\)\?\.value\)\) !== null/.test(licence))
 }
 
 // THE MEDIA ROUTE GATES ITSELF (10 November 2026). Its paths all carry a dot,
@@ -139,10 +140,20 @@ ok('the taster is one lesson and its teach screen', L.isFrenchTasterPath(L.FRENC
 for (const shut of ['/languages', '/languages/fr', '/languages/fr/print', `/languages/fr/${L.FRENCH_TASTER.unit}`, `/languages/fr/${L.FRENCH_TASTER.unit}/2`, L.FRENCH_TASTER_PATH + '/teach/x', L.FRENCH_TASTER_PATH + '0', '/languages/fr/progress']) {
   ok(`the taster does not open ${shut}`, !L.isFrenchTasterPath(shut))
 }
-ok('the proxy opens only the taster paths to a stranger', /if \(isFrenchTasterPath\(pathname\)\) return pass\(\)/.test(proxy))
+ok('the proxy opens only the taster paths to a stranger, and only while open to schools', /if \(languagesOpenToSchools\(\) && isFrenchTasterPath\(pathname\)\) return pass\(\)/.test(proxy))
+ok('the proxy gives a scheme school French only while open to schools', /if \(!access && languagesOpenToSchools\(\) && schemeToken/.test(proxy))
+{
+  // Private is the default: with no env set, nothing opens the area to schools.
+  const before = process.env.LANGUAGES_OPEN_TO_SCHOOLS
+  delete process.env.LANGUAGES_OPEN_TO_SCHOOLS
+  ok('the languages area is private to a languages code by default', L.languagesOpenToSchools() === false)
+  process.env.LANGUAGES_OPEN_TO_SCHOOLS = 'true'
+  ok('LANGUAGES_OPEN_TO_SCHOOLS=true opens it to schools again', L.languagesOpenToSchools() === true)
+  if (before === undefined) delete process.env.LANGUAGES_OPEN_TO_SCHOOLS; else process.env.LANGUAGES_OPEN_TO_SCHOOLS = before
+}
 {
   const media = readFileSync('schools/app/languages/fr/media/[...path]/route.ts', 'utf8')
-  ok('only the taster lesson\'s own deck is served without a code', /const isTaster = !!tasterUnit && slug === tasterUnit\.slug && !!tasterDeck && file === tasterDeck/.test(media) && /if \(!isTaster\) \{/.test(media))
+  ok('only the taster lesson\'s own deck is served without a code', /const isTaster = languagesOpenToSchools\(\) && !!tasterUnit && slug === tasterUnit\.slug && !!tasterDeck && file === tasterDeck/.test(media) && /if \(!isTaster\) \{/.test(media))
 }
 ok('the proxy gives French to a scheme school before the door', /issueSchemeLanguagesToken\(/.test(proxy) && proxy.indexOf('issueSchemeLanguagesToken(') < proxy.lastIndexOf('if (pathname === LANGUAGES_DOOR) return pass()'))
 ok('a forged languages cookie fails', (await L.languagesTokenAccess(both.replace(/.$/, c => (c === 'a' ? 'b' : 'a')))) === null)

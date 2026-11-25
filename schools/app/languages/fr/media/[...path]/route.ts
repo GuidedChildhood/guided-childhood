@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { FRENCH_TASTER, LANGUAGES_COOKIE, languagesTokenAccess } from '@/lib/languages-access'
+import { FRENCH_TASTER, LANGUAGES_COOKIE, languagesOpenToSchools, languagesTokenAccess } from '@/lib/languages-access'
 import { EXTRAS_FOLDER, FR_ORIGIN, FRENCH_UNITS, frenchLesson, frenchUnit } from '@/lib/languages/french'
 
 // /languages/fr/media/<unit folder>/<file>: every French deck, song and sheet.
@@ -64,7 +64,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ path: s
   // The free taster lesson's own deck opens without a code. Every other deck needs one.
   const tasterUnit = frenchUnit(FRENCH_TASTER.unit)
   const tasterDeck = tasterUnit ? frenchLesson(tasterUnit, FRENCH_TASTER.lesson)?.deck?.slides : null
-  const isTaster = !!tasterUnit && slug === tasterUnit.slug && !!tasterDeck && file === tasterDeck
+  const isTaster = languagesOpenToSchools() && !!tasterUnit && slug === tasterUnit.slug && !!tasterDeck && file === tasterDeck
   if (!isTaster) {
     const access = await languagesTokenAccess((await cookies()).get(LANGUAGES_COOKIE)?.value)
     if (!access?.langs.includes('fr')) return gone()

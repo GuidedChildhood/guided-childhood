@@ -164,7 +164,7 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
             </span>
           </div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
-            One star is {STAR_MINUTES} minutes. These are yours, they do not disappear at the end of the day.
+            One star is {STAR_MINUTES} minutes. These are yours, and they stay until you use them.
           </p>
           <WaitingNote stars={waitingToday} />
         </section>

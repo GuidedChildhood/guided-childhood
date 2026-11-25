@@ -197,7 +197,7 @@ export const PRINTABLES: Printable[] = [
     title: 'Ready For My Phone', emoji: '🚀', kind: 'challenge',
     stages: [3, 4], minutes: 'A few months', setting: 'anywhere', skill: 'Phone ready',
     stars: 5,
-    blurb: 'Ten things that are true before the phone. Colour a stop when a grown up agrees. No test, no rush, just the road.',
+    blurb: 'Ten things that are true before the phone. Colour a stop when a grown up agrees, at your own pace.',
     sheetUrl: '', previewUrl: '', drawn: 'ready-for-my-phone',
   },
   {

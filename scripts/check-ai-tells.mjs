@@ -48,7 +48,12 @@
 // `--all` sweeps every pack and is how you ask for the legacy debt, which is
 // worth clearing when an old pack is being revised anyway.
 //
-// Usage: node scripts/check-ai-tells.mjs [--all] [path ...]
+// `--site` sweeps the words that ship in the site and the app instead: every
+// string and every piece of JSX text under app/, components/ and lib/, read
+// through the TypeScript parser so a comment, a class name or an import path
+// is never mistaken for copy. See THE SITE AND THE APP at the foot of the file.
+//
+// Usage: node scripts/check-ai-tells.mjs [--all | --site] [path ...]
 
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative, isAbsolute, basename } from 'node:path'
@@ -56,7 +61,8 @@ import { join, relative, isAbsolute, basename } from 'node:path'
 const ROOT = new URL('..', import.meta.url).pathname
 const args = process.argv.slice(2)
 const ALL = args.includes('--all')
-const targets = args.filter(a => a !== '--all')
+const SITE = args.includes('--site')
+const targets = args.filter(a => a !== '--all' && a !== '--site')
 
 let failures = 0
 const fail = (file, line, what, detail) => {
@@ -189,8 +195,10 @@ const packsFromCutoff = () => {
   return dated.flatMap(name => walk(join(root, name)))
 }
 
-let files
-if (targets.length) {
+let files = []
+if (SITE) {
+  // handled at the foot of the file
+} else if (targets.length) {
   files = []
   for (const r of targets) {
     // An absolute path is already the path. join(ROOT, '/tmp/x') would quietly
@@ -227,10 +235,92 @@ for (const path of files) {
   })
 }
 
-const scope = targets.length ? 'named' : ALL ? 'pack' : `pack, dated ${CUTOFF} or later,`
+// ── THE SITE AND THE APP ────────────────────────────────────────────────────
+//
+// Justin, 25 November 2026: "can we remove AI phrases from everything we do",
+// the same day replies were held to "my voice and no AI phrases or tells".
+// The packs had a guard for two months; the words a parent actually reads on
+// the homepage, the result page, the app and the emails had none, and the
+// first sweep found the same shapes in all of them: "the timer is the rule,
+// not you", "it is not the screen, it is what it displaces", "no pressure, no
+// catch up, just today".
+//
+// On top of the pack rules this adds the shape Justin named, "not X, it is Y"
+// as two clauses in a row, and the stock openers from the Voice Bible. His own
+// approved contrast ("because the timer says so, not because you are the bad
+// guy") is one clause and passes.
+//
+// NOT SWEPT, and why:
+//   lib/digi, lib/ai: prompts for the model, not words a parent reads.
+//   app/dev, app/ref-*: development and reference pages, never linked.
+//   lessons (lib/lessons, lib/quests, the digi-squad lesson page): written for
+//     children, held by the module guards and reviewed once a term.
+//   terms and privacy: legal wording, where precision beats rhythm.
+// Dashes are not swept here: a string in code is full of hyphenated keys and
+// class names, and the copy is held to the dash rule by the design tells pass.
+const SITE_SHAPES = [
+  [/\b(?:it|this|that|they|you)(?:'s|’s| is| are|'re|’re| was) not [^.!?]{1,60}[.,;:]\s+(?:it|this|that|they|you)(?:'s|’s| is| are|'re|’re)\b/i, 'the "not X, it is Y" contrast'],
+  [/\b(?:is|are) the rule, not you\b/i, 'the "X is the rule, not you" line'],
+  [/\btwo things can be true\b/i, 'a stock opener'],
+  [/\bthat(?:'s|’s| is) the \w+ in one sentence\b/i, 'a stock opener'],
+]
+const SITE_SKIP = [
+  /^lib\/(?:digi|ai)\//, /^app\/dev\//, /^app\/ref-/, /^lib\/lessons\//, /^lib\/quests\//,
+  /^app\/\(marketing\)\/digi-squad\/lesson\//, /^app\/\(marketing\)\/(?:terms|privacy)\//,
+  /\.test\.tsx?$/, /\.d\.ts$/,
+]
+// A line that trips a pattern and reads right aloud. Each one is a substring
+// of the copy and the reason it stays.
+const SITE_ALLOW = [
+  // A plain admission, not a contrast: "if this is not what you need right now, that is a fine answer".
+  'this is not what you need right now, that is a fine answer',
+  // The bedroom script's why (25 November): the association is named as such.
+  'even when they are not using it (Carter and others',
+]
+
+if (SITE) {
+  const ts = (await import('typescript')).default
+  const walkTs = dir => readdirSync(dir).flatMap(name => {
+    if (name === 'node_modules' || name.startsWith('.')) return []
+    const p = join(dir, name)
+    return statSync(p).isDirectory() ? walkTs(p) : /\.tsx?$/.test(name) ? [p] : []
+  })
+  const roots = targets.length ? targets.map(r => isAbsolute(r) ? r : join(ROOT, r)) : ['app', 'components', 'lib'].map(d => join(ROOT, d))
+  files = roots.flatMap(r => statSync(r).isDirectory() ? walkTs(r) : [r])
+    .filter(p => !SITE_SKIP.some(re => re.test(relative(ROOT, p))))
+  for (const path of files) {
+    const rel = relative(ROOT, path)
+    const text = readFileSync(path, 'utf8')
+    const sf = ts.createSourceFile(path, text, ts.ScriptTarget.Latest, true, path.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS)
+    const copy = []
+    const visit = node => {
+      if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) return
+      if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node) || ts.isJsxText(node)) copy.push([node.text, node.getStart()])
+      else if (ts.isTemplateExpression(node)) {
+        copy.push([node.head.text, node.getStart()])
+        for (const span of node.templateSpans) copy.push([span.literal.text, span.literal.getStart()])
+      }
+      ts.forEachChild(node, visit)
+    }
+    visit(sf)
+    for (const [str, pos] of copy) {
+      // Copy has a space in it. A key, a class list of one, a path does not.
+      if (str.length < 12 || !/[a-z] [a-z]/i.test(str)) continue
+      if (SITE_ALLOW.some(a => str.includes(a))) continue
+      const n = sf.getLineAndCharacterOfPosition(pos).line + 1
+      const low = str.toLowerCase()
+      const shown = JSON.stringify(str.trim().slice(0, 70))
+      for (const phrase of PHRASES) if (low.includes(phrase)) fail(rel, n, `the phrase "${phrase}"`, shown)
+      for (const [re, what] of [...SHAPES, ...SITE_SHAPES]) if (re.test(str)) fail(rel, n, what, shown)
+      if (STIFF_OPENERS.test(str)) fail(rel, n, `a sentence opening on "${str.match(STIFF_OPENERS)[1]}"`, shown)
+    }
+  }
+}
+
+const scope = SITE ? 'site and app' : targets.length ? 'named' : ALL ? 'pack' : `pack, dated ${CUTOFF} or later,`
 console.log(
   failures === 0
-    ? `PASS  ${files.length} ${scope} file${files.length === 1 ? '' : 's'} carry no dash and no stock phrase`
+    ? `PASS  ${files.length} ${scope} file${files.length === 1 ? '' : 's'} carry ${SITE ? 'no stock phrase and no "not X, it is Y"' : 'no dash and no stock phrase'}`
     : `\n${failures} to fix. The ones an ear has to catch, the rule of three and even paragraph lengths, are in .claude/skills/content-engine/ai-tells.md`,
 )
 process.exit(failures === 0 ? 0 : 1)
