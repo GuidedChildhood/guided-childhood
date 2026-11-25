@@ -103,6 +103,7 @@ or a writing rule. If the rule is mechanical, it is also in
 | 9 Nov 2026 | asked how to avoid AI detection | aim at his rhythm, never at a detector | rhythm.mjs |
 | 11 Nov 2026 | the best post of the week opened on the named study and its finding | open on the named study and finding, not a question | QA, the ear |
 | 24 Nov 2026 | "Avoid generic AI vocabulary, corporate language, repetitive rhetorical contrasts, predictable three-part sentences, excessive one-line paragraphs, unnecessary em dashes, formulaic hooks and forced closing questions." "Do not reproduce accidental spelling errors." "Do not invent anecdotes, personal experiences, quotations or family stories." | this skill | the guard (stock phrases, stiff openers), the ear, the meter |
+| 25 Nov 2026 | "Replies need to be my voice and no AI phrases or tells in future" | every comment and DM reply drafted for him is in his voice and gets the same read as a post: run the guard and the ear before handing it over; no stock openers ("That's the X in one sentence", "Two things can be true"), no "not X, it's Y" contrasts, no tidy threes, no closing question by reflex; short, plain, his rhythm | the guard, founder-voice-review |
 
 ## 7. How to keep this alive
 
