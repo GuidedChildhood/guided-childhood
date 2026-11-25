@@ -296,7 +296,10 @@ export async function POST(req: NextRequest) {
   // The kind check and the field trimming that used to sit here are inside
   // extractSchoolItems now, so the photo path gets exactly the same validation
   // rather than its own copy of it.
-  const valid = (await extractSchoolItems({ schoolName: schoolLabel, subject, body })).slice(0, 5)
+  // A forwarded email about a date already gone adds nothing but an overdue
+  // row nobody asked for (25 November 2026), so those are left out here. The
+  // photo path shows them, unticked, because a parent is there to choose.
+  const valid = (await extractSchoolItems({ schoolName: schoolLabel, subject, body })).filter(i => !i.past).slice(0, 5)
   if (valid.length === 0) return NextResponse.json({ ok: true, actions: 0, arrival: true })
 
   await supabase.from('school_actions').insert(valid.map(i => ({
