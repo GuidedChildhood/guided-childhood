@@ -24,7 +24,7 @@ export default function PassportSection() {
             <span style={{ color: 'var(--terracotta)' }}>social media passport</span>
           </h2>
           <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '600px', margin: '0 auto' }}>
-            {PASSPORT_ANALOGY} This is not about banning. It is about preparation, the skills to navigate the digital world rather than hide from it. Your child earns the passport page by page: safe digital usage, healthy habits from the start, no matter what age they join.
+            {PASSPORT_ANALOGY} The point is getting them ready, with the skills to use the digital world well rather than hide from it. Your child earns the passport page by page: safe digital usage, healthy habits from the start, no matter what age they join.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ export default function PassportSection() {
         {/* CTAs */}
         <div className="fu" style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 32px' }}>
-            Start the passport, it is free
+            Find my child&rsquo;s stage
           </Link>
           <Link href="/passport" style={{ display: 'inline-flex', alignItems: 'center', padding: '15px 28px', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>
             See how it works

@@ -317,6 +317,9 @@ every list of what is inside, because it is the only piece competitors do not
 have. The Duolingo comparison does the explaining. The proof path for every
 claim is the product itself: the stage check is showable in fifteen seconds.
 
+**Changed 25 November 2026:** the curriculum and the Passport now lead ("ready
+before 16"), stars and the timer third. See plans/2026-11-25-ready-before-16-plan.md.
+
 Voice: Justin's. Warm, plain, direct, no dashes, no AI phrasing. The content
 engine skills hold the formats; the hidden thread filter keeps the mission in
 one post out of ten rather than every post.

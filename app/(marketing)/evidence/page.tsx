@@ -18,7 +18,7 @@ const P: CSSProperties = { fontSize: 'var(--text-base)', lineHeight: 1.65, color
 // DRAFT: the evidence stance, plain and defensible. Swap in the full cited
 // library from the kids-research briefings when ready.
 const POINTS = [
-  ['It is not the screen, it is what it displaces', 'The strongest, most agreed finding is that the harm from screens is mostly about what they crowd out: sleep, movement, real play, and unstructured time. Guided Childhood is built to protect those, not to demonise devices.'],
+  ['Screens mostly do harm by what they crowd out', 'The strongest, most agreed finding is that the harm from screens is mostly about what they crowd out: sleep, movement, real play, and unstructured time. Guided Childhood is built to protect those, not to demonise devices.'],
   ['Balance beats bans', 'Outright bans tend to push behaviour underground and teach nothing for the years when a parent is not in the room. A calm, agreed structure that grows with the child is what the developmental research supports.'],
   ['Repair matters more than perfection', 'Warm relationships are out of step much of the time. What builds a child security is coming back together after a rough patch, not never slipping. Our tone with parents follows that.'],
   ['Boredom is not the enemy', 'Empty time is where children learn to generate their own ideas. We treat I am bored as a doorway, not a problem to fix with a screen.'],

@@ -217,7 +217,7 @@ function SceneDigi() {
       <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end' }}>
         <img data-pop src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={58} height={62} style={{ flexShrink: 0, display: 'block' }} />
         <div data-rise style={{ background: '#fff', border: 'var(--edge)', borderRadius: '18px 18px 18px 4px', padding: '12px 14px', boxShadow: 'var(--lift)' }}>
-          <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.4, color: INK }}>That is not defiance, that is mid game. Here is the pathway for tonight:</div>
+          <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.4, color: INK }}>Usually that means they are mid game. Here is the pathway for tonight:</div>
         </div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingLeft: 68 }}>

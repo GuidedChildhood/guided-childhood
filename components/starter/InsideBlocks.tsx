@@ -20,9 +20,12 @@ import { StarsArt, WordsArt, CheckArt } from './FixArt'
 // included). Each is a picture and a handful of words:
 //
 //   Passport     the five stages and their Planet Friend, theirs marked
-//   Fixes        three "instead of" lines, the product drawn under each
+//   Fixes        "instead of" lines, the product drawn under each
 //   DigiLearns   one drawn exchange and the loop it learns by
-//   AlsoInside   the rest, as labels
+//
+// AlsoInside (the rest, as label chips) went on 25 November 2026: the result
+// page's What you get list now names every part, one line each, in Justin's
+// order, so the chips only repeated it.
 //
 // Mobbin, for the shape: MacroFactor and Deepstash draw "what happens next" as
 // a short rail of icons with a few words, never a paragraph per step
@@ -118,20 +121,27 @@ function Fix({ instead, title, children }: { instead: string; title: string; chi
   )
 }
 
-/** Three fixes. `afterStars` is the fold that holds the time number and the
- *  honest notes about it, which stay on the page one tap in. */
-export function Fixes({ kid, words, notThis, concern, afterStars }: { kid: string; words: string; notThis: string; concern: string; afterStars?: ReactNode }) {
+/** The fixes. `afterStars` is the fold that holds the time number and the
+ *  honest notes about it, which stay on the page one tap in.
+ *
+ *  `words` is optional since 25 November 2026: the result page now hands the
+ *  parent the stage's conversation near the top, so drawing the same script
+ *  again here only repeated it. The stars fix is worded as getting the balance
+ *  right, Justin's line for the stars and the timer in the same decision. */
+export function Fixes({ kid, words, notThis, concern, afterStars }: { kid: string; words?: string; notThis?: string; concern: string; afterStars?: ReactNode }) {
   return (
     <section aria-labelledby="ready-fixes" data-ready-fixes>
-      <Head eyebrow="What it fixes" title="Three things, starting tonight." id="ready-fixes" />
+      <Head eyebrow="What it fixes" title={words ? 'Three things, starting tonight.' : 'Two more things, starting tonight.'} id="ready-fixes" />
       <ul style={{ margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 40 }}>
-        <Fix instead="Instead of rows about more time" title="Stars they earn.">
+        <Fix instead="Instead of rows about more time" title="Getting the balance right.">
           <StarsArt kid={kid} />
           {afterStars && <div style={{ marginTop: 12 }}>{afterStars}</div>}
         </Fix>
-        <Fix instead="Instead of not knowing what to say" title="The words, ready.">
-          <WordsArt words={words} notThis={notThis} />
-        </Fix>
+        {words && (
+          <Fix instead="Instead of not knowing what to say" title="The words, ready.">
+            <WordsArt words={words} notThis={notThis ?? ''} />
+          </Fix>
+        )}
         <Fix instead="Instead of guessing if it works" title="Ten seconds a day.">
           <CheckArt concern={concern} />
         </Fix>
@@ -193,44 +203,6 @@ export function DigiLearns() {
       </ol>
       <p className="wow-fu" style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '16px 0 0', textAlign: 'center' }}>
         Every answer starts from the research, then fits your family. What works for other families comes back as a starting point for yours.
-      </p>
-    </section>
-  )
-}
-
-const ALSO: { icon: MethodId; label: string }[] = [
-  { icon: 'kidapp', label: 'Their own app' },
-  { icon: 'lesson', label: 'Lessons' },
-  { icon: 'script', label: 'Scripts' },
-  { icon: 'balance', label: 'Device time' },
-  { icon: 'moment', label: 'Moments' },
-  { icon: 'checkin', label: 'Weekly review' },
-]
-
-/** Everything else, as labels. */
-export function AlsoInside() {
-  return (
-    <section aria-labelledby="ready-also" data-ready-also>
-      <Head eyebrow="Also inside" title="All in one place." id="ready-also" />
-      <ul className="wow-fu" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
-        {ALSO.map(a => (
-          <li key={a.label} style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8, padding: '7px 14px 7px 7px',
-            background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)',
-          }}>
-            <span aria-hidden style={{
-              width: 30, height: 30, borderRadius: '50%', background: METHOD[a.icon].tint,
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <MethodIcon id={a.icon} size={18} />
-            </span>
-            {a.label}
-          </li>
-        ))}
-      </ul>
-      <p className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, textAlign: 'center', margin: '22px 0 0' }}>
-        Not a blocking app. We never read their chats.
       </p>
     </section>
   )

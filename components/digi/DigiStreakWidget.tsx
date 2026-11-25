@@ -77,7 +77,7 @@ function resolveState(count: number, aliveToday: boolean, firstName?: string, to
     mood: 'wave',
     eyebrow: 'Ready when you are',
     headline: 'Start a streak today',
-    body: `Show up in any small way and DiGi remembers${who}. No pressure, no catch up, just today.`,
+    body: `Show up in any small way and DiGi remembers${who}. Missed days never need catching up. Today is the one that counts.`,
     cta: 'Start today',
     href: '/dashboard/daily',
     warm: true,

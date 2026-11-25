@@ -19,7 +19,7 @@ const STAGE_PALETTE = [
 
 const UNITS: Record<number, { title: string; preview: string; locked: boolean }[]> = {
   1: [
-    { title: 'First device rules', preview: 'The timer is the rule, not you. How to set the structure before habits form.', locked: false },
+    { title: 'First device rules', preview: 'Screen time ends because the timer says so, not because you are the bad guy. How to set the structure before habits form.', locked: false },
     { title: 'What screens do to young brains', preview: '', locked: true },
     { title: 'Building the family agreement', preview: '', locked: true },
     { title: 'When something feels wrong', preview: '', locked: true },

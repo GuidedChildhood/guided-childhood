@@ -101,7 +101,7 @@ window.PASSPORT = {
               "moments": [
                       [
                               "When screens take over",
-                              "Set a visual timer and agree together when screens stop. The timer is the rule, not you."
+                              "Set a visual timer and agree together when screens stop. Screen time ends because the timer says so, not because you are the bad guy."
                       ],
                       [
                               "When the mood dips after",
@@ -137,7 +137,7 @@ window.PASSPORT = {
       blurb: 'Creative and clever. Building skills and strong foundations.',
       focus: 'Building digital habits before the algorithm learns them',
       talkTitle: 'The Bedroom Rule',
-      say: 'Where does your phone charge at night? In our house, phones charge in the kitchen. Mine too. Your room is phone free at night.',
+      say: 'At night, phones charge in the kitchen. Mine too. Your body does its growing and sorting while you sleep, and you\'ve got [their thing tomorrow, like football]. You get it back at breakfast.',
       doing: 'Have the bedroom rule conversation tonight as a family decision, not a rule you impose. Where should our devices sleep?',
       doingShort: 'Decide together where devices sleep',
       check: 'Where devices sleep at night in your house, and why.',

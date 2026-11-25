@@ -662,7 +662,7 @@ export default async function JoinPage() {
             Spring 2027 is the date.<br />Now is the time.
           </h2>
           <p style={{ color: 'var(--ink-soft)', fontSize: '.96rem', lineHeight: 1.85, marginBottom: '28px' }}>
-            The phone is already there. The accounts already exist. The ban is coming. You are not starting from zero. You are starting from now. Every stage has a next step.
+            The phone is already there. The accounts already exist. The ban is coming. You start from where you are tonight. Every stage has a next step.
           </p>
           <Link href="/starter-pack" className="btn btn-gold">Find your starting point →</Link>
         </div>
