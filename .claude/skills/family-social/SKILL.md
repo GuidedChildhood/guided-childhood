@@ -122,6 +122,10 @@ the card types.
 
 ---
 
+**Groups and forums are not this account.** A post or reply in a Facebook
+group, Mumsnet, a school WhatsApp or any thread is Justin's own writing:
+founder-voice-review, "Other people's spaces". Do not draft it.
+
 ## Phase 3 · Attack the drafts before Justin has to
 
 Run every draft against these and fix what fails. Report anything you could not

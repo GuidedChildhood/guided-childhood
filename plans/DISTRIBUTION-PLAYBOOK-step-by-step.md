@@ -90,6 +90,8 @@ Your LinkedIn already works, the literacy post format lands. This is the fastest
 Where worried parents already argue about phones. You show up as a helpful parent, not an advert.
 
 - [ ] **3.1** Join five Facebook parenting groups, plus Mumsnet, plus one or two parenting subreddits.
+  Every post and reply in these is Justin's own writing; Claude only checks it
+  (`.claude/skills/founder-voice-review`, "Other people's spaces", 26 November 2026).
 - [ ] **3.2** For a few days, just be useful. Answer a phone or screen question with a real, warm reply. No link yet. You are building the right to post.
 - [ ] **3.3** Then, where it genuinely fits a thread, drop the stage check as a helpful tool, not a pitch: *"There is a free three question thing that tells you what stage your child is at, it helped me think about it."* Use the content engine's other channels variants so the wording fits each place. Each seed gets its own link from the founder page (channel Parent groups, a code like grp-1022-the-group), never the bare starter pack address.
       *Done when:* you have seeded at least five real threads and logged any signup spike in the sheet.
