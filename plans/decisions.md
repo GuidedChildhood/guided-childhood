@@ -228,3 +228,9 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 - Justin: GDC 064 (GTA VI) did well, so one or two carousels a week inside the cadence, in its look: crinkled paper, black type, one yellow highlight, one idea a page, a practical last page.
 - Built into the motion engine, not a new workflow: `tools/motion-engine/carousel/template.html` (the look), `scripts/carousel.mjs` (Instagram slides, LinkedIn PDF, optional 4:5 and 9:16 motion), `scripts/carousel-gate.mjs` (no uncleared figure, no causal wording, no dash, no GDC number on a page; tested in wiring.yml). Midday runbook step 4b; START HERE asks ChatGPT for a CAROUSEL section when a story is picked.
 - First trial: GDC 066 (RAND, AI and homework) rendered for the week of 13 December, awaiting Justin. No Metricool performance data is readable from here; GDC 064's numbers need ChatGPT's report or a screenshot.
+
+## 26 November 2026: where the phone sleeps at explorer, mood script around the named app, bedroom evidence tagged
+
+- Justin's top three this week. New explorer script "Where the phone sleeps tonight": a landing spot, chargers for every phone (mine too), a two week trial, her three answers. After Mumsnet, the why opens by saying the parent knew the answer already and is not doing it wrong; the script is about her agreeing.
+- Explorer 601 "Mood drops after phone use" now opens with the Instagram moment the parent saw that evening, names the big four apps, and links to the Instagram guide (script tonight line naming a guide becomes a link, `lib/scripts/guide-links.ts`).
+- Carter 2016 and Mireku 2019 tagged phone, bedtime, new_phone; "bedroom" and "charger" now find the sleep research. Migration 407, not yet applied live. Plan: plans/2026-11-26-explorer-phone-placement-plan.md.
