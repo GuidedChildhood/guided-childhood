@@ -4,6 +4,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { forumTells } from './forum-tells.mjs'
 import { ownShare } from './own-words.mjs'
+import { houseTics, compare } from './radar/openings.mjs'
 
 const MUMSNET = [
   "Hello. I'm a dad, not a company with a marketing team, and I'll be upfront: I",
@@ -30,4 +31,12 @@ test('own words: light fixes keep a post his, a rewrite does not', () => {
   const rewritten = "Hello. I'm a father of three and I've built a tool to help families manage screen time. I'd value honest feedback from ten parents."
   assert.ok(ownShare(draft, fixed) >= 0.9)
   assert.ok(ownShare(draft, rewritten) < 0.5)
+})
+
+test('openings: a phrase in three of the last posts is a house tic, and a draft that repeats it is told', () => {
+  const posts = ['A', 'B', 'C'].map((id) => ({ id, body: `Study ${id} found something. I build a parent tool for this. The source is in the comments.` }))
+  assert.ok(houseTics(posts).has('i build a parent'))
+  const r = compare('A new survey found less. I build a parent tool too. Link below.', posts)
+  assert.ok(r.repeated.includes('i build a parent'))
+  assert.equal(compare('Something else entirely, said plainly.', posts).repeated.length, 0)
 })

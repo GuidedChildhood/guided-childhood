@@ -103,7 +103,7 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     'STATUS: DRAFT',
     '',
     '=== LINKEDIN POST ===',
-    '(250 to 450 words. The closing question is the last sentence. No link. No dashes.)',
+    '(250 to 450 words. End on a real question only if there is one, and then it is the last sentence. No link. No dashes.)',
     '',
     '=== FIRST COMMENT ===',
     '(The link to the source, and the strongest objection answered.)',
@@ -323,11 +323,11 @@ export function stage2Brief({ links = {} } = {}) {
   line()
   line('THE HOUSE RULES THE CHECK ENFORCES')
   line(`  LinkedIn post: ${LIMITS.linkedinWordsMin} to ${LIMITS.linkedinWordsMax} words.`)
-  line('  The single closing question is the last sentence, with nothing after it.')
+  line('  A closing question only when there is a real one to ask, and then it is the last sentence. Never a question by reflex.')
   line('  No link in the post. The source link goes in the first comment.')
   line('  The post says, in one plain line, that the source is in the comments.')
-  line('  In the paragraph before the closing question, one repost ask written for this post\'s own argument. No follow ask.')
-  line('  The closing question is one a parent or a teacher answers from experience, not "do you agree".')
+  line('  A repost ask only when the post truly calls for one, and never on two posts running. No follow ask. Vary the ending: compare it with the last ten posts.')
+  line('  If there is a question, it is one a parent or a teacher answers from experience, not "do you agree".')
   line('  Vary the sentences. One that runs long, one of five words or fewer. A post where every sentence is the same length reads as machine written.')
   line('  If a section does not apply, write NOT RECOMMENDED and the reason. If there is no card, write NONE under ASSETS USED.')
   line('  No dashes anywhere, of any length.')
@@ -338,6 +338,7 @@ export function stage2Brief({ links = {} } = {}) {
   line('    No stacked threes, no run of one line paragraphs, no opening question, no "not X, but Y" scaffolding, no "Moreover", "Furthermore" or "Additionally".')
   line('    Never invent an anecdote, a personal experience, a quotation or a family story. Use a founder scene only if the handoff gives one.')
   line('    Read it aloud as Justin at the school gate. If he would not say it to another parent, rewrite it.')
+  line('    Before you finish: say the one original argument in a sentence; cut any reflection or feeling Justin did not give you ("the part I keep coming back to"); do not open or end the way the last ten posts did; challenge it as a sceptical parent, teacher and researcher; and make sure it gives the reader something beyond the news.')
   line('  The opening and the close must not repeat an earlier post.')
   line('  Visuals use approved brand assets only. No invented screen, no regenerated character, no synthetic person shown as a real parent.')
   line('  Do not mark anything APPROVED or PUBLISHED. Only Justin does that.')

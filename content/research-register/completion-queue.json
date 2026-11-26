@@ -7,7 +7,7 @@
     "No figure may appear that is not already in that post or its first comment.",
     "Set state to COMPLETED once Claude has reviewed the finished pack; the item then leaves START HERE."
   ],
-  "updated": "2026-11-24",
+  "updated": "2026-11-26",
   "items": [
     {
       "gdc": "060",
@@ -16,8 +16,19 @@
       "slot": "Mon 30 Nov 08:00",
       "sourceDoc": "https://docs.google.com/document/d/1egD65BSEctnOKnl9NZb3AjHxgnx7bAIJu5PbxFnu6Sk/edit",
       "repoPack": "content/packs/2026-11-23-linkedin-week/linkedin.md",
-      "needs": ["Instagram caption", "Facebook adaptation", "a visual brief for each platform", "motion requirements"],
-      "note": "The feedback window closes 3 December 2026, read off the consultation itself. Say so in each version."
+      "needs": [
+        "Instagram caption",
+        "Facebook adaptation",
+        "a visual brief for each platform",
+        "motion requirements"
+      ],
+      "note": "The feedback window closes 3 December 2026, read off the consultation itself. Say so in each version.",
+      "revision": {
+        "version": 2,
+        "file": "content/packs/2026-11-26-backlog-authenticity-review/GDC-060-v2.md",
+        "state": "AWAITING JUSTIN",
+        "why": "authentic founder writing standard, 26 November 2026; v1 kept and still the approved text until he approves v2"
+      }
     },
     {
       "gdc": "067",
@@ -26,8 +37,19 @@
       "slot": "Fri 11 Dec 08:00",
       "sourceDoc": "https://docs.google.com/document/d/1x6tFnah3ReawruuFWe9jp4bJp-ko1PvzeQTm_S65FfU/edit",
       "repoPack": "content/packs/2026-11-23-linkedin-week/linkedin.md",
-      "needs": ["Instagram caption", "Facebook adaptation", "a visual brief for each platform", "motion requirements"],
-      "note": "Around four in ten, never 38 or 40 percent: YouGov's article and table disagree. Never say the same parents gave both answers."
+      "needs": [
+        "Instagram caption",
+        "Facebook adaptation",
+        "a visual brief for each platform",
+        "motion requirements"
+      ],
+      "note": "Around four in ten, never 38 or 40 percent: YouGov's article and table disagree. Never say the same parents gave both answers.",
+      "revision": {
+        "version": 2,
+        "file": "content/packs/2026-11-26-backlog-authenticity-review/GDC-067-v2.md",
+        "state": "AWAITING JUSTIN",
+        "why": "authentic founder writing standard, 26 November 2026; v1 kept and still the approved text until he approves v2"
+      }
     },
     {
       "gdc": "065",
@@ -36,7 +58,10 @@
       "slot": null,
       "sourceDoc": "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit",
       "repoPack": "content/packs/2026-11-23-hints-not-answers/",
-      "needs": ["a visual brief for each platform", "motion requirements"],
+      "needs": [
+        "a visual brief for each platform",
+        "motion requirements"
+      ],
       "note": "Instagram and Facebook drafts already exist in the repo pack; check them against the LinkedIn post rather than rewriting. Not approved by Justin yet, so it is completed and held, never scheduled."
     },
     {
@@ -46,8 +71,17 @@
       "slot": null,
       "sourceDoc": "https://docs.google.com/document/d/1r82pspLQHh05oFDz7Bc8m7mkBACSPmuhh19KL5YwEwA/edit",
       "repoPack": "content/packs/2026-11-23-hints-not-answers/",
-      "needs": ["a visual brief for each platform", "motion requirements"],
-      "note": "US data only, say so. Not approved by Justin yet, so it is completed and held, never scheduled."
+      "needs": [
+        "a visual brief for each platform",
+        "motion requirements"
+      ],
+      "note": "US data only, say so. Not approved by Justin yet, so it is completed and held, never scheduled.",
+      "revision": {
+        "version": 2,
+        "file": "content/packs/2026-11-26-backlog-authenticity-review/GDC-066-v2.md",
+        "state": "AWAITING JUSTIN",
+        "why": "two invented reflections cut"
+      }
     }
   ]
 }

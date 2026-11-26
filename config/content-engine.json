@@ -28,7 +28,9 @@
     "neverInvent": ["anecdotes", "personal experiences", "quotations", "family stories"],
     "privacy": "content/brand-story/founder-context.md (GREEN, AMBER, RED)",
     "familyAccount": "we, Justin and Natalia together, Natalia's ear as the test (family-social); Justin speaks as I only on LinkedIn, Substack and what he signs. Justin, 24 November 2026: yes",
-    "bannedList": "scripts/check-ai-tells.mjs, the one list; skills point at it rather than keep copies"
+    "bannedList": "scripts/check-ai-tells.mjs, the one list; skills point at it rather than keep copies",
+    "authenticStandard": "the ten checks in .claude/skills/founder-voice-review/SKILL.md (Justin, 26 November 2026); editorial watchlist content/brand-story/editorial-watchlist.md",
+    "never": ["deliberate spelling mistakes to look human", "manufactured personal anecdotes", "fake statistics, quotations or experiences", "a promise to bypass AI detectors"]
   },
 
   "audiences": [
@@ -61,7 +63,8 @@
     "words": { "min": 250, "max": 450 },
     "characters": { "min": 1300, "max": 2500, "hard": 3000 },
     "opening": "the named study or body and its finding, in one complete sentence (Justin's numbers of 11 November)",
-    "closingQuestion": "last sentence, asks what the reader would measure, count or do",
+    "closingQuestion": "optional: only a real question a parent or teacher answers from experience, and then the last sentence; never by reflex (Justin, 24 and 26 November 2026)",
+    "repostAsk": "optional: only when the post truly calls for one, never on two posts running",
     "linkInBody": false,
     "commentKeyword": false,
     "followAsk": false,

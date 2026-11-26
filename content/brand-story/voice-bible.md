@@ -11,14 +11,29 @@ in his own words. Nothing is invented. Private context stays outside the repo;
 
 ## 1. Where the examples come from
 
-| Source | Status | Use |
+Justin, 26 November 2026: "Separate authentic founder input from previous AI
+generated material. Do not train the voice profile exclusively on previous
+generated posts." Every source carries one of three labels, and only
+**AUTHENTIC** sources may be used as evidence of how he writes.
+
+- **AUTHENTIC**: words Justin typed or said himself, unedited by a model.
+- **MIXED**: published under his name, but drafted or edited with AI. Evidence of
+  what he will put his name to and what he believes, never of his rhythm.
+- **GENERATED**: drafted by Claude or ChatGPT. Never a voice sample.
+
+| Source | Label | Use |
 |---|---|---|
-| His best performing post, the Wrong Villain "beta = 0.061" post (about 74,000 impressions) | in `.claude/skills/viral-post/SKILL.md`, Part 1 | the reference for how he explains research |
-| His supplied founder context, 1 October 2026 | `content/brand-story/founder-context.md` | his positions and true scenes |
-| The family account's founding story | `content/brand-story/founding-story.md` | the family voice |
-| Posts 054 to 058, live on LinkedIn by 23 November | packs and handoffs named in `content/gdc-post-register.md` | edited by us before posting, so evidence of what he accepts, not of how he writes unedited |
-| His instructions to Claude, quoted in `plans/decisions.md` and the archives | in repo | his corrections, section 6 |
-| ChatGPT conversations, voice transcripts, newsletters he wrote alone | **not accessible from here** | add when he shares one: paste it into section 5 with the date and where it came from |
+| His messages and instructions to Claude, quoted in `plans/decisions.md`, the archives and section 5b | AUTHENTIC | his phrasing, his opinions, his corrections |
+| His supplied founder context, 1 October 2026 (`founder-context.md`) | AUTHENTIC in substance; written up in the third person, so its sentences are not his | his positions and true scenes |
+| The family account's founding story (`founding-story.md`) | MIXED | the family's facts, not anyone's rhythm |
+| The Wrong Villain "beta = 0.061" post (about 74,000 impressions; viral-post Part 1) | MIXED: authorship not recorded | how he argues from evidence, not how he sounds |
+| Posts 054 to 058 and every radar pack | GENERATED, then approved by him | what he accepts; never a voice sample |
+| The LinkedIn post of 26 November on Mumsnet and AI | MIXED | his stated stance on using AI |
+| ChatGPT conversations, voice transcripts, notes or posts he wrote alone | **not in the repo yet** | when he shares one, it goes in 5b with the date and the label |
+
+`scripts/rhythm.mjs` measures against `founder-context.md` and
+`founding-story.md`. Neither is fully AUTHENTIC, so its baseline is a guide,
+not the truth, until AUTHENTIC samples replace it (section 7).
 
 ## 2. What he thinks, which the writing must never contradict
 
@@ -86,6 +101,24 @@ from. Do not paste an edited version as if it were his raw writing.
   there, it worked and why, and let me know what you need from me." The voice in
   short: say the vital thing, say whether it worked, stop.
 
+## 5b. Justin in his own words (AUTHENTIC)
+
+Verbatim, from his messages. Kept for how he thinks and talks, not for his
+spelling: his slips are never reproduced.
+
+- "please summarise in general as a rule, as no need to go into so much detail
+  as takes too long to read, as long as vital info there, it worked and why,
+  and let me know what you need from me" (4 Aug 2026)
+- "lets always apply a claude review over posts put in drive" (13 Oct 2026)
+- "gta approved, drop 24th and 062 this week and add to next week after" (23 Nov 2026)
+- "I don't want that again with AI writing" (26 Nov 2026, on Mumsnet)
+- "Use these sources to understand reader criticism and improve editorial
+  quality, not as definitive AI detection methods." (26 Nov 2026)
+
+What they show: he gets to the point in the first words, uses plain verbs,
+states the decision and the reason in one breath, asks for what he needs at the
+end, and does not decorate. No preamble, no announced honesty, no tidy threes.
+
 ## 6. Corrections log
 
 Append only. Newest at the bottom. One row each time Justin corrects wording
@@ -105,6 +138,7 @@ or a writing rule. If the rule is mechanical, it is also in
 | 24 Nov 2026 | "Avoid generic AI vocabulary, corporate language, repetitive rhetorical contrasts, predictable three-part sentences, excessive one-line paragraphs, unnecessary em dashes, formulaic hooks and forced closing questions." "Do not reproduce accidental spelling errors." "Do not invent anecdotes, personal experiences, quotations or family stories." | this skill | the guard (stock phrases, stiff openers), the ear, the meter |
 | 25 Nov 2026 | "Replies need to be my voice and no AI phrases or tells in future" | every comment and DM reply drafted for him is in his voice and gets the same read as a post: run the guard and the ear before handing it over; no stock openers ("That's the X in one sentence", "Two things can be true"), no "not X, it's Y" contrasts, no tidy threes, no closing question by reflex; short, plain, his rhythm | the guard, founder-voice-review |
 | 24 to 26 Nov 2026 | The Mumsnet ten parents post, drafted by Claude: "sounds so ridiculously Chat GPTd that it is actually painful to read". It passed the guard and the meter. Justin, 26 Nov: "I don't want that again" and yes to Justin writes, Claude checks | in other people's spaces Justin writes first and Claude only checks (at least 90 percent his words); no announced honesty ("I'll be upfront"), no three neat struggles, no "6pm on a Tuesday", no numbered survey, no product copy, no tracked link, no "thank you for reading" | `--community` guard, `own-words`, founder-voice-review |
+| 26 Nov 2026 | The authentic founder writing standard: the ten checks, "never introduce deliberate spelling mistakes", "never manufacture personal anecdotes", "never promise to bypass AI detectors", "separate authentic founder input from previous AI generated material" | the ten checks run before anything is called done; voice samples are labelled AUTHENTIC, MIXED or GENERATED and only AUTHENTIC ones count; no invented reflections ("the part I keep coming back to"); endings compared against the last ten posts | founder-voice-review, `openings.mjs`, editorial-watchlist.md |
 
 ## 7. How to keep this alive
 

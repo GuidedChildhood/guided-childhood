@@ -289,11 +289,14 @@ export function checkPack(pack, { record = null, corpus = null, postRegisterPath
     add('no link in the post body', !URL_IN_BODY.test(li),
       URL_IN_BODY.test(li) ? 'a URL is in the body. A bare link cuts reach by 25 to 60 percent; it belongs in the first comment.' : 'none')
 
-    // The single closing question must be last, with nothing after it.
+    // A closing question is optional (Justin, 24 and 26 November 2026: no
+    // forced closing questions; endings are compared against the previous
+    // ten posts). If the post ends on a question, nothing comes after it, and
+    // a post that asks one in its last paragraph does not then trail on.
     const sents = sentences(li)
     const lastQ = [...sents].reverse().findIndex((s) => s.endsWith('?'))
-    add('the closing question is last with nothing after it', lastQ === 0,
-      lastQ === -1 ? 'there is no closing question' : lastQ === 0 ? 'the last sentence is the question' : `${lastQ} sentence(s) come after the closing question`)
+    add('the closing question, if there is one, is last with nothing after it', lastQ === -1 || lastQ === 0 || lastQ > 3,
+      lastQ === -1 ? 'no closing question, which is allowed' : lastQ === 0 ? 'the last sentence is the question' : lastQ > 3 ? 'the question is in the body, not the close' : `${lastQ} sentence(s) come after the closing question`)
 
     add('a first comment is supplied', !!pack?.linkedin?.firstComment,
       pack?.linkedin?.firstComment ? 'present' : 'no first comment. The link and the pre empted objection live there, and it has to go up the moment the post does.')
