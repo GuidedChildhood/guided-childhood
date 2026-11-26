@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-25T09:36:23.913Z",
+ "generatedAt": "2026-11-26T09:32:30.360Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -12,13 +12,13 @@
   "At most three personal LinkedIn posts per calendar week. A pack completed beyond that is held in reserve, never scheduled until Justin approves it."
  ],
  "counts": {
-  "total": 162,
+  "total": 176,
   "byStatus": {
-   "DISCOVERED": 108,
+   "DISCOVERED": 115,
    "APPROVED": 7,
-   "HOLD": 19,
+   "HOLD": 22,
    "REJECTED": 7,
-   "VERIFIED": 19,
+   "VERIFIED": 23,
    "EDITORIAL READY": 2
   }
  },

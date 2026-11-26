@@ -1,0 +1,161 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-26",
+ "startedAt": "2026-11-26T09:20:55.685Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-26T09:20:55.685Z",
+   "commit": "eec77b36",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 0,
+    "note": "the inbox held no new document"
+   },
+   "at": "2026-11-26T09:20:55.710Z",
+   "commit": "eec77b36",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 14,
+    "total": 176
+   },
+   "at": "2026-11-26T09:30:28.639Z",
+   "commit": "eec77b36",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 7,
+    "confirmed": 7,
+    "unconfirmed": []
+   },
+   "at": "2026-11-26T09:30:30.700Z",
+   "commit": "eec77b36",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 looked at, 3 stored, all HOLD: GDC-RR-6ae1e1f9cc (Argentine paediatric update, full text paywalled, abstract only), GDC-RR-1ce3acf374 (Makassar legal study, no sample stated, journal page 503), GDC-RR-825cf78470 (US rural urban screen time and sleep, cross sectional, sleep definition unread). 23 wait for later runs. ChatGPT left no new candidates since 23 Nov and no brief in the brief folder today."
+   ],
+   "detail": null,
+   "at": "2026-11-26T09:32:30.071Z",
+   "commit": "eec77b36",
+   "attempts": 2
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-553f7dc067",
+     "GDC-RR-540fff2c03"
+    ],
+    "duplicateCheck": {
+     "GDC-RR-553f7dc067": "NEW",
+     "GDC-RR-540fff2c03": "NEW"
+    },
+    "queue": [
+     "GDC-RR-553f7dc067",
+     "GDC-RR-540fff2c03"
+    ]
+   },
+   "at": "2026-11-26T09:32:30.364Z",
+   "commit": "eec77b36",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "HOLD",
+   "by": "script",
+   "reasons": [
+    "GDC-RR-540fff2c03: the post says the source is in the comments: the first comment carries a link and the post never says so. One plain line: the paper is in the comments. | every figure in the copy was cleared by the review: not cleared: 18, 19. Cleared figures are: 147 young people in the Netherlands aged 16 to 25 (average 20.4) donated their TikTok feed histories, about 6.7 million public videos, mostly from October 2023 to May 2026 | news, politics and societal issues made up a median of 5.34 percent of a feed, about 126 such videos a month for the typical person | a median of 98.4 percent of that news like content came from accounts the person did not follow, compared against the accounts they followed when they donated | on average 13.28 percent of news like content came from established news organisations, 63.85 percent from niche creators | hateful videos were a median of 2.21 percent of news like content, about 3 a month for the typical person; 5.44 percent of participants never came across one | 76.74 percent said social media was their main source of news | the Evidence Reveal hooks are sound: 2 hook(s) found, three are asked for, one per line as TYPE: the hook; 0 marked CHOSEN, exactly one should be",
+    "GDC-RR-553f7dc067: the post says the source is in the comments: the first comment carries a link and the post never says so. One plain line: the paper is in the comments. | the CARD TEXT passes the research card gate: source is 74 characters, the most the card holds is 64; 64 words on the card. The most that can be read in the time is 55 | the Evidence Reveal hooks are sound: 2 hook(s) found, three are asked for, one per line as TYPE: the hook; 0 marked CHOSEN, exactly one should be"
+   ],
+   "detail": {
+    "packs": 2,
+    "results": [
+     {
+      "file": "1mjKPlmbspv0lMPmeBFeRyKh061hYk86o_0CjdTngDAE__pack.txt",
+      "researchId": "GDC-RR-540fff2c03",
+      "verdict": "HOLD",
+      "failed": 3,
+      "checked": 34
+     },
+     {
+      "file": "1xWGUQ4JigJWan5RJKR1WpbyshXBfsjq4InnLgDeJqXg__pack.txt",
+      "researchId": "GDC-RR-553f7dc067",
+      "verdict": "HOLD",
+      "failed": 3,
+      "checked": 34
+     }
+    ]
+   },
+   "at": "2026-11-26T09:33:02.423Z",
+   "commit": "eec77b36",
+   "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "Deferred to the 13:17 run. Drive copies of the queue and START HERE are stale against main, and the START HERE text that carries the QA reasons back to ChatGPT was not regenerated this morning. Nothing new was cleared, so the queue ChatGPT reads is unchanged. GDC-062 and GDC-063 v1 are held at QA (source in the comments line, hooks not marked CHOSEN in the form the checker reads, 062 card text over its limits, 063 flags 18 and 19 which are a date and video lengths)."
+   ],
+   "detail": null,
+   "at": "2026-11-26T09:33:56.716Z",
+   "commit": "1c1db828",
+   "attempts": 2
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "GDC-062 and GDC-063 v1 failed QA, so no review. Voice edits and the visual decision wait for the 13:17 run."
+   ],
+   "detail": null,
+   "at": "2026-11-26T09:33:56.779Z",
+   "commit": "1c1db828",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "Nothing at ASSETS READY. Seven approved posts wait for Justin to post and send links. Desks not republished this morning."
+   ],
+   "detail": null,
+   "at": "2026-11-26T09:33:56.840Z",
+   "commit": "1c1db828",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-26T09:33:56.864Z"
+}

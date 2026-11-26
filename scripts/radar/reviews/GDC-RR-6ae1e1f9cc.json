@@ -1,0 +1,86 @@
+{
+  "studyId": "GDC-RR-6ae1e1f9cc",
+  "reviewedAt": "2026-11-26T09:32:26Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 26 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "reviewBasis": "The abstract and bibliographic record only, read through Europe PMC in this run. The full text at doi.org/10.5546/aap.2026-1134.eng is subscription only and the DOI link returned a 404, so no figure beyond the abstract could be read in the source. The paper is a clinical update from one author, published ahead of print on 26 November 2026.",
+  "claims": [
+    {
+      "claim": "In Argentina the average age of a first personal phone with internet access is 9.6 years and eight in ten adolescents use social media every day.",
+      "status": "QUALIFIED",
+      "basis": "Stated in the abstract. The underlying survey, its date and its sample were not reachable, so the figure cannot be quoted as cleared. It is also Argentine, not UK."
+    },
+    {
+      "claim": "Researchers disagree about the effect of social media on adolescent mental health, with some seeing a large reshaping of childhood and others a very small effect on the general population.",
+      "status": "VERIFIED",
+      "basis": "Stated in the abstract as the author's framing of the literature. It is a description of the debate, not a finding."
+    },
+    {
+      "claim": "Clinical evaluation should stop using duration of use as a risk criterion and look at patterns of use and individual vulnerability.",
+      "status": "UNSUPPORTED",
+      "basis": "This is the author's proposal. The abstract gives no data that tests it, and the full text that might cite supporting studies could not be read. It agrees with what we teach, which is the reason for more scrutiny, not less."
+    },
+    {
+      "claim": "Restricting access reduces exposure but does not on its own improve mental health.",
+      "status": "UNSUPPORTED",
+      "basis": "Stated in the abstract without the evidence behind it. Not checkable in this run."
+    }
+  ],
+  "verifiedStatistics": [],
+  "notQuotable": [
+    "The 9.6 years and eight in ten figures, until the survey behind them is read",
+    "That restricting access does not improve mental health",
+    "That duration of use is not a risk factor: this is an opinion piece position, not a result",
+    "Anything as a UK or a causal finding"
+  ],
+  "recommendedPlatforms": [],
+  "urgency": "None. Held until the full text can be read.",
+  "evidenceConfidence": "LOW. Only the abstract was read, the design is a clinical update with no stated method, and the conclusion happens to flatter what we teach.",
+  "limitations": [
+    "Full text not accessible in this run, so no claim could be checked against the paper itself.",
+    "A narrative clinical update from one author, with no stated search method, so it is a view and not a study.",
+    "Argentine data. Not UK children.",
+    "Ahead of print, published on the day of this run."
+  ],
+  "contradictoryEvidence": [
+    "The abstract itself says other researchers attribute the rise in anxiety, depression and self harm to the spread of smartphones, so the field is split on the question the paper claims to resolve."
+  ],
+  "whatThisDoesNotProve": [
+    "That patterns of use matter more than duration.",
+    "That restricting access has no effect on mental health.",
+    "Anything about UK children."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'doctors say screen time does not matter', which the abstract does not say.",
+  "gdcBeliefs": [
+    "Evidence or silence. We cannot lean on a position we could not read.",
+    "A calibrated pathway, not allow or deny. The paper's direction is close to ours, which is why it must clear a higher bar."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody until the full text is read.",
+  "unresolvedQuestions": [
+    "What evidence does the full text cite for moving from duration to patterns of use?",
+    "What survey gives the 9.6 years and eight in ten figures?"
+  ],
+  "verification": {
+    "originalSource": "The abstract and record were read through Europe PMC (PMID 43076514). The full text at doi.org/10.5546/aap.2026-1134.eng is paywalled and the link failed, so the source was not read in full and the abstract is all that can be said to match the candidate.",
+    "publicationDate": "Electronic publication 26 November 2026, print issue November 2026, ahead of print, as the Europe PMC record gives it. Read in this run.",
+    "statisticsAndDenominators": "Two figures appear in the abstract, 9.6 years as the average age of a first phone with internet and eight in ten adolescents using social media daily. Neither has a stated denominator, survey or year in anything read, so neither is cleared.",
+    "sampleAndPopulation": "No study sample. It is a clinical update by one author for the Argentine paediatric society, about Argentine children and adolescents. Not UK families.",
+    "researchDesign": "A narrative clinical update with no stated search method. It can describe the debate and propose a way to assess patients. It cannot show that any pattern of use causes or prevents harm.",
+    "correlationOrCausation": "No causal claim can be made from it. Copy would have to say 'a paediatric society update argues', never 'research shows' or 'proves'.",
+    "counterEvidence": "The abstract names the opposing camp, authors who link smartphone adoption to rising anxiety, depression and self harm, but names no work. No outside search was run in this run.",
+    "strongestObjection": "A careful sceptic would say this is one author's proposal with no method, that the key recommendation is opinion, and that we are tempted by it only because it agrees with us.",
+    "practicalImplications": "Nothing a parent could safely act on from this review alone, because the evidence behind the proposal was not read.",
+    "claimsNotToMake": "Do not say screen time does not matter, that restricting access does not help, that research has settled the debate, or that this describes UK children. Do not use the 9.6 years or eight in ten figures. Do not claim any outcome for a child."
+  },
+  "storedAt": "scripts/radar/reviews/GDC-RR-6ae1e1f9cc.json"
+}

@@ -1,0 +1,46 @@
+{
+ "researchId": "GDC-RR-553f7dc067",
+ "gdcPostNumber": "062",
+ "handoffVersion": 1,
+ "sourceCommit": "bca36accd7a18b2b879e27e0f2ad7e007529b6a8",
+ "status": "DRAFT",
+ "linkedin": {
+  "body": "The number that stayed with me was 18 percent.\n\nThe European Commission asked 26,297 young people aged 13 to 18 across the 27 EU countries what they do to protect their mental wellbeing on social media. The survey ran from 30 March to 16 April 2026.\n\nAmong young people who use social media on a school day, 32 percent of those aged 13 and 14 chose talking to a parent, teacher or another adult. At 15 and 16 it was 28 percent. At 17 and 18 it was 18 percent.\n\nThat does not mean teenagers stop talking to their parents as they grow. These were three different age groups surveyed at one point, not the same children followed over time. The answer also grouped parents, teachers and other adults together. The UK was not included.\n\nThere is another part of the picture. The older group more often chose reporting harmful content or accounts and taking breaks from social media. They may be developing other ways to manage what they meet online.\n\nEven so, the gap matters. Older teenagers in the same survey more often reported seeing AI content that was hard to recognise and unwanted sexualised content, while fewer named an adult as one of the ways they protect themselves.\n\nIt makes me think about timing. The open door is easier to build in an ordinary calm moment than when something has already gone wrong.\n\nI build a parent tool, and one of its first lessons gives parents a simple line: if a screen ever gives you that uh oh feeling, you can always come to me. You will never be in trouble for telling me.\n\nThe research does not show that saying this changes what a teenager will do years later. It is simply a useful promise a parent can make now.\n\nCould you say that sentence tonight, while nothing is wrong?",
+  "firstComment": "Source: European Commission survey data analysed in a Research Square preprint published 17 November 2026:\n\nhttps://doi.org/10.21203/rs.3.rs-11441481/v1\n\nThe strongest objection is important. This was a cross sectional survey of different age groups, not evidence that the same young people became less likely to speak to an adult over time. The response option combined a parent, teacher or another adult, and the survey did not include the UK."
+ },
+ "instagram": {
+  "caption": "STATUS: DRAFT AWAITING REVIEW\n\nAt 13 and 14, 32 percent said talking to a parent, teacher or another adult was one way they protect their wellbeing on social media.\n\nAt 17 and 18, it was 18 percent.\n\nThese were different age groups in one EU survey, not the same teenagers followed over time. The UK was not included. Older teenagers also reported other ways of coping, including reporting harmful content and taking breaks.\n\nThe useful question for parents is smaller and more practical.\n\nHave we made it easy for our child to tell us when something online feels wrong?"
+ },
+ "facebook": {
+  "caption": "STATUS: DRAFT AWAITING REVIEW\n\nA European Commission survey asked young people who use social media on a school day what they do to protect their mental wellbeing there.\n\nTalking to a parent, teacher or another adult was selected by 32 percent of 13 and 14 year olds, and by 18 percent of 17 and 18 year olds.\n\nThis does not show that the same children stopped talking as they grew. The groups were surveyed once, the answer included several kinds of adult, and the UK was not part of the survey. Older teenagers also more often chose reporting harmful content and taking breaks.\n\nFor families, the practical step is not to wait for a crisis. In a calm moment, we can tell a child that they can always come to us and will not be in trouble for telling us.\n\nWhat words would make that promise sound natural in your family?"
+ },
+ "declined": {
+  "NEWSLETTER": "NOT RECOMMENDED. The handoff clears a LinkedIn evidence story, not a separate long form edition. Hold for possible inclusion in a later weekly synthesis after editorial review.",
+  "REEL SCRIPT": "NOT RECOMMENDED. The finding is better served by a short silent evidence motion than by adding another spoken format.",
+  "ASSETS USED": "NONE. No finished visual asset was verified. The brief specifies a new card and motion render for production."
+ },
+ "reveal": {
+  "hooks": "CHOSEN, OVERLOOKED FINDING: The number that stayed with me was 18 percent.\n\nCOMPARISON: At 13 and 14, about a third named an adult. At 17 and 18, fewer than one in five did.\n\nPRACTICAL CONSEQUENCE: The open door is easier to build before anyone needs it.\n\nThe comparison lost because it leads with two figures before the reader knows what was asked. The practical consequence lost because it starts with our belief rather than the evidence.",
+  "storyboard": "DISRUPT, 0 to 3 seconds: Warm paper fills the frame. Navy text appears: The number that stayed with me was 18 percent.\n\nREVEAL, 3 to 8 seconds: Two simple age labels settle into view. 13 and 14: 32 percent. 17 and 18: 18 percent. Small text says: Talk to a parent, teacher or another adult.\n\nREFRAME, 8 to 13 seconds: The figures remain while the limitation appears: Different age groups. One survey. EU 27, not the UK. A small yellow rule draws attention to the qualification.\n\nINVITE, 13 to 18 seconds: Navy text asks: Have we made it easy for them to tell us? Hold the final frame for 5 seconds.\n\nCOVER: The number that stayed with me was 18 percent. Small source line: European Commission survey, spring 2026.\n\nCAROUSEL: Slide 1, The number that stayed with me was 18 percent. Slide 2, the 32 percent and 18 percent comparison with the exact adult wording. Slide 3, what the survey does not show. Slide 4, the practical parent promise."
+ },
+ "visual": {
+  "brief": "LINKEDIN: 1080 by 1350 static card using warm paper, navy typography and one restrained yellow underline beneath 18 percent. Minimal text. No child faces. No public GDC number. Use only the cleared comparison and qualification.\n\nINSTAGRAM: 1080 by 1350 four slide carousel. The opening card must work without the caption. Keep every figure large enough for a phone screen. Use warm paper, navy type and restrained yellow accents. No child faces. No public GDC number. Status remains DRAFT awaiting review.\n\nFACEBOOK: 1200 by 630 single card with the 32 percent and 18 percent comparison, plus the exact phrase parent, teacher or another adult. Use warm paper, navy typography and one yellow highlight. No child faces. No public GDC number. Status remains DRAFT awaiting review.\n\nMOTION: Produce an 18 second silent MP4 at 30 frames a second. Use slow text reveals and smooth number transitions only. No decorative movement. Hold the final invitation frame for at least 5 seconds. Inspect every frame for legibility and accidental public identifiers before handoff.",
+  "assetsUsed": []
+ },
+ "card": {
+  "text": "HEADLINE: Older teenagers named an adult less often, but that is not the whole story\n\nFINDING: 32 percent at 13 and 14. 18 percent at 17 and 18.\n\nCONTEXT: Talk to a parent, teacher or another adult, among school day social media users.\n\nSOURCE: European Commission survey and Research Square preprint, 17 November 2026.\n\nLIMITATION: Different age groups, EU 27 only, not change within the same teenagers.\n\nTIMING: 3 seconds, 5 seconds, 5 seconds, 5 seconds.\n\nVISUAL: Warm paper, navy type, one restrained yellow underline. Slow text reveals, then a still hold.",
+  "headline": "Older teenagers named an adult less often, but that is not the whole story",
+  "finding": "32 percent at 13 and 14. 18 percent at 17 and 18.",
+  "context": "Talk to a parent, teacher or another adult, among school day social media users.",
+  "source": "European Commission survey and Research Square preprint, 17 November 2026.",
+  "limitation": "Different age groups, EU 27 only, not change within the same teenagers.",
+  "timing": "3 seconds, 5 seconds, 5 seconds, 5 seconds.",
+  "visual": "Warm paper, navy type, one restrained yellow underline. Slow text reveals, then a still hold."
+ },
+ "evidence": {
+  "notes": "This research does not show that teenagers stop confiding in their parents as they grow. It does not separate parents from teachers or other adults. It does not establish that talking to an adult works better than reporting or taking breaks. It says nothing about UK teenagers or children under 13. It does not show that the parent promise, or Guided Childhood, changes later behaviour.\n\nFOUNDER VOICE REVIEWED: Automated editorial review completed against the accessible operating system, current posting pack and Voice and Copy Bank. This is not human approval.\n\nPLATFORM HANDOFF: Instagram and Facebook adaptations are DRAFT awaiting review. Pass them through the existing 14:30 GDC Metricool Drafts handoff. Do not upload through LinkedIn and do not schedule from this pack."
+ },
+ "sources": [
+  "https://doi.org/10.21203/rs.3.rs-11441481/v1"
+ ]
+}
