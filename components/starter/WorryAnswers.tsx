@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 
 import WorryIcon from '@/components/onboarding/WorryIcon'
 import { WORRIES, ALL_WORRIES, CATCH_ALL_ID, type Worry } from '@/lib/onboarding/worries'
@@ -236,25 +237,7 @@ export default function WorryAnswers({ worryIds, own, tonight, yourPhone, helpFi
                 lines stay in lib/content/proof.ts, where DiGi and the app read
                 them. The guard that every worry has a line per part still
                 holds the data. */}
-            {a.how.length > 0 && (
-              <div aria-label="What we do, each time" style={{ marginTop: 14, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                {a.how.map(h => (
-                  <span key={h.id} title={h.line} style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 11px 4px 4px',
-                    background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)',
-                  }}>
-                    <span aria-hidden style={{
-                      width: 26, height: 26, borderRadius: '50%', flexShrink: 0, background: METHOD[h.id].tint,
-                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    }}>
-                      <MethodIcon id={h.id} size={15} />
-                    </span>
-                    {METHOD[h.id].label}
-                  </span>
-                ))}
-              </div>
-            )}
+            {a.how.length > 0 && <MethodRow how={a.how} />}
             {/* The counted number, back on the card.
                 The method row replaced the proof chips and took the only
                 figure on the page with it, so a parent could read the whole
@@ -293,3 +276,52 @@ export default function WorryAnswers({ worryIds, own, tonight, yourPhone, helpFi
     </div>
   )
 }
+
+/* ── THE FOUR PARTS, TAPPABLE (26 November 2026) ──────────────────────────
+   The labels were pills with a border and an icon, so they looked like
+   buttons and did nothing. A Mumsnet parent who tried the check said
+   "nothing else seemed clickable", and another that it did not address her
+   issue. Each pill now opens the one line written for this worry (the line
+   lib/content/proof.ts already holds), so the card says what each part does
+   about THEIR problem, and stays as short as Justin asked on 14 November
+   until a parent taps. */
+function MethodRow({ how }: { how: { id: MethodId; line: string }[] }) {
+  const [open, setOpen] = useState<MethodId | null>(null)
+  const shown = how.find(h => h.id === open)
+  return (
+    <div style={{ marginTop: 14 }}>
+      <div aria-label="What we do, each time" style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+        {how.map(h => {
+          const on = open === h.id
+          return (
+            <button key={h.id} type="button" aria-expanded={on}
+              onClick={() => setOpen(on ? null : h.id)}
+              data-track={`worry-part-${h.id}`}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 11px 4px 4px', minHeight: 36,
+                background: on ? 'var(--butter-lt)' : 'var(--white)',
+                border: on ? '1.5px solid var(--ink)' : '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', cursor: 'pointer',
+              }}>
+              <span aria-hidden style={{
+                width: 26, height: 26, borderRadius: '50%', flexShrink: 0, background: METHOD[h.id].tint,
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <MethodIcon id={h.id} size={15} />
+              </span>
+              {METHOD[h.id].label}
+            </button>
+          )
+        })}
+      </div>
+      {shown ? (
+        <p role="status" style={{ margin: '10px 0 0', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--ink)' }}>
+          <strong>{METHOD[shown.id].label}:</strong> {shown.line}
+        </p>
+      ) : (
+        <p style={{ margin: '8px 0 0', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)' }}>Tap one to see what it does for this.</p>
+      )}
+    </div>
+  )
+}
+

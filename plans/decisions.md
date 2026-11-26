@@ -253,3 +253,8 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 - Justin, "1 yes": forums, groups, school WhatsApps and replies to parents are his own writing. Claude gives prompts, checks facts, rules and privacy, and suggests at most three fixes. `npm run own-words` must show 90 percent of the posted words are his.
 - The Mumsnet post passed the guard and sat near his rhythm. New `scripts/forum-tells.mjs` (announced honesty, survey shapes, our tics, product copy, tracked links); `check-ai-tells.mjs --community` fails on them; `rhythm.mjs` prints them everywhere. A test keeps the Mumsnet post failing (wiring.yml).
 - Founder voice review gains a genre step; Voice Bible correction logged. The thread is deleted, so no samples. Plan: plans/2026-11-26-community-voice-plan.md, PR 1726.
+
+## 26 November 2026: the Mumsnet three, checked against what other sessions shipped
+
+- Justin, "yes go ahead with all 3 but check". Two of the three were already done by other sessions: the bedroom line is fixed everywhere, and the save line is now Justin's decision of 25 November ("Free for 4 days. No card, so nothing is ever charged unless you pick a plan."), so it stays. The result page already hands over a "Say this" script, after the six problem and fix cards Justin ordered on 26 November; the order is his and stays.
+- New: the four part labels on each worry card (Device time, Scripts, Their app, DiGi) looked like buttons and did nothing. Each now opens the line written for that worry in lib/content/proof.ts. A Mumsnet parent said nothing seemed clickable.
