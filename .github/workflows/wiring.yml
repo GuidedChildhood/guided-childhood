@@ -732,6 +732,8 @@ jobs:
       # The Mumsnet post of 24 November passed the line above. The forum tells
       # test keeps that post failing under --community, for good.
       - run: node --test scripts/forum-tells.test.mjs
+      # The evidence carousel gate: no uncleared figure, no causal wording, no GDC number on a page.
+      - run: node tools/motion-engine/scripts/test-carousel.mjs
       # And a teacher can SEE what was checked: every source row shows one of
       # the three badges or the checker's own note, never a note hidden behind
       # a badge it did not choose (24 were, until 23 September 2026).

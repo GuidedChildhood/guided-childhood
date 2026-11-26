@@ -1,0 +1,56 @@
+{
+  "schema": "gc.evidence-carousel/1.0",
+  "gdc": "066",
+  "title": "Saying no to AI is not the same as talking about it (RAND, November 2026)",
+  "status": "AWAITING JUSTIN: a trial for the evidence carousel series; GDC 066 is in reserve and not yet approved",
+  "clearedFrom": [
+    "content/packs/2026-11-23-hints-not-answers/linkedin.md"
+  ],
+  "draft": false,
+  "source": "Source: RAND, RR-A4742-5, 12 November 2026. US parents and teenagers.",
+  "pages": [
+    {
+      "kicker": "AI and homework",
+      "lines": [
+        "Saying no to AI",
+        "is not the same as",
+        "==talking about it.=="
+      ]
+    },
+    {
+      "kicker": "What RAND found",
+      "lines": [
+        "About 1,000 US parents.",
+        "56 percent encourage it.",
+        "24 percent discourage it.",
+        "==20 percent have not raised it.=="
+      ]
+    },
+    {
+      "kicker": "The shaky part",
+      "lines": [
+        "Teens who felt discouraged:",
+        "==38 percent== used it anyway.",
+        "A small, unweighted group.",
+        "One snapshot, not proof."
+      ]
+    },
+    {
+      "kicker": "What it does not show",
+      "lines": [
+        "That rules change behaviour.",
+        "That it holds in the UK.",
+        "It is one US survey."
+      ]
+    },
+    {
+      "kicker": "What parents can do",
+      "role": "practical",
+      "lines": [
+        "Be explicit, not only strict.",
+        "Say what it may and may not do.",
+        "==Show me how you ask it.=="
+      ]
+    }
+  ]
+}

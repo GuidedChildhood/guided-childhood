@@ -68,6 +68,50 @@ Colours come from `shared/tokens.css`; the warmed ivory and the darker gold ink
 for words (the token gold dark is 2.3 to 1 on ivory, too faint to read) are
 explained in `src/theme.ts`.
 
+## The evidence carousel (recurring series, from 26 November 2026)
+
+Justin, 26 November 2026: the GTA VI carousel (GDC 064) did well on LinkedIn
+and Instagram, so it is now a series: one or two a week, inside the usual
+cadence (three personal LinkedIn posts a week), never on top of it.
+
+The look, taken from GDC 064: crinkled paper, black type, one restrained yellow
+highlight per page, minimal branding ("GUIDED CHILDHOOD" at the top, "EVIDENCE
+FIRST. CHILDREN FIRST." and the page count at the foot), one idea per page, five
+pages as a rule. The shape: a familiar parenting subject, an evidence led
+challenge to a popular assumption, what the research shows, what it does not,
+and a practical last page for parents.
+
+The editable sources: the words in `content/motion/GDC-NNN/carousel.json`, the
+look in `carousel/template.html`. Then:
+
+```
+node scripts/carousel.mjs ../../content/motion/GDC-NNN/carousel.json --motion --portrait
+```
+
+It writes, into `content/motion/GDC-NNN/carousel/`:
+
+- `gdc-NNN-slide-1.jpg` to `-5.jpg`, 1080 by 1350, the Instagram slides
+- `gdc-NNN-linkedin-carousel.pdf`, the LinkedIn document
+- `gdc-NNN-motion.mp4`, 1080 by 1350, each page held long enough to read, a soft
+  fade, the end hold from `config/content-engine.json` (optional, `--motion`)
+- with `--portrait`, `gdc-NNN-motion-portrait.mp4` at 1080 by 1920 with the text
+  inside the Reels and Stories safe zones (not kept in git; it goes to Drive)
+
+The gate (`scripts/carousel-gate.mjs`, tested by `node scripts/test-carousel.mjs`)
+refuses: fewer than four or more than seven pages, a figure not in the cleared
+text (the record's cleared figures, or for a post outside the radar the approved
+post and first comment named in `clearedFrom`), causal wording, any dash, any GDC
+number or production label on a page, more than 26 words or four lines a page,
+more than one highlight a page, an opening page with no highlight, a last page
+not marked `"role": "practical"`, and a missing source line.
+
+Before a carousel is cleared it goes through the same steps as any post: the
+research review, the founder voice review (all ten checks, on every page), and
+Justin's approval of the copy. Then record it (radar stories with
+`recordAsset(id, { kind: 'carousel', ... })`, others in the completion queue
+item's `assets`), copy the files to Drive and read them back, and the handoff
+manifest carries them to ChatGPT for Metricool. Nothing here posts or schedules.
+
 ## Footage and objects (Higgsfield and Seedance)
 
 The card takes two optional picture layers, both behind an ivory wash so the

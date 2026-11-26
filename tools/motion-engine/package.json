@@ -11,10 +11,11 @@
     "check": "node scripts/check.mjs",
     "demo": "node scripts/render.mjs specs/demo-not-for-publication.json && node scripts/check.mjs out/demo-not-for-publication",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/test-gate.mjs",
+    "test": "node scripts/test-gate.mjs && node scripts/test-carousel.mjs",
     "prepare-demo": "cp ../../public/digi-squad/DiGi-star.png public/objects/digi-star-test.png",
     "demo:layers": "npm run prepare-demo && node scripts/render.mjs specs/demo-layers-not-for-publication.json && node scripts/check.mjs out/demo-layers-not-for-publication",
-    "record": "node scripts/record.mjs"
+    "record": "node scripts/record.mjs",
+    "carousel": "node scripts/carousel.mjs"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.539",
