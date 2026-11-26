@@ -16,11 +16,12 @@ import Link from 'next/link'
 // the trial CTA fixed while the detail scrolls behind it, and none of them is
 // selling something a parent has to be talked into as carefully as this.
 //
-// It does NOT show at the top, because the first screen is the parent's own
-// child's name and the worries they just typed, and a buy button over that
-// reads as a shop rather than an answer. It arrives once they have scrolled
-// past the first section, which is also the moment the real CTA at the bottom
-// is still eight screens away.
+// It used to wait until the parent had scrolled past the first screen. On
+// 24 November about ten Mumsnet parents reached the result, read the top for
+// 25 to 90 seconds and left without scrolling, so none of them ever saw a way
+// in. Justin, 26 November: a button always visible to get straight into the
+// pathway. With `fromTop` it shows from the first screen (the result page);
+// without it, the old wait still applies to any other page that uses the bar.
 //
 // It hides again at the very bottom, where the real card is, so a parent does
 // not end the page looking at two versions of the same button.
@@ -52,6 +53,7 @@ export default function StickyJoin({
   note,
   onClick,
   quietOver,
+  fromTop = false,
 }: {
   href: string
   label: string
@@ -67,6 +69,8 @@ export default function StickyJoin({
    *  (the result page's What happens next card, 25 November 2026). Read in
    *  the same scroll listener, so no observer is added. */
   quietOver?: string
+  /** Show from the first screen rather than after the first scroll. */
+  fromTop?: boolean
 }) {
   const [show, setShow] = useState(false)
 
@@ -77,12 +81,12 @@ export default function StickyJoin({
       const atEnd = y + window.innerHeight > doc.scrollHeight - 620
       const quiet = quietOver ? document.getElementById(quietOver)?.getBoundingClientRect() : null
       const over = !!quiet && quiet.top < window.innerHeight && quiet.bottom > 0
-      setShow(y > 520 && !atEnd && !over)
+      setShow((fromTop || y > 520) && !atEnd && !over)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [quietOver])
+  }, [quietOver, fromTop])
 
   return (
     <div
