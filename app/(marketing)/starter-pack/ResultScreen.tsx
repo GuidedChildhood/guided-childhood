@@ -209,7 +209,7 @@ function Problem({ children }: { children: React.ReactNode }) {
 
 
 /** A plain point: a bold first line and a sentence under it. */
-function Point({ icon, title, children }: { icon: MethodId; title: string; children: React.ReactNode }) {
+function Point({ icon, title, children }: { icon: MethodId; title: string; children?: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
       {/* Was a system emoji at 20px. Those render in the operating system's own
@@ -222,7 +222,7 @@ function Point({ icon, title, children }: { icon: MethodId; title: string; child
       </span>
       <div style={{ minWidth: 0 }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{title}</div>
-        <p style={{ ...BODY, fontSize: 'var(--text-base)', marginTop: 3 }}>{children}</p>
+        {children ? <p style={{ ...BODY, fontSize: 'var(--text-base)', marginTop: 3 }}>{children}</p> : null}
       </div>
     </div>
   )
@@ -325,7 +325,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
     .filter(Boolean)
   const kid = childName && childName.length > 1 ? childName : ''
   const they = kid || 'your child'
-  const headline = kid ? `${kid}'s pathway is ready.` : 'Your pathway is ready.'
+  const headline = kid ? `${kid}’s plan is ready.` : 'Your plan is ready.'
   const ages = stage.ageBand === '16+' ? '16 and up' : stage.ageBand.replace('-', ' to ')
   // The term time pair, so the number on this page is the number the app will
   // set and the fridge sheet will print. Term time rather than holiday relaxed:
@@ -335,7 +335,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   // What the road teaches at this stage, quoted from the lessons.
   const outcomes = STAGE_OUTCOMES[stage.id]
   const lower = (t: string) => t.charAt(0).toLowerCase() + t.slice(1)
-  const joinLabel = onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'
+  const joinLabel = onJoin ? `Save ${kid ? `${kid}’s` : 'my'} plan` : needsConfirm ? 'Check your email' : 'Finish setting up'
 
   const rootRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
@@ -435,8 +435,13 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               ? 'You told us what is going wrong. Please read the box below first.'
               // Justin, 25 November 2026: the message is ready before 16. It
               // replaced "Start with the first card", which pointed at a card
-              // that is no longer first.
-              : 'At 16 they go from nothing to everything overnight. This gets them ready before that day.'}
+              // that is no longer first. Then, 26 November, the same day: for
+              // a seven year old that line read as a teen product ("looks like
+              // they need to be 16"). So the younger stages hear about now and
+              // the older ones hear about 16.
+              : stage.id <= 2
+                ? 'Start small, while habits are still forming. Each stage builds on the last, all the way to 16.'
+                : 'At 16 they go from nothing to everything overnight. This gets them ready before that day.'}
           </p>
           {/* ── WHAT THIS STAGE MEANS ─────────────────────────────────────
               From the stage's own focus and device lines in
@@ -444,9 +449,9 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               child development. */}
           {!helpFirst && (
             <div className="wow-fu" style={{ marginTop: 22, paddingTop: 18, borderTop: '1.5px solid var(--border)' }}>
-              <div style={{ ...EYEBROW, marginBottom: 6 }}>What this stage means</div>
+              <div style={{ ...EYEBROW, marginBottom: 6 }}>This stage</div>
               <p style={{ ...BODY, color: 'var(--ink)' }}>
-                {stage.ages}: {lower(stage.focus)}. Devices at this stage: {lower(stage.device)}.
+                {stage.ages}: {lower(stage.focus)}.
               </p>
             </div>
           )}
@@ -472,7 +477,9 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               {whatYouGet(they, stage.ages).map((w, i) => (
                 <li key={w.title} className="wow-fu" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px' }}>
                   <p style={{ margin: '0 0 10px', fontStyle: 'italic', fontWeight: 600, fontSize: 'var(--text-base)', lineHeight: 1.45, color: 'var(--ink-soft)' }}>{w.problem}</p>
-                  <Point icon={w.icon} title={w.title}>{w.line}</Point>
+                  {/* Less text (Justin, 26 November): the problem and the fix's
+                      name carry each card; only the first keeps its line. */}
+                  <Point icon={w.icon} title={w.title}>{i === 0 ? w.line : null}</Point>
                   {i === 0 && outcomes.length > 0 && (
                     // The lessons' own outcomes, quoted (stage-outcomes.ts).
                     <ul id="ready-understand" style={{ listStyle: 'none', margin: '12px 0 0', padding: 0, display: 'grid', gap: 8 }}>
@@ -739,7 +746,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <Door
             href={enterHref}
             onClick={onJoin}
-            label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'I have confirmed, sign in' : 'Finish setting up'}
+            label={onJoin ? `Save ${kid ? `${kid}’s` : 'my'} plan` : needsConfirm ? 'I have confirmed, sign in' : 'Finish setting up'}
             big
             style={{ display: 'flex', width: '100%' }}
           />

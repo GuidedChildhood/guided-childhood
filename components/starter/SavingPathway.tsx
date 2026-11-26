@@ -21,7 +21,7 @@ export default function SavingPathway({ childName }: { childName?: string }) {
         fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 4.5vw, 2rem)',
         fontWeight: 900, letterSpacing: '-0.02em', color: 'var(--ink)', margin: '18px 0 8px',
       }}>
-        {name ? `Saving ${name}'s pathway` : 'Saving your pathway'}
+        {name ? `Saving ${name}’s plan` : 'Saving your plan'}
       </h1>
       <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', lineHeight: 1.6, margin: 0, maxWidth: '340px' }}>
         One moment. We are putting everything in place.

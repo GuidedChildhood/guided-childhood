@@ -19,7 +19,7 @@ import { enabledProviders } from '@/lib/auth/providers'
 import { rememberStarterNext, starterNext, takeAfterSignupHref } from '@/lib/starter/next'
 import { bandForYears, YOUNGEST_AGE } from '@/lib/children/age'
 import { track } from '@/components/Analytics'
-import { readUtm, opensOnQuestionOne, VIA_PARAM, VIA_LINK } from '@/lib/video/utm'
+import { readUtm, VIA_PARAM, VIA_LINK } from '@/lib/video/utm'
 import { hasUtm } from '@gc/shared/utm'
 import WorryPicker from '@/components/onboarding/WorryPicker'
 import WhatWeAreNot from '@/components/marketing/WhatWeAreNot'
@@ -77,7 +77,12 @@ const STAGE_ACCENT: Record<number, { bold: string; text: string }> = {
 }
 
 export default function StarterPackPage() {
-  const [step, setStep] = useState<Step>('intro')
+  // QUESTION ONE FIRST, FOR EVERYONE NEW (26 November 2026). Duolingo, Vevo and
+  // Mobbin all saw more people start when the explainer screen went and the
+  // first tap was the first answer; Justin asked for the flow to be built on
+  // what those apps do. The intro screen still exists for the welcome back
+  // card and for starting over, which is where a returning parent needs it.
+  const [step, setStep] = useState<Step>('q1')
   // The query string as the visitor arrived, read once. The ?src= effect
   // below takes src and via out of the address bar, and the restore effect
   // still needs to know they were there.
@@ -216,7 +221,6 @@ export default function StarterPackPage() {
   const [restored, setRestored] = useState(false)
   // Set when a visit from a post or an ad skips the intro (see STRAIGHT TO
   // QUESTION ONE below), so question one can carry the promise the intro made.
-  const [skippedIntro, setSkippedIntro] = useState(false)
   // True when this visit picked up a half finished quiz from an earlier one,
   // which is when Not you? Start fresh is shown beside the question count.
   const [resumed, setResumed] = useState(false)
@@ -431,20 +435,12 @@ export default function StarterPackPage() {
           if (a.feeling) setFeeling(a.feeling)
           if (a.timeCommitment) setTimeCommitment(a.timeCommitment)
           setReturning(true)
+          // The welcome back card lives on the intro screen.
+          setStep('intro')
         } catch {}
       }
-      // ── STRAIGHT TO QUESTION ONE FROM A POST (funnel audit, fix 4) ──────
-      //
-      // The post said "Free stage check" and the parent tapped it, so the
-      // intro saying it again is one more screen before the thing they came
-      // for. A visit through a source link, a ?src= or a social utm_source
-      // opens on question one (lib/video/utm opensOnQuestionOne). Not over a
-      // half finished quiz or a finished one: those keep their own screens.
-      if (!saved && !(savedEmail && savedAnswers) && opensOnQuestionOne(arrivedWith())) setStep('q1')
-      // The page mounts twice on arrival and the second pass restores q1 from
-      // saved progress rather than through the line above, so the promise
-      // follows the arrival itself, not the path that reached question one.
-      setSkippedIntro(opensOnQuestionOne(arrivedWith()))
+      // Question one is now where every new visit opens (the step's first
+      // value above), so the old jump for visits from a post is not needed.
     } catch {}
     setRestored(true)
   }, [])
@@ -844,8 +840,8 @@ export default function StarterPackPage() {
         )}
         {showCard && !member && (
           <WelcomeBackCard
-            line={<>{childName.trim() ? `${childName.trim()}'s pathway` : 'Your pathway'} is saved{email ? <> to <span style={{ color: 'var(--ink)', fontWeight: 700 }}>{email}</span></> : ''}.</>}
-            primary={{ label: childName.trim() ? `See ${childName.trim()}'s pathway again` : 'See your pathway again', onClick: () => { setReturning(false); setStep('result') } }}
+            line={<>{childName.trim() ? `${childName.trim()}’s plan` : 'Your plan'} is saved{email ? <> to <span style={{ color: 'var(--ink)', fontWeight: 700 }}>{email}</span></> : ''}.</>}
+            primary={{ label: childName.trim() ? `See ${childName.trim()}’s plan again` : 'See your plan again', onClick: () => { setReturning(false); setStep('result') } }}
             secondary={{ label: 'Start for another child', onClick: () => { resetChild(); setReturning(false); setStep('q1') } }}
             // No address in the link (6 November 2026): ?from=starter tells the
             // login form to fill the email from gc_starter_email, which this
@@ -935,7 +931,7 @@ export default function StarterPackPage() {
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
             }}>
-              {childName.trim() ? `Save ${childName.trim()}'s pathway` : 'Save your pathway'}
+              {childName.trim() ? `Save ${childName.trim()}’s plan` : 'Save your plan'}
             </h1>
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '24px', lineHeight: 1.6, textAlign: 'center' }}>
               {/* The line has to tell the truth in whichever state ships. With a
@@ -978,7 +974,7 @@ export default function StarterPackPage() {
                   {childName.trim() ? `Which month was ${childName.trim()} born?` : 'Which month were they born?'}
                 </label>
                 <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-sm)', lineHeight: 1.55, margin: '0 0 10px' }}>
-                  Just the month. With their age it gives us their school year, so what we send always matches where they are.
+                  Just the month, so lessons match their school year.
                 </p>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <select
@@ -1080,13 +1076,13 @@ export default function StarterPackPage() {
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.2rem)',
               fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: '18px',
             }}>
-              Building your pathway.
+              {childName.trim() ? `Building ${childName.trim()}’s plan.` : 'Building your child’s plan.'}
             </h1>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '360px', margin: '0 auto 20px' }}>
               {[
-                { t: `Matching to your stage` },
-                { t: 'Writing the exact words for tonight' },
-                { t: 'Mapping the pathway to 16' },
+                { t: 'Finding their stage' },
+                { t: 'Picking the words for tonight' },
+                { t: 'Mapping each step to 16' },
               ].map((row, i) => (
                 <div key={row.t} className="build-row" data-built={i < built ? 'yes' : 'no'} style={{
                   display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left',
@@ -1129,15 +1125,18 @@ export default function StarterPackPage() {
                 ad landed here, on a bare question with no word of what it is
                 for, and none tapped an age. Justin: "3 yes". The intro's
                 promise, said once, only to the visits that skipped it. */}
-            {skippedIntro && (
+            {/* Said by DiGi, the way Duo opens with one line ("Just 7 quick
+                questions before we start your first lesson!"). One line of what
+                this is for, now that every new visit opens here. */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '22px' }}>
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={52} height={52} style={{ flexShrink: 0 }} />
               <p style={{
-                background: 'var(--cream)', border: '1.5px solid var(--gold)', borderRadius: '14px',
-                padding: '12px 16px', marginBottom: '20px',
-                color: 'var(--ink)', fontSize: 'var(--text-sm)', fontWeight: 700, lineHeight: 1.5,
+                margin: 0, background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '4px 16px 16px 16px',
+                padding: '10px 14px', color: 'var(--ink)', fontSize: 'var(--text-base)', fontWeight: 700, lineHeight: 1.45,
               }}>
-                Free. Three questions. No sign up. You get the words to use tonight.
+                Three quick questions, then you see your child&rsquo;s stage. Free, no sign up.
               </p>
-            )}
+            </div>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
@@ -1236,7 +1235,7 @@ export default function StarterPackPage() {
                 going wrong. It now asks what they would like help with, and
                 says what each tick brings before they tick anything. */}
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '20px', lineHeight: 1.55 }}>
-              Pick what is on your mind today, even just one. For each you get the words to say, something to try tonight, and a plan that keeps going.
+              Pick one or more. You can change it later.
             </p>
 
             {/* ── THE ONE QUESTION, ASKED HERE ──────────────────────────────
@@ -1366,7 +1365,7 @@ export default function StarterPackPage() {
               How much time can you give this each day?
             </h1>
             <p style={{ color: 'var(--ink)', fontSize: 'var(--text-base)', marginBottom: '32px', lineHeight: 1.55 }}>
-              We will match your daily practice to this. You can change it any time.
+              You can change it any time.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {TIME_COMMITMENT_OPTIONS.map(opt => {

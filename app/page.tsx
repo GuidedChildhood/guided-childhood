@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   // layout's whole object and left out the image, so a shared home page link
   // showed no picture.
   ...pageMetadata({
-    title: 'Guided Childhood: get your child ready before 16',
+    title: 'Guided Childhood: from first tablet to first phone, ages 4 to 16',
     absoluteTitle: true,
     // In the parent's words, not ours (the board's audience lens, 12 November
     // 2026): the nightly fight, the phone coming, what to say tonight. The
@@ -308,7 +308,7 @@ export default function HomePage() {
                 it holds up when iOS text size is set larger than default.
                 Laptops never use the floor, so only phones change. */}
             <h1 className="fu" style={{ fontSize: 'clamp(2rem, 5.2vw, 4.2rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
-              Get your child ready before 16.
+              From first tablet to first phone.
             </h1>
             {/* What the parent gets, not what the product contains. The line
                 used to list features (lessons, habits, quests, the passport);
@@ -316,7 +316,7 @@ export default function HomePage() {
                 carry the benefit, and the benefit is our own one line story
                 (THE-STORY.md, section 1). The features are the sections below. */}
             <p className="fu" style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '26px' }}>
-              What children their age learn this year, the words for the hard conversations, and a Passport they earn stage by stage. Ten minutes a day, together, from age 4.
+              Ready before 16, one stage at a time. Lessons for their age, the right words, and a Passport they earn.
             </p>
             {/* The stage check, named. Every CTA routes to /starter-pack, the
                 three question stage check, and THE-STORY.md says the hook is
