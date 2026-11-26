@@ -13,6 +13,7 @@ import Fold from '@/components/starter/Fold'
 import StickyJoin from '@/components/starter/StickyJoin'
 import { Passport, Fixes, DigiLearns } from '@/components/starter/InsideBlocks'
 import { STAGE_OUTCOMES } from '@/lib/content/stage-outcomes'
+import { TRY_LESSONS } from '@/lib/content/try-lessons'
 import KnownProblems from '@/components/starter/KnownProblems'
 import BiggerThanThis from '@/components/starter/BiggerThanThis'
 import ShareStage from '@/components/starter/ShareStage'
@@ -254,28 +255,25 @@ function WithGaps({ text }: { text: string }) {
   )
 }
 
-// ── WHAT YOU GET, ONE SERVICE A LINE (Justin approved, 25 November 2026) ────
-//
-// In his order, curriculum and Passport first, the balance sixth. The proof
-// path for each, so nothing here is a promise the product cannot keep:
-//   1 the lessons hub, mapped by scripts/check-rshe-coverage.mjs
-//   2 the Passport (dashboard/passport): lessons tick on the page and a stage
-//     is stamped when its lessons, talks and check are done (lib/pathway/stamped.ts)
-//   3 dashboard/learning: the year group's objectives for the term, which is
-//     why it says what children their age learn, not what their school teaches
-//   4 the scripts table, if_they_push_back
-//   5 dashboard/devices and dashboard/phone-setup
-//   6 the star quest and the timer
-//   7 DiGi, which never answers yes or no (non negotiable 1)
-const WHAT_YOU_GET: { icon: MethodId; title: string; line: string }[] = [
-  { icon: 'lesson', title: 'The road to 16', line: 'Short lessons you do together from 4 to 16, on scams, group chats, AI and who they are really talking to in games. The same lessons schools can teach, mapped to the new RSHE guidance.' },
-  { icon: 'passport', title: 'The Passport', line: 'Every lesson your child finishes goes in their Passport, so you can see what they know rather than guess.' },
-  { icon: 'moment', title: 'What children their age learn this year', line: 'Know what is coming up, so you can get there first.' },
-  { icon: 'script', title: 'What to say', line: 'Words for the hard conversations, with what to say when they push back.' },
-  { icon: 'kidapp', title: 'Phone and device setup', line: 'Step by step settings for each screen.' },
-  { icon: 'balance', title: 'Getting the balance right', line: 'Real jobs, outside time and a timer you can both see. Screen time ends because the timer says so, not because you are the bad guy.' },
-  { icon: 'digi', title: 'Ask DiGi', line: 'Answers from research for your child’s age, never a yes or no.' },
-]
+// ── WHAT YOU GET ─────────────────────────────────────────────────────────────
+// The seven line list approved on 25 November became six problem then fix
+// cards on 26 November, matching the homepage.
+// PROBLEM, THEN THE FIX (Justin, 26 November 2026). The same six as the
+// homepage, in the same order, worded for this child's stage, so the result
+// and the homepage tell one story. Proof paths: 1 the lessons and /try, 2
+// lib/quests/time-tiers.ts, 3 the Passport, 4 digi_conversations per child,
+// 5 school reminders and lib/homework/help.ts (hints, never the answer), 6
+// dashboard/devices and the two weekly device sweep.
+function whatYouGet(they: string, ages: string): { icon: MethodId; problem: string; title: string; line: string }[] {
+  return [
+    { icon: 'lesson', problem: 'You hear what school covered about phones after it has happened.', title: 'Know what school teaches, and get there first', line: `Short lessons for ${ages.toLowerCase()} that follow the RSHE guidance schools use, done together at home.` },
+    { icon: 'balance', problem: 'Policing screen time every evening.', title: 'A daily allowance and a timer you both see', line: 'Real jobs and outside time can earn extra minutes. Screen time ends because the timer says so, not because you are the bad guy.' },
+    { icon: 'passport', problem: 'The phone and the apps arrive at once, and nothing before it felt like getting ready.', title: 'The road to 16, and a Passport they earn', line: `Every lesson ${they} finishes goes in their Passport, so you can see what they know rather than guess.` },
+    { icon: 'digi', problem: 'Something comes up at eleven at night and there is nobody to ask.', title: 'Ask DiGi, and it remembers your family', line: 'Answers for their age that start from what you told it last week, never a yes or no.' },
+    { icon: 'moment', problem: 'The PE kit, the trip letter, and the homework they forgot to mention.', title: 'The school week and homework in one place', line: 'School reminders land on the right day, and when they are stuck DiGi gives a hint, never the answer.' },
+    { icon: 'kidapp', problem: 'Control apps that block everything and teach nothing.', title: 'Safe settings that grow with them', line: 'Step by step for the phone, tablet and console they have, loosening as they show they are ready.' },
+  ]
+}
 
 /** Decision 2, 25 November 2026, word for word wherever the trial is first named. */
 const TRIAL_LINE = 'Free for 4 days. No card, so nothing is ever charged unless you pick a plan.'
@@ -540,16 +538,24 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           </div>
 
           {/* ── WHAT YOU GET ───────────────────────────────────────────────
-              One service a line, in Justin's order (WHAT_YOU_GET above), then
+              Six problem then fix cards, the homepage's order (whatYouGet above), then
               the trial line. This list replaced the Also inside chips, which
               named the same parts as labels. */}
           <section style={SECTION} aria-labelledby="ready-get">
             <div className="wow-fu" style={EYEBROW}>What you get</div>
-            <h2 id="ready-get" className="wow-fu" style={H2}>Everything to get them ready before 16.</h2>
-            <ol style={{ listStyle: 'none', margin: '18px 0 0', padding: 0, display: 'grid', gap: 18 }}>
-              {WHAT_YOU_GET.map(w => (
-                <li key={w.title} className="wow-fu">
+            <h2 id="ready-get" className="wow-fu" style={H2}>Six problems, and what we do about each.</h2>
+            <ol style={{ listStyle: 'none', margin: '18px 0 0', padding: 0, display: 'grid', gap: 14 }}>
+              {whatYouGet(they, stage.ages).map((w, i) => (
+                <li key={w.title} className="wow-fu" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px' }}>
+                  <p style={{ margin: '0 0 10px', fontStyle: 'italic', fontWeight: 600, fontSize: 'var(--text-base)', lineHeight: 1.45, color: 'var(--ink-soft)' }}>{w.problem}</p>
                   <Point icon={w.icon} title={w.title}>{w.line}</Point>
+                  {i === 0 && (
+                    // Opens in a new tab so this result, with everything the
+                    // parent told us, is still here when they come back.
+                    <a href={`/try/${TRY_LESSONS[stage.id]}`} target="_blank" rel="noopener" data-track={`result-try-${stage.id}`} className="btn-outline" style={{ marginTop: 12, minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>
+                      Try a lesson for {stage.ages.toLowerCase()}
+                    </a>
+                  )}
                 </li>
               ))}
             </ol>

@@ -309,3 +309,6 @@ Justin chose "On, allowance added". Children added from 26 November with no sett
 
 ### 26 Nov 2026: problem then fix homepage, a lesson per stage to try, parents first
 Justin read the research: "Keep parents first". Schools stay a side channel. The homepage now runs six problem then fix sections in his approved order: school teaches, screen time, road to 16, DiGi remembers (back in), school and homework, settings. One real lesson per stage opens at /try/[module] with no account. It is the together deck through getStarLessonForShare, with no teacher or DSL notes, and nothing is recorded. The passport screenshots that showed Teo's name were replaced or deleted. Plan: plans/2026-11-26-problem-solution-homepage-plan.md. PR 1723.
+
+### 26 Nov 2026: result page uses the same six problem then fix cards
+Justin: "the starter page really more than homepage". The result page's What you get list is now the homepage's six problem then fix cards, worded for the child's stage. The first card opens that stage's free lesson in a new tab, so the result stays put. The first screen is unchanged. Justin doubted Mumsnet was a sound basis for changing it, and across all sources (60 days) 181 saw the first screen and 68 started the questions. PR 1723.
