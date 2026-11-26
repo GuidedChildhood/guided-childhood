@@ -90,46 +90,27 @@
    "attempts": 1
   },
   {
-   "stage": "PACK QA",
-   "verdict": "HOLD",
-   "by": "script",
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
    "reasons": [
-    "GDC-RR-540fff2c03: the post says the source is in the comments: the first comment carries a link and the post never says so. One plain line: the paper is in the comments. | every figure in the copy was cleared by the review: not cleared: 18, 19. Cleared figures are: 147 young people in the Netherlands aged 16 to 25 (average 20.4) donated their TikTok feed histories, about 6.7 million public videos, mostly from October 2023 to May 2026 | news, politics and societal issues made up a median of 5.34 percent of a feed, about 126 such videos a month for the typical person | a median of 98.4 percent of that news like content came from accounts the person did not follow, compared against the accounts they followed when they donated | on average 13.28 percent of news like content came from established news organisations, 63.85 percent from niche creators | hateful videos were a median of 2.21 percent of news like content, about 3 a month for the typical person; 5.44 percent of participants never came across one | 76.74 percent said social media was their main source of news | the Evidence Reveal hooks are sound: 2 hook(s) found, three are asked for, one per line as TYPE: the hook; 0 marked CHOSEN, exactly one should be",
-    "GDC-RR-553f7dc067: the post says the source is in the comments: the first comment carries a link and the post never says so. One plain line: the paper is in the comments. | the CARD TEXT passes the research card gate: source is 74 characters, the most the card holds is 64; 64 words on the card. The most that can be read in the time is 55 | the Evidence Reveal hooks are sound: 2 hook(s) found, three are asked for, one per line as TYPE: the hook; 0 marked CHOSEN, exactly one should be"
+    "13:21 run: queue and number mirror byte identical, START HERE text identical (carries the QA reasons for GDC-062 and 063 back to ChatGPT), old copies retitled ZZ. Stamped b03c6a1b, pushed first."
    ],
-   "detail": {
-    "packs": 2,
-    "results": [
-     {
-      "file": "1mjKPlmbspv0lMPmeBFeRyKh061hYk86o_0CjdTngDAE__pack.txt",
-      "researchId": "GDC-RR-540fff2c03",
-      "verdict": "HOLD",
-      "failed": 3,
-      "checked": 34
-     },
-     {
-      "file": "1xWGUQ4JigJWan5RJKR1WpbyshXBfsjq4InnLgDeJqXg__pack.txt",
-      "researchId": "GDC-RR-553f7dc067",
-      "verdict": "HOLD",
-      "failed": 3,
-      "checked": 34
-     }
-    ]
-   },
-   "at": "2026-11-26T09:33:02.423Z",
-   "commit": "eec77b36",
-   "attempts": 1
+   "detail": null,
+   "at": "2026-11-26T13:22:07.947Z",
+   "commit": "b03c6a1b",
+   "attempts": 3
   },
   {
-   "stage": "DRIVE SYNC",
+   "stage": "PACK QA",
    "verdict": "HOLD",
    "by": "claude",
    "reasons": [
-    "Deferred to the 13:17 run. Drive copies of the queue and START HERE are stale against main, and the START HERE text that carries the QA reasons back to ChatGPT was not regenerated this morning. Nothing new was cleared, so the queue ChatGPT reads is unchanged. GDC-062 and GDC-063 v1 are held at QA (source in the comments line, hooks not marked CHOSEN in the form the checker reads, 062 card text over its limits, 063 flags 18 and 19 which are a date and video lengths)."
+    "Two packs waiting, GDC-062 and GDC-063, both still DRAFT v1 unchanged since 25 Nov 11:05 (ChatGPT's 11:00 run today wrote nothing because START HERE carried no hold reasons). Morning verdicts stand: 062 card text over the gate limits, hooks not marked CHOSEN, no source in comments line; 063 flags 18 and 19 (a date and a film length), hooks not marked CHOSEN, no source in comments line. These are handoff format breaches, so they go back to ChatGPT, not repaired here."
    ],
    "detail": null,
-   "at": "2026-11-26T09:33:56.716Z",
-   "commit": "1c1db828",
+   "at": "2026-11-26T13:22:08.023Z",
+   "commit": "b03c6a1b",
    "attempts": 2
   },
   {
@@ -137,25 +118,37 @@
    "verdict": "SKIPPED",
    "by": "claude",
    "reasons": [
-    "GDC-062 and GDC-063 v1 failed QA, so no review. Voice edits and the visual decision wait for the 13:17 run."
+    "Neither pack passed QA, so no review, no visual and no voice pass. They go back to ChatGPT through the refreshed START HERE."
    ],
    "detail": null,
-   "at": "2026-11-26T09:33:56.779Z",
-   "commit": "1c1db828",
-   "attempts": 1
+   "at": "2026-11-26T13:22:08.088Z",
+   "commit": "b03c6a1b",
+   "attempts": 2
   },
   {
    "stage": "APPROVAL DESK",
    "verdict": "SKIPPED",
    "by": "claude",
    "reasons": [
-    "Nothing at ASSETS READY. Seven approved posts wait for Justin to post and send links. Desks not republished this morning."
+    "Nothing reached ASSETS READY. Desks not republished. Seven approved posts still wait for Justin to post and send links."
    ],
    "detail": null,
-   "at": "2026-11-26T09:33:56.840Z",
-   "commit": "1c1db828",
+   "at": "2026-11-26T13:22:08.152Z",
+   "commit": "b03c6a1b",
+   "attempts": 2
+  },
+  {
+   "stage": "FLOW CHECK",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "1 ChatGPT research CANDIDATES today: not checked in the Stage 2 folder (inbox folder not searched this run). 2 morning stages ran, START HERE now dated 26 Nov. 3 ChatGPT wrote no new pack at 11:00 (WRITE STATUS says GDC-062 and 063 v1 already exist, no HOLD instruction seen). 4 Both packs checked and held, none reached READY FOR JUSTIN so no METRICOOL HANDOFF owed. 5 Yesterday's 14:30 ChatGPT step cannot be seen from here."
+   ],
+   "detail": null,
+   "at": "2026-11-26T13:22:08.215Z",
+   "commit": "b03c6a1b",
    "attempts": 1
   }
  ],
- "updatedAt": "2026-11-26T09:33:56.864Z"
+ "updatedAt": "2026-11-26T13:22:08.242Z"
 }
