@@ -11,14 +11,14 @@ import PassportPages from '@/components/marketing/PassportPages'
 // joining late never misses a stamp, there is always a catch up plan.
 
 
-export default function PassportSection() {
+export default function PassportSection({ problem }: { problem?: React.ReactNode } = {}) {
   return (
     <section aria-label="The social media passport" style={{ padding: 'clamp(72px, 9vw, 112px) 32px', background: '#FFFBEE', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div style={{ maxWidth: '1020px', margin: '0 auto' }}>
 
         {/* Heading */}
         <div style={{ textAlign: 'center', marginBottom: '44px' }}>
-          <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The idea behind the pathway</p>
+          {problem ?? <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The idea behind the pathway</p>}
           <h2 className="fu" style={{ marginBottom: '16px' }}>
             Your child&apos;s{' '}
             <span style={{ color: 'var(--terracotta)' }}>social media passport</span>
@@ -81,7 +81,7 @@ export default function PassportSection() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/marketing/passport-mobile-stage.png"
-                alt="The digital passport inside the app, a stage page with its circle filling"
+                alt="The passport inside the child app: their Foundation page and their sticker book"
                 loading="lazy"
                 style={{ width: '100%', display: 'block', aspectRatio: '390 / 680', objectFit: 'cover', objectPosition: 'top' }}
               />

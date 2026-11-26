@@ -306,3 +306,6 @@ The homepage goes from thirteen sections to six. The new order: the hero ("Get y
 
 ### 26 Nov 2026: daily allowance on by default for new children
 Justin chose "On, allowance added". Children added from 26 November with no settings row get the age band base (two thirds of the guide) as free daily minutes. Jobs and stars stay on. A row always wins, including 0. Older children with no row stay at 0, so nobody is handed minutes they never chose. It is applied when the row is read, so the setup step still asks. PR 1723.
+
+### 26 Nov 2026: problem then fix homepage, a lesson per stage to try, parents first
+Justin read the research: "Keep parents first". Schools stay a side channel. The homepage now runs six problem then fix sections in his approved order: school teaches, screen time, road to 16, DiGi remembers (back in), school and homework, settings. One real lesson per stage opens at /try/[module] with no account. It is the together deck through getStarLessonForShare, with no teacher or DSL notes, and nothing is recorded. The passport screenshots that showed Teo's name were replaced or deleted. Plan: plans/2026-11-26-problem-solution-homepage-plan.md. PR 1723.
