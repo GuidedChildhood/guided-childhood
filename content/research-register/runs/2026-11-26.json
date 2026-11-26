@@ -125,13 +125,37 @@
    "verdict": "HOLD",
    "by": "claude",
    "reasons": [
-    "Not yet done at commit time, see the final log line."
+    "Deferred to the 13:17 run. Drive copies of the queue and START HERE are stale against main, and the START HERE text that carries the QA reasons back to ChatGPT was not regenerated this morning. Nothing new was cleared, so the queue ChatGPT reads is unchanged. GDC-062 and GDC-063 v1 are held at QA (source in the comments line, hooks not marked CHOSEN in the form the checker reads, 062 card text over its limits, 063 flags 18 and 19 which are a date and video lengths)."
    ],
    "detail": null,
-   "at": "2026-11-26T09:33:21.578Z",
-   "commit": "eec77b36",
+   "at": "2026-11-26T09:33:56.716Z",
+   "commit": "1c1db828",
+   "attempts": 2
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "GDC-062 and GDC-063 v1 failed QA, so no review. Voice edits and the visual decision wait for the 13:17 run."
+   ],
+   "detail": null,
+   "at": "2026-11-26T09:33:56.779Z",
+   "commit": "1c1db828",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "Nothing at ASSETS READY. Seven approved posts wait for Justin to post and send links. Desks not republished this morning."
+   ],
+   "detail": null,
+   "at": "2026-11-26T09:33:56.840Z",
+   "commit": "1c1db828",
    "attempts": 1
   }
  ],
- "updatedAt": "2026-11-26T09:33:21.615Z"
+ "updatedAt": "2026-11-26T09:33:56.864Z"
 }
