@@ -126,7 +126,9 @@ function Door({ href, label, big = false, style, onClick }: { href: string; labe
     background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: big ? 'var(--text-md)' : 'var(--text-base)',
     letterSpacing: '-0.01em', boxShadow: big ? '0 5px 0 var(--terracotta-dark)' : '0 3px 0 var(--terracotta-dark)',
-    whiteSpace: 'nowrap',
+    // The big door is full width, so it may wrap at Larger Text rather
+    // than push its arrow off the phone (check-larger-text).
+    whiteSpace: big ? 'normal' : 'nowrap', textAlign: 'center',
     ...style,
   }
   if (onClick) {
@@ -473,7 +475,10 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <section style={{ ...SECTION, marginTop: 40 }} aria-labelledby="ready-get">
             <div className="wow-fu" style={EYEBROW}>Stage {stage.id} plan for {they}</div>
             <h2 id="ready-get" className="wow-fu" style={H2}>Six problems, and what we do about each.</h2>
-            <ol style={{ listStyle: 'none', margin: '18px 0 0', padding: 0, display: 'grid', gap: 14 }}>
+            {/* minmax(0, 1fr), not the auto track: at Larger Text the try
+                button's one line set the track wider than the phone and every
+                card went 280px off the edge (check-larger-text). */}
+            <ol style={{ listStyle: 'none', margin: '18px 0 0', padding: 0, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 14 }}>
               {whatYouGet(they, stage.ages).map((w, i) => (
                 <li key={w.title} className="wow-fu" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px' }}>
                   <p style={{ margin: '0 0 10px', fontStyle: 'italic', fontWeight: 600, fontSize: 'var(--text-base)', lineHeight: 1.45, color: 'var(--ink-soft)' }}>{w.problem}</p>
@@ -494,7 +499,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                   {i === 0 && (
                     // Opens in a new tab so this result, with everything the
                     // parent told us, is still here when they come back.
-                    <a href={`/try/${TRY_LESSONS[stage.id]}`} target="_blank" rel="noopener" data-track={`result-try-${stage.id}`} className="btn-outline" style={{ marginTop: 12, minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>
+                    <a href={`/try/${TRY_LESSONS[stage.id]}`} target="_blank" rel="noopener" data-track={`result-try-${stage.id}`} className="btn-outline" style={{ marginTop: 12, minHeight: 44, display: 'inline-flex', alignItems: 'center', maxWidth: '100%', whiteSpace: 'normal', textAlign: 'center' }}>
                       Try a lesson for {stage.ages.toLowerCase()}
                     </a>
                   )}
