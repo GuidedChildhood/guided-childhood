@@ -3,6 +3,10 @@ import { firstText } from '@/lib/digi/text'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import type { createClient } from '@/lib/supabase/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { parseItemArray } from '@/lib/school/parse-items'
+
+/** A broken reply still counts when at least this many complete pieces survive. */
+const MIN_SALVAGED = 4
 
 // Aggregate wisdom: what tends to work across ALL families, de-identified, so
 // DiGi can lean on the wider track record and not only this one family's. The
@@ -32,7 +36,7 @@ async function callModel(prompt: string): Promise<string> {
   let lastError: unknown
   for (const model of models) {
     try {
-      const msg = await anthropic.messages.create({ model, max_tokens: 2000, messages: [{ role: 'user', content: prompt }] })
+      const msg = await anthropic.messages.create({ model, max_tokens: 4000, messages: [{ role: 'user', content: prompt }] })
       return firstText(msg)
     } catch (err) {
       const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
@@ -201,15 +205,24 @@ evidence_count is roughly how many signals point to this pattern.`
   // sent a stray character mid array, JSON.parse threw, and the week's wisdom
   // was never rebuilt. Ask once more before giving up, and let a final failure
   // throw so the heartbeat still shows it rather than reading as an empty week.
+  //
+  // 22 November 2026 it failed again, both tries, at character 3845: a reply
+  // that broke part way through the list (cut short at the old 2000 token cap,
+  // or a stray character). Every piece before the break was sound and all of
+  // them were thrown away. Now the reply has twice the room, and a broken list
+  // keeps every complete piece (lib/school/parse-items.ts), as long as there are
+  // enough of them to be worth a human's review.
   let parsed: { wisdom?: WisdomRow[] } = { wisdom: [] }
   for (let attempt = 0; attempt < 2; attempt++) {
     const text = await callModel(prompt)
     const match = text.match(/\{[\s\S]*\}/)
-    if (!match) break
     try {
+      if (!match) throw new Error('no JSON object in the wisdom reply')
       parsed = JSON.parse(match[0]) as { wisdom?: WisdomRow[] }
       break
     } catch (err) {
+      const salvaged = parseItemArray(text) as WisdomRow[]
+      if (salvaged.length >= MIN_SALVAGED) { parsed = { wisdom: salvaged }; break }
       if (attempt === 1) throw err
     }
   }

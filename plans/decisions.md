@@ -213,3 +213,7 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 
 - Justin: a button always visible to get straight into the pathway. The pinned bar used to wait for 520px of scroll, and the Mumsnet parents read the top and left without scrolling, so none saw a way in.
 - `StickyJoin` takes `fromTop`; the result page sets it. It still steps aside over What happens next and at the foot, and never shows for a parent whose answers need help first.
+## 26 November 2026: the Sunday DiGi wisdom rebuild keeps the good part of a broken reply
+
+- The ops board showed DiGi wisdom red: the 22 November run failed on both tries with broken JSON at character 3845, so the week's candidates were never written.
+- The reply now has 4000 tokens (was 2000), and a broken reply keeps every complete piece when at least four survive (`lib/school/parse-items.ts`). Candidates still land pending for Justin to approve; nothing reaches a parent unreviewed. `scripts/check-wisdom-salvage.mjs`.
