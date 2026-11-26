@@ -171,17 +171,20 @@
    "founderVoiceReviewStatus": "NOT DONE",
    "platformVariants": {
     "linkedin": {
-     "state": "MISSING"
+     "state": "WRITTEN",
+     "text": "The number that stayed with me was 18 percent.\n\nThe European Commission asked 26,297 young people aged 13 to 18 across the 27 EU countries what they do to protect their mental wellbeing on social media. The survey ran from 30 March to 16 April 2026.\n\nAmong young people who use social media on a school day, 32 percent of those aged 13 and 14 chose talking to a parent, teacher or another adult. At 15 and 16 it was 28 percent. At 17 and 18 it was 18 percent.\n\nThat does not mean teenagers stop talking to their parents as they grow. These were three different age groups surveyed at one point, not the same children followed over time. The answer also grouped parents, teachers and other adults together. The UK was not included.\n\nThere is another part of the picture. The older group more often chose reporting harmful content or accounts and taking breaks from social media. They may be developing other ways to manage what they meet online.\n\nEven so, the gap matters. Older teenagers in the same survey more often reported seeing AI content that was hard to recognise and unwanted sexualised content, while fewer named an adult as one of the ways they protect themselves.\n\nIt makes me think about timing. The open door is easier to build in an ordinary calm moment than when something has already gone wrong.\n\nI build a parent tool, and one of its first lessons gives parents a simple line: if a screen ever gives you that uh oh feeling, you can always come to me. You will never be in trouble for telling me.\n\nThe research does not show that saying this changes what a teenager will do years later. It is simply a useful promise a parent can make now.\n\nCould you say that sentence tonight, while nothing is wrong?"
     },
     "instagram": {
-     "state": "MISSING"
+     "state": "WRITTEN",
+     "text": "STATUS: DRAFT AWAITING REVIEW\n\nAt 13 and 14, 32 percent said talking to a parent, teacher or another adult was one way they protect their wellbeing on social media.\n\nAt 17 and 18, it was 18 percent.\n\nThese were different age groups in one EU survey, not the same teenagers followed over time. The UK was not included. Older teenagers also reported other ways of coping, including reporting harmful content and taking breaks.\n\nThe useful question for parents is smaller and more practical.\n\nHave we made it easy for our child to tell us when something online feels wrong?"
     },
     "facebook": {
-     "state": "MISSING"
+     "state": "WRITTEN",
+     "text": "STATUS: DRAFT AWAITING REVIEW\n\nA European Commission survey asked young people who use social media on a school day what they do to protect their mental wellbeing there.\n\nTalking to a parent, teacher or another adult was selected by 32 percent of 13 and 14 year olds, and by 18 percent of 17 and 18 year olds.\n\nThis does not show that the same children stopped talking as they grew. The groups were surveyed once, the answer included several kinds of adult, and the UK was not part of the survey. Older teenagers also more often chose reporting harmful content and taking breaks.\n\nFor families, the practical step is not to wait for a crisis. In a calm moment, we can tell a child that they can always come to us and will not be in trouble for telling us.\n\nWhat words would make that promise sound natural in your family?"
     }
    },
-   "finalText": null,
-   "firstComment": null,
+   "finalText": "The number that stayed with me was 18 percent.\n\nThe European Commission asked 26,297 young people aged 13 to 18 across the 27 EU countries what they do to protect their mental wellbeing on social media. The survey ran from 30 March to 16 April 2026.\n\nAmong young people who use social media on a school day, 32 percent of those aged 13 and 14 chose talking to a parent, teacher or another adult. At 15 and 16 it was 28 percent. At 17 and 18 it was 18 percent.\n\nThat does not mean teenagers stop talking to their parents as they grow. These were three different age groups surveyed at one point, not the same children followed over time. The answer also grouped parents, teachers and other adults together. The UK was not included.\n\nThere is another part of the picture. The older group more often chose reporting harmful content or accounts and taking breaks from social media. They may be developing other ways to manage what they meet online.\n\nEven so, the gap matters. Older teenagers in the same survey more often reported seeing AI content that was hard to recognise and unwanted sexualised content, while fewer named an adult as one of the ways they protect themselves.\n\nIt makes me think about timing. The open door is easier to build in an ordinary calm moment than when something has already gone wrong.\n\nI build a parent tool, and one of its first lessons gives parents a simple line: if a screen ever gives you that uh oh feeling, you can always come to me. You will never be in trouble for telling me.\n\nThe research does not show that saying this changes what a teenager will do years later. It is simply a useful promise a parent can make now.\n\nCould you say that sentence tonight, while nothing is wrong?",
+   "firstComment": "Source: European Commission survey data analysed in a Research Square preprint published 17 November 2026:\n\nhttps://doi.org/10.21203/rs.3.rs-11441481/v1\n\nThe strongest objection is important. This was a cross sectional survey of different age groups, not evidence that the same young people became less likely to speak to an adult over time. The response option combined a parent, teacher or another adult, and the survey did not include the UK.",
    "sourceReferences": [
     "https://doi.org/10.21203/rs.3.rs-11441481/v1"
    ],
@@ -192,8 +195,8 @@
    "schedulingPermission": false,
    "automaticPublishingPermission": false,
    "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
-   "lastUpdated": "2026-11-19T09:35:09.101Z",
-   "holdReason": "no reviewed pack is stored; pack QA is not run; Claude's pack review is not done; the founder voice review is NOT DONE",
+   "lastUpdated": "2026-11-26T09:33:02.419Z",
+   "holdReason": "the pack is not verified in Drive; pack QA is HOLD; Claude's pack review is not done; the founder voice review is NOT DONE",
    "origin": {
     "kind": "radar",
     "researchId": "GDC-RR-553f7dc067",
@@ -209,17 +212,20 @@
    "founderVoiceReviewStatus": "NOT DONE",
    "platformVariants": {
     "linkedin": {
-     "state": "MISSING"
+     "state": "WRITTEN",
+     "text": "Parents often ask who their child follows.\n\nA new study suggests that may be the wrong first question.\n\nResearchers asked 147 young people in the Netherlands, aged 16 to 25, to donate their real TikTok feed histories. Together those histories covered about 6.7 million public videos, mostly from October 2023 to May 2026.\n\nFor the typical person in the study, news, politics and societal issues made up 5.34 percent of the feed, or about 126 videos a month.\n\nThe striking part was where that content came from. A median of 98.4 percent came from accounts the person did not follow, based on the accounts they followed when they donated their data.\n\nThat does not mean 98.4 percent of every young person's feed came from strangers. The figure describes the median person in a small volunteer sample. Some participants saw much less from unfollowed accounts. These were older teenagers and young adults in one country, not children in the UK. The paper is a preprint, and it does not show any effect on beliefs, mood, politics or wellbeing.\n\nBut it does expose a useful gap in the usual family conversation.\n\nWe tend to ask, who do you follow? The feed has another question built into it: why did the system choose to show you this?\n\nThat distinction belongs in preparation before a child has to work it out alone. In the Guided Childhood primary curriculum, a lesson on how algorithms work gives children a simple starting point: you do not choose the feed, the algorithm does.\n\nThe study does not prove that this lesson changes what a child later sees or believes. It supports the practical reason for teaching how recommendation systems work before the feed becomes ordinary.\n\nWhen you next look at a feed together, could you ask: why do you think it showed you this?"
     },
     "instagram": {
-     "state": "MISSING"
+     "state": "WRITTEN",
+     "text": "STATUS: DRAFT AWAITING REVIEW\n\nWho a young person follows is only part of what fills their feed.\n\nIn a study of 147 people aged 16 to 25 in the Netherlands, a median of 98.4 percent of the news, politics and societal content came from accounts they did not follow.\n\nThat is not 98.4 percent of every feed. It is the median for this kind of content in a small volunteer sample. The study was not about UK children and it did not measure effects on beliefs or wellbeing.\n\nA useful question to practise together is simple:\n\nWhy do you think the feed showed you this?"
     },
     "facebook": {
-     "state": "MISSING"
+     "state": "WRITTEN",
+     "text": "STATUS: DRAFT AWAITING REVIEW\n\nAs parents, we often ask who a child follows. A new study points to the other half of the feed.\n\nResearchers looked at donated TikTok histories from 147 people aged 16 to 25 in the Netherlands. For the typical participant, a median of 98.4 percent of news, politics and societal content came from accounts they did not follow.\n\nThis was a small volunteer sample of older teenagers and young adults in one country. It tells us nothing about children under 16 in the UK, and it does not show that the feed changed anyone's beliefs or wellbeing.\n\nThe practical lesson is about how recommendation works. Alongside asking who they follow, we can ask why the system might have chosen a particular video.\n\nWhat do you notice when you ask that question together?"
     }
    },
-   "finalText": null,
-   "firstComment": null,
+   "finalText": "Parents often ask who their child follows.\n\nA new study suggests that may be the wrong first question.\n\nResearchers asked 147 young people in the Netherlands, aged 16 to 25, to donate their real TikTok feed histories. Together those histories covered about 6.7 million public videos, mostly from October 2023 to May 2026.\n\nFor the typical person in the study, news, politics and societal issues made up 5.34 percent of the feed, or about 126 videos a month.\n\nThe striking part was where that content came from. A median of 98.4 percent came from accounts the person did not follow, based on the accounts they followed when they donated their data.\n\nThat does not mean 98.4 percent of every young person's feed came from strangers. The figure describes the median person in a small volunteer sample. Some participants saw much less from unfollowed accounts. These were older teenagers and young adults in one country, not children in the UK. The paper is a preprint, and it does not show any effect on beliefs, mood, politics or wellbeing.\n\nBut it does expose a useful gap in the usual family conversation.\n\nWe tend to ask, who do you follow? The feed has another question built into it: why did the system choose to show you this?\n\nThat distinction belongs in preparation before a child has to work it out alone. In the Guided Childhood primary curriculum, a lesson on how algorithms work gives children a simple starting point: you do not choose the feed, the algorithm does.\n\nThe study does not prove that this lesson changes what a child later sees or believes. It supports the practical reason for teaching how recommendation systems work before the feed becomes ordinary.\n\nWhen you next look at a feed together, could you ask: why do you think it showed you this?",
+   "firstComment": "Source: PsyArXiv preprint published 18 November 2026:\n\nhttps://doi.org/10.31234/osf.io/j73bg\n\nThe strongest objection is the sample. This was 147 volunteers in the Netherlands, aged 16 to 25, with an average age of 20.4. It does not tell us what children under 16 or young people in the UK see. The 98.4 percent figure is the median for news, politics and societal content, not the share of every person's whole feed. Follows were measured when data were donated, not when each video was seen.",
    "sourceReferences": [
     "https://doi.org/10.31234/osf.io/j73bg"
    ],
@@ -230,8 +236,8 @@
    "schedulingPermission": false,
    "automaticPublishingPermission": false,
    "currentMetricoolStatus": "UNKNOWN until ChatGPT writes its result file",
-   "lastUpdated": "2026-11-19T09:38:27.422Z",
-   "holdReason": "no reviewed pack is stored; pack QA is not run; Claude's pack review is not done; the founder voice review is NOT DONE",
+   "lastUpdated": "2026-11-26T09:33:02.305Z",
+   "holdReason": "the pack is not verified in Drive; pack QA is HOLD; Claude's pack review is not done; the founder voice review is NOT DONE",
    "origin": {
     "kind": "radar",
     "researchId": "GDC-RR-540fff2c03",
@@ -343,9 +349,9 @@
    "complete": false
   }
  ],
- "version": "3ee427c7814c",
- "generatedAt": "2026-11-24T12:47:29.579Z",
- "sourceCommit": "1683f93705b638d31f61f63af337c6a40230b956",
+ "version": "b363e4ee64e4",
+ "generatedAt": "2026-11-26T11:19:01.277Z",
+ "sourceCommit": "e40b545812be32402226f0d25445159ba9931ee1",
  "counts": {
   "posts": 8,
   "complete": 2,

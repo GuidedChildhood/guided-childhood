@@ -22,6 +22,45 @@ Each part below points at the file that owns it:
 | The settings | `config/content-engine.json` (`voice`, `philosophy`, `audiences`, `linkedin`) | British English, dashes never, cadence and length |
 | A Drive post | `.claude/skills/content-engine/drive-post-review.md` | the ten point review of a post waiting in Drive; this skill is its step 9 and the read aloud |
 
+## The ten checks before anything is called done
+
+Justin, 26 November 2026, the authentic founder writing standard. Every post,
+caption, newsletter, email, first comment, script and line of visual text
+passes all ten, on every platform. The editorial watchlist
+(`content/brand-story/editorial-watchlist.md`) is the reader's eye for them.
+
+1. **The original argument.** Write it in one sentence before reading the
+   draft. If it is "a study came out", there is no post yet.
+2. **Every figure and citation verified** against the source read in this run
+   (the evidence skills own this; nothing uncleared goes in).
+3. **Generic expressions and spare sentences out.** `npm run ai-tells`, then
+   cut any sentence nobody would miss.
+4. **Repeated structures found.** Sentence and paragraph shapes inside the
+   piece (`npm run rhythm`) and across posts.
+5. **Openings and endings compared with the last ten posts.**
+   `node scripts/radar/openings.mjs <draft>` lists any opening or ending that
+   matches, and every house tic the draft repeats. A repost ask and a closing
+   question are optional now, and never on two posts running.
+6. **Invented reflections, feelings and experiences out.** "The number that
+   stayed with me", "the part I keep coming back to", "I am not sure which
+   group I would have been in": if Justin did not say it, it goes.
+7. **Generic observation replaced by specific analysis.** Every paragraph
+   carries a number, a named body, or a thing a parent or teacher actually does.
+8. **Natural British English in ordinary paragraphs.** Not a run of one line
+   paragraphs, not headed sections in a post.
+9. **Challenged as a sceptical parent, teacher and researcher.** Write the
+   strongest objection each would make; the piece answers it or concedes it.
+10. **Useful beyond the news.** Something a reader can think, ask or do that
+    the headline did not give them.
+
+Never: deliberate spelling mistakes to look human, a manufactured anecdote,
+a fake statistic, quotation or experience, or a promise to get past an AI
+detector. For replies: answer the person's actual point, with no automated
+praise, repetition or generic agreement.
+
+Record the ten in the VOICE REVIEW verdict (below) as `Ten checks: 1 to 10
+PASS` or the numbers that failed and why.
+
 ## Other people's spaces: Justin writes, Claude checks
 
 Justin, 26 November 2026, after the Mumsnet thread ("yes"): Mumsnet, Reddit,
@@ -170,6 +209,7 @@ Guard: PASS (npm run ai-tells)
 Meter: mean <n> words, spread <n> percent, triads <n> percent (his 12.8, 79, 1.6)
 Changed: <each line changed, old then new, or "nothing">
 Scenes: none | <scene, privacy level, flagged to Justin if AMBER>
+Ten checks: 1 to 10 PASS | <numbers that failed, and why>
 Read aloud: PASS | <what still sounds assembled>
 Verdict: PASS | CHANGES MADE | BACK TO WRITER (<why>)
 ```

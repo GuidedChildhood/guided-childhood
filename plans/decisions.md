@@ -209,6 +209,11 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 - Justin, "yes go ahead with all 3 but check". Two of the three were already done by other sessions: the bedroom line is fixed everywhere, and the save line is now Justin's decision of 25 November ("Free for 4 days. No card, so nothing is ever charged unless you pick a plan."), so it stays. The result page already hands over a "Say this" script, after the six problem and fix cards Justin ordered on 26 November; the order is his and stays.
 - New: the four part labels on each worry card (Device time, Scripts, Their app, DiGi) looked like buttons and did nothing. Each now opens the line written for that worry in lib/content/proof.ts. A Mumsnet parent said nothing seemed clickable.
 
+## 26 November 2026: the authentic founder writing standard
+
+- Justin's standard is permanent: ten checks before anything is done (founder-voice-review), an editorial watchlist (`content/brand-story/editorial-watchlist.md`, two Reddit threads unreadable), and the Voice Bible labels every source AUTHENTIC, MIXED or GENERATED; only his own words count as voice samples.
+- `scripts/radar/openings.mjs` compares openings, endings and house tics with the last posts. It found the backlog's shared moves: invented reflections, "I build a parent tool", "the strongest objection is", a repost ask plus question on every post. QA no longer requires a closing question.
+- Backlog: v2 copy for 059, 060, 061, 062, 063, 066, 067 in `content/packs/2026-11-26-backlog-authenticity-review/`; originals kept; 065 unchanged. Nothing to Metricool until Justin approves v2. Plan: plans/2026-11-26-authentic-writing-standard-plan.md.
 ## 26 November 2026: the result page's Save the plan button shows from the first screen
 
 - Justin: a button always visible to get straight into the pathway. The pinned bar used to wait for 520px of scroll, and the Mumsnet parents read the top and left without scrolling, so none saw a way in.
