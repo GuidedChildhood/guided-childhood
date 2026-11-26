@@ -1,0 +1,46 @@
+{
+ "researchId": "GDC-RR-540fff2c03",
+ "gdcPostNumber": "063",
+ "handoffVersion": 1,
+ "sourceCommit": "5bb2df0318dc86dcdd525a65011bd7d73ca8a0b7",
+ "status": "DRAFT",
+ "linkedin": {
+  "body": "Parents often ask who their child follows.\n\nA new study suggests that may be the wrong first question.\n\nResearchers asked 147 young people in the Netherlands, aged 16 to 25, to donate their real TikTok feed histories. Together those histories covered about 6.7 million public videos, mostly from October 2023 to May 2026.\n\nFor the typical person in the study, news, politics and societal issues made up 5.34 percent of the feed, or about 126 videos a month.\n\nThe striking part was where that content came from. A median of 98.4 percent came from accounts the person did not follow, based on the accounts they followed when they donated their data.\n\nThat does not mean 98.4 percent of every young person's feed came from strangers. The figure describes the median person in a small volunteer sample. Some participants saw much less from unfollowed accounts. These were older teenagers and young adults in one country, not children in the UK. The paper is a preprint, and it does not show any effect on beliefs, mood, politics or wellbeing.\n\nBut it does expose a useful gap in the usual family conversation.\n\nWe tend to ask, who do you follow? The feed has another question built into it: why did the system choose to show you this?\n\nThat distinction belongs in preparation before a child has to work it out alone. In the Guided Childhood primary curriculum, a lesson on how algorithms work gives children a simple starting point: you do not choose the feed, the algorithm does.\n\nThe study does not prove that this lesson changes what a child later sees or believes. It supports the practical reason for teaching how recommendation systems work before the feed becomes ordinary.\n\nWhen you next look at a feed together, could you ask: why do you think it showed you this?",
+  "firstComment": "Source: PsyArXiv preprint published 18 November 2026:\n\nhttps://doi.org/10.31234/osf.io/j73bg\n\nThe strongest objection is the sample. This was 147 volunteers in the Netherlands, aged 16 to 25, with an average age of 20.4. It does not tell us what children under 16 or young people in the UK see. The 98.4 percent figure is the median for news, politics and societal content, not the share of every person's whole feed. Follows were measured when data were donated, not when each video was seen."
+ },
+ "instagram": {
+  "caption": "STATUS: DRAFT AWAITING REVIEW\n\nWho a young person follows is only part of what fills their feed.\n\nIn a study of 147 people aged 16 to 25 in the Netherlands, a median of 98.4 percent of the news, politics and societal content came from accounts they did not follow.\n\nThat is not 98.4 percent of every feed. It is the median for this kind of content in a small volunteer sample. The study was not about UK children and it did not measure effects on beliefs or wellbeing.\n\nA useful question to practise together is simple:\n\nWhy do you think the feed showed you this?"
+ },
+ "facebook": {
+  "caption": "STATUS: DRAFT AWAITING REVIEW\n\nAs parents, we often ask who a child follows. A new study points to the other half of the feed.\n\nResearchers looked at donated TikTok histories from 147 people aged 16 to 25 in the Netherlands. For the typical participant, a median of 98.4 percent of news, politics and societal content came from accounts they did not follow.\n\nThis was a small volunteer sample of older teenagers and young adults in one country. It tells us nothing about children under 16 in the UK, and it does not show that the feed changed anyone's beliefs or wellbeing.\n\nThe practical lesson is about how recommendation works. Alongside asking who they follow, we can ask why the system might have chosen a particular video.\n\nWhat do you notice when you ask that question together?"
+ },
+ "declined": {
+  "NEWSLETTER": "NOT RECOMMENDED. The handoff clears a LinkedIn evidence story, not a separate newsletter. It may support a later weekly edition about recommendation systems after editorial review.",
+  "REEL SCRIPT": "NOT RECOMMENDED. The clean finding suits a short silent evidence motion. A spoken version would add format without adding meaning.",
+  "ASSETS USED": "NONE. No finished visual asset or verified platform screen was found. The brief specifies a new abstract card and motion render."
+ },
+ "reveal": {
+  "hooks": "CHOSEN, MISSING VARIABLE: Parents often ask who their child follows. A new study suggests that may be the wrong first question.\n\nOVERLOOKED FINDING: Almost all the news and politics in the typical feed came from accounts the person did not follow.\n\nPRACTICAL CONSEQUENCE: Teach the question before the feed becomes ordinary: why did it show me this?\n\nThe overlooked finding lost because almost all needs immediate qualification. The practical consequence lost because it starts with our teaching belief rather than the study.",
+  "storyboard": "DISRUPT, 0 to 4 seconds: Warm paper background. Navy question appears: Who do they follow?\n\nREVEAL, 4 to 9 seconds: The question moves left. A second question appears in restrained yellow: Who chose the rest? Then the figure: median 98.4 percent of news like content came from accounts not followed.\n\nREFRAME, 9 to 14 seconds: Small clear text states: 147 volunteers, ages 16 to 25, Netherlands. Not UK children. No measured effects.\n\nINVITE, 14 to 19 seconds: Navy text asks: Why do you think the feed showed you this? Hold for 5 seconds.\n\nCOVER: Who chose the rest of the feed? Small source line: PsyArXiv preprint, 18 November 2026.\n\nCAROUSEL: Slide 1, Who do they follow? Slide 2, Who chose the rest? Slide 3, the median 98.4 percent finding with its exact scope. Slide 4, the sample and limits. Slide 5, the practical question for families."
+ },
+ "visual": {
+  "brief": "LINKEDIN: 1080 by 1350 static editorial card. Warm paper, navy typography and a restrained yellow highlight on Who chose the rest? Use a simple feed column made from neutral text blocks, not a copied platform interface. No child faces. No public GDC number.\n\nINSTAGRAM: 1080 by 1350 five slide carousel. Use fast visual comprehension: question, finding, limits, practical prompt. Warm paper, navy type and restrained yellow accents. No child faces. No public GDC number. Status remains DRAFT awaiting review.\n\nFACEBOOK: 1200 by 630 card with the two questions, Who do they follow? and Who chose the rest? Add the median 98.4 percent finding in smaller text with its scope. No child faces. No public GDC number. Status remains DRAFT awaiting review.\n\nMOTION: Produce a 19 second silent MP4 at 30 frames a second. Use a slow feed scroll made from abstract text blocks, then pause as the second question appears. Keep all evidence text readable with sound off. Hold the final question for at least 5 seconds. Inspect every frame for legibility and accidental public identifiers before handoff.",
+  "assetsUsed": []
+ },
+ "card": {
+  "text": "HEADLINE: Who they follow is not who fills the feed\n\nFINDING: Median 98.4 percent of news like content came from accounts not followed.\n\nCONTEXT: 147 volunteers aged 16 to 25 in the Netherlands.\n\nSOURCE: PsyArXiv preprint, 18 November 2026.\n\nLIMITATION: Small volunteer sample. Not UK children. No effects measured.\n\nTIMING: 4 seconds, 5 seconds, 5 seconds, 5 seconds.\n\nVISUAL: Warm paper, navy type, restrained yellow question. Slow abstract feed scroll, then a still hold.",
+  "headline": "Who they follow is not who fills the feed",
+  "finding": "Median 98.4 percent of news like content came from accounts not followed.",
+  "context": "147 volunteers aged 16 to 25 in the Netherlands.",
+  "source": "PsyArXiv preprint, 18 November 2026.",
+  "limitation": "Small volunteer sample. Not UK children. No effects measured.",
+  "timing": "4 seconds, 5 seconds, 5 seconds, 5 seconds.",
+  "visual": "Warm paper, navy type, restrained yellow question. Slow abstract feed scroll, then a still hold."
+ },
+ "evidence": {
+  "notes": "This research does not show that recommendation harms young people, that children under 16 see the same feed, or that TikTok failed to moderate hate. It says nothing about UK young people. The 98.4 percent is the median for news, politics and societal content, not a description of every person's whole feed. Follows were checked at donation. Topic and hate classifications used a language model. The paper is a preprint and measured no effects.\n\nFOUNDER VOICE REVIEWED: Automated editorial review completed against the accessible operating system, current posting pack and Voice and Copy Bank. This is not human approval.\n\nPLATFORM HANDOFF: Instagram and Facebook adaptations are DRAFT awaiting review. Pass them through the existing 14:30 GDC Metricool Drafts handoff. Do not upload through LinkedIn and do not schedule from this pack."
+ },
+ "sources": [
+  "https://doi.org/10.31234/osf.io/j73bg"
+ ]
+}
