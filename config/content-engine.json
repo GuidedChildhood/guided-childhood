@@ -80,6 +80,7 @@
     "motion": "where_appropriate",
     "reel": "when_the_handoff_asks",
     "newsletter": "weekly_edition",
+    "evidenceCarousel": "weekly_series: one or two a week inside the cadence, never on top of it (Justin, 26 November 2026)",
     "note": "where_appropriate means the pack carries it, or says NOT RECOMMENDED with a reason of at least a sentence. Do not force every story into every format."
   },
 
@@ -90,7 +91,15 @@
     "appAndFamilyPosts": "the app system: cream, ink, butter, Nunito (brand/GDC_SOCIAL_VISUAL_SYSTEM.md)",
     "sizes": { "feed": "1080x1350", "facebookLandscape": "1200x630", "portraitVideo": "1080x1920", "landscapeVideo": "1920x1080" },
     "neverOnPublicGraphics": ["GDC numbers", "production labels"],
-    "approvedAssetsOnly": true
+    "approvedAssetsOnly": true,
+    "evidenceCarousel": {
+      "reference": "GDC 064, the GTA VI carousel, 23 November 2026",
+      "look": "crinkled paper, black type, one restrained yellow highlight a page, minimal branding, one idea per page",
+      "shape": "familiar parenting subject; evidence led challenge to a popular assumption; what it shows; what it does not; a practical last page for parents",
+      "pages": "five as a rule, four to seven allowed",
+      "outputs": ["Instagram slides 1080x1350", "LinkedIn PDF", "optional motion 1080x1350", "optional portrait motion 1080x1920"],
+      "engine": "tools/motion-engine/scripts/carousel.mjs (README, The evidence carousel)"
+    }
   },
 
   "motion": {

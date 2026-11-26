@@ -1,0 +1,99 @@
+<!doctype html>
+<!--
+  The evidence carousel page (Justin, 26 November 2026: the GTA VI carousel,
+  GDC 064, made a recurring series). One page per render. The renderer
+  (scripts/carousel.mjs) loads this file with the page as JSON in the hash and
+  screenshots it at 1080 by 1350.
+
+  The look, from the GDC 064 reference: crinkled paper, black type, one
+  restrained yellow highlight, minimal branding, one idea per page. Edit the
+  look here; edit the words in the spec (content/motion/GDC-NNN/carousel.json).
+  No GDC number and no production label ever appears on a page.
+-->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'GC Nunito'; src: url('../public/fonts/nunito-latin-wght-normal.woff2') format('woff2'); font-weight: 200 1000; }
+  @font-face { font-family: 'GC Plex Mono'; src: url('../public/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2'); font-weight: 600; }
+  :root { --paper: #f3f0e8; --ink: #111111; --soft: #3a3a3a; --mark: #ffe14d; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; background: var(--paper); }
+  .page { position: relative; width: 1080px; height: 1350px; overflow: hidden; color: var(--ink); font-family: 'GC Nunito', Georgia, serif; }
+  /* The crinkle: a lit fractal noise, fixed seed per page so a re-render is identical. */
+  .paper { position: absolute; inset: 0; }
+  .grain { position: absolute; inset: 0; opacity: .16; mix-blend-mode: multiply; }
+  .brand { position: absolute; top: 84px; left: 96px; font: 600 24px/1 'GC Plex Mono', monospace; letter-spacing: .22em; }
+  .body { position: absolute; left: 96px; right: 96px; top: 300px; }
+  .kicker { font: 600 30px/1.2 'GC Plex Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); margin-bottom: 56px; }
+  .line { font-weight: 900; font-size: 74px; line-height: 1.12; letter-spacing: -.01em; margin-bottom: 26px; }
+  .line.fit { white-space: nowrap; }
+  mark { background: none; color: inherit; position: relative; z-index: 0; padding: 0 .08em; }
+  mark::before { content: ''; position: absolute; z-index: -1; left: -.02em; right: -.02em; top: .52em; bottom: .02em;
+    background: var(--mark); transform: rotate(-1.2deg) skewX(-6deg); border-radius: .08em .3em .12em .25em; opacity: .92; }
+  .source { position: absolute; left: 96px; right: 96px; bottom: 170px; font: 600 22px/1.4 'GC Plex Mono', monospace; color: var(--soft); }
+  .foot { position: absolute; left: 96px; right: 96px; bottom: 84px; display: flex; justify-content: space-between;
+    font: 600 22px/1 'GC Plex Mono', monospace; letter-spacing: .18em; color: var(--soft); }
+  .portrait, .portrait body, .portrait .page { height: 1920px; }
+  .portrait .paper, .portrait .grain { height: 1920px; }
+  .portrait .brand { top: 270px; }
+  .portrait .body { top: 560px; }
+  .portrait .source { bottom: 470px; }
+  .portrait .foot { bottom: 380px; }
+</style>
+</head>
+<body>
+<div class="page" id="page">
+  <svg class="paper" width="1080" height="1920" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+    <filter id="crinkle" x="0" y="0" width="100%" height="100%">
+      <feTurbulence id="turb" type="fractalNoise" baseFrequency="0.0045 0.0075" numOctaves="5" seed="7" result="n"/>
+      <feDiffuseLighting in="n" lighting-color="#fbf9f3" surfaceScale="7.5" result="l"><feDistantLight azimuth="235" elevation="58"/></feDiffuseLighting>
+    </filter>
+    <rect width="1080" height="1920" fill="#f3f0e8"/>
+    <rect width="1080" height="1920" filter="url(#crinkle)" opacity=".95"/>
+  </svg>
+  <svg class="grain" width="1080" height="1920" aria-hidden="true">
+    <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/><feColorMatrix type="saturate" values="0"/></filter>
+    <rect width="1080" height="1920" filter="url(#g)"/>
+  </svg>
+  <div class="brand">GUIDED CHILDHOOD</div>
+  <div class="body"><div class="kicker" id="kicker"></div><div id="lines"></div></div>
+  <div class="source" id="source"></div>
+  <div class="foot"><span id="footer"></span><span id="count"></span></div>
+</div>
+<script>
+  // The page arrives as JSON in the hash: { kicker, lines[], source, footer, index, total, seed }.
+  // ==words== in a line is the yellow highlight. Text is set as text, never HTML.
+  const p = JSON.parse(decodeURIComponent(location.hash.slice(1) || '{}'))
+  const el = (id) => document.getElementById(id)
+  el('kicker').textContent = p.kicker || ''
+  for (const raw of p.lines || []) {
+    const d = document.createElement('div'); d.className = 'line'
+    String(raw).split(/(==[^=]+==)/).forEach((part) => {
+      if (/^==[^=]+==$/.test(part)) { const m = document.createElement('mark'); m.textContent = part.slice(2, -2); d.appendChild(m) }
+      else if (part) d.appendChild(document.createTextNode(part))
+    })
+    el('lines').appendChild(d)
+  }
+  el('source').textContent = p.source || ''
+  el('footer').textContent = p.footer || 'EVIDENCE FIRST. CHILDREN FIRST.'
+  el('count').textContent = p.total ? `${p.index} / ${p.total}` : ''
+  el('turb').setAttribute('seed', String(p.seed || 7))
+  // Portrait (1080 by 1920) for Reels and Stories: the same page, taller, with
+  // the brand and footer moved inside the platform safe zones.
+  if (p.h === 1920) document.documentElement.classList.add('portrait')
+  // One size per page: shrink every line together until the longest fits on one
+  // line, never below 50px. Below that the line wraps rather than shrinking further.
+  document.fonts.ready.then(() => {
+    const lines = [...document.querySelectorAll('.line')]
+    const box = el('lines').clientWidth
+    let size = 74
+    lines.forEach((l) => l.classList.add('fit'))
+    const widest = () => Math.max(0, ...lines.map((l) => l.scrollWidth))
+    while (size > 50 && widest() > box) { size -= 2; lines.forEach((l) => { l.style.fontSize = size + 'px' }) }
+    if (widest() > box) lines.forEach((l) => l.classList.remove('fit'))
+    document.body.dataset.ready = '1'
+  })
+</script>
+</body>
+</html>

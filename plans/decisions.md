@@ -222,3 +222,9 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 
 - The ops board showed DiGi wisdom red: the 22 November run failed on both tries with broken JSON at character 3845, so the week's candidates were never written.
 - The reply now has 4000 tokens (was 2000), and a broken reply keeps every complete piece when at least four survive (`lib/school/parse-items.ts`). Candidates still land pending for Justin to approve; nothing reaches a parent unreviewed. `scripts/check-wisdom-salvage.mjs`.
+
+## 26 November 2026: the evidence carousel becomes a weekly series
+
+- Justin: GDC 064 (GTA VI) did well, so one or two carousels a week inside the cadence, in its look: crinkled paper, black type, one yellow highlight, one idea a page, a practical last page.
+- Built into the motion engine, not a new workflow: `tools/motion-engine/carousel/template.html` (the look), `scripts/carousel.mjs` (Instagram slides, LinkedIn PDF, optional 4:5 and 9:16 motion), `scripts/carousel-gate.mjs` (no uncleared figure, no causal wording, no dash, no GDC number on a page; tested in wiring.yml). Midday runbook step 4b; START HERE asks ChatGPT for a CAROUSEL section when a story is picked.
+- First trial: GDC 066 (RAND, AI and homework) rendered for the week of 13 December, awaiting Justin. No Metricool performance data is readable from here; GDC 064's numbers need ChatGPT's report or a screenshot.

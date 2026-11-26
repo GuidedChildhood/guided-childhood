@@ -3,6 +3,8 @@ name: evidence-reveal
 description: The default creative framework for every research led social post (Justin, 18 November 2026). Use whenever a story from the radar becomes a post, a card, a film or a carousel, whenever ChatGPT's Stage 2 packs are checked, or when Justin asks for hooks, a storyboard, a cover or a motion visual for an evidence post. Three hooks, one chosen, a Disrupt Reveal Reframe Invite storyboard, CARD TEXT with timing and visual lines, and the performance log against the GDC number.
 ---
 
+**The evidence carousel series** (26 November 2026): one or two stories a week become a five page carousel in the GDC 064 look (crinkled paper, black type, one yellow highlight, one idea a page, a practical last page). Built by `tools/motion-engine/scripts/carousel.mjs`; see that README, "The evidence carousel". Same research, voice and approval rules as every post.
+
 # The Evidence Reveal
 
 Challenge an assumption without stretching the evidence. Reward curiosity with

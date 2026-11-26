@@ -81,6 +81,14 @@
         "file": "content/packs/2026-11-26-backlog-authenticity-review/GDC-066-v2.md",
         "state": "AWAITING JUSTIN",
         "why": "two invented reflections cut"
+      },
+      "carousel": {
+        "spec": "content/motion/GDC-066/carousel.json",
+        "files": "content/motion/GDC-066/carousel/",
+        "captions": "content/motion/GDC-066/captions.md",
+        "state": "AWAITING JUSTIN",
+        "proposedWeek": "trial week of 13 December 2026",
+        "note": "first of the evidence carousel series; portrait cut regenerated on demand"
       }
     }
   ]

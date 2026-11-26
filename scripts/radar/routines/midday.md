@@ -133,6 +133,24 @@ he has given you.**
 3. Rebuild and publish the Radar Desk.
 4. `node scripts/radar/daily.mjs log "APPROVAL DESK" PASS "<what is on it>"`.
 
+## 4b. The evidence carousel, once or twice a week
+
+The recurring series (Justin, 26 November 2026; the GDC 064 look). Pick the
+week's one or two stories from cleared packs: a familiar parenting subject, a
+popular assumption the evidence challenges, and a practical answer for parents.
+They take a slot in the weekly cadence; they never add one.
+
+1. Write `content/motion/GDC-NNN/carousel.json` from the pack and the cleared
+   figures (or from the CAROUSEL section if ChatGPT wrote one). Five pages.
+2. `node scripts/carousel.mjs ../../content/motion/GDC-NNN/carousel.json --motion --portrait`
+   from `tools/motion-engine/`. A HOLD is the answer; fix the words, not the gate.
+3. Look at every slide and one frame per page of each film. Check spelling,
+   figures, legibility, clipping, the safe zones and that no GDC number shows.
+4. Founder voice review on the pages, then record the files as `carousel`
+   assets and copy them to the Stage 2 folder; read them back.
+5. Log `node scripts/radar/daily.mjs log CAROUSEL PASS "<GDC, what was made>"`.
+   It goes to Metricool only after Justin approves the copy.
+
 ## 5a. The Metricool handoff, in Drive where ChatGPT can read it
 
 ChatGPT cannot read this repository. For every pack that reached READY FOR

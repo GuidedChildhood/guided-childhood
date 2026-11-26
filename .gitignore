@@ -82,3 +82,6 @@ content/research-register/documents/
 # artifact. The built page carries a timestamp, so tracking it would dirty the
 # tree on every build.
 tools/radar-dashboard/
+
+# Evidence carousel portrait cuts: regenerated on demand (node scripts/carousel.mjs --portrait), uploaded to Drive, not kept in git.
+content/motion/**/carousel/*-portrait*

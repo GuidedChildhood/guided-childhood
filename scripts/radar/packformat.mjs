@@ -338,6 +338,7 @@ export function stage2Brief({ links = {} } = {}) {
   line('    No stacked threes, no run of one line paragraphs, no opening question, no "not X, but Y" scaffolding, no "Moreover", "Furthermore" or "Additionally".')
   line('    Never invent an anecdote, a personal experience, a quotation or a family story. Use a founder scene only if the handoff gives one.')
   line('    Read it aloud as Justin at the school gate. If he would not say it to another parent, rewrite it.')
+  line('  EVIDENCE CAROUSEL: if the handoff or START HERE marks a story for the carousel series, add a CAROUSEL section: five pages, each a KICKER: line and up to four short lines, at most 26 words a page, one ==highlight== at most, the first page a challenge to a popular assumption and the last page what parents can do. Claude builds the files.')
   line('    Before you finish: say the one original argument in a sentence; cut any reflection or feeling Justin did not give you ("the part I keep coming back to"); do not open or end the way the last ten posts did; challenge it as a sceptical parent, teacher and researcher; and make sure it gives the reader something beyond the news.')
   line('  The opening and the close must not repeat an earlier post.')
   line('  Visuals use approved brand assets only. No invented screen, no regenerated character, no synthetic person shown as a real parent.')

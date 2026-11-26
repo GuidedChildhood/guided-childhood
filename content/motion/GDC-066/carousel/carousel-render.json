@@ -1,0 +1,23 @@
+{
+  "renderedAt": "2026-11-26T12:58:00.412Z",
+  "gdc": "066",
+  "outputs": {
+    "slides": [
+      "content/motion/GDC-066/carousel/gdc-066-slide-1.jpg",
+      "content/motion/GDC-066/carousel/gdc-066-slide-2.jpg",
+      "content/motion/GDC-066/carousel/gdc-066-slide-3.jpg",
+      "content/motion/GDC-066/carousel/gdc-066-slide-4.jpg",
+      "content/motion/GDC-066/carousel/gdc-066-slide-5.jpg"
+    ],
+    "pdf": "content/motion/GDC-066/carousel/gdc-066-linkedin-carousel.pdf",
+    "portraitSlides": [
+      "content/motion/GDC-066/carousel/gdc-066-portrait-1.jpg",
+      "content/motion/GDC-066/carousel/gdc-066-portrait-2.jpg",
+      "content/motion/GDC-066/carousel/gdc-066-portrait-3.jpg",
+      "content/motion/GDC-066/carousel/gdc-066-portrait-4.jpg",
+      "content/motion/GDC-066/carousel/gdc-066-portrait-5.jpg"
+    ],
+    "motion": "content/motion/GDC-066/carousel/gdc-066-motion.mp4",
+    "motion-portrait": "content/motion/GDC-066/carousel/gdc-066-motion-portrait.mp4"
+  }
+}
