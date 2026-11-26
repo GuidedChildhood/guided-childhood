@@ -378,7 +378,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   return (
     <div ref={rootRef} style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '0 0 96px', fontFamily: 'var(--font-body)' }}>
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 50 }}>
-        <Celebration />
+        <Celebration brief />
       </div>
 
       {/* ── THE DOOR, ALWAYS ON SCREEN ────────────────────────────────────
