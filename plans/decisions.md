@@ -303,3 +303,6 @@ Justin: "remove AI phrases from everything we do". Twenty lines of live copy rew
 
 ### 25 Nov 2026: homepage rebuilt, ready before 16 leads
 The homepage goes from thirteen sections to six. The new order: the hero ("Get your child ready before 16"), what children learn at each stage (the lessons' own "I can" outcomes from stage-outcomes.ts), the Passport, getting the balance right (allowance first, earning optional), the dad who did the homework with sources and schools, then prices with the trial line. Every button reads "Find my child's stage" except on the price cards. The DiGi band, the moment cards, the chatbot band, how it works, inside the platform, safety, and what changes and when are all cut. The founder heading I could not find in founder-context.md was replaced. PR 1719.
+
+### 26 Nov 2026: daily allowance on by default for new children
+Justin chose "On, allowance added". Children added from 26 November with no settings row get the age band base (two thirds of the guide) as free daily minutes. Jobs and stars stay on. A row always wins, including 0. Older children with no row stay at 0, so nobody is handed minutes they never chose. It is applied when the row is read, so the setup step still asks. PR 1723.

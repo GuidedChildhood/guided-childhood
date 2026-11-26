@@ -1,6 +1,7 @@
 import { minutesToStars } from './device-time'
 import { STAR_MINUTES } from './templates'
 import { isSchoolHoliday, type Region } from '@/lib/learning/holidays'
+import { baseDailyMinutes } from './screen-balance'
 
 // Three tier star time (plan: week-of-2026-08-26-star-tiers-plan.md).
 //
@@ -181,6 +182,28 @@ type SettingsRow = {
 
 type Client = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
 
+// THE DAILY ALLOWANCE IS ON FROM THE START, FOR NEW CHILDREN.
+//
+// Justin, 25 and 26 November 2026: in the app a daily screen allowance is the
+// default, and earning extra minutes with jobs stays on beside it ("On,
+// allowance added"). A Mumsnet parent read earning as "screens to avoid
+// screens", and an allowance first is how most families already think.
+//
+// The allowance is the BASE from screen-balance.ts, two thirds of the age
+// band's guide, the same number the setup step's chips already offer and the
+// one Justin set on 9 September as "theirs without doing anything".
+//
+// ONLY FOR CHILDREN ADDED FROM TODAY. A child with no settings row who joined
+// before this date reads as core 0, exactly as before, so a family who never
+// chose is not handed free minutes overnight. A row always wins, including a
+// row that says 0: a parent who turns free time off keeps it off.
+//
+// Applied when the row is missing rather than written at sign up, because the
+// setup step "Decide their free screen time" counts a row as the parent having
+// answered (lib/setup/flags.ts). The parent is still asked, and the base is one
+// of the chips they can tap; until they answer, the child already has it.
+export const CORE_DEFAULT_FROM = '2026-11-26T00:00:00Z'
+
 /**
  * The time settings for each child, defaults applied. One read for the whole
  * family: pass every child and each gets their own row or their age band's
@@ -212,6 +235,27 @@ export async function getTimeSettings(
   } catch { /* defaults below */ }
 
   const byChild = new Map(rows.map(r => [String(r.child_id), r]))
+
+  // Children with no row: find out which joined after the allowance default
+  // started, and their band if the caller did not pass it. One read, and only
+  // when there is a child to ask about. Fails soft to the old core of 0.
+  const coreDefault = new Map<string, number>()
+  const missing = children.filter(c => !byChild.has(c.id))
+  if (missing.length > 0) {
+    try {
+      const { data } = await supabase
+        .from('children')
+        .select('id, created_at, age_band')
+        .in('id', missing.map(c => c.id))
+      for (const kid of (data ?? []) as { id: string; created_at: string | null; age_band: string | null }[]) {
+        if (kid.created_at && kid.created_at >= CORE_DEFAULT_FROM) {
+          const band = missing.find(c => c.id === kid.id)?.age_band ?? kid.age_band
+          coreDefault.set(String(kid.id), baseDailyMinutes(band ?? null))
+        }
+      }
+    } catch { /* core stays 0 */ }
+  }
+
   for (const child of children) {
     const row = byChild.get(child.id)
     const fallback = DEFAULT_BEDTIME[child.age_band ?? ''] ?? null
@@ -219,7 +263,9 @@ export async function getTimeSettings(
     const end = parseHm(row?.bedtime_end) ?? (fallback ? parseHm(fallback.end) : null)
     const rate = Number(row?.star_minutes)
     out.set(child.id, {
-      coreMinutesDaily: Math.max(0, Number(row?.core_minutes_daily) || 0),
+      coreMinutesDaily: row
+        ? Math.max(0, Number(row.core_minutes_daily) || 0)
+        : coreDefault.get(child.id) ?? 0,
       bedtimeStartMin: start,
       bedtimeEndMin: end,
       protectMealtimes: Boolean(row?.protect_mealtimes),
