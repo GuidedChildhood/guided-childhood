@@ -53,16 +53,24 @@
 // through the TypeScript parser so a comment, a class name or an import path
 // is never mistaken for copy. See THE SITE AND THE APP at the foot of the file.
 //
-// Usage: node scripts/check-ai-tells.mjs [--all | --site] [path ...]
+// `--community` is for a post in someone else's space (Mumsnet, a Facebook
+// group, a school WhatsApp, a reply to a parent). On top of everything above it
+// fails the forum tells in scripts/forum-tells.mjs: announced honesty, survey
+// shapes, our own tics, product copy and tracked links. The Mumsnet post of
+// 24 November passed every other check here and still read as a machine.
+//
+// Usage: node scripts/check-ai-tells.mjs [--all | --site | --community] [path ...]
 
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative, isAbsolute, basename } from 'node:path'
+import { forumTells } from './forum-tells.mjs'
 
 const ROOT = new URL('..', import.meta.url).pathname
 const args = process.argv.slice(2)
 const ALL = args.includes('--all')
 const SITE = args.includes('--site')
-const targets = args.filter(a => a !== '--all' && a !== '--site')
+const COMMUNITY = args.includes('--community')
+const targets = args.filter(a => a !== '--all' && a !== '--site' && a !== '--community')
 
 let failures = 0
 const fail = (file, line, what, detail) => {
@@ -232,6 +240,11 @@ for (const path of files) {
     for (const phrase of PHRASES) if (low.includes(phrase)) fail(rel, n, `the phrase "${phrase}"`)
     for (const [re, what] of SHAPES) if (re.test(line)) fail(rel, n, what, JSON.stringify(line.trim().slice(0, 70)))
     if (STIFF_OPENERS.test(line)) fail(rel, n, `a sentence opening on "${line.match(STIFF_OPENERS)[1]}"`, JSON.stringify(line.trim().slice(0, 70)))
+  })
+  // The forum tells read the raw text: a tracked link is in a URL, which
+  // stripNonCopy blanks.
+  if (COMMUNITY) readFileSync(path, 'utf8').split('\n').forEach((raw, i) => {
+    for (const what of forumTells(raw)) fail(rel, i + 1, `forum tell: ${what}`, JSON.stringify(raw.trim().slice(0, 70)))
   })
 }
 

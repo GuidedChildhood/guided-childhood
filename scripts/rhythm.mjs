@@ -42,6 +42,7 @@
 //   npm run rhythm -- --baseline       print the baseline itself
 
 import { readFileSync, existsSync } from 'node:fs'
+import { forumTells } from './forum-tells.mjs'
 
 const ROOT = new URL('..', import.meta.url).pathname
 
@@ -231,6 +232,10 @@ for (const t of targets) {
   } else {
     console.log('  read back: nothing measurable to flag. The ear still has the last word.')
   }
+  // The forum tells (plans/2026-11-26-community-voice-plan.md). Printed here
+  // for every piece; they fail only under check-ai-tells.mjs --community.
+  const tells = readFileSync(t, 'utf8').split('\n').flatMap((l) => forumTells(l))
+  if (tells.length) console.log(`  forum tells (fail in a forum post): ${[...new Set(tells)].join('; ')}`)
 }
 
 console.log('\nNothing here fails a build. These are the soft tells and they are a judgement.\n')

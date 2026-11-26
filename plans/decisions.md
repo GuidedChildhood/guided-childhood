@@ -247,3 +247,9 @@ Justin: "the starter page really more than homepage". The result page's What you
 
 ### 26 Nov 2026: stage check opens on question one, and reads for every age
 Justin: "looks like they need to be 16 so wont work for younger", base it on how apps like Duolingo get sign ups. This supersedes "the first screen is unchanged" above. The 181 to 68 figure was inflated by the reload bug (PR 1717). The research behind the change: Duolingo moved sign up later, Headspace's quiz doubled course starts, and Noom shows a result before asking. So new visitors now land on question one, with one DiGi line on top (three questions, then the stage, free, no sign up). Only returning visitors see the intro card, which means the `stage_check_step` 'intro' event now fires for them alone and the funnel starts at q1. The result lead depends on age: stages 1 and 2 hear "start small, while habits are still forming", stages 3 to 5 keep "ready before 16". The thing they get is called a plan everywhere. The homepage hero is now "From first tablet to first phone", under the ages 4 to 16 eyebrow. The number to watch is still result to account. PR 1723.
+
+## 26 November 2026: after Mumsnet, Justin writes in other people's spaces and Claude only checks
+
+- Justin, "1 yes": forums, groups, school WhatsApps and replies to parents are his own writing. Claude gives prompts, checks facts, rules and privacy, and suggests at most three fixes. `npm run own-words` must show 90 percent of the posted words are his.
+- The Mumsnet post passed the guard and sat near his rhythm. New `scripts/forum-tells.mjs` (announced honesty, survey shapes, our tics, product copy, tracked links); `check-ai-tells.mjs --community` fails on them; `rhythm.mjs` prints them everywhere. A test keeps the Mumsnet post failing (wiring.yml).
+- Founder voice review gains a genre step; Voice Bible correction logged. The thread is deleted, so no samples. Plan: plans/2026-11-26-community-voice-plan.md, PR 1726.

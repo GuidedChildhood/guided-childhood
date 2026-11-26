@@ -84,6 +84,8 @@
     "ad-upload": "node scripts/ad-upload-meta.mjs",
     "ad-results": "node scripts/ad-results.mjs",
     "rhythm": "node scripts/rhythm.mjs",
+    "own-words": "node scripts/own-words.mjs",
+    "forum-tells-test": "node --test scripts/forum-tells.test.mjs",
     "etsy-in-app": "node scripts/check-etsy-in-app.mjs",
     "social-cards": "node scripts/check-live-domain.mjs && node tools/social-cards/render.mjs",
     "live-domain-guard": "node scripts/check-live-domain.mjs",

@@ -22,6 +22,31 @@ Each part below points at the file that owns it:
 | The settings | `config/content-engine.json` (`voice`, `philosophy`, `audiences`, `linkedin`) | British English, dashes never, cadence and length |
 | A Drive post | `.claude/skills/content-engine/drive-post-review.md` | the ten point review of a post waiting in Drive; this skill is its step 9 and the read aloud |
 
+## Other people's spaces: Justin writes, Claude checks
+
+Justin, 26 November 2026, after the Mumsnet thread ("yes"): Mumsnet, Reddit,
+Netmums, Facebook groups, school and class WhatsApps, any forum, any reply to a
+parent. **Claude never drafts these from nothing.** The Mumsnet post of
+24 November passed the guard and sat near his rhythm, and still read as a
+machine, because it was never his. The plan is
+`plans/2026-11-26-community-voice-plan.md`.
+
+- Justin writes it, typed or as a voice note, however rough. Claude may give
+  the four things to cover as bare prompts (who he is, what happened in his
+  house, what it is, what he wants from them), never sentences.
+- Claude then does four jobs only: facts and claims against the product, the
+  board's rules, anything AMBER or RED in `founder-context.md`, and at most
+  three suggested fixes he can refuse. Spelling slips are fixed; his phrasing,
+  rhythm and mess stay.
+- `npm run ai-tells -- --community <file>` must pass, and
+  `npm run own-words -- <his draft> <final>` must show at least 90 percent of
+  the posted words are his. Below that it goes back to him.
+- Before the first post in a new space: read ten recent threads there, read
+  its rules, give a domain to type rather than a link, and walk the page the
+  post sends people to, on a phone, the same day.
+- If anyone replies that it sounds like AI: stop, Justin answers in his own
+  words, and the line they quoted goes in the Voice Bible corrections that day.
+
 ## When it runs
 
 Every piece of outward writing, whoever wrote it, before it is called ready:
@@ -62,11 +87,16 @@ thing is said.
    explicit yes for that use. **Never invent an anecdote, an experience, a
    quotation, a family story or dialogue.** If a piece needs a scene that does
    not exist, it goes without one.
-7. **Read it aloud.** In your head, at speaking pace, as Justin at the school
+7. **The genre.** Where will this be read, and does it look like what is
+   already there? A forum is short, no lists, no headings, no bold, no link
+   with a code on it, one real moment, the ask in the first two lines. The
+   forum tells (`scripts/forum-tells.mjs`) print in `npm run rhythm` for every
+   piece and fail under `--community`.
+8. **Read it aloud.** In your head, at speaking pace, as Justin at the school
    gate (or Natalia, for the family account). Anything you stumble on, anything
    he would not say to another parent, anything that sounds assembled rather
    than said, goes.
-8. **Store the verdict** (below).
+9. **Store the verdict** (below).
 
 ## 3. The ear, in one place
 

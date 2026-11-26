@@ -95,18 +95,16 @@ out in that space.
 
 ### 5. Mumsnet from here
 
-- No new post there for now. The thread already gave the feedback.
-- When the fixes it caused are live and checked, Justin goes back to the same
-  thread once, in his own words: you were right about these three things and
-  this is what changed. No link unless asked. That is the reply that earns trust.
+- The thread has been deleted (Justin, 26 November). No new post there for
+  now. When Justin next posts on Mumsnet it is his own writing under rule 1.
 
-## What I need from Justin
+## Justin's answers (26 November)
 
-1. The replies he actually posted on the thread, pasted as written, for the
-   Voice Bible and the meter's baseline.
-2. A yes to rule 1: in other people's spaces, he writes first and Claude only checks.
+1. Rule 1: yes.
+2. The thread is deleted, so his replies are not available as samples. The
+   first thing he writes himself in a forum goes into the Voice Bible, section 5.
 
-## Build, once he says yes (one small PR)
+## Built (26 November)
 
 - `--community` mode and the forum tells list in `scripts/check-ai-tells.mjs`;
   the same list printed by `scripts/rhythm.mjs` for everything else.
