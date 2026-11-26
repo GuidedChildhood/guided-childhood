@@ -13,6 +13,7 @@ import Fold from '@/components/starter/Fold'
 import StickyJoin from '@/components/starter/StickyJoin'
 import { Passport, Fixes, DigiLearns } from '@/components/starter/InsideBlocks'
 import { STAGE_OUTCOMES } from '@/lib/content/stage-outcomes'
+import { TRY_LESSONS } from '@/lib/content/try-lessons'
 import KnownProblems from '@/components/starter/KnownProblems'
 import BiggerThanThis from '@/components/starter/BiggerThanThis'
 import ShareStage from '@/components/starter/ShareStage'
@@ -125,7 +126,9 @@ function Door({ href, label, big = false, style, onClick }: { href: string; labe
     background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: big ? 'var(--text-md)' : 'var(--text-base)',
     letterSpacing: '-0.01em', boxShadow: big ? '0 5px 0 var(--terracotta-dark)' : '0 3px 0 var(--terracotta-dark)',
-    whiteSpace: 'nowrap',
+    // The big door is full width, so it may wrap at Larger Text rather
+    // than push its arrow off the phone (check-larger-text).
+    whiteSpace: big ? 'normal' : 'nowrap', textAlign: 'center',
     ...style,
   }
   if (onClick) {
@@ -208,7 +211,7 @@ function Problem({ children }: { children: React.ReactNode }) {
 
 
 /** A plain point: a bold first line and a sentence under it. */
-function Point({ icon, title, children }: { icon: MethodId; title: string; children: React.ReactNode }) {
+function Point({ icon, title, children }: { icon: MethodId; title: string; children?: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
       {/* Was a system emoji at 20px. Those render in the operating system's own
@@ -221,7 +224,7 @@ function Point({ icon, title, children }: { icon: MethodId; title: string; child
       </span>
       <div style={{ minWidth: 0 }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{title}</div>
-        <p style={{ ...BODY, fontSize: 'var(--text-base)', marginTop: 3 }}>{children}</p>
+        {children ? <p style={{ ...BODY, fontSize: 'var(--text-base)', marginTop: 3 }}>{children}</p> : null}
       </div>
     </div>
   )
@@ -254,33 +257,29 @@ function WithGaps({ text }: { text: string }) {
   )
 }
 
-// ── WHAT YOU GET, ONE SERVICE A LINE (Justin approved, 25 November 2026) ────
-//
-// In his order, curriculum and Passport first, the balance sixth. The proof
-// path for each, so nothing here is a promise the product cannot keep:
-//   1 the lessons hub, mapped by scripts/check-rshe-coverage.mjs
-//   2 the Passport (dashboard/passport): lessons tick on the page and a stage
-//     is stamped when its lessons, talks and check are done (lib/pathway/stamped.ts)
-//   3 dashboard/learning: the year group's objectives for the term, which is
-//     why it says what children their age learn, not what their school teaches
-//   4 the scripts table, if_they_push_back
-//   5 dashboard/devices and dashboard/phone-setup
-//   6 the star quest and the timer
-//   7 DiGi, which never answers yes or no (non negotiable 1)
-const WHAT_YOU_GET: { icon: MethodId; title: string; line: string }[] = [
-  { icon: 'lesson', title: 'The road to 16', line: 'Short lessons you do together from 4 to 16, on scams, group chats, AI and who they are really talking to in games. The same lessons schools can teach, mapped to the new RSHE guidance.' },
-  { icon: 'passport', title: 'The Passport', line: 'Every lesson your child finishes goes in their Passport, so you can see what they know rather than guess.' },
-  { icon: 'moment', title: 'What children their age learn this year', line: 'Know what is coming up, so you can get there first.' },
-  { icon: 'script', title: 'What to say', line: 'Words for the hard conversations, with what to say when they push back.' },
-  { icon: 'kidapp', title: 'Phone and device setup', line: 'Step by step settings for each screen.' },
-  { icon: 'balance', title: 'Getting the balance right', line: 'Real jobs, outside time and a timer you can both see. Screen time ends because the timer says so, not because you are the bad guy.' },
-  { icon: 'digi', title: 'Ask DiGi', line: 'Answers from research for your child’s age, never a yes or no.' },
-]
+// ── WHAT YOU GET ─────────────────────────────────────────────────────────────
+// The seven line list approved on 25 November became six problem then fix
+// cards on 26 November, matching the homepage.
+// PROBLEM, THEN THE FIX (Justin, 26 November 2026). The same six as the
+// homepage, in the same order, worded for this child's stage, so the result
+// and the homepage tell one story. Proof paths: 1 the lessons and /try, 2
+// lib/quests/time-tiers.ts, 3 the Passport, 4 digi_conversations per child,
+// 5 school reminders and lib/homework/help.ts (hints, never the answer), 6
+// dashboard/devices and the two weekly device sweep.
+function whatYouGet(they: string, ages: string): { icon: MethodId; problem: string; title: string; line: string }[] {
+  return [
+    { icon: 'lesson', problem: 'You hear what school covered about phones after it has happened.', title: 'Know what school teaches, and get there first', line: `Short lessons for ${ages.toLowerCase()} that follow the RSHE guidance schools use, done together at home.` },
+    { icon: 'balance', problem: 'Policing screen time every evening.', title: 'A daily allowance and a timer you both see', line: 'Real jobs and outside time can earn extra minutes. Screen time ends because the timer says so, not because you are the bad guy.' },
+    { icon: 'passport', problem: 'The phone and the apps arrive at once, and nothing before it felt like getting ready.', title: 'The road to 16, and a Passport they earn', line: `Every lesson ${they} finishes goes in their Passport, so you can see what they know rather than guess.` },
+    { icon: 'digi', problem: 'Something comes up at eleven at night and there is nobody to ask.', title: 'Ask DiGi, and it remembers your family', line: 'Answers for their age that start from what you told it last week, never a yes or no.' },
+    { icon: 'moment', problem: 'The PE kit, the trip letter, and the homework they forgot to mention.', title: 'The school week and homework in one place', line: 'School reminders land on the right day, and when they are stuck DiGi gives a hint, never the answer.' },
+    { icon: 'kidapp', problem: 'Control apps that block everything and teach nothing.', title: 'Safe settings that grow with them', line: 'Step by step for the phone, tablet and console they have, loosening as they show they are ready.' },
+  ]
+}
 
 /** Decision 2, 25 November 2026, word for word wherever the trial is first named. */
 const TRIAL_LINE = 'Free for 4 days. No card, so nothing is ever charged unless you pick a plan.'
 
-const COUNT = ['None', 'One', 'Two', 'Three', 'Four']
 
 export default function ResultScreen({ stage, accent, challenge, worry, worries, worryOther, email, needsConfirm, childName, onJoin, ageYears }: Props) {
   // The topic course for this age, if there is one. No age at all (a run saved
@@ -328,7 +327,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
     .filter(Boolean)
   const kid = childName && childName.length > 1 ? childName : ''
   const they = kid || 'your child'
-  const headline = kid ? `${kid}'s pathway is ready.` : 'Your pathway is ready.'
+  const headline = kid ? `${kid}’s plan is ready.` : 'Your plan is ready.'
   const ages = stage.ageBand === '16+' ? '16 and up' : stage.ageBand.replace('-', ' to ')
   // The term time pair, so the number on this page is the number the app will
   // set and the fridge sheet will print. Term time rather than holiday relaxed:
@@ -338,7 +337,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   // What the road teaches at this stage, quoted from the lessons.
   const outcomes = STAGE_OUTCOMES[stage.id]
   const lower = (t: string) => t.charAt(0).toLowerCase() + t.slice(1)
-  const joinLabel = onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'
+  const joinLabel = onJoin ? `Save ${kid ? `${kid}’s` : 'my'} plan` : needsConfirm ? 'Check your email' : 'Finish setting up'
 
   const rootRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
@@ -381,7 +380,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   return (
     <div ref={rootRef} style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '0 0 96px', fontFamily: 'var(--font-body)' }}>
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 50 }}>
-        <Celebration />
+        <Celebration brief />
       </div>
 
       {/* ── THE DOOR, ALWAYS ON SCREEN ────────────────────────────────────
@@ -438,8 +437,13 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               ? 'You told us what is going wrong. Please read the box below first.'
               // Justin, 25 November 2026: the message is ready before 16. It
               // replaced "Start with the first card", which pointed at a card
-              // that is no longer first.
-              : 'At 16 they go from nothing to everything overnight. This gets them ready before that day.'}
+              // that is no longer first. Then, 26 November, the same day: for
+              // a seven year old that line read as a teen product ("looks like
+              // they need to be 16"). So the younger stages hear about now and
+              // the older ones hear about 16.
+              : stage.id <= 2
+                ? 'Start small, while habits are still forming. Each stage builds on the last, all the way to 16.'
+                : 'At 16 they go from nothing to everything overnight. This gets them ready before that day.'}
           </p>
           {/* ── WHAT THIS STAGE MEANS ─────────────────────────────────────
               From the stage's own focus and device lines in
@@ -447,9 +451,9 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               child development. */}
           {!helpFirst && (
             <div className="wow-fu" style={{ marginTop: 22, paddingTop: 18, borderTop: '1.5px solid var(--border)' }}>
-              <div style={{ ...EYEBROW, marginBottom: 6 }}>What this stage means</div>
+              <div style={{ ...EYEBROW, marginBottom: 6 }}>This stage</div>
               <p style={{ ...BODY, color: 'var(--ink)' }}>
-                {stage.ages}: {lower(stage.focus)}. Devices at this stage: {lower(stage.device)}.
+                {stage.ages}: {lower(stage.focus)}.
               </p>
             </div>
           )}
@@ -462,27 +466,51 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           thing under the headline. */}
       {!helpFirst && (
         <div style={WRAP}>
-          {/* Three things, quoted from the lessons. */}
-          <section style={{ ...SECTION, marginTop: 40 }} aria-labelledby="ready-understand">
-            <div className="wow-fu" style={EYEBROW}>From the lessons</div>
-            <h2 id="ready-understand" className="wow-fu" style={H2}>
-              {COUNT[outcomes.length]} things a child at this stage should understand.
-            </h2>
-            <p className="wow-fu" style={LEAD}>In their own words, from the lessons on the road to 16.</p>
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: 12 }}>
-              {outcomes.map(o => (
-                <li key={o.moduleId} className="wow-fu" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px' }}>
-                  <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', lineHeight: 1.35, color: 'var(--ink)' }}>
-                    “{o.outcome}”
-                  </p>
-                  <p style={{ margin: '6px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
-                    Lesson: {o.title}
-                  </p>
+          {/* ── WHAT YOU GET ───────────────────────────────────────────────
+              Justin, 26 November 2026, on the live page: the starter page more
+              than the homepage. So the six problem then fix cards come first,
+              straight under the headline, in the homepage's order
+              (whatYouGet above). The lessons' three outcomes sit inside card
+              one rather than in a section of their own. */}
+          <section style={{ ...SECTION, marginTop: 40 }} aria-labelledby="ready-get">
+            <div className="wow-fu" style={EYEBROW}>Stage {stage.id} plan for {they}</div>
+            <h2 id="ready-get" className="wow-fu" style={H2}>Six problems, and what we do about each.</h2>
+            {/* minmax(0, 1fr), not the auto track: at Larger Text the try
+                button's one line set the track wider than the phone and every
+                card went 280px off the edge (check-larger-text). */}
+            <ol style={{ listStyle: 'none', margin: '18px 0 0', padding: 0, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 14 }}>
+              {whatYouGet(they, stage.ages).map((w, i) => (
+                <li key={w.title} className="wow-fu" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px' }}>
+                  <p style={{ margin: '0 0 10px', fontStyle: 'italic', fontWeight: 600, fontSize: 'var(--text-base)', lineHeight: 1.45, color: 'var(--ink-soft)' }}>{w.problem}</p>
+                  {/* Less text (Justin, 26 November): the problem and the fix's
+                      name carry each card; only the first keeps its line. */}
+                  <Point icon={w.icon} title={w.title}>{i === 0 ? w.line : null}</Point>
+                  {i === 0 && outcomes.length > 0 && (
+                    // The lessons' own outcomes, quoted (stage-outcomes.ts).
+                    <ul id="ready-understand" style={{ listStyle: 'none', margin: '12px 0 0', padding: 0, display: 'grid', gap: 8 }}>
+                      {outcomes.map(o => (
+                        <li key={o.moduleId} style={{ background: 'var(--butter-lt)', borderRadius: 'var(--radius-tile)', padding: '10px 12px' }}>
+                          <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.35, color: 'var(--ink)' }}>&ldquo;{o.outcome}&rdquo;</p>
+                          <p style={{ margin: '4px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>Lesson: {o.title}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {i === 0 && (
+                    // Opens in a new tab so this result, with everything the
+                    // parent told us, is still here when they come back.
+                    <a href={`/try/${TRY_LESSONS[stage.id]}`} target="_blank" rel="noopener" data-track={`result-try-${stage.id}`} className="btn-outline" style={{ marginTop: 12, minHeight: 44, display: 'inline-flex', alignItems: 'center', maxWidth: '100%', whiteSpace: 'normal', textAlign: 'center' }}>
+                      Try a lesson for {stage.ages.toLowerCase()}
+                    </a>
+                  )}
                 </li>
               ))}
-            </ul>
+            </ol>
+            <p className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, margin: '22px 0 0' }}>
+              Not a blocking app. We never read their chats.
+            </p>
+            <p className="wow-fu" style={{ ...BODY, fontSize: 'var(--text-base)', margin: '6px 0 0' }}>{TRIAL_LINE}</p>
           </section>
-
           {/* ── ONE CONVERSATION FOR THIS WEEK ──────────────────────────────
               The stage's first script, with a gap for the child's own reason.
               It took the place of the generic tip ("The timer is the rule,
@@ -539,25 +567,6 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             />
           </div>
 
-          {/* ── WHAT YOU GET ───────────────────────────────────────────────
-              One service a line, in Justin's order (WHAT_YOU_GET above), then
-              the trial line. This list replaced the Also inside chips, which
-              named the same parts as labels. */}
-          <section style={SECTION} aria-labelledby="ready-get">
-            <div className="wow-fu" style={EYEBROW}>What you get</div>
-            <h2 id="ready-get" className="wow-fu" style={H2}>Everything to get them ready before 16.</h2>
-            <ol style={{ listStyle: 'none', margin: '18px 0 0', padding: 0, display: 'grid', gap: 18 }}>
-              {WHAT_YOU_GET.map(w => (
-                <li key={w.title} className="wow-fu">
-                  <Point icon={w.icon} title={w.title}>{w.line}</Point>
-                </li>
-              ))}
-            </ol>
-            <p className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, margin: '22px 0 0' }}>
-              Not a blocking app. We never read their chats.
-            </p>
-            <p className="wow-fu" style={{ ...BODY, fontSize: 'var(--text-base)', margin: '6px 0 0' }}>{TRIAL_LINE}</p>
-          </section>
         </div>
       )}
 
@@ -742,7 +751,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <Door
             href={enterHref}
             onClick={onJoin}
-            label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'I have confirmed, sign in' : 'Finish setting up'}
+            label={onJoin ? `Save ${kid ? `${kid}’s` : 'my'} plan` : needsConfirm ? 'I have confirmed, sign in' : 'Finish setting up'}
             big
             style={{ display: 'flex', width: '100%' }}
           />

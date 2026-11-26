@@ -13,6 +13,8 @@ import FounderBadge from '@/components/marketing/FounderBadge'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { STAGES as PRODUCT_STAGES } from '@/lib/content/stages'
 import { STAGE_OUTCOMES } from '@/lib/content/stage-outcomes'
+import { TRY_LESSONS } from '@/lib/content/try-lessons'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { CONTACT, hasAddress, hasCompany } from '@/lib/content/contact'
 // The live origin, from the one place it is written down. This page had five
 // copies of https://www.guidedchildhood.co.uk hardcoded, a domain the business
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
   // layout's whole object and left out the image, so a shared home page link
   // showed no picture.
   ...pageMetadata({
-    title: 'Guided Childhood: get your child ready before 16',
+    title: 'Guided Childhood: from first tablet to first phone, ages 4 to 16',
     absoluteTitle: true,
     // In the parent's words, not ours (the board's audience lens, 12 November
     // 2026): the nightly fight, the phone coming, what to say tonight. The
@@ -153,6 +155,32 @@ const FAQS = [
   { q: 'Is banning devices better than teaching digital literacy?',
     a: 'OECD research finds device access among UK teenagers is now nearly universal, so the gap that remains is not who owns a device but who is taught to use one well. A ban does not close that gap. It removes the deep end from the child who was never taught, while the child already getting lessons is unaffected. Guided Childhood teaches digital literacy in stages instead, the same way children are taught to swim.' },
 ]
+
+// PROBLEM, THEN THE FIX (Justin, 26 November 2026: "flash up one at a time
+// the solutions we offer"). Every section opens on the problem in a parent's
+// words, then names the fix and shows the real screen. Scrolling sections, not
+// an auto playing carousel, because a parent reading on a phone misses slides
+// that move on their own. Quote marks only where the words are a real parent's
+// (research/homepage-audience-language.md, the Mumsnet thread).
+// plans/2026-11-26-problem-solution-homepage-plan.md
+function Problem({ n, topic, children }: { n: number; topic: string; children: React.ReactNode }) {
+  return (
+    <>
+      <p className="eyebrow fu" style={{ color: 'var(--terracotta-dark)', marginBottom: '12px' }}>{n}. {topic}</p>
+      <p className="fu" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontStyle: 'italic', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, maxWidth: '560px', margin: '0 auto 14px' }}>
+        {children}
+      </p>
+    </>
+  )
+}
+
+function Phone({ src, alt, width = 260 }: { src: string; alt: string; width?: number }) {
+  return (
+    <div className="fu" style={{ width, maxWidth: '100%', margin: '0 auto', borderRadius: '28px', overflow: 'hidden', border: '6px solid var(--ink)', boxShadow: '0 22px 60px rgba(26,26,46,0.20)', background: '#fff' }}>
+      <Image src={src} alt={alt} width={780} height={1460} sizes={`${width}px`} loading="lazy" style={{ width: '100%', height: 'auto', display: 'block' }} />
+    </div>
+  )
+}
 
 export default function HomePage() {
   return (
@@ -280,7 +308,7 @@ export default function HomePage() {
                 it holds up when iOS text size is set larger than default.
                 Laptops never use the floor, so only phones change. */}
             <h1 className="fu" style={{ fontSize: 'clamp(2rem, 5.2vw, 4.2rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
-              Get your child ready before 16.
+              From first tablet to first phone.
             </h1>
             {/* What the parent gets, not what the product contains. The line
                 used to list features (lessons, habits, quests, the passport);
@@ -288,7 +316,7 @@ export default function HomePage() {
                 carry the benefit, and the benefit is our own one line story
                 (THE-STORY.md, section 1). The features are the sections below. */}
             <p className="fu" style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '26px' }}>
-              What children their age learn this year, the words for the hard conversations, and a Passport they earn stage by stage. Ten minutes a day, together, from age 4.
+              Ready before 16, one stage at a time. Lessons for their age, the right words, and a Passport they earn.
             </p>
             {/* The stage check, named. Every CTA routes to /starter-pack, the
                 three question stage check, and THE-STORY.md says the hook is
@@ -413,12 +441,14 @@ export default function HomePage() {
       <section id="stages" aria-label="What children learn at each stage" style={{ padding: 'clamp(80px, 10vw, 120px) 32px', background: '#fff', borderTop: '1px solid var(--border)', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What children their age learn this year</p>
+            <Problem n={1} topic="What school teaches">
+              You find out what they covered about phones and the internet after it has happened, if you find out at all.
+            </Problem>
             <h2 className="fu" style={{ margin: '0 0 14px' }}>
-              Five stages on the road <span style={{ color: 'var(--terracotta)' }}>to 16</span>
+              Know what school teaches, and <span style={{ color: 'var(--terracotta)' }}>get there first</span>
             </h2>
             <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto' }}>
-              Each stage has short lessons you do together at home. Here is some of what your child will be able to do by the end of theirs. One account covers every child, whatever their stage.
+              Short lessons for each age that follow the RSHE guidance schools use, so you can do them together at home first. Open one and try it now, no account.
             </p>
           </div>
 
@@ -452,6 +482,9 @@ export default function HomePage() {
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '14px' }}>
                       {s.ks}
                     </div>
+                    <Link href={`/try/${TRY_LESSONS[(i + 1) as 1 | 2 | 3 | 4 | 5]}`} data-track={`home-try-${i + 1}`} style={{ marginTop: '12px', minHeight: '44px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--ink)', borderRadius: 'var(--radius-btn)', boxShadow: '0 3px 0 var(--ink)', textDecoration: 'none' }}>
+                      Try a lesson
+                    </Link>
                   </div>
                 </div>
               )
@@ -467,12 +500,7 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
-          3 · THE PASSPORT — earned stage by stage, done by 16
-          ================================================================ */}
-      <PassportSection />
-
-      {/* ================================================================
-          4 · GETTING THE BALANCE RIGHT — the stars and the timer, third,
+          2 · GETTING THE BALANCE RIGHT — the stars and the timer,
           in Justin's words (25 November 2026). The allowance comes first
           and earning is the extra, because a Mumsnet parent read earning as
           "screens to avoid screens". Every tile is a setting that exists:
@@ -482,13 +510,18 @@ export default function HomePage() {
       <section aria-label="Getting the balance right" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Screen time, without the fight</p>
+            <Problem n={2} topic="Screen time">
+              &ldquo;It&rsquo;s utterly miserable constantly policing screen time.&rdquo;
+            </Problem>
             <h2 className="fu" style={{ margin: '0 0 14px' }}>
               Getting the balance <span style={{ color: 'var(--terracotta)' }}>right</span>
             </h2>
             <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto' }}>
               Real jobs, outside time and a timer you can both see. Screen time ends because the timer says so, not because you&rsquo;re the bad guy.
             </p>
+          </div>
+          <div style={{ marginBottom: '36px' }}>
+            <Phone src="/marketing/kid-page.png" alt="The child app: star bank, daily goal, a saving goal for film night, and today's jobs" />
           </div>
           <div className="three-col">
             {[
@@ -505,6 +538,97 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ================================================================
+          3 · THE PASSPORT — earned stage by stage, done by 16
+          ================================================================ */}
+      <PassportSection problem={<Problem n={3} topic="The road to 16">The phone and the apps arrive at once, and nothing before it felt like getting ready.</Problem>} />
+
+      {/* ================================================================
+          4 · DIGI THAT REMEMBERS — back in on 26 November 2026. The
+          pricing review named it the part a parent is most likely to pay
+          for, and the 25 November rebuild had cut it. The conversation is
+          an illustration of how DiGi answers, labelled as one; the memory
+          claim rests on digi_conversations per child and Joanne's own words
+          below in the testimonials.
+          ================================================================ */}
+      <section aria-label="DiGi remembers your family" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+            <Problem n={4} topic="DiGi">
+              It&rsquo;s eleven at night, you&rsquo;ve just seen something on their phone, and there&rsquo;s nobody to ring.
+            </Problem>
+            <h2 className="fu" style={{ margin: '0 0 14px' }}>
+              Ask DiGi, and it <span style={{ color: 'var(--terracotta)' }}>remembers your family</span>
+            </h2>
+            <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto' }}>
+              It knows your child&rsquo;s age and stage and what you told it last week, so the answer starts from your family, with the words to say tonight.
+            </p>
+          </div>
+          <div className="fu" style={{ maxWidth: '520px', margin: '0 auto', background: '#fff', borderRadius: 'var(--radius-card)', border: '1px solid var(--border)', boxShadow: '0 20px 60px rgba(26,26,46,0.10)', overflow: 'hidden' }}>
+            <div style={{ background: 'var(--stage-5)', padding: '14px 18px', display: 'flex', alignItems: 'center', gap: '12px', borderBottom: '1px solid var(--border)' }}>
+              <DigiCharacter mood="speak" size={44} />
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)' }}>DiGi</div>
+              <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>An example</span>
+            </div>
+            <div style={{ padding: '18px 16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <div className="bubble-parent">Every day he comes in from school and wants the TV on straight away. If I say no it&rsquo;s a meltdown.</div>
+              </div>
+              <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
+                That&rsquo;s really common at nine, and it was bedtime you told me about last week, so let&rsquo;s keep the same idea: one routine he knows by heart. Say it once, warmly: &ldquo;Shoes off, snack, five minutes outside, then TV.&rdquo; Then hold it.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          5 · SCHOOL AND HOMEWORK — the school week and homework help, as
+          the child sees them (dev previews with made up names, captured
+          26 November 2026; no real child is shown).
+          ================================================================ */}
+      <section aria-label="School and homework" style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <Problem n={5} topic="School and homework">
+              PE kit, the reading record, the trip letter, and the homework they forgot to mention until bedtime.
+            </Problem>
+            <h2 className="fu" style={{ margin: '0 0 14px' }}>
+              The school week and homework, <span style={{ color: 'var(--terracotta)' }}>in one place</span>
+            </h2>
+            <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto' }}>
+              Forward the school emails and the reminders land on the right day, for you and for them. Homework goes in one place, and when they&rsquo;re stuck DiGi gives a hint, never the answer.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '28px', justifyContent: 'center' }}>
+            <Phone src="/marketing/kid-school-week.png" alt="The child app's school week: the days, and what is coming up from school" width={240} />
+            <Phone src="/marketing/homework-help.png" alt="Homework help in the child app: today's homework written down in one place" width={240} />
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          6 · SAFE SETTINGS BY AGE — last, because settings guides are free
+          elsewhere (Internet Matters, the phone makers). What we add is the
+          settings growing with the child and a check every two weeks.
+          ================================================================ */}
+      <section aria-label="Safe settings by age" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+            <Problem n={6} topic="Phone settings">
+              &ldquo;This was a huge waste of money time and energy.&rdquo; A parent, on a parental control app.
+            </Problem>
+            <h2 className="fu" style={{ margin: '0 0 14px' }}>
+              Safe settings that <span style={{ color: 'var(--terracotta)' }}>grow with them</span>
+            </h2>
+            <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto' }}>
+              Step by step settings for their age on the phone, tablet and console they actually have. Every two weeks DiGi asks if anything new has arrived, and the settings loosen as they show they&rsquo;re ready.
+            </p>
+          </div>
+        </div>
+      </section>
+
 
       {/* ================================================================
           5 · THE DAD WHO DID THE HOMEWORK — trust from the sources and the

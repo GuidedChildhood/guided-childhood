@@ -98,7 +98,7 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
           </p>
         ) : null}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '11px' }}>
-          {CORE_PRESETS.map(m => (
+          {[...new Set([...CORE_PRESETS, s.coreMinutesDaily])].sort((a, b) => a - b).map(m => (
             <button key={m} disabled={busy} onClick={() => save({ ...s, coreMinutesDaily: m })}
               aria-pressed={s.coreMinutesDaily === m} style={{
                 flex: '1 1 3em', padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',

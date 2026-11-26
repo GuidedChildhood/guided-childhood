@@ -16,7 +16,10 @@ type Particle = {
   size: number; color: string; rot: number; vrot: number; life: number
 }
 
-export default function Celebration({ fire = true }: { fire?: boolean }) {
+// `brief` is the short version for a screen people are about to read (the
+// stage check result, 26 November 2026): fewer pieces, gone in about a second,
+// so the headline is never read through confetti.
+export default function Celebration({ fire = true, brief = false }: { fire?: boolean; brief?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -37,8 +40,9 @@ export default function Celebration({ fire = true }: { fire?: boolean }) {
     // Two gentle bursts from the upper third, fanning out and down.
     const particles: Particle[] = []
     const spawn = (originX: number) => {
-      for (let i = 0; i < 55; i++) {
-        const angle = (Math.PI * (0.2 + (i / 55) * 0.6)) - Math.PI / 2
+      const n = brief ? 24 : 55
+      for (let i = 0; i < n; i++) {
+        const angle = (Math.PI * (0.2 + (i / n) * 0.6)) - Math.PI / 2
         const speed = 3 + (i % 7)
         particles.push({
           x: originX, y: h * 0.28,
@@ -68,7 +72,7 @@ export default function Celebration({ fire = true }: { fire?: boolean }) {
         p.x += p.vx
         p.y += p.vy
         p.rot += p.vrot
-        if (frame > 70) p.life -= 0.02
+        if (frame > (brief ? 18 : 70)) p.life -= brief ? 0.05 : 0.02
         ctx.save()
         ctx.globalAlpha = Math.max(0, p.life)
         ctx.translate(p.x, p.y)
@@ -77,12 +81,12 @@ export default function Celebration({ fire = true }: { fire?: boolean }) {
         ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6)
         ctx.restore()
       }
-      if (alive && frame < 200) raf = requestAnimationFrame(tick)
+      if (alive && frame < (brief ? 70 : 200)) raf = requestAnimationFrame(tick)
       else ctx.clearRect(0, 0, w, h)
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [fire])
+  }, [fire, brief])
 
   return (
     <canvas
