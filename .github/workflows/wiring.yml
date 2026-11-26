@@ -252,6 +252,8 @@ jobs:
       - run: node --experimental-strip-types scripts/check-school-lead-up.mjs
       # A written weekday decides the year, and a date already gone is marked.
       - run: node --experimental-strip-types scripts/check-school-years.mjs
+      # The Sunday wisdom rebuild keeps the complete pieces of a broken reply.
+      - run: node --experimental-strip-types scripts/check-wisdom-salvage.mjs
       # Homework help: under 10 never reaches the model, nobody gets a chat,
       # the homework is never stored, and the hint never carries the answer.
       - run: node --experimental-strip-types scripts/check-homework-help.mjs

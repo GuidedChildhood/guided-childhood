@@ -386,10 +386,13 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
       {/* ── THE DOOR, ALWAYS ON SCREEN ────────────────────────────────────
           The page was 9899px at 390 wide and the only way in was at the bottom
           of all of it, so a parent sold on screen three had nowhere to say yes.
-          This is worth more than every word cut elsewhere on the page. It waits
-          until they are past the first section, because a buy button over their
-          own child's name reads as a shop rather than an answer, and it hides
-          again at the foot where the real card is. See StickyJoin. */}
+          This is worth more than every word cut elsewhere on the page. Since 26
+          November it shows from the first screen (Justin: a button always
+          visible to get straight into the pathway), because the Mumsnet parents
+          read the top and left without ever scrolling to it. It still steps
+          aside over What happens next and at the foot, where the real buttons
+          are, and never shows for a parent whose answers need help first.
+          See StickyJoin. */}
       {!helpFirst && (
         <StickyJoin
           href={enterHref}
@@ -397,6 +400,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           label={joinLabel}
           note={TRIAL_LINE}
           quietOver="ready-next"
+          fromTop
         />
       )}
       {/* How far down the page they are, a hairline under the status bar. */}

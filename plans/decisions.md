@@ -32,18 +32,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
 | `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-22 | 128 |
-| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-23 | 179 |
+| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-24 | 185 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-11-11 · 11 November 2026: ad video 1, the script for Justin to camera · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: the Facebook key is Justin's own, because the Page cannot be moved yet · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: Anna cannot be reached, so the Page goes to Meta support · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: migration 391 applied, after PR 1490 merged · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: progression and assessment reviewed against the best platforms · `plans/decisions-archive/2026-11.md`
-- 2026-11-11 · 11 November 2026: the nine amendments, built in order (first: the record, the musts, the descriptors) · `plans/decisions-archive/2026-11.md`
 - 2026-11-11 · 11 November 2026: a suggested year for every lesson, and the progression map · `plans/decisions-archive/2026-11.md`
 - 2026-11-11 · 11 November 2026: quiz counts, the leader's page and the look back quiz · `plans/decisions-archive/2026-11.md`
 - 2026-11-11 · 11 November 2026: a free taster of every printable pack, and the three email week behind it · `plans/decisions-archive/2026-11.md`
@@ -158,67 +152,23 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-11-23 · 23 November 2026: 403 and 404 are live, 404 had no ledger row · `plans/decisions-archive/2026-11.md`
 - 2026-11-23 · 23 November 2026: the app safety week moves on, and goes out automatically · `plans/decisions-archive/2026-11.md`
 - 2026-11-23 · 23 November 2026: GDC 060 and 067 approved, 060 swaps with 063 · `plans/decisions-archive/2026-11.md`
+- 2026-11-24 · 24 November 2026: the funnel read honestly, and ten parents before more building · `plans/decisions-archive/2026-11.md`
+- 2026-11-24 · 24 November 2026: eligibility is a status, not a date; every pack is the full pack · `plans/decisions-archive/2026-11.md`
+- 2026-11-24 · 24 November 2026: one settings file for the content engine; ChatGPT may schedule cleared posts · `plans/decisions-archive/2026-11.md`
+- 2026-11-24 · 24 November 2026: the founder voice review; the radar commits and register only branches merge themselves · `plans/decisions-archive/2026-11.md`
+- 2026-11-24 · 24 November 2026: the ten verification checks are required fields of every new research review · `plans/decisions-archive/2026-11.md`
+- 2026-11-24 · 24 November 2026: one handoff manifest for ChatGPT, seventeen fields per post · `plans/decisions-archive/2026-11.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 24 November 2026: the funnel read honestly, and ten parents before more building
-
-- Justin: no sign ups, doubt about whether the app helps. Read: tracking since 19 Nov works end to end (a test reached q2 and landed in PostHog); no real visitor has yet answered question one. Ad arrivals open straight on the age question with no promise or brand above it.
-- Each stage check step now counts once until it changes; every visit had logged two intro events, doubling the top of the funnel.
-- Justin, "3 yes": a visit from a post or ad now sees the intro's promise above question one: "Free. Three questions. No sign up. You get the words to use tonight." Measure: share of ad visits that reach q2.
-- Next: ten parents who are not friends or family, five ten minute chats (messages in content/packs/2026-11-24-ten-parents). Building pauses until those answers are in.
-### 23 November 2026: a page for trusts and MATs
-- New public /trusts page, built on Oak's advice that EdTech is bought at trust level. It covers the two jobs (online RSHE, parents), each school keeping its own code and record, a free pilot in two schools first, and pricing per school on application with the single school range shown. It claims no trust wide dashboard. Linked from the pricing trust band and the pilot page. OPEN_PATHS is now 15.
-
-## 24 November 2026: eligibility is a status, not a date; every pack is the full pack
-
-- Justin: remove the rule that START HERE must be dated today; verified stories stay eligible until completed, withdrawn, superseded or on HOLD.
-- START HERE now says an older date does not stop production. The queue was already status based; the "more than a day old, ask Justin" line was the block.
-- Every pack carries LinkedIn, first comment and source, Instagram, Facebook, a visual brief per platform and motion where appropriate. QA holds packs without them.
-- Posts outside the radar queue sit in content/research-register/completion-queue.json (060, 067 approved; 065, 066 reserve).
-- Three personal LinkedIn posts a week; the rest reserve. Detail in scripts/radar/README.md, "Eligibility and completion".
-
-## 24 November 2026: one settings file for the content engine; ChatGPT may schedule cleared posts
-
-- config/content-engine.json holds cadence (3 to 4 a week), formats (Instagram and Facebook where appropriate), scheduling (next free date, then every other day), permissions A to F, the pause switch, the newsletter and the daily report. Code reads it through scripts/radar/settings.mjs.
-- Justin's addendum: ChatGPT has standing permission to schedule editorially cleared posts; automatic publishing stays off; ChatGPT's 14:30 task owns the one daily report.
-- Plan and audit: plans/2026-11-24-content-engine-plan.md and -audit.md.
-
-## 24 November 2026: the founder voice review; the radar commits and register only branches merge themselves
-
-- New `.claude/skills/founder-voice-review` runs on every outward word (posts, comments, newsletter, emails, school copy, site copy, scripts, visual text): the ai-tells guard, the ear, the rhythm meter, true scenes and privacy, the read aloud, then a stored VOICE REVIEW verdict. It is not a detector and never says who wrote a text.
-- New `content/brand-story/voice-bible.md`: his positions, his research moves, his words, and an append only corrections log.
-- The one banned list is `scripts/check-ai-tells.mjs`; it gains the phrases the three editorial sources agree on and stiff sentence openers. QA now runs it over Instagram, Facebook, the newsletter and the script too.
-- Justin, "1 yes 3 yes": the radar's prompt now commits from a message file in single commands; a push to claude/radar-* that changes only the registers and passes the tests and gate is merged into main by radar-gate.yml. Decision 2, Justin "yes to family voice": the family account speaks as "we", Justin and Natalia, with Natalia's ear as the test.
-### 24 November 2026: Oak API connected, first gap check done
-- Justin's Oak key is saved as a network secret and the open API answers. The read only check: Oak RSHE has 15 online life units (71 lessons) in Years 1 to 4, 7, 8, 10 and 11. We go further on AI companions, algorithms, gaming and odds, images and sextortion, the ban, and making and ownership. We also cover Reception, Years 5, 6 and 9 and the sixth form, which Oak's online units do not. This is from titles only; nothing public until lessons are read. Plan: `plans/2026-11-24-oak-rshe-gap-check.md`.
-
-- 2026-11-24 · Every film uses the walkthrough engine and structure (Justin): parents and schools alike, the passport and two apps films included, built as a cut in `videos/2026-10-09-digi-shorts` (problem, turn, numbered real screens, end card, music, TikTok cut). Written into `product-shorts`. The teacher start film was made with a one off recorder, so it is re-cut in the engine before it is posted. PR 1712.
-
-## 24 November 2026: the ten verification checks are required fields of every new research review
-
-- A review stored from 25 November carries `verification` with ten answers (original source, publication date, statistics and denominators, sample and population, design, cause or association, counter evidence, strongest objection, practical implications, claims not to make). `pipeline.mjs review` refuses one missing or thin; `gate.mjs` checks the register for it.
-- The labels come from config/content-engine.json; a test fails if the settings list a check the code does not ask for.
-- The handoff now tells Stage 2 the design, sample, cause or association wording, the objection to concede and the claims never to make. Rule lives in scripts/radar/verification.mjs.
-
-## 24 November 2026: one handoff manifest for ChatGPT, seventeen fields per post
-
-- `scripts/radar/post-manifest.mjs` writes `content/research-register/handoff-manifest.json`: every unposted GDC post (radar and completion queue), with the brief's seventeen fields, versioned by content hash. It refuses to write if a field is missing or an incomplete entry carries a permission.
-- A post may become a draft only when complete (pack and required assets verified in Drive) and editorially cleared (QA, Claude's pack review, the new founder voice review via `pipeline.mjs voice`). Scheduling then follows standing permission D; automatic publishing stays off. A new pack version clears both reviews.
-- Fixed: metricool.mjs set schedulingPermitted twice (stage 2), so a post's own state was ignored.
-- The afternoon run copies it to the METRICOOL HANDOFF folder as `GDC HANDOFF MANIFEST, CURRENT.json` after everything it names reads back; START HERE tells ChatGPT to read it first.
-
-- 2026-11-24 · Mumsnet replies weighed (feedback-filter): the ten parents post read as machine written, buried the ask, gave an unknown link, named no real scene and led with "the words to use tonight", which a parent rightly called pointless. Adopted: ask first, a domain to type, one true scene, who Justin is, and lead with the star quest (THE-STORY section 10), not scripts. Rewrite in `content/packs/2026-11-24-ten-parents/mumsnet-rewrite.md`; table in `plans/2026-11-24-mumsnet-replies-weighed.md`.
-
-- 2026-11-24 · A Mumsnet parent caught a script line a child would argue with ("phones sleep in the kitchen, the bedroom is for sleep"). Rewritten everywhere it showed (stages.ts, script card, two static pages) with no metaphor and the adult included ("mine too"); the blue light claim in its "why" removed. New rule: script lines are read to a child of the right age and the first comeback recorded before they ship; a full script pass is parked. PR 1714.
 
 ## 25 November 2026: school dates land in the right year, and passed dates are not ticked
 
 - Justin: an event showing "364 days late". He had snapped a calendar that prints 2025; nine entries went in a year back and twenty five with a weekday but no year were guessed as 2027, on the wrong weekday.
 - `lib/school/fix-years.ts`: a written weekday decides the year, a printed year is kept, and any date already gone is marked past. The snap card shows those greyed and unticked and says an all past letter looks like an older one; forwarded emails do not add past items.
 - The 39 entries from that snap were dismissed by hand, with his yes. Plan: plans/2026-11-25-school-dates-right-year.md.
+
 ## 25 November 2026: ready before 16 leads; the bedroom script gets its comebacks
 
 - Justin, after the Mumsnet thread and two reviews: lead with the curriculum and the Passport, "ready before 16". This overrules THE-STORY section 10 (star quest leads every list) and the 24 November star quest decision.
@@ -258,3 +208,12 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 
 - Justin, "yes go ahead with all 3 but check". Two of the three were already done by other sessions: the bedroom line is fixed everywhere, and the save line is now Justin's decision of 25 November ("Free for 4 days. No card, so nothing is ever charged unless you pick a plan."), so it stays. The result page already hands over a "Say this" script, after the six problem and fix cards Justin ordered on 26 November; the order is his and stays.
 - New: the four part labels on each worry card (Device time, Scripts, Their app, DiGi) looked like buttons and did nothing. Each now opens the line written for that worry in lib/content/proof.ts. A Mumsnet parent said nothing seemed clickable.
+
+## 26 November 2026: the result page's Save the plan button shows from the first screen
+
+- Justin: a button always visible to get straight into the pathway. The pinned bar used to wait for 520px of scroll, and the Mumsnet parents read the top and left without scrolling, so none saw a way in.
+- `StickyJoin` takes `fromTop`; the result page sets it. It still steps aside over What happens next and at the foot, and never shows for a parent whose answers need help first.
+## 26 November 2026: the Sunday DiGi wisdom rebuild keeps the good part of a broken reply
+
+- The ops board showed DiGi wisdom red: the 22 November run failed on both tries with broken JSON at character 3845, so the week's candidates were never written.
+- The reply now has 4000 tokens (was 2000), and a broken reply keeps every complete piece when at least four survive (`lib/school/parse-items.ts`). Candidates still land pending for Justin to approve; nothing reaches a parent unreviewed. `scripts/check-wisdom-salvage.mjs`.
