@@ -278,7 +278,6 @@ function whatYouGet(they: string, ages: string): { icon: MethodId; problem: stri
 /** Decision 2, 25 November 2026, word for word wherever the trial is first named. */
 const TRIAL_LINE = 'Free for 4 days. No card, so nothing is ever charged unless you pick a plan.'
 
-const COUNT = ['None', 'One', 'Two', 'Three', 'Four']
 
 export default function ResultScreen({ stage, accent, challenge, worry, worries, worryOther, email, needsConfirm, childName, onJoin, ageYears }: Props) {
   // The topic course for this age, if there is one. No age at all (a run saved
@@ -460,27 +459,46 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           thing under the headline. */}
       {!helpFirst && (
         <div style={WRAP}>
-          {/* Three things, quoted from the lessons. */}
-          <section style={{ ...SECTION, marginTop: 40 }} aria-labelledby="ready-understand">
-            <div className="wow-fu" style={EYEBROW}>From the lessons</div>
-            <h2 id="ready-understand" className="wow-fu" style={H2}>
-              {COUNT[outcomes.length]} things a child at this stage should understand.
-            </h2>
-            <p className="wow-fu" style={LEAD}>In their own words, from the lessons on the road to 16.</p>
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: 12 }}>
-              {outcomes.map(o => (
-                <li key={o.moduleId} className="wow-fu" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px' }}>
-                  <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', lineHeight: 1.35, color: 'var(--ink)' }}>
-                    “{o.outcome}”
-                  </p>
-                  <p style={{ margin: '6px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
-                    Lesson: {o.title}
-                  </p>
+          {/* ── WHAT YOU GET ───────────────────────────────────────────────
+              Justin, 26 November 2026, on the live page: the starter page more
+              than the homepage. So the six problem then fix cards come first,
+              straight under the headline, in the homepage's order
+              (whatYouGet above). The lessons' three outcomes sit inside card
+              one rather than in a section of their own. */}
+          <section style={{ ...SECTION, marginTop: 40 }} aria-labelledby="ready-get">
+            <div className="wow-fu" style={EYEBROW}>Stage {stage.id} plan for {they}</div>
+            <h2 id="ready-get" className="wow-fu" style={H2}>Six problems, and what we do about each.</h2>
+            <ol style={{ listStyle: 'none', margin: '18px 0 0', padding: 0, display: 'grid', gap: 14 }}>
+              {whatYouGet(they, stage.ages).map((w, i) => (
+                <li key={w.title} className="wow-fu" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px' }}>
+                  <p style={{ margin: '0 0 10px', fontStyle: 'italic', fontWeight: 600, fontSize: 'var(--text-base)', lineHeight: 1.45, color: 'var(--ink-soft)' }}>{w.problem}</p>
+                  <Point icon={w.icon} title={w.title}>{w.line}</Point>
+                  {i === 0 && outcomes.length > 0 && (
+                    // The lessons' own outcomes, quoted (stage-outcomes.ts).
+                    <ul id="ready-understand" style={{ listStyle: 'none', margin: '12px 0 0', padding: 0, display: 'grid', gap: 8 }}>
+                      {outcomes.map(o => (
+                        <li key={o.moduleId} style={{ background: 'var(--butter-lt)', borderRadius: 'var(--radius-tile)', padding: '10px 12px' }}>
+                          <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.35, color: 'var(--ink)' }}>&ldquo;{o.outcome}&rdquo;</p>
+                          <p style={{ margin: '4px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>Lesson: {o.title}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {i === 0 && (
+                    // Opens in a new tab so this result, with everything the
+                    // parent told us, is still here when they come back.
+                    <a href={`/try/${TRY_LESSONS[stage.id]}`} target="_blank" rel="noopener" data-track={`result-try-${stage.id}`} className="btn-outline" style={{ marginTop: 12, minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>
+                      Try a lesson for {stage.ages.toLowerCase()}
+                    </a>
+                  )}
                 </li>
               ))}
-            </ul>
+            </ol>
+            <p className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, margin: '22px 0 0' }}>
+              Not a blocking app. We never read their chats.
+            </p>
+            <p className="wow-fu" style={{ ...BODY, fontSize: 'var(--text-base)', margin: '6px 0 0' }}>{TRIAL_LINE}</p>
           </section>
-
           {/* ── ONE CONVERSATION FOR THIS WEEK ──────────────────────────────
               The stage's first script, with a gap for the child's own reason.
               It took the place of the generic tip ("The timer is the rule,
@@ -537,33 +555,6 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             />
           </div>
 
-          {/* ── WHAT YOU GET ───────────────────────────────────────────────
-              Six problem then fix cards, the homepage's order (whatYouGet above), then
-              the trial line. This list replaced the Also inside chips, which
-              named the same parts as labels. */}
-          <section style={SECTION} aria-labelledby="ready-get">
-            <div className="wow-fu" style={EYEBROW}>What you get</div>
-            <h2 id="ready-get" className="wow-fu" style={H2}>Six problems, and what we do about each.</h2>
-            <ol style={{ listStyle: 'none', margin: '18px 0 0', padding: 0, display: 'grid', gap: 14 }}>
-              {whatYouGet(they, stage.ages).map((w, i) => (
-                <li key={w.title} className="wow-fu" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px' }}>
-                  <p style={{ margin: '0 0 10px', fontStyle: 'italic', fontWeight: 600, fontSize: 'var(--text-base)', lineHeight: 1.45, color: 'var(--ink-soft)' }}>{w.problem}</p>
-                  <Point icon={w.icon} title={w.title}>{w.line}</Point>
-                  {i === 0 && (
-                    // Opens in a new tab so this result, with everything the
-                    // parent told us, is still here when they come back.
-                    <a href={`/try/${TRY_LESSONS[stage.id]}`} target="_blank" rel="noopener" data-track={`result-try-${stage.id}`} className="btn-outline" style={{ marginTop: 12, minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>
-                      Try a lesson for {stage.ages.toLowerCase()}
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ol>
-            <p className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, margin: '22px 0 0' }}>
-              Not a blocking app. We never read their chats.
-            </p>
-            <p className="wow-fu" style={{ ...BODY, fontSize: 'var(--text-base)', margin: '6px 0 0' }}>{TRIAL_LINE}</p>
-          </section>
         </div>
       )}
 
