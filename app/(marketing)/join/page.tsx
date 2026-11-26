@@ -495,7 +495,10 @@ export default async function JoinPage() {
             borderLeft: '3px solid var(--terracotta-lt)',
             paddingLeft: '24px',
           }}>
-            "I watched my daughter scroll for three hours and realised the conversation I was missing."
+            {/* Was "I watched my daughter scroll for three hours", a scene that is
+                not in founder-context.md. Justin, 26 November 2026: swap it for
+                a true line. This is his change of mind, a GREEN story. */}
+            &ldquo;Five years ago I thought screens were bad for children. Then I watched mine learn real things online, and stopped looking for a simple answer.&rdquo;
           </blockquote>
 
           <p style={{ fontSize: '.95rem', color: 'rgba(255,255,255,.75)', lineHeight: 1.88, marginBottom: '16px' }}>

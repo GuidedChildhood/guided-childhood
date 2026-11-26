@@ -1,0 +1,93 @@
+{
+  "studyId": "GDC-RR-825cf78470",
+  "reviewedAt": "2026-11-26T09:32:26Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 26 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "reviewBasis": "The article page on the CDC Preventing Chronic Disease site (cdc.gov/pcd/issues/2026/26_0226.htm), read in this run as a text summary, not the PDF or tables. The page did not state the sleep threshold used to define inadequate sleep, and PubMed and Europe PMC would not return the record, so the abstract could not be cross checked.",
+  "claims": [
+    {
+      "claim": "The study used six yearly waves, 2018 to 2023, of the National Survey of Children's Health, covering 186,058 children aged 4 months to 17 years, of whom 25,676 (13.8 percent) were rural and 160,382 (86.2 percent) urban.",
+      "status": "VERIFIED",
+      "basis": "Design and sample as the article page states them. Rural means a nonmetropolitan county."
+    },
+    {
+      "claim": "Overall 36.8 percent of rural children and 30.5 percent of urban children did not meet sleep recommendations.",
+      "status": "QUALIFIED",
+      "basis": "Figures as stated, but the definition of not meeting recommendations was not given in what was read, so the figure cannot be used without it."
+    },
+    {
+      "claim": "Children with more than 2 hours of daily screen time had more inadequate sleep than those with 2 hours or less, in both rural and urban groups in nearly every year.",
+      "status": "QUALIFIED",
+      "basis": "As stated. Cross sectional, self reported by parents, and the page says it shows association only. In the rural group the difference was significant in 2019, 2020, 2022 and 2023, not every year."
+    },
+    {
+      "claim": "Among children with more than 2 hours of screen time, inadequate sleep peaked in 2022 at 47.9 percent rural and 41.0 percent urban.",
+      "status": "QUALIFIED",
+      "basis": "As stated. A prevalence in a subgroup, with no adjustment reported in what was read, and not a rise caused by screens."
+    },
+    {
+      "claim": "Excessive screen time harms children's sleep.",
+      "status": "UNSUPPORTED",
+      "basis": "A repeated cross sectional survey cannot show order or cause, and the authors say so."
+    }
+  ],
+  "verifiedStatistics": [],
+  "notQuotable": [
+    "That screens cause poor sleep or shorten it",
+    "The 36.8 and 30.5 percent figures until the sleep definition is read",
+    "Any figure as a UK finding",
+    "The 2 hour split as a limit we recommend: the page says it follows American Academy of Pediatrics guidance, which is theirs"
+  ],
+  "recommendedPlatforms": [],
+  "urgency": "None. Held.",
+  "evidenceConfidence": "MEDIUM that the page says what is written here. LOW as a GDC story, because the finding is the long known association, the headline is about rural and urban America, and the sleep definition was not read.",
+  "limitations": [
+    "Cross sectional, so association only, as the authors say.",
+    "Screen time and sleep both parent reported, which the authors say likely underestimates both.",
+    "US national survey. Not UK children.",
+    "Only a text summary of the page was read, with no tables and no confidence intervals, and no adjusted models were seen.",
+    "The age range runs from 4 months to 17 years, so one split at 2 hours covers very different children."
+  ],
+  "contradictoryEvidence": [
+    "The authors note that the rural and urban sleep gap contradicts some earlier research.",
+    "In the low screen group the trend over time was flat for rural (P 0.86) and urban (P 0.66) children, so the movement is in the high screen group only."
+  ],
+  "whatThisDoesNotProve": [
+    "That screens cause poorer sleep.",
+    "That rural life or rural screens explain the gap.",
+    "Anything about UK children or UK sleep guidance."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'screens are wrecking rural children's sleep', which a cross sectional survey cannot show.",
+  "gdcBeliefs": [
+    "Evidence or silence. The association is not new and our teaching does not rest on it.",
+    "Connection is the protection. Nothing here changes how we teach it."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody.",
+  "unresolvedQuestions": [
+    "What threshold defines inadequate sleep, and do adjusted models keep the screen time difference?",
+    "Is there a UK sample with evening screen timing that tests this directly?"
+  ],
+  "verification": {
+    "originalSource": "The article page at cdc.gov/pcd/issues/2026/26_0226.htm was read in this run as a text summary. It matches the register's title and journal. PubMed and Europe PMC returned nothing for the record, so no cross check was possible.",
+    "publicationDate": "The register gives 25 November 2026. The page summary read in this run did not state a date, so the date is not confirmed from the source.",
+    "statisticsAndDenominators": "186,058 children (25,676 rural, 160,382 urban). 36.8 percent of rural and 30.5 percent of urban children did not meet sleep recommendations, as shares of each group. In the over 2 hour group the 2022 peak was 47.9 percent rural and 41.0 percent urban. The sleep threshold was not read.",
+    "sampleAndPopulation": "US children from 4 months to 17 years, from the National Survey of Children's Health, 2018 to 2023, with rurality set by county. A national household survey answered by parents. Not UK families.",
+    "researchDesign": "Repeated cross sectional analysis of six survey waves. It can describe prevalence and its trend and compare groups. It cannot show that screen time shortens sleep or which came first.",
+    "correlationOrCausation": "Association only, and the authors say so. Copy would have to say 'was associated with' and never that screens caused poor sleep.",
+    "counterEvidence": "Within the paper the authors say the rural and urban gap contradicts some earlier research. The low screen group showed no significant trend. No outside search was run in this run.",
+    "strongestObjection": "A careful sceptic would say both measures are parent reported, the 2 hour split covers infants and teenagers alike, and an association between screen time and poor sleep is already well known and says nothing about cause.",
+    "practicalImplications": "Nothing specific. The authors suggest outreach in rural areas, which is a public health view and not advice a parent could act on here.",
+    "claimsNotToMake": "Do not say screens harm or shorten sleep, that rural children are worse off because of screens, that this describes UK children, or that 2 hours is our limit. Do not quote the sleep percentages without their definition. Do not claim any outcome for a child."
+  },
+  "storedAt": "scripts/radar/reviews/GDC-RR-825cf78470.json"
+}

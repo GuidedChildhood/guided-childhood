@@ -1,0 +1,78 @@
+{
+  "studyId": "GDC-RR-1ce3acf374",
+  "reviewedAt": "2026-11-26T09:32:26Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 26 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "reviewBasis": "The abstract held in the register, which states its own limits. The DOI redirects to the journal page at jurnal.fh.umi.ac.id, which answered 503 in this run, so the full text was not read. The abstract says the manuscript gives no respondent numbers, no fieldwork period and no named incident.",
+  "claims": [
+    {
+      "claim": "Indonesian law on children's data has developed but effective protection needs demonstrable platform compliance, workable cross border enforcement and stronger capacity among families and institutions.",
+      "status": "QUALIFIED",
+      "basis": "The conclusion as the abstract states it. It is a legal and policy view about Makassar, Indonesia."
+    },
+    {
+      "claim": "Fieldwork in Makassar found concerns about age assurance, parental consent, complaint mechanisms, supervisory coordination and digital literacy.",
+      "status": "QUALIFIED",
+      "basis": "Stated in the abstract as reported observations from interviews and questionnaires. The abstract itself says it gives no respondent numbers or period, and cannot show that any platform broke the law."
+    },
+    {
+      "claim": "Social media platforms are civilly liable for how they process children's data.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract says the findings cannot establish that a particular platform committed a violation. This is a legal framework analysis, not evidence of liability."
+    }
+  ],
+  "verifiedStatistics": [],
+  "notQuotable": [
+    "Any claim that a platform broke the law",
+    "Any statistic, since the abstract carries none and says the manuscript has no respondent numbers",
+    "Anything as a UK finding or a UK legal position"
+  ],
+  "recommendedPlatforms": [],
+  "urgency": "None. Held.",
+  "evidenceConfidence": "LOW. No figure, no sample and no period, in a legal setting that is not ours.",
+  "limitations": [
+    "Full text not read, journal page unavailable in this run.",
+    "No respondent numbers, fieldwork period or named incident, as the abstract itself says.",
+    "Qualitative and not representative of all users.",
+    "Indonesian law. Not UK children and not UK law."
+  ],
+  "contradictoryEvidence": [
+    "None is cited in the abstract. No outside search was run in this run."
+  ],
+  "whatThisDoesNotProve": [
+    "That any platform is liable.",
+    "How common any concern is among users.",
+    "Anything about UK families or UK law."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. The likely misreading is 'study proves platforms are breaking children's data law', which the abstract rules out.",
+  "gdcBeliefs": [
+    "Evidence or silence. There is no finding here to speak about."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody.",
+  "unresolvedQuestions": [
+    "Is there a UK or European study with a stated sample on age assurance and parental consent?"
+  ],
+  "verification": {
+    "originalSource": "Not read in full. The DOI 10.56087/rk0aa133 redirects to the journal page, which returned a 503 in this run, so only the abstract in the register was read and it says what the candidate says.",
+    "publicationDate": "25 November 2026 as the register's record gives it. The journal page that would confirm it was unavailable in this run.",
+    "statisticsAndDenominators": "No figure is quoted. The abstract says outright that the manuscript does not state respondent numbers.",
+    "sampleAndPopulation": "Respondents in Makassar, Indonesia, reached by interviews and questionnaires, with no number, period or recruitment given. Not UK families.",
+    "researchDesign": "An empirical legal study with qualitative analysis of interviews, questionnaires and documents. It can describe reported concerns and map them to legal elements. It cannot show prevalence, breach or cause.",
+    "correlationOrCausation": "No causal or statistical claim is possible. Copy would have to say 'a legal study in Makassar reports concerns about', never that platforms caused harm or broke the law.",
+    "counterEvidence": "None named in the abstract, and no outside search was run in this run.",
+    "strongestObjection": "A careful sceptic would say a study with no stated sample, period or incident, set in Indonesian law, tells UK parents nothing about their own children.",
+    "practicalImplications": "Nothing a parent or teacher could act on from this review.",
+    "claimsNotToMake": "Do not say a platform broke the law, that platforms are liable, that this applies to the UK, or quote any number. Do not claim any outcome for a child."
+  },
+  "storedAt": "scripts/radar/reviews/GDC-RR-1ce3acf374.json"
+}
