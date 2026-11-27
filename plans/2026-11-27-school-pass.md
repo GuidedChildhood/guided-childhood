@@ -13,7 +13,7 @@ Justin, 27 November 2026, after the Hive meeting
 
 - A school's newsletter link (migration 353) is still attribution only. When a
   school's invoice is paid, Justin puts the last day of its licence on the link
-  in the admin schools page (`school_links.licensed_until`, migration 408).
+  in the admin schools page (`school_links.licensed_until`, migration 409).
 - A family whose `profiles.school_link` points at a link with a live date holds
   the pass. `school_pass_until()` answers that for the parent's own session or
   the service role.

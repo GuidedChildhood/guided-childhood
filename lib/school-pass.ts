@@ -11,7 +11,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 //   everything else: the membership, exactly as for every other family
 //
 // The pass is live when the school's link carries a licensed_until date that
-// has not passed (migration 408). Justin sets it on the admin schools page
+// has not passed (migration 409). Justin sets it on the admin schools page
 // when the invoice is paid, so a newsletter link alone still grants nothing.
 //
 // The path rule and the numbers are pure and tested (school-pass.test.ts).
@@ -52,7 +52,7 @@ export function passIsLive(untilIso: string | null | undefined, todayIso: string
 /**
  * Does this parent hold a live school pass? Works with the parent's own
  * client or the service role (the child's link pages read as the service
- * role). Any failure, including a database without migration 408, is no pass,
+ * role). Any failure, including a database without migration 409, is no pass,
  * which is the old behaviour: nothing is opened by an error.
  */
 export async function hasSchoolPass(client: SupabaseClient, userId: string): Promise<boolean> {
