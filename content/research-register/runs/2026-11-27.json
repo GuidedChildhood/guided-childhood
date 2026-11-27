@@ -102,18 +102,6 @@
    "attempts": 1
   },
   {
-   "stage": "PACK QA",
-   "verdict": "SKIPPED",
-   "by": "claude",
-   "reasons": [
-    "no new pack waiting; only v1 drafts of 25 Nov, already superseded by v2"
-   ],
-   "detail": null,
-   "at": "2026-11-27T09:29:51.312Z",
-   "commit": "32cb66f6",
-   "attempts": 1
-  },
-  {
    "stage": "APPROVAL DESK",
    "verdict": "PASS",
    "by": "claude",
@@ -124,7 +112,43 @@
    "at": "2026-11-27T09:29:51.390Z",
    "commit": "32cb66f6",
    "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack waiting in Stage 2: only v1 drafts of 25 Nov (GDC-062, GDC-063) already held and superseded; ChatGPT write status 27 Nov 11:00 says no new pack, v2 of both already exist"
+   ],
+   "detail": null,
+   "at": "2026-11-27T13:21:22.825Z",
+   "commit": "6d7931c2",
+   "attempts": 2
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack to review"
+   ],
+   "detail": null,
+   "at": "2026-11-27T13:21:23.494Z",
+   "commit": "6d7931c2",
+   "attempts": 1
+  },
+  {
+   "stage": "FLOW CHECK",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "ChatGPT 08:00 left no CANDIDATES document (none since 23 Nov). Morning stages ran. ChatGPT 11:00 wrote a status only, no pack due. 14:30 step not visible from here."
+   ],
+   "detail": null,
+   "at": "2026-11-27T13:21:26.041Z",
+   "commit": "6d7931c2",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-27T09:29:51.421Z"
+ "updatedAt": "2026-11-27T13:21:26.067Z"
 }
