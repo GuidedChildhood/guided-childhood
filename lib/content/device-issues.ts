@@ -358,7 +358,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'The phone charges outside the bedroom, unasked, with a night light bought for it; a protected bedtime window that stars cannot buy; and a bedroom rule that is the same for the grown ups.',
     prevent: 'Phone to bed outside the bedroom from the first night the phone exists, so it is where the phone lives rather than something taken away later.',
     source: JAMA_NIGHT,
-    proof: { scripts: ['Phone to bed, unasked, and a night light for it', 'The phone is in their room all night', 'They cannot sleep because of their phone'], category: 'screen-time', concernSlug: 'bedtime-screens', mechanic: ['protected_window', 'device_guide', 'printable'], href: '/dashboard/devices' },
+    proof: { scripts: ['Where the phone sleeps tonight', 'Phone to bed, unasked, and a night light for it', 'The phone is in their room all night', 'They cannot sleep because of their phone'], category: 'screen-time', concernSlug: 'bedtime-screens', mechanic: ['protected_window', 'device_guide', 'printable'], href: '/dashboard/devices' },
     keywords: ['bedroom', 'at night', 'all night', '2am', 'midnight', 'lights out', 'cannot sleep', "can't sleep", 'bedtime', 'in bed with', 'under the covers', 'wake up tired', 'sleep'],
   },
   {
@@ -451,7 +451,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     keywords: ['battle', 'constant', 'war', 'every night', 'wits end', "wit's end", 'nightmare', 'hell', 'losing my mind', 'teenager'],
   },
   {
-    key: 'social_media_misery', bands: ['13-15', '16+'],
+    key: 'social_media_misery', bands: ['11-13', '13-15', '16+'],
     name: 'Social media is making her miserable',
     words: 'Pew 2026: 48 percent of teens say social media harms people their age, up from 32 percent in 2022.',
     mechanism: 'Heavier use in the sensitivity window, eleven to thirteen for girls and fourteen to fifteen for boys, predicted lower life satisfaction a year later.',
@@ -459,7 +459,10 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     prevent: 'The check in tracking mood after screens from the first account, so a slide is seen in weeks rather than a year.',
     source: PEW_2026,
     proof: { scripts: ['Mood drops after phone use', 'Social media is making them feel lonely', 'The Instagram Comparison Crash', 'Comparing bodies to influencers'], category: 'mood-confidence', concernSlug: 'mood-after-screens', mechanic: ['check_in'], href: '/dashboard/checkin' },
-    keywords: ['miserable', 'anxious', 'anxiety', 'low mood', 'depressed', 'lonely', 'body image', 'self esteem', 'worthless', 'withdrawn'],
+    // 'came off' and 'off instagram' (27 November 2026): the explorer parent
+    // whose daughter came off Instagram down was landing on the 'she wants
+    // TikTok' tile, because the app name was the only word either tile knew.
+    keywords: ['miserable', 'anxious', 'anxiety', 'low mood', 'depressed', 'lonely', 'body image', 'self esteem', 'worthless', 'withdrawn', 'came off', 'comes off', 'come off', 'down after', 'upset after', 'off instagram', 'off tiktok', 'off snapchat', 'off youtube'],
   },
   {
     key: 'sextortion', bands: ['13-15', '16+'],
@@ -569,7 +572,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
 export const BAND_ORDER: Record<AgeBand, string[]> = {
   '4-7': ['transition_off', 'post_screen_crash', 'cannot_self_occupy', 'autoplay', 'morning_screens', 'device_as_calm', 'parent_phone', 'siblings_fairness', 'mealtime_phones', 'holiday_creep', 'send_transitions'],
   '8-10': ['negotiation', 'in_game_spending', 'first_phone', 'class_group_chat', 'social_media_request', 'transition_off', 'gaming_stop', 'holiday_creep', 'send_transitions', 'controls_bypassed', 'homework_displacement', 'cannot_self_occupy', 'post_screen_crash', 'autoplay', 'morning_screens', 'siblings_fairness', 'mealtime_phones', 'parent_phone'],
-  '11-13': ['group_chat_nasty', 'night_phone', 'sneaking', 'popularity_pressure', 'content_shock', 'strangers', 'homework_displacement', 'ai_friend', 'confiscation_escalation', 'family_shrinks', 'first_phone', 'negotiation', 'class_group_chat', 'social_media_request', 'controls_bypassed', 'gaming_stop', 'in_game_spending', 'post_screen_crash', 'holiday_creep', 'send_transitions', 'mealtime_phones', 'siblings_fairness', 'parent_phone'],
+  '11-13': ['group_chat_nasty', 'night_phone', 'sneaking', 'popularity_pressure', 'social_media_misery', 'content_shock', 'strangers', 'homework_displacement', 'ai_friend', 'confiscation_escalation', 'family_shrinks', 'first_phone', 'negotiation', 'class_group_chat', 'social_media_request', 'controls_bypassed', 'gaming_stop', 'in_game_spending', 'post_screen_crash', 'holiday_creep', 'send_transitions', 'mealtime_phones', 'siblings_fairness', 'parent_phone'],
   '13-15': ['constant_battle', 'night_phone', 'social_media_misery', 'content_shock', 'sextortion', 'ai_companion', 'notifications_study', 'controls_off', 'gaming_late_spending', 'disappearing_messages', 'group_chat_nasty', 'sneaking', 'popularity_pressure', 'strangers', 'ai_friend', 'confiscation_escalation', 'family_shrinks', 'homework_displacement', 'controls_bypassed', 'mealtime_phones', 'parent_phone'],
   '16+': ['night_phone', 'cannot_stop_self', 'social_media_misery', 'ai_companion', 'gaming_late_spending', 'sextortion', 'notifications_study', 'parent_phone', 'strangers', 'ai_friend', 'constant_battle', 'footprint', 'run_out_of_rules'],
 }

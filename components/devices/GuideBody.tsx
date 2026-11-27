@@ -59,7 +59,11 @@ export default function GuideBody({
         color: ageReady ? 'var(--stage-2-text)' : 'var(--stage-5-text)',
         fontSize: 'var(--text-base)', fontWeight: 600, padding: '6px 12px', borderRadius: '10px', marginBottom: '14px',
       }}>
-        {ageReady ? '✓ Suitable to set up now' : `Most families introduce this around age ${guide.min_age} plus, here is how, for when you are ready`}
+        {/* Many children are on these apps before the age on the box, and a parent
+            sent here from a script because their twelve year old is already on
+            Instagram was told to wait (walkthrough, 27 November 2026). The
+            settings are the point for them, so the note says they apply now. */}
+        {ageReady ? '✓ Suitable to set up now' : `Most families introduce this around age ${guide.min_age} plus. If it is already on their phone, set these up now`}
       </div>
 
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.65, marginBottom: '16px' }}>
