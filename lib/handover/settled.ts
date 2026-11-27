@@ -105,6 +105,29 @@ export function offerableChildren(family: FamilyHandover, linked: Set<string>): 
   )
 }
 
+// ── WAITING FOR THEIR APP (27 November 2026) ────────────────────────────────
+//
+// A family who set up a child and made the link, but whose child has never
+// opened it, has the jobs, the stars and the timer set up with nothing to run
+// on. The first member to join after the Mumsnet thread did exactly that at
+// five in the morning: two children, two links, neither ever opened, and four
+// free days on the clock. offerableChildren() skips a child who has a link, so
+// it cannot see this family at all.
+//
+// The children still waiting: old enough to be offered their own side, not
+// settled on no device, and either with no link or a link never once opened.
+export function childrenAwaitingApp(
+  family: FamilyHandover,
+  links: { child_id: string; last_seen_at: string | null }[],
+): ChildHandover[] {
+  const seen = new Set(links.filter(l => !!l.last_seen_at).map(l => l.child_id))
+  return family.children.filter(c =>
+    c.ageBand && !YOUNGEST.has(c.ageBand)
+    && !seen.has(c.id)
+    && !isSettled(family, c)
+  )
+}
+
 // ── THE LATER RE-OFFER ──────────────────────────────────────────────────────
 //
 // "But later in we just need to make them aware when they get a phone that we

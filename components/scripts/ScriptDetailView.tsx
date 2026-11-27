@@ -11,6 +11,7 @@ import { card, cardPad, eyebrow, chunky, INK_EDGE } from '@/components/scripts/c
 import ParentSupport from '@/components/scripts/ParentSupport'
 import HappyIcon from '@/components/kid/HappyIcon'
 import DigiAskLink from '@/components/digi/DigiAskLink'
+import { guideLinksFor } from '@/lib/scripts/guide-links'
 
 // The whole script detail page as one presentational view: the page route
 // fetches the data, this file owns how it looks. One card system, one spacing
@@ -186,6 +187,23 @@ export default function ScriptDetailView({
           tonight={script.tonight}
           stageId={script.stage_id}
         />
+
+        {/* The settings step, when the script's tonight line sends the parent
+            to an app's guide (lib/scripts/guide-links.ts). The words come
+            first; the feed and Teen Account settings are one tap after. */}
+        {guideLinksFor(script.tonight).map(g => (
+          <Link
+            key={g.key}
+            href={withChild(g.href)}
+            style={{
+              ...card, display: 'flex', alignItems: 'center',
+              padding: '14px 18px', minHeight: 48, marginTop: 12, marginBottom: 12, textDecoration: 'none', color: 'var(--ink)',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+            }}
+          >
+            Open the {g.name} settings guide
+          </Link>
+        ))}
 
         {/* ── THE WAY INTO THE MOMENT, IN THE THUMB ZONE ──────────────────
             This was a white "Try as deck" pill at the very TOP of the page,
