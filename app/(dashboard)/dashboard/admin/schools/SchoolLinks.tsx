@@ -122,8 +122,8 @@ export default function SchoolLinks({ rows }: { rows: SchoolLinkRow[] }) {
           </div>
           {/* The code a family types on Settings or the upgrade page if they
               signed up without the link (27 November 2026). Put it on the letter. */}
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '-6px 0 12px' }}>
-            Family code for the letter: <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--ink)' }}>{r.code}</strong>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '-6px 0 12px', overflowWrap: 'anywhere' }}>
+            Family code for the letter: <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--ink)', overflowWrap: 'anywhere' }}>{r.code}</strong>
           </p>
           <div style={{ display: 'flex', gap: 12 }}>
             <Stat n={r.signedUp} label="Signed up" />
@@ -139,7 +139,7 @@ export default function SchoolLinks({ rows }: { rows: SchoolLinkRow[] }) {
               type="date"
               defaultValue={r.licensedUntil ?? ''}
               onChange={e => { if (e.target.value) setPass(r.code, e.target.value) }}
-              style={{ minHeight: 44, padding: '6px 10px', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', fontSize: 'var(--text-base)' }}
+              style={{ minHeight: 44, maxWidth: '100%', minWidth: 0, boxSizing: 'border-box', padding: '6px 10px', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', fontSize: 'var(--text-base)' }}
             />
             {r.licensedUntil && (
               <button type="button" onClick={() => setPass(r.code, null)} style={{ minHeight: 44, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--ink-muted)', fontSize: 'var(--text-sm)', textDecoration: 'underline' }}>
