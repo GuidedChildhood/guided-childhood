@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { checkBackTiming } from '@/lib/scripts/check-back'
 import { card, cardPad, eyebrow, sheet, dottedRule, sheetBody, stageAccent, chunky } from '@/components/scripts/card-system'
 
 // The deeper half of every script: what to say when the child pushes
@@ -46,9 +47,11 @@ type Props = {
   stageId: string
 }
 
+// The check back heading takes its timing from the script's own words
+// (lib/scripts/check-back.ts): a two week trial said "in a few days" before.
 const DEEP_STEPS = [
-  { key: 'ifTheyPushBack' as const, label: 'If they push back' },
-  { key: 'checkBack' as const, label: 'Check back in a few days' },
+  { key: 'ifTheyPushBack' as const, label: () => 'If they push back' },
+  { key: 'checkBack' as const, label: (text?: string) => `Check back ${checkBackTiming(text).phrase}` },
 ]
 
 const FIELDS = ['ifTheyPushBack', 'checkBack', 'forYourChild'] as const
@@ -66,6 +69,22 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
   const [copied, setCopied] = useState(false)
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState<string | null>(null)
+  const [reminder, setReminder] = useState<'idle' | 'saving' | 'set' | 'full' | 'error'>('idle')
+
+  async function remind() {
+    setReminder('saving')
+    try {
+      const res = await fetch('/api/scripts/remind', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sortOrder, child_id: childId }),
+      })
+      const j = await res.json().catch(() => ({}))
+      setReminder(j.ok ? 'set' : j.reason === 'full' ? 'full' : 'error')
+    } catch {
+      setReminder('error')
+    }
+  }
 
   useEffect(() => {
     if (hasAll) return
@@ -179,10 +198,31 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
             {deepVisible.map((step, i) => (
               <div key={step.key}>
                 {i > 0 && <div style={dottedRule} />}
-                {head(step.label)}
+                {head(step.label(expansion[step.key]))}
                 {expansion[step.key]?.trim()
                   ? <p style={{ ...sheetBody, maxWidth: '42ch' }}>{expansion[step.key]}</p>
                   : writing}
+                {/* The way back when the time is up (walkthrough, 27 November
+                    2026). Writes the same follow up DiGi schedules, so it
+                    arrives as the one check back card. */}
+                {step.key === 'checkBack' && expansion.checkBack?.trim() && (
+                  <button
+                    type="button"
+                    onClick={remind}
+                    disabled={reminder !== 'idle'}
+                    style={{ ...chunky('white'), marginTop: 14, minHeight: 48, cursor: reminder === 'idle' ? 'pointer' : 'default' }}
+                  >
+                    {reminder === 'set'
+                      ? `Done. We will ask you ${checkBackTiming(expansion.checkBack).phrase}`
+                      : reminder === 'full'
+                      ? 'You already have three check backs waiting'
+                      : reminder === 'error'
+                      ? 'That did not save. Try again later'
+                      : reminder === 'saving'
+                      ? 'Saving'
+                      : `Remind me ${checkBackTiming(expansion.checkBack).phrase}`}
+                  </button>
+                )}
               </div>
             ))}
           </div>
