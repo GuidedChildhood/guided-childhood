@@ -2,6 +2,7 @@
 
 import { useState, type CSSProperties } from 'react'
 import Link from 'next/link'
+import { checkHref } from '@/lib/app-safety/handoff'
 
 import { track } from '@/components/Analytics'
 import { AGES, aAge } from '@/lib/app-safety/types'
@@ -144,7 +145,7 @@ export default function ReadinessCheck({ app, slug, presetAge }: { app: CheckApp
           </ol>
           <p style={{ ...sub, marginBottom: '14px' }}>This covers one app. Your child&apos;s stage covers all of it: the words for the arguments, a plan for their age and their own app where jobs earn screen time.</p>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-            <Link href="/starter-pack" className="btn btn-gold" data-track="app-check-result" style={{ minHeight: '48px' }}>Find your child&apos;s stage</Link>
+            <Link href={checkHref(slug, age)} className="btn btn-gold" data-track="app-check-result" style={{ minHeight: '48px' }}>Find your child&apos;s stage</Link>
             <button type="button" onClick={() => { setStep(presetAge ? 'use' : 'age'); setUse(null); setWorries([]) }} style={{ background: 'none', border: 'none', color: 'var(--ink-soft)', textDecoration: 'underline', cursor: 'pointer', font: 'inherit', minHeight: '44px' }}>Start again</button>
           </div>
         </div>
