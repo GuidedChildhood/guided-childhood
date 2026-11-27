@@ -9,7 +9,7 @@ const LINKS = [
   { label: 'What They Learn', href: '#stages', section: 'stages' },
   { label: 'About', href: '#about', section: 'about' },
   { label: 'FAQs', href: '#faqs', section: 'faqs' },
-  { label: 'For Schools', href: 'https://www.guidedchildhood.com/schools', section: null },
+  { label: 'For Schools', href: 'https://schools.guidedchildhood.com', section: null },
   { label: 'Pricing', href: '#pricing', section: 'pricing' },
 ]
 
