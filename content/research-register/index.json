@@ -13888,13 +13888,13 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-6229d72df9",
-   "version": 3,
+   "version": 4,
    "firstFound": "2026-11-25T09:33:09.840Z",
-   "lastChecked": "2026-11-26T09:30:28.550Z",
+   "lastChecked": "2026-11-27T09:29:27.480Z",
    "changeReason": "discovery run, streams 03,04,11",
    "changedBy": "radar:discover",
    "dossier": {
@@ -14482,13 +14482,13 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-224d98c21f",
-   "version": 3,
+   "version": 4,
    "firstFound": "2026-11-25T09:33:09.884Z",
-   "lastChecked": "2026-11-26T09:30:28.582Z",
+   "lastChecked": "2026-11-27T09:29:27.505Z",
    "changeReason": "discovery run, streams 17,23",
    "changedBy": "radar:discover",
    "dossier": {
@@ -14998,13 +14998,13 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-821fe38136",
-   "version": 3,
+   "version": 4,
    "firstFound": "2026-11-25T09:33:09.930Z",
-   "lastChecked": "2026-11-26T09:30:28.616Z",
+   "lastChecked": "2026-11-27T09:29:27.366Z",
    "changeReason": "discovery run, streams 02,03,08,13,22",
    "changedBy": "radar:discover",
    "dossier": {
@@ -15244,15 +15244,15 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-6ae1e1f9cc",
-   "version": 5,
+   "version": 6,
    "firstFound": "2026-11-26T09:30:28.479Z",
-   "lastChecked": "2026-11-26T09:32:26.064Z",
-   "changeReason": "REVIEW: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-27T09:29:27.374Z",
+   "changeReason": "discovery run, streams 03,15,20,23",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-6ae1e1f9cc",
     "checkedAt": "2026-11-26T09:30:28.773Z",
@@ -15439,13 +15439,13 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-8ca2f3da92",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-26T09:30:28.495Z",
-   "lastChecked": "2026-11-26T09:30:28.495Z",
+   "lastChecked": "2026-11-27T09:29:27.391Z",
    "changeReason": "discovery run, streams 03,06,08,23",
    "changedBy": "radar:discover"
   },
@@ -15492,15 +15492,15 @@
     ]
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-010ddbeba6",
-   "version": 2,
+   "version": 3,
    "firstFound": "2026-11-26T09:30:28.501Z",
-   "lastChecked": "2026-11-26T09:30:29.442Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-27T09:29:27.330Z",
+   "changeReason": "discovery run, streams 01,03,08,09,20,22",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-010ddbeba6",
     "checkedAt": "2026-11-26T09:30:29.411Z",
@@ -15563,7 +15563,7 @@
    "title": "Alzheimer Disease and Related Dementias Caregiver Burden on Reddit: Large Language Model-Assisted Measurement Study.",
    "doi": "10.2196/103305",
    "pmid": "43077673",
-   "pmcid": null,
+   "pmcid": "PMC13795779",
    "url": "https://doi.org/10.2196/103305",
    "journal": "JMIR aging",
    "published": "2026-11-24",
@@ -15571,10 +15571,12 @@
    "abstract": "<h4>Background</h4>Informal caregivers of older adults with Alzheimer disease and related dementias (ADRD) often face high burden and chronic stress. Reddit provides naturally occurring caregiver narratives to study caregiving burden, but prior studies have often relied on small manual coding or aggregate topic models that may not easily connect caregiving context, burden, and stressors at scale.<h4>Objective</h4>This study aimed to explore what a large language model (LLM)-assisted measurement workflow can recover from ADRD caregiving-related Reddit discourse, such as caregiver burden, caregiving contexts, stressors, temporal patterns, and high-burden subgroups.<h4>Methods</h4>We processed monthly Reddit submission archives from January 2020 through June 2025. Posts were selected from 5 ADRD-specific subreddits and 4 broader caregiving or aging subreddits, yielding a balanced 13,200-post corpus. A locally hosted open-weight LLM inferred structured post-level variables, including caregiver sociodemographic characteristics, caregiver role, ADRD stage, care setting, support need, dominant emotion, sentiment, burden, and primary and secondary stressors. The workflow included schema validation, uncertainty ratings, field-level correction prompts, source matching, a 150-post double-coded human validation benchmark, and pairwise subgroup analyses.<h4>Results</h4>The source-matched analytic sample included 13,179 LLM-coded posts. Human agreement was high for caregiver role, ADRD stage, care setting, dominant emotion, support need type, burden group, and stressor categories (Cohen κ=0.77-1.00), but poor for the initial in-scope screen (κ=0.00). Adult children were the largest inferred caregiver group (8,266/13,179, 62.7%), followed by grandchildren (2,012/13,179, 15.3%). Moderate ADRD was the modal inferred stage (6,554/13,179, 49.7%), and home was the modal care setting (7,145/13,179, 54.2%). Mean burden increased from early-stage ADRD (5.38, SD 2.47) to moderate-stage ADRD (6.96, SD 2.17) and late-stage ADRD (7.77, SD 2.16). Behavioral strain was the dominant primary stressor, while family conflict, financial strain, emotional strain, and social isolation were leading secondary stressors. Pairwise subgroup analysis showed high burden in late-stage ADRD with emotional support needs (mean 8.42, SD 1.46), care transitions with emotional support needs (mean 8.45, SD 1.12), and late-stage care transitions (mean 8.40, SD 1.32).<h4>Conclusions</h4>LLM-assisted measurement can help convert unstructured ADRD caregiving-related Reddit discourse into post-level, theory-guided quantitative measures when paired with validation and cautious interpretation. This workflow extends prior online caregiver research by linking caregiving context, burden, and stressor pathways at scale. The findings highlight care transitions, emotional support needs, financial navigation, and family role negotiation as potential targets for caregiver-support interventions.",
    "isPreprint": false,
    "peerReviewed": true,
-   "pubTypes": "Journal Article",
-   "grants": [],
+   "pubTypes": "research-article; Journal Article",
+   "grants": [
+    "NIA NIH HHS P30 AG066614"
+   ],
    "citedBy": 0,
-   "openAccess": false,
+   "openAccess": true,
    "streams": [
     "06",
     "11",
@@ -15596,15 +15598,15 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-6893dafa4d",
-   "version": 2,
+   "version": 3,
    "firstFound": "2026-11-26T09:30:28.506Z",
-   "lastChecked": "2026-11-26T09:30:30.445Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-27T09:29:27.344Z",
+   "changeReason": "discovery run, streams 06,11,19,22",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-6893dafa4d",
     "checkedAt": "2026-11-26T09:30:30.200Z",
@@ -15756,13 +15758,13 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-4ac5f9db41",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-26T09:30:28.518Z",
-   "lastChecked": "2026-11-26T09:30:28.518Z",
+   "lastChecked": "2026-11-27T09:29:27.416Z",
    "changeReason": "discovery run, streams 04,08,09,19,20",
    "changedBy": "radar:discover"
   },
@@ -15770,20 +15772,24 @@
    "title": "A Comparison Between Rural and Urban US Children of Screen Time and Sleep Duration, 2018-2023.",
    "doi": "10.5888/pcd23.260226",
    "pmid": "43084846",
-   "url": "https://pubmed.ncbi.nlm.nih.gov/43084846/",
+   "url": "https://doi.org/10.5888/pcd23.260226",
    "journal": "Preventing chronic disease",
    "published": "2026-11-25",
-   "authors": "Yell N, Benavidez GA, Boswell E, Hung P, Crouch E",
-   "abstract": "",
+   "authors": "Yell N, Benavidez GA, Boswell E, Hung P, Crouch E.",
+   "abstract": "This study evaluated rural-urban differences in screen time and sleep duration among 186,058 children. Data were collected from the National Survey of Children's Health (2018-2023). Among children with less than 2 hours of daily screen time, rural children were more likely than urban children to not meet sleep recommendations across all years except 2020. Among children who had excessive screen time (>2 h daily), rural children were more likely than urban children to not meet sleep recommendations in 2019-2020 and 2022-2023. The prevalence of not meeting sleep recommendations changed over time for children with excessive screen time. The significantly highest prevalence of not meeting sleep recommendations occurred in 2022 for both rural and urban children, highlighting the need to develop targeted interventions for screen use and for improving pediatric sleep health.",
    "isPreprint": false,
    "peerReviewed": true,
-   "pubTypes": "Journal Article; Comparative Study",
+   "pubTypes": "Comparative Study; Journal Article",
    "grants": [],
    "streams": [
+    "01",
     "04",
+    "09",
+    "22",
     "23"
    ],
    "foundBy": [
+    "europepmc",
     "pubmed"
    ],
    "status": "HOLD",
@@ -15799,15 +15805,15 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-825cf78470",
-   "version": 5,
+   "version": 6,
    "firstFound": "2026-11-26T09:30:28.528Z",
-   "lastChecked": "2026-11-26T09:32:26.200Z",
-   "changeReason": "REVIEW: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-27T09:29:27.424Z",
+   "changeReason": "discovery run, streams 01,04,09,22,23",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-825cf78470",
     "checkedAt": "2026-11-26T09:30:29.446Z",
@@ -15963,7 +15969,10 @@
     },
     "storedAt": "scripts/radar/reviews/GDC-RR-825cf78470.json"
    },
-   "editorialPriority": "LOW"
+   "editorialPriority": "LOW",
+   "pmcid": null,
+   "citedBy": 0,
+   "openAccess": false
   },
   "GDC-RR-adf2c8b0ce": {
    "title": "Parental Problematic Internet Use and Psychopathology in Preschool Children: A Cross-Sectional Study.",
@@ -16004,13 +16013,13 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-adf2c8b0ce",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-26T09:30:28.534Z",
-   "lastChecked": "2026-11-26T09:30:28.534Z",
+   "lastChecked": "2026-11-27T09:29:27.439Z",
    "changeReason": "discovery run, streams 03,05,19,20,22",
    "changedBy": "radar:discover"
   },
@@ -16018,40 +16027,106 @@
    "title": "Monitoring screen device use in childhood: A review of questionnaires used in Spain.",
    "doi": "10.1016/j.aprim.2026.103605",
    "pmid": "43085098",
-   "url": "https://pubmed.ncbi.nlm.nih.gov/43085098/",
+   "url": "https://doi.org/10.1016/j.aprim.2026.103605",
    "journal": "Atencion primaria",
    "published": "2026-11-25",
-   "authors": "Cendrero-Luengo C, de Paz-Cantos S, González-Marrón A, Lidón-Moyano C, Díez-Izquierdo A, Martínez-Sánchez JM",
-   "abstract": "",
+   "authors": "Cendrero-Luengo C, de Paz-Cantos S, González-Marrón A, Lidón-Moyano C, Díez-Izquierdo A, Martínez-Sánchez JM.",
+   "abstract": "<h4>Objective</h4>To identify and characterize the questions on screen exposure used in health surveys and epidemiological studies conducted in Spain.<h4>Design</h4>Review of health surveys and epidemiological studies published in Spain between 2010 and November 2024.<h4>Data sources</h4>Major health surveys and epidemiological studies published by Spanish public administrations and research organizations.<h4>Selection of studies</h4>Studies and surveys including questions related to screen exposure or screen device use in pediatric populations were included.<h4>Data extraction</h4>For each questionnaire, the exact wording of the questions and response options related to screen use was extracted.<h4>Results</h4>Twelve studies were included. Most questionnaires (66.7%) targeted children younger than 15 years of age. Only one survey used a standardized questionnaire. A total of 83.3% differentiated by type of screen, and 66.67% included questions on mobile phone use. None of the questionnaires independently assessed smartphone use.<h4>Conclusions</h4>There is considerable heterogeneity in questions regarding screen exposure, as most questionnaires do not distinguish between different types of devices. Given the growing relevance of mobile phone use as an emerging public health concern in pediatric populations, future surveys should incorporate this distinction, with particular attention to smartphone use, in order to obtain more precise data on children's and adolescents' screen habits.",
    "isPreprint": false,
    "peerReviewed": true,
    "pubTypes": "Journal Article",
    "grants": [],
    "streams": [
+    "05",
     "19"
    ],
    "foundBy": [
+    "europepmc",
     "pubmed"
    ],
-   "status": "DISCOVERED",
-   "relevanceScore": 0,
-   "relevanceBand": "PERIPHERAL",
+   "status": "VERIFIED",
+   "relevanceScore": 4,
+   "relevanceBand": "ADJACENT",
    "relevanceParts": {
-    "core": [],
+    "core": [
+     "+4 \\bsmartphone|mobile phone\\b"
+    ],
     "method": [],
     "penalty": [],
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-d210aa6a60",
-   "version": 1,
+   "version": 3,
    "firstFound": "2026-11-26T09:30:28.539Z",
-   "lastChecked": "2026-11-26T09:30:28.539Z",
-   "changeReason": "discovery run, streams 19",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-27T09:29:28.947Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "pmcid": null,
+   "citedBy": 0,
+   "openAccess": false,
+   "dossier": {
+    "studyId": "GDC-RR-d210aa6a60",
+    "checkedAt": "2026-11-27T09:29:28.705Z",
+    "doi": "10.1016/j.aprim.2026.103605",
+    "doiResolves": true,
+    "canonicalTitle": "Monitoring screen device use in childhood: A review of questionnaires used in Spain.",
+    "indexedDate": "2026-11-25",
+    "crossrefOnlineDate": "2027-01",
+    "datesAgree": false,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Atencion primaria",
+    "sampleSize": null,
+    "ageRange": "not stated, described as adolescents",
+    "country": "Spain",
+    "design": "survey",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "66.7%",
+      "83.3%",
+      "66.67%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "date disagreement: index says 2026-11-25, Crossref online date is 2027-01",
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
   },
   "GDC-RR-c4d9cdb340": {
    "title": "03 Re-examining burnout and psychological morbidity in Canadian child maltreatment healthcare professionals 20 years later",
@@ -16100,19 +16175,21 @@
    "title": "AI Companionship and Youth Loneliness: A Thomistic Evaluation of Human Friendship and Pastoral Responses.",
    "doi": "10.1007/s10943-026-02836-7",
    "pmid": "43084187",
-   "url": "https://pubmed.ncbi.nlm.nih.gov/43084187/",
+   "url": "https://doi.org/10.1007/s10943-026-02836-7",
    "journal": "Journal of religion and health",
    "published": "2026-11-25",
-   "authors": "Reyes JAD, Reyes MS",
-   "abstract": "",
+   "authors": "Reyes JAD, Reyes MS.",
+   "abstract": "Contemporary society, through scientific and technological advancements, offers opportunities for stronger connections. However, studies reveal that many people, particularly younger generations, report feelings of loneliness. It is paradoxical that, despite closer digital connectivity, digital tools widen emotional distances and undermine communal life. To address youth loneliness, Artificial Intelligence (AI) is developing friendly conversations and simulated companionship through chatbots and platforms. This emerging phenomenon highlights the urgent need to evaluate the implications of employing AI to fill the relational voids in human life. While studies suggest that AI companions (AICs) can serve as supportive, non-judgmental outlets that temporarily alleviate psychological distress, the authenticity of these virtual relationships remains deeply contested. This paper utilizes Thomas Aquinas's anthropological notion of the human person and of friendship to evaluate whether AICs can genuinely address youth loneliness and whether human-AI friendship is authentic. Employing the See-Judge-Act methodology, this study: first, reviews the contemporary literature on AI companionship, its perceived benefits and risks; second, provides an exposition of Aquinas's notion of the human person and friendship as a virtue; and third, proposes a pastoral response grounded on Aquinas' Virtue Ethics as model in which technology serves not as a replacement for human connection but as a bridge to reintegrate individuals into the community.",
    "isPreprint": false,
    "peerReviewed": true,
    "pubTypes": "Journal Article",
    "grants": [],
    "streams": [
+    "03",
     "11"
    ],
    "foundBy": [
+    "europepmc",
     "pubmed"
    ],
    "status": "VERIFIED",
@@ -16127,15 +16204,15 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-980f4fd4b6",
-   "version": 2,
+   "version": 3,
    "firstFound": "2026-11-26T09:30:28.571Z",
-   "lastChecked": "2026-11-26T09:30:30.696Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-27T09:29:27.488Z",
+   "changeReason": "discovery run, streams 03,11",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-980f4fd4b6",
     "checkedAt": "2026-11-26T09:30:30.448Z",
@@ -16191,7 +16268,10 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "PENDING",
+   "pmcid": null,
+   "citedBy": 0,
+   "openAccess": false
   },
   "GDC-RR-e7b4f24d18": {
    "title": "Prevalence and trends in sexual behaviour in Britain from 1990 to 2024: findings from the repeated cross-sectional National Surveys of Sexual Attitudes and Lifestyles (Natsal).",
@@ -16232,15 +16312,15 @@
     ]
    },
    "windowSearched": {
-    "since": "2026-11-23",
-    "until": "2026-11-26"
+    "since": "2026-11-24",
+    "until": "2026-11-27"
    },
    "studyId": "GDC-RR-e7b4f24d18",
-   "version": 2,
+   "version": 3,
    "firstFound": "2026-11-26T09:30:28.577Z",
-   "lastChecked": "2026-11-26T09:30:29.948Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-27T09:29:27.496Z",
+   "changeReason": "discovery run, streams 08,16,20,23",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-e7b4f24d18",
     "checkedAt": "2026-11-26T09:30:29.702Z",
@@ -16462,6 +16542,967 @@
    "firstFound": "2026-11-26T09:30:28.593Z",
    "lastChecked": "2026-11-26T09:30:28.593Z",
    "changeReason": "discovery run, streams 01,08,18,19",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-85ceb3d81c": {
+   "title": "Longitudinal changes of health-related quality of life, digital media use, and physical activity in children between 4-17 years during the COVID-19 pandemic in Germany",
+   "doi": "10.64898/2026.11.24.26368819",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.64898/2026.11.24.26368819",
+   "journal": "medRxiv",
+   "published": "2026-11-25",
+   "authors": "Lazarides C, Fiedler J, Klos L, Volk C, Niessner C, Voelkle M, Woll A.",
+   "abstract": "<h4>Background: </h4> Evidence in youth on whether pandemic-related changes in physical activity (PA), recreational screen time (ST), and health-related quality of life (HRQoL) persisted after the COVID-19 pandemic is limited. In a longitudinal study, we examined changes from pre- to post-pandemic and whether these changes differed by age at pre-pandemic. <h4>Methods:</h4> Longitudinal data were obtained from 945 participants (49% female) aged 4-17 years pre-pandemic in the German Motorik-Modul Study. HRQoL, ST, everyday PA, and the number of days per week with at least 60 minutes of PA (WHO PA days) were assessed pre-pandemic (2018-2020), during both German lockdowns (2020 and 2021), and post-pandemic after restrictions ended (2023). Covariate-adjusted random-intercept mixed-effects models tested pre- to post-pandemic changes and moderation by baseline age. Lockdown trajectories were explored using successive contrasts. <h4>Results:</h4> Compared with pre-pandemic levels, post-pandemic HRQoL decreased (B = -5.92, 95% CI [-6.82, -5.03]), everyday PA decreased by 31.15 minutes per day (95% CI [-36.40, -25.91]), and WHO PA days decreased by 0.27 days per week (95% CI [-0.43, -0.11]). ST increased by 75.17 minutes per day (95% CI [66.65, 83.69]; all p < .001). Age moderated changes in HRQoL, ST, and everyday PA, but not WHO PA days. Children aged 6-13 years showed the greatest ST increases. Children younger than 11 years showed the largest everyday PA declines. Additionally explored trajectories varied across lockdowns and were moderated by age prior to the pandemic. <h4>Conclusions:</h4> Childrens and adolescents PA, ST, and HRQoL had not returned to pre-pandemic levels one year after COVID-19 restrictions were lifted. Developmentally tailored monitoring and interventions may be required, particularly for younger and school-aged children in face of ongoing global crises.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "07",
+    "08",
+    "09",
+    "19",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 6,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b"
+    ],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-85ceb3d81c",
+   "version": 2,
+   "firstFound": "2026-11-27T09:29:27.305Z",
+   "lastChecked": "2026-11-27T09:29:28.200Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-85ceb3d81c",
+    "checkedAt": "2026-11-27T09:29:27.965Z",
+    "doi": "10.64898/2026.11.24.26368819",
+    "doiResolves": true,
+    "canonicalTitle": "Longitudinal changes of health-related quality of life, digital media use, and physical activity in children between 4-17 years during the COVID-19 pandemic in Germany",
+    "indexedDate": "2026-11-25",
+    "crossrefOnlineDate": "2026-11-25",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "medRxiv",
+    "sampleSize": 945,
+    "ageRange": "4 to 17",
+    "country": "Germany",
+    "design": "longitudinal cohort",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": true,
+     "hasPValue": true,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "49%",
+      "95%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [
+     "Federal Ministry of Education and Research",
+     "German Federal Ministry of Health"
+    ],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no effect size found in the available text: do not describe the size of the finding",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-8a1e8c1539": {
+   "title": "Longitudinal Analysis of Pediatric, Peripubertal, and Adolescent Skincare Search Interest in the United States From 2016 to 2025.",
+   "doi": "10.1111/pde.70390",
+   "pmid": "43085303",
+   "pmcid": null,
+   "url": "https://doi.org/10.1111/pde.70390",
+   "journal": "Pediatric dermatology",
+   "published": "2026-11-25",
+   "authors": "Reddan M, Schoenberg M, Correia E, Jackson Cullison SR.",
+   "abstract": "The \"Sephora kids\" phenomenon describes the recent shift of pediatric interest toward complex adult-strength skincare routines, prompting concerns about product efficacy and safety among parents and dermatologists across the country. To quantify this trend, we analyzed United States Google Search Volume Index (SVI) data from January 2016 to December 2025 and calculated the compound annual growth rate (CAGR) from 2020 to 2025 to evaluate differential growth across age-targeted skincare categories. Search interest in \"kids skincare\" demonstrated the highest CAGR (68.21%), followed by \"tween skincare\" (64.92%), and \"teen skincare\" (26.10%), with marked acceleration after 2022. Recognition of these growth patterns and evolving skincare behaviors among pediatric patient populations will help dermatologists develop strategies to counteract social media marketing with informed, evidence-based product recommendations.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "09",
+    "19"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician",
+     "-4 \\bveterinar|dental|dermatolog|opht"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-8a1e8c1539",
+   "version": 1,
+   "firstFound": "2026-11-27T09:29:27.318Z",
+   "lastChecked": "2026-11-27T09:29:27.318Z",
+   "changeReason": "discovery run, streams 01,09,19",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-cbd5585f46": {
+   "title": "The Influence of Animated Video Education on Knowledge Levels and Behavior Prevention of Diabetes Mellitus in School Children",
+   "doi": "10.58439/hnp.v5i1.522",
+   "pmid": null,
+   "url": "https://doi.org/10.58439/hnp.v5i1.522",
+   "journal": "Holistic Nursing Plus",
+   "published": "2026-11-27",
+   "authors": "Gian Hawara, Veri, Amalia Najah",
+   "abstract": "Background: Diabetes mellitus among children continues to increase due to lifestyle changesand low levels of health literacy. Innovative educational media are needed to improveknowledge and to shape preventive behaviors from an early age.Purpose: To evaluate the effect of digital animated video–based education on the level ofknowledge and diabetes mellitus prevention behaviors among elementary school students atMI Raudhatul Muta’aliminMethods: This quantitative study employed a pre-experimental one-group pretest–posttestdesign involving 54 students. The intervention consisted of digital animated video education.Data were analyzed using the Wilcoxon Signed Rank Test.Results: The mean knowledge score increased from 4.61 to 10.30 with a p-value= 0.000 (p &lt;0.05). The behavior score increased from 21.07 to 26.17 with a p-value = 0.000 (p&lt;0.05).Conclusions: Digital animated video–based education is effective in improving knowledge andpreventive behaviors related to diabetes mellitus among elementary school children.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "08",
+    "22"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-cbd5585f46",
+   "version": 1,
+   "firstFound": "2026-11-27T09:29:27.358Z",
+   "lastChecked": "2026-11-27T09:29:27.358Z",
+   "changeReason": "discovery run, streams 08,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-f3b77a88e1": {
+   "title": "The impact of adherence to the Australian social media ban on adolescents' psychological distress and daily functioning: an emulated trial",
+   "doi": "10.64898/2026.11.24.26368812",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.64898/2026.11.24.26368812",
+   "journal": "medRxiv",
+   "published": "2026-11-25",
+   "authors": "Baggio S, Gautier M, Radunz M, Galanis CR, Stevens MW, Khanna D, Billieux J, Starcevic V, Lindenberg K, Wade T, King DL.",
+   "abstract": "<h4>Background: </h4> Australia was the first country to adopt a national minimum age requirement for social media use. This policy has been widely debated, and evidence is only just starting to emerge about its impacts on adolescents. This study examined the effect of the social media ban on psychological distress, health-related quality of life (HRQoL), and the impact on daily life and academic self-efficacy. Methods. We conducted an emulated trial using follow-up data collected three months after the ban implementation from a two-wave survey of South Australian high school students aged 12 to 15 (N=551). Exposure was defined as adherence to the ban, which was assessed in two ways: strictly (self-reported adherence combined with reported social media behaviours), and less strictly (self-report only). The primary outcome was the Revised Children's Anxiety and Depression Scale (RCADS-11). Secondary outcomes included RCADS-11 impact subscore; Child Health Utility 9 Dimensions (CHU9D) utility score (HRQoL); score of CHU9D activity-related items, which assessed daily functioning; and the academic self-efficacy subscale of the Self-Efficacy Questionnaire for Children (SEQ-C). Adjusted regression models were performed using inverse probability weighting to account for group imbalance and attrition. Findings. Using the strict definition, 14.8% of adolescents adhered to the ban, compared to 41.5% under the less stringent definition. Adherence had no significant effect on the RCADS-11 total score or impact subscore (p≥.321). Those who adhered to the ban had significantly higher HRQoL, better daily functioning and higher academic self-efficacy (p≤.033). Overall, effects were small in magnitude. No significant effects were observed under the less stringent definition of adherence (p=.244). Interpretation. Strict adherence to the social media ban was associated with minor short-term improvements in HRQoL and daily functioning, but not psychological distress. Funding. This research was supported by a Channel 7 Children's Research Foundation grant.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "03",
+    "08",
+    "17",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 5,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [
+     "+2 \\bparent(al)? report|self-?report|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-f3b77a88e1",
+   "version": 2,
+   "firstFound": "2026-11-27T09:29:27.383Z",
+   "lastChecked": "2026-11-27T09:29:28.699Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-f3b77a88e1",
+    "checkedAt": "2026-11-27T09:29:28.465Z",
+    "doi": "10.64898/2026.11.24.26368812",
+    "doiResolves": true,
+    "canonicalTitle": "The impact of adherence to the Australian social media ban on adolescents' psychological distress and daily functioning: an emulated trial",
+    "indexedDate": "2026-11-25",
+    "crossrefOnlineDate": "2026-11-25",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "medRxiv",
+    "sampleSize": 551,
+    "ageRange": "12 to 15",
+    "country": "Australia",
+    "design": "survey",
+    "followUp": null,
+    "exposureStated": "self-reported",
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": true,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": true,
+     "quotedNumbers": [
+      "N=551",
+      "14.8%",
+      "41.5%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": true,
+    "funding": [
+     "Channel 7 Children's Research Foundation"
+    ],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no confidence interval found: do not present the estimate as precise",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-57ddb2ee74": {
+   "title": "Screen Time: Adherence to Recommendations, Daily Patterns and Health in Swedish Preschoolers.",
+   "doi": "10.1111/apa.70845",
+   "pmid": "43096773",
+   "pmcid": null,
+   "url": "https://doi.org/10.1111/apa.70845",
+   "journal": "Acta paediatrica (Oslo, Norway : 1992)",
+   "published": "2026-11-26",
+   "authors": "Berglind D, Tynelius P, Wilén C, Ahlqvist VH, Migueles JH, Neovius M, Henriksson P, Dahlén M, Campos-Garzón P, Lundberg TR, Magnusson C.",
+   "abstract": "<h4>Aim</h4>To describe screen time outside preschool and adherence to the 60-minute daily recommendation across the week among Swedish preschool children, and to examine secondary associations with socioeconomic and health indicators.<h4>Methods</h4>This citywide observational study included 2624 children aged 3-5 years from 124 public preschools in Stockholm. Parents completed repeated 24-hour screen-time diaries in 2020-2021, contributing 27 401 daily reports. Mixed-effects models compared weekdays with weekends and assessed socioeconomic and health associations.<h4>Results</h4>Mean reported screen time outside preschool was 61.5 minutes per day, and 53.7% met the recommendation. Reported screen time was 19.9 minutes per day higher on weekends than weekdays, while adherence was 42.8% and 60.7%, respectively. Adherence declined markedly on Friday. Socioeconomic differences were inconclusive. Exceeding 60 minutes per day was associated with shorter sleep, greater behavioural difficulties and lower adherence to the physical activity recommendation. Associations with poor sleep quality or grip strength were inconclusive.<h4>Conclusion</h4>Only around half of preschool children met the screen-time recommendation. The pronounced Friday and weekend decline suggests that family-focused strategies should complement preschool policy; health associations were modest and observational.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [
+    "Cancerfonden 22 0605 FE"
+   ],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "04",
+    "07",
+    "08",
+    "09",
+    "19",
+    "21",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 7,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b",
+     "+2 \\bsleep\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-57ddb2ee74",
+   "version": 2,
+   "firstFound": "2026-11-27T09:29:27.399Z",
+   "lastChecked": "2026-11-27T09:29:27.749Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-57ddb2ee74",
+    "checkedAt": "2026-11-27T09:29:27.667Z",
+    "doi": "10.1111/apa.70845",
+    "doiResolves": true,
+    "canonicalTitle": "Screen Time: Adherence to Recommendations, Daily Patterns and Health in Swedish Preschoolers.",
+    "indexedDate": "2026-11-26",
+    "crossrefOnlineDate": "2026-11-26",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Acta paediatrica (Oslo, Norway : 1992)",
+    "sampleSize": 2624,
+    "ageRange": "3 to 5",
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "53.7%",
+      "42.8%",
+      "60.7%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [
+     "Cancerfonden 22 0605 FE"
+    ],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-7824b2e4ad": {
+   "title": "Body schema distortion in adolescent patients with anorexia nervosa and depression compared to healthy controls.",
+   "doi": "10.1186/s40337-026-01836-y",
+   "pmid": "43087061",
+   "pmcid": null,
+   "url": "https://doi.org/10.1186/s40337-026-01836-y",
+   "journal": "Journal of eating disorders",
+   "published": "2026-11-25",
+   "authors": "Beer CS, Martin F, Stemann C, Stemann K, Baumann P, Holtmann M, Diers M, Legenbauer T.",
+   "abstract": "<h4>Background</h4>Body image distortion is a well-established key facet of anorexia nervosa (AN) and has also been found in patients with depression. However, research examining the body schema in both patient groups is scarce. While studies with adult participants indicate a distortion of the body schema in patients with AN, the present study is the first to explore this both in adolescent patients with AN and adolescent patients with depression.<h4>Methods</h4>Patients diagnosed with AN (n = 14), depression (n = 14), and a non-clinical control group (n = 13) were recruited from a child and adolescent psychiatric hospital and through social media. To explore the unconscious body schema, patients were told a cover story. The patients passed through a door-like aperture that varied in width depending on the individual's shoulder width. The minimum ratio of aperture width to shoulder width was defined as perceived body width. A one-way ANOVA was conducted to examine group differences.<h4>Results</h4>Significant group differences emerged, with the strongest body schema distortion found in patients with AN compared to non-clinical participants. The differences were no longer significant after the inclusion of BMI age percentile and age as covariates. An initial association between body image distortion and body schema distortion was observed, but this association was no longer statistically significant after controlling for diagnostic group.<h4>Conclusions</h4>The present findings indicate pronounced body image distortion in adolescents with AN, whereas evidence for group-specific differences in body schema distortion was less robust after adjustment for age and BMI age percentile. Moreover, the initial association between body image distortion and body schema distortion was no longer statistically significant after controlling for diagnostic group, suggesting that this relationship should be interpreted cautiously.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [
+    "Ruhr-Universität Bochum"
+   ],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "08",
+    "14"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 4,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+3 \\bbody image|social comparison\\b"
+    ],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-7824b2e4ad",
+   "version": 2,
+   "firstFound": "2026-11-27T09:29:27.408Z",
+   "lastChecked": "2026-11-27T09:29:29.211Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-7824b2e4ad",
+    "checkedAt": "2026-11-27T09:29:28.952Z",
+    "doi": "10.1186/s40337-026-01836-y",
+    "doiResolves": true,
+    "canonicalTitle": "Body schema distortion in adolescent patients with anorexia nervosa and depression compared to healthy controls.",
+    "indexedDate": "2026-11-25",
+    "crossrefOnlineDate": "2026-11-25",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Journal of eating disorders",
+    "sampleSize": null,
+    "ageRange": "not stated, described as adolescent",
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "n = 14",
+      "n = 13"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [
+     "Ruhr-Universität Bochum"
+    ],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-c229737bda": {
+   "title": "Adolescent Well-Being in Rural Communities: Screen Time and Behavioral Pathways",
+   "doi": "10.1007/s12187-026-10482-4",
+   "pmid": null,
+   "url": "https://doi.org/10.1007/s12187-026-10482-4",
+   "journal": "Child Indicators Research",
+   "published": "2026-11-27",
+   "authors": "Yan Li, Suzanne Lazorick, Xiangming Fang",
+   "abstract": "Abstract This study examined associations between screen time and multiple indicators of well-being among rural middle school students using 2022–2023 data from North Carolina’s Motivating Adolescents with Technology to Choose Health (MATCH) program. Mixed-effects and path analyses investigated relationships among screen time, perceived stress, academic performance, and health-related behaviors. Higher screen time was associated with greater perceived stress and lower academic performance. Sleep, physical activity, and dietary behaviors emerged as important pathways linking screen time to well-being outcomes, with BMI Z-score functioning as a downstream mediator. The findings highlight the interconnected nature of behavioral, physical, psychological, and educational dimensions of well-being during early adolescence and underscore the importance of considering multiple domains simultaneously. By focusing on an underserved rural population, this study contributes to the child well-being literature by identifying modifiable behavioral factors associated with stress and academic functioning. These results support a multidimensional perspective on adolescent well-being and may inform interventions and policies designed to promote positive youth development in rural communities.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "03",
+    "04",
+    "07",
+    "08",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b",
+     "+2 \\bsleep\\b"
+    ],
+    "method": [],
+    "penalty": [
+     "-4 \\bcheckout policy|food marketing|d"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-c229737bda",
+   "version": 1,
+   "firstFound": "2026-11-27T09:29:27.432Z",
+   "lastChecked": "2026-11-27T09:29:27.432Z",
+   "changeReason": "discovery run, streams 03,04,07,08,22,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-4e25020057": {
+   "title": "Adaptive Game-Based Digital Cognitive Interventions in Children with Attention-Deficit/Hyperactivity Disorder: A GRADE-Assessed Meta-Analysis of Randomized Trials.",
+   "doi": "10.1007/s10578-026-02144-x",
+   "pmid": "43097253",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/43097253/",
+   "journal": "Child psychiatry and human development",
+   "published": "2026-11-26",
+   "authors": "Allahim MA, Alrabah RS, Alqedheeb LM, Alsalloomi GM, Aljurayyed SM, Alhussain AM, Alhayaf EK, Albarrak MA, Alluqmani AB, Alammari AK, Alhudaithi A",
+   "abstract": "",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article; Review",
+   "grants": [],
+   "streams": [
+    "02",
+    "05",
+    "08",
+    "22"
+   ],
+   "foundBy": [
+    "pubmed"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 8,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+4 \\brandomis(ed|ation)|randomiz(ed|a",
+     "+4 \\bmeta-?analy"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-4e25020057",
+   "version": 1,
+   "firstFound": "2026-11-27T09:29:27.454Z",
+   "lastChecked": "2026-11-27T09:29:27.454Z",
+   "changeReason": "discovery run, streams 02,05,08,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-3f75b0f47d": {
+   "title": "Attention-Deficit/Hyperactivity Disorder, Child Routines, and Risky Internet Use Among Elementary School Children",
+   "doi": "10.1007/s10578-026-02143-y",
+   "pmid": null,
+   "url": "https://doi.org/10.1007/s10578-026-02143-y",
+   "journal": "Child Psychiatry &amp; Human Development",
+   "published": "2026-11-27",
+   "authors": "Saliha B. Selman, Songül Derin, Ahmet Faruk Ergun, Tuba Ecer-Ergun",
+   "abstract": "",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "05"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-3f75b0f47d",
+   "version": 1,
+   "firstFound": "2026-11-27T09:29:27.462Z",
+   "lastChecked": "2026-11-27T09:29:27.462Z",
+   "changeReason": "discovery run, streams 05",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-d1077830a4": {
+   "title": "Associations of screen time and sleep hygiene with sleep quality among final-year undergraduate students: A cross-sectional study",
+   "doi": "10.19184/nlj.v11i2.60325",
+   "pmid": null,
+   "url": "https://doi.org/10.19184/nlj.v11i2.60325",
+   "journal": "NurseLine Journal",
+   "published": "2026-11-27",
+   "authors": "Suhariyati Suhariyati, Eka Rahmawati, Arifal Aris, Shinta Alifiana Rahmawati",
+   "abstract": "Background: Screen use and sleep-hygiene practices are relevant to sleep assessment and health promotion among university students. Examining these behaviors concurrently may help identify practical areas for nursing assessment among final-year undergraduates. Objective: To examine the associations of screen time and sleep hygiene with sleep quality among final-year undergraduate students. Method: This cross-sectional study included 218 final-year undergraduate students at a university in Lamongan District, Indonesia, selected through proportionate stratified random sampling. Screen time was measured using a researcher-developed questionnaire informed by the Health Behaviour in School-aged Children framework and dichotomized as &lt;4 or ≥4 hours/day. Sleep hygiene was assessed using an adapted Sleep Hygiene Index (SHI) and dichotomized at the sample median of 28 (&lt;28, better; ≥28, poorer). Sleep quality was assessed using an adapted Pittsburgh Sleep Quality Index (PSQI), with scores &gt;5 classified as poor sleep quality. Multivariable binary logistic regression included both exposures and adjusted for age, gender, and study program. Results: Poor sleep quality was identified in 197 of 218 participants (90.4%). Screen time of ≥4 hours/day was associated with higher odds of poor sleep quality (adjusted odds ratio [AOR] 15.97; 95% confidence interval [CI] 3.64–70.16), as was poorer sleep hygiene (AOR 17.33; 95% CI 4.15–72.29). Both associations were statistically significant (p &lt; 0.001). The wide confidence intervals and small number of participants with good sleep quality indicate limited precision and possible model instability. Conclusion: High daily screen time and poorer sleep hygiene were associated with poor sleep quality. Because of the cross-sectional design, causal inference is not possible. The findings support consideration of sleep assessment, sleep-hygiene education, and counseling on healthy digital-device use in university and community nursing; the effectiveness of specific interventions requires further study.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "04",
+    "08",
+    "22"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 7,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bscreen time\\b",
+     "+2 \\bsleep\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-d1077830a4",
+   "version": 2,
+   "firstFound": "2026-11-27T09:29:27.470Z",
+   "lastChecked": "2026-11-27T09:29:27.958Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-d1077830a4",
+    "checkedAt": "2026-11-27T09:29:27.759Z",
+    "doi": "10.19184/nlj.v11i2.60325",
+    "doiResolves": true,
+    "canonicalTitle": "Associations of screen time and sleep hygiene with sleep quality among final-year undergraduate students: A cross-sectional study",
+    "indexedDate": "2026-11-27",
+    "crossrefOnlineDate": "2026-11-27",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "NurseLine Journal",
+    "sampleSize": 218,
+    "ageRange": null,
+    "country": null,
+    "design": "cross-sectional",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": true,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "90.4%",
+      "95%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-3eb69b0101": {
+   "title": "Implementing Digital Mental Health Interventions for Children and Young People in Emergency Care Settings: Systematic Review.",
+   "doi": "10.2196/90489",
+   "pmid": "43097722",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/43097722/",
+   "journal": "JMIR mental health",
+   "published": "2026-11-26",
+   "authors": "Julius NC, Zhong Y, Rajabzadeh V, Racine S, Hayhoe B, Barber S, Otis M",
+   "abstract": "",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article; Systematic Review; Review",
+   "grants": [],
+   "streams": [
+    "02",
+    "03",
+    "22"
+   ],
+   "foundBy": [
+    "pubmed"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+3 \\bsystematic review|umbrella revie"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-3eb69b0101",
+   "version": 1,
+   "firstFound": "2026-11-27T09:29:27.513Z",
+   "lastChecked": "2026-11-27T09:29:27.513Z",
+   "changeReason": "discovery run, streams 02,03,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-bcfb0db218": {
+   "title": "Developing a Digital Intervention to Support Parents of Young People Who Self-Harm: A Person-Based Approach Informed by Systematic Review and Qualitative Research.",
+   "doi": "10.2196/77434",
+   "pmid": "43097715",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/43097715/",
+   "journal": "JMIR formative research",
+   "published": "2026-11-26",
+   "authors": "Martin F, Glover SL, van Even S, Turner A",
+   "abstract": "",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article; Systematic Review",
+   "grants": [],
+   "streams": [
+    "02",
+    "15",
+    "19",
+    "22"
+   ],
+   "foundBy": [
+    "pubmed"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 6,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+3 \\bself-?harm|suicid"
+    ],
+    "method": [
+     "+3 \\bsystematic review|umbrella revie"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-bcfb0db218",
+   "version": 2,
+   "firstFound": "2026-11-27T09:29:27.521Z",
+   "lastChecked": "2026-11-27T09:29:28.457Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-bcfb0db218",
+    "checkedAt": "2026-11-27T09:29:28.205Z",
+    "doi": "10.2196/77434",
+    "doiResolves": true,
+    "canonicalTitle": "Developing a Digital Intervention to Support Parents of Young People Who Self-Harm: A Person-Based Approach Informed by Systematic Review and Qualitative Research.",
+    "indexedDate": "2026-11-26",
+    "crossrefOnlineDate": "2026-11-26",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "JMIR formative research",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "systematic review",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": false,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no usable abstract reached this container, so sample size, design and statistics could not be extracted. Full text needed before any figure is quoted.",
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-316c0a9f09": {
+   "title": "Teacher Perspectives on Sustainability Education in Primary Schools in the Republic of Cyprus: An Exploratory Survey",
+   "doi": "10.21203/rs.3.rs-11865928/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11865928/v1",
+   "journal": "Research Square",
+   "published": "2026-11-26",
+   "authors": "Drousiotis SS, Nicou G.",
+   "abstract": "<title>Abstract</title> <p>Sustainability has gained considerable importance over recent decades, becoming a central concept across numerous areas of society. Introducing sustainability principles during the early stages of education is particularly important because the elementary school years constitute a critical period in children’s development. During these formative years, children establish fundamental values, attitudes and behaviours that can significantly influence their future lives and their relationship with the natural environment. Elementary schools provide a distinctive opportunity to engage children from diverse social backgrounds and establish a shared foundation of knowledge that can contribute to the development of a more sustainable society. They therefore represent an appropriate educational setting in which children can become familiar with sustainability principles and develop awareness of the major challenges facing society in the twenty-first century. This study aims to examine the current position of sustainability education within elementary schools. More specifically, it investigates whether elementary school pupils are sufficiently mature to engage with sustainability-related issues, identifies the teaching methods already being applied and explores the challenges associated with implementing sustainability education. The study is based on an online survey conducted across 60 elementary schools in South Cyprus. Although further improvements remain necessary, the survey findings indicate an increasing recognition of the importance of sustainability education within elementary schools. The results highlight the need for focused measures to strengthen curriculum integration, improve teacher training and increase the availability of appropriate educational resources, thereby supporting the development of a more sustainable and environmentally aware generation of pupils in different schools in South Cyprus.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -5,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [
+     "-3 \\bteacher training|lesson plan sof"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-24",
+    "until": "2026-11-27"
+   },
+   "studyId": "GDC-RR-316c0a9f09",
+   "version": 1,
+   "firstFound": "2026-11-27T09:29:27.530Z",
+   "lastChecked": "2026-11-27T09:29:27.530Z",
+   "changeReason": "discovery run, streams 08,22",
    "changedBy": "radar:discover"
   }
  },
@@ -17057,6 +18098,55 @@
   "doi:10.3389/fped.2026.1882176": "GDC-RR-094611115b",
   "url:doi.org/10.3389/fped.2026.1882176": "GDC-RR-094611115b",
   "title:limited predictive value of admission therapeutic biochemical and respiratory pathogen data for post pneumonia": "GDC-RR-094611115b",
-  "url:doi.org/10.2196/99782": "GDC-RR-e0fbf0e834"
+  "url:doi.org/10.2196/99782": "GDC-RR-e0fbf0e834",
+  "doi:10.64898/2026.11.24.26368819": "GDC-RR-85ceb3d81c",
+  "url:doi.org/10.64898/2026.11.24.26368819": "GDC-RR-85ceb3d81c",
+  "title:longitudinal changes of health related quality of life digital media use and physical activity": "GDC-RR-85ceb3d81c",
+  "doi:10.1111/pde.70390": "GDC-RR-8a1e8c1539",
+  "pmid:43085303": "GDC-RR-8a1e8c1539",
+  "url:doi.org/10.1111/pde.70390": "GDC-RR-8a1e8c1539",
+  "title:longitudinal analysis of pediatric peripubertal and adolescent skincare search interest in the united states": "GDC-RR-8a1e8c1539",
+  "pmcid:PMC13795779": "GDC-RR-6893dafa4d",
+  "doi:10.58439/hnp.v5i1.522": "GDC-RR-cbd5585f46",
+  "url:doi.org/10.58439/hnp.v5i1.522": "GDC-RR-cbd5585f46",
+  "title:the influence of animated video education on knowledge levels and behavior prevention of diabetes": "GDC-RR-cbd5585f46",
+  "doi:10.64898/2026.11.24.26368812": "GDC-RR-f3b77a88e1",
+  "url:doi.org/10.64898/2026.11.24.26368812": "GDC-RR-f3b77a88e1",
+  "title:the impact of adherence to the australian social media ban on adolescents psychological distress": "GDC-RR-f3b77a88e1",
+  "doi:10.1111/apa.70845": "GDC-RR-57ddb2ee74",
+  "pmid:43096773": "GDC-RR-57ddb2ee74",
+  "url:doi.org/10.1111/apa.70845": "GDC-RR-57ddb2ee74",
+  "title:screen time adherence to recommendations daily patterns and health in swedish preschoolers": "GDC-RR-57ddb2ee74",
+  "doi:10.1186/s40337-026-01836-y": "GDC-RR-7824b2e4ad",
+  "pmid:43087061": "GDC-RR-7824b2e4ad",
+  "url:doi.org/10.1186/s40337-026-01836-y": "GDC-RR-7824b2e4ad",
+  "title:body schema distortion in adolescent patients with anorexia nervosa and depression compared to healthy": "GDC-RR-7824b2e4ad",
+  "url:doi.org/10.5888/pcd23.260226": "GDC-RR-825cf78470",
+  "doi:10.1007/s12187-026-10482-4": "GDC-RR-c229737bda",
+  "url:doi.org/10.1007/s12187-026-10482-4": "GDC-RR-c229737bda",
+  "title:adolescent well being in rural communities screen time and behavioral pathways": "GDC-RR-c229737bda",
+  "url:doi.org/10.1016/j.aprim.2026.103605": "GDC-RR-d210aa6a60",
+  "doi:10.1007/s10578-026-02144-x": "GDC-RR-4e25020057",
+  "pmid:43097253": "GDC-RR-4e25020057",
+  "url:pubmed.ncbi.nlm.nih.gov/43097253": "GDC-RR-4e25020057",
+  "title:adaptive game based digital cognitive interventions in children with attention deficit hyperactivity disorder a": "GDC-RR-4e25020057",
+  "doi:10.1007/s10578-026-02143-y": "GDC-RR-3f75b0f47d",
+  "url:doi.org/10.1007/s10578-026-02143-y": "GDC-RR-3f75b0f47d",
+  "title:attention deficit hyperactivity disorder child routines and risky internet use among elementary school children": "GDC-RR-3f75b0f47d",
+  "doi:10.19184/nlj.v11i2.60325": "GDC-RR-d1077830a4",
+  "url:doi.org/10.19184/nlj.v11i2.60325": "GDC-RR-d1077830a4",
+  "title:associations of screen time and sleep hygiene with sleep quality among final year undergraduate": "GDC-RR-d1077830a4",
+  "url:doi.org/10.1007/s10943-026-02836-7": "GDC-RR-980f4fd4b6",
+  "doi:10.2196/90489": "GDC-RR-3eb69b0101",
+  "pmid:43097722": "GDC-RR-3eb69b0101",
+  "url:pubmed.ncbi.nlm.nih.gov/43097722": "GDC-RR-3eb69b0101",
+  "title:implementing digital mental health interventions for children and young people in emergency care settings": "GDC-RR-3eb69b0101",
+  "doi:10.2196/77434": "GDC-RR-bcfb0db218",
+  "pmid:43097715": "GDC-RR-bcfb0db218",
+  "url:pubmed.ncbi.nlm.nih.gov/43097715": "GDC-RR-bcfb0db218",
+  "title:developing a digital intervention to support parents of young people who self harm a": "GDC-RR-bcfb0db218",
+  "doi:10.21203/rs.3.rs-11865928/v1": "GDC-RR-316c0a9f09",
+  "url:doi.org/10.21203/rs.3.rs-11865928/v1": "GDC-RR-316c0a9f09",
+  "title:teacher perspectives on sustainability education in primary schools in the republic of cyprus an": "GDC-RR-316c0a9f09"
  }
 }
