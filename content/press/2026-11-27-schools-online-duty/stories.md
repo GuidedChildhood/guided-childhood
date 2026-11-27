@@ -21,7 +21,7 @@ approves us (it approves no product), or that the under 16 ban starts in March
 
 **Standfirst:** Since September, schools in England have had to teach pupils
 about deepfakes, AI chatbots, misogynistic content and gambling style games.
-A local founder is offering schools a free trial of lessons that need no
+A local founder is offering schools a free pilot of lessons that need no
 preparation.
 
 From 1 September 2026, every school in England has had to follow new
@@ -38,17 +38,23 @@ Young people say the gap is real. In a poll of 1,001 sixteen and seventeen
 year olds in England for the Sex Education Forum, published in December 2025,
 72 percent said they had learned nothing, or not enough, about deepfakes.
 
-Justin Phillips, a father of three, built Guided
-Childhood to help families get children ready for phones and social media. He
-has now mapped every online requirement in the new guidance, fifty seven of
-them, to lessons a class teacher can open and teach with no preparation.
+Justin Phillips, a father of three whose wife is a teacher, built Guided
+Childhood to get children ready for life online before they turn sixteen. At
+school it is a full scheme of lessons. At home the same lessons carry on, with
+a Digital Passport children fill in as they go, the words parents need for the
+hard conversations, a school calendar that keeps track of letters and
+homework, and a fair way to handle screen time that both sides can see. Home
+and school teach the same thing. He has mapped every online requirement in the
+new guidance, fifty seven of them, to lessons a class teacher can open and
+teach with no preparation.
 
 "We have done the preparation, so the teacher can do the teaching," he said.
 (Justin: say this your own way, or give a line of your own.)
 
-Schools that want to try it can join a free trial this term. Each lesson comes
-with a run sheet, an answer key and a printed record pupils fill in, which a
-school can show an inspector.
+Schools can try it with a free pilot: two lessons for a term, with a pack for
+parents, for the first five schools that ask. Each lesson comes with a run
+sheet, an answer key and a printed record pupils fill in, which a school can
+show an inspector.
 
 ---
 
@@ -116,9 +122,11 @@ Since September every school in England has had to teach children about
 deepfakes and AI chatbots. It is the first time the government guidance has
 named them.
 
-I built Guided Childhood to help families get children ready for phones. We
-have mapped all fifty seven of the new online requirements to lessons a teacher
-can pick up and teach, and we are offering schools a free trial this term.
+I built Guided Childhood to get children ready for life online before they
+turn sixteen. Schools teach the lessons, families carry them on at home, and
+parents get the words for the hard conversations. We have mapped all fifty
+seven of the new online requirements to lessons a teacher can pick up and
+teach, and five schools can pilot it free this term.
 
 I can send the facts and sources, and put you in touch with a local school
 that takes part.
