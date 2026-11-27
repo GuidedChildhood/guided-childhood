@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     // Google stops cutting it off (Ahrefs audit, 23 November 2026: 281 titles
     // too long, these 220 among them). `npm run seo-titles` holds the line.
     title: appPageTitle(app, age),
-    description: trimTo(directAnswer(app, age), 158),
+    description: directAnswer(app, age),
     path: age ? agePath(app.slug, age) : appPath(app.slug),
     type: 'article',
   })
@@ -57,8 +57,3 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   return <AppSafetyPage app={hit.app} age={hit.age} />
 }
 
-function trimTo(s: string, n: number): string {
-  if (s.length <= n) return s
-  const cut = s.slice(0, n)
-  return `${cut.slice(0, cut.lastIndexOf(' ')).replace(/[,:;]$/, '')}.`
-}

@@ -7,7 +7,7 @@ import { pageMetadata } from '@/lib/seo/meta'
 // only names it; it renders nothing of its own.
 export const metadata: Metadata = pageMetadata({
   title: 'What stage is your child? Three questions, no sign up',
-  description: 'Three questions, two minutes. Tell us your child\'s age and the screen battle you are facing, and see their stage and a plan for their exact age before you make an account.',
+  description: 'Three questions, two minutes. Tell us your child\'s age and the screen battle you face, and see their stage and a plan for their age before any sign up.',
   path: '/starter-pack',
 })
 
