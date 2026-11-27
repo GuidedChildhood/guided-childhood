@@ -407,6 +407,19 @@ export default function QuestManager() {
 
   useEffect(() => { load() }, [load])
 
+  // ?share=1 (27 November 2026): the day one email's button. Opens the QR on
+  // the first child whose app has a link, once the links have loaded, then
+  // drops the query so a refresh does not open it again.
+  const [shareAsked, setShareAsked] = useState(false)
+  useEffect(() => {
+    if (shareAsked || loading) return
+    if (typeof window === 'undefined' || new URLSearchParams(window.location.search).get('share') !== '1') return
+    setShareAsked(true)
+    const first = links.find(l => children.some(c => c.id === l.child_id))
+    if (first) { setActiveChild(first.child_id); setShowQr(true) }
+    window.history.replaceState(window.history.state, '', window.location.pathname)
+  }, [shareAsked, loading, links, children])
+
   // When the approve queue on the board says yes to a child's tick, it fires
   // gc:notifs-changed. Reload here so the Waiting your yes count on the summary
   // drops in step with the approval, instead of lingering until a refresh.
