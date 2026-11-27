@@ -1,0 +1,130 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-27",
+ "startedAt": "2026-11-27T09:20:33.749Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-27T09:20:33.749Z",
+   "commit": "32cb66f6",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 0,
+    "note": "the inbox held no new document"
+   },
+   "at": "2026-11-27T09:20:33.772Z",
+   "commit": "32cb66f6",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 13,
+    "total": 189
+   },
+   "at": "2026-11-27T09:29:27.552Z",
+   "commit": "32cb66f6",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 7,
+    "confirmed": 7,
+    "unconfirmed": []
+   },
+   "at": "2026-11-27T09:29:29.217Z",
+   "commit": "32cb66f6",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "0 reviewed. No inbox candidate today (ChatGPT left no CANDIDATES document after 23 Nov), no CORE record waiting. Top ADJACENT by score are off thesis (online survey fraud, Sri Lanka tobacco, maternal BMI), so none was worth a review slot. 30 wait"
+   ],
+   "detail": null,
+   "at": "2026-11-27T09:29:43.400Z",
+   "commit": "32cb66f6",
+   "attempts": 2
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-553f7dc067",
+     "GDC-RR-540fff2c03"
+    ],
+    "duplicateCheck": {
+     "GDC-RR-553f7dc067": "NEW",
+     "GDC-RR-540fff2c03": "NEW"
+    },
+    "queue": [
+     "GDC-RR-553f7dc067",
+     "GDC-RR-540fff2c03"
+    ]
+   },
+   "at": "2026-11-27T09:29:43.761Z",
+   "commit": "32cb66f6",
+   "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "state CURRENT, every role byte identical; nothing new to copy"
+   ],
+   "detail": null,
+   "at": "2026-11-27T09:29:51.228Z",
+   "commit": "32cb66f6",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no new pack waiting; only v1 drafts of 25 Nov, already superseded by v2"
+   ],
+   "detail": null,
+   "at": "2026-11-27T09:29:51.312Z",
+   "commit": "32cb66f6",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "unchanged: nothing new ready; 7 approved awaiting Justin's posting links"
+   ],
+   "detail": null,
+   "at": "2026-11-27T09:29:51.390Z",
+   "commit": "32cb66f6",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-27T09:29:51.421Z"
+}

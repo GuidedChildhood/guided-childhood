@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-26T09:32:30.360Z",
+ "generatedAt": "2026-11-27T09:29:43.752Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -12,13 +12,13 @@
   "At most three personal LinkedIn posts per calendar week. A pack completed beyond that is held in reserve, never scheduled until Justin approves it."
  ],
  "counts": {
-  "total": 176,
+  "total": 189,
   "byStatus": {
-   "DISCOVERED": 115,
+   "DISCOVERED": 121,
    "APPROVED": 7,
    "HOLD": 22,
    "REJECTED": 7,
-   "VERIFIED": 23,
+   "VERIFIED": 30,
    "EDITORIAL READY": 2
   }
  },
@@ -46,7 +46,7 @@
    "handoffSourceCommit": "bca36accd7a18b2b879e27e0f2ad7e007529b6a8",
    "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-553f7dc067.json",
    "firstFound": "2026-11-18T09:22:15.128Z",
-   "registerVersion": 10
+   "registerVersion": 13
   },
   {
    "researchId": "GDC-RR-540fff2c03",
@@ -71,7 +71,7 @@
    "handoffSourceCommit": "5bb2df0318dc86dcdd525a65011bd7d73ca8a0b7",
    "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-540fff2c03.json",
    "firstFound": "2026-11-19T09:35:09.220Z",
-   "registerVersion": 9
+   "registerVersion": 12
   }
  ],
  "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"
