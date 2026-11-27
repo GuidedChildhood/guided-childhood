@@ -229,6 +229,9 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 - Built into the motion engine, not a new workflow: `tools/motion-engine/carousel/template.html` (the look), `scripts/carousel.mjs` (Instagram slides, LinkedIn PDF, optional 4:5 and 9:16 motion), `scripts/carousel-gate.mjs` (no uncleared figure, no causal wording, no dash, no GDC number on a page; tested in wiring.yml). Midday runbook step 4b; START HERE asks ChatGPT for a CAROUSEL section when a story is picked.
 - First trial: GDC 066 (RAND, AI and homework) rendered for the week of 13 December, awaiting Justin. No Metricool performance data is readable from here; GDC 064's numbers need ChatGPT's report or a screenshot.
 
+## 27 November 2026: app pages hand into the stage check
+
+- Justin said yes. 51 app page visits from 24 to 27 November, none reached the check. A button under the answer ("Get the plan for your 12 year old") and every check link on an app page now carry ?age= and ?app=; the check skips question one and ticks that app's worry (lib/app-safety/handoff.ts, held to apps.ts by npm run app-handoff-test). A Google sign in return no longer counts a question one that never happened.
 ## 27 November 2026: a sixth trial email, their app tonight
 
 - Justin said yes. Sent the morning after joining, days one to three only, to a family whose child (8 and over, not settled on no device) has never opened their app. Button opens the QR on Jobs. The trial guard now expects six emails. Plan: plans/2026-11-27-activation-and-funnel-plan.md.
