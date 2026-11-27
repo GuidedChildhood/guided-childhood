@@ -232,6 +232,9 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 ## 27 November 2026: the save screen says Last step, and Schools links skip the redirect
 
 - Justin said yes. The save screen eyebrow reads "Last step" (it repeated "Question 3 of 3" after three questions). The birth month stays above the sign in buttons, so a one tap sign up still carries it, but it now says Optional; it always was. Every "For schools" link goes straight to schools.guidedchildhood.com, ending the desktop console error from the redirect.
+## 27 November 2026: app pages hand into the stage check
+
+- Justin said yes. 51 app page visits from 24 to 27 November, none reached the check. A button under the answer ("Get the plan for your 12 year old") and every check link on an app page now carry ?age= and ?app=; the check skips question one and ticks that app's worry (lib/app-safety/handoff.ts, held to apps.ts by npm run app-handoff-test). A Google sign in return no longer counts a question one that never happened.
 ## 27 November 2026: a sixth trial email, their app tonight
 
 - Justin said yes. Sent the morning after joining, days one to three only, to a family whose child (8 and over, not settled on no device) has never opened their app. Button opens the QR on Jobs. The trial guard now expects six emails. Plan: plans/2026-11-27-activation-and-funnel-plan.md.

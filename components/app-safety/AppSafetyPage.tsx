@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { checkHref } from '@/lib/app-safety/handoff'
 import type { CSSProperties, ReactNode } from 'react'
 
 import ReadinessCheck from '@/components/app-safety/ReadinessCheck'
@@ -77,6 +78,16 @@ export default function AppSafetyPage({ app, age }: { app: AppEntry; age: Age | 
       <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 3rem)', letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', margin: '0 0 18px', maxWidth: '20ch' }}>{title}</h1>
       <p style={{ ...P, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{answer}</p>
       <p style={SMALL}>{app.whatItIs} Checked against {app.maker}&apos;s own pages on {formatDate(app.checked)}.</p>
+      {/* THE PLAN, NEAR THE TOP (27 November 2026). The only way into the
+          stage check was a button at the very foot of a long page, and from 24
+          to 27 November 51 visits to these pages reached it zero times. This
+          one sits under the answer and carries the age and the app, so the
+          check skips the age and starts on this app's worry. */}
+      <p style={{ margin: '14px 0 0' }}>
+        <Link href={checkHref(app.slug, age)} className="btn btn-gold" data-track="app-page-top" style={{ minHeight: '48px' }}>
+          {age ? `Get the plan for your ${age} year old` : 'Get the plan for your child'}
+        </Link>
+      </p>
 
       <dl style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', columnGap: '24px', margin: '26px 0 34px' }}>
         <Fact label="Its own minimum age" value={app.minAge.checked ? app.minAge.label : <span style={{ ...SMALL, fontWeight: 600 }}>See its terms</span>} url={app.minAge.sourceUrl} />
@@ -179,7 +190,7 @@ export default function AppSafetyPage({ app, age }: { app: AppEntry; age: Age | 
       <section aria-labelledby="next" style={{ marginTop: '56px', background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'clamp(22px, 4vw, 32px)' }}>
         <h2 id="next" style={{ ...H2, margin: '0 0 10px' }}>One app is one part of it</h2>
         <p style={P}>Guided Childhood is the plan for all of it, ten minutes a day from 4 to 16: the words for the arguments, a plan for your child&apos;s age, and their own app where jobs earn the screen time you agree.</p>
-        <Link href="/starter-pack" className="btn btn-gold" data-track="app-page-cta" style={{ minHeight: '48px' }}>Find your child&apos;s stage</Link>
+        <Link href={checkHref(app.slug, age)} className="btn btn-gold" data-track="app-page-cta" style={{ minHeight: '48px' }}>Find your child&apos;s stage</Link>
         <p style={{ ...SMALL, margin: '12px 0 0' }}>Three questions, no sign up.</p>
       </section>
 

@@ -117,7 +117,8 @@
     "indexnow": "node scripts/indexnow.mjs",
     "indexnow-test": "node --test scripts/indexnow.test.mjs",
     "seo-titles": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/seo/titles.test.ts",
-    "awaiting-app-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/handover/awaiting-app.test.ts"
+    "awaiting-app-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/handover/awaiting-app.test.ts",
+    "app-handoff-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/app-safety/handoff.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",

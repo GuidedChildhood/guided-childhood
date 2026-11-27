@@ -18,6 +18,7 @@ import { writeStarterSetup, keepPendingSetup, takePendingSetup, clearPendingSetu
 import { enabledProviders } from '@/lib/auth/providers'
 import { rememberStarterNext, starterNext, takeAfterSignupHref } from '@/lib/starter/next'
 import { bandForYears, YOUNGEST_AGE } from '@/lib/children/age'
+import { appHandoff } from '@/lib/app-safety/handoff'
 import { track } from '@/components/Analytics'
 import { readUtm, VIA_PARAM, VIA_LINK } from '@/lib/video/utm'
 import { hasUtm } from '@gc/shared/utm'
@@ -209,7 +210,13 @@ export default function StarterPackPage() {
   // Each step of the stage check by its name and nothing else, so PostHog can
   // show where parents stop (lib/analytics/posthog-policy.ts says why only
   // the name). Does nothing until NEXT_PUBLIC_POSTHOG_KEY is set.
-  useEffect(() => { track('stage_check_step', { step }) }, [step])
+  // Not on the way back from a provider (?finish=1): the screen there is
+  // Saving, but the step still starts on q1, and every Google sign up was
+  // adding a question one that never happened (27 November 2026).
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('finish') === '1') return
+    track('stage_check_step', { step })
+  }, [step])
   const [schoolName, setSchoolName] = useState<string | null>(null)
   useEffect(() => {
     if (!new URLSearchParams(window.location.search).has('school')) return
@@ -441,6 +448,23 @@ export default function StarterPackPage() {
       }
       // Question one is now where every new visit opens (the step's first
       // value above), so the old jump for visits from a post is not needed.
+
+      // ── FROM AN APP PAGE (27 November 2026) ──────────────────────────────
+      // A parent who found "Is TikTok safe for a 12 year old" has told Google
+      // the age and the app already. 51 visits to the app pages from 24 to 27
+      // November and not one reached this check, which opened blank and asked
+      // the age again. ?age= skips question one; ?app= ticks the worry that
+      // app belongs to. Never over saved progress or a finished run.
+      if (!saved && !(savedEmail && savedAnswers)) {
+        const hand = appHandoff(arrivedWith())
+        if (hand.worry) setPicks([hand.worry])
+        if (hand.age != null) {
+          setAgeYears(hand.age)
+          setDobYear(null)
+          setAgeBand(bandForYears(hand.age))
+          setStep('q2')
+        }
+      }
     } catch {}
     setRestored(true)
   }, [])
