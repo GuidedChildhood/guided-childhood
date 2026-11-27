@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { currentChildId } from '@/lib/children/current'
 import DeviceCoverageBoard from './DeviceCoverageBoard'
 import DeviceList, { type DeviceGuide } from './DeviceList'
@@ -28,6 +28,7 @@ export default function DeviceHub({
   initialAgreedDevices = null,
   initialAgreedNotes = {},
   from = null,
+  initialGuide = null,
 }: {
   devices: DeviceGuide[]
   childAge: number
@@ -42,6 +43,8 @@ export default function DeviceHub({
   /** What was agreed, keyed by screen id where we have one, guide key otherwise. */
   initialAgreedNotes?: Record<string, string>
   from?: string | null
+  /** ?guide=<device_key>, sent by a script that points to one app's settings. */
+  initialGuide?: string | null
 }) {
   const [completed, setCompleted] = useState<Set<string>>(new Set(initialCompleted))
   const [notOwned, setNotOwned] = useState<Set<string>>(new Set(initialNotOwned))
@@ -257,6 +260,18 @@ export default function DeviceHub({
       })
     }
   }
+
+  // A script that names an app's guide links here with ?guide=<key>
+  // (lib/scripts/guide-links.ts). Open the catalogue and that guide, the same
+  // way a board tile does, so the link lands on the settings rather than on
+  // the top of a long page. A key we do not hold is ignored.
+  useEffect(() => {
+    if (!initialGuide || !devices.some(d => d.device_key === initialGuide)) return
+    setCatalogueOpen(true)
+    const t = setTimeout(() => openGuide(initialGuide), 80)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialGuide])
 
   return (
     <>

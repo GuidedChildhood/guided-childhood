@@ -6,7 +6,7 @@ import { createClient } from '@supabase/supabase-js'
 import { interestUrl } from '@/lib/email'
 import { parentFirstName } from '@/lib/email/parent-name'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl, type EmailKind } from '@/lib/email'
-import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, founderPrechargeEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, appsTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
+import { welcomeEmail, openTheirAppEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, founderPrechargeEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, appsTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
 import { METHOD_WEEK } from '@/lib/email/method-week'
@@ -20,7 +20,7 @@ import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { TRIAL_DAYS } from '@/lib/access'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
-import { getFamilyHandover, offerableChildren } from '@/lib/handover/settled'
+import { getFamilyHandover, offerableChildren, childrenAwaitingApp } from '@/lib/handover/settled'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -189,7 +189,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, founderPrecharge: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, tasterStage: 0, tasterFullPack: 0, course: 0, turnsFour: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, openApp: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, founderPrecharge: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, tasterStage: 0, tasterFullPack: 0, course: 0, turnsFour: 0, errors: 0 }
 
   // ONE EMAIL PER PERSON PER RUN.
   //
@@ -368,6 +368,25 @@ async function handler(req: NextRequest) {
     // welcome in an established parent's inbox on the next run.
     if (days <= 2 && !alreadySent(profile.id, 'welcome')) {
       await deliver(profile.id, profile.email, 'welcome', welcomeEmail({ parentName: greetName, childName, unsubscribe }), 'welcome', trialKind)
+    }
+
+    // Day 1, their app tonight. Days one to three only, so a family who opens
+    // it late never gets it after the trial; fails soft so a handover read can
+    // never stop the drip. The morning after joining, so it is in the inbox
+    // before the evening it asks about.
+    if (days >= 1 && days <= 3 && !alreadySent(profile.id, 'open-their-app')) {
+      try {
+        const [family, { data: links }] = await Promise.all([
+          getFamilyHandover(supabase, profile.id),
+          supabase.from('kid_links').select('child_id, last_seen_at').eq('user_id', profile.id),
+        ])
+        const waiting = childrenAwaitingApp(family, (links ?? []) as { child_id: string; last_seen_at: string | null }[])
+        if (waiting.length > 0) {
+          await deliver(profile.id, profile.email, 'open-their-app', openTheirAppEmail({
+            childNames: waiting.map(c => (c.name ?? '').trim()), unsubscribe,
+          }), 'openApp', trialKind)
+        }
+      } catch { /* the rest of the drip still runs */ }
     }
 
     if (days >= 2 && !alreadySent(profile.id, 'day2-stage')) {

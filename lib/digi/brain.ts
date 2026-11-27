@@ -38,6 +38,11 @@ const WORD_TO_TOPIC: Record<string, string> = {
   screen: 'screen_time', 'screen time': 'screen_time', laptop: 'screen_time',
   // The day
   sleep: 'sleep', bedtime: 'sleep', tired: 'sleep', 'wont sleep': 'sleep',
+  // Where the phone spends the night, which is how an explorer parent asks the
+  // sleep question (26 November 2026, the overnight placement script). Without
+  // these, "should her phone be in her bedroom" found no sleep research at all.
+  bedroom: 'sleep', overnight: 'sleep', charger: 'sleep', charging: 'sleep',
+  'in her room': 'sleep', 'in his room': 'sleep', 'in their room': 'sleep',
   'school run': 'routines', homework: 'routines', morning: 'routines',
   routine: 'routines',
   // The situations, added 6 September 2026 with the situations and forecasts

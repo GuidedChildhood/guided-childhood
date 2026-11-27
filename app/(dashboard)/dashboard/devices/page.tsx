@@ -22,7 +22,7 @@ const STAGE_MAP: Record<string, { id: string; label: string }> = {
 export default async function DevicesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ from?: string; child?: string }>
+  searchParams: Promise<{ from?: string; child?: string; guide?: string }>
 }) {
   // Where the parent came from, so the way out goes back there.
   //
@@ -34,7 +34,7 @@ export default async function DevicesPage({
   // Read from the link rather than the referrer: a referrer is stripped by
   // enough browsers and privacy settings that the back button would silently
   // change meaning depending on the reader's setup.
-  const { from, child: childParam } = await searchParams
+  const { from, child: childParam, guide } = await searchParams
   const supabase = await createClient()
   const user = await sessionUser(supabase)
   if (!user) redirect('/login')
@@ -167,6 +167,7 @@ export default async function DevicesPage({
         initialAgreedDevices={agreedDeviceIds}
         initialAgreedNotes={agreedNotes}
         from={from ?? null}
+        initialGuide={guide ?? null}
       />
 
       {/* The stage's research, AFTER the screens (25 September 2026). It used

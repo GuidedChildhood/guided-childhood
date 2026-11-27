@@ -175,6 +175,31 @@ export function welcomeEmail(params: {
   }
 }
 
+// 1b · Day 1, their app tonight (27 November 2026)
+//
+// The only trial email about the child's side. The jobs, the stars and the
+// timer run on it, and the existing nudge for it arrives on day fourteen, ten
+// days after a four day trial has ended. Sent the morning after joining, only
+// to a family with a child old enough who has never opened their app and has
+// not said no to a device (lib/handover/settled childrenAwaitingApp). The
+// button opens the jobs page with the QR code already up.
+export function openTheirAppEmail(params: { childNames: string[]; unsubscribe: string }): EmailContent {
+  const names = params.childNames.filter(n => n && n !== 'Your child')
+  const who = names.length === 0 ? 'your child' : names.length === 1 ? names[0] : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`
+  const theirs = names.length > 1 ? 'their own app' : 'their app'
+  return {
+    subject: `Tonight: open ${who === 'your child' ? 'their' : `${who}'s`} app`,
+    html: wrapper(
+      heading(`Tonight, open ${theirs} with ${who}.`) +
+      p(`Everything you set up yesterday runs on it. The jobs you picked, the stars they earn, and a timer you can both see, so screen time ends because the timer says so, not because you are the bad guy.`) +
+      p(`<strong>It takes two minutes.</strong> Open the link below on your phone, scan the QR code with their tablet or phone, and sit with them while they look round. Doing it together is half the point.`) +
+      button('Show the QR code', `${APP}/dashboard/quests?share=1`) +
+      p(`If ${names.length > 1 ? 'they do not have' : `${who} does not have`} a device of their own, that is fine. The star chart prints for the fridge, and you can tell us in Jobs so we stop asking.`),
+      params.unsubscribe
+    ),
+  }
+}
+
 // 2 · Day 2, the stage guide
 export function day2StageEmail(params: {
   childName: string
