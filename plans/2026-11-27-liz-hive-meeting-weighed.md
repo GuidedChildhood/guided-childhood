@@ -45,3 +45,23 @@ pack. Points about those are about visibility, not missing product.
 
 Nothing is built from this review until Justin decides the school family offer.
 The story for heads is drafted only on the checked facts above.
+
+## Beyond phones: what schools must teach online, and what we have mapped
+
+Justin, 27 November 2026: "not just regarding phones but what is expected
+regarding online lessons, social media, AI etc, we mapped."
+
+The phone policy is the part inspectors ask about by name. The larger duty is
+what schools must teach, and that is where the story to heads should stand.
+
+| Duty | What it asks | Our mapping | Where |
+| --- | --- | --- | --- |
+| RSHE statutory guidance, DfE July 2025, in force 1 September 2026 | Every online item: social media minimum age and fake accounts, sharing images and the law, deepfakes, misogynistic and violent content, AI chatbots that create "fake intimacy or offering harmful advice", scams, gambling and gambling like content in games, targeted advertising and misinformation, online bullying and harassment | 57 requirements (the 39 in the four online strands plus 18 with a digital element), all 57 taught in full, quoted word for word; CI fails if a lesson edit drops the words that teach one | shared/schools-rshe-2026.ts, hub page /hub/rshe-mapping |
+| Keeping Children Safe in Education 2026 | The safeguarding side of the same harms | 36 of the 57 carry the KCSIE paragraph that names the same harm, which is what a safeguarding lead asks about | same file, kcsie column |
+| Computing programmes of study, 2014 | The e safety statements | 3 in full, 3 in part, 1 left to the school's own computing scheme, said honestly | /hub/computing-mapping |
+| AI in school | Checking an AI product before pupils or staff use it | The AI governance tool in the hub | /hub/ai-governance |
+
+The line for heads: every online requirement in the new statutory guidance,
+mapped one by one, taught with no preparation, and printable for an inspector.
+That is true today, and it does not rest on phones or on a figure we do not
+have.
