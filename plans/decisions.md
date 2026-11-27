@@ -243,3 +243,9 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 - Justin's top three this week. New explorer script "Where the phone sleeps tonight": a landing spot, chargers for every phone (mine too), a two week trial, her three answers. After Mumsnet, the why opens by saying the parent knew the answer already and is not doing it wrong; the script is about her agreeing.
 - Explorer 601 "Mood drops after phone use" now opens with the Instagram moment the parent saw that evening, names the big four apps, and links to the Instagram guide (script tonight line naming a guide becomes a link, `lib/scripts/guide-links.ts`).
 - Carter 2016 and Mireku 2019 tagged phone, bedtime, new_phone; "bedroom" and "charger" now find the sleep research. Migration 407, not yet applied live. Plan: plans/2026-11-26-explorer-phone-placement-plan.md.
+
+## 27 November 2026: Liz Gjoni (The Hive) weighed
+
+- Facts corrected before any story to heads: the renewed Ofsted framework began 10 November 2025 (September 2026 was toolkit updates and RSHE becoming compulsory); phones sit under attendance and behaviour; the under 16 ban was announced 15 June 2026 and is expected in force late spring 2027, not March.
+- Declined: any "downgraded schools" figure (none exists) and any "Ofsted approved" claim (Ofsted approves no product).
+- Already built: SEND and EAL on every lesson, RSHE mapping, the inspection evidence pack. Open: the school family offer and the 10 free DiGi and scripts idea, Justin's decision. Table: plans/2026-11-27-liz-hive-meeting-weighed.md.
