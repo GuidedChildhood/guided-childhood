@@ -240,10 +240,12 @@ for (const file of Object.keys(ALLOWED_OPT_OUTS)) {
     recorded === expected, `${recorded} vs ${expected}`)
 
   const cron = readFileSync('app/api/email/cron/route.ts', 'utf8')
-  const TRIAL_KEYS = ['welcome', 'day2-stage', 'day3-tour', 'day4-digi', 'trial-ending']
+  // Six since 27 November 2026: Justin said yes to the day one "open their app
+  // tonight" email, the only trial email about the child's side.
+  const TRIAL_KEYS = ['welcome', 'open-their-app', 'day2-stage', 'day3-tour', 'day4-digi', 'trial-ending']
   // Every deliver( call that passes trialKind or 'trial', by its email key.
   const onClock = [...cron.matchAll(/deliver\(profile\.id, profile\.email!?, '([a-z0-9-]+)'[\s\S]*?\), '[A-Za-z0-9]+', (trialKind|'trial')\)/g)].map(m => m[1])
-  check('the trial clock carries exactly the five agreed emails',
+  check('the trial clock carries exactly the six agreed emails',
     onClock.length === TRIAL_KEYS.length && TRIAL_KEYS.every(k => onClock.includes(k)), onClock.join(', '))
   check('trialKind falls back to programme outside the free days',
     /const trialKind: EmailKind = trialClock \? 'trial' : 'programme'/.test(cron))
