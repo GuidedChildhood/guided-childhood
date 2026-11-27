@@ -29,7 +29,7 @@ const schoolParam = (p: { pack?: string | string[]; school?: string | string[] }
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const school = schoolParam(await searchParams)
   return pageMetadata({
-    title: 'The parent pack for schools: free guides to share with families',
+    title: 'The parent pack for schools: free guides for families',
     description: 'A short piece for your school newsletter, a QR code and links to free guides on the apps children ask for, with your school\'s own tracked link.',
     path: PACK_PATH,
     noindex: Boolean(school),

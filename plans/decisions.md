@@ -243,3 +243,8 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 - Justin's top three this week. New explorer script "Where the phone sleeps tonight": a landing spot, chargers for every phone (mine too), a two week trial, her three answers. After Mumsnet, the why opens by saying the parent knew the answer already and is not doing it wrong; the script is about her agreeing.
 - Explorer 601 "Mood drops after phone use" now opens with the Instagram moment the parent saw that evening, names the big four apps, and links to the Instagram guide (script tonight line naming a guide becomes a link, `lib/scripts/guide-links.ts`).
 - Carter 2016 and Mireku 2019 tagged phone, bedtime, new_phone; "bedroom" and "charger" now find the sleep research. Migration 407, not yet applied live. Plan: plans/2026-11-26-explorer-phone-placement-plan.md.
+
+## 27 November 2026: every page fits in a search result
+
+- Justin: check every page, top level search. Crawl of 276 sitemap pages: all 200, canonicals, share tags, one h1 and structured data correct everywhere. Fixed what was left: descriptions now end on a whole sentence or clause within 155 characters (lib/seo/meta.ts fitDescription, 115 pages were over), and the two titles over 60. Three descriptions rewritten by hand where no clean cut existed.
+
