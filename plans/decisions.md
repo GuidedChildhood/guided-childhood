@@ -228,3 +228,7 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 - Justin: GDC 064 (GTA VI) did well, so one or two carousels a week inside the cadence, in its look: crinkled paper, black type, one yellow highlight, one idea a page, a practical last page.
 - Built into the motion engine, not a new workflow: `tools/motion-engine/carousel/template.html` (the look), `scripts/carousel.mjs` (Instagram slides, LinkedIn PDF, optional 4:5 and 9:16 motion), `scripts/carousel-gate.mjs` (no uncleared figure, no causal wording, no dash, no GDC number on a page; tested in wiring.yml). Midday runbook step 4b; START HERE asks ChatGPT for a CAROUSEL section when a story is picked.
 - First trial: GDC 066 (RAND, AI and homework) rendered for the week of 13 December, awaiting Justin. No Metricool performance data is readable from here; GDC 064's numbers need ChatGPT's report or a screenshot.
+
+## 27 November 2026: the save screen says Last step, and Schools links skip the redirect
+
+- Justin said yes. The save screen eyebrow reads "Last step" (it repeated "Question 3 of 3" after three questions). The birth month stays above the sign in buttons, so a one tap sign up still carries it, but it now says Optional; it always was. Every "For schools" link goes straight to schools.guidedchildhood.com, ending the desktop console error from the redirect.

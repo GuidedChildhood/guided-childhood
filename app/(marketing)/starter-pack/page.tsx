@@ -815,7 +815,11 @@ export default function StarterPackPage() {
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-muted)',
             }}>
-              Question {progress} of 3
+              {/* "Last step", not "Question 3 of 3" (27 November 2026): the save
+                  screen comes after three questions, and repeating the third
+                  number read as the quiz starting again. 34 parents reached a
+                  plan from 24 to 27 November, 5 opened this screen, 1 saved. */}
+              {step === 'account' ? 'Last step' : `Question ${progress} of 3`}
             </span>
             {/* A quiz picked up from an earlier visit may be someone else's
                 child on a shared device. */}
@@ -971,10 +975,12 @@ export default function StarterPackPage() {
             {(!dob || birthdayHere) && (
               <div style={{ marginBottom: '18px' }}>
                 <label htmlFor="birth-month" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
-                  {childName.trim() ? `Which month was ${childName.trim()} born?` : 'Which month were they born?'}
+                  {childName.trim() ? `Which month was ${childName.trim()} born?` : 'Which month were they born?'} Optional
                 </label>
+                {/* It was always optional (nothing here can refuse to go on) but
+                    nothing said so, and it is the first thing on the screen. */}
                 <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-sm)', lineHeight: 1.55, margin: '0 0 10px' }}>
-                  Just the month, so lessons match their school year.
+                  Just the month, so lessons match their school year. You can skip it.
                 </p>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <select

@@ -688,7 +688,7 @@ export default function HomePage() {
               The leading researchers in children, social media and mental health, and live data from national bodies, NHS and NSPCC among them. DiGi is tested every Monday against a fixed set of hard cases and the research library is refreshed twice a month with a human deciding what goes in.
             </p>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: 0 }}>
-              For schools: <Link href="https://www.guidedchildhood.com/schools" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>see the school programme</Link>
+              For schools: <Link href="https://schools.guidedchildhood.com" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>see the school programme</Link>
             </p>
           </div>
         </div>
@@ -970,7 +970,7 @@ export default function HomePage() {
 
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Tools</div>
-              {[['Free Trial', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', 'https://www.guidedchildhood.com/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
+              {[['Free Trial', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', 'https://schools.guidedchildhood.com'], ['Pricing', '#pricing']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: 0 }}>
                   <Link
                     href={href}
