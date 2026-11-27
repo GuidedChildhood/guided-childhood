@@ -22,7 +22,7 @@ const START = `/starter-pack?next=${encodeURIComponent(NEXT)}`
 const SIGN_IN = `/login?next=${encodeURIComponent(NEXT)}`
 
 const TITLE = 'Your child’s own app: jobs earn stars, stars buy screen time'
-const DESCRIPTION = 'The star quest is your child’s own app on their home screen. Jobs earn stars, outside and play jobs earn the most, and stars buy screen time on rules you set. No app store, no login for them.'
+const DESCRIPTION = 'Your child’s own app on their home screen. Jobs earn stars, outside jobs earn the most, and stars buy screen time on rules you set. No login for them.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
