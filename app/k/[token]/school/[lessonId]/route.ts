@@ -10,6 +10,7 @@ import { sendEmail } from '@/lib/email'
 import { lessonHeadsUpEmail } from '@/lib/email/templates'
 import { SITE_URL } from '@/lib/config/site'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 
 // Open one school lesson for the child, from their own list.
 //
@@ -74,7 +75,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ toke
         .eq('user_id', link.user_id).eq('child_id', link.child_id).eq('lesson_source', 'school_lesson').eq('passed', true)
         .order('completed_at', { ascending: false }).limit(1).maybeSingle(),
     ])
+    // The school pass (27 November 2026, lib/school-pass.ts) opens lessons too.
     const paid = hasFullAccess(profile as { subscription_status?: string | null; trial_ends_at?: string | null } | null, (profile as { email?: string | null } | null)?.email)
+      || await hasSchoolPass(supabase, link.user_id)
     const { modules, path } = await loadChildLessonPath(supabase, { userId: link.user_id, childId: link.child_id, stageId: lessonStage, paid })
     // The paywall, read here for the first time: until 9 October any module
     // opened by URL, and this PR raises the award from 3 to 10. A locked

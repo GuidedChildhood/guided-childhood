@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { recordSurfaceEvents } from '@/lib/events/record'
+import { hasFullAccess } from '@/lib/access'
+import { useSchoolPass } from '@/lib/school-pass'
 
 export async function POST(req: NextRequest) {
   const { sort_order, worked, worked_line, child_id } = await req.json()
@@ -65,6 +67,15 @@ export async function POST(req: NextRequest) {
   // The learning stream (migration 238): the open, so the recommender can tell
   // a script this family opens from one it only ever scrolls past.
   if (isOpen) await recordSurfaceEvents(supabase, user.id, [{ surface: 'script', item: sort_order, event: 'opened', childId: forChild }])
+
+  // THE SCHOOL PASS (27 November 2026). A real open, from the browser, is what
+  // spends one of a pass family's ten scripts; the page render only asks, so a
+  // prefetch never uses the taste up. Members are never counted.
+  if (isOpen) {
+    const { data: prof } = await supabase.from('profiles')
+      .select('subscription_status, trial_ends_at, created_at').eq('id', user.id).maybeSingle()
+    if (!hasFullAccess(prof, user.email)) await useSchoolPass(supabase, 'script', String(sort_order), true)
+  }
   return NextResponse.json({ ok: true })
 }
 

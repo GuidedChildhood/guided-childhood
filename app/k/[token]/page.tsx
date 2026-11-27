@@ -19,6 +19,7 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { dealLinesFrom } from '@/lib/content/agreement-clauses'
 import { promisesFrom } from '@/lib/content/agreement-promises'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
 import { isChildVisible, isHeldForHolidays, type ChildVisibleAction } from '@/lib/school/child-items'
@@ -680,10 +681,11 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     ? { code: bookedLesson.lesson_code, title: bookedLesson.title, posterUrl: bookedLesson.poster_url ?? null }
     : null
 
+  // The star chart and the printables are in the school pass (27 November 2026).
   const printablesUnlocked = hasFullAccess(
     parentProfileRes.data as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
     (parentProfileRes.data as { email?: string | null } | null)?.email,
-  )
+  ) || await hasSchoolPass(supabase, link.user_id)
   const bank = banks[0] ?? { child_id: link.child_id, earned: 0, spent: 0, balance: 0, minutes: 0, weekEarned: 0, weekSpent: 0, weekBalance: 0, weekMinutes: 0, weekCap: 0, weekSurplus: 0 }
   const usedWeekMinutes = (weekSpendsRes.data ?? []).reduce((sum, s) => sum + (Number(s.minutes) || 0), 0)
 

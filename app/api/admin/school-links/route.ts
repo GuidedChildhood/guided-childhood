@@ -42,8 +42,18 @@ export async function PATCH(req: NextRequest) {
   if (!(await founder())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json().catch(() => ({}))
   const code = normaliseLinkCode(body.code)
-  if (!code || typeof body.active !== 'boolean') return NextResponse.json({ error: 'bad request' }, { status: 400 })
-  const { error } = await createAdminClient().from('school_links').update({ active: body.active }).eq('code', code)
+  // Either the on/off switch, or the school pass date (migration 408): the
+  // last day of the paid licence, or null to end the pass.
+  const update: { active?: boolean; licensed_until?: string | null } = {}
+  if (typeof body.active === 'boolean') update.active = body.active
+  if ('licensed_until' in body) {
+    const v = body.licensed_until
+    if (v === null || v === '') update.licensed_until = null
+    else if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)) update.licensed_until = v
+    else return NextResponse.json({ error: 'Pick a date for the end of the licence.' }, { status: 400 })
+  }
+  if (!code || Object.keys(update).length === 0) return NextResponse.json({ error: 'bad request' }, { status: 400 })
+  const { error } = await createAdminClient().from('school_links').update(update).eq('code', code)
   if (error) return NextResponse.json({ error: 'Could not change that link just now.' }, { status: 500 })
   return NextResponse.json({ ok: true })
 }

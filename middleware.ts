@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { hasFullAccess, needsMembership, needsPlanChoice } from '@/lib/access'
+import { schoolPassOpens, passIsLive } from '@/lib/school-pass'
 import { sessionUser } from '@/lib/supabase/session'
 import { safeNext } from '@/lib/auth/safe-next'
 
@@ -109,11 +110,24 @@ export async function middleware(request: NextRequest) {
     if (user && isProtected && needsMembership(pathname)) {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('subscription_status, trial_ends_at, created_at, plan_choice, onboarding_complete, first_checkin_at')
+        .select('subscription_status, trial_ends_at, created_at, plan_choice, onboarding_complete, first_checkin_at, school_link')
         .eq('id', user.id)
         .maybeSingle()
 
-      if (!hasFullAccess(profile, user.email)) {
+      const fullAccess = hasFullAccess(profile, user.email)
+
+      // THE SCHOOL PASS (27 November 2026, lib/school-pass.ts). A family whose
+      // school pays for the licence keeps lessons, homework, the chart and the
+      // calendar after the free days. Asked only when the membership says no,
+      // the path is one a pass opens and the family came in through a school,
+      // so every other parent pays no extra query.
+      let onSchoolPass = false
+      if (!fullAccess && schoolPassOpens(pathname) && (profile as { school_link?: string | null } | null)?.school_link) {
+        const { data: until } = await supabase.rpc('school_pass_until', { p_user: user.id })
+        onSchoolPass = passIsLive(typeof until === 'string' ? until : null, new Date().toISOString())
+      }
+
+      if (!fullAccess && !onSchoolPass) {
         const url = request.nextUrl.clone()
         url.pathname = '/dashboard/upgrade'
         // Where they were going, so the upgrade page can say what it opens and
@@ -151,7 +165,9 @@ export async function middleware(request: NextRequest) {
       // navigation if the payment genuinely never completed.
       const justPaid = request.nextUrl.searchParams.has('upgraded')
 
-      if (pathname !== CHOOSE_PATH && !justPaid && needsPlanChoice(profile)) {
+      // A pass family past their free days is not asked to choose: the pass is
+      // what they have, and the upgrade page is one tap away from anything else.
+      if (fullAccess && pathname !== CHOOSE_PATH && !justPaid && needsPlanChoice(profile)) {
         const url = request.nextUrl.clone()
         url.pathname = CHOOSE_PATH
         url.search = ''

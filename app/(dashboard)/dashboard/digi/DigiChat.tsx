@@ -832,6 +832,11 @@ export default function DigiChat({
           // when the sentence was written.
           const limit = Number((data as { limit?: number }).limit) || dailyLimit
           setError(`DiGi has helped all it can today, that is your ${limit} free ${limit === 1 ? 'chat' : 'chats'}. It refreshes tomorrow, or go unlimited any time.`)
+        } else if (res.status === 402) {
+          // Past the free days with no membership: the school pass's ten are
+          // used, or there is no pass (27 November 2026).
+          const pass = Number((data as { schoolPassLimit?: number }).schoolPassLimit) || 10
+          setError(`That is your ${pass} free DiGi chats from your school. A membership keeps DiGi with you every day.`)
         } else {
           setError(data.error ?? 'Something went wrong. Please try again.')
         }

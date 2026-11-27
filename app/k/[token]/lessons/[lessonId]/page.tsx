@@ -5,6 +5,7 @@ import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
 import { badgesFor } from '@gc/shared/curriculum-badges'
 import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { resolveTheme } from '@/lib/kid/theme'
 
@@ -68,10 +69,11 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
     supabase.from('lessons').select('id, stage_id, sort_order').eq('audience', 'parent').neq('status', 'stub').not('slides', 'is', null),
     supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
   ])
+  // The school pass (27 November 2026, lib/school-pass.ts) opens lessons too.
   const paid = hasFullAccess(
     parentProfile as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
     (parentProfile as { email?: string | null } | null)?.email,
-  )
+  ) || await hasSchoolPass(supabase, link.user_id)
   const freeIds = freeLessonIds((stageList ?? []) as { id: string; stage_id: string; sort_order: number }[])
   // The child's next unpassed lesson in this stage is always open to them, so
   // the drip never dead ends at the paywall; the ones past it still wait for

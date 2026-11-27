@@ -11,6 +11,7 @@ import ReadingAhead from '@/components/lessons/ReadingAhead'
 import { parseSlides, visibleSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
 import { badgesFor } from '@gc/shared/curriculum-badges'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import { isParentLessonFree } from '@/lib/content/lesson-access'
 import DigiAskLink from '@/components/digi/DigiAskLink'
 
@@ -131,7 +132,9 @@ export default async function LessonDetailPage({ params, searchParams }: {
   // Everything else in this stage sits behind the paywall.
   const { data: accessProfile } = await supabase
     .from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
+  // The school pass (27 November 2026, lib/school-pass.ts) opens lessons too.
   const locked = !hasFullAccess(accessProfile, user.email) && !completion
+    && !(await hasSchoolPass(supabase, user.id))
     && !(await isParentLessonFree(supabase, lesson.stage_id, lesson.id))
 
   if (locked) {

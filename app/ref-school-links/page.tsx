@@ -6,8 +6,8 @@ import SchoolLinks from '@/app/(dashboard)/dashboard/admin/schools/SchoolLinks'
 // 404s in production via middleware, like every other ref- page.
 
 const ROWS = [
-  { code: 'st-marys-c-of-e-primary', name: "St Mary's C of E Primary", active: true, url: 'https://guidedchildhood.com/s/st-marys-c-of-e-primary', signedUp: 14, cardOn: 3, paying: 5 },
-  { code: 'oldfield-park-junior', name: 'Oldfield Park Junior', active: false, url: 'https://guidedchildhood.com/s/oldfield-park-junior', signedUp: 2, cardOn: 0, paying: 0 },
+  { code: 'st-marys-c-of-e-primary', name: "St Mary's C of E Primary", active: true, url: 'https://guidedchildhood.com/s/st-marys-c-of-e-primary', signedUp: 14, cardOn: 3, paying: 5, licensedUntil: '2027-07-31' },
+  { code: 'oldfield-park-junior', name: 'Oldfield Park Junior', active: false, url: 'https://guidedchildhood.com/s/oldfield-park-junior', signedUp: 2, cardOn: 0, paying: 0, licensedUntil: null },
 ]
 
 export default async function RefSchoolLinks({ searchParams }: { searchParams: Promise<{ empty?: string }> }) {

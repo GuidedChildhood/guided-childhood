@@ -3,6 +3,7 @@ import { sessionUser } from '@/lib/supabase/session'
 import { pickChild } from '@/lib/children/select'
 import { firstText, makeDashStripper } from '@/lib/digi/text'
 import { hasFullAccess, inStarterTrial, isAllowlisted } from '@/lib/access'
+import { useSchoolPass, SCHOOL_PASS_DIGI } from '@/lib/school-pass'
 import { getTrialConfig } from '@/lib/config/trial'
 import { digiModelsFor, digiEffortFor, fastModeFor, FAST_MODE_BETA, type DigiTask, type DigiEffort } from '@/lib/config/digi'
 import { NextResponse, after } from 'next/server'
@@ -427,6 +428,22 @@ export async function POST(request: Request) {
   const rowCountToday = convData && convData.last_message_date === today ? (convData.messages_today ?? 0) : 0
   const currentCount = convRows.reduce(
     (n, r) => n + (r.last_message_date === today ? (r.messages_today ?? 0) : 0), 0)
+
+  // THE SCHOOL PASS AND THE LAPSED (27 November 2026). Past the free days with
+  // no membership, a family whose school pays gets ten DiGi messages in total
+  // (lib/school-pass.ts), each claimed here before any streaming starts. Anyone
+  // else past their free days is told plainly. This route sits outside the
+  // dashboard gate, so until now a lapsed account could still reach DiGi by
+  // calling it directly; the page was locked and the door behind it was not.
+  if (!isPaid && !limitApplies && !isAllowlisted(user.email)) {
+    const allowed = await useSchoolPass(supabase, 'digi', crypto.randomUUID(), true)
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Membership needed', schoolPassLimit: SCHOOL_PASS_DIGI },
+        { status: 402 },
+      )
+    }
+  }
 
   // Checked before any streaming starts, so a parent at their limit gets a
   // clean answer rather than a half written one.

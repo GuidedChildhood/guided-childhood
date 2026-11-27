@@ -9,6 +9,7 @@ import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import { stillWaiting, opensOnDay } from '@/lib/lessons/heavy'
 import { loadRememberDue } from '@/lib/kid/remember-server'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonList'
 import { resolveTheme } from '@/lib/kid/theme'
 import { lessonsPassedCount } from '@/lib/planet/server'
@@ -81,10 +82,11 @@ export default async function KidLessonsPage({ params, searchParams }: {
     .select('subscription_status, trial_ends_at, email')
     .eq('id', link.user_id)
     .maybeSingle()
+  // The school pass (27 November 2026, lib/school-pass.ts) opens lessons too.
   const paid = hasFullAccess(
     parentProfile as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
     (parentProfile as { email?: string | null } | null)?.email,
-  )
+  ) || await hasSchoolPass(supabase, link.user_id)
 
   // Passed, next, locked: from the one lesson count (lib/pathway/lesson-path),
   // the function the passport, the parent's page and the road all read. Until

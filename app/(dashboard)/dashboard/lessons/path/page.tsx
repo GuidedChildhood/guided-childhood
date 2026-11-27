@@ -13,6 +13,7 @@ import type { StageId } from '@/lib/pathway/progress'
 import { withChild } from '@/components/passport/Application'
 import LessonRowActions from '@/components/lessons/LessonRowActions'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import { opensOnDay, stillWaiting } from '@/lib/lessons/heavy'
 
 // The child's lessons, from the parent's side (29 September 2026).
@@ -67,7 +68,9 @@ export default async function ChildLessonPathPage({
     supabase.from('profiles').select('subscription_status, trial_ends_at, email').eq('id', user.id).maybeSingle(),
     supabase.from('kid_lesson_missions').select('lesson_id, status, nudged_at, sent_at').eq('user_id', user.id).eq('child_id', child.id),
   ])
+  // The school pass (27 November 2026, lib/school-pass.ts) opens lessons too.
   const paid = hasFullAccess(profile as { subscription_status?: string | null; trial_ends_at?: string | null } | null, (profile as { email?: string | null } | null)?.email)
+    || await hasSchoolPass(supabase, user.id)
   const missionOf = new Map(((missionRows ?? []) as { lesson_id: string; status: string; nudged_at: string | null; sent_at: string | null }[]).map(m => [m.lesson_id, m]))
   const [{ modules, path }, { data: link }] = await Promise.all([
     // The one lesson count (lib/pathway/lesson-path.ts), the same function the
