@@ -15,6 +15,7 @@ import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand } from '@/lib/conte
 import { bandForAge } from '@/lib/children/age'
 import { inStarterTrial, trialDaysLeft } from '@/lib/access'
 import Link from 'next/link'
+import SchoolCodeBox from '@/components/school/SchoolCodeBox'
 
 interface Profile {
   full_name: string | null
@@ -658,6 +659,10 @@ export default function SettingsPage() {
           )}
         </section>
       )}
+
+      {/* Your school (27 November 2026): the code from the school's letter, for
+          families who signed up without the school's link. */}
+      <SchoolCodeBox />
 
       {/* Billing section */}
       <section style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '16px' }}>

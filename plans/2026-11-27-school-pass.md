@@ -30,6 +30,25 @@ Justin, 27 November 2026, after the Hive meeting
   direct call after the trial.
 - The child's link (`/k/[token]`): lessons and printables open with the pass.
 
+## Only school families (Justin, 27 November 2026)
+
+"This change is only for families that sign up via school ... must not affect
+normal families signing up without code."
+
+- A family is a school family only when its account carries the school's link,
+  and the pass only switches on when that school also has a licence date. A
+  family with neither sees exactly what they saw before. The sign up form is
+  unchanged: no school question for anyone.
+- Two ways in for school families. The school's link (/s/<code>) records the
+  school at sign up, as it has since migration 353. Or the family code from the
+  school's letter, typed on Settings or on the upgrade page (the box renders
+  nothing until it knows the family's school). The admin schools page shows
+  each school's family code for the letter.
+- The school is written once and never replaced, the same rule as the link.
+- The one change that touches every family: /api/digi now refuses a lapsed
+  account called directly. A lapsed family could not reach the DiGi page
+  anyway, so nothing they can see changes.
+
 ## Not in this change
 
 - No copy on the marketing site or the schools pricing page yet; that waits

@@ -120,6 +120,11 @@ export default function SchoolLinks({ rows }: { rows: SchoolLinkRow[] }) {
               {copied === r.url ? 'Copied' : 'Copy link'}
             </button>
           </div>
+          {/* The code a family types on Settings or the upgrade page if they
+              signed up without the link (27 November 2026). Put it on the letter. */}
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '-6px 0 12px' }}>
+            Family code for the letter: <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--ink)' }}>{r.code}</strong>
+          </p>
           <div style={{ display: 'flex', gap: 12 }}>
             <Stat n={r.signedUp} label="Signed up" />
             <Stat n={r.cardOn} label="Card on, still free" />
