@@ -20,7 +20,7 @@ import MagnetGate from '@/components/marketing/MagnetGate'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Free family week pack: star chart and week planner',
-  description: 'Two free fridge sheets for the morning and school week: a star chart with the jobs every house argues about, and Our school week with reading, homework, the front seat rota and a Sunday check.',
+  description: 'Two free fridge sheets: a star chart with the jobs every house argues about, and a school week planner with reading, homework and a Sunday check.',
   path: '/free/family-week',
   image: '/printables/free/family-week-p1.png',
 })
