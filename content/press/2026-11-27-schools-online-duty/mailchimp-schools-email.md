@@ -4,7 +4,7 @@ Drafted 27 November 2026 for Justin, from the Hive stories in this folder.
 Facts and sources: stories.md (Sources) and
 plans/2026-11-27-liz-hive-meeting-weighed.md.
 
-STATUS: DRAFT. Justin rewrites it in his own words before it goes.
+STATUS: APPROVED. Justin approved the wording on 27 November 2026. Ready to paste into Mailchimp.
 
 Who it goes to: schools on the contact list that have NOT had "One more, then
 I will stop" (content/campaigns/2026-11-15-pilot-schools-why-test-email.md).
@@ -116,4 +116,4 @@ sceptical head: "another EdTech pitch?" it reads as a briefing first, and the PS
 says plainly that Ofsted approves no product).
 Read aloud: still needs to be his. The PS line is the one most worth saying his
 own way.
-Verdict: CHANGES MADE, for Justin to approve and rewrite.
+Verdict: CHANGES MADE. Approved by Justin, 27 November 2026.

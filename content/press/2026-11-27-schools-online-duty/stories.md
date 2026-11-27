@@ -4,7 +4,7 @@ Drafted 27 November 2026 for Justin, after Liz Gjoni's advice to take a
 newsworthy story to a journalist (Shane Dean, Good News Post) and aim it at
 head teachers. Facts and sources: plans/2026-11-27-liz-hive-meeting-weighed.md.
 
-STATUS: DRAFT. Justin reads and approves before anything is sent. The quotes are suggested words for Justin, not things he has said: he changes them to his own before they go out. Where he lives is left out because it is not in the founder notes. Every number
+STATUS: APPROVED. Justin approved the wording, quotes included, on 27 November 2026. Where he lives is left out because it is not in the founder notes. Every number
 below has a source in the list at the end; nothing else is claimed.
 
 What these stories do not say, on purpose: that any school has been marked
@@ -49,7 +49,6 @@ new guidance, fifty seven of them, to lessons a class teacher can open and
 teach with no preparation.
 
 "We have done the preparation, so the teacher can do the teaching," he said.
-(Justin: say this your own way, or give a line of your own.)
 
 Schools can try it with a free pilot: two lessons for a term, with a pack for
 parents, for the first five schools that ask. Each lesson comes with a run
@@ -79,7 +78,6 @@ school must teach it and have a written policy, drawn up with parents.
 
 Justin Phillips said: "Heads do not need a scare story. They need to know the
 duty is real and that they can show what they teach."
-(Justin: say this your own way, or give a line of your own.)
 
 Note for Justin: this story has no "school marked down" case in it because we
 have not found one where online safety teaching was the reason. If a reader or
@@ -133,8 +131,6 @@ that takes part.
 
 Justin
 
-(Justin: this is a starting point. Rewrite it in your own words before it goes.)
-
 ---
 
 ## Sources
@@ -155,4 +151,4 @@ Changed: the email cut to four short paragraphs and one list; both quotes cut to
 Scenes: "father of three", from founder-context, general, no child named. Home town left out (not in the founder notes).
 Ten checks: 1 PASS (the argument: the online duty is law now and schools can show they teach it); 2 PASS (every figure checked today against its source); 3 PASS; 4 PASS; 5 not a post, no recent openings to compare; 6 PASS, the quotes are marked as suggested words, not his; 7 PASS; 8 PASS; 9 PASS (the sceptical head: "is this a scare story?" Story 2 answers it, and the note says no school has been found marked down); 10 PASS (a head learns the duty, who owns it and what to show)
 Read aloud: the quotes and the email still need to be his. They are marked so he rewrites them.
-Verdict: CHANGES MADE, for Justin to approve and put the quotes and email in his own words
+Verdict: CHANGES MADE. Approved by Justin, 27 November 2026.
