@@ -64,19 +64,53 @@ export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path}`
 }
 
+/** Google shows roughly the first 155 characters of a description. */
+export const DESC_MAX = 155
+
+/**
+ * A description that fits in a search result (27 November 2026). A crawl of
+ * the 276 sitemap pages found 115 descriptions past 155 characters, which
+ * Google cuts off mid sentence with an ellipsis. Cut at the last whole word
+ * that fits and end on a full stop, so it reads as finished. A page whose own
+ * line is short enough is left exactly as written.
+ */
+export function fitDescription(text: string): string {
+  const t = text.trim()
+  if (t.length <= DESC_MAX) return t
+  // The last whole sentence that fits, when that still says enough (80
+  // characters or more). A sentence cut short ("If it comes into.") reads as
+  // broken in a result; a shorter complete one reads as meant.
+  const window = t.slice(0, DESC_MAX + 1)
+  const ends = [...window.matchAll(/[.!?](?=\s|$)/g)].map(m => (m.index ?? 0) + 1).filter(i => i <= DESC_MAX)
+  const lastEnd = ends.length ? ends[ends.length - 1] : 0
+  if (lastEnd >= 80) return t.slice(0, lastEnd)
+  // Next best, the end of a clause: "before they start: Linked." reads as
+  // broken, "before they start." does not.
+  // A colon or semicolon first, since what follows one is a list or a new
+  // thought; a comma only when there is neither.
+  const breaks = (re: RegExp) => [...window.matchAll(re)].map(m => m.index ?? 0).filter(i => i >= 80 && i < DESC_MAX)
+  const strong = breaks(/[:;](?=\s)/g)
+  const clauses = strong.length ? strong : breaks(/,(?=\s)/g)
+  if (clauses.length) return `${t.slice(0, clauses[clauses.length - 1])}.`
+  const cut = t.slice(0, DESC_MAX)
+  const atWord = cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s,:;]+$/, '').replace(/[.!?]+$/, '')
+  return `${atWord}.`
+}
+
 export function pageMetadata(input: PageMetaInput): Metadata {
   const url = absoluteUrl(input.path)
+  const description = fitDescription(input.description)
   const image = input.image ?? DEFAULT_SHARE_IMAGE
   return {
     // The brand goes after the page's own words only while the whole still
     // fits: a parent searching reads the question, so the brand is what gives
     // way, never the question (shownTitle above).
     title: input.absoluteTitle || input.title.length + BRAND_SUFFIX.length > TITLE_MAX ? { absolute: input.title } : input.title,
-    description: input.description,
+    description,
     alternates: { canonical: url },
     openGraph: {
       title: input.title,
-      description: input.description,
+      description,
       url,
       siteName: 'Guided Childhood',
       locale: 'en_GB',
@@ -86,7 +120,7 @@ export function pageMetadata(input: PageMetaInput): Metadata {
     twitter: {
       card: 'summary_large_image',
       title: input.title,
-      description: input.description,
+      description,
       images: [image],
     },
     ...(input.noindex ? { robots: { index: false, follow: true } } : {}),

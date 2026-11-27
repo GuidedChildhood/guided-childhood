@@ -32,12 +32,12 @@ export const metadata: Metadata = {
   // layout's whole object and left out the image, so a shared home page link
   // showed no picture.
   ...pageMetadata({
-    title: 'Guided Childhood: from first tablet to first phone, ages 4 to 16',
+    title: 'Guided Childhood: first tablet to first phone, ages 4 to 16',
     absoluteTitle: true,
     // In the parent's words, not ours (the board's audience lens, 12 November
     // 2026): the nightly fight, the phone coming, what to say tonight. The
     // product names (the Digital Passport, the tracker) are inside the page.
-    description: 'For UK parents of children aged 4 to 16. What children their age learn this year, the words for the screen fights and the first phone, and a Passport they earn stage by stage, so 16 arrives ready. Free for 4 days, no card.',
+    description: 'For UK parents of children aged 4 to 16: the words for the screen fights and the first phone, lessons for their age, and a Passport to 16. Free for 4 days.',
     path: '',
   }),
   keywords: [

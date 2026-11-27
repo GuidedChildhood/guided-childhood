@@ -50,7 +50,12 @@ export type MatchableScript = {
   title: string
   situation: string
   category: string
+  /** The script's stage. Optional so the callers that only rank by words still type check. */
+  stage_id?: string | null
 }
+
+// The stage ladder, for the child's stage weighting below.
+const STAGE_ORDER = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
 
 // Words that carry no signal about WHICH script fits. Kept deliberately short:
 // rarity weighting already flattens common words, so this only needs to catch
@@ -62,6 +67,11 @@ const STOP = new Set([
   'very', 'much', 'more', 'some', 'then', 'than', 'because', 'would', 'could',
   'should', 'there', 'here', 'into', 'over', 'back', 'were', 'your',
   'mine', 'ours', 'help', 'need', 'needs',
+  // 'tonight' is in one script title, so it scored as the rarest word in the
+  // library and put "Where the phone sleeps tonight" first for a parent asking
+  // what to say tonight about Instagram (walkthrough, 27 November 2026). It is
+  // when the parent wants the words, never what the script is about.
+  'tonight', 'tonights', 'evening', 'today',
   // Pronouns. Three letters, in almost every script, and with word matching
   // they now score near zero anyway, but leaving them in only adds noise to
   // the top of the list.
@@ -130,6 +140,7 @@ export function matchScripts(
   scripts: MatchableScript[],
   message: string,
   limit = 3,
+  opts: { stageId?: string | null } = {},
 ): MatchableScript[] {
   const words = queryWords(message)
   if (words.length === 0 || scripts.length === 0) return []
@@ -173,8 +184,21 @@ export function matchScripts(
   // word in the situation text alone. Below that a match is a coincidence.
   // Checked against the five real questions above: all five now return
   // candidates, and a generic "hello" still returns none.
+  // The child's stage first (walkthrough, 27 November 2026). The library holds
+  // the same moment at several stages, and a parent of a twelve year old asking
+  // about the bedroom was handed the shaper and builder versions ahead of the
+  // explorer one. The floor stays on the words alone, so the stage only orders
+  // real matches and never lets a weak one in: the same stage counts half again,
+  // the stage either side as written, anything further away at half.
+  const childStage = opts.stageId ? STAGE_ORDER.indexOf(opts.stageId) : -1
+  const stageWeight = (s: MatchableScript) => {
+    if (childStage < 0 || !s.stage_id) return 1
+    const gap = Math.abs(STAGE_ORDER.indexOf(s.stage_id) - childStage)
+    return gap === 0 ? 1.5 : gap === 1 ? 1 : 0.5
+  }
   return scored
     .filter(x => x.score >= 1.5)
+    .map(x => ({ ...x, score: x.score * stageWeight(x.s) }))
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
     .map(x => x.s)

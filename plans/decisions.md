@@ -255,3 +255,12 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 - Justin chose: a school that pays its licence gives its families lessons, homework, the star chart and the calendar free while the licence runs, plus ten scripts and ten DiGi messages in total. Everyone else keeps the four day trial. Plan: plans/2026-11-27-school-pass.md.
 - Switched on per school by a licence end date on its link (admin schools page, migration 408). No date, no pass, so a newsletter link alone still grants nothing.
 - Also closed: /api/digi answered a lapsed account called directly; it now returns 402 unless a school pass covers it.
+## 27 November 2026: the explorer phone and mood scripts made reachable, from the expert walkthrough
+
+- Justin, "yes" to all five walkthrough fixes. Parents were not reaching 407's scripts: DiGi matched every stage and the word "tonight", and both worry tiles pointed elsewhere.
+- DiGi now weights the child's stage first; the tiles lead with the new scripts; the Instagram guide covers sleep mode, hidden words and the feed; 9673 opens with "you already know the bedroom answer"; 601 agrees with starter script 8.
+- New "Remind me" button on a script's check back writes the follow up DiGi already delivers, timed from the script's words. Migration 408, waits for Justin's yes. Plan: plans/2026-11-27-explorer-flow-fixes-plan.md.
+## 27 November 2026: every page fits in a search result
+
+- Justin: check every page, top level search. Crawl of 276 sitemap pages: all 200, canonicals, share tags, one h1 and structured data correct everywhere. Fixed what was left: descriptions now end on a whole sentence or clause within 155 characters (lib/seo/meta.ts fitDescription, 115 pages were over), and the two titles over 60. Three descriptions rewritten by hand where no clean cut existed.
+

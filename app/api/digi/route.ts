@@ -546,7 +546,7 @@ export async function POST(request: Request) {
     issue || flashpoint
       ? supabase.from('scripts').select('sort_order, title').in('title', issue ? issue.proof.scripts : flashpoint!.proof.scripts)
       : Promise.resolve({ data: null }),
-    supabase.from('scripts').select('sort_order, title, situation, category'),
+    supabase.from('scripts').select('sort_order, title, situation, category, stage_id'),
     supabase
       .from('daily_moments')
       .select('id, title, category, science_brief, age_bands')
@@ -677,7 +677,7 @@ export async function POST(request: Request) {
       (concernsResult.data ?? []) as { slug: string; label: string; status?: string | null }[],
       (allScripts ?? []) as MatchableScript[],
     )
-    const matched = matchScripts((allScripts ?? []) as MatchableScript[], String(message))
+    const matched = matchScripts((allScripts ?? []) as MatchableScript[], String(message), 3, { stageId: (child?.stage_id as string | null) ?? null })
     if (matched.length > 0) {
       scriptLinkKnowledge = `\n\nSCRIPTS WE ALREADY HAVE THAT MAY FIT WHAT THE PARENT JUST SAID. If one genuinely fits their situation, name it warmly in your reply and link it so they can open it, exactly in this markdown form [Script title](/dashboard/scripts/SORT_ORDER). Only ever link one of these real scripts, never invent a title or a link, and only when it truly fits:\n` +
         matched.map(s => `- [${s.title}](/dashboard/scripts/${s.sort_order}) — ${s.situation}`).join('\n')

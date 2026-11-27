@@ -63,9 +63,16 @@ export function scriptTitles(dirs = ['supabase/migrations', 'supabase/seeds']) {
         const at = n => (n >= 0 ? lits[k + (n - base)]?.text : undefined)
         const stage = at(off.s), category = at(off.c), title = at(off.t)
         if (off.s >= 0 && !stages.has(stage ?? '')) continue
-        if (off.c >= 0 && !/^[a-z][a-z-]*$/.test(category ?? '')) continue
+        // An insert ... select (migration 407) puts subqueries and booleans
+        // between the columns, so the category is not at its column's offset.
+        // Take the first category shaped literal after the title instead.
+        let cat = category
+        if (off.c >= 0 && !/^[a-z][a-z-]*$/.test(cat ?? '') && /insert\s+into\s+(?:public\.)?scripts\s*\([^)]*\)\s*select/i.test(sql.slice(m.index, m.index + 400))) {
+          cat = lits.slice(k + (off.t - base) + 1).map(l => l.text).find(t => /^[a-z]+(?:-[a-z]+)+$/.test(t))
+        }
+        if (off.c >= 0 && !/^[a-z][a-z-]*$/.test(cat ?? '')) continue
         if (!title || title.length < 4 || title.length > 140) continue
-        rows.push({ title, category: category ?? '', stage: stage ?? '', file: f })
+        rows.push({ title, category: cat ?? '', stage: stage ?? '', file: f })
         k += 2
       }
     }
