@@ -1,4 +1,5 @@
 import { AGE_NOTES, gapFor, gapSentence, stageFor } from './ages'
+import { appFaqs } from './app-faqs'
 import { AGES, aAge, type Age, type AppEntry } from './types'
 
 // THE WORDS ON EVERY APP PAGE, built from the app's facts and the child's age.
@@ -26,6 +27,7 @@ export const leadControl = (app: AppEntry): string | null =>
 
 export function minAgeLine(app: AppEntry): string {
   const note = app.minAge.note ? ` ${app.minAge.note.replace(/\.$/, '')}.` : ''
+  if (app.minAge.basis === 'rating') return `${app.minAge.rule}.${note}`
   if (app.minAge.value === null) return `${app.name} does not set one minimum age.${note}`
   if (!app.minAge.checked) return `${app.name} usually sets ${app.minAge.value} as its minimum age, though we could not yet confirm the UK terms.${note}`
   return `${app.name}'s own minimum age in the UK is ${app.minAge.value}.${note}`
@@ -52,7 +54,9 @@ export function ratingsLine(app: AppEntry): string {
   const { appStore, googlePlay, pegi } = app.ratings
   if (appStore.checked && appStore.value) parts.push(`${shortRating(appStore.value)} on the App Store`)
   if (googlePlay.checked && googlePlay.value) parts.push(`${shortRating(googlePlay.value)} on Google Play`)
-  if (pegi.checked && pegi.value && pegi.value.toLowerCase() !== 'none') parts.push(`${pegi.value.replace(/\s*\(.*$/, '')} from PEGI`)
+  // The first part of the PEGI value only: "PEGI 7, Violence, Fear" read
+  // "rated PEGI 7, Violence, Fear, In game purchases from PEGI" (28 November 2026).
+  if (pegi.checked && pegi.value && pegi.value.toLowerCase() !== 'none') parts.push(`${shortRating(pegi.value)} in the PEGI database`)
   if (!parts.length) return `Check the current rating on the App Store and Google Play listings, linked on this page.`
   return `${app.name} is rated ${joinAnd(parts)}. Store ratings describe content, not readiness, and the app's own minimum age can differ from them.`
 }
@@ -77,6 +81,9 @@ export function faqs(app: AppEntry, age: number | null): Faq[] {
   if (app.underAge.text && app.minAge.gapAge > 0 && (age === null || age < app.minAge.gapAge)) {
     list.push({ q: `What can a child under ${app.minAge.gapAge} use instead of ${app.name}?`, a: app.underAge.text })
   }
+  // The questions parents of this app's users search next (lib/app-safety/app-faqs.ts),
+  // each restating a fact already sourced in apps.ts.
+  for (const f of appFaqs(app.slug)) list.push({ q: f.q, a: f.a })
   return list
 }
 
@@ -91,10 +98,10 @@ export function gapLabel(app: AppEntry, age: number): string {
   switch (gapFor(age, app.minAge.gapAge)) {
     case 'designed-for': return 'Open to them, set it up together'
     case 'well-under':
-    case 'under': return `Under its age of ${app.minAge.gapAge}`
+    case 'under': return app.minAge.basis === 'rating' ? `Under its PEGI ${app.minAge.gapAge}` : `Under its age of ${app.minAge.gapAge}`
     case 'nearly': return 'One year to go'
-    case 'at': return 'Its minimum age'
-    case 'past': return 'Past its minimum age'
+    case 'at': return app.minAge.basis === 'rating' ? 'Its PEGI rating age' : 'Its minimum age'
+    case 'past': return app.minAge.basis === 'rating' ? 'Past its PEGI rating' : 'Past its minimum age'
   }
 }
 

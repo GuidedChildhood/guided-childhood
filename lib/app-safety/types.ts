@@ -40,6 +40,13 @@ export type AppEntry = {
     gapAge: number
     /** Optional: the age a service is built up to (YouTube Kids, 12). */
     maxAge?: number
+    /**
+     * 'rating' when the line comes from an age rating (PEGI 18 for Call of
+     * Duty and GTA, PEGI 16 for EA SPORTS FC 27) rather than from the maker's
+     * own account rules, so the age pages say "under that rating" and never
+     * that the maker set it.
+     */
+    basis?: 'rating'
     /** The rule in one clause, for the free check: "TikTok sets its own minimum age at 13". */
     rule: string
     /** What the terms allow under that age (a supervised account, parent consent), or ''. */
