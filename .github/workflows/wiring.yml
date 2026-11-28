@@ -809,6 +809,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run privacy-links-test
+      # The free week back (lib/comeback.ts): once per family, never for a
+      # paying member, a double tap grants one week, a failed write gives the
+      # chance back, and its token is not the stop or ask token.
+      - run: npm run comeback-test
       # The words a parent reads on the site, in the app and in the emails do
       # not read as machine written either (Justin, 25 November 2026: "remove
       # AI phrases from everything we do"). It rides here because it reads the

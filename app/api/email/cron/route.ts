@@ -20,6 +20,8 @@ import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { TRIAL_DAYS } from '@/lib/access'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
+import { askUrl } from '@/lib/asks/stalled'
+import { comebackUrl, COMEBACK_KEY } from '@/lib/comeback'
 import { getFamilyHandover, offerableChildren, childrenAwaitingApp } from '@/lib/handover/settled'
 
 export const dynamic = 'force-dynamic'
@@ -356,6 +358,105 @@ async function handler(req: NextRequest) {
     }), 'trialEnding', 'trial')
     if (trialEndingDue && trialEndingLeft <= 1) await sendTrialEnding()
 
+    // ── LAPSED: THE WIN BACK GOES FIRST (28 November 2026) ─────────────────
+    //
+    // Justin asked whether lapsed sign ups should get another chance at the
+    // founding rate. They were meant to: win back 3 carries it. But not one
+    // win back had ever been sent. deliver() gives each person one email per
+    // run, the programme is held to one a week, and the win back sat at the
+    // bottom of this loop, so every week the slot went to the next programme
+    // email above it and the win back never got its turn (32 lapsed families,
+    // 0 win backs, on 28 November).
+    //
+    // So for a lapsed parent the win back is asked first. Its steps are spaced
+    // (two days after the lapse, then a week, then three weeks), and on a day
+    // none is due the run falls through to the programme exactly as before.
+    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-1')) {
+      // Give it a couple of days after the lapse so it does not land the same
+      // day as the day 7 founder email. A cancellation (no trial date) sends.
+      const left = trialDaysLeft(profile.trial_ends_at)
+      if (left == null || left <= -2) {
+        await deliver(profile.id, profile.email, 'winback-1', winBackEmail({ childName, askUrl: askUrl(profile.id), unsubscribe }), 'winback')
+      }
+    }
+
+    // Win back 2 and 3, paced off the previous send rather than off signup,
+    // which is the point: a parent who registered eleven months ago and lapsed
+    // last week gets a properly spaced sequence, where before they got one
+    // email or, past the window, none at all.
+    //
+    // Each step re-checks state, so paying at any point stops the rest of the
+    // sequence dead on the next run.
+    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-2')) {
+      const since1 = daysSinceSent(profile.id, 'winback-1')
+      if (since1 != null && since1 >= 7) {
+        await deliver(profile.id, profile.email, 'winback-2', winBackUnusedEmail({
+          childName, stageName: stage.name,
+          comebackUrl: alreadySent(profile.id, COMEBACK_KEY) ? null : comebackUrl(profile.id),
+          unsubscribe,
+        }), 'winback2')
+      }
+    }
+
+    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-3')) {
+      const since2 = daysSinceSent(profile.id, 'winback-2')
+      if (since2 != null && since2 >= 21) {
+        const remaining = await getFounderRemaining()
+        await deliver(profile.id, profile.email, 'winback-3', winBackLastEmail({
+          childName, remaining,
+          comebackUrl: alreadySent(profile.id, COMEBACK_KEY) ? null : comebackUrl(profile.id),
+          unsubscribe,
+        }), 'winback3')
+      }
+    }
+
+    // Weekly teases after the three win backs, for the ones who disappear when
+    // the trial ends.
+    //
+    // Justin, 8 August: "make sure we tease sign ups that disappear after trial
+    // ends and keep emailing them weekly to entice back."
+    //
+    // These reuse the pre signup teaser bank rather than adding seven more
+    // templates, and that is the right call rather than a lazy one: a lapsed
+    // parent is in exactly the position a lead is in, holding an email address
+    // and no subscription, and each teaser is already one service, one hook,
+    // one door. The only difference is the unsubscribe link, which is theirs
+    // rather than the lead one, so it is passed in.
+    //
+    // Seven weeks of these on top of the three win backs is ten weekly emails
+    // over about eleven weeks, and then this track genuinely ends. The weekly
+    // digest carries on regardless.
+    //
+    // And they are MEMBERS, with an account, so the button is the way back
+    // into their app, not "See the free starter pack" (15 October 2026).
+    const back = `${APP_ORIGIN}/dashboard`
+    const teases: [string, EmailContent, string][] = [
+      ['wb-tease-digi', digiTeaserEmail(unsubscribe, back, 'member'), 'DiGi'],
+      ['wb-tease-scripts', scriptsTeaserEmail(unsubscribe, back, 'member'), 'scripts'],
+      ['wb-tease-printables', printablesTeaserEmail(unsubscribe, back, 'member'), 'printables'],
+      ['wb-tease-balance', balanceTeaserEmail(unsubscribe, back, 'member'), 'balance'],
+      ['wb-tease-mind', mentalHealthTeaserEmail(unsubscribe, back, 'member'), 'mind'],
+      ['wb-tease-safety', safetyTeaserEmail(unsubscribe, back, 'member'), 'safety'],
+      ['wb-tease-passport', passportTeaserEmail(unsubscribe, back, 'member'), 'passport'],
+    ]
+    if (state === 'lapsed') {
+      // One a week, in order, and only ever one per run: find the first unsent
+      // one and check a week has passed since whatever went before it. Sending
+      // the whole backlog at once to someone the cron reaches for the first
+      // time is the failure mode this guards against, and with the window now
+      // gone that is every lapsed parent from before today.
+      const prevKeys = ['winback-3', ...teases.map(t => t[0])]
+      for (let i = 0; i < teases.length; i++) {
+        const [key, content] = teases[i]
+        if (alreadySent(profile.id, key)) continue
+        const sincePrev = daysSinceSent(profile.id, prevKeys[i])
+        if (sincePrev != null && sincePrev >= 7) {
+          await deliver(profile.id, profile.email, key, content, 'winbackTease')
+        }
+        break // only the next one in the run, never a catch up burst
+      }
+    }
+
     // ── Pass A · the 26 week onboarding programme ──
     //
     // The 200 day guard is what the query filter used to be. It has to live
@@ -567,87 +668,6 @@ async function handler(req: NextRequest) {
     // On the last day it has already gone above Pass A. See THE TRIAL CLOCK.
     if (trialEndingDue) await sendTrialEnding()
 
-    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-1')) {
-      // Give it a couple of days after the lapse so it does not land the same
-      // day as the day 7 founder email. A cancellation (no trial date) sends.
-      const left = trialDaysLeft(profile.trial_ends_at)
-      if (left == null || left <= -2) {
-        await deliver(profile.id, profile.email, 'winback-1', winBackEmail({ childName, unsubscribe }), 'winback')
-      }
-    }
-
-    // Win back 2 and 3, paced off the previous send rather than off signup,
-    // which is the point: a parent who registered eleven months ago and lapsed
-    // last week gets a properly spaced sequence, where before they got one
-    // email or, past the window, none at all.
-    //
-    // Each step re-checks state, so paying at any point stops the rest of the
-    // sequence dead on the next run.
-    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-2')) {
-      const since1 = daysSinceSent(profile.id, 'winback-1')
-      if (since1 != null && since1 >= 7) {
-        await deliver(profile.id, profile.email, 'winback-2', winBackUnusedEmail({
-          childName, stageName: stage.name, unsubscribe,
-        }), 'winback2')
-      }
-    }
-
-    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-3')) {
-      const since2 = daysSinceSent(profile.id, 'winback-2')
-      if (since2 != null && since2 >= 21) {
-        const remaining = await getFounderRemaining()
-        await deliver(profile.id, profile.email, 'winback-3', winBackLastEmail({
-          childName, remaining, unsubscribe,
-        }), 'winback3')
-      }
-    }
-
-    // Weekly teases after the three win backs, for the ones who disappear when
-    // the trial ends.
-    //
-    // Justin, 8 August: "make sure we tease sign ups that disappear after trial
-    // ends and keep emailing them weekly to entice back."
-    //
-    // These reuse the pre signup teaser bank rather than adding seven more
-    // templates, and that is the right call rather than a lazy one: a lapsed
-    // parent is in exactly the position a lead is in, holding an email address
-    // and no subscription, and each teaser is already one service, one hook,
-    // one door. The only difference is the unsubscribe link, which is theirs
-    // rather than the lead one, so it is passed in.
-    //
-    // Seven weeks of these on top of the three win backs is ten weekly emails
-    // over about eleven weeks, and then this track genuinely ends. The weekly
-    // digest carries on regardless.
-    //
-    // And they are MEMBERS, with an account, so the button is the way back
-    // into their app, not "See the free starter pack" (15 October 2026).
-    const back = `${APP_ORIGIN}/dashboard`
-    const teases: [string, EmailContent, string][] = [
-      ['wb-tease-digi', digiTeaserEmail(unsubscribe, back, 'member'), 'DiGi'],
-      ['wb-tease-scripts', scriptsTeaserEmail(unsubscribe, back, 'member'), 'scripts'],
-      ['wb-tease-printables', printablesTeaserEmail(unsubscribe, back, 'member'), 'printables'],
-      ['wb-tease-balance', balanceTeaserEmail(unsubscribe, back, 'member'), 'balance'],
-      ['wb-tease-mind', mentalHealthTeaserEmail(unsubscribe, back, 'member'), 'mind'],
-      ['wb-tease-safety', safetyTeaserEmail(unsubscribe, back, 'member'), 'safety'],
-      ['wb-tease-passport', passportTeaserEmail(unsubscribe, back, 'member'), 'passport'],
-    ]
-    if (state === 'lapsed') {
-      // One a week, in order, and only ever one per run: find the first unsent
-      // one and check a week has passed since whatever went before it. Sending
-      // the whole backlog at once to someone the cron reaches for the first
-      // time is the failure mode this guards against, and with the window now
-      // gone that is every lapsed parent from before today.
-      const prevKeys = ['winback-3', ...teases.map(t => t[0])]
-      for (let i = 0; i < teases.length; i++) {
-        const [key, content] = teases[i]
-        if (alreadySent(profile.id, key)) continue
-        const sincePrev = daysSinceSent(profile.id, prevKeys[i])
-        if (sincePrev != null && sincePrev >= 7) {
-          await deliver(profile.id, profile.email, key, content, 'winbackTease')
-        }
-        break // only the next one in the run, never a catch up burst
-      }
-    }
 
     // The failed card. Not a decision, an accident, and the cheapest save in
     // the system. past_due fell through lifecycleState to 'unknown' before

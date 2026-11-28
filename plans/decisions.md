@@ -264,3 +264,8 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 
 - Justin: check every page, top level search. Crawl of 276 sitemap pages: all 200, canonicals, share tags, one h1 and structured data correct everywhere. Fixed what was left: descriptions now end on a whole sentence or clause within 155 characters (lib/seo/meta.ts fitDescription, 115 pages were over), and the two titles over 60. Three descriptions rewritten by hand where no clean cut existed.
 
+## 28 November 2026: lapsed sign ups get a second chance at the founding rate
+
+- No win back email had ever sent (32 lapsed, 0 sent): the win back sat below the weekly programme in the cron and never got the one weekly slot. It now goes first for lapsed parents.
+- Win back 1 asks "what stopped you" in one tap. Win back 2 and 3 offer a free week back, once per family, never a discount (a cut off £7.99 for life would undercut the founders). Plan: plans/2026-11-28-founder-second-chance.md, PR 1742.
+

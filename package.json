@@ -33,6 +33,7 @@
     "courses-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/courses/registry.test.ts",
     "tasters-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/magnets/taster-nurture.test.ts lib/magnets/free-saturday.test.ts",
     "utm-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/video/utm.test.ts",
+    "comeback-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/comeback.test.ts",
     "privacy-links-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/email/link-token.test.ts",
     "pii-url-guard": "node scripts/check-no-pii-in-urls.mjs",
     "radar-drop-test": "node scripts/radar/test-drop.mjs",
