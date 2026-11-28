@@ -33,6 +33,39 @@ function button(label: string, url: string): string {
   </td></tr></table>`
 }
 
+// ── THE WORDS FOR THEIR OWN WORRY (28 November 2026) ────────────────────────
+//
+// The first emails used to be the same for everyone. Every parent who joined in
+// the sixty days before this added a child, ticked their worries and never
+// opened a script, so the welcome and day 2 emails now open with the script for
+// a worry they gave us (lib/email/worry-script.ts picks it). The say line is cut
+// at a whole sentence so a long one still reads as a line, not a wall.
+export type EmailWorry = { worry: string; title: string; sayThis: string; sortOrder: number }
+
+function firstSentences(text: string, max = 240): string {
+  const t = text.replace(/\s+/g, ' ').trim()
+  if (t.length <= max) return t
+  const parts = t.match(/[^.!?]+[.!?]+/g) ?? [t]
+  let out = ''
+  for (const part of parts) {
+    if ((out + part).trim().length > max) break
+    out += part
+  }
+  return (out.trim() || t.slice(0, max).replace(/\s+\S*$/, '')).trim()
+}
+
+function escapeHtml(text: string): string {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
+function worryBlock(w: EmailWorry, second = false): string {
+  const worry = `<strong>${escapeHtml(w.worry.toLowerCase())}</strong>`
+  const lead = second ? `You also told us ${worry} is hard.` : `You told us ${worry} is the hard one.`
+  return p(`${lead} Here are the words for tonight, from <strong>${escapeHtml(w.title)}</strong>:`) +
+    `<p style="margin:0 0 6px;padding:16px 18px;background:${CREAM};border-left:4px solid ${BUTTER};border-radius:12px;font-size:18px;line-height:1.55;color:${INK}">&ldquo;${escapeHtml(firstSentences(w.sayThis))}&rdquo;</p>` +
+    button('Use it tonight', `${APP}/dashboard/scripts/${w.sortOrder}`)
+}
+
 // ── THE STARTER PACK BUTTON KNOWS WHO IS READING ────────────────────────────
 //
 // Justin, 15 October 2026, holding the printable email on his phone: "The link
@@ -149,14 +182,17 @@ export function welcomeEmail(params: {
   parentName: string | null
   childName: string
   unsubscribe: string
+  /** The script for the worry they ticked, when we have one. Leads the email. */
+  worry?: EmailWorry | null
 }): EmailContent {
-  const { parentName, childName, unsubscribe } = params
+  const { parentName, childName, unsubscribe, worry } = params
   return {
     // "Your first script is ready" moves to the email a week from now. This
     // one says what it is: the beginning of something with an end in sight.
-    subject: 'Welcome. Here is where this is going',
+    subject: worry ? `The words for ${worry.worry.toLowerCase()}, tonight` : 'Welcome. Here is where this is going',
     html: wrapper(
       heading(parentName ? `Thank you for joining, ${parentName}.` : 'Thank you for joining.') +
+      (worry ? worryBlock(worry) : '') +
       p(`You started before the next screen fight rather than after it, which is the hard part and you have done it.`) +
       p(`<strong>Here is where this goes.</strong> By sixteen, ${childName} ${verb(childName, 'is', 'are')} safe online and ready for social media, because they have been walked there a step at a time instead of handed a phone and hoped for.`) +
       p(`<strong>You just follow the path.</strong> Each day we bring the next step and the words for it, matched to their stage. About ten minutes, not a course, and nothing to catch up on if you miss a day.`) +
@@ -208,8 +244,10 @@ export function day2StageEmail(params: {
   unsubscribe: string
   /** Only when the child genuinely has one. See lib/email/friends.ts. */
   stageId?: number | null
+  /** A second worry they ticked, when we have a script for it. Leads the email. */
+  worry?: EmailWorry | null
 }): EmailContent {
-  const { childName, stageName, stageFocus, unsubscribe, stageId } = params
+  const { childName, stageName, stageFocus, unsubscribe, stageId, worry } = params
   // THIS email earns a Friend: it is the one whose entire subject is the stage,
   // and the Friend is what marks a stage everywhere else in the product.
   const friend = emailFriend(stageId)
@@ -217,6 +255,7 @@ export function day2StageEmail(params: {
     subject: `What the ${stageName} stage is really about`,
     html: wrapper(
       heading(`${childName} ${verb(childName, 'is', 'are')} in the ${stageName} stage.`) +
+      (worry ? worryBlock(worry, true) : '') +
       (friend ? friendMark({
         src: friend.src,
         alt: friend.alt,
