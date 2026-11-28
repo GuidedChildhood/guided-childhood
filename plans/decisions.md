@@ -264,3 +264,11 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 
 - Justin: check every page, top level search. Crawl of 276 sitemap pages: all 200, canonicals, share tags, one h1 and structured data correct everywhere. Fixed what was left: descriptions now end on a whole sentence or clause within 155 characters (lib/seo/meta.ts fitDescription, 115 pages were over), and the two titles over 60. Three descriptions rewritten by hand where no clean cut existed.
 
+
+## 28 November 2026: search pages, the games batch and sixteen guides
+
+- Justin: double down on what search brings in. Six games added to the app safety guide (Brawl Stars, Clash Royale, Call of Duty, GTA, EA SPORTS FC, Steam), 66 pages, every fact sourced at the maker, pegi.info or the UK store listing. PEGI's 2026 paid random items rule explains the new PEGI 16s.
+- A rating based line (PEGI 18, PEGI 16) now reads as a rating, never as the maker's rule (`basis: 'rating'`).
+- App specific FAQs (lib/app-safety/app-faqs.ts) on the eight apps PostHog shows ranking, each restating a fact sourced in apps.ts.
+- Sixteen guides on DEVICE_ISSUES entries whose scripts already exist (phone in the bedroom, gaming stop, group chats, strangers and more). Guides carry FAQPage structured data and link to the matching app pages; the hub links every guide.
+- New /llms-full.txt: the answers themselves with sources, from the same data as the pages. The new app slugs still need adding to WORRY_FOR_APP in handoff.ts (all gaming, game_chat).
