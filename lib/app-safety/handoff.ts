@@ -37,6 +37,12 @@ export const WORRY_FOR_APP: Record<string, string | null> = {
   'netflix': 'endless_youtube',
   'spotify': null,
   'among-us': 'game_chat',
+  'brawl-stars': 'game_chat',
+  'clash-royale': 'game_chat',
+  'call-of-duty': 'game_chat',
+  'gta': 'game_chat',
+  'ea-sports-fc': 'game_chat',
+  'steam': 'game_chat',
   'capcut': null,
 }
 
