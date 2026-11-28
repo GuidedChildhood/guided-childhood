@@ -2652,7 +2652,8 @@ export const APPS: AppEntry[] = [
         "value": "PEGI 18 (Modern Warfare 4, Black Ops 7 and Warzone; Violence, Bad language, In game purchases)",
         "url": "https://pegi.info/search-pegi?q=call+of+duty",
         "checked": true
-      }
+      },
+      "note": "The App Store and Google Play ratings are for Call of Duty: Mobile, a separate game from the console and PC series."
     },
     "risks": [
       {
@@ -2764,7 +2765,8 @@ export const APPS: AppEntry[] = [
         "value": "PEGI 18 (Grand Theft Auto V and VI)",
         "url": "https://pegi.info/search-pegi?q=grand+theft+auto",
         "checked": true
-      }
+      },
+      "note": "The App Store and Google Play ratings are for Grand Theft Auto: San Andreas, the phone version."
     },
     "risks": [
       {
@@ -2866,7 +2868,8 @@ export const APPS: AppEntry[] = [
         "value": "PEGI 16 (EA SPORTS FC 27; In game purchases, Paid random items)",
         "url": "https://pegi.info/search-pegi?q=EA+SPORTS+FC",
         "checked": true
-      }
+      },
+      "note": "The App Store and Google Play ratings are for EA SPORTS FC Mobile, a separate game from the console and PC release."
     },
     "risks": [
       {

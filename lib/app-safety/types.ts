@@ -60,6 +60,9 @@ export type AppEntry = {
     googlePlay: Sourced<string>
     /** 'none' when the app has no PEGI game rating, which is most social apps. */
     pegi: Sourced<string>
+    /** Said after the ratings when the store listings are for a different
+     *  edition from the one the page is about (Call of Duty: Mobile). */
+    note?: string
   }
   /** Three to five, described as design ("strangers can send message requests"), never as harm. */
   risks: { title: string; detail: string; sourceUrl: string }[]

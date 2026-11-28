@@ -58,7 +58,8 @@ export function ratingsLine(app: AppEntry): string {
   // "rated PEGI 7, Violence, Fear, In game purchases from PEGI" (28 November 2026).
   if (pegi.checked && pegi.value && pegi.value.toLowerCase() !== 'none') parts.push(`${shortRating(pegi.value)} in the PEGI database`)
   if (!parts.length) return `Check the current rating on the App Store and Google Play listings, linked on this page.`
-  return `${app.name} is rated ${joinAnd(parts)}. Store ratings describe content, not readiness, and the app's own minimum age can differ from them.`
+  const note = app.ratings.note ? ` ${app.ratings.note}` : ''
+  return `${app.name} is rated ${joinAnd(parts)}.${note} Store ratings describe content, not readiness, and the app's own minimum age can differ from them.`
 }
 
 export type Faq = { q: string; a: string }
