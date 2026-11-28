@@ -6,11 +6,23 @@ plans/2026-11-27-liz-hive-meeting-weighed.md.
 
 STATUS: APPROVED. Justin approved the wording on 27 November 2026. Ready to paste into Mailchimp.
 
-Who it goes to: schools on the contact list that have NOT had "One more, then
-I will stop" (content/campaigns/2026-11-15-pilot-schools-why-test-email.md).
-Those schools were promised silence, so this email must not reach them. In
-Mailchimp, exclude anyone who got the reminder. [first name] is *|FNAME|*.
-Mailchimp adds the unsubscribe line.
+Who it goes to: the whole schools list. Justin, 28 November 2026: send it to
+the schools told "One more, then I will stop" too, and say so honestly. Two
+versions of the opening line below: send version A to the schools that had the
+reminder, version B to everyone else (two Mailchimp segments, or one email
+with a conditional block). The rest of the email is the same. [first name] is
+*|FNAME|*. Mailchimp adds the unsubscribe line.
+
+Opening line, version A (schools that had "One more, then I will stop"):
+
+> I said my last email would be the last, and I meant it. Then I read what
+> Ofsted now asks schools about phones and online safety, and I thought you
+> would want to know. So one more, and this one is a briefing rather than a
+> pitch.
+
+Opening line, version B (everyone else):
+
+> A short briefing, because a lot changed this year and it is easy to miss.
 
 Why this one is different from the invitation: the invitation sold the pilot.
 This one is the news story (Story 2 leading, then Stories 1 and 3), a briefing
@@ -27,7 +39,7 @@ the Ofsted information is the gold, so it leads.
 
 Hello [first name],
 
-A short briefing, because a lot changed this year and it is easy to miss.
+[Opening line, version A or B from above.]
 
 **What inspectors now look at**
 
