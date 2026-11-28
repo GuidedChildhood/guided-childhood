@@ -264,3 +264,18 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 
 - Justin: check every page, top level search. Crawl of 276 sitemap pages: all 200, canonicals, share tags, one h1 and structured data correct everywhere. Fixed what was left: descriptions now end on a whole sentence or clause within 155 characters (lib/seo/meta.ts fitDescription, 115 pages were over), and the two titles over 60. Three descriptions rewritten by hand where no clean cut existed.
 
+
+## 28 November 2026: search pages, the games batch and sixteen guides
+
+- Justin: double down on what search brings in. Six games added to the app safety guide (Brawl Stars, Clash Royale, Call of Duty, GTA, EA SPORTS FC, Steam), 66 pages, every fact sourced at the maker, pegi.info or the UK store listing. PEGI's 2026 paid random items rule explains the new PEGI 16s.
+- A rating based line (PEGI 18, PEGI 16) now reads as a rating, never as the maker's rule (`basis: 'rating'`).
+- App specific FAQs (lib/app-safety/app-faqs.ts) on the eight apps PostHog shows ranking, each restating a fact sourced in apps.ts.
+- Sixteen guides on DEVICE_ISSUES entries whose scripts already exist (phone in the bedroom, gaming stop, group chats, strangers and more). Guides carry FAQPage structured data and link to the matching app pages; the hub links every guide.
+- New /llms-full.txt: the answers themselves with sources, from the same data as the pages. The new app slugs still need adding to WORRY_FOR_APP in handoff.ts (all gaming, game_chat).
+
+## 28 November 2026: worry first emails, the app page question, the search page batch, RSHE posts
+
+- The welcome and day 2 emails open with the script for the parent's own ticked worry (hand picked per worry and stage). 5 of 5 sign ups in 60 days had never opened a script.
+- App pages ask the stage check's worry question under the answer and link up to two scripts; 66 new game pages, 16 guides and /llms-full.txt from a background agent.
+- RSHE mapping already covered all 57 online requirements; six school posts drafted on primary source facts. The parent portal line (RSHE guidance paras 56 to 59) is the lead.
+- Habit review top five saved in plans/2026-11-28-worry-first-and-search-pages-plan.md, for Justin to choose. PR 1740.

@@ -21,6 +21,7 @@ import { TRIAL_DAYS } from '@/lib/access'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
 import { getFamilyHandover, offerableChildren, childrenAwaitingApp } from '@/lib/handover/settled'
+import { worryScripts, type EmailConcern, type EmailScript } from '@/lib/email/worry-script'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -126,6 +127,29 @@ async function handler(req: NextRequest) {
   // reading below already meant. The stage and the age band still come from
   // this one: a drip email about the pathway has to pick a stage, and the
   // eldest is the honest choice on an email the whole household reads.
+  // ── THE WORRIES THEY GAVE US, FOR THE FIRST TWO EMAILS (28 November 2026) ──
+  //
+  // Only for families inside their first week, because only the welcome and
+  // day 2 use them, and read in one go rather than per family. Guarded on its
+  // own: a failed read costs the worry block and the emails still go.
+  const newIds = ((profiles ?? []) as { id: string; created_at: string }[])
+    .filter(pr => daysSince(pr.created_at) <= 7).map(pr => pr.id)
+  const concernsByParent = new Map<string, EmailConcern[]>()
+  let emailScripts: EmailScript[] = []
+  if (newIds.length > 0) {
+    try {
+      const [{ data: cs }, { data: sc }] = await Promise.all([
+        supabase.from('concerns').select('user_id, slug, label, status, times_flagged').in('user_id', newIds),
+        supabase.from('scripts').select('sort_order, title, situation, category, stage_id, say_this'),
+      ])
+      for (const c of (cs ?? []) as (EmailConcern & { user_id: string })[]) {
+        concernsByParent.set(c.user_id, [...(concernsByParent.get(c.user_id) ?? []), c])
+      }
+      emailScripts = (sc ?? []) as EmailScript[]
+    } catch { /* the emails go without the worry block */ }
+  }
+  const SCRIPT_STAGES = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
+
   const childByParent = new Map<string, Record<string, unknown>>()
   const kidsByParent = new Map<string, Record<string, unknown>[]>()
   for (const c of (children ?? []) as Record<string, unknown>[]) {
@@ -366,8 +390,14 @@ async function handler(req: NextRequest) {
     // Day 0 welcome, the moment onboarding is done. Held to genuinely new
     // accounts (first couple of days) so switching this on never lands a
     // welcome in an established parent's inbox on the next run.
+    // The script for each worry they ticked: the welcome opens with the first,
+    // day 2 with the second (lib/email/worry-script.ts).
+    const worries = child?.age_band
+      ? worryScripts(concernsByParent.get(profile.id) ?? [], SCRIPT_STAGES[stage.id - 1] ?? null, emailScripts)
+      : worryScripts(concernsByParent.get(profile.id) ?? [], null, emailScripts)
+
     if (days <= 2 && !alreadySent(profile.id, 'welcome')) {
-      await deliver(profile.id, profile.email, 'welcome', welcomeEmail({ parentName: greetName, childName, unsubscribe }), 'welcome', trialKind)
+      await deliver(profile.id, profile.email, 'welcome', welcomeEmail({ parentName: greetName, childName, unsubscribe, worry: worries[0] ?? null }), 'welcome', trialKind)
     }
 
     // Day 1, their app tonight. Days one to three only, so a family who opens
@@ -393,6 +423,7 @@ async function handler(req: NextRequest) {
       await deliver(profile.id, profile.email, 'day2-stage', day2StageEmail({
         childName, stageName: stage.name, stageFocus: stage.focus.toLowerCase(), unsubscribe,
         stageId: friendStageId,
+        worry: worries[1] ?? worries[0] ?? null,
       }), 'day2', trialKind)
     }
 

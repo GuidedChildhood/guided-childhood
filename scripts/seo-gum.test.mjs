@@ -60,7 +60,9 @@ test('sitemapUrls reads both sitemap sources, home page as the bare host', () =>
   assert.ok(parents.includes('https://www.guidedchildhood.com/guides/when-should-my-child-get-a-phone'), 'guides come from lib/content/guides.ts')
   assert.ok(parents.includes('https://www.guidedchildhood.com/is-tiktok-safe'), 'app pages come from lib/app-safety/apps.ts')
   assert.ok(parents.includes('https://www.guidedchildhood.com/is-roblox-safe-for-9-year-old'), 'and one per app and age')
-  assert.equal(parents.filter(u => /\/is-[a-z0-9-]+-safe(-for-\d+-year-old)?$/.test(u)).length, 220, '20 apps, each with 10 ages')
+  // Counted from apps.ts rather than written in, so adding an app is not a test edit.
+  const appCount = [...readFileSync(new URL('../lib/app-safety/apps.ts', import.meta.url), 'utf8').matchAll(/^ {4}"slug":/gm)].length
+  assert.equal(parents.filter(u => /\/is-[a-z0-9-]+-safe(-for-\d+-year-old)?$/.test(u)).length, appCount * 11, 'every app, each with 10 ages')
   const schools = sitemapUrls(config.properties[1])
   assert.ok(schools.includes('https://schools.guidedchildhood.com'))
   assert.ok(schools.includes('https://schools.guidedchildhood.com/curriculum'))

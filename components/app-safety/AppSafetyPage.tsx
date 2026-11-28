@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { checkHref } from '@/lib/app-safety/handoff'
+import { WORRIES_FOR_CATEGORY, scriptsForAppPage } from '@/lib/app-safety/page-help'
 import type { CSSProperties, ReactNode } from 'react'
 
 import ReadinessCheck from '@/components/app-safety/ReadinessCheck'
@@ -46,6 +47,7 @@ export default function AppSafetyPage({ app, age }: { app: AppEntry; age: Age | 
   const qa = faqs(app, age)
   const note = age ? AGE_NOTES[age] : null
   const stage = age ? stageFor(age) : null
+  const pageScripts = scriptsForAppPage(app.slug, app.category, stage?.id ?? null)
   const under = age !== null && age < app.minAge.gapAge
   const url = `${SITE_URL}${age ? agePath(app.slug, age) : appPath(app.slug)}`
   const similar = app.similar.map(appBySlug).filter((a): a is AppEntry => !!a)
@@ -83,11 +85,32 @@ export default function AppSafetyPage({ app, age }: { app: AppEntry; age: Age | 
           to 27 November 51 visits to these pages reached it zero times. This
           one sits under the answer and carries the age and the app, so the
           check skips the age and starts on this app's worry. */}
-      <p style={{ margin: '14px 0 0' }}>
-        <Link href={checkHref(app.slug, age)} className="btn btn-gold" data-track="app-page-top" style={{ minHeight: '48px' }}>
-          {age ? `Get the plan for your ${age} year old` : 'Get the plan for your child'}
-        </Link>
-      </p>
+      {/* THE CHECK'S FIRST QUESTION, ON THE PAGE (28 November 2026). One
+          button under the answer took 4 in 100 of these visitors into the
+          stage check. Answering a question is a smaller step than pressing a
+          button to start a quiz, so the page asks the check's own worry
+          question here, and each answer carries the app, the age and the
+          worry in (lib/app-safety/handoff.ts), landing them one tap from
+          their plan. Plain links: no script, nothing for Google to wait on. */}
+      <section aria-labelledby="worry-q" style={{ margin: '22px 0 0', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'clamp(18px, 4vw, 24px)' }}>
+        <h2 id="worry-q" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', lineHeight: 1.25, color: 'var(--ink)', margin: '0 0 6px' }}>
+          What worries you most about {app.name}{age ? ` at ${age}` : ''}?
+        </h2>
+        <p style={{ ...SMALL, margin: '0 0 14px' }}>Tap one and see the plan for your child. Free, no sign up.</p>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '8px' }}>
+          {WORRIES_FOR_CATEGORY[app.category].map(w => (
+            <li key={w.id}>
+              <Link
+                href={checkHref(app.slug, age, w.id)}
+                data-track="app-page-worry"
+                style={{ display: 'flex', alignItems: 'center', minHeight: '52px', padding: '12px 16px', background: 'var(--white)', border: '1.5px solid var(--ink)', borderRadius: '14px', boxShadow: '0 3px 0 var(--ink)', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}
+              >
+                {w.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <dl style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', columnGap: '24px', margin: '26px 0 34px' }}>
         <Fact label="Its own minimum age" value={app.minAge.checked ? app.minAge.label : <span style={{ ...SMALL, fontWeight: 600 }}>See its terms</span>} url={app.minAge.sourceUrl} />
@@ -186,6 +209,22 @@ export default function AppSafetyPage({ app, age }: { app: AppEntry; age: Age | 
           ))}
         </div>
       </section>
+
+      {pageScripts.length > 0 && (
+        <section aria-labelledby="words" style={{ marginTop: '56px' }}>
+          <h2 id="words" style={{ ...H2, margin: '0 0 10px' }}>The words for tonight</h2>
+          <p style={P}>Scripts other parents use for this, written for {age ? `${age} year olds` : 'this age'}. Open one, read it once, and you have the first line ready.</p>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '8px' }}>
+            {pageScripts.map(s => (
+              <li key={s.id}>
+                <Link href={`/say/${s.id}`} data-track="app-page-script" style={{ display: 'block', padding: '14px 16px', background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+                  {s.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section aria-labelledby="next" style={{ marginTop: '56px', background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'clamp(22px, 4vw, 32px)' }}>
         <h2 id="next" style={{ ...H2, margin: '0 0 10px' }}>One app is one part of it</h2>

@@ -5,6 +5,7 @@ import type { CSSProperties } from 'react'
 import PlainHeader from '@/components/marketing/PlainHeader'
 import { SITE_URL } from '@/lib/config/site'
 import { APPS } from '@/lib/app-safety/apps'
+import { GUIDES } from '@/lib/content/guides'
 import { HUB_PATH, agePath, appPath } from '@/lib/app-safety/content'
 import { AGES, aAge, type AppCategory } from '@/lib/app-safety/types'
 import { JsonLd } from '@/lib/seo/json-ld'
@@ -62,7 +63,7 @@ export default function AppSafetyGuide() {
                   <li key={a.slug} style={{ padding: '16px 0', borderTop: '1px solid var(--border)' }}>
                     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
                       <Link href={appPath(a.slug)} style={{ ...LINK, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)' }}>Is {a.name} safe?</Link>
-                      <span style={SMALL}>Its own minimum age: {a.minAge.checked ? a.minAge.label : 'see its terms'}</span>
+                      <span style={SMALL}>{a.minAge.basis === 'rating' ? `Age rating: ${a.minAge.label.replace(/ rating$/, '')}` : `Its own minimum age: ${a.minAge.checked ? a.minAge.label : 'see its terms'}`}</span>
                     </div>
                     <p style={{ ...SMALL, margin: '4px 0 8px' }}>{a.whatItIs}</p>
                     <nav aria-label={`${a.name} by age`} style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
@@ -80,6 +81,21 @@ export default function AppSafetyGuide() {
             </section>
           )
         })}
+
+        {/* The guides, so a parent who came for one app finds the worry
+            underneath it, and a crawler finds every guide from the hub
+            (28 November 2026). */}
+        <section aria-labelledby="g-questions">
+          <h2 id="g-questions" style={H2}>The questions underneath the apps</h2>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {GUIDES.map(g => (
+              <li key={g.slug} style={{ padding: '12px 0', borderTop: '1px solid var(--border)' }}>
+                <Link href={`/guides/${g.slug}`} data-track={`app-guide-guide-${g.slug}`} style={{ ...LINK, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>{g.question}</Link>
+                <span style={{ ...SMALL, display: 'block' }}>{g.ages}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <section style={{ marginTop: '56px', background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'clamp(22px, 4vw, 32px)' }}>
           <h2 style={{ ...H2, margin: '0 0 10px' }}>The plan behind every app</h2>

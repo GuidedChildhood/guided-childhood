@@ -457,7 +457,7 @@ export default function StarterPackPage() {
       // app belongs to. Never over saved progress or a finished run.
       if (!saved && !(savedEmail && savedAnswers)) {
         const hand = appHandoff(arrivedWith())
-        if (hand.worry) setPicks([hand.worry])
+        if (hand.worries.length) setPicks(hand.worries)
         if (hand.age != null) {
           setAgeYears(hand.age)
           setDobYear(null)
