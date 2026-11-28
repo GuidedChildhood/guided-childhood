@@ -19,11 +19,29 @@ test('every worry named is one the stage check offers', () => {
 })
 
 test('age and app are read, and only valid ones', () => {
-  assert.deepEqual(appHandoff(q('age=12&app=tiktok')), { age: 12, worry: 'social_media' })
-  assert.deepEqual(appHandoff(q('age=3&app=nope')), { age: null, worry: null })
-  assert.deepEqual(appHandoff(q('age=17')), { age: null, worry: null })
-  assert.deepEqual(appHandoff(q('age=12abc&app=__proto__')), { age: null, worry: null })
+  assert.deepEqual(appHandoff(q('age=12&app=tiktok')), { age: 12, worry: 'social_media', worries: ['social_media'] })
+  assert.deepEqual(appHandoff(q('age=3&app=nope')), { age: null, worry: null, worries: [] })
+  assert.deepEqual(appHandoff(q('age=17')), { age: null, worry: null, worries: [] })
+  assert.deepEqual(appHandoff(q('age=12abc&app=__proto__')), { age: null, worry: null, worries: [] })
   assert.equal(appHandoff(q('')).age, null)
+})
+
+test('the worry a parent tapped on the page leads, and only a real one', () => {
+  assert.deepEqual(appHandoff(q('age=12&app=tiktok&worry=bedtime_screens')).worries, ['bedtime_screens', 'social_media'])
+  assert.deepEqual(appHandoff(q('age=12&app=tiktok&worry=social_media')).worries, ['social_media'])
+  assert.deepEqual(appHandoff(q('app=tiktok&worry=__proto__')).worries, ['social_media'])
+  assert.deepEqual(appHandoff(q('app=spotify&worry=bedtime_screens')).worries, ['bedtime_screens'])
+  assert.equal(checkHref('tiktok', 12, 'bedtime_screens'), '/starter-pack?age=12&app=tiktok&worry=bedtime_screens')
+  assert.equal(checkHref('tiktok', 12, 'nope'), '/starter-pack?age=12&app=tiktok')
+})
+
+test('every worry a page offers is one the stage check takes', async () => {
+  const { WORRIES_FOR_CATEGORY } = await import('./page-help')
+  const ids = new Set(WORRIES.map(w => w.id))
+  for (const list of Object.values(WORRIES_FOR_CATEGORY)) for (const w of list) {
+    assert.ok(ids.has(w.id), w.id)
+    assert.ok(checkHref('tiktok', 12, w.id).includes(`worry=${w.id}`), w.id)
+  }
 })
 
 test('the link carries the age only on an age page', () => {

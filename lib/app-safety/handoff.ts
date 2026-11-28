@@ -40,19 +40,35 @@ export const WORRY_FOR_APP: Record<string, string | null> = {
   'capcut': null,
 }
 
-export function appHandoff(params: { get(name: string): string | null }): { age: number | null; worry: string | null } {
+/**
+ * The worries a page may tick, the stage check's own ids (lib/onboarding/
+ * worries.ts). Since 28 November 2026 an app page asks the check's worry
+ * question itself, so the parent's tap arrives as ?worry=. Anything else in
+ * that slot is dropped.
+ */
+export const HANDOFF_WORRIES = new Set([
+  'wont_put_down', 'asking_for_phone', 'game_chat', 'seen_something', 'social_media',
+  'bedtime_screens', 'group_chats', 'getting_round', 'homework_screens', 'endless_youtube',
+  'game_spending', 'ai_chatbots',
+])
+
+export function appHandoff(params: { get(name: string): string | null }): { age: number | null; worry: string | null; worries: string[] } {
   const rawAge = params.get('age')
   const n = rawAge && /^\d{1,2}$/.test(rawAge) ? Number(rawAge) : NaN
   const age = Number.isInteger(n) && n >= YOUNGEST_AGE && n <= OLDEST_AGE ? n : null
   const app = params.get('app')
   const worry = app && Object.prototype.hasOwnProperty.call(WORRY_FOR_APP, app) ? WORRY_FOR_APP[app] : null
-  return { age, worry }
+  // The worry they tapped leads; the app's own worry follows, once.
+  const tapped = params.get('worry')
+  const worries = [...new Set([tapped && HANDOFF_WORRIES.has(tapped) ? tapped : null, worry].filter((w): w is string => !!w))]
+  return { age, worry, worries }
 }
 
 /** The stage check link from an app page, carrying what the page knows. */
-export function checkHref(appSlug: string, age?: number | null): string {
+export function checkHref(appSlug: string, age?: number | null, worry?: string | null): string {
   const q = new URLSearchParams()
   if (age) q.set('age', String(age))
   q.set('app', appSlug)
+  if (worry && HANDOFF_WORRIES.has(worry)) q.set('worry', worry)
   return `/starter-pack?${q.toString()}`
 }
