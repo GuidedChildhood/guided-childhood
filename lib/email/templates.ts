@@ -572,18 +572,26 @@ export function founderPrechargeEmail(params: {
 
 // 9 · Win back, sent once a short while after a trial lapses unpaid. Warm,
 // no guilt, the door left open.
+//
+// And the one tap question (Justin, 28 November 2026: "a poll?"). This is the
+// first email every lapsed family gets, so it is where we ask what stopped
+// them. The question page is the same one the stalled ask uses
+// (lib/asks/stalled.ts), so one tap is already an answer and the founder's
+// page reads it. One of the answers is the price screen, which is what tells
+// us whether an offer is needed at all.
 export function winBackEmail(params: {
   childName: string
+  askUrl: string
   unsubscribe: string
 }): EmailContent {
-  const { childName, unsubscribe } = params
+  const { childName, askUrl, unsubscribe } = params
   return {
-    subject: 'The door is still open',
+    subject: 'The door is still open, and one question',
     html: wrapper(
       heading('No rush, just a hello.') +
-      p(`Your free days wrapped up and the app is waiting for you, which is a perfectly good place to be. No guilt here.`) +
-      p(`When things with ${childName} feel like they need a steadier hand again, everything is one tap from being back on: the scripts, the daily moments, DiGi at 11pm.`) +
-      button('Pick up where you left off', `${APP}/dashboard/upgrade`) +
+      p(`Your free days wrapped up, and everything you set up for ${childName} is saved. No guilt here.`) +
+      p(`Can I ask one thing? What stopped you carrying on is the most useful thing I can learn right now. It is one tap, and I read every answer myself.`) +
+      twoButtons('Tell me what stopped you', askUrl, 'Pick up where I left off', `${APP}/dashboard/upgrade`) +
       p(`One small thing this week is the whole idea. That is all it ever asks.`),
       unsubscribe
     ),
@@ -1818,9 +1826,15 @@ export function digiChecksEmail(params: { unsubscribe: string }): EmailContent {
 export function winBackUnusedEmail(params: {
   childName: string
   stageName: string
+  /** The one tap free week back (lib/comeback.ts), or null once it is used. */
+  comebackUrl: string | null
   unsubscribe: string
 }): EmailContent {
-  const { childName, stageName, unsubscribe } = params
+  const { childName, stageName, comebackUrl, unsubscribe } = params
+  const door = comebackUrl
+    ? p(`And if you would like to try it properly, here is a free week back, on me. One tap opens everything again for seven days, no card, and nothing is charged when it ends.`) +
+      twoButtons('Give me a free week', comebackUrl, 'Open my dashboard', `${APP}/dashboard`)
+    : button('Open your dashboard', `${APP}/dashboard`)
   return {
     subject: `What is still sitting there for ${childName}`,
     html: wrapper(
@@ -1832,7 +1846,7 @@ export function winBackUnusedEmail(params: {
         `${childName}'s passport, which keeps every stamp they earned`,
       ]) +
       p(`It is all where you left it. No setting up again, no starting over.`) +
-      button('Open your dashboard', `${APP}/dashboard`) +
+      door +
       p(`And if the honest answer is that this is not what you need right now, that is a fine answer. You can stop these at the bottom.`),
       unsubscribe
     ),
@@ -1847,11 +1861,19 @@ export function winBackUnusedEmail(params: {
 export function winBackLastEmail(params: {
   childName: string
   remaining: number
+  /** The free week back, or null once it is used (lib/comeback.ts). */
+  comebackUrl: string | null
   unsubscribe: string
 }): EmailContent {
-  const { childName, remaining, unsubscribe } = params
+  const { childName, remaining, comebackUrl, unsubscribe } = params
+  const week = comebackUrl
+    ? p(remaining > 0
+        ? `If you would rather try it again before deciding, the free week is still there for you: seven days, no card, and the founding rate stays open while places last.`
+        : `If you would rather try it again before deciding, the free week is still there for you: seven days, no card.`) +
+      twoButtons(remaining > 0 ? 'Claim a founding place' : 'Take a look', `${APP}/dashboard/upgrade`, 'Free week first', comebackUrl)
+    : button('Take a look', `${APP}/dashboard/upgrade`)
   const founder = remaining > 0
-    ? p(`The founding rate is still open, and it is the one thing here that genuinely runs out. <strong>${remaining} of the 50 places are left</strong>, it locks £7.99 a month for life, and the counter is real because it is enforced in the code rather than in the copy.`)
+    ? p(`The founding rate is still open, and it is the one thing here that genuinely runs out. <strong>${remaining >= 50 ? 'All 50 places are still open' : `${remaining} of the 50 places are left`}</strong>, it locks £7.99 a month for life, and the counter is real because it is enforced in the code rather than in the copy.`)
     : p(`The founding places have all gone now, so this is not me dangling anything at you. The normal plan is there when and if you want it, at the normal price.`)
   return {
     subject: 'The bit that actually runs out',
@@ -1860,7 +1882,7 @@ export function winBackLastEmail(params: {
       p(`Almost nothing about this is urgent. Everything you set up is saved, ${childName}'s passport keeps every stamp, and there is no countdown on any of it.`) +
       founder +
       p(`That is the whole pitch and I am not going to dress it up. If the timing is wrong, the timing is wrong.`) +
-      button('Take a look', `${APP}/dashboard/upgrade`) +
+      week +
       p(`I will keep sending you the odd useful thing either way, and you can stop them at the bottom of any of these.`),
       unsubscribe
     ),

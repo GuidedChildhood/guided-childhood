@@ -43,3 +43,18 @@ back at line 570.)
 
 Nothing claims a place is running out faster than it is: the count is real
 and 50 are left, so the copy says "still open", never "nearly gone".
+
+## Built (Justin, 28 November: "A and B and C, but all needs to actually work")
+
+- A: the win back block moved above the programme in the email cron.
+- B: win back 1 asks the one tap question (the existing tell us page), with
+  "Pick up where I left off" beside it.
+- C: a free week back, once per family. Win back 2 and 3 carry a signed link
+  to `/api/comeback`. The link only shows the offer (mail scanners open links);
+  the button on the page grants it. It moves trial_ends_at seven days on, which
+  is the date every gate reads, and claims an email_log row so it can only
+  happen once. Refused for paying members and families still in free days.
+- Checked: 11 unit tests (lib/comeback.test.ts, in CI), the real database rule
+  proved in a rolled back transaction (second claim refused, seven days
+  added, nothing left behind), all three emails and the page screenshotted at
+  phone and desktop width with no overflow.
