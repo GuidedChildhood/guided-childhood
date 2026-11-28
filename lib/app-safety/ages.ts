@@ -108,6 +108,14 @@ export function gapSentence(app: AppEntry, age: number): string {
   }
   const gap = gapFor(age, min)
   if (gap === 'designed-for') return `${app.minAge.rule}, so at ${age} the question is how it is set up rather than whether it is allowed.`
+  // The line is an age rating, not an account rule (Call of Duty, GTA, EA
+  // SPORTS FC 27). A rating describes the content, so the sentence says where
+  // the child sits against it and leaves the decision with the parent.
+  if (app.minAge.basis === 'rating') {
+    return age < min
+      ? `${app.minAge.rule}, so at ${age} your child is ${years(min - age)} under that rating, and what they would meet in it is worth seeing for yourself first.`
+      : `${app.minAge.rule}, and at ${age} your child has reached that rating, so the work now is the settings and the habits.`
+  }
   // No single minimum age (Minecraft, Fortnite, Among Us): the maker's own rule does the talking.
   if (app.minAge.value === null) {
     return age < min

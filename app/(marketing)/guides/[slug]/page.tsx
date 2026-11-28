@@ -3,7 +3,10 @@ import { notFound } from 'next/navigation'
 import type { CSSProperties } from 'react'
 import { SITE_URL } from '@/lib/config/site'
 import { pageMetadata } from '@/lib/seo/meta'
-import { GUIDES, guideBySlug, STAGE_CHECK_HOOK } from '@/lib/content/guides'
+import { JsonLd, faqPage } from '@/lib/seo/json-ld'
+import { GUIDES, guideBySlug, relatedGuides, STAGE_CHECK_HOOK } from '@/lib/content/guides'
+import { appBySlug } from '@/lib/app-safety/apps'
+import { HUB_PATH, appPageTitle, appPath } from '@/lib/app-safety/content'
 
 // One guide. Everything below the intro comes from the guide's DEVICE_ISSUES
 // entry, so a fix to the advice there reaches DiGi, the dashboard and this
@@ -47,24 +50,40 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   const guide = guideBySlug(slug)
   if (!guide) notFound()
   const { issue } = guide
-  const others = GUIDES.filter(g => g.slug !== guide.slug)
+  const others = relatedGuides(guide, 6)
+  const apps = (guide.apps ?? []).map(appBySlug).filter(a => a !== null)
+  // The page's own three sections as questions and answers, word for word as
+  // shown, so an AI answer engine can quote the page whole (28 November 2026).
+  const qa = [
+    { q: guide.question, a: `${guide.intro} ${issue.response}` },
+    { q: 'Why does this keep happening?', a: issue.mechanism },
+    { q: 'How can I get ahead of this with a younger child?', a: issue.prevent },
+  ]
 
   return (
     <main style={WRAP}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+      <JsonLd data={[
+        {
           '@context': 'https://schema.org',
           '@type': 'Article',
           headline: guide.question,
           description: guide.description,
           dateModified: guide.updated,
           mainEntityOfPage: `${SITE_URL}/guides/${guide.slug}`,
-          author: { '@type': 'Organization', name: 'Guided Childhood', url: SITE_URL },
-          publisher: { '@type': 'Organization', name: 'Guided Childhood', url: SITE_URL },
+          author: { '@id': `${SITE_URL}/#organization` },
+          publisher: { '@id': `${SITE_URL}/#organization` },
           citation: issue.source.url,
-        }) }}
-      />
+        },
+        faqPage(qa),
+        {
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Guides', item: `${SITE_URL}/guides` },
+            { '@type': 'ListItem', position: 2, name: guide.question, item: `${SITE_URL}/guides/${guide.slug}` },
+          ],
+        },
+      ]} />
 
       <p style={EYEBROW}>{guide.ages}</p>
       <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.7rem)', letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 14px', color: 'var(--ink)' }}>
@@ -108,6 +127,20 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         Checked {new Date(`${guide.updated}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}.
       </p>
 
+      {apps.length > 0 && (
+        <nav aria-label="App safety pages" style={{ marginTop: '34px', borderTop: '1px solid var(--border)', paddingTop: '22px' }}>
+          <p style={EYEBROW}>The apps this comes up with</p>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {apps.map(a => (
+              <li key={a.slug}>
+                <Link href={appPath(a.slug)} data-track={`guide-app-${a.slug}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{appPageTitle(a)}</Link>
+              </li>
+            ))}
+            <li><Link href={HUB_PATH} style={{ fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', fontWeight: 700 }}>Every app, by age</Link></li>
+          </ul>
+        </nav>
+      )}
+
       {others.length > 0 && (
         <nav aria-label="More guides" style={{ marginTop: '34px', borderTop: '1px solid var(--border)', paddingTop: '22px' }}>
           <p style={EYEBROW}>More guides</p>
@@ -117,6 +150,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                 <Link href={`/guides/${g.slug}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{g.question}</Link>
               </li>
             ))}
+            <li><Link href="/guides" style={{ fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', fontWeight: 700 }}>All guides</Link></li>
           </ul>
         </nav>
       )}

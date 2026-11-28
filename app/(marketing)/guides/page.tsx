@@ -34,6 +34,9 @@ export default function GuidesIndex() {
           </li>
         ))}
       </ul>
+      <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.65, color: 'var(--ink-soft)', margin: '30px 0 0' }}>
+        Worried about one app in particular? <Link href="/app-safety-guide" data-track="guides-index-app-guide" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>The app safety guide</Link> has its own minimum age, its ratings and the settings to switch on first, for every age from 6 to 15.
+      </p>
     </main>
   )
 }

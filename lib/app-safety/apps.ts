@@ -2389,6 +2389,651 @@ export const APPS: AppEntry[] = [
     "leadControl": "private, unshared projects",
     "checked": "2026-11-22"
   },
+  // ── THE GAMES BATCH, 28 November 2026 ──────────────────────────────────────
+  // Brawl Stars, Clash Royale, Call of Duty, Grand Theft Auto, EA SPORTS FC and
+  // Steam: the games parents of 8 to 14 year olds search for that were missing.
+  // Read on 28 November 2026 at each maker's own help pages, pegi.info, and the
+  // UK App Store and Google Play listings (gl=GB). PEGI's own news pages of 12
+  // March and 6 October 2026 explain why so many games with paid random items
+  // now show PEGI 16.
+  // TODO-JP-REVIEW (Brawl Stars): Supercell's privacy policy says the Young Player age is under 16 "or the applicable age in their territory", and may be lower in some places. The threshold that applies in the UK was not confirmed.
+  // TODO-JP-REVIEW (Brawl Stars): No entry for Brawl Stars was found in the PEGI database; the PEGI 16 is the IARC label on the UK Google Play listing.
+  {
+    "slug": "brawl-stars",
+    "name": "Brawl Stars",
+    "maker": "Supercell",
+    "category": "gaming",
+    "whatItIs": "A fast team battle game for phones, where short matches of three against three or five against five are played with other players online.",
+    "minAge": {
+      "value": null,
+      "label": "None set, Young Player under 16",
+      "gapAge": 16,
+      "rule": "Supercell gives players under 16 a Young Player account, with stricter chat filters and Family Friendly clubs only",
+      "note": "Supercell's games have no general age limit, but a player under the legal age of majority needs a parent or guardian to agree to the terms. A player who gives an age under 16 gets Young Player features, and support cannot change the age on the account afterwards.",
+      "sourceName": "Supercell Parents' Guide, and Supercell Support, Young Players",
+      "sourceUrl": "https://support.supercell.com/brawl-stars/en/articles/younger-players.html",
+      "checked": true
+    },
+    "ratings": {
+      "appStore": {
+        "value": "13+",
+        "url": "https://apps.apple.com/gb/app/brawl-stars/id1229016807",
+        "checked": true
+      },
+      "googlePlay": {
+        "value": "PEGI 16 (Users interact, In game purchases, includes random items)",
+        "url": "https://play.google.com/store/apps/details?id=com.supercell.brawlstars&hl=en_GB&gl=GB",
+        "checked": true
+      },
+      "pegi": {
+        "value": "none",
+        "url": "https://pegi.info/search-pegi?q=brawl+stars",
+        "checked": true
+      }
+    },
+    "risks": [
+      {
+        "title": "Paid random items",
+        "detail": "Google Play lists In game purchases that include random items. PEGI says digital games rated 3, 7 or 12 that sell paid random items, such as loot boxes, are being moved up to PEGI 16 from October 2026.",
+        "sourceUrl": "https://pegi.info/news/pegi-updates-age-ratings-existing-games-paid-random-items"
+      },
+      {
+        "title": "Chat in clubs",
+        "detail": "Players can join clubs and chat with other members by text. Young Players can only join clubs labelled Family Friendly, and their chat filters are stricter.",
+        "sourceUrl": "https://support.supercell.com/brawl-stars/en/articles/younger-players.html"
+      },
+      {
+        "title": "Playing with people they do not know",
+        "detail": "Matches put your child in teams with other players online, and the App Store lists Messaging and Chat.",
+        "sourceUrl": "https://apps.apple.com/gb/app/brawl-stars/id1229016807"
+      },
+      {
+        "title": "A shop inside the game",
+        "detail": "Purchases are optional and never needed to play, and Supercell also sells items through the Supercell Store on the web.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      }
+    ],
+    "controls": [
+      {
+        "name": "Young Player account",
+        "what": "Switches on when the age given is under 16: Family Friendly clubs only, stricter chat filters, and no personalised offers or ads.",
+        "sourceUrl": "https://support.supercell.com/brawl-stars/en/articles/younger-players.html"
+      },
+      {
+        "name": "Supercell ID on your email",
+        "what": "Create your child's Supercell ID with an email address you control, so login codes come to you and you can see and manage their friends list.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      },
+      {
+        "name": "No card on the Supercell Store",
+        "what": "Supercell says that while no payment details are added to the Supercell Store, no purchases can be made there.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      },
+      {
+        "name": "Purchase approval on the phone",
+        "what": "Google Family Link can ask for your approval for every in app purchase, and Apple Screen Time can restrict them.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      },
+      {
+        "name": "Report a message",
+        "what": "Tap a chat message and choose Report. The reporter stays confidential, and Supercell may take up to 72 hours to review it.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      }
+    ],
+    "leadControl": "a Young Player account on your own email",
+    "setupSteps": {
+      "sourceUrl": "https://supercell.com/en/parents/",
+      "steps": [
+        "When the game first asks, make sure your child's real age goes in, so the Young Player features switch on.",
+        "Create their Supercell ID with an email address you control, so the login codes come to you.",
+        "Leave payment details off the Supercell Store, so nothing can be bought there.",
+        "On the phone itself, turn on purchase approval in Google Family Link, or restrict in app purchases in Apple Screen Time.",
+        "Look at their friends list together, and show them how to tap a message and choose Report."
+      ]
+    },
+    "underAge": {
+      "text": "",
+      "sourceUrl": ""
+    },
+    "uncertain": [
+      "Supercell's privacy policy says the Young Player age is under 16 or the age that applies in each country, which may be lower in some places. The threshold that applies in the UK was not confirmed.",
+      "No entry for Brawl Stars was found in the PEGI database; the PEGI 16 is the IARC label on the UK Google Play listing."
+    ],
+    "similar": [
+      "clash-royale",
+      "fortnite",
+      "roblox",
+      "among-us"
+    ],
+    "checked": "2026-11-28"
+  },
+  // TODO-JP-REVIEW (Clash Royale): The Young Player threshold for the UK was not confirmed, as for Brawl Stars.
+  // TODO-JP-REVIEW (Clash Royale): No PEGI database entry; the PEGI 16 is the IARC label on the UK Google Play listing.
+  {
+    "slug": "clash-royale",
+    "name": "Clash Royale",
+    "maker": "Supercell",
+    "category": "gaming",
+    "whatItIs": "A card battle game for phones, where players build a deck of characters and play short matches against other players online.",
+    "minAge": {
+      "value": null,
+      "label": "None set, Young Player under 16",
+      "gapAge": 16,
+      "rule": "Supercell gives players under 16 a Young Player account, with stricter chat filters and Family Friendly clans only",
+      "note": "Supercell's games have no general age limit, but a player under the legal age of majority needs a parent or guardian to agree to the terms. A player who gives an age under 16 gets Young Player features, and support cannot change the age on the account afterwards.",
+      "sourceName": "Supercell Parents' Guide, and Supercell Support, Young Players",
+      "sourceUrl": "https://support.supercell.com/clash-royale/en/articles/younger-players.html",
+      "checked": true
+    },
+    "ratings": {
+      "appStore": {
+        "value": "9+",
+        "url": "https://apps.apple.com/gb/app/clash-royale/id1053012308",
+        "checked": true
+      },
+      "googlePlay": {
+        "value": "PEGI 16 (Users interact, In game purchases, includes random items)",
+        "url": "https://play.google.com/store/apps/details?id=com.supercell.clashroyale&hl=en_GB&gl=GB",
+        "checked": true
+      },
+      "pegi": {
+        "value": "none",
+        "url": "https://pegi.info/search-pegi?q=clash+royale",
+        "checked": true
+      }
+    },
+    "risks": [
+      {
+        "title": "Paid random items",
+        "detail": "Google Play lists In game purchases that include random items. PEGI says digital games rated 3, 7 or 12 that sell paid random items, such as loot boxes, are being moved up to PEGI 16 from October 2026.",
+        "sourceUrl": "https://pegi.info/news/pegi-updates-age-ratings-existing-games-paid-random-items"
+      },
+      {
+        "title": "Clan chat",
+        "detail": "Clans have a text chat with an automatic filter set by the player's age. Young Players can only join clans labelled Family Friendly.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      },
+      {
+        "title": "A shop inside the game",
+        "detail": "Purchases are optional and never needed to play. Supercell gives prices from 99 cents to 99.99 dollars on US stores, and also sells items through the Supercell Store on the web.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      },
+      {
+        "title": "Matches against other players",
+        "detail": "Every match is against another player online, and the App Store lists Messaging and Chat.",
+        "sourceUrl": "https://apps.apple.com/gb/app/clash-royale/id1053012308"
+      }
+    ],
+    "controls": [
+      {
+        "name": "Young Player account",
+        "what": "Switches on when the age given is under 16: Family Friendly clans only, stricter chat filters, and no personalised offers or ads.",
+        "sourceUrl": "https://support.supercell.com/clash-royale/en/articles/younger-players.html"
+      },
+      {
+        "name": "Supercell ID on your email",
+        "what": "Create your child's Supercell ID with an email address you control, so login codes come to you and you can see and manage their friends list.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      },
+      {
+        "name": "No card on the Supercell Store",
+        "what": "Supercell says that while no payment details are added to the Supercell Store, no purchases can be made there.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      },
+      {
+        "name": "Purchase approval on the phone",
+        "what": "Google Family Link can ask for your approval for every in app purchase, and Apple Screen Time can restrict them.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      },
+      {
+        "name": "Report a message",
+        "what": "Tap a chat message and choose Report. The reporter stays confidential, and Supercell may take up to 72 hours to review it.",
+        "sourceUrl": "https://supercell.com/en/parents/"
+      }
+    ],
+    "leadControl": "a Young Player account on your own email",
+    "setupSteps": {
+      "sourceUrl": "https://supercell.com/en/parents/",
+      "steps": [
+        "When the game first asks, make sure your child's real age goes in, so the Young Player features switch on.",
+        "Create their Supercell ID with an email address you control, so the login codes come to you.",
+        "Leave payment details off the Supercell Store, so nothing can be bought there.",
+        "On the phone itself, turn on purchase approval in Google Family Link, or restrict in app purchases in Apple Screen Time.",
+        "Choose a Family Friendly clan together, and show them how to tap a message and choose Report."
+      ]
+    },
+    "underAge": {
+      "text": "",
+      "sourceUrl": ""
+    },
+    "uncertain": [
+      "Supercell's privacy policy says the Young Player age is under 16 or the age that applies in each country, which may be lower in some places. The threshold that applies in the UK was not confirmed.",
+      "No entry for Clash Royale was found in the PEGI database; the PEGI 16 is the IARC label on the UK Google Play listing."
+    ],
+    "similar": [
+      "brawl-stars",
+      "among-us",
+      "fortnite",
+      "roblox"
+    ],
+    "checked": "2026-11-28"
+  },
+  // TODO-JP-REVIEW (Call of Duty): Activision's terms of use and callofduty.com timed out, so no minimum age from the terms is given. The age at which Activision asks for parental consent in the UK was not confirmed.
+  // TODO-JP-REVIEW (Call of Duty): The App Store and Google Play ratings are for Call of Duty: Mobile, a separate game from the console and PC series.
+  {
+    "slug": "call-of-duty",
+    "name": "Call of Duty",
+    "maker": "Activision",
+    "category": "gaming",
+    "whatItIs": "A series of first person shooter games on console and PC, including the free Warzone, with Call of Duty: Mobile as a separate game for phones.",
+    "minAge": {
+      "value": null,
+      "label": "PEGI 18 rating",
+      "gapAge": 18,
+      "basis": "rating",
+      "rule": "PEGI rates every recent Call of Duty game 18, for violence and bad language",
+      "note": "Activision asks every account for a date of birth, and some accounts cannot play until a parent or guardian gives consent by email.",
+      "sourceName": "PEGI database, Call of Duty titles, and Activision Support, Parental Consent",
+      "sourceUrl": "https://pegi.info/search-pegi?q=call+of+duty",
+      "checked": true
+    },
+    "ratings": {
+      "appStore": {
+        "value": "18+ (Call of Duty: Mobile)",
+        "url": "https://apps.apple.com/gb/app/call-of-duty-mobile/id1287282214",
+        "checked": true
+      },
+      "googlePlay": {
+        "value": "PEGI 16 (Call of Duty: Mobile)",
+        "url": "https://play.google.com/store/apps/details?id=com.activision.callofduty.shooter&hl=en_GB&gl=GB",
+        "checked": true
+      },
+      "pegi": {
+        "value": "PEGI 18 (Modern Warfare 4, Black Ops 7 and Warzone; Violence, Bad language, In game purchases)",
+        "url": "https://pegi.info/search-pegi?q=call+of+duty",
+        "checked": true
+      },
+      "note": "The App Store and Google Play ratings are for Call of Duty: Mobile, a separate game from the console and PC series."
+    },
+    "risks": [
+      {
+        "title": "Realistic combat",
+        "detail": "PEGI rates Modern Warfare 4 18 for extreme violence, and Black Ops 7 and Warzone 18 for violence and bad language.",
+        "sourceUrl": "https://pegi.info/search-pegi?q=call+of+duty"
+      },
+      {
+        "title": "Voice chat with everyone in the lobby",
+        "detail": "With voice chat on, every player in the lobby before a match can talk to each other, and proximity chat lets nearby opponents be heard during a match.",
+        "sourceUrl": "https://support.activision.com/uk/en/modern-warfare-4/articles/communication-features-in-modern-warfare-4"
+      },
+      {
+        "title": "Recorded voice chat",
+        "detail": "Activision monitors and records voice chat with an AI system called ToxMod to find bullying and harassment against its Code of Conduct.",
+        "sourceUrl": "https://support.activision.com/uk/en/articles/call-of-duty-voice-chat-moderation"
+      },
+      {
+        "title": "In game purchases",
+        "detail": "PEGI lists In game purchases for every recent title, and the App Store lists loot boxes for Call of Duty: Mobile.",
+        "sourceUrl": "https://apps.apple.com/gb/app/call-of-duty-mobile/id1287282214"
+      }
+    ],
+    "controls": [
+      {
+        "name": "Game Chat Voice set to Friends and Chat Channels",
+        "what": "Limits voice chat to players on your child's friends list and their own chat channels, instead of the whole lobby.",
+        "sourceUrl": "https://support.activision.com/uk/en/modern-warfare-4/articles/communication-features-in-modern-warfare-4"
+      },
+      {
+        "name": "Text Chat off",
+        "what": "In Account and Network settings, text chat can be On, My Chat Channels Only, or Off.",
+        "sourceUrl": "https://support.activision.com/uk/en/modern-warfare-4/articles/communication-features-in-modern-warfare-4"
+      },
+      {
+        "name": "Mute",
+        "what": "Mute one player, or the whole lobby for the next match, from the lobby or during a match.",
+        "sourceUrl": "https://support.activision.com/uk/en/modern-warfare-4/articles/communication-features-in-modern-warfare-4"
+      },
+      {
+        "name": "Parental consent on the Activision account",
+        "what": "Where consent is needed, the account cannot play until a parent follows the instructions Activision emails to them.",
+        "sourceUrl": "https://support.activision.com/parental-consent"
+      },
+      {
+        "name": "Console age limits",
+        "what": "PlayStation family management and Xbox family settings let a parent restrict games by age rating, limit communication with other players, and set playtime and spending limits.",
+        "sourceUrl": "https://www.playstation.com/en-gb/support/account/psn-safety-parents-guide/"
+      }
+    ],
+    "leadControl": "your console's age rating limit",
+    "setupSteps": {
+      "sourceUrl": "https://support.activision.com/uk/en/modern-warfare-4/articles/communication-features-in-modern-warfare-4",
+      "steps": [
+        "Set up your child's own account on the console with their real date of birth, inside your PlayStation family or Xbox family group, and choose the age rating limit for games.",
+        "If Activision asks for a parent's consent, use the link in its email to approve the account.",
+        "In the game's Settings, open the Voice Chat tab and set Game Chat Voice to Friends and Chat Channels, or turn Voice Chat off.",
+        "In the Account and Network section of Settings, set Text Chat to My Chat Channels Only, or Off.",
+        "Show your child how to mute a player, or the whole lobby, from the lobby screen."
+      ]
+    },
+    "underAge": {
+      "text": "",
+      "sourceUrl": ""
+    },
+    "uncertain": [
+      "Activision's terms of use and callofduty.com did not load, so no minimum age from the terms is given. The age at which Activision asks for parental consent in the UK was not confirmed.",
+      "The App Store and Google Play ratings are for Call of Duty: Mobile, a separate game from the console and PC series."
+    ],
+    "similar": [
+      "fortnite",
+      "gta",
+      "ea-sports-fc",
+      "discord"
+    ],
+    "checked": "2026-11-28"
+  },
+  // TODO-JP-REVIEW (GTA): Rockstar's terms and support pages did not load, so GTA Online's own settings are not described; the controls named are the consoles' own, from Sony and Microsoft.
+  // TODO-JP-REVIEW (GTA): The App Store and Google Play ratings are for Grand Theft Auto: San Andreas on phones.
+  {
+    "slug": "gta",
+    "name": "GTA",
+    "maker": "Rockstar Games",
+    "category": "gaming",
+    "whatItIs": "Grand Theft Auto, a series of open world crime games, with GTA Online as the version played with other people over the internet.",
+    "minAge": {
+      "value": null,
+      "label": "PEGI 18 rating",
+      "gapAge": 18,
+      "basis": "rating",
+      "rule": "PEGI rates Grand Theft Auto V and VI 18",
+      "note": "PEGI lists violence, bad language and gambling for Grand Theft Auto V, and extreme violence, sex and drugs for Grand Theft Auto VI.",
+      "sourceName": "PEGI database, Grand Theft Auto titles",
+      "sourceUrl": "https://pegi.info/search-pegi?q=grand+theft+auto",
+      "checked": true
+    },
+    "ratings": {
+      "appStore": {
+        "value": "18+ (Grand Theft Auto: San Andreas)",
+        "url": "https://apps.apple.com/gb/app/grand-theft-auto-san-andreas/id763692274",
+        "checked": true
+      },
+      "googlePlay": {
+        "value": "PEGI 18 (Grand Theft Auto: San Andreas)",
+        "url": "https://play.google.com/store/apps/details?id=com.rockstargames.gtasa&hl=en_GB&gl=GB",
+        "checked": true
+      },
+      "pegi": {
+        "value": "PEGI 18 (Grand Theft Auto V and VI)",
+        "url": "https://pegi.info/search-pegi?q=grand+theft+auto",
+        "checked": true
+      },
+      "note": "The App Store and Google Play ratings are for Grand Theft Auto: San Andreas, the phone version."
+    },
+    "risks": [
+      {
+        "title": "Adult content throughout",
+        "detail": "PEGI lists extreme violence, sex and drugs for Grand Theft Auto VI, and violence, bad language and gambling for the 2022 release of Grand Theft Auto V.",
+        "sourceUrl": "https://pegi.info/search-pegi?q=grand+theft+auto"
+      },
+      {
+        "title": "Playing online with adults",
+        "detail": "GTA Online is played with other people over the internet, and console accounts allow text and voice chat with other players unless a parent restricts it.",
+        "sourceUrl": "https://www.playstation.com/en-gb/support/account/psn-safety-parents-guide/"
+      },
+      {
+        "title": "In game purchases",
+        "detail": "PEGI lists In game purchases for Grand Theft Auto V and VI.",
+        "sourceUrl": "https://pegi.info/search-pegi?q=grand+theft+auto"
+      }
+    ],
+    "controls": [
+      {
+        "name": "Console age rating limit",
+        "what": "On a child account, PlayStation and Xbox can restrict games above the age rating you choose, so an 18 rated game asks for you.",
+        "sourceUrl": "https://www.playstation.com/en-gb/support/account/psn-safety-parents-guide/"
+      },
+      {
+        "name": "Communication limits",
+        "what": "PlayStation lets a family manager restrict communication with other players; Xbox family settings manage social interactions and privacy.",
+        "sourceUrl": "https://www.xbox.com/en-GB/family-hub"
+      },
+      {
+        "name": "Spending limits",
+        "what": "PlayStation sets a monthly spending limit on each child account, and Xbox family settings manage online purchases.",
+        "sourceUrl": "https://www.playstation.com/en-gb/support/account/psn-safety-parents-guide/"
+      },
+      {
+        "name": "Playtime limits",
+        "what": "Both consoles let a parent set playtime for each child account.",
+        "sourceUrl": "https://www.xbox.com/en-GB/family-hub"
+      }
+    ],
+    "leadControl": "your console's age rating limit",
+    "setupSteps": {
+      "sourceUrl": "https://www.playstation.com/en-gb/support/account/psn-safety-parents-guide/",
+      "steps": [
+        "Make yourself the family manager on PlayStation, or create a family group in the Xbox Family Settings app.",
+        "Give your child their own child account with their real date of birth, so the age limits apply to them.",
+        "Set the age rating limit for games, and decide together what happens when a friend's game is above it.",
+        "Restrict communication with other players, and set a monthly spending limit.",
+        "Stop new accounts being made without you: PlayStation lets you turn off new user creation and guest login and set a passcode."
+      ]
+    },
+    "underAge": {
+      "text": "",
+      "sourceUrl": ""
+    },
+    "uncertain": [
+      "Rockstar's terms and support pages did not load, so GTA Online's own settings are not described; the controls named are the consoles' own, from Sony and Microsoft.",
+      "The App Store and Google Play ratings are for Grand Theft Auto: San Andreas on phones."
+    ],
+    "similar": [
+      "call-of-duty",
+      "fortnite",
+      "roblox",
+      "minecraft"
+    ],
+    "checked": "2026-11-28"
+  },
+  // TODO-JP-REVIEW (EA SPORTS FC): The age at which an EA account counts as a teen account in the UK was not confirmed; EA says it varies by country.
+  // TODO-JP-REVIEW (EA SPORTS FC): The App Store and Google Play ratings are for EA SPORTS FC Mobile, a separate game from the console and PC release.
+  {
+    "slug": "ea-sports-fc",
+    "name": "EA SPORTS FC",
+    "maker": "Electronic Arts",
+    "category": "gaming",
+    "whatItIs": "The football game that used to be called FIFA, on console and PC each autumn, with EA SPORTS FC Mobile as a separate game for phones.",
+    "minAge": {
+      "value": null,
+      "label": "None set, PEGI 16 for FC 27",
+      "gapAge": 16,
+      "basis": "rating",
+      "rule": "PEGI rates EA SPORTS FC 27 16, because it sells loot boxes",
+      "note": "EA SPORTS FC 25 and 24 were rated PEGI 3. Under PEGI's new rules from June 2026, a game with paid random items is rated 16 by default.",
+      "sourceName": "PEGI database, EA SPORTS FC 27, and PEGI, new rating criteria, 12 March 2026",
+      "sourceUrl": "https://pegi.info/search-pegi?q=EA+SPORTS+FC",
+      "checked": true
+    },
+    "ratings": {
+      "appStore": {
+        "value": "9+ (EA SPORTS FC Mobile)",
+        "url": "https://apps.apple.com/gb/app/ea-sports-fc-mobile-football/id1094930513",
+        "checked": true
+      },
+      "googlePlay": {
+        "value": "PEGI 3 (EA SPORTS FC Mobile)",
+        "url": "https://play.google.com/store/apps/details?id=com.ea.gp.fifamobile&hl=en_GB&gl=GB",
+        "checked": true
+      },
+      "pegi": {
+        "value": "PEGI 16 (EA SPORTS FC 27; In game purchases, Paid random items)",
+        "url": "https://pegi.info/search-pegi?q=EA+SPORTS+FC",
+        "checked": true
+      },
+      "note": "The App Store and Google Play ratings are for EA SPORTS FC Mobile, a separate game from the console and PC release."
+    },
+    "risks": [
+      {
+        "title": "Ultimate Team packs",
+        "detail": "PEGI gives EA SPORTS FC 27 a 16 because it sells loot boxes: packs of players bought with FC Points or coins, where you do not know what is inside before you pay.",
+        "sourceUrl": "https://pegi.info/search-pegi?q=EA+SPORTS+FC"
+      },
+      {
+        "title": "FC Points bought with real money",
+        "detail": "FC Points are bought in the Ultimate Team store, and the App Store lists loot boxes and advertising for FC Mobile.",
+        "sourceUrl": "https://apps.apple.com/gb/app/ea-sports-fc-mobile-football/id1094930513"
+      },
+      {
+        "title": "Chat and shared content on FC Mobile",
+        "detail": "The App Store lists Messaging and Chat and User Generated Content for EA SPORTS FC Mobile.",
+        "sourceUrl": "https://apps.apple.com/gb/app/ea-sports-fc-mobile-football/id1094930513"
+      }
+    ],
+    "controls": [
+      {
+        "name": "FC Playtime",
+        "what": "Shows time played, matches played each week, FC Points bought and packs opened, and lets you set limits on matches, packs and FC Points. It is off until you turn it on.",
+        "sourceUrl": "https://help.ea.com/en/help/ea-sports-fc/fc-playtime-controls/"
+      },
+      {
+        "name": "EA Family account",
+        "what": "Add your teen's EA account to your own Family account to see their playtime, set limits for weekdays and weekends, and get a weekly Family Activity Report.",
+        "sourceUrl": "https://help.ea.com/en/help/ea/ea-app/player-controls-ea/"
+      },
+      {
+        "name": "Teen spending limit",
+        "what": "EA teen accounts start with a spending limit of zero, and only a parent's Family account can change it.",
+        "sourceUrl": "https://help.ea.com/en/help/ea/ea-app/player-controls-ea/"
+      },
+      {
+        "name": "Console spending and age limits",
+        "what": "PlayStation and Xbox child accounts can carry a monthly spending limit and an age rating limit for games.",
+        "sourceUrl": "https://www.playstation.com/en-gb/support/account/psn-safety-parents-guide/"
+      }
+    ],
+    "setupSteps": {
+      "sourceUrl": "https://help.ea.com/en/help/ea-sports-fc/fc-playtime-controls/",
+      "steps": [
+        "Turn on FC Playtime: in the game's Playtime menu, or in the FC Web or Companion App under Playtime, toggle on Enable Playtime.",
+        "On the Ultimate Team main menu, go to the Club tab, open the Playtime tile, and set a Points Purchase Limit and a pack limit you have agreed together.",
+        "Set a weekly match limit from the in game Playtime menu on the console or PC.",
+        "In the EA app, open Family playtime, choose Add Teen Account and enter the email on your child's EA account; they accept the invite within 24 hours.",
+        "Leave the teen spending limit at zero unless you have agreed a monthly amount, and check the weekly Family Activity Report together."
+      ]
+    },
+    "underAge": {
+      "text": "",
+      "sourceUrl": ""
+    },
+    "uncertain": [
+      "EA says the age for a teen account varies by country; the UK age was not confirmed.",
+      "The App Store and Google Play ratings are for EA SPORTS FC Mobile, a separate game from the console and PC release."
+    ],
+    "similar": [
+      "fortnite",
+      "call-of-duty",
+      "roblox",
+      "brawl-stars"
+    ],
+    "checked": "2026-11-28"
+  },
+  // TODO-JP-REVIEW (Steam): Steam has no PEGI rating of its own as a store; each game on it carries its own.
+  {
+    "slug": "steam",
+    "name": "Steam",
+    "maker": "Valve",
+    "category": "gaming",
+    "whatItIs": "Valve's shop and library for PC games, with a friends list, chat and community pages, and a mobile app to go with it.",
+    "minAge": {
+      "value": 13,
+      "label": "13",
+      "gapAge": 13,
+      "rule": "Steam sets its own minimum age at 13",
+      "note": "Valve says Steam is not intended for children under 13. A Steam Family lets an adult set parental controls on a child's account.",
+      "sourceName": "Steam Subscriber Agreement",
+      "sourceUrl": "https://store.steampowered.com/subscriber_agreement/",
+      "checked": true
+    },
+    "ratings": {
+      "appStore": {
+        "value": "13+",
+        "url": "https://apps.apple.com/gb/app/steam-mobile/id495369748",
+        "checked": true
+      },
+      "googlePlay": {
+        "value": "Parental guidance",
+        "url": "https://play.google.com/store/apps/details?id=com.valvesoftware.android.steam.community&hl=en_GB&gl=GB",
+        "checked": true
+      },
+      "pegi": {
+        "value": "none",
+        "url": "https://pegi.info/search-pegi?q=steam",
+        "checked": true
+      }
+    },
+    "risks": [
+      {
+        "title": "Games of every rating in one shop",
+        "detail": "Steam sells games for every age, and Steam Families lets an adult choose which games a child's account can play.",
+        "sourceUrl": "https://help.steampowered.com/en/faqs/view/054C-3167-DD7F-49D4"
+      },
+      {
+        "title": "Chat and the community",
+        "detail": "Steam has its own chat and community pages. Steam Families can restrict both on a child's account.",
+        "sourceUrl": "https://help.steampowered.com/en/faqs/view/054C-3167-DD7F-49D4"
+      },
+      {
+        "title": "Buying games and items",
+        "detail": "Steam is a shop first. In a Steam Family a child can send their basket to an adult to pay for, and the adult approves it by phone or email.",
+        "sourceUrl": "https://help.steampowered.com/en/faqs/view/054C-3167-DD7F-49D4"
+      }
+    ],
+    "controls": [
+      {
+        "name": "Steam Families parental controls",
+        "what": "An adult in the family chooses which games a child can play, restricts the Steam Store, community and chat, and sets playtime limits.",
+        "sourceUrl": "https://help.steampowered.com/en/faqs/view/054C-3167-DD7F-49D4"
+      },
+      {
+        "name": "Playtime limits and reports",
+        "what": "Set how long a child can play and see a report of their playtime; they can ask for more, and an adult approves or declines on the computer or the Steam app.",
+        "sourceUrl": "https://help.steampowered.com/en/faqs/view/054C-3167-DD7F-49D4"
+      },
+      {
+        "name": "Child purchase requests",
+        "what": "Your child sends their basket to you, and nothing is bought until an adult approves and pays.",
+        "sourceUrl": "https://help.steampowered.com/en/faqs/view/054C-3167-DD7F-49D4"
+      },
+      {
+        "name": "Child account recovery",
+        "what": "An adult can recover a child's login once they have been in the family for 30 days.",
+        "sourceUrl": "https://help.steampowered.com/en/faqs/view/054C-3167-DD7F-49D4"
+      }
+    ],
+    "setupSteps": {
+      "sourceUrl": "https://help.steampowered.com/en/faqs/view/054C-3167-DD7F-49D4",
+      "steps": [
+        "On the Steam Store, open Account Details, then Family Management, and choose Create a Family.",
+        "Choose Invite a Member, find your child's account, and add them as a child.",
+        "In Account Settings, then Family Management, then Manage, open your child's entry and turn on Enable Parental controls.",
+        "Choose which games they can play, which Steam features they can use, including the store, community and chat, and their playtime limits.",
+        "Agree together how a request for more time or a new game will be answered, before the first one arrives."
+      ]
+    },
+    "underAge": {
+      "text": "",
+      "sourceUrl": ""
+    },
+    "uncertain": [
+      "Steam has no PEGI rating of its own as a store; each game on it carries its own."
+    ],
+    "similar": [
+      "discord",
+      "twitch",
+      "minecraft",
+      "call-of-duty"
+    ],
+    "checked": "2026-11-28"
+  },
 ]
 
 export function appBySlug(slug: string): AppEntry | null {

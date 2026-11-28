@@ -40,6 +40,8 @@ export function GET() {
     '- Pricing: free to start with a four day trial. £12.99 a month or £99 a year, and a founder rate of £7.99 a month for the first 50 families.',
     `- Schools: a digital literacy scheme for primary and secondary schools at ${SCHOOLS_URL}, aligned to the 2025 RSHE guidance and the Education for a Connected World framework.`,
     '',
+    `The answers themselves, in plain text with every source, are at ${SITE_URL}/llms-full.txt.`,
+    '',
     '## Key pages',
     '',
     link('', 'Home', 'what Guided Childhood is and who it is for'),
