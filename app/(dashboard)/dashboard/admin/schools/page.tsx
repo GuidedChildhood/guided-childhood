@@ -36,7 +36,7 @@ export default async function SchoolLinksPage() {
 
   const admin = createAdminClient()
   const [{ data: links, error }, { data: families }, shared] = await Promise.all([
-    admin.from('school_links').select('code, school_name, active, created_at').order('created_at', { ascending: false }),
+    admin.from('school_links').select('*').order('created_at', { ascending: false }),
     admin.from('profiles').select('school_link, subscription_status, trial_ends_at').not('school_link', 'is', null),
     // Families who made an account from a lesson a school shared (migration
     // 386). An error here means the migration has not run yet, and the
@@ -55,6 +55,8 @@ export default async function SchoolLinksPage() {
       code: l.code as string,
       name: l.school_name as string,
       active: Boolean(l.active),
+      // The school pass (migration 408). Missing before the migration runs.
+      licensedUntil: ((l as { licensed_until?: string | null }).licensed_until ?? null),
       url: `${APP_ORIGIN}/s/${l.code}`,
       signedUp: mine.length,
       cardOn: mine.filter(f => onPaidStatus(f) && inTrialWindow(f)).length,
@@ -89,8 +91,9 @@ export default async function SchoolLinksPage() {
       </h1>
       <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.55, color: 'var(--ink-soft)', margin: '0 0 22px' }}>
         A link a school puts in its newsletter. Families get the same four free days
-        and founder rate as everyone else. This page shows who came through each one,
-        so you can see whether a school is worth a paid pass.
+        and founder rate as everyone else. When a school pays for its licence, put the
+        last day of the licence on its link: its families then keep lessons, homework,
+        the star chart and the calendar free, with ten scripts and ten DiGi chats.
       </p>
       {error ? (
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>

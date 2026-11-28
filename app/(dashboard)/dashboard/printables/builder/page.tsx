@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { sessionUser } from '@/lib/supabase/session'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import BucketBuilder from './BucketBuilder'
 
 // Build your own bucket list: pick from the idea pool or write your own,
@@ -18,7 +19,7 @@ export default async function BuilderPage() {
 
   const { data: profile } = await supabase
     .from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
-  if (!hasFullAccess(profile, user.email)) redirect('/dashboard/upgrade')
+  if (!hasFullAccess(profile, user.email) && !(await hasSchoolPass(supabase, user.id))) redirect('/dashboard/upgrade')
 
   return <BucketBuilder />
 }

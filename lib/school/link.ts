@@ -29,3 +29,17 @@ export function codeFromSchoolName(name: string): string | null {
     .replace(/-+$/g, '')
   return normaliseLinkCode(slug)
 }
+
+/**
+ * What a parent typed into the school code box, made into a link code. They
+ * may paste the whole newsletter link, type the code with capitals or spaces,
+ * or copy it with a full stop on the end. Null when nothing usable is left.
+ */
+export function codeFromTyped(raw: string | null | undefined): string | null {
+  if (typeof raw !== 'string') return null
+  let t = raw.trim()
+  const fromLink = t.match(/\/s\/([^/?#\s]+)/i)
+  if (fromLink) t = fromLink[1]
+  t = t.toLowerCase().replace(/[\s_]+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-+|-+$/g, '')
+  return normaliseLinkCode(t)
+}

@@ -3,6 +3,7 @@ import { PDFDocument, StandardFonts, rgb, type PDFPage, type PDFFont } from 'pdf
 import { createClient } from '@/lib/supabase/server'
 import { getPrintable } from '@/lib/printables/registry'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import { BRAND_NAME, BRAND_PATHWAY, BRAND_CATCHPHRASE, BRAND_DOMAIN, LOGO_BARS } from '@gc/shared/brand'
 
 // A real PDF download: the sheet artwork embedded on branded A4 pages,
@@ -116,7 +117,7 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ key: string
   if (!printable.free) {
     const { data: profile } = await supabase
       .from('profiles').select('subscription_status, trial_ends_at, created_at').eq('id', user.id).maybeSingle()
-    if (!hasFullAccess(profile, user.email)) {
+    if (!hasFullAccess(profile, user.email) && !(await hasSchoolPass(supabase, user.id))) {
       // The sheet rides along so the upgrade page can name what they were
       // reaching for rather than being a generic wall.
       return wantsHtml(req)

@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { useSchoolPass } from '@/lib/school-pass'
 
 // Is this script locked?
 //
@@ -43,10 +44,18 @@ import type { SupabaseClient } from '@supabase/supabase-js'
  * rather than by rethreading a signature through half a dozen routes.
  */
 export async function isScriptLocked(
-  _supabase: SupabaseClient,
+  supabase: SupabaseClient,
   _userId: string,
   isPaid: boolean,
-  _script: { sort_order: number; is_free: boolean }
+  script: { sort_order: number; is_free: boolean },
+  /**
+   * The school pass (27 November 2026): a family whose school pays gets ten
+   * scripts in total. Opening one spends one of the ten ('open'); a list only
+   * asks ('peek'), so browsing never uses up the taste. A script already
+   * opened stays open. No pass, or ten used, and it is locked as before.
+   */
+  mode: 'open' | 'peek' = 'peek',
 ): Promise<boolean> {
-  return !isPaid
+  if (isPaid) return false
+  return !(await useSchoolPass(supabase, 'script', String(script.sort_order), mode === 'open'))
 }

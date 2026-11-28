@@ -5,6 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { lessonStageFor, moduleOpenFor, WEEKLY_LESSON_STARS } from '@/lib/lessons/school-path'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { isHeavyModule, stillWaiting } from '@/lib/lessons/heavy'
 import { openHeadsUpNow } from '@/lib/lessons/heads-up-server'
@@ -86,7 +87,9 @@ export async function POST(req: NextRequest) {
   if (!moduleOpenFor(lesson.key_stage, lessonStage)) {
     return NextResponse.json({ error: 'waits', reason: 'school_year' }, { status: 403 })
   }
+  // The school pass (27 November 2026, lib/school-pass.ts) opens lessons too.
   const paid = hasFullAccess(profile as { subscription_status?: string | null; trial_ends_at?: string | null } | null, (profile as { email?: string | null } | null)?.email)
+    || await hasSchoolPass(supabase, user.id)
   const { path } = await loadChildLessonPath(supabase, { userId: user.id, childId: child.id, stageId: lessonStage, paid })
   if (path.statusById[lesson.id]?.state === 'locked') {
     return NextResponse.json({ error: 'locked', reason: 'paywall' }, { status: 403 })

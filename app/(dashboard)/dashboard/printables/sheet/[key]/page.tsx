@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { sessionUser } from '@/lib/supabase/session'
 import { getPrintable } from '@/lib/printables/registry'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import { getChildren } from '@/lib/children/server'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
 import { dealFactsFrom } from '@/lib/printables/deal-facts'
@@ -39,7 +40,7 @@ export default async function DrawnSheetPage({ params, searchParams }: {
       supabase, user.id, childParam, 'id, name, age_band, date_of_birth'),
     supabase.from('profiles').select('subscription_status, trial_ends_at, created_at').eq('id', user.id).maybeSingle(),
   ])
-  if (!printable.free && !hasFullAccess(profile, user.email)) {
+  if (!printable.free && !hasFullAccess(profile, user.email) && !(await hasSchoolPass(supabase, user.id))) {
     redirect(`/dashboard/upgrade?sheet=${encodeURIComponent(key)}`)
   }
 

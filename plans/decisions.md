@@ -249,6 +249,12 @@ Justin: "looks like they need to be 16 so wont work for younger", base it on how
 - Facts corrected before any story to heads: the renewed Ofsted framework began 10 November 2025 (September 2026 was toolkit updates and RSHE becoming compulsory); phones sit under attendance and behaviour; the under 16 ban was announced 15 June 2026 and is expected in force late spring 2027, not March.
 - Declined: any "downgraded schools" figure (none exists) and any "Ofsted approved" claim (Ofsted approves no product).
 - Already built: SEND and EAL on every lesson, RSHE mapping, the inspection evidence pack. Open: the school family offer and the 10 free DiGi and scripts idea, Justin's decision. Table: plans/2026-11-27-liz-hive-meeting-weighed.md.
+
+## 27 November 2026: the school pass
+
+- Justin chose: a school that pays its licence gives its families lessons, homework, the star chart and the calendar free while the licence runs, plus ten scripts and ten DiGi messages in total. Everyone else keeps the four day trial. Plan: plans/2026-11-27-school-pass.md.
+- Switched on per school by a licence end date on its link (admin schools page, migration 408). No date, no pass, so a newsletter link alone still grants nothing.
+- Also closed: /api/digi answered a lapsed account called directly; it now returns 402 unless a school pass covers it.
 ## 27 November 2026: the explorer phone and mood scripts made reachable, from the expert walkthrough
 
 - Justin, "yes" to all five walkthrough fixes. Parents were not reaching 407's scripts: DiGi matched every stage and the word "tonight", and both worry tiles pointed elsewhere.

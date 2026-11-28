@@ -7,6 +7,7 @@ import HappyIcon from '@/components/kid/HappyIcon'
 import { LIBRARY_PRINTABLES, printablesForStage } from '@/lib/printables/registry'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import PrintableActions from './PrintableActions'
 import DrawnCover from '@/components/printables/drawn/DrawnCover'
 import { missionSheetFor } from '@/lib/printables/mission-sheets'
@@ -40,7 +41,8 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
   const logKids = (kids ?? []).filter(k => k.name && k.name !== 'Your child').map(k => ({ id: k.id as string, name: k.name as string }))
   // Previews always show (they are the sell); downloads and the builder
   // are a member feature. The founder and trial parents get full access.
-  const isPaid = hasFullAccess(profile, user.email)
+  // The star chart and the printables are in the school pass (27 November 2026).
+  const isPaid = hasFullAccess(profile, user.email) || await hasSchoolPass(supabase, user.id)
 
   const stageId = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
   const forChild = printablesForStage(stageId)

@@ -4,6 +4,7 @@ import { getChildren } from '@/lib/children/server'
 import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import { hasFullAccess } from '@/lib/access'
+import { hasSchoolPass } from '@/lib/school-pass'
 import { freeLessonIds, byLessonOrder } from '@/lib/content/lesson-access'
 import { getParentLessons, getCompletionsForChild, durationLabel } from '@/lib/lessons/parent-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -106,7 +107,8 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
     child ? getCompletionsForChild(supabase, child.id) : Promise.resolve(new Map()),
   ])
 
-  const isPaid = hasFullAccess(profile, user.email)
+  // The school pass (27 November 2026, lib/school-pass.ts) opens lessons too.
+  const isPaid = hasFullAccess(profile, user.email) || await hasSchoolPass(supabase, user.id)
 
   // ── Interactive library, flattened for the browser ──
   const generalLessons: LessonRow[] = (lessonsData ?? []).map(l => {

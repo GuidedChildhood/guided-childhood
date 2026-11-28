@@ -12,6 +12,7 @@ import CheckoutError from '@/components/upgrade/CheckoutError'
 import { hasPaidPlan, inTrial, trialDaysLeft } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
 import { getFounderCount, FOUNDER_CAP } from '@/lib/stripe'
+import SchoolCodeBox from '@/components/school/SchoolCodeBox'
 
 // What a parent calls the page they were heading for. Only the ones somebody
 // actually gets bounced off, in their words rather than the route's: nobody
@@ -197,6 +198,11 @@ export default async function UpgradePage(
           </span>
         </div>
       )}
+
+      {/* The school pass (27 November 2026): a family whose school pays may
+          not need to pay at all. Shown here because this is where a locked
+          page sends them; it renders nothing until it knows their school. */}
+      <SchoolCodeBox compact />
 
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <p className="eyebrow" style={{ marginBottom: '8px', color: 'var(--terracotta)' }}>Guided Childhood</p>

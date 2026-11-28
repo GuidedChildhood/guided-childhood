@@ -47,7 +47,7 @@ export default async function DeckPage({
 
   if (!script) notFound()
 
-  if (await isScriptLocked(supabase, user.id, isPaid, script)) {
+  if (await isScriptLocked(supabase, user.id, isPaid, script, 'open')) {
     redirect('/dashboard/upgrade')
   }
 
